@@ -53,11 +53,14 @@ def gaussian_settlement(y, V_L_percent, D, z0, k):
 
 settlements = gaussian_settlement(y, V_L, D, z0, k)
 
-# Plot
 fig, ax = plt.subplots(figsize=(8, 5))
 ax.plot(y, settlements, 'b-', linewidth=2)
-ax.axvline(i, color='r', linestyle='--', label=f"Inflection Point\n$i = kz_0 = {i:.1f}$ m")
+
+# Use a LaTeX-safe label
+label_text = rf"Inflection Point\n$i = kz_0 = {i:.1f}\,\mathrm{{m}}$"
+ax.axvline(i, color='r', linestyle='--', label=label_text)
 ax.axvline(-i, color='r', linestyle='--')
+
 ax.set_xlabel(r'Horizontal Distance from Centerline, $y$ (m)', labelpad=10)
 ax.set_ylabel(r'Settlement, $S_y$ (mm)', labelpad=10)
 ax.grid(True, alpha=0.3)
