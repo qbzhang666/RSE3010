@@ -85,9 +85,13 @@ st.sidebar.header("Input Parameters")
 
 R = st.sidebar.slider("Tunnel Radius (m)", 2.5, 5.0, 3.6, 0.1)
 theta_deg = st.sidebar.slider("Arc Angle (°)", 30, 180, 180, 5)
-w = st.sidebar.slider("UDL (kN/m)", 1.0, 50.0, 20.0, 1.0)
+w = st.sidebar.slider("Uniformly Distributed Load UDL (kN/m)", 1.0, 50.0, 20.0, 1.0)
 E_GPa = st.sidebar.slider("Elastic Modulus E (GPa)", 20.0, 300.0, 100.0, 10.0)
 b_mm = st.sidebar.slider("Segment Length b (mm)", 500, 2000, 1000, 50)
 h_mm = st.sidebar.slider("Segment Thickness h (mm)", 200, 500, 200, 10)
 
 plot_arc_beam_tbm_rect(R, theta_deg, w, E_GPa, b_mm, h_mm)
+
+st.markdown("---")
+st.markdown("📘 **For technical design details, please refer to specific guidelines such as _Guidelines for the Design of Segmental Tunnel Linings_ (ITA WG2 Report).**")
+
