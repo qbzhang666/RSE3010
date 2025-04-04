@@ -40,7 +40,7 @@ diaphragm_walls = [
 st.title("🏗️ CIRIA Retaining Wall Selector")
 st.markdown("*Based on C760 Figure 3.1, Tables 3.1 and 3.2*")
 
-height = st.slider("Height (m):", 1.0, 50.0, 6.0, 0.5)
+height = st.slider("Height (m):", 1.0, 50.0, 1.0, 0.2)
 retain_water = st.radio("Water Retention Required?", ["Yes", "No"])
 permanent = st.radio("Is this a Permanent Wall?", ["Yes", "No"])
 support = st.radio("Support Type", ["Cantilever", "Propped"])
