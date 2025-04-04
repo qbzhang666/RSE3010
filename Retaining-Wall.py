@@ -88,9 +88,13 @@ def format_result(wall, height_column, gw_column):
 - Groundwater Control ({'Permanent' if permanent == 'Yes' else 'Temporary'}): **{wall[gw_column]}**
 - Economic Rank: **{wall['Economic Rank (1=Best)']} / 11**
 
-📝 *Note: Verify with a geotechnical engineer before finalising the design.*
+📌 *Refer to CIRIA Table 3.2 for full data and application limits.*
 """
 
 # --- Display Result ---
 wall, height_column, gw_column = select_wall_type(height, retain_water, permanent, support)
 st.markdown(format_result(wall, height_column, gw_column))
+
+# --- Reference Table ---
+if st.checkbox("Show full CIRIA Table 3.2 reference"):
+    st.dataframe(wall_data.style.set_caption("CIRIA C760 – Table 3.2 Summary"))
