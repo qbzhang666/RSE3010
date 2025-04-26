@@ -18,7 +18,6 @@ def calculate_F2(beta_j, method):
         return np.tan(np.radians(beta_j)) ** 2
 
 def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s):
-    A = abs((alpha_j - alpha_s + 180) % 360 - 180)
     if method.lower() == 'planar':
         C = beta_j - beta_s
         if C > 10:
@@ -126,16 +125,18 @@ for j_id, (aj, bj) in enumerate(joint_sets):
         })
     strike_j = (aj - 90) % 360
     ax.plane(strike_j, bj, color+'-', linewidth=1.5)
-    pole_az = (aj + 180) % 360
+    pole_az = strike_j
     pole_plunge = 90 - bj
-    ax.text(pole_az, pole_plunge, f'JS{j_id+1}', fontsize=6, ha='center', va='center', color=color)
+    x, y = mplstereonet.stereonet_math.pole(pole_az, pole_plunge)
+    ax.text(x, y, f'JS{j_id+1}', fontsize=6, ha='center', va='center', color=color)
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
     ax.plane(strike_s, bs, 'b--', linewidth=2)
-    pole_az = (as_ + 180) % 360
+    pole_az = strike_s
     pole_plunge = 90 - bs
-    ax.text(pole_az, pole_plunge, f'SF{s_id+1}', fontsize=6, ha='center', va='center', color='blue')
+    x, y = mplstereonet.stereonet_math.pole(pole_az, pole_plunge)
+    ax.text(x, y, f'SF{s_id+1}', fontsize=6, ha='center', va='center', color='blue')
 
 # ---- Calculate and plot intersection if 2 joints ---- #
 if len(joint_sets) == 2:
@@ -146,12 +147,14 @@ if len(joint_sets) == 2:
     trend_plunge = mplstereonet.plane_intersection(strike1, dip1, strike2, dip2)
     if trend_plunge:
         trend, plunge = trend_plunge
+        if plunge < 0:
+            trend = (trend + 180) % 360
+            plunge = -plunge
         ax.pole(trend, plunge, 'ko', markersize=5)
         intersection_text = f"**Intersection orientation**: Trend = {np.round(trend, 1)}°, Plunge = {np.round(plunge, 1)}°"
 
 ax.grid(True)
 ax.set_azimuth_ticks(np.arange(0, 360, 30))
-ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
 st.pyplot(fig)
 
 if intersection_text:
