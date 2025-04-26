@@ -222,6 +222,13 @@ def highlight_class(row):
 
 styled_df = df_results.style.apply(highlight_class, axis=1)
 
+# Format float columns to 2 decimal places
+float_cols = ["αⱼ / Trend (°)", "βⱼ / Plunge (°)", "αₛ (Slope dip dir °)", "βₛ (Slope dip angle °)", 
+              "F₁", "F₂", "F₁×F₂×F₃", "SMR"]
+for col in float_cols:
+    if col in df_results.columns:
+        df_results[col] = df_results[col].apply(lambda x: round(x, 2))
+
 st.dataframe(styled_df, use_container_width=True)
 
 if intersection_records:
