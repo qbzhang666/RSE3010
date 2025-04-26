@@ -97,7 +97,7 @@ for i in range(n_slopes):
 st.subheader("📊 SMR Results Table")
 
 records = []
-fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'projection': 'stereonet', 'net': 'wulff'})
+fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'projection': 'stereonet'})
 
 for j_id, (aj, bj) in enumerate(joint_sets):
     for s_id, (as_, bs) in enumerate(slope_faces):
