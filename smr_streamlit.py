@@ -1,12 +1,13 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import mplstereonet
+import io
 
 # ---- SMR Calculation Functions ---- #
-
-def calculate_F1(alpha_j, alpha_slope):
-    A = abs(alpha_j - alpha_slope)
+def calculate_F1(alpha_j, alpha_s):
+    A = abs(alpha_j - alpha_s)
     if A <= 5:
         return 1.0
     elif A <= 15:
@@ -18,42 +19,39 @@ def calculate_F1(alpha_j, alpha_slope):
     else:
         return 0.15
 
-def calculate_F2(joint_dip):
-    if joint_dip >= 45:
+def calculate_F2(beta_j):
+    if beta_j >= 45:
         return 1.0
-    elif joint_dip >= 35:
+    elif beta_j >= 35:
         return 0.85
-    elif joint_dip >= 25:
+    elif beta_j >= 25:
         return 0.70
-    elif joint_dip >= 15:
+    elif beta_j >= 15:
         return 0.50
-    elif joint_dip >= 10:
+    elif beta_j >= 10:
         return 0.20
     else:
         return 0.15
 
 def calculate_F3(method):
-    F3_values = {'planar': -60, 'toppling': -25, 'wedge': -50}
-    return F3_values.get(method.lower(), 0)
+    return {'planar': -60, 'toppling': -25, 'wedge': -50}.get(method.lower(), 0)
 
 def calculate_F4(excavation_method):
-    methods = {
+    return {
         'natural': 15,
         'pre-split blasting': 10,
         'smooth blasting': 8,
         'mechanical': 0,
         'poor blasting': -8
-    }
-    return methods.get(excavation_method.lower(), 0)
+    }.get(excavation_method.lower(), 0)
 
-def calculate_SMR(RMRb, alpha_j, alpha_slope, joint_dip, method, excavation_method):
-    F1 = calculate_F1(alpha_j, alpha_slope)
-    F2 = calculate_F2(joint_dip)
+def calculate_SMR(RMRb, alpha_j, beta_j, alpha_s, beta_s, method, excavation):
+    F1 = calculate_F1(alpha_j, alpha_s)
+    F2 = calculate_F2(beta_j)
     F3 = calculate_F3(method)
-    F4 = calculate_F4(excavation_method)
-    
+    F4 = calculate_F4(excavation)
     SMR = RMRb + (F1 * F2 * F3) + F4
-    return SMR, (F1, F2, F3, F4)
+    return SMR, F1, F2, F3, F4
 
 def interpret_SMR(SMR):
     if SMR > 80:
@@ -68,68 +66,77 @@ def interpret_SMR(SMR):
         return "Class V", "Very poor - Completely unstable"
 
 # ---- Streamlit App ---- #
+st.set_page_config(page_title="Extended SMR Tool", layout="wide")
+st.title("⛰️ Extended Slope Mass Rating (SMR) Calculator")
 
-st.set_page_config(page_title="SMR Tool", layout="wide")
-st.title("⛰️ Slope Mass Rating (SMR) Calculator")
-
-# Sidebar Inputs
 with st.sidebar:
-    st.header("Input Parameters")
-
+    st.header("Global Parameters")
     RMRb = st.slider("Basic Rock Mass Rating (RMRb)", 0, 100, 60)
-
-    alpha_j = st.number_input("Joint dip direction (αᵢ, °)", min_value=0, max_value=360, value=120)
-    joint_dip = st.number_input("Joint dip angle (βᵢ, °)", min_value=0, max_value=90, value=30)
-
-    alpha_slope = st.number_input("Slope dip direction (αₛ, °)", min_value=0, max_value=360, value=110)
-    slope_dip = st.number_input("Slope dip angle (βₛ, °)", min_value=0, max_value=90, value=60)
-
     method = st.selectbox("Failure mechanism", ['Planar', 'Toppling', 'Wedge'])
-    excavation_method = st.selectbox("Excavation method", ['Natural', 'Pre-split blasting', 'Smooth blasting', 'Mechanical', 'Poor blasting'])
+    excavation = st.selectbox("Excavation method", ['Natural', 'Pre-split blasting', 'Smooth blasting', 'Mechanical', 'Poor blasting'])
 
-# Calculate SMR
-SMR, factors = calculate_SMR(RMRb, alpha_j, alpha_slope, joint_dip, method, excavation_method)
-F1, F2, F3, F4 = factors
-SMR_class, SMR_desc = interpret_SMR(SMR)
+    n_joints = st.number_input("Number of Joint Sets", 1, 10, 2)
+    n_slopes = st.number_input("Number of Slope Faces", 1, 5, 1)
 
-# Display Stereonet and Results
-col1, col2 = st.columns([2, 1])
+st.subheader("📌 Input Data")
+joint_sets = []
+for i in range(n_joints):
+    with st.expander(f"Joint Set {i+1}"):
+        alpha_j = st.number_input(f"αⱼ (Joint dip direction °) [Set {i+1}]", 0, 360, 120, key=f"aj_{i}")
+        beta_j = st.number_input(f"βⱼ (Joint dip angle °) [Set {i+1}]", 0, 90, 30, key=f"bj_{i}")
+        joint_sets.append((alpha_j, beta_j))
 
-with col1:
-    fig, ax = plt.subplots(figsize=(4,4), subplot_kw={'projection':'stereonet'})
-    ax.plane(alpha_j, joint_dip, 'g-', linewidth=2, label='Joint Plane (αᵢ, βᵢ)')
-    ax.pole(alpha_j, joint_dip, 'ro', markersize=8, label='Joint Pole')
-    ax.plane(alpha_slope, slope_dip, 'b--', linewidth=2, label='Slope Face (αₛ, βₛ)')
-    ax.grid(True)
-    ax.legend(loc='upper right')
+slope_faces = []
+for i in range(n_slopes):
+    with st.expander(f"Slope Face {i+1}"):
+        alpha_s = st.number_input(f"αₛ (Slope dip direction °) [Face {i+1}]", 0, 360, 110, key=f"as_{i}")
+        beta_s = st.number_input(f"βₛ (Slope dip angle °) [Face {i+1}]", 0, 90, 60, key=f"bs_{i}")
+        slope_faces.append((alpha_s, beta_s))
 
-    st.pyplot(fig)
+# ---- Results Calculation ---- #
+st.subheader("📊 SMR Results Table")
 
-    st.markdown("### 📌 Calculation Results")
-    st.metric(label="Calculated SMR", value=f"{SMR:.2f}")
-    st.write(f"**SMR Class:** {SMR_class}")
-    st.write(f"**Description:** {SMR_desc}")
-    st.write(f"**F₁:** {F1}, **F₂:** {F2}, **F₃:** {F3}, **F₄:** {F4}")
+records = []
+fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'projection': 'stereonet'})
 
-with col2:
-    st.info("""
-    ### ℹ️ How to Use:
-    Adjust parameters in the sidebar to calculate the Slope Mass Rating (SMR).  
-    The stereonet visually shows joint and slope orientations.
-    """)
+for j_id, (aj, bj) in enumerate(joint_sets):
+    for s_id, (as_, bs) in enumerate(slope_faces):
+        smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
+        cls, desc = interpret_SMR(smr)
+        records.append({
+            "Joint Set": j_id+1,
+            "Slope Face": s_id+1,
+            "αⱼ": aj, "βⱼ": bj,
+            "αₛ": as_, "βₛ": bs,
+            "SMR": round(smr, 2),
+            "Class": cls,
+            "Description": desc
+        })
+        ax.plane(aj, bj, 'g-', linewidth=1)
+        ax.pole(aj, bj, 'ro', markersize=4)
+        ax.plane(as_, bs, 'b--', linewidth=1)
 
-# SMR Interpretation Guideline at bottom
-st.markdown("---")
-st.markdown("### 📖 SMR Interpretation Guideline")
+ax.grid(True)
+st.pyplot(fig)
 
-smr_interpretation = """
-| SMR Value | Stability Class  | Description / Stability                |
-|-----------|------------------|----------------------------------------|
-| 81 - 100  | Class I          | Very good - Completely stable          |
-| 61 - 80   | Class II         | Good - Stable                          |
-| 41 - 60   | Class III        | Fair - Partially stable                |
-| 21 - 40   | Class IV         | Poor - Unstable                        |
-| 0 - 20    | Class V          | Very poor - Completely unstable        |
-"""
+# ---- SMR Table ---- #
+df = pd.DataFrame(records)
+st.dataframe(df, use_container_width=True)
 
-st.markdown(smr_interpretation)
+# ---- Export Plot Button ---- #
+buffer = io.BytesIO()
+fig.savefig(buffer, format="png")
+buffer.seek(0)
+st.download_button("📥 Download Stereonet as PNG", buffer, file_name="stereonet_smr.png")
+
+# ---- Legend ---- #
+st.markdown("""
+### 📖 SMR Interpretation Classes
+| SMR Value | Class    | Description                          |
+|-----------|----------|--------------------------------------|
+| 81-100    | I        | Very good - Completely stable        |
+| 61-80     | II       | Good - Stable                        |
+| 41-60     | III      | Fair - Partially stable              |
+| 21-40     | IV       | Poor - Unstable                      |
+| 0-20      | V        | Very poor - Completely unstable      |
+""")
