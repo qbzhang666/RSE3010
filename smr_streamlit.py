@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import mplstereonet
+import mplstereonet as mpl
 import io
 
 # ---- SMR Calculation Functions ---- #
@@ -32,7 +32,7 @@ def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s):
         else:
             return -60
     elif method.lower() == 'wedge':
-        return -50  # Assuming wedge default unless further info provided
+        return -50
     elif method.lower() == 'toppling':
         C = beta_j + beta_s
         if C < 110:
@@ -82,7 +82,6 @@ with st.sidebar:
     RMRb = st.slider("Basic Rock Mass Rating (RMRb)", 0, 100, 60)
     method = st.selectbox("Failure mechanism", ['Planar', 'Toppling', 'Wedge'])
     excavation = st.selectbox("Excavation method", ['Natural', 'Pre-split blasting', 'Smooth blasting', 'Mechanical', 'Poor blasting'])
-
     n_joints = st.number_input("Number of Joint Sets", 1, 10, 2)
     n_slopes = st.number_input("Number of Slope Faces", 1, 5, 1)
 
@@ -90,26 +89,43 @@ st.subheader("📌 Input Data")
 joint_sets = []
 for i in range(n_joints):
     with st.expander(f"Joint Set {i+1}"):
-        alpha_j = st.number_input(f"αⱼ (Joint dip direction °) [Set {i+1}]", 0, 360, 120, key=f"aj_{i}")
-        beta_j = st.number_input(f"βⱼ (Joint dip angle °) [Set {i+1}]", 0, 90, 30, key=f"bj_{i}")
+        alpha_j = st.number_input(f"αⱼ (Dip direction °) [Set {i+1}]", 0, 360, 120, key=f"aj_{i}")
+        beta_j = st.number_input(f"βⱼ (Dip angle °) [Set {i+1}]", 0, 90, 30, key=f"bj_{i}")
         joint_sets.append((alpha_j, beta_j))
 
 slope_faces = []
 for i in range(n_slopes):
     with st.expander(f"Slope Face {i+1}"):
-        alpha_s = st.number_input(f"αₛ (Slope dip direction °) [Face {i+1}]", 0, 360, 110, key=f"as_{i}")
-        beta_s = st.number_input(f"βₛ (Slope dip angle °) [Face {i+1}]", 0, 90, 60, key=f"bs_{i}")
+        alpha_s = st.number_input(f"αₛ (Dip direction °) [Face {i+1}]", 0, 360, 110, key=f"as_{i}")
+        beta_s = st.number_input(f"βₛ (Dip angle °) [Face {i+1}]", 0, 90, 60, key=f"bs_{i}")
         slope_faces.append((alpha_s, beta_s))
 
 # ---- Results Calculation ---- #
 st.subheader("📊 SMR Results Table")
-
 records = []
 joint_colors = ['g', 'r', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
-fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'projection': 'stereonet'})
 
+# Create stereonet plot
+fig = plt.figure(figsize=(4, 4))
+ax = fig.add_subplot(111, projection='stereonet')
+
+# Plot joints and slopes
 for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
+    # Plot joint plane (great circle)
+    ax.plane(aj, bj, color+'-', linewidth=1.5, label=f'Joint Set {j_id+1}', measurement='dip')
+    # Plot joint pole
+    ax.pole(aj, bj, color+'o', markersize=5, measurement='dip')
+
+for s_id, (as_, bs) in enumerate(slope_faces):
+    # Plot slope plane (great circle)
+    ax.plane(as_, bs, 'b-', linewidth=2, label=f'Slope Face {s_id+1}', measurement='dip')
+
+ax.grid(True)
+ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
+
+# Calculate SMR values
+for j_id, (aj, bj) in enumerate(joint_sets):
     for s_id, (as_, bs) in enumerate(slope_faces):
         smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
         f_product = round(f1 * f2 * f3, 2)
@@ -119,44 +135,32 @@ for j_id, (aj, bj) in enumerate(joint_sets):
             "Slope Face": s_id+1,
             "αⱼ": aj, "βⱼ": bj,
             "αₛ": as_, "βₛ": bs,
-            "F₁": round(f1, 4), "F₂": round(f2, 4), "F₃": f3, "F₁×F₂×F₃": f_product, "F₄": f4,
+            "F₁": round(f1, 4), "F₂": round(f2, 4), "F₃": f3, 
+            "F₁×F₂×F₃": f_product, "F₄": f4,
             "SMR": round(smr, 2),
             "Class": cls,
             "Description": desc
         })
-    ax.plane(aj, bj, color+'-', linewidth=1.5, label=f'Joint Set {j_id+1}')
-    ax.pole(aj, bj, color+'o', markersize=5)
 
-for s_id, (as_, bs) in enumerate(slope_faces):
-    ax.plane(as_, bs, 'b', linewidth=2, label=f'Slope Face {s_id+1}')
-
-# for s_id, (as_, bs) in enumerate(slope_faces):
-    # slope_pole_azimuth = (as_ + 180) % 360
-    # slope_pole_dip = 90 - bs
-    # ax.pole(slope_pole_azimuth, slope_pole_dip, 'b^', markersize=8, label=f'Slope Pole {s_id+1}')
-
-ax.grid(True)
-ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
+# ---- Display Results ---- #
 st.pyplot(fig)
-
-# ---- SMR Table ---- #
 df = pd.DataFrame(records)
 st.dataframe(df, use_container_width=True)
 
-# ---- Export Plot Button ---- #
+# ---- Export Plot ---- #
 buffer = io.BytesIO()
 fig.savefig(buffer, format="png")
 buffer.seek(0)
-st.download_button("📥 Download Stereonet as PNG", buffer, file_name="stereonet_smr.png")
+st.download_button("📥 Download Stereonet", buffer, file_name="stereonet.png")
 
 # ---- Legend ---- #
 st.markdown("""
 ### 📖 SMR Interpretation Classes
-| SMR Value | Class    | Description                          |
-|-----------|----------|--------------------------------------|
-| 81-100    | I        | Very good - Completely stable        |
-| 61-80     | II       | Good - Stable                        |
-| 41-60     | III      | Fair - Partially stable              |
-| 21-40     | IV       | Poor - Unstable                      |
-| 0-20      | V        | Very poor - Completely unstable      |
+| SMR Range | Class    | Stability Description          |
+|-----------|----------|--------------------------------|
+| 81-100    | I        | Very good - Completely stable  |
+| 61-80     | II       | Good - Stable                  |
+| 41-60     | III      | Fair - Partially stable        |
+| 21-40     | IV       | Poor - Unstable                |
+| 0-20      | V        | Very poor - Completely unstable|
 """)
