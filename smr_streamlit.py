@@ -107,6 +107,8 @@ joint_colors = ['g', 'r', 'b', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
 fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'projection': 'stereonet'})
 intersection_text = ""
 
+label_fontsize = 8 if (n_joints + n_slopes) <= 5 else 6
+
 for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
     for s_id, (as_, bs) in enumerate(slope_faces):
@@ -128,7 +130,7 @@ for j_id, (aj, bj) in enumerate(joint_sets):
     mid_az = (strike_j + 90) % 360
     mid_plunge = bj / 2
     x, y = mplstereonet.stereonet_math.pole(mid_az, 90 - mid_plunge)
-    ax.text(x, y, f'JS{j_id+1}', fontsize=6, ha='center', va='center', color=color)
+    ax.text(x, y, f'JS{j_id+1}', fontsize=label_fontsize, ha='center', va='center', color=color)
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
@@ -136,7 +138,7 @@ for s_id, (as_, bs) in enumerate(slope_faces):
     mid_az = (strike_s + 90) % 360
     mid_plunge = bs / 2
     x, y = mplstereonet.stereonet_math.pole(mid_az, 90 - mid_plunge)
-    ax.text(x, y, f'SF{s_id+1}', fontsize=6, ha='center', va='center', color='blue')
+    ax.text(x, y, f'SF{s_id+1}', fontsize=label_fontsize, ha='center', va='center', color='blue')
 
 # ---- Calculate and plot intersection if 2 joints ---- #
 if len(joint_sets) == 2:
