@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import mplstereonet as mpl
+import mplstereonet
 import io
 
 # ---- SMR Calculation Functions ---- #
@@ -89,43 +89,26 @@ st.subheader("📌 Input Data")
 joint_sets = []
 for i in range(n_joints):
     with st.expander(f"Joint Set {i+1}"):
-        alpha_j = st.number_input(f"αⱼ (Dip direction °) [Set {i+1}]", 0, 360, 120, key=f"aj_{i}")
-        beta_j = st.number_input(f"βⱼ (Dip angle °) [Set {i+1}]", 0, 90, 30, key=f"bj_{i}")
+        alpha_j = st.number_input(f"αⱼ (Joint dip direction °) [Set {i+1}]", 0, 360, 120, key=f"aj_{i}")
+        beta_j = st.number_input(f"βⱼ (Joint dip angle °) [Set {i+1}]", 0, 90, 30, key=f"bj_{i}")
         joint_sets.append((alpha_j, beta_j))
 
 slope_faces = []
 for i in range(n_slopes):
     with st.expander(f"Slope Face {i+1}"):
-        alpha_s = st.number_input(f"αₛ (Dip direction °) [Face {i+1}]", 0, 360, 110, key=f"as_{i}")
-        beta_s = st.number_input(f"βₛ (Dip angle °) [Face {i+1}]", 0, 90, 60, key=f"bs_{i}")
+        alpha_s = st.number_input(f"αₛ (Slope dip direction °) [Face {i+1}]", 0, 360, 110, key=f"as_{i}")
+        beta_s = st.number_input(f"βₛ (Slope dip angle °) [Face {i+1}]", 0, 90, 60, key=f"bs_{i}")
         slope_faces.append((alpha_s, beta_s))
 
 # ---- Results Calculation ---- #
 st.subheader("📊 SMR Results Table")
+
 records = []
-joint_colors = ['g', 'r', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
+joint_colors = ['g', 'r', 'b', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
+fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'projection': 'stereonet'})
 
-# Create stereonet plot
-fig = plt.figure(figsize=(4, 4))
-ax = fig.add_subplot(111, projection='stereonet')
-
-# Plot joints and slopes
 for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
-    # Plot joint plane (great circle)
-    ax.plane(aj, bj, color+'-', linewidth=1.5, label=f'Joint Set {j_id+1}', measurement='dip')
-    # Plot joint pole
-    ax.pole(aj, bj, color+'o', markersize=5, measurement='dip')
-
-for s_id, (as_, bs) in enumerate(slope_faces):
-    # Plot slope plane (great circle)
-    ax.plane(as_, bs, 'b-', linewidth=2, label=f'Slope Face {s_id+1}', measurement='dip')
-
-ax.grid(True)
-ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
-
-# Calculate SMR values
-for j_id, (aj, bj) in enumerate(joint_sets):
     for s_id, (as_, bs) in enumerate(slope_faces):
         smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
         f_product = round(f1 * f2 * f3, 2)
@@ -135,32 +118,43 @@ for j_id, (aj, bj) in enumerate(joint_sets):
             "Slope Face": s_id+1,
             "αⱼ": aj, "βⱼ": bj,
             "αₛ": as_, "βₛ": bs,
-            "F₁": round(f1, 4), "F₂": round(f2, 4), "F₃": f3, 
-            "F₁×F₂×F₃": f_product, "F₄": f4,
+            "F₁": round(f1, 4), "F₂": round(f2, 4), "F₃": f3, "F₁×F₂×F₃": f_product, "F₄": f4,
             "SMR": round(smr, 2),
             "Class": cls,
             "Description": desc
         })
+    strike_j = (aj - 90) % 360
+    ax.plane(strike_j, bj, color+'-', linewidth=1.5)
+    ax.pole(aj, bj, color+'o', markersize=5)
+    ax.text((aj+5)%360, bj, f'JS{j_id+1}', fontsize=6, ha='left', va='bottom')
 
-# ---- Display Results ---- #
+for s_id, (as_, bs) in enumerate(slope_faces):
+    strike_s = (as_ - 90) % 360
+    ax.plane(strike_s, bs, 'b--', linewidth=2)
+    ax.text((as_+5)%360, bs, f'SF{s_id+1}', fontsize=6, ha='left', va='bottom')
+
+ax.grid(True)
+ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
 st.pyplot(fig)
+
+# ---- SMR Table ---- #
 df = pd.DataFrame(records)
 st.dataframe(df, use_container_width=True)
 
-# ---- Export Plot ---- #
+# ---- Export Plot Button ---- #
 buffer = io.BytesIO()
 fig.savefig(buffer, format="png")
 buffer.seek(0)
-st.download_button("📥 Download Stereonet", buffer, file_name="stereonet.png")
+st.download_button("📥 Download Stereonet as PNG", buffer, file_name="stereonet_smr.png")
 
 # ---- Legend ---- #
 st.markdown("""
 ### 📖 SMR Interpretation Classes
-| SMR Range | Class    | Stability Description          |
-|-----------|----------|--------------------------------|
-| 81-100    | I        | Very good - Completely stable  |
-| 61-80     | II       | Good - Stable                  |
-| 41-60     | III      | Fair - Partially stable        |
-| 21-40     | IV       | Poor - Unstable                |
-| 0-20      | V        | Very poor - Completely unstable|
+| SMR Value | Class    | Description                          |
+|-----------|----------|--------------------------------------|
+| 81-100    | I        | Very good - Completely stable        |
+| 61-80     | II       | Good - Stable                        |
+| 41-60     | III      | Fair - Partially stable              |
+| 21-40     | IV       | Poor - Unstable                      |
+| 0-20      | V        | Very poor - Completely unstable      |
 """)
