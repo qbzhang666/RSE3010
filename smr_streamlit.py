@@ -106,6 +106,7 @@ st.subheader("📊 SMR Results Table")
 records = []
 joint_colors = ['g', 'r', 'b', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
 fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'projection': 'stereonet'})
+intersection_text = ""
 
 for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
@@ -141,13 +142,16 @@ if len(joint_sets) == 2:
     az1, dip1 = joint_sets[0]
     az2, dip2 = joint_sets[1]
     trend, plunge = mplstereonet.plane_intersection(az1, dip1, az2, dip2)
-    ax.pole(trend, plunge, 'ko', markersize=5, label='Intersection')
-    ax.text(trend, plunge, 'INT', fontsize=6, ha='center', va='center', color='black')
+    ax.pole(trend, plunge, 'ko', markersize=5)
+    intersection_text = f"**Intersection orientation**: Trend = {round(trend,1)}°, Plunge = {round(plunge,1)}°"
 
 ax.grid(True)
 ax.set_azimuth_ticks(np.arange(0, 360, 30))
 ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
 st.pyplot(fig)
+
+if intersection_text:
+    st.markdown(f"### 🧭 {intersection_text}")
 
 # ---- SMR Table ---- #
 df = pd.DataFrame(records)
