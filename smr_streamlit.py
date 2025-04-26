@@ -136,7 +136,8 @@ for s_id, (as_, bs) in enumerate(slope_faces):
     pole_plunge = 90 - bs
     ax.text(pole_az, pole_plunge, f'SF{s_id+1}', fontsize=6, ha='center', va='center', color='blue')
 
-ax.grid(True, azimuths=np.arange(0, 360, 30))
+ax.grid(True)
+ax.set_azimuth_ticks(np.arange(0, 360, 30))
 ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
 st.pyplot(fig)
 
