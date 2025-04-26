@@ -25,7 +25,7 @@ def calculate_F1(alpha_j, alpha_s, method, alpha_i=None):
 def calculate_F2(beta_j, method):
     if method.lower() == 'toppling':
         return 1.0
-    elif method.lower() in ['planar', 'wedge']:
+    elif method.lower() == 'planar':
         if abs(beta_j) < 20:
             return 0.15
         elif 20 <= abs(beta_j) <= 30:
@@ -34,8 +34,19 @@ def calculate_F2(beta_j, method):
             return 0.70
         elif 35 < abs(beta_j) <= 45:
             return 0.85
-        else:  # > 45°
+        else:  # >45°
             return 1.0
+    elif method.lower() == 'wedge':
+        if abs(beta_j) > 45:
+            return 1.0
+        elif 35 < abs(beta_j) <= 45:
+            return 0.85
+        elif 30 < abs(beta_j) <= 35:
+            return 0.70
+        elif 20 <= abs(beta_j) <= 30:
+            return 0.40
+        else:  # <20°
+            return 0.15
     else:
         return np.tan(np.radians(beta_j)) ** 2
 
@@ -50,7 +61,7 @@ def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s):
             return -25
         elif -5 <= C < 0:
             return -50
-        else:  # C < -5
+        else:  # < -5
             return -60
     elif method.lower() == 'wedge':
         C = beta_j - beta_s
@@ -62,7 +73,7 @@ def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s):
             return -25
         elif -5 <= C < 0:
             return -50
-        else:  # C < -5
+        else:  # < -5
             return -60
     elif method.lower() == 'toppling':
         C = beta_j + beta_s
@@ -80,7 +91,7 @@ def calculate_F4(excavation_method):
         'natural': 15,
         'pre-split blasting': 10,
         'smooth blasting': 8,
-        'mechanical': 0,
+        'mechanical/blasting': 0,
         'poor blasting': -8
     }.get(excavation_method.lower(), 0)
 
@@ -113,7 +124,7 @@ with st.sidebar:
     st.header("Global Parameters")
     RMRb = st.slider("Basic Rock Mass Rating (RMRb)", 0, 100, 60)
     method = st.selectbox("Failure mechanism", ['Planar', 'Toppling', 'Wedge'])
-    excavation = st.selectbox("Excavation method", ['Natural', 'Pre-split blasting', 'Smooth blasting', 'Mechanical', 'Poor blasting'])
+    excavation = st.selectbox("Excavation method", ['Natural', 'Pre-split blasting', 'Smooth blasting', 'Mechanical/Blasting', 'Poor blasting'])
     n_joints = st.number_input("Number of Joint Sets", 1, 10, 2)
     n_slopes = st.number_input("Number of Slope Faces", 1, 5, 1)
 
