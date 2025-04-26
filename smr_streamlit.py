@@ -108,7 +108,7 @@ fig, ax = plt.subplots(figsize=(6, 6), subplot_kw={'projection': 'stereonet'})
 intersection_records = []
 legend_labels = []
 
-joint_colors = ['g', 'r', 'b', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
+joint_colors = ['g', 'r', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
 
 for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
@@ -118,7 +118,7 @@ for j_id, (aj, bj) in enumerate(joint_sets):
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
-    ax.plane(strike_s, bs, 'b--', linewidth=2)
+    ax.plane(strike_s, bs, 'b', linewidth=4)
     legend_labels.append((f"Slope Face {s_id+1} ({as_}°/{bs}°)", 'blue'))
 
 # ---- Calculate intersections for all joint pairs ---- #
