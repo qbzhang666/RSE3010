@@ -104,20 +104,22 @@ for i in range(n_slopes):
 st.subheader("📊 SMR Results Table")
 
 records = []
-joint_colors = ['g', 'r', 'b', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
 fig, ax = plt.subplots(figsize=(6, 6), subplot_kw={'projection': 'stereonet'})
 intersection_records = []
+legend_labels = []
+
+joint_colors = ['g', 'r', 'b', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
 
 for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
     strike_j = (aj - 90) % 360
     ax.plane(strike_j, bj, color+'-', linewidth=1.5)
-    ax.text(aj, bj, f'JS{j_id+1}', color=color, fontsize=8, ha='center', va='center')
+    legend_labels.append((f"Joint Set {j_id+1}", color))
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
     ax.plane(strike_s, bs, 'b--', linewidth=2)
-    ax.text(as_, bs, f'SF{s_id+1}', color='blue', fontsize=8, ha='center', va='center')
+    legend_labels.append((f"Slope Face {s_id+1}", 'blue'))
 
 # ---- Calculate intersections for all joint pairs ---- #
 if len(joint_sets) >= 2:
@@ -134,7 +136,30 @@ if len(joint_sets) >= 2:
 
 ax.grid(True)
 ax.set_azimuth_ticks(np.arange(0, 360, 30))
+
+# ---- Legend outside the stereonet ---- #
+for idx, (label, color) in enumerate(legend_labels):
+    ax.text(1.1, 1.0-idx*0.1, label, color=color, transform=ax.transAxes)
+
 st.pyplot(fig)
+
+# ---- SMR Calculation Table ---- #
+for j_id, (aj, bj) in enumerate(joint_sets):
+    for s_id, (as_, bs) in enumerate(slope_faces):
+        smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
+        cls, desc = interpret_SMR(smr)
+        records.append({
+            "Joint Set": j_id+1,
+            "Slope Face": s_id+1,
+            "αⱼ": aj, "βⱼ": bj,
+            "αₛ": as_, "βₛ": bs,
+            "F₁": round(f1, 4), "F₂": round(f2, 4), "F₃": f3, "F₁×F₂×F₃": round(f1*f2*f3,2), "F₄": f4,
+            "SMR": round(smr,2), "Class": cls, "Description": desc
+        })
+
+st.subheader("📄 SMR Calculations")
+df_results = pd.DataFrame(records)
+st.dataframe(df_results, use_container_width=True)
 
 # ---- Display Intersection Table ---- #
 if intersection_records:
