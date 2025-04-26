@@ -97,9 +97,11 @@ for i in range(n_slopes):
 st.subheader("📊 SMR Results Table")
 
 records = []
+joint_colors = ['g', 'r', 'b', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
 fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'projection': 'stereonet'})
 
 for j_id, (aj, bj) in enumerate(joint_sets):
+    color = joint_colors[j_id % len(joint_colors)]
     for s_id, (as_, bs) in enumerate(slope_faces):
         smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
         cls, desc = interpret_SMR(smr)
@@ -112,11 +114,14 @@ for j_id, (aj, bj) in enumerate(joint_sets):
             "Class": cls,
             "Description": desc
         })
-        ax.plane(aj, bj, 'g-', linewidth=1)
-        ax.pole(aj, bj, 'ro', markersize=4)
-        ax.plane(as_, bs, 'b--', linewidth=1)
+    ax.plane(aj, bj, color+'-', linewidth=1.5, label=f'Joint Set {j_id+1}')
+    ax.pole(aj, bj, color+'o', markersize=5)
+
+for s_id, (as_, bs) in enumerate(slope_faces):
+    ax.plane(as_, bs, 'b--', linewidth=1.5, label=f'Slope Face {s_id+1}')
 
 ax.grid(True)
+ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
 st.pyplot(fig)
 
 # ---- SMR Table ---- #
