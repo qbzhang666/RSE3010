@@ -9,8 +9,7 @@ from itertools import combinations
 # ---- SMR Calculation Functions ---- #
 def calculate_F1(alpha_j, alpha_s):
     A = abs((alpha_j - alpha_s + 180) % 360 - 180)
-    F1 = (1 - np.sin(np.radians(A))) ** 2
-    return F1
+    return (1 - np.sin(np.radians(A))) ** 2
 
 def calculate_F2(beta_j, method):
     if method.lower() == 'toppling':
@@ -108,17 +107,17 @@ fig, ax = plt.subplots(figsize=(6, 6), subplot_kw={'projection': 'stereonet'})
 intersection_records = []
 legend_labels = []
 
-joint_colors = ['g', 'r', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
+joint_colors = ['g', 'r', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown', 'b']
 
 for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
     strike_j = (aj - 90) % 360
-    ax.plane(strike_j, bj, color+'-', linewidth=1.5)
+    ax.plane(strike_j, bj, color=color, linestyle='-', linewidth=1.5)
     legend_labels.append((f"Joint Set {j_id+1} ({aj}°/{bj}°)", color))
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
-    ax.plane(strike_s, bs, 'b', linewidth=4)
+    ax.plane(strike_s, bs, color='blue', linestyle='--', linewidth=2)
     legend_labels.append((f"Slope Face {s_id+1} ({as_}°/{bs}°)", 'blue'))
 
 # ---- Calculate intersections for all joint pairs ---- #
