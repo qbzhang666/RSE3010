@@ -128,7 +128,7 @@ for j_id, (aj, bj) in enumerate(joint_sets):
     strike_j = (aj - 90) % 360
     ax.plane(strike_j, bj, color+'-', linewidth=1.5)
     mid_az = (strike_j + 90) % 360
-    mid_plunge = bj / 2
+    mid_plunge = bj * 0.55
     x, y = mplstereonet.stereonet_math.pole(mid_az, 90 - mid_plunge)
     ax.text(x, y, f'JS{j_id+1}', fontsize=label_fontsize, ha='center', va='center', color=color)
 
@@ -136,7 +136,7 @@ for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
     ax.plane(strike_s, bs, 'b--', linewidth=2)
     mid_az = (strike_s + 90) % 360
-    mid_plunge = bs / 2
+    mid_plunge = bs * 0.55
     x, y = mplstereonet.stereonet_math.pole(mid_az, 90 - mid_plunge)
     ax.text(x, y, f'SF{s_id+1}', fontsize=label_fontsize, ha='center', va='center', color='blue')
 
