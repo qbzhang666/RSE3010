@@ -141,9 +141,11 @@ for s_id, (as_, bs) in enumerate(slope_faces):
 if len(joint_sets) == 2:
     az1, dip1 = joint_sets[0]
     az2, dip2 = joint_sets[1]
-    trend, plunge = mplstereonet.plane_intersection(az1, dip1, az2, dip2)
-    ax.pole(trend, plunge, 'ko', markersize=5)
-    intersection_text = f"**Intersection orientation**: Trend = {round(trend,1)}°, Plunge = {round(plunge,1)}°"
+    trend_plunge = mplstereonet.plane_intersection(az1, dip1, az2, dip2)
+    if trend_plunge:
+        trend, plunge = trend_plunge
+        ax.pole(trend, plunge, 'ko', markersize=5)
+        intersection_text = f"**Intersection orientation**: Trend = {np.round(trend, 1)}°, Plunge = {np.round(plunge, 1)}°"
 
 ax.grid(True)
 ax.set_azimuth_ticks(np.arange(0, 360, 30))
