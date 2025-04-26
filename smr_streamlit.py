@@ -98,7 +98,19 @@ with st.sidebar:
 
 st.subheader("📌 Input Data")
 # Joint and Slope input
-# (input section remains unchanged)
+joint_sets = []
+for i in range(n_joints):
+    with st.expander(f"Joint Set {i+1}"):
+        alpha_j = st.number_input(f"αⱼ (Joint dip direction °) [Set {i+1}]", 0, 360, 120, key=f"aj_{i}")
+        beta_j = st.number_input(f"βⱼ (Joint dip angle °) [Set {i+1}]", 0, 90, 30, key=f"bj_{i}")
+        joint_sets.append((alpha_j, beta_j))
+
+slope_faces = []
+for i in range(n_slopes):
+    with st.expander(f"Slope Face {i+1}"):
+        alpha_s = st.number_input(f"αₛ (Slope dip direction °) [Face {i+1}]", 0, 360, 110, key=f"as_{i}")
+        beta_s = st.number_input(f"βₛ (Slope dip angle °) [Face {i+1}]", 0, 90, 60, key=f"bs_{i}")
+        slope_faces.append((alpha_s, beta_s))
 
 st.subheader("📊 SMR Results Table")
 records = []
@@ -166,7 +178,22 @@ if method.lower() == 'wedge' and intersection_records:
 st.subheader("📄 SMR Calculations")
 df_results = pd.DataFrame(records)
 
-# Highlighting function remains unchanged
+# Highlighting function (needs to be defined earlier) or added here
+
+def highlight_class(row):
+    color = ''
+    if row['Class'] == 'Class I':
+        color = 'background-color: lightgreen'
+    elif row['Class'] == 'Class II':
+        color = 'background-color: palegreen'
+    elif row['Class'] == 'Class III':
+        color = 'background-color: khaki'
+    elif row['Class'] == 'Class IV':
+        color = 'background-color: lightsalmon'
+    elif row['Class'] == 'Class V':
+        color = 'background-color: lightcoral'
+    return ['' for _ in row.index[:-2]] + [color, '']
+
 styled_df = df_results.style.apply(highlight_class, axis=1)
 
 st.dataframe(styled_df, use_container_width=True, height=700)
