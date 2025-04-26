@@ -118,7 +118,35 @@ fig, ax = plt.subplots(figsize=(6, 6), subplot_kw={'projection': 'stereonet'})
 intersection_records = []
 legend_labels = []
 
-# (stereonet plotting remains unchanged)
+joint_colors = ['g', 'r', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown', 'b']
+
+for j_id, (aj, bj) in enumerate(joint_sets):
+    color = joint_colors[j_id % len(joint_colors)]
+    strike_j = (aj - 90) % 360
+    ax.plane(strike_j, bj, color=color, linestyle='-', linewidth=1.5)
+    legend_labels.append((f"Joint Set {j_id+1} ({aj:03.0f}°/{bj:.0f}°)", color))
+
+for s_id, (as_, bs) in enumerate(slope_faces):
+    strike_s = (as_ - 90) % 360
+    ax.plane(strike_s, bs, color='blue', linewidth=3)
+    legend_labels.append((f"Slope Face {s_id+1} ({as_:03.0f}°/{bs:.0f}°)", 'blue'))
+
+if len(joint_sets) >= 2:
+    for (i, (az1_dd, dip1)), (j, (az2_dd, dip2)) in combinations(enumerate(joint_sets), 2):
+        strike1 = (az1_dd - 90) % 360
+        strike2 = (az2_dd - 90) % 360
+        trend_arr, plunge_arr = mplstereonet.plane_intersection(strike1, dip1, strike2, dip2)
+        trend = float(trend_arr)
+        plunge = float(plunge_arr)
+        if plunge < 0:
+            trend = (trend + 180) % 360
+            plunge = -plunge
+        intersection_records.append({"Joint Pair": f"JS{i+1} & JS{j+1}", "Trend (°)": round(trend,1), "Plunge (°)": round(plunge,1)})
+
+ax.grid(True)
+ax.set_azimuth_ticks(np.arange(0, 360, 30))
+for idx, (label, color) in enumerate(legend_labels):
+    ax.text(1.1, 1.0-idx*0.07, label, color=color, transform=ax.transAxes, fontsize=9)
 
 st.pyplot(fig)
 
@@ -177,8 +205,6 @@ if method.lower() == 'wedge' and intersection_records:
 
 st.subheader("📄 SMR Calculations")
 df_results = pd.DataFrame(records)
-
-# Highlighting function (needs to be defined earlier) or added here
 
 def highlight_class(row):
     color = ''
