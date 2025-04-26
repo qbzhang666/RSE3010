@@ -22,69 +22,56 @@ def calculate_F1(alpha_j, alpha_s, method, alpha_i=None):
     else:
         return (1 - np.sin(np.radians(A))) ** 2
 
-def calculate_F2(beta_j, method):
+def calculate_F2(beta_j, method, beta_i=None):
     if method.lower() == 'toppling':
         return 1.0
     elif method.lower() == 'planar':
-        if abs(beta_j) < 20:
+        value = abs(beta_j)
+    elif method.lower() == 'wedge' and beta_i is not None:
+        value = abs(beta_i)
+    else:
+        value = abs(beta_j)
+        if value < 20:
             return 0.15
-        elif 20 <= abs(beta_j) <= 30:
+        elif 20 <= value <= 30:
             return 0.40
-        elif 30 < abs(beta_j) <= 35:
+        elif 30 < value <= 35:
             return 0.70
-        elif 35 < abs(beta_j) <= 45:
+        elif 35 < value <= 45:
             return 0.85
-        else:  # >45°
+        else:
             return 1.0
-    elif method.lower() == 'wedge':
-        if abs(beta_j) > 45:
-            return 1.0
-        elif 35 < abs(beta_j) <= 45:
-            return 0.85
-        elif 30 < abs(beta_j) <= 35:
-            return 0.70
-        elif 20 <= abs(beta_j) <= 30:
-            return 0.40
-        else:  # <20°
-            return 0.15
     else:
         return np.tan(np.radians(beta_j)) ** 2
 
-def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s):
+def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s, beta_i=None):
     if method.lower() == 'planar':
         C = beta_j - beta_s
-        if C > 10:
-            return 0
-        elif 0 < C <= 10:
-            return -6
-        elif C == 0:
-            return -25
-        elif -5 <= C < 0:
-            return -50
-        else:  # < -5
-            return -60
-    elif method.lower() == 'wedge':
-        C = beta_j - beta_s
-        if C > 10:
-            return 0
-        elif 0 < C <= 10:
-            return -6
-        elif C == 0:
-            return -25
-        elif -5 <= C < 0:
-            return -50
-        else:  # < -5
-            return -60
+    elif method.lower() == 'wedge' and beta_i is not None:
+        C = beta_i - beta_s
     elif method.lower() == 'toppling':
         C = beta_j + beta_s
+    else:
+        return 0
+
+    if method.lower() in ['planar', 'wedge']:
+        if C > 10:
+            return 0
+        elif 0 < C <= 10:
+            return -6
+        elif C == 0:
+            return -25
+        elif -5 <= C < 0:
+            return -50
+        else:  # C < -5
+            return -60
+    elif method.lower() == 'toppling':
         if C < 110:
             return 0
         elif 110 <= C <= 120:
             return -6
-        else:  # > 120
+        else:
             return -25
-    else:
-        return 0
 
 def calculate_F4(excavation_method):
     return {
