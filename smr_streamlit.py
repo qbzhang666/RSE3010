@@ -110,7 +110,8 @@ for i in range(n_slopes):
         beta_s = st.number_input(f"βₛ (Slope dip angle °) [Face {i+1}]", 0, 90, 60, key=f"bs_{i}")
         slope_faces.append((alpha_s, beta_s))
 
-# ---- Results Calculation ---- #
+st.subheader("📊 SMR Results Table")
+
 records = []
 fig, ax = plt.subplots(figsize=(6, 6), subplot_kw={'projection': 'stereonet'})
 intersection_records = []
@@ -148,34 +149,33 @@ for idx, (label, color) in enumerate(legend_labels):
 
 st.pyplot(fig)
 
-# ---- 📄 SMR Calculations ---- #
-
 if method.lower() == 'wedge' and len(joint_sets) < 2:
     st.warning("⚠️ At least 2 joint sets are needed for wedge failure analysis.")
 
-if method.lower() in ['planar', 'toppling']:
-    for j_id, (aj, bj) in enumerate(joint_sets):
-        for s_id, (as_, bs) in enumerate(slope_faces):
-            smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
-            cls, desc = interpret_SMR(smr)
-            records.append({
-                "Feature": f"Joint Set {j_id+1}",
-                "Slope Face": s_id+1,
-                "αⱼ / Trend (°)": aj,
-                "βⱼ / Plunge (°)": bj,
-                "αₛ (Slope dip dir °)": as_,
-                "βₛ (Slope dip angle °)": bs,
-                "Failure Mode": method,
-                "F₁": round(f1, 4),
-                "F₂": round(f2, 4),
-                "F₃": f3,
-                "F₁×F₂×F₃": round(f1*f2*f3, 2),
-                "F₄": f4,
-                "SMR": round(smr, 2),
-                "Class": cls,
-                "Description": desc
-            })
+# Always calculate SMR for each joint set first
+for j_id, (aj, bj) in enumerate(joint_sets):
+    for s_id, (as_, bs) in enumerate(slope_faces):
+        smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
+        cls, desc = interpret_SMR(smr)
+        records.append({
+            "Feature": f"Joint Set {j_id+1}",
+            "Slope Face": s_id+1,
+            "αⱼ / Trend (°)": aj,
+            "βⱼ / Plunge (°)": bj,
+            "αₛ (Slope dip dir °)": as_,
+            "βₛ (Slope dip angle °)": bs,
+            "Failure Mode": method,
+            "F₁": round(f1, 4),
+            "F₂": round(f2, 4),
+            "F₃": f3,
+            "F₁×F₂×F₃": round(f1*f2*f3, 2),
+            "F₄": f4,
+            "SMR": round(smr, 2),
+            "Class": cls,
+            "Description": desc
+        })
 
+# Additionally calculate intersections if wedge
 if method.lower() == 'wedge' and intersection_records:
     for intersection in intersection_records:
         trend = intersection["Trend (°)"]
@@ -202,7 +202,6 @@ if method.lower() == 'wedge' and intersection_records:
                 "Description": desc
             })
 
-# ---- 📄 Display SMR Table with Highlights ---- #
 st.subheader("📄 SMR Calculations")
 df_results = pd.DataFrame(records)
 
@@ -222,21 +221,18 @@ def highlight_class(row):
 
 styled_df = df_results.style.apply(highlight_class, axis=1)
 
-st.dataframe(styled_df, use_container_width=True)
+st.dataframe(styled_df, use_container_width=True, height=700)
 
-# ---- 🧭 Display Intersection Table ---- #
 if intersection_records:
     st.subheader("🧭 Intersection Orientations")
     df_intersections = pd.DataFrame(intersection_records)
     st.dataframe(df_intersections, use_container_width=True)
 
-# ---- 📥 Export Stereonet Button ---- #
 buffer = io.BytesIO()
 fig.savefig(buffer, format="png")
 buffer.seek(0)
 st.download_button("📥 Download Stereonet as PNG", buffer, file_name="stereonet_smr.png")
 
-# ---- 📖 SMR Class Interpretation Table ---- #
 st.markdown("""
 ### 📖 SMR Interpretation Classes
 | SMR Value | Class    | Description                          |
