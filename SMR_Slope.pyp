@@ -55,21 +55,34 @@ def calculate_SMR(RMRb, alpha_j, alpha_slope, joint_dip, method, excavation_meth
     SMR = RMRb + (F1 * F2 * F3) + F4
     return SMR, (F1, F2, F3, F4)
 
+def interpret_SMR(SMR):
+    if SMR > 80:
+        return "Class I", "Very good - Completely stable"
+    elif SMR > 60:
+        return "Class II", "Good - Stable"
+    elif SMR > 40:
+        return "Class III", "Fair - Partially stable"
+    elif SMR > 20:
+        return "Class IV", "Poor - Unstable"
+    else:
+        return "Class V", "Very poor - Completely unstable"
+
 # ---- Streamlit App ---- #
 
 st.set_page_config(page_title="SMR Tool", layout="wide")
-
 st.title("⛰️ Slope Mass Rating (SMR) Calculator")
 
 # Sidebar Inputs
 with st.sidebar:
     st.header("Input Parameters")
 
-    RMRb = st.slider("Basic RMR (RMRb)", 0, 100, 60)
+    RMRb = st.slider("Basic Rock Mass Rating (RMRb)", 0, 100, 60)
 
-    alpha_j = st.number_input("Joint dip-direction (°)", min_value=0, max_value=360, value=120)
-    alpha_slope = st.number_input("Slope face dip-direction (°)", min_value=0, max_value=360, value=110)
-    joint_dip = st.number_input("Joint dip (°)", min_value=0, max_value=90, value=30)
+    alpha_j = st.number_input("Joint dip direction (αᵢ, °)", min_value=0, max_value=360, value=120)
+    joint_dip = st.number_input("Joint dip angle (βᵢ, °)", min_value=0, max_value=90, value=30)
+
+    alpha_slope = st.number_input("Slope dip direction (αₛ, °)", min_value=0, max_value=360, value=110)
+    slope_dip = st.number_input("Slope dip angle (βₛ, °)", min_value=0, max_value=90, value=60)
 
     method = st.selectbox("Failure mechanism", ['Planar', 'Toppling', 'Wedge'])
     excavation_method = st.selectbox("Excavation method", ['Natural', 'Pre-split blasting', 'Smooth blasting', 'Mechanical', 'Poor blasting'])
@@ -77,42 +90,46 @@ with st.sidebar:
 # Calculate SMR
 SMR, factors = calculate_SMR(RMRb, alpha_j, alpha_slope, joint_dip, method, excavation_method)
 F1, F2, F3, F4 = factors
+SMR_class, SMR_desc = interpret_SMR(SMR)
 
-# Display Results
-st.subheader("📌 Results")
-
-col1, col2 = st.columns(2)
+# Display Stereonet and Results
+col1, col2 = st.columns([2, 1])
 
 with col1:
-    st.metric(label="Calculated SMR", value=f"{SMR:.2f}")
-    st.write(f"**F1:** {F1}")
-    st.write(f"**F2:** {F2}")
-    st.write(f"**F3:** {F3}")
-    st.write(f"**F4:** {F4}")
-
-with col2:
-    fig, ax = plt.subplots(subplot_kw={'projection':'stereonet'})
-    ax.plane(alpha_j, joint_dip, 'g-', linewidth=2, label='Joint Plane')
-    ax.pole(alpha_j, joint_dip, 'ro', markersize=8, label='Pole')
-    ax.plane(alpha_slope, 90, 'b--', linewidth=1, label='Slope Face')
+    fig, ax = plt.subplots(figsize=(4,4), subplot_kw={'projection':'stereonet'})
+    ax.plane(alpha_j, joint_dip, 'g-', linewidth=2, label='Joint Plane (αᵢ, βᵢ)')
+    ax.pole(alpha_j, joint_dip, 'ro', markersize=8, label='Joint Pole')
+    ax.plane(alpha_slope, slope_dip, 'b--', linewidth=2, label='Slope Face (αₛ, βₛ)')
     ax.grid(True)
     ax.legend(loc='upper right')
 
     st.pyplot(fig)
 
-st.markdown("---")
+    st.markdown("### 📌 Calculation Results")
+    st.metric(label="Calculated SMR", value=f"{SMR:.2f}")
+    st.write(f"**SMR Class:** {SMR_class}")
+    st.write(f"**Description:** {SMR_desc}")
+    st.write(f"**F₁:** {F1}, **F₂:** {F2}, **F₃:** {F3}, **F₄:** {F4}")
 
-# Interpretation of SMR (optional helpful guideline)
-st.subheader("📖 SMR Interpretation Guideline")
+with col2:
+    st.info("""
+    ### ℹ️ How to Use:
+    Adjust parameters in the sidebar to calculate the Slope Mass Rating (SMR).  
+    The stereonet visually shows joint and slope orientations.
+    """)
+
+# SMR Interpretation Guideline at bottom
+st.markdown("---")
+st.markdown("### 📖 SMR Interpretation Guideline")
 
 smr_interpretation = """
-| SMR Value | Stability Class  | Description / Stability |
-|-----------|------------------|-------------------------|
-| 81 - 100  | Class I          | Very good - Completely stable |
-| 61 - 80   | Class II         | Good - Stable |
-| 41 - 60   | Class III        | Fair - Partially stable |
-| 21 - 40   | Class IV         | Poor - Unstable |
-| 0 - 20    | Class V          | Very poor - Completely unstable |
+| SMR Value | Stability Class  | Description / Stability                |
+|-----------|------------------|----------------------------------------|
+| 81 - 100  | Class I          | Very good - Completely stable          |
+| 61 - 80   | Class II         | Good - Stable                          |
+| 41 - 60   | Class III        | Fair - Partially stable                |
+| 21 - 40   | Class IV         | Poor - Unstable                        |
+| 0 - 20    | Class V          | Very poor - Completely unstable        |
 """
 
 st.markdown(smr_interpretation)
