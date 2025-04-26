@@ -125,17 +125,17 @@ for j_id, (aj, bj) in enumerate(joint_sets):
         })
     strike_j = (aj - 90) % 360
     ax.plane(strike_j, bj, color+'-', linewidth=1.5)
-    pole_az = strike_j
-    pole_plunge = 90 - bj
-    x, y = mplstereonet.stereonet_math.pole(pole_az, pole_plunge)
+    mid_az = (strike_j + 90) % 360
+    mid_plunge = bj / 2
+    x, y = mplstereonet.stereonet_math.pole(mid_az, 90 - mid_plunge)
     ax.text(x, y, f'JS{j_id+1}', fontsize=6, ha='center', va='center', color=color)
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
     ax.plane(strike_s, bs, 'b--', linewidth=2)
-    pole_az = strike_s
-    pole_plunge = 90 - bs
-    x, y = mplstereonet.stereonet_math.pole(pole_az, pole_plunge)
+    mid_az = (strike_s + 90) % 360
+    mid_plunge = bs / 2
+    x, y = mplstereonet.stereonet_math.pole(mid_az, 90 - mid_plunge)
     ax.text(x, y, f'SF{s_id+1}', fontsize=6, ha='center', va='center', color='blue')
 
 # ---- Calculate and plot intersection if 2 joints ---- #
