@@ -125,14 +125,18 @@ for j_id, (aj, bj) in enumerate(joint_sets):
         })
     strike_j = (aj - 90) % 360
     ax.plane(strike_j, bj, color+'-', linewidth=1.5)
-    ax.text(strike_j, bj, f'JS{j_id+1}', fontsize=6, ha='left', va='bottom')
+    pole_az = aj
+    pole_plunge = 90 - bj
+    ax.text(pole_az, pole_plunge, f'JS{j_id+1}', fontsize=6, ha='center', va='center', color=color)
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
     ax.plane(strike_s, bs, 'b--', linewidth=2)
-    ax.text(strike_s, bs, f'SF{s_id+1}', fontsize=6, ha='left', va='bottom')
+    pole_az = as_
+    pole_plunge = 90 - bs
+    ax.text(pole_az, pole_plunge, f'SF{s_id+1}', fontsize=6, ha='center', va='center', color='blue')
 
-ax.grid(True)
+ax.grid(True, azimuths=np.arange(0, 360, 30))
 ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
 st.pyplot(fig)
 
