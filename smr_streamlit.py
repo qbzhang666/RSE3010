@@ -112,14 +112,12 @@ for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
     strike_j = (aj - 90) % 360
     ax.plane(strike_j, bj, color+'-', linewidth=1.5)
-    label_az, label_plunge = mplstereonet.pole(strike_j, bj)
-    ax.text(label_az, label_plunge, f'JS{j_id+1}', color=color, fontsize=8, ha='center', va='center')
+    ax.text(aj, bj, f'JS{j_id+1}', color=color, fontsize=8, ha='center', va='center')
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
     ax.plane(strike_s, bs, 'b--', linewidth=2)
-    label_az, label_plunge = mplstereonet.pole(strike_s, bs)
-    ax.text(label_az, label_plunge, f'SF{s_id+1}', color='blue', fontsize=8, ha='center', va='center')
+    ax.text(as_, bs, f'SF{s_id+1}', color='blue', fontsize=8, ha='center', va='center')
 
 # ---- Calculate intersections for all joint pairs ---- #
 if len(joint_sets) >= 2:
