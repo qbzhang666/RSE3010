@@ -229,6 +229,7 @@ for col in float_cols:
     if col in df_results.columns:
         df_results[col] = df_results[col].apply(lambda x: round(x, 2))
 
+
 st.dataframe(styled_df, use_container_width=True)
 
 if intersection_records:
