@@ -117,7 +117,7 @@ for j_id, (aj, bj) in enumerate(joint_sets):
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
-    ax.plane(strike_s, bs, color='blue', linestyle='--', linewidth=2)
+    ax.plane(strike_s, bs, color='blue', linewidth=3)
     legend_labels.append((f"Slope Face {s_id+1} ({as_:03.0f}°/{bs:.0f}°)", 'blue'))
 
 
