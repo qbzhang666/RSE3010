@@ -7,9 +7,20 @@ import io
 from itertools import combinations
 
 # ---- SMR Calculation Functions ---- #
-def calculate_F1(alpha_j, alpha_s):
-    A = abs((alpha_j - alpha_s + 180) % 360 - 180)
-    return (1 - np.sin(np.radians(A))) ** 2
+def calculate_F1(alpha_j, alpha_s, method, alpha_i=None):
+    if method.lower() == 'planar':
+        A = abs((alpha_j - alpha_s + 180) % 360 - 180)
+    elif method.lower() == 'toppling':
+        A = abs((alpha_j - alpha_s - 180 + 180) % 360 - 180)
+    elif method.lower() == 'wedge' and alpha_i is not None:
+        A = abs((alpha_i - alpha_s + 180) % 360 - 180)
+    else:
+        return None  # Invalid or missing input
+
+    if A > 30:
+        return 0.15
+    else:
+        return (1 - np.sin(np.radians(A))) ** 2
 
 def calculate_F2(beta_j, method):
     if method.lower() == 'toppling':
@@ -31,7 +42,7 @@ def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s):
         else:
             return -60
     elif method.lower() == 'wedge':
-        return -50
+        return -50  # Default for wedge in original SMR
     elif method.lower() == 'toppling':
         C = beta_j + beta_s
         if C < 110:
@@ -52,8 +63,8 @@ def calculate_F4(excavation_method):
         'poor blasting': -8
     }.get(excavation_method.lower(), 0)
 
-def calculate_SMR(RMRb, alpha_j, beta_j, alpha_s, beta_s, method, excavation):
-    F1 = calculate_F1(alpha_j, alpha_s)
+def calculate_SMR(RMRb, alpha_j, beta_j, alpha_s, beta_s, method, excavation, alpha_i=None):
+    F1 = calculate_F1(alpha_j, alpha_s, method, alpha_i)
     F2 = calculate_F2(beta_j, method)
     F3 = calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s)
     F4 = calculate_F4(excavation)
