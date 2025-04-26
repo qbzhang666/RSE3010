@@ -114,12 +114,12 @@ for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
     strike_j = (aj - 90) % 360
     ax.plane(strike_j, bj, color+'-', linewidth=1.5)
-    legend_labels.append((f"Joint Set {j_id+1}", color))
+    legend_labels.append((f"Joint Set {j_id+1} ({aj}°/{bj}°)", color))
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
     ax.plane(strike_s, bs, 'b--', linewidth=2)
-    legend_labels.append((f"Slope Face {s_id+1}", 'blue'))
+    legend_labels.append((f"Slope Face {s_id+1} ({as_}°/{bs}°)", 'blue'))
 
 # ---- Calculate intersections for all joint pairs ---- #
 if len(joint_sets) >= 2:
@@ -139,7 +139,7 @@ ax.set_azimuth_ticks(np.arange(0, 360, 30))
 
 # ---- Legend outside the stereonet ---- #
 for idx, (label, color) in enumerate(legend_labels):
-    ax.text(1.1, 1.0-idx*0.1, label, color=color, transform=ax.transAxes)
+    ax.text(1.1, 1.0-idx*0.07, label, color=color, transform=ax.transAxes, fontsize=9)
 
 st.pyplot(fig)
 
