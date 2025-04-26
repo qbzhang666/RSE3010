@@ -222,7 +222,7 @@ def highlight_class(row):
 
 styled_df = df_results.style.apply(highlight_class, axis=1)
 
-st.dataframe(styled_df, use_container_width=True, height=700)
+st.dataframe(styled_df, use_container_width=True)
 
 if intersection_records:
     st.subheader("🧭 Intersection Orientations")
