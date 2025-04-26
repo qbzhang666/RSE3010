@@ -73,9 +73,6 @@ def interpret_SMR(SMR):
     else:
         return "Class V", "Very poor - Completely unstable"
 
-def calculate_intersection(az1, dip1, az2, dip2):
-    return mplstereonet.pole2plane(az1, dip1)[0], dip1  # Simplified placeholder
-
 # ---- Streamlit App ---- #
 st.set_page_config(page_title="Extended SMR Tool", layout="wide")
 st.title("⛰️ Extended Slope Mass Rating (SMR) Calculator")
@@ -128,13 +125,15 @@ for j_id, (aj, bj) in enumerate(joint_sets):
         })
     strike_j = (aj - 90) % 360
     ax.plane(strike_j, bj, color+'-', linewidth=1.5)
-    pole_az, pole_plunge = mplstereonet.pole2plane(strike_j, bj)
+    pole_az = (aj + 180) % 360
+    pole_plunge = 90 - bj
     ax.text(pole_az, pole_plunge, f'JS{j_id+1}', fontsize=6, ha='center', va='center', color=color)
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
     ax.plane(strike_s, bs, 'b--', linewidth=2)
-    pole_az, pole_plunge = mplstereonet.pole2plane(strike_s, bs)
+    pole_az = (as_ + 180) % 360
+    pole_plunge = 90 - bs
     ax.text(pole_az, pole_plunge, f'SF{s_id+1}', fontsize=6, ha='center', va='center', color='blue')
 
 # ---- Calculate and plot intersection if 2 joints ---- #
