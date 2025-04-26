@@ -30,19 +30,18 @@ def calculate_F2(beta_j, method, beta_i=None):
     elif method.lower() == 'wedge' and beta_i is not None:
         value = abs(beta_i)
     else:
-        value = abs(beta_j)
-        if value < 20:
-            return 0.15
-        elif 20 <= value <= 30:
-            return 0.40
-        elif 30 < value <= 35:
-            return 0.70
-        elif 35 < value <= 45:
-            return 0.85
-        else:
-            return 1.0
-    else:
-        return np.tan(np.radians(beta_j)) ** 2
+        value = abs(beta_j)  # fallback (normally won't happen)
+
+    if value < 20:
+        return 0.15
+    elif 20 <= value <= 30:
+        return 0.40
+    elif 30 < value <= 35:
+        return 0.70
+    elif 35 < value <= 45:
+        return 0.85
+    else:  # >45°
+        return 1.0
 
 def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s, beta_i=None):
     if method.lower() == 'planar':
