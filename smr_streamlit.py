@@ -110,6 +110,7 @@ for j_id, (aj, bj) in enumerate(joint_sets):
             "Slope Face": s_id+1,
             "αⱼ": aj, "βⱼ": bj,
             "αₛ": as_, "βₛ": bs,
+            "F₁": round(f1, 2), "F₂": round(f2, 2), "F₃": f3, "F₄": f4,
             "SMR": round(smr, 2),
             "Class": cls,
             "Description": desc
