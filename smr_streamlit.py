@@ -139,9 +139,11 @@ for s_id, (as_, bs) in enumerate(slope_faces):
 
 # ---- Calculate and plot intersection if 2 joints ---- #
 if len(joint_sets) == 2:
-    az1, dip1 = joint_sets[0]
-    az2, dip2 = joint_sets[1]
-    trend_plunge = mplstereonet.plane_intersection(az1, dip1, az2, dip2)
+    az1_dd, dip1 = joint_sets[0]
+    az2_dd, dip2 = joint_sets[1]
+    strike1 = (az1_dd - 90) % 360
+    strike2 = (az2_dd - 90) % 360
+    trend_plunge = mplstereonet.plane_intersection(strike1, dip1, strike2, dip2)
     if trend_plunge:
         trend, plunge = trend_plunge
         ax.pole(trend, plunge, 'ko', markersize=5)
