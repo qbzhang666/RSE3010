@@ -1,148 +1,118 @@
-import tkinter as tk
-from tkinter import ttk, messagebox
+import streamlit as st
+import numpy as np
+import matplotlib.pyplot as plt
+import mplstereonet
 
-def calculate_strike_difference(a, b):
-    a = a % 360
-    b = b % 360
-    diff = abs(a - b)
-    return min(diff, 360 - diff)
+# ---- SMR Calculation Functions ---- #
 
-def calculate_smr():
-    try:
-        # Get input values
-        rmr_basic = float(rmr_entry.get())
-        joint_strike = float(joint_strike_entry.get())
-        joint_dip = float(joint_dip_entry.get())
-        slope_strike = float(slope_strike_entry.get())
-        slope_dip = float(slope_dip_entry.get())
-        
-        # Validate input ranges
-        if not (0 <= rmr_basic <= 100):
-            raise ValueError("RMR must be between 0 and 100")
-        if not (0 <= joint_dip <= 90) or not (0 <= slope_dip <= 90):
-            raise ValueError("Dip angles must be between 0 and 90 degrees")
-        
-        # Get adjustment factors
-        excavation_method = excavation_var.get()
-        failure_type = failure_var.get()
+def calculate_F1(alpha_j, alpha_slope):
+    A = abs(alpha_j - alpha_slope)
+    if A <= 5:
+        return 1.0
+    elif A <= 15:
+        return 0.85
+    elif A <= 30:
+        return 0.70
+    elif A <= 60:
+        return 0.40
+    else:
+        return 0.15
 
-        # Calculate strike difference
-        alpha = calculate_strike_difference(joint_strike, slope_strike)
-        
-        # Determine F1
-        if alpha > 30:
-            f1 = 1.0
-        elif 20 < alpha <= 30:
-            f1 = 0.85
-        elif 10 < alpha <= 20:
-            f1 = 0.70
-        elif 5 < alpha <= 10:
-            f1 = 0.50
-        else:
-            f1 = 0.30
-            
-        # Determine F2 (planar failure only)
-        if joint_dip > 45:
-            f2 = 1.0
-        elif 30 < joint_dip <= 45:
-            f2 = 0.85
-        elif 20 < joint_dip <= 30:
-            f2 = 0.70
-        elif 10 < joint_dip <= 20:
-            f2 = 0.50
-        else:
-            f2 = 0.30
-            
-        # Determine F3 (planar failure only)
-        if joint_dip > slope_dip:
-            f3 = -60
-        elif joint_dip == slope_dip:
-            f3 = -50
-        else:
-            f3 = 0
-            
-        # Determine F4
-        excavation_f4 = {
-            'natural': 0,
-            'presplit': -5,
-            'mechanical': -10,
-            'poor blasting': -12
-        }
-        f4 = excavation_f4.get(excavation_method.lower(), 0)
+def calculate_F2(joint_dip):
+    if joint_dip >= 45:
+        return 1.0
+    elif joint_dip >= 35:
+        return 0.85
+    elif joint_dip >= 25:
+        return 0.70
+    elif joint_dip >= 15:
+        return 0.50
+    elif joint_dip >= 10:
+        return 0.20
+    else:
+        return 0.15
 
-        # Calculate SMR
-        smr = rmr_basic + (f1 * f2 * f3) + f4
-        
-        # Update results
-        results_text = (
-            f"SMR Value: {smr:.2f}\n"
-            f"Adjustment Factors:\n"
-            f"F1: {f1}\nF2: {f2}\nF3: {f3}\nF4: {f4}"
-        )
-        result_label.config(text=results_text)
-        
-    except ValueError as e:
-        messagebox.showerror("Input Error", str(e))
+def calculate_F3(method):
+    F3_values = {'planar': -60, 'toppling': -25, 'wedge': -50}
+    return F3_values.get(method.lower(), 0)
 
-# Create main window
-root = tk.Tk()
-root.title("Slope Mass Rating Calculator")
-root.geometry("500x500")
+def calculate_F4(excavation_method):
+    methods = {
+        'natural': 15,
+        'pre-split blasting': 10,
+        'smooth blasting': 8,
+        'mechanical': 0,
+        'poor blasting': -8
+    }
+    return methods.get(excavation_method.lower(), 0)
 
-# Create input frame
-input_frame = ttk.LabelFrame(root, text="Input Parameters")
-input_frame.pack(padx=10, pady=10, fill="both", expand=True)
+def calculate_SMR(RMRb, alpha_j, alpha_slope, joint_dip, method, excavation_method):
+    F1 = calculate_F1(alpha_j, alpha_slope)
+    F2 = calculate_F2(joint_dip)
+    F3 = calculate_F3(method)
+    F4 = calculate_F4(excavation_method)
+    
+    SMR = RMRb + (F1 * F2 * F3) + F4
+    return SMR, (F1, F2, F3, F4)
 
-# RMR Input
-ttk.Label(input_frame, text="Basic RMR (0-100):").grid(row=0, column=0, padx=5, pady=5, sticky="w")
-rmr_entry = ttk.Entry(input_frame)
-rmr_entry.grid(row=0, column=1, padx=5, pady=5)
+# ---- Streamlit App ---- #
 
-# Joint Orientation
-ttk.Label(input_frame, text="Joint Strike (°):").grid(row=1, column=0, padx=5, pady=5, sticky="w")
-joint_strike_entry = ttk.Entry(input_frame)
-joint_strike_entry.grid(row=1, column=1, padx=5, pady=5)
+st.set_page_config(page_title="SMR Tool", layout="wide")
 
-ttk.Label(input_frame, text="Joint Dip (°):").grid(row=2, column=0, padx=5, pady=5, sticky="w")
-joint_dip_entry = ttk.Entry(input_frame)
-joint_dip_entry.grid(row=2, column=1, padx=5, pady=5)
+st.title("⛰️ Slope Mass Rating (SMR) Calculator")
 
-# Slope Orientation
-ttk.Label(input_frame, text="Slope Strike (°):").grid(row=3, column=0, padx=5, pady=5, sticky="w")
-slope_strike_entry = ttk.Entry(input_frame)
-slope_strike_entry.grid(row=3, column=1, padx=5, pady=5)
+# Sidebar Inputs
+with st.sidebar:
+    st.header("Input Parameters")
 
-ttk.Label(input_frame, text="Slope Dip (°):").grid(row=4, column=0, padx=5, pady=5, sticky="w")
-slope_dip_entry = ttk.Entry(input_frame)
-slope_dip_entry.grid(row=4, column=1, padx=5, pady=5)
+    RMRb = st.slider("Basic RMR (RMRb)", 0, 100, 60)
 
-# Excavation Method
-ttk.Label(input_frame, text="Excavation Method:").grid(row=5, column=0, padx=5, pady=5, sticky="w")
-excavation_var = tk.StringVar()
-excavation_combobox = ttk.Combobox(input_frame, textvariable=excavation_var, 
-                                 values=["Natural", "Presplit", "Mechanical", "Poor Blasting"])
-excavation_combobox.grid(row=5, column=1, padx=5, pady=5)
-excavation_combobox.current(0)
+    alpha_j = st.number_input("Joint dip-direction (°)", min_value=0, max_value=360, value=120)
+    alpha_slope = st.number_input("Slope face dip-direction (°)", min_value=0, max_value=360, value=110)
+    joint_dip = st.number_input("Joint dip (°)", min_value=0, max_value=90, value=30)
 
-# Failure Type
-ttk.Label(input_frame, text="Failure Type:").grid(row=6, column=0, padx=5, pady=5, sticky="w")
-failure_var = tk.StringVar(value="Planar")
-ttk.Combobox(input_frame, textvariable=failure_var, values=["Planar"], state="readonly").grid(row=6, column=1, padx=5, pady=5, sticky="w")
+    method = st.selectbox("Failure mechanism", ['Planar', 'Toppling', 'Wedge'])
+    excavation_method = st.selectbox("Excavation method", ['Natural', 'Pre-split blasting', 'Smooth blasting', 'Mechanical', 'Poor blasting'])
 
-# Calculate Button
-calculate_btn = ttk.Button(root, text="Calculate SMR", command=calculate_smr)
-calculate_btn.pack(pady=10)
+# Calculate SMR
+SMR, factors = calculate_SMR(RMRb, alpha_j, alpha_slope, joint_dip, method, excavation_method)
+F1, F2, F3, F4 = factors
 
-# Results Display
-result_label = ttk.Label(root, text="SMR Value will be displayed here", 
-                        relief="sunken", padding=10, wraplength=400)
-result_label.pack(padx=10, pady=10, fill="both", expand=True)
+# Display Results
+st.subheader("📌 Results")
 
-# Set default values for testing
-rmr_entry.insert(0, "50")
-joint_strike_entry.insert(0, "85")
-joint_dip_entry.insert(0, "50")
-slope_strike_entry.insert(0, "90")
-slope_dip_entry.insert(0, "60")
+col1, col2 = st.columns(2)
 
-root.mainloop()
+with col1:
+    st.metric(label="Calculated SMR", value=f"{SMR:.2f}")
+    st.write(f"**F1:** {F1}")
+    st.write(f"**F2:** {F2}")
+    st.write(f"**F3:** {F3}")
+    st.write(f"**F4:** {F4}")
+
+with col2:
+    fig, ax = plt.subplots(subplot_kw={'projection':'stereonet'})
+    ax.plane(alpha_j, joint_dip, 'g-', linewidth=2, label='Joint Plane')
+    ax.pole(alpha_j, joint_dip, 'ro', markersize=8, label='Pole')
+    ax.plane(alpha_slope, 90, 'b--', linewidth=1, label='Slope Face')
+    ax.grid(True)
+    ax.legend(loc='upper right')
+
+    st.pyplot(fig)
+
+st.markdown("---")
+
+# Interpretation of SMR (optional helpful guideline)
+st.subheader("📖 SMR Interpretation Guideline")
+
+smr_interpretation = """
+| SMR Value | Stability Class  | Description / Stability |
+|-----------|------------------|-------------------------|
+| 81 - 100  | Class I          | Very good - Completely stable |
+| 61 - 80   | Class II         | Good - Stable |
+| 41 - 60   | Class III        | Fair - Partially stable |
+| 21 - 40   | Class IV         | Poor - Unstable |
+| 0 - 20    | Class V          | Very poor - Completely unstable |
+"""
+
+st.markdown(smr_interpretation)
