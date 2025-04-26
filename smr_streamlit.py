@@ -104,13 +104,14 @@ for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
     for s_id, (as_, bs) in enumerate(slope_faces):
         smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
+        f_product = round(f1 * f2 * f3, 2)
         cls, desc = interpret_SMR(smr)
         records.append({
             "Joint Set": j_id+1,
             "Slope Face": s_id+1,
             "αⱼ": aj, "βⱼ": bj,
             "αₛ": as_, "βₛ": bs,
-            "F₁": round(f1, 2), "F₂": round(f2, 2), "F₃": f3, "F₄": f4,
+            "F₁": round(f1, 2), "F₂": round(f2, 2), "F₃": f3, "F₁×F₂×F₃": f_product, "F₄": f4,
             "SMR": round(smr, 2),
             "Class": cls,
             "Description": desc
