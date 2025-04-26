@@ -227,11 +227,6 @@ st.dataframe(styled_df, use_container_width=True)
 
 st.dataframe(styled_df, use_container_width=True)
 
-if intersection_records:
-    st.subheader("🧭 Intersection Orientations")
-    df_intersections = pd.DataFrame(intersection_records)
-    st.dataframe(df_intersections, use_container_width=True)
-
 buffer = io.BytesIO()
 fig.savefig(buffer, format="png")
 buffer.seek(0)
