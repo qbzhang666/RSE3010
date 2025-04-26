@@ -112,18 +112,16 @@ for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
     strike_j = (aj - 90) % 360
     ax.plane(strike_j, bj, color+'-', linewidth=1.5)
-    dip_direction = aj
-    x, y = mplstereonet.pole(dip_direction, 90 - bj)
-    ax.text(x, y, f'JS{j_id+1}', color=color, fontsize=8, ha='center', va='center')
+    label_az, label_plunge = mplstereonet.pole(strike_j, bj)
+    ax.text(label_az, label_plunge, f'JS{j_id+1}', color=color, fontsize=8, ha='center', va='center')
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
     ax.plane(strike_s, bs, 'b--', linewidth=2)
-    dip_direction = as_
-    x, y = mplstereonet.pole(dip_direction, 90 - bs)
-    ax.text(x, y, f'SF{s_id+1}', color='blue', fontsize=8, ha='center', va='center')
+    label_az, label_plunge = mplstereonet.pole(strike_s, bs)
+    ax.text(label_az, label_plunge, f'SF{s_id+1}', color='blue', fontsize=8, ha='center', va='center')
 
-# ---- Calculate and plot intersections for all joint pairs ---- #
+# ---- Calculate intersections for all joint pairs ---- #
 if len(joint_sets) >= 2:
     for (i, (az1_dd, dip1)), (j, (az2_dd, dip2)) in combinations(enumerate(joint_sets), 2):
         strike1 = (az1_dd - 90) % 360
@@ -134,10 +132,6 @@ if len(joint_sets) >= 2:
         if plunge < 0:
             trend = (trend + 180) % 360
             plunge = -plunge
-        if plunge <= 20:
-            ax.pole(trend, plunge, 'ro', markersize=6)
-        else:
-            ax.pole(trend, plunge, 'ko', markersize=4)
         intersection_records.append({"Joint Pair": f"JS{i+1} & JS{j+1}", "Trend (°)": round(trend,1), "Plunge (°)": round(plunge,1)})
 
 ax.grid(True)
@@ -149,11 +143,6 @@ if intersection_records:
     st.subheader("🧭 Intersection Orientations")
     df_intersections = pd.DataFrame(intersection_records)
     st.dataframe(df_intersections, use_container_width=True)
-
-# ---- SMR Table ---- #
-df = pd.DataFrame(records)
-if not df.empty:
-    st.dataframe(df, use_container_width=True)
 
 # ---- Export Plot Button ---- #
 buffer = io.BytesIO()
