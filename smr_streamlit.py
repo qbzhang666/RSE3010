@@ -2,184 +2,202 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import mplstereonet
+import mplstereonet as mpl
 import io
 
-# ---- SMR Calculation Functions ---- #
+# ---- CORRECTED SMR CALCULATION FUNCTIONS ---- #
 def calculate_F1(alpha_j, alpha_s):
-    A = abs((alpha_j - alpha_s + 180) % 360 - 180)
-    F1 = (1 - np.sin(np.radians(A))) ** 2
-    return F1
+    """Calculate parallelism between joint and slope strike (0°-180°)"""
+    angular_diff = abs((alpha_j - alpha_s + 180) % 360 - 180)
+    return (1 - np.sin(np.radians(angular_diff))) ** 2
 
-def calculate_F2(beta_j, method):
-    if method.lower() == 'toppling':
+def calculate_F2(beta_j, failure_type):
+    """Calculate joint dip factor according to Romana's SMR"""
+    failure_type = failure_type.lower()
+    if failure_type == 'toppling':
         return 1.0
+    
+    # Planar/Wedge failure F2 values
+    if beta_j > 45:
+        return 1.0
+    elif 30 < beta_j <= 45:
+        return 0.85
+    elif 20 < beta_j <= 30:
+        return 0.70
+    elif 10 < beta_j <= 20:
+        return 0.50
     else:
-        return np.tan(np.radians(beta_j)) ** 2
+        return 0.30
 
-def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s):
-    if method.lower() == 'planar':
-        C = beta_j - beta_s
-        if C > 10:
-            return 0
-        elif 0 < C <= 10:
-            return -6
-        elif C == 0:
-            return -25
-        elif -5 <= C < 0:
+def calculate_F3(failure_type, beta_j, beta_s):
+    """Calculate slope-joint relationship factor"""
+    failure_type = failure_type.lower()
+    
+    if failure_type == 'planar':
+        if beta_j > beta_s:
+            return -60
+        elif beta_j == beta_s:
+            return -50
+        elif (beta_s - 10) < beta_j < beta_s:
             return -50
         else:
-            return -60
-    elif method.lower() == 'wedge':
-        return -50
-    elif method.lower() == 'toppling':
-        C = beta_j + beta_s
-        if C < 110:
             return 0
-        elif 110 <= C <= 120:
+            
+    elif failure_type == 'toppling':
+        total = beta_j + beta_s
+        if total > 110:
+            return -25
+        elif 100 < total <= 110:
             return -6
         else:
-            return -25
-    else:
-        return 0
+            return 0
+            
+    elif failure_type == 'wedge':
+        return -50  # Simplified assumption
+        
+    return 0
 
 def calculate_F4(excavation_method):
+    """Excavation method adjustment factors"""
     return {
-        'natural': 15,
-        'pre-split blasting': 10,
-        'smooth blasting': 8,
-        'mechanical': 0,
-        'poor blasting': -8
+        'natural': 0,
+        'pre-split blasting': -5,
+        'smooth blasting': -8,
+        'mechanical': -10,
+        'poor blasting': -12
     }.get(excavation_method.lower(), 0)
 
-def calculate_SMR(RMRb, alpha_j, beta_j, alpha_s, beta_s, method, excavation):
+def calculate_SMR(RMRb, alpha_j, beta_j, alpha_s, beta_s, failure_type, excavation):
+    """Calculate final Slope Mass Rating"""
     F1 = calculate_F1(alpha_j, alpha_s)
-    F2 = calculate_F2(beta_j, method)
-    F3 = calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s)
+    F2 = calculate_F2(beta_j, failure_type)
+    F3 = calculate_F3(failure_type, beta_j, beta_s)
     F4 = calculate_F4(excavation)
-    SMR = RMRb + (F1 * F2 * F3) + F4
-    return SMR, F1, F2, F3, F4
+    return RMRb + (F1 * F2 * F3) + F4, F1, F2, F3, F4
 
 def interpret_SMR(SMR):
-    if SMR > 80:
-        return "Class I", "Very good - Completely stable"
-    elif SMR > 60:
-        return "Class II", "Good - Stable"
-    elif SMR > 40:
-        return "Class III", "Fair - Partially stable"
-    elif SMR > 20:
-        return "Class IV", "Poor - Unstable"
-    else:
-        return "Class V", "Very poor - Completely unstable"
+    """Classification according to Romana"""
+    if SMR > 80: return "I", "Very good - Completely stable"
+    if SMR > 60: return "II", "Good - Stable"
+    if SMR > 40: return "III", "Fair - Partially stable"
+    if SMR > 20: return "IV", "Poor - Unstable"
+    return "V", "Very poor - Completely unstable"
 
-# ---- Streamlit App ---- #
-st.set_page_config(page_title="Extended SMR Tool", layout="wide")
-st.title("⛰️ Extended Slope Mass Rating (SMR) Calculator")
+# ---- STREAMLIT INTERFACE ---- #
+st.set_page_config(page_title="SMR Calculator", layout="wide")
+st.title("⛰️ Slope Mass Rating Calculator (Romana, 1985)")
 
+# Sidebar Controls
 with st.sidebar:
     st.header("Global Parameters")
-    RMRb = st.slider("Basic Rock Mass Rating (RMRb)", 0, 100, 60)
-    method = st.selectbox("Failure mechanism", ['Planar', 'Toppling', 'Wedge'])
-    excavation = st.selectbox("Excavation method", ['Natural', 'Pre-split blasting', 'Smooth blasting', 'Mechanical', 'Poor blasting'])
-    n_joints = st.number_input("Number of Joint Sets", 1, 10, 2)
-    n_slopes = st.number_input("Number of Slope Faces", 1, 5, 1)
+    RMRb = st.slider("Basic RMR", 0, 100, 60)
+    failure_type = st.selectbox("Failure Mechanism", ["Planar", "Toppling", "Wedge"])
+    excavation = st.selectbox("Excavation Method", [
+        "Natural", "Pre-split Blasting", "Smooth Blasting", 
+        "Mechanical", "Poor Blasting"
+    ])
+    n_joints = st.number_input("Joint Sets", 1, 5, 2)
+    n_slopes = st.number_input("Slope Faces", 1, 3, 1)
 
-st.subheader("📌 Input Data")
-joint_sets = []
+# Joint/Slope Input Sections
+joints = []
 for i in range(n_joints):
     with st.expander(f"Joint Set {i+1}"):
-        alpha_j = st.number_input(f"αⱼ (Joint dip direction °) [Set {i+1}]", 0, 360, 120, key=f"aj_{i}")
-        beta_j = st.number_input(f"βⱼ (Joint dip angle °) [Set {i+1}]", 0, 90, 30, key=f"bj_{i}")
-        joint_sets.append((alpha_j, beta_j))
+        col1, col2 = st.columns(2)
+        with col1:
+            alpha_j = st.number_input(f"αⱼ (°)", 0, 360, 120, key=f"aj{i}")
+        with col2:
+            beta_j = st.number_input(f"βⱼ (°)", 0, 90, 45, key=f"bj{i}")
+        joints.append((alpha_j, beta_j))
 
-slope_faces = []
+slopes = []
 for i in range(n_slopes):
     with st.expander(f"Slope Face {i+1}"):
-        alpha_s = st.number_input(f"αₛ (Slope dip direction °) [Face {i+1}]", 0, 360, 110, key=f"as_{i}")
-        beta_s = st.number_input(f"βₛ (Slope dip angle °) [Face {i+1}]", 0, 90, 60, key=f"bs_{i}")
-        slope_faces.append((alpha_s, beta_s))
+        col1, col2 = st.columns(2)
+        with col1:
+            alpha_s = st.number_input(f"αₛ (°)", 0, 360, 90, key=f"as{i}")
+        with col2:
+            beta_s = st.number_input(f"βₛ (°)", 0, 90, 60, key=f"bs{i}")
+        slopes.append((alpha_s, beta_s))
 
-# ---- Results Calculation ---- #
-st.subheader("📊 SMR Results Table")
-
+# Results Calculation
 records = []
-joint_colors = ['g', 'r', 'b', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
-fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'projection': 'stereonet'})
-intersection_text = ""
+fig, ax = plt.subplots(figsize=(6, 6), subplot_kw={'projection': 'stereonet'})
 
-label_fontsize = 8 if (n_joints + n_slopes) <= 5 else 6
+# Plot Joints
+colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd']
+for i, (aj, bj) in enumerate(joints):
+    color = colors[i % len(colors)]
+    
+    # Plot joint plane
+    ax.plane(aj, bj, color=color, linestyle='-', 
+            label=f'Joint {i+1} (αⱼ={aj}°, βⱼ={bj}°)')
+    
+    # Add pole
+    pole_azi, pole_ang = mpl.pole(aj, bj)
+    ax.pole(pole_azi, pole_ang, marker='o', color=color, markersize=8)
 
-for j_id, (aj, bj) in enumerate(joint_sets):
-    color = joint_colors[j_id % len(joint_colors)]
-    for s_id, (as_, bs) in enumerate(slope_faces):
-        smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
-        f_product = round(f1 * f2 * f3, 2)
+# Plot Slopes
+for i, (as_, bs) in enumerate(slopes):
+    # Plot slope plane
+    ax.plane(as_, bs, color='#2ca02c', linestyle='--', linewidth=2,
+            label=f'Slope {i+1} (αₛ={as_}°, βₛ={bs}°)')
+    
+    # Add text annotation
+    mid_azi = (as_ + 180) % 360
+    mid_dip = bs * 0.5
+    x, y = mpl.stereonet_math.pole(mid_azi, 90 - mid_dip)
+    ax.text(x, y, f'S{i+1}', fontsize=10, color='#2ca02c', 
+          ha='center', va='center')
+
+# Calculate SMR for all combinations
+for j_idx, (aj, bj) in enumerate(joints):
+    for s_idx, (as_, bs) in enumerate(slopes):
+        smr, F1, F2, F3, F4 = calculate_SMR(RMRb, aj, bj, as_, bs, failure_type, excavation)
         cls, desc = interpret_SMR(smr)
+        
         records.append({
-            "Joint Set": j_id+1,
-            "Slope Face": s_id+1,
+            "Joint": j_idx+1,
+            "Slope": s_idx+1,
             "αⱼ": aj, "βⱼ": bj,
             "αₛ": as_, "βₛ": bs,
-            "F₁": round(f1, 4), "F₂": round(f2, 4), "F₃": f3, "F₁×F₂×F₃": f_product, "F₄": f4,
-            "SMR": round(smr, 2),
+            "F₁": round(F1, 2),
+            "F₂": F2,
+            "F₃": F3,
+            "F₄": F4,
+            "SMR": round(smr, 1),
             "Class": cls,
-            "Description": desc
+            "Stability": desc
         })
-    strike_j = (aj - 90) % 360
-    ax.plane(strike_j, bj, color+'-', linewidth=1.5)
-    mid_az = (strike_j + 90) % 360
-    mid_plunge = bj * 0.55
-    x, y = mplstereonet.stereonet_math.pole(mid_az, 90 - mid_plunge)
-    ax.text(x, y, f'JS{j_id+1}', fontsize=label_fontsize, ha='center', va='center', color=color)
 
-for s_id, (as_, bs) in enumerate(slope_faces):
-    strike_s = (as_ - 90) % 360
-    ax.plane(strike_s, bs, 'b--', linewidth=2)
-    mid_az = (strike_s + 90) % 360
-    mid_plunge = bs * 0.55
-    x, y = mplstereonet.stereonet_math.pole(mid_az, 90 - mid_plunge)
-    ax.text(x, y, f'SF{s_id+1}', fontsize=label_fontsize, ha='center', va='center', color='blue')
+# Plot Formatting
+ax.grid(True, linestyle='--', alpha=0.5)
+ax.set_azimuth_ticks(range(0, 360, 30))
+ax.legend(bbox_to_anchor=(1.3, 1), fontsize=9)
+plt.tight_layout()
 
-# ---- Calculate and plot intersection if 2 joints ---- #
-if len(joint_sets) == 2:
-    az1_dd, dip1 = joint_sets[0]
-    az2_dd, dip2 = joint_sets[1]
-    strike1 = (az1_dd - 90) % 360
-    strike2 = (az2_dd - 90) % 360
-    trend_plunge = mplstereonet.plane_intersection(strike1, dip1, strike2, dip2)
-    if trend_plunge:
-        trend, plunge = trend_plunge
-        if plunge < 0:
-            trend = (trend + 180) % 360
-            plunge = -plunge
-        ax.pole(trend, plunge, 'ko', markersize=5)
-        intersection_text = f"**Intersection orientation**: Trend = {np.round(trend, 1)}°, Plunge = {np.round(plunge, 1)}°"
+# Display Results
+col1, col2 = st.columns([1, 2])
+with col1:
+    st.pyplot(fig)
+with col2:
+    df = pd.DataFrame(records)
+    st.dataframe(df.set_index(["Joint", "Slope"]), use_container_width=True)
 
-ax.grid(True)
-ax.set_azimuth_ticks(np.arange(0, 360, 30))
-st.pyplot(fig)
+# Download Button
+buf = io.BytesIO()
+fig.savefig(buf, format="png", dpi=150)
+st.download_button("📥 Download Stereonet", buf.getvalue(), 
+                 file_name="smr_stereonet.png", mime="image/png")
 
-if intersection_text:
-    st.markdown(f"### 🧭 {intersection_text}")
-
-# ---- SMR Table ---- #
-df = pd.DataFrame(records)
-st.dataframe(df, use_container_width=True)
-
-# ---- Export Plot Button ---- #
-buffer = io.BytesIO()
-fig.savefig(buffer, format="png")
-buffer.seek(0)
-st.download_button("📥 Download Stereonet as PNG", buffer, file_name="stereonet_smr.png")
-
-# ---- Legend ---- #
+# Classification Legend
 st.markdown("""
-### 📖 SMR Interpretation Classes
-| SMR Value | Class    | Description                          |
-|-----------|----------|--------------------------------------|
-| 81-100    | I        | Very good - Completely stable        |
-| 61-80     | II       | Good - Stable                        |
-| 41-60     | III      | Fair - Partially stable              |
-| 21-40     | IV       | Poor - Unstable                      |
-| 0-20      | V        | Very poor - Completely unstable      |
+**SMR Classification**
+| Class | SMR Range | Stability Description          |
+|-------|-----------|--------------------------------|
+| I     | 81-100    | Very good - Completely stable  |
+| II    | 61-80     | Good - Stable                  |
+| III   | 41-60     | Fair - Partially stable        |
+| IV    | 21-40     | Poor - Unstable                |
+| V     | 0-20      | Very poor - Completely unstable|
 """)
