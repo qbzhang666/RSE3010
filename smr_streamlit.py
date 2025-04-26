@@ -25,6 +25,17 @@ def calculate_F1(alpha_j, alpha_s, method, alpha_i=None):
 def calculate_F2(beta_j, method):
     if method.lower() == 'toppling':
         return 1.0
+    elif method.lower() in ['planar', 'wedge']:
+        if abs(beta_j) < 20:
+            return 0.15
+        elif 20 <= abs(beta_j) <= 30:
+            return 0.40
+        elif 30 < abs(beta_j) <= 35:
+            return 0.70
+        elif 35 < abs(beta_j) <= 45:
+            return 0.85
+        else:  # > 45°
+            return 1.0
     else:
         return np.tan(np.radians(beta_j)) ** 2
 
@@ -39,17 +50,27 @@ def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s):
             return -25
         elif -5 <= C < 0:
             return -50
-        else:
+        else:  # C < -5
             return -60
     elif method.lower() == 'wedge':
-        return -50
+        C = beta_j - beta_s
+        if C > 10:
+            return 0
+        elif 0 < C <= 10:
+            return -6
+        elif C == 0:
+            return -25
+        elif -5 <= C < 0:
+            return -50
+        else:  # C < -5
+            return -60
     elif method.lower() == 'toppling':
         C = beta_j + beta_s
         if C < 110:
             return 0
         elif 110 <= C <= 120:
             return -6
-        else:
+        else:  # > 120
             return -25
     else:
         return 0
