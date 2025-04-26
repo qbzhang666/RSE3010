@@ -7,34 +7,42 @@ import io
 
 # ---- SMR Calculation Functions ---- #
 def calculate_F1(alpha_j, alpha_s):
-    A = abs((alpha_j - alpha_s + 180) % 360 - 180)  # Corrected angular difference
-    if A <= 5:
-        return 1.0
-    elif A <= 15:
-        return 0.85
-    elif A <= 30:
-        return 0.70
-    elif A <= 60:
-        return 0.40
-    else:
-        return 0.15
+    A = abs((alpha_j - alpha_s + 180) % 360 - 180)
+    F1 = (1 - np.sin(np.radians(A))) ** 2
+    return F1
 
-def calculate_F2(beta_j):
-    if beta_j >= 45:
+def calculate_F2(beta_j, method):
+    if method.lower() == 'toppling':
         return 1.0
-    elif beta_j >= 35:
-        return 0.85
-    elif beta_j >= 25:
-        return 0.70
-    elif beta_j >= 15:
-        return 0.50
-    elif beta_j >= 10:
-        return 0.20
     else:
-        return 0.15
+        return np.tan(np.radians(beta_j)) ** 2
 
-def calculate_F3(method):
-    return {'planar': -60, 'toppling': -25, 'wedge': -50}.get(method.lower(), 0)
+def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s):
+    A = abs((alpha_j - alpha_s + 180) % 360 - 180)
+    if method.lower() == 'planar':
+        C = beta_j - beta_s
+        if C > 10:
+            return 0
+        elif 0 < C <= 10:
+            return -6
+        elif C == 0:
+            return -25
+        elif -5 <= C < 0:
+            return -50
+        else:
+            return -60
+    elif method.lower() == 'wedge':
+        return -50  # Assuming wedge default unless further info provided
+    elif method.lower() == 'toppling':
+        C = beta_j + beta_s
+        if C < 110:
+            return 0
+        elif 110 <= C <= 120:
+            return -6
+        else:
+            return -25
+    else:
+        return 0
 
 def calculate_F4(excavation_method):
     return {
@@ -47,8 +55,8 @@ def calculate_F4(excavation_method):
 
 def calculate_SMR(RMRb, alpha_j, beta_j, alpha_s, beta_s, method, excavation):
     F1 = calculate_F1(alpha_j, alpha_s)
-    F2 = calculate_F2(beta_j)
-    F3 = calculate_F3(method)
+    F2 = calculate_F2(beta_j, method)
+    F3 = calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s)
     F4 = calculate_F4(excavation)
     SMR = RMRb + (F1 * F2 * F3) + F4
     return SMR, F1, F2, F3, F4
@@ -111,7 +119,7 @@ for j_id, (aj, bj) in enumerate(joint_sets):
             "Slope Face": s_id+1,
             "αⱼ": aj, "βⱼ": bj,
             "αₛ": as_, "βₛ": bs,
-            "F₁": round(f1, 2), "F₂": round(f2, 2), "F₃": f3, "F₁×F₂×F₃": f_product, "F₄": f4,
+            "F₁": round(f1, 4), "F₂": round(f2, 4), "F₃": f3, "F₁×F₂×F₃": f_product, "F₄": f4,
             "SMR": round(smr, 2),
             "Class": cls,
             "Description": desc
@@ -120,7 +128,9 @@ for j_id, (aj, bj) in enumerate(joint_sets):
     ax.pole(aj, bj, color+'o', markersize=5)
 
 for s_id, (as_, bs) in enumerate(slope_faces):
-    ax.plane(as_, bs, 'b--', linewidth=1.5, label=f'Slope Face {s_id+1}')
+    slope_pole_azimuth = (as_ + 180) % 360
+    slope_pole_dip = 90 - bs
+    ax.pole(slope_pole_azimuth, slope_pole_dip, 'b^', markersize=8, label=f'Slope Pole {s_id+1}')
 
 ax.grid(True)
 ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
