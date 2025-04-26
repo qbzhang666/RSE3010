@@ -7,7 +7,7 @@ import io
 
 # ---- SMR Calculation Functions ---- #
 def calculate_F1(alpha_j, alpha_s):
-    A = abs(alpha_j - alpha_s)
+    A = abs((alpha_j - alpha_s + 180) % 360 - 180)  # Corrected angular difference
     if A <= 5:
         return 1.0
     elif A <= 15:
