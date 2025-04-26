@@ -105,7 +105,7 @@ for i in range(n_slopes):
 st.subheader("📊 SMR Results Table")
 
 records = []
-joint_colors = ['g', 'r', 'b', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
+joint_colors = ['g', 'r', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown']
 fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'projection': 'stereonet'})
 
 for j_id, (aj, bj) in enumerate(joint_sets):
@@ -128,9 +128,12 @@ for j_id, (aj, bj) in enumerate(joint_sets):
     ax.pole(aj, bj, color+'o', markersize=5)
 
 for s_id, (as_, bs) in enumerate(slope_faces):
-    slope_pole_azimuth = (as_ + 180) % 360
-    slope_pole_dip = 90 - bs
-    ax.pole(slope_pole_azimuth, slope_pole_dip, 'b^', markersize=8, label=f'Slope Pole {s_id+1}')
+    ax.plane(as_, bs, 'b', linewidth=2, label=f'Slope Face {s_id+1}')
+
+# for s_id, (as_, bs) in enumerate(slope_faces):
+    # slope_pole_azimuth = (as_ + 180) % 360
+    # slope_pole_dip = 90 - bs
+    # ax.pole(slope_pole_azimuth, slope_pole_dip, 'b^', markersize=8, label=f'Slope Pole {s_id+1}')
 
 ax.grid(True)
 ax.legend(fontsize='small', loc='upper right', bbox_to_anchor=(1.3, 1))
