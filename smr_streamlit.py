@@ -16,7 +16,6 @@ def calculate_F1(alpha_j, alpha_s, method, alpha_i=None):
         A = abs((alpha_i - alpha_s + 180) % 360 - 180)
     else:
         return None
-
     if A > 30:
         return 0.15
     else:
@@ -31,7 +30,6 @@ def calculate_F2(beta_j, method, beta_i=None):
         value = abs(beta_i)
     else:
         value = abs(beta_j)
-
     if value < 20:
         return 0.15
     elif 20 <= value <= 30:
@@ -52,7 +50,6 @@ def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s, beta_i=None):
         C = beta_j + beta_s
     else:
         return 0
-
     if method.lower() in ['planar', 'wedge']:
         if C > 10:
             return 0
@@ -101,11 +98,18 @@ def interpret_SMR(SMR):
     else:
         return "Class V", "Very poor - Completely unstable"
 
+# ---- Plot intersection points ---- #
+def plot_intersections(ax, intersection_records):
+    for record in intersection_records:
+        trend = record["Trend (°)"]
+        plunge = record["Plunge (°)"]
+        ax.pole(trend, plunge, marker='o', markersize=8, color='red', label='Intersection')
+
 # ---- Streamlit App ---- #
 st.set_page_config(page_title="Extended SMR Tool", layout="wide")
 st.title("⛰️ Extended Slope Mass Rating (SMR) Calculator")
 
-# Sidebar for input
+# Sidebar
 with st.sidebar:
     st.header("Global Parameters")
     RMRb = st.slider("Basic Rock Mass Rating (RMRb)", 0, 100, 60)
@@ -115,15 +119,13 @@ with st.sidebar:
     n_slopes = st.number_input("Number of Slope Faces", 1, 5, 1)
 
 st.subheader("📌 Input Data")
-# Joint and Slope input
-joint_sets = []
+joint_sets, slope_faces = [], []
 for i in range(n_joints):
     with st.expander(f"Joint Set {i+1}"):
         alpha_j = st.number_input(f"αⱼ (Joint dip direction °) [Set {i+1}]", 0, 360, 120, key=f"aj_{i}")
         beta_j = st.number_input(f"βⱼ (Joint dip angle °) [Set {i+1}]", 0, 90, 30, key=f"bj_{i}")
         joint_sets.append((alpha_j, beta_j))
 
-slope_faces = []
 for i in range(n_slopes):
     with st.expander(f"Slope Face {i+1}"):
         alpha_s = st.number_input(f"αₛ (Slope dip direction °) [Face {i+1}]", 0, 360, 110, key=f"as_{i}")
@@ -132,115 +134,64 @@ for i in range(n_slopes):
 
 st.subheader("📊 SMR Results Table")
 records = []
-fig, ax = plt.subplots(figsize=(6, 6), subplot_kw={'projection': 'stereonet'})
-intersection_records = []
-legend_labels = []
-
+fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={'projection': 'stereonet'})
+intersection_records, legend_labels = [], []
 joint_colors = ['g', 'r', 'c', 'm', 'y', 'k', 'orange', 'purple', 'brown', 'b']
 
 for j_id, (aj, bj) in enumerate(joint_sets):
     color = joint_colors[j_id % len(joint_colors)]
     strike_j = (aj - 90) % 360
     ax.plane(strike_j, bj, color=color, linestyle='-', linewidth=1.5)
-    legend_labels.append((f"Joint Set {j_id+1} ({aj:03.0f}°/{bj:.0f}°)", color))
+    legend_labels.append((f"Joint Set {j_id+1} ({aj:.0f}°/{bj:.0f}°)", color))
 
 for s_id, (as_, bs) in enumerate(slope_faces):
     strike_s = (as_ - 90) % 360
     ax.plane(strike_s, bs, color='blue', linewidth=3)
-    legend_labels.append((f"Slope Face {s_id+1} ({as_:03.0f}°/{bs:.0f}°)", 'blue'))
+    legend_labels.append((f"Slope Face {s_id+1} ({as_:.0f}°/{bs:.0f}°)", 'blue'))
 
 if len(joint_sets) >= 2:
     for (i, (az1_dd, dip1)), (j, (az2_dd, dip2)) in combinations(enumerate(joint_sets), 2):
         strike1 = (az1_dd - 90) % 360
         strike2 = (az2_dd - 90) % 360
         trend_arr, plunge_arr = mplstereonet.plane_intersection(strike1, dip1, strike2, dip2)
-        trend = float(trend_arr)
-        plunge = float(plunge_arr)
+        trend, plunge = float(trend_arr), float(plunge_arr)
         if plunge < 0:
             trend = (trend + 180) % 360
             plunge = -plunge
-        intersection_records.append({"Joint Pair": f"JS{i+1} & JS{j+1}", "Trend (°)": round(trend,1), "Plunge (°)": round(plunge,1)})
+        intersection_records.append({"Trend (°)": round(trend,1), "Plunge (°)": round(plunge,1)})
+
+plot_intersections(ax, intersection_records)
+
+# Draw legend without duplicates
+handles, labels = ax.get_legend_handles_labels()
+by_label = dict(zip(labels, handles))
+ax.legend(by_label.values(), by_label.keys(), loc='lower left', fontsize=8)
 
 ax.grid(True)
 ax.set_azimuth_ticks(np.arange(0, 360, 30))
-
-for idx, (label, color) in enumerate(legend_labels):
-    ax.text(1.1, 1.0-idx*0.07, label, color=color, transform=ax.transAxes, fontsize=9)
-
 st.pyplot(fig)
 
-if method.lower() == 'wedge' and len(joint_sets) < 2:
-    st.warning("⚠️ At least 2 joint sets are needed for wedge failure analysis.")
+# Results table
+for j_id, (aj, bj) in enumerate(joint_sets):
+    for s_id, (as_, bs) in enumerate(slope_faces):
+        smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
+        cls, desc = interpret_SMR(smr)
+        records.append({
+            "Feature": f"Joint Set {j_id+1}",
+            "Slope Face": s_id+1,
+            "αⱼ (Dip dir °)": aj,
+            "βⱼ (Dip angle °)": bj,
+            "αₛ (Slope dip dir °)": as_,
+            "βₛ (Slope dip angle °)": bs,
+            "Failure Mode": method,
+            "F₁": round(f1, 4),
+            "F₂": round(f2, 4),
+            "F₃": f3,
+            "SMR": round(smr, 2),
+            "Class": cls,
+            "Description": desc
+        })
 
-# Corrected SMR Calculation Logic
-if method.lower() in ['planar', 'toppling']:
-    for j_id, (aj, bj) in enumerate(joint_sets):
-        for s_id, (as_, bs) in enumerate(slope_faces):
-            smr, f1, f2, f3, f4 = calculate_SMR(RMRb, aj, bj, as_, bs, method, excavation)
-            cls, desc = interpret_SMR(smr)
-            records.append({
-                "Feature": f"Joint Set {j_id+1}",
-                "Slope Face": s_id+1,
-                "αⱼ (Dip direction °)": aj,
-                "βⱼ (Dip angle °)": bj,
-                "αₛ (Slope dip dir °)": as_,
-                "βₛ (Slope dip angle °)": bs,
-                "Failure Mode": method,
-                "F₁": round(f1, 4),
-                "F₂": round(f2, 4),
-                "F₃": f3,
-                "F₁×F₂×F₃": round(f1*f2*f3, 2),
-                "F₄": f4,
-                "SMR": round(smr, 2),
-                "Class": cls,
-                "Description": desc
-            })
-
-if method.lower() == 'wedge' and intersection_records:
-    for intersection in intersection_records:
-        trend = intersection["Trend (°)"]
-        plunge = intersection["Plunge (°)"]
-        pair_label = intersection["Joint Pair"]
-        for s_id, (as_, bs) in enumerate(slope_faces):
-            smr, f1, f2, f3, f4 = calculate_SMR(RMRb, 0, plunge, as_, bs, method, excavation, alpha_i=trend)
-            cls, desc = interpret_SMR(smr)
-            records.append({
-                "Feature": f"Intersection {pair_label}",
-                "Slope Face": s_id+1,
-                "αᵢ (plunge °)": plunge,
-                "βᵢ (trend °)": trend,
-                "αₛ (Slope dip dir °)": as_,
-                "βₛ (Slope dip angle °)": bs,
-                "Failure Mode": "Wedge",
-                "F₁": round(f1, 4),
-                "F₂": round(f2, 4),
-                "F₃": f3,
-                "F₁×F₂×F₃": round(f1*f2*f3, 2),
-                "F₄": f4,
-                "SMR": round(smr, 2),
-                "Class": cls,
-                "Description": desc
-            })
-
-if len(joint_sets) >= 2:
-    for (i, (az1_dd, dip1)), (j, (az2_dd, dip2)) in combinations(enumerate(joint_sets), 2):
-        strike1 = (az1_dd - 90) % 360
-        strike2 = (az2_dd - 90) % 360
-        trend_arr, plunge_arr = mplstereonet.plane_intersection(strike1, dip1, strike2, dip2)
-        trend = float(trend_arr)
-        plunge = float(plunge_arr)
-        if plunge < 0:
-            trend = (trend + 180) % 360
-            plunge = -plunge
-        intersection_records.append({"Joint Pair": f"JS{i+1} & JS{j+1}", "βᵢ (Trend °)": round(trend,1), "αᵢ (Plunge °)": round(plunge,1)})
-
-        # Plot intersection point
-        ax.pole(trend, plunge, 'ko')  # black circle for intersections
-
-ax.grid(True)
-ax.set_azimuth_ticks(np.arange(0, 360, 30))
-
-st.subheader("📄 SMR Calculations")
 df_results = pd.DataFrame(records)
 
 def highlight_class(row):
@@ -257,22 +208,13 @@ def highlight_class(row):
         color = 'background-color: lightcoral'
     return ['' for _ in row.index[:-2]] + [color, '']
 
-styled_df = df_results.style.apply(highlight_class, axis=1)
-styled_df = styled_df.format(precision=2)
-
+styled_df = df_results.style.apply(highlight_class, axis=1).format(precision=2)
+st.subheader("📄 SMR Calculations")
 st.dataframe(styled_df, use_container_width=True)
 
 if intersection_records:
     st.subheader("🧭 Intersection Orientations")
     df_intersections = pd.DataFrame(intersection_records)
-
-    # Rename columns ONLY for Wedge failure
-    if method.lower() == 'wedge':
-        df_intersections = df_intersections.rename(columns={
-            "Trend (°)": "βᵢ (Trend °)",
-            "Plunge (°)": "αᵢ (Plunge °)"
-        })
-
     st.dataframe(df_intersections, use_container_width=True)
 
 buffer = io.BytesIO()
@@ -282,11 +224,11 @@ st.download_button("📥 Download Stereonet as PNG", buffer, file_name="stereone
 
 st.markdown("""
 ### 📖 SMR Interpretation Classes
-| SMR Value | Class    | Description                          |
-|-----------|----------|--------------------------------------|
-| 81-100    | I        | Very good - Completely stable        |
-| 61-80     | II       | Good - Stable                        |
-| 41-60     | III      | Fair - Partially stable              |
-| 21-40     | IV       | Poor - Unstable                      |
-| 0-20      | V        | Very poor - Completely unstable      |
+| SMR Value | Class | Description |
+|:---------:|:-----:|:------------:|
+| 81-100    | I     | Very good - Completely stable |
+| 61-80     | II    | Good - Stable |
+| 41-60     | III   | Fair - Partially stable |
+| 21-40     | IV    | Poor - Unstable |
+| 0-20      | V     | Very poor - Completely unstable |
 """)
