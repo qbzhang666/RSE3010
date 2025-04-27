@@ -261,6 +261,27 @@ fig.savefig(buffer, format="png")
 buffer.seek(0)
 st.download_button("📥 Download Stereonet as PNG", buffer, file_name="stereonet_smr.png")
 
+# --- Export to Excel --- #
+import pandas as pd
+
+# Create an Excel file in memory
+excel_buffer = io.BytesIO()
+
+with pd.ExcelWriter(excel_buffer, engine='xlsxwriter') as writer:
+    df_results.to_excel(writer, sheet_name='SMR Calculations', index=False)
+    if intersection_records:
+        df_intersections.to_excel(writer, sheet_name='Intersection Orientations', index=False)
+    writer.save()
+
+excel_buffer.seek(0)
+
+st.download_button(
+    label="📥 Download Results as Excel",
+    data=excel_buffer,
+    file_name="smr_results.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
+
 st.markdown("""
 ### 📖 SMR Interpretation Classes
 | SMR Value | Class    | Description                          |
