@@ -180,8 +180,8 @@ if method.lower() in ['planar', 'toppling']:
             records.append({
                 "Feature": f"Joint Set {j_id+1}",
                 "Slope Face": s_id+1,
-                "αⱼ / Plunge (°)": aj,
-                "βⱼ / Trend (°)": bj,
+                "αⱼ / Dip direction (°)": aj,
+                "βⱼ / Dip angle (°)": bj,
                 "αₛ (Slope dip dir °)": as_,
                 "βₛ (Slope dip angle °)": bs,
                 "Failure Mode": method,
@@ -220,6 +220,24 @@ if method.lower() == 'wedge' and intersection_records:
                 "Class": cls,
                 "Description": desc
             })
+
+if len(joint_sets) >= 2:
+    for (i, (az1_dd, dip1)), (j, (az2_dd, dip2)) in combinations(enumerate(joint_sets), 2):
+        strike1 = (az1_dd - 90) % 360
+        strike2 = (az2_dd - 90) % 360
+        trend_arr, plunge_arr = mplstereonet.plane_intersection(strike1, dip1, strike2, dip2)
+        trend = float(trend_arr)
+        plunge = float(plunge_arr)
+        if plunge < 0:
+            trend = (trend + 180) % 360
+            plunge = -plunge
+        intersection_records.append({"Joint Pair": f"JS{i+1} & JS{j+1}", "βᵢ (Trend °)": round(trend,1), "αᵢ (Plunge °)": round(plunge,1)})
+
+        # Plot intersection point
+        ax.pole(trend, plunge, 'ko')  # black circle for intersections
+
+ax.grid(True)
+ax.set_azimuth_ticks(np.arange(0, 360, 30))
 
 st.subheader("📄 SMR Calculations")
 df_results = pd.DataFrame(records)
