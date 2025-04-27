@@ -265,14 +265,14 @@ st.dataframe(styled_df, use_container_width=True)
 if intersection_records:
     st.subheader("🧭 Intersection Orientations")
     df_intersections = pd.DataFrame(intersection_records)
-    
-    # Rename columns for Wedge failure
+
+    # Rename columns ONLY for Wedge failure
     if method.lower() == 'wedge':
         df_intersections = df_intersections.rename(columns={
             "Trend (°)": "βᵢ (Trend °)",
             "Plunge (°)": "αᵢ (Plunge °)"
         })
-    
+
     st.dataframe(df_intersections, use_container_width=True)
 
 buffer = io.BytesIO()
