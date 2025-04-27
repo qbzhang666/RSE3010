@@ -255,6 +255,36 @@ if intersection_records:
         })
     
     st.dataframe(df_intersections, use_container_width=True)
+# --- Plot Planes and Slope --- #
+for j_id, (aj, bj) in enumerate(joint_sets):
+    color = joint_colors[j_id % len(joint_colors)]
+    strike_j = (aj - 90) % 360
+    ax.plane(strike_j, bj, color=color, linestyle='-', linewidth=1.5, label=f"Joint Set {j_id+1} ({aj:03.0f}°/{bj:.0f}°)")
+
+for s_id, (as_, bs) in enumerate(slope_faces):
+    strike_s = (as_ - 90) % 360
+    ax.plane(strike_s, bs, color='blue', linewidth=3, label=f"Slope Face {s_id+1} ({as_:03.0f}°/{bs:.0f}°)")
+
+# --- Plot Intersections --- #
+if len(joint_sets) >= 2:
+    for (i, (az1_dd, dip1)), (j, (az2_dd, dip2)) in combinations(enumerate(joint_sets), 2):
+        strike1 = (az1_dd - 90) % 360
+        strike2 = (az2_dd - 90) % 360
+        trend_arr, plunge_arr = mplstereonet.plane_intersection(strike1, dip1, strike2, dip2)
+        trend = float(trend_arr)
+        plunge = float(plunge_arr)
+        if plunge < 0:
+            trend = (trend + 180) % 360
+            plunge = -plunge
+        intersection_records.append({"Joint Pair": f"JS{i+1} & JS{j+1}", "Trend (°)": round(trend,1), "Plunge (°)": round(plunge,1)})
+        ax.pole(trend, plunge, 'ko', label="Intersection" if i==0 and j==1 else "")  # only label first to avoid duplicate
+
+# --- Grid and Legend --- #
+ax.grid(True)
+ax.set_azimuth_ticks(np.arange(0, 360, 30))
+handles, labels = ax.get_legend_handles_labels()
+by_label = dict(zip(labels, handles))
+ax.legend(by_label.values(), by_label.keys(), loc='lower left', fontsize=8)
 
 buffer = io.BytesIO()
 fig.savefig(buffer, format="png")
