@@ -267,11 +267,10 @@ import pandas as pd
 # Create an Excel file in memory
 excel_buffer = io.BytesIO()
 
-with pd.ExcelWriter(excel_buffer, engine='xlsxwriter') as writer:
+with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
     df_results.to_excel(writer, sheet_name='SMR Calculations', index=False)
     if intersection_records:
         df_intersections.to_excel(writer, sheet_name='Intersection Orientations', index=False)
-with pd.ExcelWriter(...) as writer:
 
 excel_buffer.seek(0)
 
@@ -281,6 +280,7 @@ st.download_button(
     file_name="smr_results.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 )
+
 
 st.markdown("""
 ### 📖 SMR Interpretation Classes
