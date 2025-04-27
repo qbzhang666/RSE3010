@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import mplstereonet
 import io
-!pip install openpyxl
 
 from itertools import combinations
 
