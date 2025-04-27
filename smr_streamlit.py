@@ -180,8 +180,8 @@ if method.lower() in ['planar', 'toppling']:
             records.append({
                 "Feature": f"Joint Set {j_id+1}",
                 "Slope Face": s_id+1,
-                "αⱼ / Trend (°)": aj,
-                "βⱼ / Plunge (°)": bj,
+                "αⱼ / Plunge (°)": aj,
+                "βⱼ / Trend (°)": bj,
                 "αₛ (Slope dip dir °)": as_,
                 "βₛ (Slope dip angle °)": bs,
                 "Failure Mode": method,
@@ -206,8 +206,8 @@ if method.lower() == 'wedge' and intersection_records:
             records.append({
                 "Feature": f"Intersection {pair_label}",
                 "Slope Face": s_id+1,
-                "αⱼ / Trend (°)": trend,
-                "βⱼ / Plunge (°)": plunge,
+                "αᵢ (plunge °)": plunge,
+                "βᵢ (trend °)": trend,
                 "αₛ (Slope dip dir °)": as_,
                 "βₛ (Slope dip angle °)": bs,
                 "Failure Mode": "Wedge",
