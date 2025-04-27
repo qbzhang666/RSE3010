@@ -30,7 +30,7 @@ def calculate_F2(beta_j, method, beta_i=None):
     elif method.lower() == 'wedge' and beta_i is not None:
         value = abs(beta_i)
     else:
-        value = abs(beta_j)  # fallback (normally won't happen)
+        value = abs(beta_j)
 
     if value < 20:
         return 0.15
@@ -40,7 +40,7 @@ def calculate_F2(beta_j, method, beta_i=None):
         return 0.70
     elif 35 < value <= 45:
         return 0.85
-    else:  # >45°
+    else:
         return 1.0
 
 def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s, beta_i=None):
@@ -62,7 +62,7 @@ def calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s, beta_i=None):
             return -25
         elif -5 <= C < 0:
             return -50
-        else:  # C < -5
+        else:
             return -60
     elif method.lower() == 'toppling':
         if C < 110:
@@ -83,8 +83,8 @@ def calculate_F4(excavation_method):
 
 def calculate_SMR(RMRb, alpha_j, beta_j, alpha_s, beta_s, method, excavation, alpha_i=None):
     F1 = calculate_F1(alpha_j, alpha_s, method, alpha_i)
-    F2 = calculate_F2(beta_j, method)
-    F3 = calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s)
+    F2 = calculate_F2(beta_j, method, beta_i=alpha_i)
+    F3 = calculate_F3(method, beta_j, beta_s, alpha_j, alpha_s, beta_i=alpha_i)
     F4 = calculate_F4(excavation)
     SMR = RMRb + (F1 * F2 * F3) + F4
     return SMR, F1, F2, F3, F4
