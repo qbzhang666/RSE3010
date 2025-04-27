@@ -163,6 +163,7 @@ if len(joint_sets) >= 2:
 
 ax.grid(True)
 ax.set_azimuth_ticks(np.arange(0, 360, 30))
+
 for idx, (label, color) in enumerate(legend_labels):
     ax.text(1.1, 1.0-idx*0.07, label, color=color, transform=ax.transAxes, fontsize=9)
 
@@ -180,8 +181,8 @@ if method.lower() in ['planar', 'toppling']:
             records.append({
                 "Feature": f"Joint Set {j_id+1}",
                 "Slope Face": s_id+1,
-                "αⱼ / Dip direction (°)": aj,
-                "βⱼ / Dip angle (°)": bj,
+                "αⱼ (Dip direction °)": aj,
+                "βⱼ (Dip angle °)": bj,
                 "αₛ (Slope dip dir °)": as_,
                 "βₛ (Slope dip angle °)": bs,
                 "Failure Mode": method,
