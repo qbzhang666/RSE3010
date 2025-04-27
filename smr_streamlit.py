@@ -4,6 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import mplstereonet
 import io
+!pip install openpyxl
+
 from itertools import combinations
 
 # ---- SMR Calculation Functions ---- #
@@ -262,7 +264,6 @@ buffer.seek(0)
 st.download_button("📥 Download Stereonet as PNG", buffer, file_name="stereonet_smr.png")
 
 # --- Export to Excel --- #
-import io
 
 excel_buffer = io.BytesIO()
 
@@ -279,8 +280,6 @@ st.download_button(
     file_name="smr_results.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 )
-
-
 
 st.markdown("""
 ### 📖 SMR Interpretation Classes
