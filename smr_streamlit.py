@@ -271,7 +271,7 @@ with pd.ExcelWriter(excel_buffer, engine='xlsxwriter') as writer:
     df_results.to_excel(writer, sheet_name='SMR Calculations', index=False)
     if intersection_records:
         df_intersections.to_excel(writer, sheet_name='Intersection Orientations', index=False)
-    writer.save()
+with pd.ExcelWriter(...) as writer:
 
 excel_buffer.seek(0)
 
