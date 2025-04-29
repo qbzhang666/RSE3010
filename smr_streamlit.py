@@ -181,8 +181,8 @@ if method.lower() in ['planar', 'toppling']:
             records.append({
                 "Feature": f"Joint Set {j_id+1}",
                 "Slope Face": s_id+1,
-                "αⱼ / Plunge (°)": aj,
-                "βⱼ / Trend (°)": bj,
+                "αⱼ (Dip direction °)": aj,
+                "βⱼ (Dip angle °)": bj,
                 "αₛ (Slope dip dir °)": as_,
                 "βₛ (Slope dip angle °)": bs,
                 "Failure Mode": method,
