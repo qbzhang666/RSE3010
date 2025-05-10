@@ -1,3 +1,4 @@
+# Streamlit App: CCM with LDP Model Selection
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -51,6 +52,7 @@ for i, p_i in enumerate(p):
         u_r[i] = u_elastic * (p_cr / p_i) ** exponent
 
 # SCC
+
 def calculate_scc(u_values):
     u_install = u_install_mm / 1000
     scc = np.zeros_like(u_values)
@@ -75,22 +77,23 @@ def find_intersection(u_gr, p_gr, u_sc, p_sc):
     return x, y
 
 # LDP Models
-def ldp_profile(x, model="Vlachopoulos", alpha=0.85):
-    x = np.array(x)
+
+def ldp_profile(x_star, model="Vlachopoulos", alpha=0.85, R_star=2.5):
+    x_star = np.array(x_star)
     if model == "Panet":
-        return np.where(x <= 0,
-                        1 - np.exp(-1.5 * x),
-                        np.exp(-1.5 * x))
+        return np.where(x_star <= 0,
+                        1 - alpha * np.exp(-1.5 * x_star),
+                        np.exp(-1.5 * x_star))
     elif model == "Hoek":
-        return np.where(x <= 0,
-                        0.25 * np.exp(2.5 * x),
-                        1 - 0.75 * np.exp(-0.5 * x))
+        return np.where(x_star <= 0,
+                        0.25 * np.exp(2.5 * x_star),
+                        1 - 0.75 * np.exp(-0.5 * x_star))
     elif model == "Vlachopoulos":
-        term1 = (1/3) * np.exp(2 * x - 0.15 * x / alpha)
-        term2 = 1 - (1 - (1/3) * np.exp(-0.15 * x)) * np.exp(-3 * x / alpha)
-        return np.where(x <= 0, term1, term2)
+        return np.where(x_star <= 0,
+                        (1/3) * np.exp(2 * x_star - 0.15 * x_star / alpha),
+                        1 - (1 - (1/3) * np.exp(-0.15 * x_star)) * np.exp(-3 * x_star / R_star))
     else:
-        return 1 - np.exp(-1.5 * x)
+        raise ValueError("Unsupported LDP model. Choose from 'Panet', 'Hoek', 'Vlachopoulos'.")
 
 # --------------------------
 # Output: GRC
@@ -136,25 +139,28 @@ elif view_option == "Support Characteristic Curve (SCC)":
 elif view_option == "Longitudinal Deformation Profile (LDP)":
     st.subheader("Select LDP Equation")
     model = st.selectbox("LDP Model", ["Vlachopoulos", "Hoek", "Panet"])
-    ldp_x = np.linspace(0, 10, 500)
-    ldp_y = ldp_profile(ldp_x, model=model)
+    alpha = st.slider("Alpha (α) – deformation behind face", 0.6, 0.95, 0.85)
+    R_star = st.slider("R* (Plastic Radius)", 1.0, 5.0, 2.5)
 
+    ldp_x = np.linspace(0, 10, 500)
+    u_star = ldp_profile(ldp_x, model=model, alpha=alpha, R_star=R_star)
     u_max = np.max(u_r)
+    u_actual = u_star * u_max
+
     u_target = u_install_mm / 1000
     u_ratio = u_target / u_max
-
     if u_ratio >= 1.0:
         x_support = None
     else:
         x_support = -np.log(1 - u_ratio) / 1.5
 
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(ldp_x, ldp_y, lw=2, label=f"LDP: {model}")
+    ax.plot(ldp_x, u_actual * 1000, lw=2, label=f"LDP: {model}")
     if x_support is not None:
         ax.axvline(x_support, color='r', linestyle='--',
                    label=fr'Suggested Support at $x/r_0$ = {x_support:.2f}')
     ax.set_xlabel("Distance from Tunnel Face $x/r_0$", fontsize=14)
-    ax.set_ylabel("Normalized Displacement $u(x)/u_{max}$", fontsize=14)
+    ax.set_ylabel("Radial Displacement [mm]", fontsize=14)
     ax.set_title("Longitudinal Deformation Profile (LDP)", fontsize=16)
     ax.grid(True, linestyle='--', alpha=0.7)
     ax.legend()
