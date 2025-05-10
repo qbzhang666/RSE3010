@@ -85,9 +85,24 @@ u_ldp_actual = ldp_y * u_max
 
 # SCC definition
 st.sidebar.header("5. Support System & SCC")
+support_criteria = st.sidebar.selectbox("LDP Support Criteria", [
+    "Distance from Tunnel Face (L)",
+    "When Tunnel Wall Displacement = uₛ₀",
+    "When Convergence (ε) = displacement/diameter"
+])
+
 k = st.sidebar.number_input("Support Stiffness (MPa/m)", 100, 2000, 650)
 p_max = st.sidebar.number_input("Max Support Pressure (MPa)", 0.5, 10.0, 3.0)
-support_pos_x = st.sidebar.slider("Select Support Distance from Tunnel Face (x/r₀)", 0.0, 10.0, 1.5)
+
+diameter = 2 * r0
+if support_criteria == "Distance from Tunnel Face (L)":
+    support_pos_x = st.sidebar.slider("Support Distance from Tunnel Face (x/r₀)", 0.0, 10.0, 1.5)
+    u_install = ldp_profile(np.array([support_pos_x]), ldp_model, alpha, R_star)[0] * u_max
+elif support_criteria == "When Tunnel Wall Displacement = uₛ₀":
+    u_install = st.sidebar.number_input("Target Displacement uₛ₀ (mm)", 0.0, 500.0, 30.0) / 1000
+elif support_criteria == "When Convergence (ε) = displacement/diameter":
+    convergence_pct = st.sidebar.slider("Convergence (%)", 0.0, 10.0, 1.0)
+    u_install = (convergence_pct / 100) * diameterst.sidebar.slider("Select Support Distance from Tunnel Face (x/r₀)", 0.0, 10.0, 1.5)
 
 u_install = ldp_profile(np.array([support_pos_x]), ldp_model, alpha, R_star)[0] * u_max
 def calculate_scc(u_values):
@@ -127,7 +142,8 @@ st.pyplot(fig)
 # LDP Plot
 fig2, ax2 = plt.subplots(figsize=(10, 6))
 ax2.plot(ldp_x, u_ldp_actual * 1000, lw=2, label=f"LDP Model: {ldp_model}")
-ax2.axvline(support_pos_x, color='r', linestyle='--', label=fr'Support Location $x/r_0$ = {support_pos_x}')
+if support_criteria == "Distance from Tunnel Face (L)":
+    ax2.axvline(support_pos_x, color='r', linestyle='--', label=fr'Support Location $x/r_0$ = {support_pos_x}')
 ax2.set_xlabel("Distance to Tunnel Face $x/r_0$", fontsize=14)
 ax2.set_ylabel("Radial Displacement [mm]", fontsize=14)
 ax2.set_title("Longitudinal Deformation Profile (LDP)", fontsize=16)
