@@ -102,13 +102,12 @@ scc = calculate_scc(u_r)
 # Find GRC-SCC intersection
 
 def find_intersection(u_gr, p_gr, u_sc, p_sc):
-    idx = np.where((p_sc[1:] >= p_gr[1:]) & (p_sc[:-1] < p_gr[:-1]))[0]
-    if len(idx) == 0:
-        return None, None
-    i = idx[0]
-    x = np.interp(0, p_sc[i:i+2] - p_gr[i:i+2], u_gr[i:i+2])
-    y = np.interp(x, u_gr[i:i+2], p_gr[i:i+2])
-    return x, y
+    for i in range(1, len(u_gr)):
+        if (p_sc[i] - p_gr[i]) * (p_sc[i-1] - p_gr[i-1]) < 0:
+            x = np.interp(0, [p_sc[i-1] - p_gr[i-1], p_sc[i] - p_gr[i]], [u_gr[i-1], u_gr[i]])
+            y = np.interp(x, [u_gr[i-1], u_gr[i]], [p_gr[i-1], p_gr[i]])
+            return x, y
+    return None, None
 
 u_int, p_int = find_intersection(u_r, p, u_r, scc)
 
