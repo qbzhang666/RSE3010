@@ -2,9 +2,8 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Streamlit config
-st.set_page_config(page_title="CCM + LDP Tool", layout="wide")
-st.title("Convergence-Confinement Method (CCM) with LDP Analysis")
+st.set_page_config(page_title="CCM Analysis", layout="wide")
+st.title("CCM Analysis Tool: Select Analysis Type")
 
 # --------------------------
 # Sidebar Inputs
@@ -23,19 +22,24 @@ p_max = st.sidebar.number_input("Max Support Pressure (MPa)", 0.5, 10.0, 3.0)
 u_install_mm = st.sidebar.number_input("Installation Displacement (mm)", 0.0, 100.0, 30.0)
 
 # --------------------------
-# Derived parameters
+# Select View Option
+# --------------------------
+view_option = st.radio("Select Analysis Type:", ["Ground Reaction Curve (GRC)", 
+                                                  "Longitudinal Deformation Profile (LDP)", 
+                                                  "Support Characteristic Curve (SCC)"])
+
+# --------------------------
+# Derived Calculations
 # --------------------------
 phi_rad = np.radians(phi_deg)
 sin_phi = np.sin(phi_rad)
 k_rock = (1 + sin_phi) / (1 - sin_phi)
-sigma_cm_MC = (2 * c * np.cos(phi_rad)) / (1 - np.sin(phi_rad))
+sigma_cm_MC = (2 * c * np.cos(phi_rad)) / (1 - sin_phi)
 p_cr = (2 * p0 - sigma_cm_MC) / (1 + k_rock)
 G = E / (2 * (1 + nu))
 u_ie = (p0 - p_cr) * r0 / (2 * G)
 
-# --------------------------
-# Ground Reaction Curve (GRC)
-# --------------------------
+# GRC
 p = np.linspace(0.1, p0, 500)
 u_r = np.zeros_like(p)
 for i, p_i in enumerate(p):
@@ -43,12 +47,10 @@ for i, p_i in enumerate(p):
         u_r[i] = (p0 - p_i) * r0 / (2 * G)
     else:
         exponent = (k_rock - 1) / 2
-        u_r_elastic_at_p_cr = (p0 - p_cr) * r0 / (2 * G)
-        u_r[i] = u_r_elastic_at_p_cr * (p_cr / p_i) ** exponent
+        u_elastic = (p0 - p_cr) * r0 / (2 * G)
+        u_r[i] = u_elastic * (p_cr / p_i) ** exponent
 
-# --------------------------
-# SCC and Intersection
-# --------------------------
+# SCC
 def calculate_scc(u_values):
     u_install = u_install_mm / 1000
     scc = np.zeros_like(u_values)
@@ -72,67 +74,70 @@ def find_intersection(u_gr, p_gr, u_sc, p_sc):
     y = np.interp(x, u_gr[i:i+2], p_gr[i:i+2])
     return x, y
 
-scc = calculate_scc(u_r)
-u_int, p_int = find_intersection(u_r, p, u_r, scc)
-
-# --------------------------
-# LDP Calculation
-# --------------------------
+# LDP
 def ldp_profile(x, a=1.5):
     return 1 - np.exp(-a * x)
 
-ldp_x = np.linspace(0, 10, 500)
-ldp_y = ldp_profile(ldp_x)
-u_max = max(u_r)
-u_target = u_install_mm / 1000
-u_ratio = u_target / u_max
-if u_ratio >= 1.0:
-    x_support = None
-else:
-    x_support = -np.log(1 - u_ratio) / 1.5
+# --------------------------
+# Display Results
+# --------------------------
+if view_option == "Ground Reaction Curve (GRC)":
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(u_r * 1000, p, 'b-', lw=2)
+    ax.set_xlabel("Radial Displacement [mm]", fontsize=14)
+    ax.set_ylabel("Radial Stress [MPa]", fontsize=14)
+    ax.set_title("Ground Reaction Curve (GRC)", fontsize=16)
+    ax.grid(True, linestyle='--', alpha=0.7)
+    st.pyplot(fig)
 
-# --------------------------
-# Plot: GRC + SCC
-# --------------------------
-fig1, ax1 = plt.subplots(figsize=(10, 7))
-ax1.plot(u_r * 1000, p, label="GRC", lw=2)
-ax1.plot(u_r * 1000, scc, label="SCC", linestyle='--', lw=2)
-if u_int is not None:
-    ax1.plot(u_int * 1000, p_int, 'ro', label=f"Intersection\nFoS = {p_max / p_int:.2f}")
-ax1.set_xlabel("Radial Displacement [mm]", fontsize=14)
-ax1.set_ylabel("Radial Stress [MPa]", fontsize=14)
-ax1.set_xlim(0, 40)
-ax1.set_ylim(0, p0 * 1.1)
-ax1.grid(True, linestyle='--', alpha=0.6)
-ax1.legend(fontsize=12)
-st.pyplot(fig1)
+elif view_option == "Support Characteristic Curve (SCC)":
+    scc = calculate_scc(u_r)
+    u_int, p_int = find_intersection(u_r, p, u_r, scc)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(u_r * 1000, p, label="GRC", lw=2)
+    ax.plot(u_r * 1000, scc, label="SCC", linestyle='--', lw=2)
+    if u_int is not None:
+        ax.plot(u_int * 1000, p_int, 'ro', label=f"Intersection\nFoS = {p_max/p_int:.2f}")
+    ax.set_xlabel("Radial Displacement [mm]", fontsize=14)
+    ax.set_ylabel("Radial Stress [MPa]", fontsize=14)
+    ax.set_title("GRC + SCC Intersection", fontsize=16)
+    ax.grid(True, linestyle='--', alpha=0.7)
+    ax.legend()
+    st.pyplot(fig)
 
-# --------------------------
-# Plot: LDP
-# --------------------------
-fig2, ax2 = plt.subplots(figsize=(10, 5))
-ax2.plot(ldp_x, ldp_y, 'k-', lw=2, label=r'LDP: $u(x)/u_{\max}$')
-if x_support is not None:
-    ax2.axvline(x_support, color='r', linestyle='--', lw=2,
-                label=fr'Suggested Support Location: $x/r_0$ = {x_support:.2f}')
-ax2.set_xlabel(r'Normalized Distance from Face $x/r_0$', fontsize=14)
-ax2.set_ylabel(r'Normalized Displacement $u(x)/u_{\max}$', fontsize=14)
-ax2.grid(True, linestyle='--', alpha=0.6)
-ax2.legend(fontsize=12)
-st.pyplot(fig2)
+    st.markdown("### SCC Result Summary")
+    st.write(f"- Critical Pressure $p_{{cr}}$ = **{p_cr:.2f} MPa**")
+    st.write(f"- Elastic Limit Displacement $u^{{ie}}$ = **{u_ie*1000:.2f} mm**")
+    if u_int is not None:
+        st.success(f"✅ Intersection at {u_int*1000:.2f} mm, {p_int:.2f} MPa → FoS = **{p_max/p_int:.2f}**")
+    else:
+        st.error("❌ No intersection — support is insufficient.")
 
-# --------------------------
-# Results Summary
-# --------------------------
-st.markdown("### Results Summary")
-st.write(f"- Critical Pressure $p_{{cr}}$ = **{p_cr:.2f} MPa**")
-st.write(f"- Elastic Limit Displacement $u^{{ie}}$ = **{u_ie*1000:.2f} mm**")
-if u_int is not None:
-    st.success(f"✅ Intersection at {u_int*1000:.2f} mm, {p_int:.2f} MPa → **FoS = {p_max / p_int:.2f}**")
-else:
-    st.error("❌ No intersection — support is insufficient.")
+elif view_option == "Longitudinal Deformation Profile (LDP)":
+    u_max = np.max(u_r)
+    u_target = u_install_mm / 1000
+    u_ratio = u_target / u_max
+    ldp_x = np.linspace(0, 10, 500)
+    ldp_y = ldp_profile(ldp_x)
 
-if x_support is not None:
-    st.info(f"📌 Install support at **{x_support:.2f} × r₀ = {x_support * r0:.2f} m** from tunnel face")
-else:
-    st.warning("⚠️ Support installation displacement exceeds predicted maximum deformation. No LDP recommendation.")
+    if u_ratio >= 1.0:
+        x_support = None
+    else:
+        x_support = -np.log(1 - u_ratio) / 1.5
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(ldp_x, ldp_y, 'k-', lw=2, label=r'LDP: $u(x)/u_{\max}$')
+    if x_support is not None:
+        ax.axvline(x_support, color='r', linestyle='--', label=fr'Support at $x/r_0$ = {x_support:.2f}')
+    ax.set_xlabel("Distance from Tunnel Face $x/r_0$", fontsize=14)
+    ax.set_ylabel("Displacement Ratio $u(x)/u_{max}$", fontsize=14)
+    ax.set_title("Longitudinal Deformation Profile (LDP)", fontsize=16)
+    ax.grid(True, linestyle='--', alpha=0.7)
+    ax.legend()
+    st.pyplot(fig)
+
+    st.markdown("### LDP Support Recommendation")
+    if x_support is not None:
+        st.success(f"📌 Install support at **{x_support:.2f} × r₀ = {x_support * r0:.2f} m** from tunnel face")
+    else:
+        st.warning("⚠️ Installation displacement exceeds predicted max deformation. No LDP suggestion.")
