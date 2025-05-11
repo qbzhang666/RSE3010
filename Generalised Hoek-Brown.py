@@ -111,7 +111,7 @@ st.markdown(f"""
 - **a:** {a:.4f}  
 """)
 
-st.subheader("Mohr-Coulomb Equivalent Parameters (from τ–σₙ)")
+st.subheader("Mohr-Coulomb Parameters (from τ–σₙ)")
 st.markdown(f"""
 - **Cohesion (c):** {cohesion:.3f} MPa  
 - **Friction angle (φ):** {phi_deg:.2f}°  
@@ -139,6 +139,15 @@ ax2.plot(df.sign, df.tau, 'r-', lw=2,
 x_fit = np.linspace(0, df.sign.max(), 100)
 y_fit = mc_model.predict(x_fit.reshape(-1, 1))
 ax2.plot(x_fit, y_fit, 'k--', lw=2, label='Mohr-Coulomb Fit')
+
+# Annotate cohesion and phi
+ax2.text(
+    0.05 * max_limit,
+    0.95 * max_limit,
+    f"c = {cohesion:.2f} MPa\nφ = {phi_deg:.1f}°",
+    fontsize=11,
+    bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.4')
+)
 
 ax2.set_xlabel(r'$\sigma_n$ [MPa]')
 ax2.set_ylabel(r'$\tau$ [MPa]')
