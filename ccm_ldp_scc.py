@@ -72,7 +72,7 @@ def calculate_GRC():
     else:  # Hoek-Brown
         # Calculate strength parameters
         sigma_cm = (sigma_ci / 2) * ((mb + 4 * s_val) ** a_val - mb ** a_val)
-        p_cr = p0 - sigma_cm / 2  # Transition pressure
+        p_cr = p0 * (1 - (sigma_cm / (2 * p0)))  # Transition pressure
         k_HB = (2 * (1 - nu) * (mb + 4 * s_val) ** a_val) / (1 + nu)
         R_pl = r0 * ((2 * p0 / sigma_cm) + 1) ** (1 / k_HB)
         u_elastic = (p0 - p_cr) * r0 / (2 * G)
