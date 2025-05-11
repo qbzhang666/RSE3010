@@ -140,6 +140,10 @@ x_fit = np.linspace(0, df.sign.max(), 100)
 y_fit = mc_model.predict(x_fit.reshape(-1, 1))
 ax2.plot(x_fit, y_fit, 'k--', lw=2, label='Mohr-Coulomb Fit')
 
+# Add cohesion and friction angle to the legend
+ax2.plot([], [], ' ', label=f"c = {cohesion:.2f} MPa, φ = {phi_deg:.1f}°")
+
+
 # Calculate limits before using them
 x_max = df.sign.max() * 1.1
 y_max = df.tau.max() * 1.1
