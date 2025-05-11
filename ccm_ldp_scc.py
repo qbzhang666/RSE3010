@@ -84,6 +84,8 @@ def calculate_GRC():
 
     return p, u, p_cr
 
+p_grc, u_grc, p_cr = calculate_GRC()
+
 # -------------------------------
 # 3. LDP & Support Criteria
 # -------------------------------
