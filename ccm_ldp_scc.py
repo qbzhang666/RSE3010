@@ -17,38 +17,35 @@ with st.sidebar:
     diameter = 2 * r0
     tunnel_depth = st.number_input("Tunnel Depth [m]", 10.0, 5000.0, 500.0)
 
-    # -------------------------------
-# 2. Rock Parameters (fixed order)
-# -------------------------------
-st.header("2. Rock Parameters")
-density = st.number_input("Rock Density [kg/m³]", 1500.0, 3500.0, 2650.0)
-p0 = (tunnel_depth * density * GRAVITY) / 1e6  # MPa
-st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
-E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 10000.0)
-nu = st.number_input("Poisson's Ratio ν", min_value=0.1, max_value=0.49, value=0.3, step=0.01)
+    st.header("2. Rock Parameters")
+    density = st.number_input("Rock Density [kg/m³]", 1500.0, 3500.0, 2650.0)
+    p0 = (tunnel_depth * density * GRAVITY) / 1e6  # MPa
+    st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
+    E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 10000.0)
+    nu = st.number_input("Poisson's Ratio ν", min_value=0.1, max_value=0.49, value=0.3, step=0.01)
 
-st.subheader("Failure Criterion")
-criterion = st.selectbox("Select Failure Criterion", ["Mohr-Coulomb", "Hoek-Brown"])
+    st.subheader("Failure Criterion")
+    criterion = st.selectbox("Select Failure Criterion", ["Mohr-Coulomb", "Hoek-Brown"])
 
-if criterion == "Mohr-Coulomb":
-    c = st.number_input("Cohesion c [MPa]", 0.1, 10.0, 1.5)
-    phi_deg = st.number_input("Friction Angle φ [°]", 5.0, 60.0, 30.0)
-    phi_rad = np.radians(phi_deg)
-else:
-    sigma_ci = st.number_input("Uniaxial compressive strength σ_ci [MPa]", 1.0, 100.0, 30.0)
-    GSI = st.slider("Geological Strength Index (GSI)", 10, 100, 75)
-    mi = st.number_input("Intact rock constant (mᵢ)", 5.0, 35.0, 15.0)
-    D = st.slider("Disturbance Factor (D)", 0.0, 1.0, 0.0)
-    
-    # Hoek-Brown calculations
-    mb = mi * np.exp((GSI - 100) / (28 - 14 * D))
-    s_val = np.exp((GSI - 100) / (9 - 3 * D))
-    a_val = 0.5 + (1 / 6) * (np.exp(-GSI / 15) - np.exp(-20 / 3))
-    
-    st.markdown(f"**Calculated Parameters:**  \n"
-                f"m_b = {mb:.2f}  \n"
-                f"s = {s_val:.4f}  \n"
-                f"a = {a_val:.3f}")
+    if criterion == "Mohr-Coulomb":
+        c = st.number_input("Cohesion c [MPa]", 0.1, 10.0, 1.5)
+        phi_deg = st.number_input("Friction Angle φ [°]", 5.0, 60.0, 30.0)
+        phi_rad = np.radians(phi_deg)
+    else:
+        sigma_ci = st.number_input("Uniaxial compressive strength σ_ci [MPa]", 1.0, 100.0, 30.0)
+        GSI = st.slider("Geological Strength Index (GSI)", 10, 100, 75)
+        mi = st.number_input("Intact rock constant (mᵢ)", 5.0, 35.0, 15.0)
+        D = st.slider("Disturbance Factor (D)", 0.0, 1.0, 0.0)
+
+        # Hoek-Brown calculations
+        mb = mi * np.exp((GSI - 100) / (28 - 14 * D))
+        s_val = np.exp((GSI - 100) / (9 - 3 * D))
+        a_val = 0.5 + (1 / 6) * (np.exp(-GSI / 15) - np.exp(-20 / 3))
+
+        st.markdown(f"**Calculated Parameters:**  \n"
+                    f"m_b = {mb:.2f}  \n"
+                    f"s = {s_val:.4f}  \n"
+                    f"a = {a_val:.3f}")
 
 # -------------------------------
 # 2. GRC Calculation
@@ -84,11 +81,10 @@ def calculate_GRC():
 
     return p, u, p_cr
 
-# Call the GRC function
 p_grc, u_grc, p_cr = calculate_GRC()
 
 # -------------------------------
-# 3. LDP
+# 3. LDP & Support Criteria
 # -------------------------------
 with st.sidebar:
     st.header("3. LDP Curve & Support Criteria")
@@ -101,7 +97,6 @@ with st.sidebar:
         "When Tunnel Wall Displacement = uₛ₀",
         "Convergence %"
     ])
-
     if install_criteria == "Distance from face":
         x_install = st.slider("Support Distance x/r₀", 0.0, 10.0, 1.5)
     elif install_criteria == "When Tunnel Wall Displacement = uₛ₀":
@@ -111,7 +106,6 @@ with st.sidebar:
         conv_pct = st.slider("Convergence [%]", 0.01, 1.0, 0.05)
         u_install = (conv_pct / 100) * diameter
 
-# LDP displacement profile
 ldp_x = np.linspace(-5, 10, 500)
 def ldp_profile(x_star, model, alpha, R_star):
     if model == "Panet":
@@ -122,15 +116,15 @@ def ldp_profile(x_star, model, alpha, R_star):
         return np.where(x_star <= 0,
                         (1/3) * np.exp(2 * x_star - 0.15 * x_star / alpha),
                         1 - (1 - (1/3) * np.exp(-0.15 * x_star)) * np.exp(-3 * x_star / R_star))
-ldp_y = ldp_profile(ldp_x, ldp_model, alpha, R_star)
-u_max = 0.04  # 40 mm in meters
-u_ldp = ldp_y * u_max
 
+ldp_y = ldp_profile(ldp_x, ldp_model, alpha, R_star)
+u_max = 0.04  # 40 mm max displacement
+u_ldp = ldp_y * u_max
 if install_criteria == "Distance from face":
     u_install = np.interp(x_install, ldp_x, u_ldp)
 
 # -------------------------------
-# 4. SCC
+# 4. SCC Curve
 # -------------------------------
 with st.sidebar:
     st.header("4. Support System & Threshold")
@@ -139,17 +133,12 @@ with st.sidebar:
     disp_thresh = st.slider("Display Threshold [mm]", 10, 100, 40)
 
 u_scc = np.linspace(0, np.max(u_grc) * 1.2, 500)
-scc_vals = np.zeros_like(u_scc)
-for i, u in enumerate(u_scc):
-    if u >= u_install:
-        scc_vals[i] = min(k_supp * (u - u_install), p_max)
+scc_vals = np.where(u_scc >= u_install, np.minimum(k_supp * (u_scc - u_install), p_max), 0)
+scc_on_grc = np.where(u_grc >= u_install, np.minimum(k_supp * (u_grc - u_install), p_max), 0)
 
-scc_on_grc = np.zeros_like(u_grc)
-for i, u in enumerate(u_grc):
-    if u >= u_install:
-        scc_on_grc[i] = min(k_supp * (u - u_install), p_max)
-
-# Intersection
+# -------------------------------
+# 5. Intersection & FoS
+# -------------------------------
 def find_intersection(u_vals, p1, p2):
     for i in range(1, len(u_vals)):
         if (p1[i] - p2[i]) * (p1[i-1] - p2[i-1]) < 0:
@@ -162,7 +151,7 @@ u_eq, p_eq = find_intersection(u_grc, p_grc, scc_on_grc)
 FoS = p_max / p_eq if p_eq and p_eq > 0 else float("inf")
 
 # -------------------------------
-# 5. Plotting
+# 6. Plotting
 # -------------------------------
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
 
@@ -173,9 +162,7 @@ ax1.axvline(disp_thresh, linestyle=':', color='red', label=f"Threshold = {disp_t
 ax1.set_xlabel("Tunnel Wall Displacement [mm]")
 ax1.set_ylabel("Radial Pressure [MPa]")
 ax1.set_title("GRC + SCC Interaction")
-ax1.set_xlim(0, 100)  # cap to 100 mm (adjust as needed)
-ax1.grid(True, alpha=0.3)
-
+ax1.set_xlim(0, 100)
 ax1.grid(True, color='lightgrey', alpha=0.4)
 if u_eq:
     ax1.legend(title=f"FoS = pₛₘ / p_eq = {p_max:.2f} / {p_eq:.2f} = {FoS:.2f}")
@@ -195,7 +182,7 @@ ax2.legend()
 st.pyplot(fig)
 
 # -------------------------------
-# 6. Results
+# 7. Results
 # -------------------------------
 st.markdown("### Safety Summary")
 st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
