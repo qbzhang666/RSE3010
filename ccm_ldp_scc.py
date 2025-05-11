@@ -63,7 +63,7 @@ for i, p_i in enumerate(p):
         u_r[i] = u_elastic * (p_cr / p_i) ** exponent
 
 # -------------------------------
-# 4. LDP Curve
+# 4. LDP Curve Selection
 # -------------------------------
 st.sidebar.header("4. LDP Curve Selection")
 ldp_model = st.sidebar.selectbox("Select LDP Model", ["Vlachopoulos", "Hoek", "Panet"])
@@ -86,7 +86,7 @@ u_max = np.max(u_r)
 u_ldp_actual = ldp_y * u_max
 
 # -------------------------------
-# 5. Support System (SCC)
+# 5. SCC Support System
 # -------------------------------
 st.sidebar.header("5. Support System & SCC")
 install_criteria = st.sidebar.selectbox("LDP Support Criteria", [
@@ -163,12 +163,26 @@ ax.grid(True)
 st.pyplot(fig)
 
 # -------------------------------
-# Summary Output
+# Plot LDP Curve
+# -------------------------------
+fig2, ax2 = plt.subplots(figsize=(10, 5))
+ax2.plot(ldp_x, u_ldp_actual * 1000, lw=2, label=f"LDP – {ldp_model}")
+if install_criteria == "Distance from face":
+    ax2.axvline(x_install, linestyle='--', color='blue', label=f"Support at x/r₀ = {x_install:.2f}")
+ax2.set_xlabel("Distance from Tunnel Face (x/r₀)", fontsize=13)
+ax2.set_ylabel("Radial Displacement [mm]", fontsize=13)
+ax2.set_title("Longitudinal Deformation Profile (LDP)", fontsize=15)
+ax2.grid(True)
+ax2.legend()
+st.pyplot(fig2)
+
+# -------------------------------
+# Summary
 # -------------------------------
 st.markdown("### Summary")
 st.write(f"- Rock Mass Criterion: **{failure_criterion}**")
 st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
-st.write(f"- Installation Displacement $u_{{install}}$: **{u_install * 1000:.2f} mm**")
+st.write(f"- Installation Displacement $u_{{install}}$: **{u_install*1000:.2f} mm**")
 
 if u_eq and p_eq:
     st.success(f"✅ GRC and SCC intersect at displacement = {u_eq*1000:.2f} mm, pressure = {p_eq:.2f} MPa → FoS = {fos:.2f}")
