@@ -145,8 +145,8 @@ ax.plot(u_r * 1000, p, label="GRC", lw=2)
 ax.plot(u_scc * 1000, scc_vals, label="SCC", linestyle='--', color='orange', lw=2)
 
 if u_int and p_int:
-    fos_val = p_max / p_int if p_int > 0 else float("inf")
-    ax.plot([], [], ' ', label=f"FoS = {fos_val:.2f}")  # Add to legend only
+    fos_val = p_max / p_int if p_int and p_int > 0 else float("inf")
+    ax.plot([], [], ' ', label=f"FoS = pₛₘ / pₑq = {p_max:.2f} / {p_int:.2f} = {fos_val:.2f}")
 
 ax.set_xlabel("Tunnel Wall Displacement [mm]", fontsize=14)
 ax.set_ylabel("Radial Stress [MPa]", fontsize=14)
