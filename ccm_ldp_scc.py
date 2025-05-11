@@ -63,7 +63,7 @@ for i, p_i in enumerate(p):
         u_r[i] = u_elastic * (p_cr / p_i) ** exponent
 
 # -------------------------------
-# 4. LDP
+# 4. LDP Curve
 # -------------------------------
 st.sidebar.header("4. LDP Curve Selection")
 ldp_model = st.sidebar.selectbox("Select LDP Model", ["Vlachopoulos", "Hoek", "Panet"])
@@ -86,7 +86,7 @@ u_max = np.max(u_r)
 u_ldp_actual = ldp_y * u_max
 
 # -------------------------------
-# 5. SCC Support System
+# 5. Support System (SCC)
 # -------------------------------
 st.sidebar.header("5. Support System & SCC")
 install_criteria = st.sidebar.selectbox("LDP Support Criteria", [
@@ -120,7 +120,14 @@ scc_vals = calculate_SCC(u_scc, k_supp, u_install, p_max)
 scc_on_grc = calculate_SCC(u_r, k_supp, u_install, p_max)
 
 # -------------------------------
-# Find Intersection and FoS
+# 6. Displacement Threshold
+# -------------------------------
+st.sidebar.header("6. Displacement Threshold")
+threshold_mm = st.sidebar.number_input("Threshold Limit (mm)", 10.0, 200.0, 40.0)
+threshold_m = threshold_mm / 1000
+
+# -------------------------------
+# Intersection and FoS
 # -------------------------------
 def find_intersection(u_vals, grc_vals, scc_vals):
     for i in range(1, len(u_vals)):
@@ -136,17 +143,18 @@ fos = p_max / p_eq if p_eq and p_eq > 0 else float("inf")
 # -------------------------------
 # Plot GRC + SCC
 # -------------------------------
-threshold = st.sidebar.slider("Display threshold line at (mm)", 10, 100, 30)
-
 fig, ax = plt.subplots(figsize=(10, 6))
 ax.plot(u_r * 1000, p, label="GRC", lw=2)
 ax.plot(u_scc * 1000, scc_vals, linestyle='--', lw=2, color='orange', label="SCC")
-ax.axvline(threshold, linestyle=':', color='red', label=f"Threshold = {threshold} mm")
+ax.axvline(threshold_mm, linestyle=':', color='gray', label=f"Threshold = {threshold_mm} mm")
 
-if u_eq is not None and p_eq is not None:
+if install_criteria == "Distance from face":
+    ax.axvline(u_install * 1000, linestyle='--', color='blue', label=f"uₛ₀ = {u_install*1000:.1f} mm")
+
+if u_eq and p_eq:
     ax.legend(title=f"FoS = pₛₘ / pₑq = {p_max:.2f} / {p_eq:.2f} = {fos:.2f}")
 else:
-    ax.legend()
+    ax.legend(title="No intersection")
 
 ax.set_xlabel("Tunnel Wall Displacement [mm]", fontsize=14)
 ax.set_ylabel("Radial Stress [MPa]", fontsize=14)
@@ -155,13 +163,16 @@ ax.grid(True)
 st.pyplot(fig)
 
 # -------------------------------
-# Results
+# Summary Output
 # -------------------------------
 st.markdown("### Summary")
 st.write(f"- Rock Mass Criterion: **{failure_criterion}**")
 st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
-st.write(f"- Installation Displacement $u_{{install}}$: **{u_install*1000:.2f} mm**")
+st.write(f"- Installation Displacement $u_{{install}}$: **{u_install * 1000:.2f} mm**")
+
 if u_eq and p_eq:
     st.success(f"✅ GRC and SCC intersect at displacement = {u_eq*1000:.2f} mm, pressure = {p_eq:.2f} MPa → FoS = {fos:.2f}")
+    if u_eq > threshold_m:
+        st.error(f"⚠️ Displacement exceeds threshold: {u_eq*1000:.2f} mm > {threshold_mm:.1f} mm")
 else:
     st.warning("⚠️ No intersection found – support system insufficient")
