@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Arc
+from sklearn.linear_model import RANSACRegressor, LinearRegression
 
 st.set_page_config(page_title="Mohr-Coulomb Strength Analysis", layout="wide")
 
@@ -19,8 +20,11 @@ def calculate_insitu_stresses(h, K, unit_weight):
 def fit_mohr_coulomb(sigma1_values, sigma3_values):
     normal_stress = (sigma1_values + sigma3_values)/2
     shear_stress = (sigma1_values - sigma3_values)/2
-    A = np.vstack([normal_stress, np.ones(len(normal_stress))]).T
-    slope, intercept = np.linalg.lstsq(A, shear_stress, rcond=None)[0]
+    X = normal_stress.reshape(-1, 1)
+    y = shear_stress
+    ransac = RANSACRegressor(LinearRegression(), residual_threshold=1.0).fit(X, y)
+    slope = ransac.estimator_.coef_[0]
+    intercept = ransac.estimator_.intercept_
     phi = np.degrees(np.arctan(slope))
     cohesion = intercept
     return cohesion, phi
@@ -109,7 +113,7 @@ ax1.grid(True)
 ax1.legend()
 
 # Shear-Normal Plot
-mc_label = f"Mohr-Coulomb: τ = c + σ_n tanφ\n(c = {cohesion:.2f} MPa, φ = {friction_angle:.1f}°)"
+mc_label = fr"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n$(c = {cohesion:.2f} MPa, \phi = {friction_angle:.1f}^\circ)$"
 ax2.plot(x_fit, y_fit, 'k--', lw=2, label=mc_label)
 
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
