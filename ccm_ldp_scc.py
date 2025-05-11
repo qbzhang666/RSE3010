@@ -112,13 +112,20 @@ with st.sidebar:
 ldp_x = np.linspace(-5, 10, 500)
 def ldp_profile(x_star, model, alpha, R_star):
     if model == "Panet (1995)":
-        return np.where(x_star <= 0, 1 - alpha * np.exp(-1.5 * x_star), np.exp(-1.5 * x_star))
+        return np.where(
+            x_star <= 0,
+            (1 - alpha) * np.exp(1.5 * x_star),
+            1 - alpha * np.exp(-1.5 * x_star)
+        )
     elif model == "Hoek et al. (2002)":
         return np.where(x_star <= 0, 0.25 * np.exp(2.5 * x_star), 1 - 0.75 * np.exp(-0.5 * x_star))
     elif model == "Vlachopoulos and Diederichs (2009)":
-        return np.where(x_star <= 0,
-                        (1/3) * np.exp(2 * x_star - 0.15 * x_star / alpha),
-                        1 - (1 - (1/3) * np.exp(-0.15 * x_star)) * np.exp(-3 * x_star / R_star))
+        return np.where(
+            x_star <= 0,
+            (1/3) * np.exp(2 * x_star - 0.15 * x_star / alpha),
+            1 - (1 - (1/3) * np.exp(-0.15 * x_star)) * np.exp(-3 * x_star / R_star)
+        )
+
 
 ldp_y = ldp_profile(ldp_x, ldp_model, alpha, R_star)
 u_max = 0.06  # 60 mm max displacement
