@@ -69,7 +69,7 @@ with st.sidebar:
         u_install_mm = st.number_input("Target Displacement uₛ₀ [mm]", 1.0, 500.0, 30.0)
         u_install = u_install_mm / 1000
     elif install_criteria == "Convergence %":
-        conv_pct = st.slider("Convergence [%]", 0.1, 10.0, 1.0)
+        conv_pct = st.slider("Convergence [%]", 0.01, 1.0, 0.05)
         u_install = (conv_pct / 100) * diameter
 
 # LDP displacement profile
