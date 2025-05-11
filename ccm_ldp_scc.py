@@ -141,7 +141,7 @@ fos = p_max / p_eq if p_eq and p_eq > 0 else float("inf")
 # -------------------------------
 # Plot GRC + SCC
 # -------------------------------
-fig1, ax1 = plt.subplots(figsize=(10, 6))
+fig1, ax1 = plt.subplots(figsize=(7, 4))
 ax1.plot(u_r * 1000, p, label="GRC", lw=2)
 ax1.plot(u_scc * 1000, scc_vals, linestyle='--', lw=2, color='orange', label="SCC")
 ax1.axvline(threshold_mm, linestyle=':', color='red', label=f"Threshold = {threshold_mm:.0f} mm")
@@ -157,7 +157,7 @@ st.pyplot(fig1)
 # -------------------------------
 # Plot LDP
 # -------------------------------
-fig2, ax2 = plt.subplots(figsize=(10, 6))
+fig2, ax2 = plt.subplots(figsize=(7, 4))
 ax2.plot(ldp_x, u_ldp_actual * 1000, lw=2, label=f"LDP: {ldp_model}")
 if install_criteria == "Distance from face":
     ax2.axvline(x_install, linestyle='--', color='r', label=f"x/r₀ = {x_install}")
