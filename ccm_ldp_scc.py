@@ -121,7 +121,7 @@ elif support_criteria == "When Convergence (ε) = displacement/diameter":
     u_install = (convergence_pct / 100) * diameter
 
 # Use independent displacement axis for SCC to preserve linearity
-u_scc = np.linspace(0, np.max(u_r), 500)
+u_scc = np.sort(np.unique(np.append(np.linspace(0, np.max(u_r), 499), u_install)))
 
 def calculate_scc(u_values, k, u_install, p_max):
     scc = np.zeros_like(u_values)
