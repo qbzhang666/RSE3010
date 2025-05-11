@@ -110,7 +110,7 @@ ax1.grid(True)
 ax1.legend()
 
 # Shear-Normal Plot
-mc_label = rf"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$
+mc_label = f"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$
 (c = {cohesion:.2f} MPa, $\phi$ = {friction_angle:.1f}\u00b0)"
 ax2.plot(x_fit, y_fit, 'k--', lw=2, label=mc_label)
 
