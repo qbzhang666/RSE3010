@@ -1,4 +1,4 @@
-# Streamlit App: Advanced CCM Analysis with Corrected GRC/LDP
+# Streamlit App: Advanced CCM Analysis with Full Installation Criteria Support
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -42,29 +42,28 @@ with st.sidebar:
     elif ldp_model == "Vlachopoulos":
         R_star = st.number_input("R* [-]", 1.0, 5.0, 2.5)
         
-    with st.sidebar:
     st.header("5. Support System")
+    k_supp = st.number_input("Support stiffness [MPa/m]", 100, 5000, 650)
+    p_max = st.number_input("Max support pressure [MPa]", 0.1, 10.0, 3.0)
     install_criteria = st.selectbox("Installation criteria", [
         "Distance from face", 
         "Displacement threshold",
         "Convergence %"
     ])
     
+    # Handle all installation criteria cases
     if install_criteria == "Distance from face":
         x_install = st.slider("Installation distance x/r₀", 0.0, 5.0, 1.0)
     elif install_criteria == "Displacement threshold":
-        st.session_state.u_install = st.number_input(
-            "Installation displacement [mm]", 
-            1.0, 100.0, 30.0
-        )/1000  # Store in session state
+        st.session_state.u_install = st.number_input("Installation displacement [mm]", 1.0, 500.0, 30.0)/1000
     elif install_criteria == "Convergence %":
         conv_pct = st.slider("Convergence [%]", 0.1, 10.0, 1.0)
 
 # ========================
-# 2. GRC Calculations (Corrected Pressure Array)
+# 2. GRC Calculations
 # ========================
 def calculate_GRC():
-    p = np.linspace(p0, 0.1, 500)  # Corrected: descending pressure values
+    p = np.linspace(p0, 0.1, 500)  # Descending pressure values
     u = np.zeros_like(p)
     
     if "Mohr" in criterion:
@@ -82,10 +81,7 @@ def calculate_GRC():
     G = E/(2*(1 + nu))
     u_elastic = (p0 - p_cr)*r0/(2*G)
     
-    # Elastic zone calculation
     u[elastic_mask] = (p0 - p[elastic_mask])*r0/(2*G)
-    
-    # Plastic zone calculation
     u[~elastic_mask] = u_elastic * (p_cr/p[~elastic_mask])**exponent
     
     return p, u, p_cr
@@ -93,7 +89,7 @@ def calculate_GRC():
 p_grc, u_grc, p_cr = calculate_GRC()
 
 # ========================
-# 3. Corrected LDP Calculations
+# 3. LDP Calculations
 # ========================
 def calculate_LDP():
     x = np.linspace(-3, 10, 500)
@@ -116,14 +112,21 @@ def calculate_LDP():
 ldp_x, ldp_u = calculate_LDP()
 
 # ========================
-# 4. Support System Calculations
+# 4. Support Calculations (Fixed)
 # ========================
 def calculate_SCC():
     # Determine installation displacement
     if install_criteria == "Distance from face":
         u_install = np.interp(x_install, ldp_x, ldp_u)
+    elif install_criteria == "Displacement threshold":
+        u_install = st.session_state.u_install
     elif install_criteria == "Convergence %":
         u_install = (conv_pct/100) * diameter
+    
+    # Validate installation point
+    if u_install > u_grc.max():
+        st.error("Installation displacement exceeds maximum GRC displacement!")
+        return np.zeros_like(u_grc), 0.0
     
     # Calculate SCC values
     scc = np.zeros_like(u_grc)
@@ -144,7 +147,6 @@ ax1.plot(u_grc*1000, p_grc, label='GRC', lw=2)
 ax1.plot(u_grc*1000, scc_p, '--', label='SCC', lw=2)
 ax1.set_xlabel("Radial Displacement [mm]", fontsize=12)
 ax1.set_ylabel("Radial Pressure [MPa]", fontsize=12)
-ax1.set_xlim(left=0)
 ax1.grid(True, alpha=0.3)
 ax1.legend()
 
@@ -168,8 +170,8 @@ diff = scc_p - p_grc
 crossings = np.where(np.diff(np.sign(diff)))[0]
 
 if len(crossings) > 0:
-    idx = crossings[0]
     try:
+        idx = crossings[0]
         u_int = np.interp(0, 
                          [diff[idx], diff[idx+1]], 
                          [u_grc[idx], u_grc[idx+1]])
@@ -183,7 +185,7 @@ if len(crossings) > 0:
             st.metric("Equilibrium Pressure (p_eq)", f"{p_eq:.2f} MPa")
         with cols[2]:
             st.metric("Factor of Safety (FoS)", f"{fos:.2f}")
-            
+        
         st.success(f"""Support system adequate!
                    Intersection at:
                    - Displacement: {u_int*1000:.1f} mm
@@ -194,10 +196,10 @@ if len(crossings) > 0:
 else:
     st.error("No intersection detected - support system inadequate!")
 
-# Model Validation Section
-with st.expander("Theory References"):
+# Theory Documentation
+with st.expander("Model Equations"):
     st.markdown("""
-    **Vlachopoulos & Diederichs (2009) LDP Equations:**
+    **Vlachopoulos & Diederichs (2009) LDP:**
     \[
     u^{*(X^*)} = 
     \begin{cases} 
@@ -206,7 +208,7 @@ with st.expander("Theory References"):
     \end{cases}
     \]
     
-    **GRC Formulation:**
-    - Elastic zone: $u = \\frac{(p_0 - p)r_0}{2G}$
-    - Plastic zone: $u = u_{elastic} \\left(\\frac{p_{cr}}{p}\\right)^{\\frac{k-1}{2}}$
+    **Mohr-Coulomb GRC:**
+    - Critical Pressure: $p_{cr} = \\frac{2p_0 - \\sigma_{cm}}{1 + K}$
+    - Plastic Zone: $u = u_{elastic}\\left(\\frac{p_{cr}}{p}\\right)^{\\frac{K-1}{2}}$
     """)
