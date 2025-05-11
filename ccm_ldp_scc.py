@@ -242,9 +242,17 @@ ldp_eq_text = (
     r"1 - \\alpha e^{-1.5X^*}, & X^* > 0 \end{cases}$"
 )
 
-ax.text(0.02, 0.03, ldp_eq_text, transform=ax.transAxes,
-        fontsize=11, bbox=dict(facecolor='white', alpha=0.8),
-        verticalalignment='bottom')
+ldp_eq_text = (
+    "Vlachopoulos & Diederichs (2009):\n"
+    "u*(X*) = { (1/3)e^{2X* - 0.15R*},      if X* ≤ 0\n"
+    "          1 - [1 - (1/3)e^{-0.15R*}]e^{-3X*/R*},  if X* > 0 }\n\n"
+    "Hoek et al. (2002):\n"
+    "u*(X*) = { 0.25e^{2.5X*},     if X* ≤ 0\n"
+    "          1 - 0.75e^{-0.5X*},  if X* > 0 }\n\n"
+    "Panet (1995):\n"
+    "u*(X*) = { (1 - alpha)e^{1.5X*},  if X* ≤ 0\n"
+    "          1 - alpha*e^{-1.5X*},  if X* > 0 }"
+)
 
 ax.legend(fontsize=11, loc='upper right', title="Model Equations")
 
