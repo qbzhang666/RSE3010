@@ -151,6 +151,7 @@ ax2.legend()
 st.pyplot(fig)
 
 # ========================
+# ========================
 # 6. Safety Factor Calculation
 # ========================
 st.subheader("Safety Analysis")
@@ -162,18 +163,21 @@ if len(crossings) > 0:
     u_int = np.interp(0, 
                      [diff[idx], diff[idx+1]], 
                      [u_grc[idx], u_grc[idx+1]])
-    p_int = np.interp(u_int, u_grc, p_grc)
-    fos = p_max / p_int
+    p_eq = np.interp(u_int, u_grc, p_grc)  # Renamed to p_eq
+    fos = p_max / p_eq
     
     cols = st.columns(3)
     with cols[0]:
-        st.metric("Critical Pressure", f"{p_cr:.2f} MPa")
+        st.metric("Critical Pressure (p_cr)", f"{p_cr:.2f} MPa")
     with cols[1]:
-        st.metric("Intersection Pressure", f"{p_int:.2f} MPa")
+        st.metric("Equilibrium Pressure (p_eq)", f"{p_eq:.2f} MPa")  # Corrected label
     with cols[2]:
         st.metric("Factor of Safety", f"{fos:.2f}")
         
-    st.success(f"Support system adequate! Intersection at {u_int*1000:.1f} mm")
+    st.success(f"""Support system adequate! 
+             Intersection at: 
+             {u_int*1000:.1f} mm displacement, 
+             {p_eq:.2f} MPa equilibrium pressure""")
 else:
     st.error("No intersection detected - support system inadequate!")
 
