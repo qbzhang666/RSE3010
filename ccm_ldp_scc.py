@@ -152,9 +152,26 @@ u_int, p_int = find_intersection(u_r, p, u_r, scc_on_grc)
 fig, ax = plt.subplots(figsize=(10, 6))
 ax.plot(u_r * 1000, p, label="GRC", lw=2)
 ax.plot(u_scc * 1000, scc_vals, label="SCC", linestyle='--', color='orange', lw=2)
-if u_int is not None and u_int >= u_install:
-    p_scc = min(k * (u_int - u_install), p_max)
-    ax.plot(u_int * 1000, p_scc, 'ro', label=f"Intersection\nFoS = {p_max / p_scc:.2f}")
+if u_int is not None:
+    # Interpolated values
+    p_grc_at_u_int = np.interp(u_int, u_r, p)
+    p_scc_at_u_int = min(k * (u_int - u_install), p_max) if u_int >= u_install else 0
+    avg_y = (p_grc_at_u_int + p_scc_at_u_int) / 2
+    fos_val = p_max / p_scc_at_u_int if p_scc_at_u_int > 0 else float("inf")
+
+    # Plot the red circle at average location
+    ax.plot(u_int * 1000, avg_y, 'ro', label="Intersection")
+
+    # Annotate with FoS
+    ax.annotate(
+        f"FoS = {fos_val:.2f}",
+        xy=(u_int * 1000, avg_y),
+        xytext=(u_int * 1000 + 5, avg_y + 0.5),
+        textcoords='data',
+        arrowprops=dict(arrowstyle="->", lw=1.5),
+        fontsize=12,
+        bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="black", lw=1)
+    )
 ax.set_xlabel("Tunnel Wall Displacement [mm]", fontsize=14)
 ax.set_ylabel("Radial Stress [MPa]", fontsize=14)
 ax.set_title("GRC + SCC Interaction", fontsize=16)
