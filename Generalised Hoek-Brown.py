@@ -157,14 +157,14 @@ st.pyplot(fig)
 # --- Equation Reference ---
 st.markdown("### 📘 Reference Equations Used")
 st.latex(r"\sigma_1 = \sigma_3 + \sigma_{ci} \left( m_b \frac{\sigma_3}{\sigma_{ci}} + s \right)^a")
+st.latex(r"\sigma_1 = \frac{2c \cos \phi}{1 - \sin \phi} + \frac{1 + \sin \phi}{1 - \sin \phi} \cdot \sigma_3")
+st.latex(r"\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{\frac{d\sigma_1}{d\sigma_3}}}{\frac{d\sigma_1}{d\sigma_3} + 1}")
+st.latex(r"\tau = c + \sigma_n \tan \phi")
+
 st.markdown("### 📘 Hoek-Brown Parameter Equations (Generalised, Hoek et al., 2002)")
 st.latex(r"m_b = m_i \cdot \exp\left(\frac{{\text{GSI} - 100}}{{28 - 14D}}\right)")
 st.latex(r"s = \exp\left(\frac{{\text{GSI} - 100}}{{9 - 3D}}\right)")
 st.latex(r"a = 0.5 + \frac{1}{6} \left( \exp\left(-\frac{\text{GSI}}{15}\right) - \exp\left(-\frac{20}{3} \right) \right)")
-
-st.latex(r"\sigma_1 = \frac{2c \cos \phi}{1 - \sin \phi} + \frac{1 + \sin \phi}{1 - \sin \phi} \cdot \sigma_3")
-st.latex(r"\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{\frac{d\sigma_1}{d\sigma_3}}}{\frac{d\sigma_1}{d\sigma_3} + 1}")
-st.latex(r"\tau = c + \sigma_n \tan \phi")
 
 # --- Reference Table ---
 with st.expander("📘 Suggested $m_i$ Values for Rock Types (Hoek & Marinos, 2000)", expanded=False):
