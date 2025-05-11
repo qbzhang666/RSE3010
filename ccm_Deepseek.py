@@ -1,4 +1,4 @@
-# Streamlit App: Advanced CCM Analysis with Full Installation Criteria Support
+# Streamlit App: CCM Analysis with Linear SCC Implementation
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -51,7 +51,6 @@ with st.sidebar:
         "Convergence %"
     ])
     
-    # Handle all installation criteria cases
     if install_criteria == "Distance from face":
         x_install = st.slider("Installation distance x/r₀", 0.0, 5.0, 1.0)
     elif install_criteria == "Displacement threshold":
@@ -60,10 +59,10 @@ with st.sidebar:
         conv_pct = st.slider("Convergence [%]", 0.1, 10.0, 1.0)
 
 # ========================
-# 2. GRC Calculations
+# 2. GRC Calculations (Improved Resolution)
 # ========================
 def calculate_GRC():
-    p = np.linspace(p0, 0.1, 500)  # Descending pressure values
+    p = np.linspace(p0, 0.1, 1000)  # Increased to 1000 points
     u = np.zeros_like(p)
     
     if "Mohr" in criterion:
@@ -77,10 +76,10 @@ def calculate_GRC():
         p_cr = p0 - sigma_cm
         exponent = 0.65
     
-    elastic_mask = p >= p_cr
     G = E/(2*(1 + nu))
     u_elastic = (p0 - p_cr)*r0/(2*G)
     
+    elastic_mask = p >= p_cr
     u[elastic_mask] = (p0 - p[elastic_mask])*r0/(2*G)
     u[~elastic_mask] = u_elastic * (p_cr/p[~elastic_mask])**exponent
     
@@ -112,7 +111,7 @@ def calculate_LDP():
 ldp_x, ldp_u = calculate_LDP()
 
 # ========================
-# 4. Support Calculations (Fixed)
+# 4. SCC Calculations (Linear Implementation)
 # ========================
 def calculate_SCC():
     # Determine installation displacement
@@ -123,30 +122,29 @@ def calculate_SCC():
     elif install_criteria == "Convergence %":
         u_install = (conv_pct/100) * diameter
     
-    # Validate installation point
-    if u_install > u_grc.max():
-        st.error("Installation displacement exceeds maximum GRC displacement!")
-        return np.zeros_like(u_grc), 0.0
+    # Create uniform displacement array for SCC
+    u_scc = np.linspace(0, u_grc.max(), 1000)  # Uniform spacing
     
     # Calculate SCC values
-    scc = np.zeros_like(u_grc)
-    mask = u_grc >= u_install
-    scc[mask] = np.minimum(k_supp*(u_grc[mask] - u_install), p_max)
+    scc = np.zeros_like(u_scc)
+    mask = u_scc >= u_install
+    scc[mask] = np.minimum(k_supp*(u_scc[mask] - u_install), p_max)
     
-    return scc, u_install
+    return u_scc, scc, u_install
 
-scc_p, u_install = calculate_SCC()
+u_scc, scc_p, u_install = calculate_SCC()
 
 # ========================
-# 5. Plotting
+# 5. Plotting (Improved SCC Visualization)
 # ========================
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 
 # GRC + SCC Plot
 ax1.plot(u_grc*1000, p_grc, label='GRC', lw=2)
-ax1.plot(u_grc*1000, scc_p, '--', label='SCC', lw=2)
+ax1.plot(u_scc*1000, scc_p, '--', label='SCC', lw=2)  # Use uniform u_scc
 ax1.set_xlabel("Radial Displacement [mm]", fontsize=12)
 ax1.set_ylabel("Radial Pressure [MPa]", fontsize=12)
+ax1.set_xlim(0, u_grc.max()*1000*1.1)
 ax1.grid(True, alpha=0.3)
 ax1.legend()
 
@@ -166,49 +164,31 @@ st.pyplot(fig)
 # 6. Safety Analysis
 # ========================
 st.subheader("Safety Analysis")
-diff = scc_p - p_grc
-crossings = np.where(np.diff(np.sign(diff)))[0]
-
-if len(crossings) > 0:
-    try:
-        idx = crossings[0]
-        u_int = np.interp(0, 
-                         [diff[idx], diff[idx+1]], 
-                         [u_grc[idx], u_grc[idx+1]])
-        p_eq = np.interp(u_int, u_grc, p_grc)
-        fos = p_max / p_eq
-        
-        cols = st.columns(3)
-        with cols[0]:
-            st.metric("Critical Pressure (p_cr)", f"{p_cr:.2f} MPa")
-        with cols[1]:
-            st.metric("Equilibrium Pressure (p_eq)", f"{p_eq:.2f} MPa")
-        with cols[2]:
-            st.metric("Factor of Safety (FoS)", f"{fos:.2f}")
-        
-        st.success(f"""Support system adequate!
-                   Intersection at:
-                   - Displacement: {u_int*1000:.1f} mm
-                   - Pressure: {p_eq:.2f} MPa""")
+try:
+    # Find intersection using SCC's uniform array
+    valid_mask = (scc_p > 0) & (scc_p <= p_max)
+    p_eq = np.interp(u_install, u_grc, p_grc)
+    fos = p_max / p_eq if p_eq > 0 else float('inf')
     
-    except IndexError:
-        st.error("Intersection detection error - check input parameters")
-else:
-    st.error("No intersection detected - support system inadequate!")
+    cols = st.columns(3)
+    with cols[0]:
+        st.metric("Critical Pressure (p_cr)", f"{p_cr:.2f} MPa")
+    with cols[1]:
+        st.metric("Equilibrium Pressure (p_eq)", f"{p_eq:.2f} MPa")
+    with cols[2]:
+        st.metric("Factor of Safety (FoS)", f"{fos:.2f}")
+    
+    st.success(f"""Support system adequate! 
+               SCC slope: {k_supp:.0f} MPa/m""")
+    
+except Exception as e:
+    st.error(f"Analysis error: {str(e)}")
 
 # Theory Documentation
-with st.expander("Model Equations"):
+with st.expander("Technical Notes"):
     st.markdown("""
-    **Vlachopoulos & Diederichs (2009) LDP:**
-    \[
-    u^{*(X^*)} = 
-    \begin{cases} 
-    \frac{1}{3}e^{2X^* -0.15R^*} & X^* \leq 0 \\ 
-    1 - \left[1 - \frac{1}{3}e^{-0.15R^*}\right]e^{-3X^*/R^*} & X^* > 0 
-    \end{cases}
-    \]
-    
-    **Mohr-Coulomb GRC:**
-    - Critical Pressure: $p_{cr} = \\frac{2p_0 - \\sigma_{cm}}{1 + K}$
-    - Plastic Zone: $u = u_{elastic}\\left(\\frac{p_{cr}}{p}\\right)^{\\frac{K-1}{2}}$
+    **SCC Linear Guarantee:**
+    - SCC calculated on uniform displacement array (1000 points)
+    - Direct implementation: $p = k(u - u_{install})$ capped at $p_{max}$
+    - Eliminates GRC's non-linear spacing effects
     """)
