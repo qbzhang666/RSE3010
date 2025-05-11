@@ -1,119 +1,181 @@
+# Streamlit App: Advanced CCM Analysis with Multiple Failure Criteria
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Configuration
 st.set_page_config(page_title="CCM Analysis Tool", layout="wide")
-st.title("Convergence-Confinement Method (CCM) – Interactive Analysis")
+st.title("Advanced Convergence-Confinement Method Analysis")
 
-# 1. Tunnel Parameters
-st.sidebar.header("1. Tunnel Parameters")
-r0 = st.sidebar.number_input("Tunnel Radius (m)", 1.0, 10.0, 5.0)
+# ========================
+# 1. Input Parameters
+# ========================
+with st.sidebar:
+    st.header("1. Tunnel Parameters")
+    r0 = st.number_input("Tunnel radius (m)", 1.0, 10.0, 5.0)
+    
+    st.header("2. Rock Mass Parameters")
+    p0 = st.number_input("In-situ stress (MPa)", 1.0, 50.0, 10.0)
+    E = st.number_input("Young's modulus (MPa)", 500.0, 1e5, 3e4)
+    nu = st.slider("Poisson's ratio (-)", 0.1, 0.49, 0.3)
+    
+    st.header("3. Failure Criterion")
+    criterion = st.selectbox("Select criterion", [
+        "Mohr-Coulomb",
+        "Hoek-Brown", 
+        "Generalized HB"
+    ])
+    
+    # Conditional parameters
+    if "Mohr" in criterion:
+        c = st.number_input("Cohesion (MPa)", 0.1, 10.0, 1.5)
+        phi = np.radians(st.number_input("Friction angle (°)", 5.0, 60.0, 30.0))
+    elif "Hoek" in criterion:
+        sigma_ci = st.number_input("σ_ci (MPa)", 1.0, 100.0, 30.0)
+        m_b = st.number_input("m_b (-)", 0.1, 35.0, 15.0)
+        s = st.number_input("s (-)", 0.0, 1.0, 0.1)
+        a = st.number_input("a (-)", 0.3, 1.0, 0.5)
+        
+    st.header("4. LDP Parameters")
+    ldp_model = st.selectbox("Model", ["Vlachopoulos", "Panet", "Hoek"])
+    R_star = st.number_input("Plastic radius R* (m)", 1.0, 5.0, 2.5, 
+                           help="Plastic zone radius for Vlachopoulos model")
+    
+    st.header("5. Support System")
+    k_supp = st.number_input("Support stiffness (MPa/m)", 100, 5000, 650)
+    p_max = st.number_input("Max support pressure (MPa)", 0.1, 10.0, 3.0)
+    install_criteria = st.selectbox("Installation criteria", [
+        "Distance from face", 
+        "Displacement threshold",
+        "Convergence %"
+    ])
+    if install_criteria == "Distance from face":
+        x_install = st.slider("Installation distance x/r0", 0.0, 5.0, 1.0)
+    elif install_criteria == "Displacement threshold":
+        u_install = st.number_input("Installation displacement (mm)", 1.0, 100.0, 30.0)/1000
 
-# 2. Rock / Soil Parameters
-st.sidebar.header("2. Rock / Soil Parameters")
-p0 = st.sidebar.number_input("In-situ Stress (MPa)", 1.0, 50.0, 10.0)
-E = st.sidebar.number_input("Young's Modulus (MPa)", 500.0, 100000.0, 30000.0)
-nu = st.sidebar.slider("Poisson's Ratio", 0.1, 0.49, 0.3)
-c = st.sidebar.number_input("Cohesion (MPa)", 0.1, 10.0, 1.5)
-phi_deg = st.sidebar.number_input("Friction Angle (°)", 5.0, 60.0, 30.0)
+# ========================
+# 2. Derived Parameters
+# ========================
+G = E/(2*(1 + nu))  # Shear modulus
+diameter = 2*r0
 
-# 3. Rock Mass Failure Criterion
-st.sidebar.header("3. Rock Mass Failure Criterion (GRC)")
-failure_criterion = st.sidebar.selectbox(
-    "Select Rock Mass Failure Criterion",
-    [
-        "Mohr-Coulomb (Duncan-Fama)",
-        "Hoek-Brown (Carranza-Torres)",
-        "Generalized HB with dilation",
-        "MC with dilation",
-        "Variable criteria with softening",
-        "Non-linear generalized HB"
-    ]
-)
+# ========================
+# 3. GRC Calculations
+# ========================
+def calculate_GRC(p_values, criterion):
+    p = np.linspace(0.1, p0, 500)
+    u = np.zeros_like(p)
+    
+    if "Mohr" in criterion:
+        # Mohr-Coulomb calculations
+        sin_phi = np.sin(phi)
+        k = (1 + sin_phi)/(1 - sin_phi)
+        sigma_cm = (2*c*np.cos(phi))/(1 - sin_phi)
+        p_cr = (2*p0 - sigma_cm)/(1 + k)
+        exponent = (k - 1)/2
+        
+    elif "Hoek" in criterion:
+        # Hoek-Brown calculations
+        sigma_cm = (sigma_ci/(m_b*s)) * (m_b*p0/sigma_ci + s)**a - sigma_ci/m_b
+        p_cr = p0 - sigma_cm
+        k = 1  # Simplified assumption
+        exponent = 0.65  # Typical value for HB
+        
+    # Calculate displacements
+    elastic_mask = p >= p_cr
+    u_elastic = (p0 - p_cr)*r0/(2*G)
+    
+    u[elastic_mask] = (p0 - p[elastic_mask])*r0/(2*G)
+    u[~elastic_mask] = u_elastic * (p_cr/p[~elastic_mask])**exponent
+    
+    return p, u, p_cr
 
-# Apply defaults based on model
-if "Hoek-Brown" in failure_criterion:
-    phi_deg = 35.0
-    c = 2.0
-elif "Mohr-Coulomb" in failure_criterion:
-    phi_deg = 30.0
-    c = 1.5
+p_grc, u_grc, p_cr = calculate_GRC(p0, criterion)
 
-# Derived parameters
-phi_rad = np.radians(phi_deg)
-sin_phi = np.sin(phi_rad)
-k_rock = (1 + sin_phi) / (1 - sin_phi)
-sigma_cm_MC = (2 * c * np.cos(phi_rad)) / (1 - sin_phi)
-p_cr = (2 * p0 - sigma_cm_MC) / (1 + k_rock)
-G = E / (2 * (1 + nu))
+# ========================
+# 4. LDP Calculations
+# ========================
+def calculate_LDP(model, R_star):
+    x = np.linspace(-3, 10, 500)
+    
+    if model == "Vlachopoulos":
+        y = np.where(x <= 0,
+                    (1/3)*np.exp(0.84*x/R_star),
+                    1 - (1 - (1/3)*np.exp(-0.84*x/R_star)) * np.exp(-0.15*x/R_star))
+    elif model == "Panet":
+        y = np.where(x <= 0, 
+                    1 - 0.85*np.exp(-1.5*x),
+                    np.exp(-1.5*x))
+    elif model == "Hoek":
+        y = np.where(x <= 0,
+                    0.25*np.exp(2.5*x),
+                    1 - 0.75*np.exp(-0.5*x))
+    return x, y*u_grc.max()
 
-# Ground Reaction Curve (GRC)
-p = np.linspace(0.1, p0, 500)
-u_r = np.zeros_like(p)
-for i, p_i in enumerate(p):
-    if p_i >= p_cr:
-        u_r[i] = (p0 - p_i) * r0 / (2 * G)
-    else:
-        exponent = (k_rock - 1) / 2
-        u_elastic = (p0 - p_cr) * r0 / (2 * G)
-        u_r[i] = u_elastic * (p_cr / p_i) ** exponent
+ldp_x, ldp_u = calculate_LDP(ldp_model, R_star)
 
-# 4. SCC Support System
-st.sidebar.header("4. Support System & SCC")
-support_criteria = st.sidebar.selectbox("Support Criteria", [
-    "When Tunnel Wall Displacement = uₛ₀",
-    "Distance from Tunnel Face (L)",
-    "When Convergence = ε × Diameter"
-])
-k = st.sidebar.number_input("Support Stiffness (MPa/m)", 100, 2000, 650)
-p_max = st.sidebar.number_input("Max Support Pressure (MPa)", 0.5, 10.0, 3.0)
-diameter = 2 * r0
+# ========================
+# 5. Support Calculations
+# ========================
+def calculate_SCC(u_values, k_supp, u_install, p_max):
+    scc = np.zeros_like(u_values)
+    mask = u_values >= u_install
+    scc[mask] = np.minimum(k_supp*(u_values[mask] - u_install), p_max)
+    return scc
 
-# Support criteria input
-if support_criteria == "When Tunnel Wall Displacement = uₛ₀":
-    u_install = st.sidebar.number_input("Target Displacement uₛ₀ (mm)", 0.0, 500.0, 30.0) / 1000
-elif support_criteria == "When Convergence = ε × Diameter":
-    convergence_pct = st.sidebar.slider("Convergence (%)", 0.0, 10.0, 1.0)
-    u_install = (convergence_pct / 100) * diameter
-else:
-    u_install = 0.03  # Default for LDP-based cases (will revise if LDP section enabled)
+# Find installation displacement
+if install_criteria == "Distance from face":
+    u_install = np.interp(x_install, ldp_x, ldp_u)
+elif install_criteria == "Convergence %":
+    conv_pct = st.slider("Convergence (%)", 0.1, 10.0, 1.0)
+    u_install = (conv_pct/100) * diameter
 
-# SCC Function
-def calculate_scc(u_values, k, u_install, p_max):
-    return np.where(u_values >= u_install, np.minimum(k * (u_values - u_install), p_max), 0)
+scc_p = calculate_SCC(u_grc, k_supp, u_install, p_max)
 
-scc_vals = calculate_scc(u_r, k, u_install, p_max)
+# ========================
+# 6. Plotting
+# ========================
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 
-# Find intersection between GRC and SCC
-def find_intersection(u_vals, grc_vals, scc_vals):
-    for i in range(1, len(u_vals)):
-        if (grc_vals[i] - scc_vals[i]) * (grc_vals[i-1] - scc_vals[i-1]) < 0:
-            u_int = np.interp(0, [scc_vals[i-1] - grc_vals[i-1], scc_vals[i] - grc_vals[i]], [u_vals[i-1], u_vals[i]])
-            p_eq = np.interp(u_int, u_vals, grc_vals)
-            return u_int, p_eq
-    return None, None
+# GRC + SCC Plot
+ax1.plot(u_grc*1000, p_grc, label='GRC', lw=2)
+ax1.plot(u_grc*1000, scc_p, '--', label='SCC', lw=2)
+ax1.set_xlabel("Radial Displacement (mm)", fontsize=12)
+ax1.set_ylabel("Support Pressure (MPa)", fontsize=12)
+ax1.grid(True, alpha=0.3)
+ax1.legend()
 
-u_int, p_eq = find_intersection(u_r, p, scc_vals)
-fos = p_max / p_eq if p_eq and p_eq > 0 else float("inf")
+# LDP Plot
+ax2.plot(ldp_x, ldp_u*1000, label=f'{ldp_model} LDP', lw=2)
+ax2.axvline(x_install if install_criteria=="Distance from face" else 0, 
+           color='r', ls='--', label='Support Installation')
+ax2.set_xlabel("Normalized Distance x/r0", fontsize=12)
+ax2.set_ylabel("Displacement (mm)", fontsize=12)
+ax2.grid(True, alpha=0.3)
+ax2.legend()
 
-# Plot GRC + SCC
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(u_r * 1000, p, label="GRC", lw=2)
-ax.plot(u_r * 1000, scc_vals, '--', lw=2, color='orange',
-        label=f"SCC\nFoS = pₛₘ / pₑq = {p_max:.2f} / {p_eq:.2f} = {fos:.2f}")
-ax.set_xlabel("Tunnel Wall Displacement [mm]", fontsize=14)
-ax.set_ylabel("Radial Stress [MPa]", fontsize=14)
-ax.set_title("GRC + SCC Interaction", fontsize=16)
-ax.grid(True, linestyle='--', alpha=0.7)
-ax.legend(fontsize=12)
 st.pyplot(fig)
 
-# Summary output
-st.markdown("### Summary")
-st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
-st.write(f"- Installation Displacement: **{u_install * 1000:.2f} mm**")
+# ========================
+# 7. Results Summary
+# ========================
+st.subheader("Analysis Results")
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.metric("Critical Pressure", f"{p_cr:.2f} MPa")
+with col2:
+    st.metric("Max Displacement", f"{u_grc.max()*1000:.1f} mm")
+with col3:
+    st.metric("Safety Factor", f"{p_max/p_grc.min():.2f}")
 
-if u_int and p_eq:
-    st.success(f"✅ GRC and SCC intersect at displacement = {u_int*1000:.2f} mm, pressure = {p_eq:.2f} MPa → FoS = {fos:.2f}")
+# Intersection detection
+diff = scc_p - p_grc
+crossings = np.where(np.diff(np.sign(diff)))[0]
+if len(crossings) > 0:
+    idx = crossings[0]
+    u_int = np.interp(0, [diff[idx], diff[idx+1]], [u_grc[idx], u_grc[idx+1]])
+    p_int = np.interp(u_int, u_grc, p_grc)
+    st.success(f"Intersection at {u_int*1000:.1f} mm (FoS = {p_max/p_int:.2f})")
 else:
-    st.warning("⚠️ No intersection between GRC and SCC (support insufficient)")
+    st.error("No intersection - support system inadequate!")
