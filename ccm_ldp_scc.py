@@ -188,7 +188,7 @@ else:
 ax2.plot(ldp_x, u_ldp * 1000, label=f"{ldp_model} LDP", lw=2)
 if install_criteria == "Distance from face":
     ax2.axvline(x_install, color='r', linestyle='--', label=f'Support @ x/r₀ = {x_install}')
-ax2.set_xlabel("Normalised Distance x/r₀")
+ax2.set_xlabel("Distance to Tunnel Face")
 ax2.set_ylabel("Radial Displacement [mm]")
 ax2.set_title("Longitudinal Deformation Profile")
 ax2.grid(True, color='lightgrey', alpha=0.4)
