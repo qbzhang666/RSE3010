@@ -134,6 +134,9 @@ ax1.axvline(disp_thresh, linestyle=':', color='red', label=f"Threshold = {disp_t
 ax1.set_xlabel("Tunnel Wall Displacement [mm]")
 ax1.set_ylabel("Radial Pressure [MPa]")
 ax1.set_title("GRC + SCC Interaction")
+ax1.set_xlim(0, 100)  # cap to 100 mm (adjust as needed)
+ax1.grid(True, alpha=0.3)
+
 ax1.grid(True, color='lightgrey', alpha=0.4)
 if u_eq:
     ax1.legend(title=f"FoS = pₛₘ / p_eq = {p_max:.2f} / {p_eq:.2f} = {FoS:.2f}")
