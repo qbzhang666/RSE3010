@@ -20,7 +20,8 @@ with st.sidebar:
     p0 = (tunnel_depth * density * GRAVITY) / 1e6  # MPa
     st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
     E = st.number_input("Young's Modulus E [MPa]", 500, 100000, 10000, step=500, format="%d")
-    nu = st.number_input("Poisson's Ratio ν", min_value=10, max_value=49, value=30, step=1, format="%d") / 100
+    nu = st.number_input("Poisson's Ratio ν", min_value=0.10, max_value=0.49, value=0.30, step=0.01, format="%.2f")
+
 # -------------------------------
 # 2. GRC Calculation
 # -------------------------------
