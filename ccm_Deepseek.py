@@ -1,4 +1,4 @@
-# Streamlit App: CCM Analysis with Corrected Hoek-Brown
+# Streamlit App: CCM Analysis with Hoek-Brown GSI Calculation
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +10,7 @@ st.title("Convergence-Confinement Method Analysis")
 GRAVITY = 9.81  # m/s²
 
 # ========================
-# 1. Input Parameters
+# 1. Input Parameters (Updated Hoek-Brown Section)
 # ========================
 with st.sidebar:
     st.header("1. Tunnel Parameters")
@@ -38,10 +38,20 @@ with st.sidebar:
         c = st.number_input("Cohesion [MPa]", 0.1, 10.0, 1.5)
         phi = np.radians(st.number_input("Friction angle [°]", 5.0, 60.0, 30.0))
     else:
-        sigma_ci = st.number_input("σ_ci [MPa]", 1.0, 100.0, 15.0)
-        m_b = st.number_input("m_b [-]", 0.1, 35.0, 8.0)
-        s = st.number_input("s [-]", 0.0, 1.0, 0.1)
-        a = st.number_input("a [-]", 0.3, 1.0, 0.5)
+        sigma_ci = st.number_input("σ_ci [MPa]", 1.0, 100.0, 30.0)
+        GSI = st.slider("Geological Strength Index (GSI)", 10, 100, 75)
+        mi = st.number_input("Intact rock constant (mᵢ)", 5.0, 35.0, 15.0)
+        D = st.slider("Disturbance Factor (D)", 0.0, 1.0, 0.0)
+        
+        # Updated Hoek-Brown parameter calculations
+        mb = mi * np.exp((GSI - 100) / (28 - 14*D))
+        s_val = np.exp((GSI - 100) / (9 - 3*D))
+        term1 = np.exp(-GSI/15)
+        term2 = np.exp(-20/3)
+        a_val = 0.5 + (1/6)*(term1 - term2)
+        
+        st.markdown("**Calculated Parameters:**")
+        st.markdown(f"m_b = {mb:.2f} | s = {s_val:.4f} | a = {a_val:.3f}")
         
     st.header("4. LDP Parameters")
     ldp_model = st.selectbox("LDP model", ["Vlachopoulos", "Panet", "Hoek"])
@@ -69,7 +79,7 @@ with st.sidebar:
         conv_pct = st.slider("Convergence [%]", 0.1, 10.0, 1.0)
 
 # ========================
-# 2. GRC Calculations (Corrected Hoek-Brown)
+# 2. GRC Calculations (Updated Hoek-Brown)
 # ========================
 def calculate_GRC():
     p = np.linspace(p0, 0.1, 1000)
@@ -82,9 +92,9 @@ def calculate_GRC():
         p_cr = (2*p0 - sigma_cm)/(1 + k)
         exponent = (k - 1)/2
     else:
-        # Corrected Hoek-Brown implementation
-        sigma_cm = (sigma_ci/2) * ((m_b + 4*s)**a - m_b**a)
-        k_HB = (2*(1-nu)*(m_b + 4*s)**a)/(1 + nu)
+        # Use updated Hoek-Brown parameters
+        sigma_cm = (sigma_ci/2) * ((mb + 4*s_val)**a_val - mb**a_val)
+        k_HB = (2*(1-nu)*(mb + 4*s_val)**a_val)/(1 + nu)
         p_cr = p0 - sigma_cm/2
         R_pl = r0 * ((2*p0/sigma_cm) + 1)**(1/k_HB)
         
@@ -97,7 +107,6 @@ def calculate_GRC():
     if "Mohr" in criterion:
         u[~elastic_mask] = u_elastic * (p_cr/p[~elastic_mask])**exponent
     else:
-        # Hoek-Brown plastic zone displacement
         plastic_mask = ~elastic_mask
         u[plastic_mask] = u_elastic * (R_pl/r0)**k_HB * (p_cr/p[plastic_mask])**k_HB
     
