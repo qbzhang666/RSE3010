@@ -53,7 +53,7 @@ thresh = st.sidebar.slider("RANSAC Residual Threshold", 0.1, 5.0, 1.0)
 # --- Experimental Data Inputs ---
 st.sidebar.markdown("### Manual Input of Experimental Data")
 manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):",
-                                   value="0,5\n2,10\n4,16\n6,21\n7,28")
+                                   value="0,5\n2,10\n4,16\n6,21\n7,24")
 
 data_lines = manual_data.strip().split("\n")
 sigma3_list, sigma1_list = [], []
