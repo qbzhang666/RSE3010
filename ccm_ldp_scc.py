@@ -1,4 +1,4 @@
-# Streamlit App: CCM with Rock Mass Failure, GRC, LDP, SCC
+# Streamlit App: CCM with Rock Mass Failure, GRC, LDP, SCC (Updated)
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -120,15 +120,18 @@ elif support_criteria == "When Convergence (ε) = displacement/diameter":
     convergence_pct = st.sidebar.slider("Convergence (%)", 0.0, 10.0, 1.0)
     u_install = (convergence_pct / 100) * diameter
 
-# Compute SCC
-def calculate_scc(u_values):
+# Use independent displacement axis for SCC to preserve linearity
+u_scc = np.linspace(0, np.max(u_r), 500)
+
+def calculate_scc(u_values, k, u_install, p_max):
     scc = np.zeros_like(u_values)
     for i, u in enumerate(u_values):
         if u >= u_install:
             scc[i] = min(k * (u - u_install), p_max)
     return scc
 
-scc = calculate_scc(u_r)
+scc_vals = calculate_scc(u_scc, k, u_install, p_max)
+scc_on_grc = calculate_scc(u_r, k, u_install, p_max)  # for intersection only
 
 # -------------------------------
 # GRC-SCC Intersection
@@ -141,14 +144,14 @@ def find_intersection(u_gr, p_gr, u_sc, p_sc):
             return x, y
     return None, None
 
-u_int, p_int = find_intersection(u_r, p, u_r, scc)
+u_int, p_int = find_intersection(u_r, p, u_r, scc_on_grc)
 
 # -------------------------------
 # Main Plot: GRC + SCC
 # -------------------------------
 fig, ax = plt.subplots(figsize=(10, 6))
 ax.plot(u_r * 1000, p, label="GRC", lw=2)
-ax.plot(u_r * 1000, scc, label="SCC", linestyle='--', lw=2)
+ax.plot(u_scc * 1000, scc_vals, label="SCC", linestyle='--', color='orange', lw=2)
 if u_int is not None:
     ax.plot(u_int * 1000, p_int, 'ro', label=f"Intersection\nFoS = {p_max / p_int:.2f}")
 ax.set_xlabel("Tunnel Wall Displacement [mm]", fontsize=14)
