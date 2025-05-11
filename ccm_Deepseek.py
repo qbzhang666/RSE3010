@@ -42,9 +42,8 @@ with st.sidebar:
     elif ldp_model == "Vlachopoulos":
         R_star = st.number_input("R* [-]", 1.0, 5.0, 2.5)
         
+    with st.sidebar:
     st.header("5. Support System")
-    k_supp = st.number_input("Support stiffness [MPa/m]", 100, 5000, 650)
-    p_max = st.number_input("Max support pressure [MPa]", 0.1, 10.0, 3.0)
     install_criteria = st.selectbox("Installation criteria", [
         "Distance from face", 
         "Displacement threshold",
@@ -54,10 +53,12 @@ with st.sidebar:
     if install_criteria == "Distance from face":
         x_install = st.slider("Installation distance x/r₀", 0.0, 5.0, 1.0)
     elif install_criteria == "Displacement threshold":
-        u_install = st.number_input("Installation displacement [mm]", 1.0, 100.0, 30.0)/1000
+        st.session_state.u_install = st.number_input(
+            "Installation displacement [mm]", 
+            1.0, 100.0, 30.0
+        )/1000  # Store in session state
     elif install_criteria == "Convergence %":
         conv_pct = st.slider("Convergence [%]", 0.1, 10.0, 1.0)
-        u_install = (conv_pct/100) * diameter
 
 # ========================
 # 2. GRC Calculations (Corrected Pressure Array)
