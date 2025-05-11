@@ -140,8 +140,8 @@ def find_intersection(u_gr, p_gr, u_sc, p_sc):
     for i in range(1, len(u_gr)):
         if (p_sc[i] - p_gr[i]) * (p_sc[i-1] - p_gr[i-1]) < 0:
             x = np.interp(0, [p_sc[i-1] - p_gr[i-1], p_sc[i] - p_gr[i]], [u_gr[i-1], u_gr[i]])
-            y = np.interp(x, [u_gr[i-1], u_gr[i]], [p_gr[i-1], p_gr[i]])
-            return x, y
+            p_grc_interp = np.interp(x, u_gr, p_gr)
+            return x, p_grc_interp
     return None, None
 
 u_int, p_int = find_intersection(u_r, p, u_r, scc_on_grc)
@@ -153,20 +153,14 @@ fig, ax = plt.subplots(figsize=(10, 6))
 ax.plot(u_r * 1000, p, label="GRC", lw=2)
 ax.plot(u_scc * 1000, scc_vals, label="SCC", linestyle='--', color='orange', lw=2)
 if u_int is not None and p_int is not None:
-    # Plot intersection exactly on GRC (where p_int comes from)
     ax.plot(u_int * 1000, p_int, 'ro', label="Intersection")
 
-    # Calculate FoS based on SCC value at intersection point
-    p_scc = min(k * (u_int - u_install), p_max) if u_int >= u_install else 0
     fos_val = p_max / p_int if p_int > 0 else float("inf")
-
-    # Annotate FoS
     ax.annotate(
         f"FoS = {fos_val:.2f}",
         xy=(u_int * 1000, p_int),
-        xytext=(u_int * 1000 + 5, p_int + 0.5),
-        textcoords='data',
-        arrowprops=dict(arrowstyle="->", lw=1.5),
+        xytext=(u_int * 1000 + 4, p_int + 0.3),
+        arrowprops=dict(arrowstyle="->", color='black'),
         fontsize=12,
         bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="black", lw=1)
     )
