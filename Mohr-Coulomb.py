@@ -26,8 +26,11 @@ def fit_mohr_coulomb(sigma1_values, sigma3_values, method='ransac', threshold=1.
     if method == 'ransac':
         ransac = RANSACRegressor(LinearRegression(), residual_threshold=threshold).fit(X, y)
         inlier_mask = ransac.inlier_mask_
-        X_inliers, y_inliers = X[inlier_mask], y[inlier_mask]
-        model = LinearRegression().fit(X_inliers, y_inliers)
+        if inlier_mask is not None and np.any(inlier_mask):
+            X_inliers, y_inliers = X[inlier_mask], y[inlier_mask]
+            model = LinearRegression().fit(X_inliers, y_inliers)
+        else:
+            model = LinearRegression().fit(X, y)
     else:
         model = LinearRegression().fit(X, y)
 
@@ -35,7 +38,7 @@ def fit_mohr_coulomb(sigma1_values, sigma3_values, method='ransac', threshold=1.
     intercept = model.intercept_
     phi = np.degrees(np.arctan(slope))
     cohesion = intercept
-    return cohesion, phi
+    return cohesion, phi, model, X, y
 
 # --- Sidebar Inputs ---
 st.sidebar.header("Input Parameters")
@@ -50,7 +53,7 @@ thresh = st.sidebar.slider("RANSAC Residual Threshold", 0.1, 5.0, 1.0)
 # --- Experimental Data Inputs ---
 st.sidebar.markdown("### Manual Input of Experimental Data")
 manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):",
-                                   value="0,5\n2,10\n4,16\n6,21")
+                                   value="0,5\n2,10\n4,16\n6,21\n7,28")
 
 data_lines = manual_data.strip().split("\n")
 sigma3_list, sigma1_list = [], []
@@ -81,7 +84,7 @@ else:
 
 # --- Computation ---
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
-cohesion, friction_angle = fit_mohr_coulomb(sigma1_values, sigma3_values, method=fit_method, threshold=thresh)
+cohesion, friction_angle, model, X_all, y_all = fit_mohr_coulomb(sigma1_values, sigma3_values, method=fit_method, threshold=thresh)
 
 # Regression lines
 x_fit = np.linspace(0, max(sigma3_values)*1.1, 100)
