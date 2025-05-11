@@ -121,7 +121,7 @@ def ldp_profile(x_star, model, alpha, R_star):
                         1 - (1 - (1/3) * np.exp(-0.15 * x_star)) * np.exp(-3 * x_star / R_star))
 
 ldp_y = ldp_profile(ldp_x, ldp_model, alpha, R_star)
-u_max = 0.04  # 40 mm max displacement
+u_max = 0.06  # 60 mm max displacement
 u_ldp = ldp_y * u_max
 if install_criteria == "Distance from face":
     u_install = np.interp(x_install, ldp_x, u_ldp)
