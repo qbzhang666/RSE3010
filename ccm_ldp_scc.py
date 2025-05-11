@@ -162,6 +162,33 @@ if u_eq is not None and p_eq is not None and p_eq > 0:
 # -------------------------------
 # 6. Plotting
 # -------------------------------
+def vlachopoulos_ldp(X_star, R_star, u_max):
+    u_star = np.zeros_like(X_star)
+    for i, X in enumerate(X_star):
+        if X <= 0:
+            u_star[i] = (1/3) * np.exp(2 * X - 0.15 * R_star)
+        else:
+            u_star[i] = 1 - (1 - (1/3) * np.exp(-0.15 * R_star)) * np.exp(-3 * X / R_star)
+    return u_star * u_max
+
+def hoek_ldp(X_star, R_star, u_max):
+    u_star = np.zeros_like(X_star)
+    for i, X in enumerate(X_star):
+        if X <= 0:
+            u_star[i] = 0.25 * np.exp(2.5 * X)
+        else:
+            u_star[i] = 1 - 0.75 * np.exp(-0.5 * X)
+    return u_star * u_max
+
+def panet_ldp(X_star, R_star, u_max, alpha=0.84):
+    u_star = np.zeros_like(X_star)
+    for i, X in enumerate(X_star):
+        if X <= 0:
+            u_star[i] = (1 - alpha) * np.exp(1.5 * X)
+        else:
+            u_star[i] = 1 - alpha * np.exp(-1.5 * X)
+    return u_star * u_max
+
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
 
 # GRC + SCC
