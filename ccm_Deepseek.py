@@ -82,16 +82,21 @@ def calculate_GRC():
         p_cr = (2*p0 - sigma_cm)/(1 + k)
         exponent = (k - 1)/2
     else:
-        sigma_cm = (sigma_ci/(m_b*s)) * (m_b*p0/sigma_ci + s)**a - sigma_ci/m_b
-        p_cr = p0 - sigma_cm
-        exponent = 0.65
-    
-    G = E/(2*(1 + nu))
-    u_elastic = (p0 - p_cr)*r0/(2*G)
-    
-    elastic_mask = p >= p_cr
-    u[elastic_mask] = (p0 - p[elastic_mask])*r0/(2*G)
-    u[~elastic_mask] = u_elastic * (p_cr/p[~elastic_mask])**exponent
+        # Hoek-Brown corrections
+        sigma_cm = (sigma_ci / 2) * ((m_b + 4*s)**a - m_b**a)
+        k_HB = (2*(1-nu)*(m_b + 4*s)**a) / (1 + nu)
+        p_cr = p0 - sigma_cm / 2
+        R_pl = r0 * ((2*p0 / sigma_cm) + 1)**(1/k_HB)
+        
+        # Elastic zone
+        elastic_mask = p >= p_cr
+        G = E / (2*(1 + nu))
+        u_elastic = (p0 - p_cr) * r0 / (2*G)
+        u[elastic_mask] = (p0 - p[elastic_mask]) * r0 / (2*G)
+        
+        # Plastic zone
+        plastic_mask = ~elastic_mask
+        u[plastic_mask] = u_elastic * (R_pl / r0)**k_HB * (p_cr / p[plastic_mask])**k_HB
     
     return p, u, p_cr
 
