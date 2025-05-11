@@ -149,15 +149,6 @@ x_max = df.sign.max() * 1.1
 y_max = df.tau.max() * 1.1
 max_limit = max(x_max, y_max)
 
-# Annotate cohesion and phi
-ax2.text(
-    0.05 * max_limit,
-    0.95 * max_limit,
-    f"c = {cohesion:.2f} MPa\nφ = {phi_deg:.1f}°",
-    fontsize=11,
-    bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.4')
-)
-
 ax2.set_xlim(0, max_limit)
 ax2.set_ylim(0, max_limit)
 ax2.set_aspect('equal')
