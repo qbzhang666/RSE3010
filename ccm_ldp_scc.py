@@ -184,17 +184,45 @@ if u_eq and p_eq and FoS is not None:
 else:
     ax1.legend()
 
-# LDP
-ax2.plot(ldp_x, u_ldp * 1000, label=f"{ldp_model} LDP", lw=2)
-if install_criteria == "Distance from face":
-    ax2.axvline(x_install, color='r', linestyle='--', label=f'Support @ x/r₀ = {x_install}')
-ax2.set_xlabel("Normalized Distance x/r₀")
-ax2.set_ylabel("Radial Displacement [mm]")
-ax2.set_title("Longitudinal Deformation Profile")
-ax2.grid(True, color='lightgrey', alpha=0.4)
-ax2.legend()
+# -------------------------------
+# LDP Plotting (with annotations)
+# -------------------------------
+fig_ldp, ax = plt.subplots(figsize=(12, 6))
 
-st.pyplot(fig)
+# Plot LDP curves
+ax.plot(ldp_x * r0, vlachopoulos_ldp(ldp_x, R_star, u_max * 1000), label="Vlachopoulos & Diederichs (2009)", linewidth=3)
+ax.plot(ldp_x * r0, hoek_ldp(ldp_x, R_star, u_max * 1000), '--', label="Hoek et al. (2002)", linewidth=3)
+ax.plot(ldp_x * r0, panet_ldp(ldp_x, R_star, u_max * 1000, alpha), '-.', label="Panet (1995)", linewidth=3)
+ax.axvline(0, color='red', linewidth=2, label="Tunnel Face ($X^* = 0$)")
+
+# Axes labels and title
+ax.set_xlabel("Distance to Tunnel Face [m]", fontsize=14)
+ax.set_ylabel("Radial Displacement [mm]", fontsize=14)
+ax.set_title("Longitudinal Deformation Profile (LDP)", fontsize=16)
+ax.invert_xaxis()
+ax.grid(True, linestyle='--', alpha=0.5)
+
+# Annotation box for equations
+ldp_eq_text = (
+    "Vlachopoulos & Diederichs (2009):\n"
+    r"$u^*(X^*) = \begin{cases} \frac{1}{3}e^{2X^* - 0.15R^*}, & X^* \leq 0 \\"
+    r"1 - [1 - \frac{1}{3}e^{-0.15R^*}]e^{-3X^*/R^*}, & X^* > 0 \end{cases}$" + "\n\n" +
+    "Hoek et al. (2002):\n"
+    r"$u^*(X^*) = \begin{cases} 0.25e^{2.5X^*}, & X^* \leq 0 \\"
+    r"1 - 0.75e^{-0.5X^*}, & X^* > 0 \end{cases}$" + "\n\n" +
+    "Panet (1995):\n"
+    r"$u^*(X^*) = \begin{cases} (1-\\alpha)e^{1.5X^*}, & X^* \leq 0 \\"
+    r"1 - \\alpha e^{-1.5X^*}, & X^* > 0 \end{cases}$"
+)
+
+ax.text(0.02, 0.03, ldp_eq_text, transform=ax.transAxes,
+        fontsize=11, bbox=dict(facecolor='white', alpha=0.8),
+        verticalalignment='bottom')
+
+ax.legend(fontsize=11, loc='upper right', title="Model Equations")
+
+# Display in Streamlit
+st.pyplot(fig_ldp)
 
 # -------------------------------
 # 7. Results
