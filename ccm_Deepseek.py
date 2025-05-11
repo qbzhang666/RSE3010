@@ -1,4 +1,4 @@
-# Streamlit App: Advanced CCM Analysis with Depth & Density
+# Streamlit App: CCM Analysis with Auto In-Situ Stress
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,17 +15,16 @@ GRAVITY = 9.81  # m/s²
 with st.sidebar:
     st.header("1. Tunnel Parameters")
     r0 = st.number_input("Tunnel radius [m]", 1.0, 10.0, 5.0)
-    tunnel_depth = st.number_input("Tunnel depth [m]", 10.0, 5000.0, 100.0)
+    tunnel_depth = st.number_input("Tunnel depth [m]", 10.0, 5000.0, 500.0)
     diameter = 2 * r0
     
     st.header("2. Rock Mass Parameters")
     density = st.number_input("Density [kg/m³]", 1500.0, 3500.0, 2650.0)
     
-    # Overburden stress calculation
-    overburden_stress = (tunnel_depth * density * GRAVITY) / 1e6  # Convert Pa to MPa
-    st.metric("Calculated Overburden Stress [MPa]", f"{overburden_stress:.2f}")
+    # Calculate in-situ stress from overburden
+    p0 = (tunnel_depth * density * GRAVITY) / 1e6  # Convert Pa to MPa
+    st.metric("In-situ Stress (p₀) [MPa]", f"{p0:.2f}")
     
-    p0 = st.number_input("In-situ Stress [MPa]", 1.0, 50.0, 10.0)
     E = st.number_input("Young's modulus [MPa]", 500.0, 1e5, 3e4)
     nu = st.slider("Poisson's ratio [-]", 0.1, 0.49, 0.3)
     
@@ -198,10 +197,12 @@ else:
 # Documentation
 with st.expander("Geotechnical Parameters"):
     st.markdown(f"""
-    - **Overburden Stress**: {overburden_stress:.2f} MPa  
-      Calculated from:  
-      \( \sigma_v = \\frac{{\\rho \cdot g \cdot z}}{{10^6}} = \\frac{{{density:.0f} \cdot 9.81 \cdot {tunnel_depth:.0f}}}{{10^6}} \)
-    - **In-situ Stress**: {p0:.2f} MPa (user input)
-    - **Tunnel Depth**: {tunnel_depth:.0f} m
-    - **Rock Density**: {density:.0f} kg/m³
+    **In-situ Stress Calculation:**
+    - Depth: {tunnel_depth:.0f} m
+    - Density: {density:.0f} kg/m³
+    - Gravitational acceleration: 9.81 m/s²
+    
+    \[
+    p_0 = \frac{{\\rho \cdot g \cdot z}}{{10^6}} = \\frac{{{density:.0f} \cdot 9.81 \cdot {tunnel_depth:.0f}}}{{10^6}} = {p0:.2f}\ \text{{MPa}}
+    \]
     """)
