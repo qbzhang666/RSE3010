@@ -130,7 +130,7 @@ def ldp_profile(x_star, model, alpha, R_star):
 ldp_y = ldp_profile(ldp_x, ldp_model, alpha, R_star)
 u_max = 0.06  # 60 mm max displacement
 u_ldp = ldp_y * u_max
-if install_criteria == "Distance from face":
+if install_criteria == "Distance from Tunnel Face":
     u_install = np.interp(x_install, ldp_x, u_ldp)
 
 # -------------------------------
@@ -195,7 +195,7 @@ else:
 ax2.plot(ldp_x * r0, u_ldp * 1000, label=f"{ldp_model} LDP", lw=2)
 
 # Vertical line for support installation
-if install_criteria == "Distance from face":
+if install_criteria == "Distance from Tunnel Face":
     ax2.axvline(x_install * r0, color='red', linestyle='--', linewidth=2, label=f'Support @ x/r₀ = {x_install}')
 
 # Solid line at tunnel face (x = 0)
