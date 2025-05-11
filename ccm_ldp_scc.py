@@ -33,7 +33,7 @@ with st.sidebar:
         phi_rad = np.radians(phi_deg)
     else:
         sigma_ci = st.number_input("Uniaxial compressive strength σ_ci [MPa]", 1.0, 100.0, 30.0)
-        GSI = st.slider("Geological Strength Index (GSI)", 10, 100, 75)
+        GSI = st.slider("Geological Strength Index (GSI)", 10, 100, 25)
         mi = st.number_input("Intact rock constant (mᵢ)", 5.0, 35.0, 15.0)
         D = st.slider("Disturbance Factor (D)", 0.0, 1.0, 0.0)
 
