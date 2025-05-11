@@ -1,4 +1,4 @@
-# Streamlit App: CCM Analysis with Linear SCC Implementation
+# Streamlit App: CCM Analysis with Corrected Hoek LDP
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -37,10 +37,11 @@ with st.sidebar:
     st.header("4. LDP Parameters")
     ldp_model = st.selectbox("LDP model", ["Vlachopoulos", "Panet", "Hoek"])
     
+    ldp_params = {}
     if ldp_model == "Panet":
-        alpha = st.slider("α [-]", 0.6, 0.95, 0.85)
+        ldp_params['alpha'] = st.slider("α [-]", 0.6, 0.95, 0.85)
     elif ldp_model == "Vlachopoulos":
-        R_star = st.number_input("R* [-]", 1.0, 5.0, 2.5)
+        ldp_params['R_star'] = st.number_input("R* [-]", 1.0, 5.0, 2.5)
         
     st.header("5. Support System")
     k_supp = st.number_input("Support stiffness [MPa/m]", 100, 5000, 650)
@@ -59,10 +60,10 @@ with st.sidebar:
         conv_pct = st.slider("Convergence [%]", 0.1, 10.0, 1.0)
 
 # ========================
-# 2. GRC Calculations (Improved Resolution)
+# 2. GRC Calculations
 # ========================
 def calculate_GRC():
-    p = np.linspace(p0, 0.1, 1000)  # Increased to 1000 points
+    p = np.linspace(p0, 0.1, 1000)
     u = np.zeros_like(p)
     
     if "Mohr" in criterion:
@@ -88,20 +89,23 @@ def calculate_GRC():
 p_grc, u_grc, p_cr = calculate_GRC()
 
 # ========================
-# 3. LDP Calculations
+# 3. Corrected LDP Calculations
 # ========================
 def calculate_LDP():
-    x = np.linspace(-3, 10, 500)
+    x = np.linspace(-2, 6, 400)  # Standardized range for all models
     
     if ldp_model == "Vlachopoulos":
+        R_star = ldp_params['R_star']
         y = np.where(x <= 0,
                     (1/3) * np.exp(2*x - 0.15*R_star),
                     1 - (1 - (1/3)*np.exp(-0.15*R_star)) * np.exp(-3*x/R_star))
     elif ldp_model == "Panet":
+        alpha = ldp_params['alpha']
         y = np.where(x <= 0, 
                     1 - alpha*np.exp(1.5*x),
                     np.exp(-1.5*x))
     elif ldp_model == "Hoek":
+        # Corrected Hoek implementation (no R* dependency)
         y = np.where(x <= 0,
                     0.25*np.exp(2.5*x),
                     1 - 0.75*np.exp(-0.5*x))
@@ -111,49 +115,45 @@ def calculate_LDP():
 ldp_x, ldp_u = calculate_LDP()
 
 # ========================
-# 4. SCC Calculations (Linear Implementation)
+# 4. Support Calculations
 # ========================
 def calculate_SCC():
-    # Determine installation displacement
     if install_criteria == "Distance from face":
         u_install = np.interp(x_install, ldp_x, ldp_u)
     elif install_criteria == "Displacement threshold":
         u_install = st.session_state.u_install
     elif install_criteria == "Convergence %":
         u_install = (conv_pct/100) * diameter
-    
-    # Create uniform displacement array for SCC
-    u_scc = np.linspace(0, u_grc.max(), 1000)  # Uniform spacing
-    
-    # Calculate SCC values
-    scc = np.zeros_like(u_scc)
-    mask = u_scc >= u_install
-    scc[mask] = np.minimum(k_supp*(u_scc[mask] - u_install), p_max)
-    
+
+    u_scc = np.linspace(0, u_grc.max(), 1000)
+    scc = np.clip(k_supp * (u_scc - u_install), 0, p_max)
     return u_scc, scc, u_install
 
 u_scc, scc_p, u_install = calculate_SCC()
 
 # ========================
-# 5. Plotting (Improved SCC Visualization)
+# 5. Plotting with Physical Distance
 # ========================
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 
 # GRC + SCC Plot
 ax1.plot(u_grc*1000, p_grc, label='GRC', lw=2)
-ax1.plot(u_scc*1000, scc_p, '--', label='SCC', lw=2)  # Use uniform u_scc
+ax1.plot(u_scc*1000, scc_p, '--', label='SCC', lw=2)
 ax1.set_xlabel("Radial Displacement [mm]", fontsize=12)
 ax1.set_ylabel("Radial Pressure [MPa]", fontsize=12)
-ax1.set_xlim(0, u_grc.max()*1000*1.1)
 ax1.grid(True, alpha=0.3)
 ax1.legend()
 
-# LDP Plot
-ax2.plot(ldp_x, ldp_u*1000, label=f'{ldp_model} LDP', lw=2)
+# LDP Plot with Physical Distance
+physical_distance = ldp_x * r0  # Convert normalized distance to meters
+ax2.plot(physical_distance, ldp_u*1000, label=f'{ldp_model} LDP', lw=2)
+
 if install_criteria == "Distance from face":
-    ax2.axvline(x_install, color='r', ls='--', 
-               label=f'Support Installation (x/r₀ = {x_install:.1f})')
-ax2.set_xlabel("Normalized Distance x/r₀", fontsize=12)
+    install_pos = x_install * r0  # Convert to physical distance
+    ax2.axvline(install_pos, color='r', ls='--', 
+               label=f'Installation @ {install_pos:.1f}m')
+
+ax2.set_xlabel("Distance from Tunnel Face [m]", fontsize=12)
 ax2.set_ylabel("Radial Displacement [mm]", fontsize=12)
 ax2.grid(True, alpha=0.3)
 ax2.legend()
@@ -164,11 +164,14 @@ st.pyplot(fig)
 # 6. Safety Analysis
 # ========================
 st.subheader("Safety Analysis")
-try:
-    # Find intersection using SCC's uniform array
-    valid_mask = (scc_p > 0) & (scc_p <= p_max)
-    p_eq = np.interp(u_install, u_grc, p_grc)
-    fos = p_max / p_eq if p_eq > 0 else float('inf')
+diff = scc_p - np.interp(u_scc, u_grc, p_grc)
+crossings = np.where(np.diff(np.sign(diff)))[0]
+
+if len(crossings) > 0:
+    idx = crossings[0]
+    u_int = np.interp(0, [diff[idx], diff[idx+1]], [u_scc[idx], u_scc[idx+1]])
+    p_eq = np.interp(u_int, u_grc, p_grc)
+    fos = p_max / p_eq
     
     cols = st.columns(3)
     with cols[0]:
@@ -178,17 +181,20 @@ try:
     with cols[2]:
         st.metric("Factor of Safety (FoS)", f"{fos:.2f}")
     
-    st.success(f"""Support system adequate! 
-               SCC slope: {k_supp:.0f} MPa/m""")
-    
-except Exception as e:
-    st.error(f"Analysis error: {str(e)}")
+    st.success(f"Intersection at {u_int*1000:.1f} mm displacement")
+else:
+    st.error("No intersection - support system inadequate!")
 
-# Theory Documentation
-with st.expander("Technical Notes"):
+# Model Documentation
+with st.expander("LDP Model Equations"):
     st.markdown("""
-    **SCC Linear Guarantee:**
-    - SCC calculated on uniform displacement array (1000 points)
-    - Direct implementation: $p = k(u - u_{install})$ capped at $p_{max}$
-    - Eliminates GRC's non-linear spacing effects
+    **Hoek et al. (2002) LDP:**
+    \[
+    u^{*(X^*)} = 
+    \begin{cases} 
+    0.25 e^{2.5X^*} & X^* \leq 0 \\ 
+    1 - 0.75 e^{-0.5X^*} & X^* > 0 
+    \end{cases}
+    \]
+    where \( X^* = x/R_0 \) is the normalized distance from the tunnel face.
     """)
