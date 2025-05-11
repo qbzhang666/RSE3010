@@ -15,12 +15,12 @@ with st.sidebar:
     st.header("1. Tunnel & Rock Parameters")
     r0 = st.number_input("Tunnel Radius [m]", 1.0, 10.0, 5.0, step=0.1, format="%.1f")
     diameter = 2 * r0
-    tunnel_depth = st.number_input("Tunnel Depth [m]", 10.0, 5000.0, 500.0, step=10.0, format="%.1f")
-    density = st.number_input("Rock Density [kg/m³]", 1500.0, 3500.0, 2650.0, step=50.0, format="%.1f")
+    tunnel_depth = st.number_input("Tunnel Depth [m]", 10, 5000, 500, step=10, format="%d")
+    density = st.number_input("Rock Density [kg/m³]", 1500, 3500, 2650, step=50, format="%d")
     p0 = (tunnel_depth * density * GRAVITY) / 1e6  # MPa
     st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
-    E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 10000.0, step=500.0, format="%.1f")
-    nu = st.number_input("Poisson's Ratio ν", min_value=0.10, max_value=0.49, value=0.30, step=0.01, format="%.2f")
+    E = st.number_input("Young's Modulus E [MPa]", 500, 100000, 10000, step=500, format="%d")
+    nu = st.number_input("Poisson's Ratio ν", min_value=10, max_value=49, value=30, step=1, format="%d") / 100
 # -------------------------------
 # 2. GRC Calculation
 # -------------------------------
@@ -32,7 +32,7 @@ with st.sidebar:
         phi_deg = st.number_input("Friction Angle φ [°]", 5.0, 60.0, 30.0)
         phi_rad = np.radians(phi_deg)
     else:
-        sigma_ci = st.number_input("Uniaxial compressive strength σ_ci [MPa]", 1.0, 100.0, 30.0)
+        sigma_ci = st.number_input("Uniaxial compressive strength σ_ci [MPa]", 1, 100, 30, step=1, format="%d")
         GSI = st.slider("Geological Strength Index (GSI)", 10, 100, 25)
         mi = st.number_input("Intact rock constant (mᵢ)", 5.0, 35.0, 15.0)
         D = st.slider("Disturbance Factor (D)", 0.0, 1.0, 0.0)
