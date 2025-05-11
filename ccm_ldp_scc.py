@@ -1,4 +1,4 @@
-# Streamlit App: CCM with GRC, LDP, SCC (Final Version)
+# Streamlit App: CCM with GRC, LDP, SCC (Final Version with FoS in Legend Only)
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -38,7 +38,6 @@ failure_criterion = st.sidebar.selectbox(
     ]
 )
 
-# Auto-adjust (illustrative)
 if "Hoek-Brown" in failure_criterion:
     phi_deg = 35.0
     c = 2.0
@@ -46,7 +45,6 @@ elif "Mohr-Coulomb" in failure_criterion:
     phi_deg = 30.0
     c = 1.5
 
-# Derived values
 phi_rad = np.radians(phi_deg)
 sin_phi = np.sin(phi_rad)
 k_rock = (1 + sin_phi) / (1 - sin_phi)
@@ -106,7 +104,6 @@ k = st.sidebar.number_input("Support Stiffness (MPa/m)", 100, 2000, 650)
 p_max = st.sidebar.number_input("Max Support Pressure (MPa)", 0.5, 10.0, 3.0)
 diameter = 2 * r0
 
-# Determine u_install
 if support_criteria == "Distance from Tunnel Face (L)":
     support_pos_x = st.sidebar.slider("Support Distance from Tunnel Face (x/r₀)", 0.0, 10.0, 1.5)
     u_install = ldp_profile(np.array([support_pos_x]), ldp_model, alpha, R_star)[0] * u_max
@@ -129,9 +126,7 @@ def calculate_scc(u_values, k, u_install, p_max):
 scc_vals = calculate_scc(u_scc, k, u_install, p_max)
 scc_on_grc = calculate_scc(u_r, k, u_install, p_max)
 
-# -------------------------------
 # Intersection Detection
-# -------------------------------
 def find_intersection(u_vals, grc_vals, scc_vals):
     for i in range(1, len(u_vals)):
         if (grc_vals[i] - scc_vals[i]) * (grc_vals[i-1] - scc_vals[i-1]) < 0:
@@ -143,23 +138,15 @@ def find_intersection(u_vals, grc_vals, scc_vals):
 u_int, p_int = find_intersection(u_r, p, scc_on_grc)
 
 # -------------------------------
-# Plot: GRC + SCC
+# Plot: GRC + SCC (FoS in legend)
 # -------------------------------
 fig, ax = plt.subplots(figsize=(10, 6))
 ax.plot(u_r * 1000, p, label="GRC", lw=2)
 ax.plot(u_scc * 1000, scc_vals, label="SCC", linestyle='--', color='orange', lw=2)
 
-if u_int is not None and p_int is not None:
-    ax.plot(u_int * 1000, p_int, 'ro', label="Intersection")
+if u_int and p_int:
     fos_val = p_max / p_int if p_int > 0 else float("inf")
-    ax.annotate(
-        f"FoS = {fos_val:.2f}",
-        xy=(u_int * 1000, p_int),
-        xytext=(u_int * 1000 + 5, p_int + 0.5),
-        arrowprops=dict(arrowstyle="->", lw=1.5),
-        fontsize=12,
-        bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="black", lw=1)
-    )
+    ax.plot([], [], ' ', label=f"FoS = {fos_val:.2f}")  # Add to legend only
 
 ax.set_xlabel("Tunnel Wall Displacement [mm]", fontsize=14)
 ax.set_ylabel("Radial Stress [MPa]", fontsize=14)
@@ -190,7 +177,7 @@ st.write(f"- Rock Mass Criterion: **{failure_criterion}**")
 st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
 st.write(f"- Installation Displacement: **{u_install * 1000:.2f} mm**")
 
-if u_int and p_int:
+if u_int:
     st.success(f"✅ GRC and SCC intersect at {u_int*1000:.2f} mm, pressure = {p_int:.2f} MPa → FoS = {p_max/p_int:.2f}")
 else:
     st.warning("⚠️ No intersection between GRC and SCC (support insufficient)")
