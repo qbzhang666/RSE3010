@@ -83,16 +83,16 @@ mc_sig1 = term1 + term2 * mc_sig3
 st.subheader("In-situ Stress Analysis")
 st.markdown(f"""
 - **Unit weight:** {unit_weight} kN/m³  
-- **Vertical stress (\(\sigma_v\))**: {sigma_v:.2f} MPa  
-- **Horizontal stress (\(\sigma_h\))**: {sigma_h:.2f} MPa  
-- **Major Principal Stress (\(\sigma_1\))**: {sigma_1:.2f} MPa ({direction})  
-- **Minor Principal Stress (\(\sigma_3\))**: {sigma_3:.2f} MPa  
+- **Vertical stress (\(σ_v\))**: {sigma_v:.2f} MPa  
+- **Horizontal stress (\(σ_h\))**: {sigma_h:.2f} MPa  
+- **Major Principal Stress (\(σ_1\))**: {sigma_1:.2f} MPa ({direction})  
+- **Minor Principal Stress (\(σ_3\))**: {sigma_3:.2f} MPa  
 """)
 
 st.subheader("Mohr-Coulomb Parameters")
 st.markdown(f"""
 - **Cohesion (c):** {cohesion:.2f} MPa  
-- **Friction angle (\(\phi\))**: {friction_angle:.2f}°  
+- **Friction angle (\(φ\))**: {friction_angle:.2f}°  
 """)
 
 # --- Plotting ---
@@ -110,8 +110,7 @@ ax1.grid(True)
 ax1.legend()
 
 # Shear-Normal Plot
-mc_label = f"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$
-(c = {cohesion:.2f} MPa, $\phi$ = {friction_angle:.1f}\u00b0)"
+mc_label = f"Mohr-Coulomb: τ = c + σ_n tanφ\n(c = {cohesion:.2f} MPa, φ = {friction_angle:.1f}°)"
 ax2.plot(x_fit, y_fit, 'k--', lw=2, label=mc_label)
 
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
