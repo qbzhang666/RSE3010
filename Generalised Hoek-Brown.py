@@ -44,13 +44,14 @@ def hoek_brown(sigci, mb, s, a, min_sig3, max_sig3, num_points=100):
 # --- Sidebar Inputs ---
 st.sidebar.header("Input Parameters")
 
-h = st.sidebar.slider("Tunnel Depth (m)", 10, 1000, 250)
-K = st.sidebar.slider("Horizontal Stress Ratio (K)", 0.1, 3.0, 1.5, 0.1)
-unit_weight = st.sidebar.slider("Unit Weight (kN/m³)", 10, 35, 27)
+h = st.sidebar.number_input("Tunnel Depth (m)", value=250.0, step=10.0, format="%.2f")
+K = st.sidebar.number_input("Horizontal Stress Ratio (K)", value=1.5, step=0.1, format="%.2f")
+unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", value=27.0, step=1.0, format="%.2f")
 GSI = st.sidebar.slider("Geological Strength Index (GSI)", 10, 100, 45)
-mi = st.sidebar.slider("Intact Rock Parameter (mi)", 1, 50, 20)
+mi = st.sidebar.number_input("Intact Rock Parameter (mi)", value=20.0, step=1.0, format="%.2f")
 D = st.sidebar.slider("Disturbance Factor (D)", 0.0, 1.0, 1.0, 0.1)
-sigci = st.sidebar.slider("UCS of Intact Rock (σci) [MPa]", 1, 100, 25)
+sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", value=25.0, step=1.0, format="%.2f")
+
 
 # --- Computation ---
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
