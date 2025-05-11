@@ -191,11 +191,12 @@ if install_criteria == "Distance from face":
 ax2.set_xlabel("Distance to Tunnel Face [m]")
 ax2.set_ylabel("Radial Displacement [mm]")
 ax2.set_title("Longitudinal Deformation Profile")
+ax2.set_xlim(15, -5)  # ✅ Set display range: 15 m to -5 m
 ax2.grid(True, color='lightgrey', alpha=0.4)
 ax2.legend()
-ax2.invert_xaxis()  # ✅ Reverse horizontal axis so negative is on the right
 
 st.pyplot(fig)
+
 
 # -------------------------------
 # 7. Results
