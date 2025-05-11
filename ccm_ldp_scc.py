@@ -97,16 +97,7 @@ p_max = st.sidebar.number_input("Max Support Pressure (MPa)", 0.5, 10.0, 3.0)
 diameter = 2 * r0
 if support_criteria == "Distance from Tunnel Face (L)":
     support_pos_x = st.sidebar.slider("Support Distance from Tunnel Face (x/r₀)", 0.0, 10.0, 1.5)
-    elif support_criteria == "When Tunnel Wall Displacement = uₛ₀":
-    u_install = st.sidebar.number_input("Target Displacement uₛ₀ (mm)", 0.0, 500.0, 30.0) / 1000
-elif support_criteria == "When Convergence (ε) = displacement/diameter":
-    convergence_pct = st.sidebar.slider("Convergence (%)", 0.0, 10.0, 1.0)
-    u_install = (convergence_pct / 100) * diameter
-elif support_criteria == "When Tunnel Wall Displacement = uₛ₀":
-    u_install = st.sidebar.number_input("Target Displacement uₛ₀ (mm)", 0.0, 500.0, 30.0) / 1000
-elif support_criteria == "When Convergence (ε) = displacement/diameter":
-    convergence_pct = st.sidebar.slider("Convergence (%)", 0.0, 10.0, 1.0)
-    u_install = (convergence_pct / 100) * diameterst.sidebar.slider("Select Support Distance from Tunnel Face (x/r₀)", 0.0, 10.0, 1.5)
+    u_install = ldp_profile(np.array([support_pos_x]), ldp_model, alpha, R_star)[0] * u_max
 
 u_install = ldp_profile(np.array([support_pos_x]), ldp_model, alpha, R_star)[0] * u_max
 def calculate_scc(u_values):
