@@ -103,8 +103,8 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 fig.suptitle("Hoek-Brown & Mohr-Coulomb Envelopes", fontsize=16)
 
 # Plot σ₁–σ₃
-ax1.plot(df.sig3, df.sig1, 'b-', lw=2, label='Hoek-Brown')
-ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2, label='Mohr-Coulomb')
+ax1.plot(df.sig3, df.sig1, 'b-', lw=2, label=r'Hoek-Brown: $\sigma_1 = \sigma_3 + \sigma_{ci}(m_b\frac{\sigma_3}{\sigma_{ci}} + s)^a$')
+ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2, label=r'Mohr-Coulomb: $\sigma_1 = \frac{2c\cos\phi}{1-\sin\phi} + \frac{1+\sin\phi}{1-\sin\phi}\sigma_3$')
 ax1.scatter(sigma_3, sigma_1, c='r', s=100, label='In-situ Stress')
 ax1.set_xlabel(r'$\sigma_3$ [MPa]')
 ax1.set_ylabel(r'$\sigma_1$ [MPa]')
@@ -114,8 +114,10 @@ ax1.grid(True)
 ax1.legend()
 
 # Plot τ–σₙ
-ax2.plot(df['sign'], df['tau'], 'r-', lw=2, label='Hoek-Brown')
-ax2.plot(x_fit, y_fit, 'k--', lw=2, label='Mohr-Coulomb')
+ax2.plot(df['sign'], df['tau'], 'r-', lw=2, label=r'Hoek-Brown: $\tau = \frac{(\sigma_1-\sigma_3)\sqrt{d\sigma_1/d\sigma_3}}{d\sigma_1/d\sigma_3+1}$')
+ax2.plot(x_fit, y_fit, 'k--', lw=2, label=fr'Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n(c = {cohesion:.2f} MPa, φ = {phi_deg:.1f}°)')
+
+# Mohr Circles
 circle_data = df.iloc[::len(df)//10]
 for _, row in circle_data.iterrows():
     center = (row.sig1 + row.sig3)/2
@@ -133,6 +135,10 @@ ax2.grid(True)
 ax2.legend()
 
 st.pyplot(fig)
+
+# --- Reference Table ---
+with st.expander("📘 Suggested $m_i$ Values for Rock Types (Hoek & Marinos, 2000)", expanded=False):
+    st.image("mi_reference.png", caption="Suggested $m_i$ values for various rock types", use_container_width=True)
 
 # --- Data Table ---
 with st.expander("View Failure Envelope Data"):
