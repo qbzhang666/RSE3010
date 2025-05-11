@@ -62,45 +62,39 @@ GSI = st.sidebar.slider("Geological Strength Index (GSI)", 10, 100, 45)
 D = st.sidebar.slider("Disturbance Factor (D)", 0.0, 1.0, 1.0, step=0.1)
 sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", 5.0, 250.0, 25.0)
 
-# Rock type selection for mi
 st.sidebar.markdown("### Rock Type Selection")
 category = st.sidebar.selectbox("Rock Category", list(rock_type_dict.keys()))
 rock = st.sidebar.selectbox("Rock Type", list(rock_type_dict[category].keys()))
 mi = rock_type_dict[category][rock]
 st.sidebar.write(f"**Selected mi value:** {mi}")
 
-# Compute initial stress state
+# In-situ Stresses and HB Params
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
 mb, s, a = calculate_hb_parameters(GSI, mi, D)
 
-# --- Custom σ₃ Range ---
+# Custom σ₃ Range
 st.sidebar.markdown("### Custom σ₃ Range for Envelope")
 default_min = round(0.8 * sigma_3, 2)
 default_max = round(1.2 * sigma_1, 2)
-
 sig3_min = st.sidebar.number_input("Minimum σ₃ [MPa]", value=default_min, step=0.1)
 sig3_max = st.sidebar.number_input("Maximum σ₃ [MPa]", value=default_max, step=0.1)
 
-# Run Hoek-Brown
+# Compute Envelope
 df = hoek_brown(sigci, mb, s, a, sig3_min, sig3_max)
 cohesion, phi_deg = fit_mohr_coulomb(df)
-
-# Mohr-Coulomb regression
 x_fit = np.linspace(0, df['sign'].max(), 100)
 y_fit = cohesion + np.tan(np.radians(phi_deg)) * x_fit
-
-# Mohr-Coulomb in σ₁–σ₃
 mc_sig3 = np.linspace(0, df['sig3'].max(), 100)
 mc_sig1 = ((2 * cohesion * np.cos(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg))) +
            ((1 + np.sin(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg)))) * mc_sig3)
 
-# Mohr Circles Selection
+# Mohr Circles
 num_circles = st.sidebar.slider("Number of Mohr Circles", 1, 20, 10)
 circle_sig3 = np.linspace(sig3_min, sig3_max, num_circles)
 circle_sig1 = np.interp(circle_sig3, df['sig3'], df['sig1'])
 circle_data = pd.DataFrame({'sig3': circle_sig3, 'sig1': circle_sig1})
 
-# --- Outputs ---
+# --- Text Output ---
 st.subheader("In-situ Stress Analysis")
 st.markdown(f"""
 - **Unit weight:** {unit_weight} kN/m³  
@@ -120,18 +114,22 @@ st.markdown(f"**Cohesion (c):** {cohesion:.2f} MPa, **Friction angle (φ):** {ph
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 fig.suptitle("Hoek-Brown & Mohr-Coulomb Envelopes", fontsize=16)
 
-# σ₁–σ₃
-ax1.plot(df.sig3, df.sig1, 'b-', lw=2, label=r'Hoek-Brown')
-ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2, label=r'Mohr-Coulomb')
+# σ₁–σ₃ with equations
+ax1.plot(df.sig3, df.sig1, 'b-', lw=2,
+         label=r'Hoek-Brown: $\sigma_1 = \sigma_3 + \sigma_{ci}(m_b \frac{\sigma_3}{\sigma_{ci}} + s)^a$')
+ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2,
+         label=r'Mohr-Coulomb: $\sigma_1 = \frac{2c \cos\phi}{1 - \sin\phi} + \frac{1 + \sin\phi}{1 - \sin\phi} \cdot \sigma_3$')
 ax1.scatter(sigma_3, sigma_1, c='r', s=80, label='In-situ Stress')
 ax1.set_xlabel(r'$\sigma_3$ [MPa]')
 ax1.set_ylabel(r'$\sigma_1$ [MPa]')
 ax1.grid(True)
-ax1.legend()
+ax1.legend(loc="upper left", fontsize=9)
 
-# τ–σₙ
-ax2.plot(df['sign'], df['tau'], 'r-', lw=2, label='Hoek-Brown')
-ax2.plot(x_fit, y_fit, 'k--', lw=2, label=f"Mohr-Coulomb\nc={cohesion:.2f} MPa, φ={phi_deg:.1f}°")
+# τ–σₙ with equations
+ax2.plot(df['sign'], df['tau'], 'r-', lw=2,
+         label=r'Hoek-Brown: $\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{d\sigma_1/d\sigma_3}}{d\sigma_1/d\sigma_3 + 1}$')
+ax2.plot(x_fit, y_fit, 'k--', lw=2,
+         label=fr'Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n(c = {cohesion:.2f} MPa, φ = {phi_deg:.1f}°)')
 
 # Mohr Circles
 circle_centers = (circle_data.sig1 + circle_data.sig3) / 2
@@ -152,11 +150,18 @@ ax2.set_aspect('equal')
 ax2.set_xlabel(r'$\sigma_n$ [MPa]')
 ax2.set_ylabel(r'$\tau$ [MPa]')
 ax2.grid(True)
-ax2.legend()
+ax2.legend(loc="upper left", fontsize=9)
 
 st.pyplot(fig)
 
-# --- Reference Image ---
+# --- Equation Reference ---
+st.markdown("### 📘 Reference Equations Used")
+st.latex(r"\sigma_1 = \sigma_3 + \sigma_{ci} \left( m_b \frac{\sigma_3}{\sigma_{ci}} + s \right)^a")
+st.latex(r"\sigma_1 = \frac{2c \cos \phi}{1 - \sin \phi} + \frac{1 + \sin \phi}{1 - \sin \phi} \cdot \sigma_3")
+st.latex(r"\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{\frac{d\sigma_1}{d\sigma_3}}}{\frac{d\sigma_1}{d\sigma_3} + 1}")
+st.latex(r"\tau = c + \sigma_n \tan \phi")
+
+# --- Reference Table ---
 with st.expander("📘 Suggested $m_i$ Values for Rock Types (Hoek & Marinos, 2000)", expanded=False):
     st.image("mi_reference.png", caption="Suggested $m_i$ values for various rock types", use_container_width=True)
 
