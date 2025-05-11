@@ -16,13 +16,13 @@ with st.sidebar:
     st.header("1. Tunnel Parameters")
     r0 = st.number_input("Tunnel Radius [m]", 1.0, 10.0, 5.0)
     diameter = 2 * r0
-    tunnel_depth = st.number_input("Tunnel Depth [m]", 10.0, 5000.0, 100.0)
+    tunnel_depth = st.number_input("Tunnel Depth [m]", 10.0, 5000.0, 500.0)
 
     st.header("2. Rock Parameters")
     density = st.number_input("Rock Density [kg/m³]", 1500.0, 3500.0, 2650.0)
     p0 = (tunnel_depth * density * GRAVITY) / 1e6  # MPa
     st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
-    E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 30000.0)
+    E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 10000.0)
     nu = st.slider("Poisson's Ratio ν", 0.1, 0.49, 0.3)
     c = st.number_input("Cohesion c [MPa]", 0.1, 10.0, 1.5)
     phi_deg = st.number_input("Friction Angle φ [°]", 5.0, 60.0, 30.0)
