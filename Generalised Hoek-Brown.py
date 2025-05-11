@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Arc
+from sklearn.linear_model import LinearRegression
 
 st.set_page_config(page_title="Generalised Hoek-Brown", layout="wide")
 
@@ -41,22 +42,31 @@ def hoek_brown(sigci, mb, s, a, min_sig3, max_sig3, num_points=100):
     df['tau'] = ((df.sig1 - df.sig3) * np.sqrt(df.ds1ds3)/(df.ds1ds3 + 1))
     return df
 
+def fit_mohr_coulomb(df):
+    X = df['sign'].values.reshape(-1, 1)
+    y = df['tau'].values
+    model = LinearRegression().fit(X, y)
+    slope = model.coef_[0]
+    intercept = model.intercept_
+    phi_deg = np.degrees(np.arctan(slope))
+    cohesion = intercept
+    return cohesion, phi_deg, model
+
 # --- Sidebar Inputs ---
 st.sidebar.header("Input Parameters")
-
 h = st.sidebar.number_input("Tunnel Depth (m)", value=250.0, step=10.0, format="%.1f")
 K = st.sidebar.number_input("Horizontal Stress Ratio (K)", value=1.5, step=0.1, format="%.1f")
-unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", value=27.0, step=1.0, format="%.2f")
+unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", value=27.0, step=1.0, format="%.1f")
 GSI = st.sidebar.slider("Geological Strength Index (GSI)", 10, 100, 45)
 mi = st.sidebar.number_input("Intact Rock Parameter (mi)", value=20.0, step=1.0, format="%.1f")
 D = st.sidebar.slider("Disturbance Factor (D)", 0.0, 1.0, 1.0, 0.1)
 sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", value=25.0, step=1.0, format="%.1f")
 
-
 # --- Computation ---
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
 mb, s, a = calculate_hb_parameters(GSI, mi, D)
 df = hoek_brown(sigci, mb, s, a, min_sig3=0.8*sigma_3, max_sig3=1.2*sigma_1)
+cohesion, phi_deg, mc_model = fit_mohr_coulomb(df)
 
 circle_indices = np.linspace(0, len(df)-1, 10, dtype=int)
 circle_data = df.iloc[circle_indices]
@@ -78,6 +88,12 @@ st.markdown(f"""
 - **a:** {a:.4f}  
 """)
 
+st.subheader("Mohr-Coulomb Equivalent Parameters (from τ–σₙ)")
+st.markdown(f"""
+- **Cohesion (c):** {cohesion:.3f} MPa  
+- **Friction angle (φ):** {phi_deg:.2f}°  
+""")
+
 # --- Plotting ---
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 fig.suptitle("Hoek-Brown Failure Criterion", fontsize=16)
@@ -95,6 +111,12 @@ ax1.legend()
 # Shear vs Normal Stress
 ax2.plot(df.sign, df.tau, 'r-', lw=2, 
          label=r'$\tau = \frac{(\sigma_1-\sigma_3)\sqrt{d\sigma_1/d\sigma_3}}{d\sigma_1/d\sigma_3+1}$')
+
+# Mohr-Coulomb Fit Line
+x_fit = np.linspace(0, df.sign.max(), 100)
+y_fit = mc_model.predict(x_fit.reshape(-1, 1))
+ax2.plot(x_fit, y_fit, 'k--', lw=2, label='Mohr-Coulomb Fit')
+
 ax2.set_xlabel(r'$\sigma_n$ [MPa]')
 ax2.set_ylabel(r'$\tau$ [MPa]')
 ax2.set_title("Shear-Normal Stress Space")
@@ -115,6 +137,7 @@ for _, row in circle_data.iterrows():
         arc = Arc((center, 0), 2*radius, 2*radius, angle=0, theta1=0, theta2=180, color='grey', alpha=0.5)
         ax2.add_patch(arc)
 
+ax2.legend()
 st.pyplot(fig)
 
 # --- Data Output ---
