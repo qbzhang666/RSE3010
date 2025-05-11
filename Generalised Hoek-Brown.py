@@ -44,13 +44,13 @@ def hoek_brown(sigci, mb, s, a, min_sig3, max_sig3, num_points=100):
 # --- Sidebar Inputs ---
 st.sidebar.header("Input Parameters")
 
-h = st.sidebar.number_input("Tunnel Depth (m)", value=250.0, step=10.0, format="%.2f")
-K = st.sidebar.number_input("Horizontal Stress Ratio (K)", value=1.5, step=0.1, format="%.2f")
+h = st.sidebar.number_input("Tunnel Depth (m)", value=250.0, step=10.0, format="%.1f")
+K = st.sidebar.number_input("Horizontal Stress Ratio (K)", value=1.5, step=0.1, format="%.1f")
 unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", value=27.0, step=1.0, format="%.2f")
 GSI = st.sidebar.slider("Geological Strength Index (GSI)", 10, 100, 45)
-mi = st.sidebar.number_input("Intact Rock Parameter (mi)", value=20.0, step=1.0, format="%.2f")
+mi = st.sidebar.number_input("Intact Rock Parameter (mi)", value=20.0, step=1.0, format="%.1f")
 D = st.sidebar.slider("Disturbance Factor (D)", 0.0, 1.0, 1.0, 0.1)
-sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", value=25.0, step=1.0, format="%.2f")
+sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", value=25.0, step=1.0, format="%.1f")
 
 
 # --- Computation ---
