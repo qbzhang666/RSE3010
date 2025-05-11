@@ -173,7 +173,7 @@ ax1.axvline(disp_thresh, linestyle=':', color='green', label=f"Threshold = {disp
 if u_eq and p_scc_at_u_eq and np.isclose(p_scc_at_u_eq, p_max, atol=1e-3):
     ax1.plot(u_eq * 1000, p_scc_at_u_eq, 'ro', label="Max Support Reached")
 
-ax1.set_xlabel("Tunnel Wall Displacement [mm]")
+ax1.set_xlabel("Radial Displacement [mm]")
 ax1.set_ylabel("Radial Pressure [MPa]")
 ax1.set_title("GRC + SCC Interaction")
 ax1.set_xlim(0, 100)
@@ -188,7 +188,7 @@ else:
 ax2.plot(ldp_x, u_ldp * 1000, label=f"{ldp_model} LDP", lw=2)
 if install_criteria == "Distance from face":
     ax2.axvline(x_install, color='r', linestyle='--', label=f'Support @ x/r₀ = {x_install}')
-ax2.set_xlabel("Normalized Distance x/r₀")
+ax2.set_xlabel("Normalised Distance x/r₀")
 ax2.set_ylabel("Radial Displacement [mm]")
 ax2.set_title("Longitudinal Deformation Profile")
 ax2.grid(True, color='lightgrey', alpha=0.4)
