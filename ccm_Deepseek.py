@@ -1,8 +1,16 @@
 import streamlit as st
 import numpy as np
-import plotly.graph_objects as go
-from scipy.interpolate import interp1d
+try:
+    import plotly.graph_objects as go
+    from scipy.interpolate import interp1d
+    import pandas as pd
+except ImportError as e:
+    st.error(f"Missing required packages: {e}. Install with:\n\n`pip install streamlit plotly numpy pandas scipy`")
+    st.stop()
 
+# ================================================
+# App Configuration
+# ================================================
 st.set_page_config(page_title="CCM Analyzer Pro", layout="wide")
 st.title("Advanced Convergence-Confinement Method Analysis")
 
@@ -116,27 +124,34 @@ def calculate_SCC(u_values, u_install):
 # ================================================
 # Main Calculations
 # ================================================
-p, u_r, p_cr = calculate_GRC()
-G = E / (2 * (1 + nu))
-u_max = np.max(u_r)
+try:
+    p, u_r, p_cr = calculate_GRC()
+    G = E / (2 * (1 + nu))
+    u_max = np.max(u_r)
 
-# Determine installation displacement
-if support_criteria == "Distance from Face":
-    u_install = ldp_profile(np.array([support_pos]))[0] * u_max
-elif support_criteria == "Convergence Percentage":
-    u_install = (convergence_pct / 100) * (2 * r0)
+    # Determine installation displacement
+    if support_criteria == "Distance from Face":
+        u_install = ldp_profile(np.array([support_pos]))[0] * u_max
+    elif support_criteria == "Convergence Percentage":
+        u_install = (convergence_pct / 100) * (2 * r0)
+    else:
+        u_install = u_install  # From direct input
     
-scc = calculate_SCC(u_r, u_install)
+    scc = calculate_SCC(u_r, u_install)
 
-# Find intersection
-intersection_points = np.argwhere(np.diff(np.sign(p - scc))).flatten()
-if intersection_points.any():
-    idx = intersection_points[0]
-    u_int = u_r[idx]
-    p_int = p[idx]
-    fos = p_max / p_int
-else:
-    u_int = p_int = fos = None
+    # Find intersection
+    intersection_points = np.argwhere(np.diff(np.sign(p - scc))).flatten()
+    if intersection_points.any():
+        idx = intersection_points[0]
+        u_int = u_r[idx]
+        p_int = p[idx]
+        fos = p_max / p_int
+    else:
+        u_int = p_int = fos = None
+
+except Exception as e:
+    st.error(f"Calculation error: {str(e)}")
+    st.stop()
 
 # ================================================
 # Visualization
@@ -151,8 +166,8 @@ with col1:
     
     if u_int:
         fig.add_trace(go.Scatter(x=[u_int*1000], y=[p_int], 
-                             mode='markers', marker=dict(size=12),
-                             name=f"FoS = {fos:.2f}"))
+                            mode='markers', marker=dict(size=12),
+                            name=f"FoS = {fos:.2f}"))
     
     fig.update_layout(
         title="GRC-SCC Interaction",
@@ -172,7 +187,7 @@ with col2:
     
     if support_criteria == "Distance from Face":
         fig2.add_vline(x=support_pos, line_dash="dot", 
-                     annotation_text=f"Support @ {support_pos}r₀")
+                    annotation_text=f"Support @ {support_pos}r₀")
     
     fig2.update_layout(
         title="Longitudinal Displacement Profile",
@@ -199,33 +214,24 @@ with cols[3]:
     st.metric("Stability Status", status)
 
 # ================================================
-# Technical Documentation
+# Documentation
 # ================================================
 with st.expander("📚 Theory & References"):
     st.markdown("""
-    **Failure Criteria:**
-    - Mohr-Coulomb (Duncan-Fama): Traditional shear strength model
-    - Hoek-Brown (Carranza-Torres): Empirical rock mass failure criterion
-    
-    **LDP Models:**
-    - Panet (1995): Exponential decay model
-    - Vlachopoulos (2009): Combined elastic-plastic model
-    - Hoek (2006): Empirical tunnel face effect model
-    
-    **Support Interaction:**
-    - SCC calculated using support stiffness (k) and maximum capacity (p_max)
-    - Installation timing determined by LDP position
-    """)
+    **Required Packages:**
+    ```bash
+    pip install streamlit plotly numpy pandas scipy
+    ```
 
-# ================================================
-# Data Export
-# ================================================
-if st.button("💾 Export Data"):
-    import pandas as pd
-    df = pd.DataFrame({
-        'Displacement (m)': u_r,
-        'GRC Pressure (MPa)': p,
-        'SCC Pressure (MPa)': scc
-    })
-    csv = df.to_csv(index=False).encode('utf-8')
-    st.download_button("Download CSV", csv, "ccm_results.csv", "text/csv")
+    **Key Features:**
+    - Multiple rock failure criteria
+    - Three LDP models with adjustable parameters
+    - Flexible support installation criteria
+    - Interactive visualizations
+    - Automatic stability assessment
+
+    **References:**
+    1. Hoek & Brown (1997) - Rock mass properties
+    2. Panet (1995) - LDP modeling
+    3. Carranza-Torres (2004) - Convergence-Confinement method
+    """)
