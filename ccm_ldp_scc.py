@@ -51,9 +51,9 @@ with st.sidebar:
 # 2. GRC Calculation
 # -------------------------------
 def calculate_GRC():
-    p = np.linspace(0.1, p0, 500)  # from low to high pressure
+    p = np.linspace(p0, 0.1, 500)
     u = np.zeros_like(p)
-    G = E / (2 * (1 + nu))  # Shear modulus
+    G = E / (2 * (1 + nu))
 
     if criterion == "Mohr-Coulomb":
         sin_phi = np.sin(phi_rad)
@@ -63,11 +63,11 @@ def calculate_GRC():
         u_elastic = (p0 - p_cr) * r0 / (2 * G)
 
         for i, pi in enumerate(p):
-            if pi <= p_cr:  # plastic
+            if pi >= p_cr:
+                u[i] = (p0 - pi) * r0 / (2 * G)
+            else:
                 exponent = (k - 1) / 2
                 u[i] = u_elastic * (p_cr / pi) ** exponent
-            else:  # elastic
-                u[i] = (p0 - pi) * r0 / (2 * G)
 
     else:  # Hoek-Brown
         sigma_cm = (sigma_ci / 2) * ((mb + 4 * s_val) ** a_val - mb ** a_val)
@@ -77,12 +77,13 @@ def calculate_GRC():
         u_elastic = (p0 - p_cr) * r0 / (2 * G)
 
         for i, pi in enumerate(p):
-            if pi <= p_cr:  # plastic
-                u[i] = u_elastic * (R_pl / r0) ** k_HB * (p_cr / pi) ** k_HB
-            else:  # elastic
+            if pi >= p_cr:
                 u[i] = (p0 - pi) * r0 / (2 * G)
+            else:
+                u[i] = u_elastic * (R_pl / r0) ** k_HB * (p_cr / pi) ** k_HB
 
     return p, u, p_cr
+
 
 p_grc, u_grc, p_cr = calculate_GRC()
 
