@@ -1,4 +1,4 @@
-# Streamlit App: CCM with In-Situ Stress from Tunnel Depth & Density
+# Streamlit App: CCM Analysis Tool (MC + Hoek-Brown)
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="CCM Analysis Tool", layout="wide")
 st.title("Convergence-Confinement Method Analysis")
 
-# Constants
 GRAVITY = 9.81  # m/s²
 
 # -------------------------------
@@ -20,33 +19,64 @@ with st.sidebar:
 
     st.header("2. Rock Parameters")
     density = st.number_input("Rock Density [kg/m³]", 1500.0, 3500.0, 2650.0)
-    p0 = (tunnel_depth * density * GRAVITY) / 1e6  # MPa
+    p0 = (tunnel_depth * density * GRAVITY) / 1e6
     st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
     E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 10000.0)
     nu = st.number_input("Poisson's Ratio ν", min_value=0.1, max_value=0.49, value=0.3, step=0.01)
-    c = st.number_input("Cohesion c [MPa]", 0.1, 10.0, 1.5)
-    phi_deg = st.number_input("Friction Angle φ [°]", 5.0, 60.0, 30.0)
 
-# -------------------------------
-# 2. GRC Computation (Mohr-Coulomb)
-# -------------------------------
-phi_rad = np.radians(phi_deg)
-sin_phi = np.sin(phi_rad)
-k_rock = (1 + sin_phi) / (1 - sin_phi)
-sigma_cm = (2 * c * np.cos(phi_rad)) / (1 - sin_phi)
-p_cr = (2 * p0 - sigma_cm) / (1 + k_rock)
-G = E / (2 * (1 + nu))
+    st.header("3. Failure Criterion")
+    criterion = st.selectbox("Select Failure Criterion", ["Mohr-Coulomb", "Hoek-Brown"])
 
-p_grc = np.linspace(p0, 0.1, 500)
-u_grc = np.zeros_like(p_grc)
-
-for i, p in enumerate(p_grc):
-    if p >= p_cr:
-        u_grc[i] = (p0 - p) * r0 / (2 * G)
+    if criterion == "Mohr-Coulomb":
+        c = st.number_input("Cohesion c [MPa]", 0.1, 10.0, 1.5)
+        phi_deg = st.number_input("Friction Angle φ [°]", 5.0, 60.0, 30.0)
+        phi_rad = np.radians(phi_deg)
     else:
-        exponent = (k_rock - 1) / 2
+        sigma_ci = st.number_input("Uniaxial compressive strength σ_ci [MPa]", 1.0, 100.0, 30.0)
+        GSI = st.slider("Geological Strength Index (GSI)", 10, 100, 75)
+        mi = st.number_input("Intact rock constant (mᵢ)", 5.0, 35.0, 15.0)
+        D = st.slider("Disturbance Factor (D)", 0.0, 1.0, 0.0)
+        mb = mi * np.exp((GSI - 100) / (28 - 14 * D))
+        s_val = np.exp((GSI - 100) / (9 - 3 * D))
+        a_val = 0.5 + (1 / 6) * (np.exp(-GSI / 15) - np.exp(-20 / 3))
+        st.markdown(f"**Calculated Parameters:** m_b = {mb:.2f}, s = {s_val:.4f}, a = {a_val:.3f}")
+
+# -------------------------------
+# 2. GRC Calculation
+# -------------------------------
+def calculate_GRC():
+    p = np.linspace(p0, 0.1, 500)
+    u = np.zeros_like(p)
+    G = E / (2 * (1 + nu))
+
+    if criterion == "Mohr-Coulomb":
+        sin_phi = np.sin(phi_rad)
+        k = (1 + sin_phi) / (1 - sin_phi)
+        sigma_cm = (2 * c * np.cos(phi_rad)) / (1 - sin_phi)
+        p_cr = (2 * p0 - sigma_cm) / (1 + k)
         u_elastic = (p0 - p_cr) * r0 / (2 * G)
-        u_grc[i] = u_elastic * (p_cr / p) ** exponent
+        for i, pi in enumerate(p):
+            if pi >= p_cr:
+                u[i] = (p0 - pi) * r0 / (2 * G)
+            else:
+                exponent = (k - 1) / 2
+                u[i] = u_elastic * (p_cr / pi) ** exponent
+    else:
+        sigma_cm = (sigma_ci / 2) * ((mb + 4 * s_val) ** a_val - mb ** a_val)
+        k_HB = (2 * (1 - nu) * (mb + 4 * s_val) ** a_val) / (1 + nu)
+        p_cr = p0 - sigma_cm / 2
+        R_pl = r0 * ((2 * p0 / sigma_cm) + 1) ** (1 / k_HB)
+        u_elastic = (p0 - p_cr) * r0 / (2 * G)
+        for i, pi in enumerate(p):
+            if pi >= p_cr:
+                u[i] = (p0 - pi) * r0 / (2 * G)
+            else:
+                u[i] = u_elastic * (R_pl / r0) ** k_HB * (p_cr / pi) ** k_HB
+
+    return p, u, p_cr
+
+# Call the GRC function
+p_grc, u_grc, p_cr = calculate_GRC()
 
 # -------------------------------
 # 3. LDP
