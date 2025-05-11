@@ -31,6 +31,23 @@ h = st.sidebar.number_input("Tunnel Depth (m)", 10.0, 2000.0, 180.0)
 K = st.sidebar.number_input("Horizontal Stress Ratio (K)", 0.1, 5.0, 2.0)
 unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", 10.0, 35.0, 27.0)
 
+# --- Experimental Data Manual Entry ---
+st.markdown("### Manual Input of Experimental Data")
+manual_data = st.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):",
+                           value="0,5\n2,10\n4,16\n6,21")
+
+data_lines = manual_data.strip().split("\n")
+sigma3_list, sigma1_list = [], []
+try:
+    for line in data_lines:
+        parts = line.split(',')
+        if len(parts) == 2:
+            sigma3_list.append(float(parts[0]))
+            sigma1_list.append(float(parts[1]))
+except:
+    st.error("Invalid format. Please enter numeric σ₃ and σ₁ pairs, separated by a comma.")
+    st.stop()
+
 # --- Experimental Data Upload ---
 st.sidebar.markdown("### Upload Experimental Data")
 uploaded_file = st.sidebar.file_uploader("Upload CSV file with σ₃ and σ₁ columns", type="csv")
@@ -44,8 +61,8 @@ if uploaded_file:
         st.error("CSV must contain 'sigma3' and 'sigma1' columns.")
         st.stop()
 else:
-    st.warning("Please upload a CSV file with experimental data.")
-    st.stop()
+    sigma3_values = np.array(sigma3_list)
+    sigma1_values = np.array(sigma1_list)
 
 # --- Computation ---
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
@@ -93,7 +110,8 @@ ax1.grid(True)
 ax1.legend()
 
 # Shear-Normal Plot
-mc_label = rf"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n(c = {cohesion:.2f} MPa, $\phi$ = {friction_angle:.1f}\u00b0)"
+mc_label = rf"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$
+(c = {cohesion:.2f} MPa, $\phi$ = {friction_angle:.1f}\u00b0)"
 ax2.plot(x_fit, y_fit, 'k--', lw=2, label=mc_label)
 
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
