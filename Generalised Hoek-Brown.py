@@ -82,10 +82,6 @@ rock_name = st.sidebar.selectbox("Rock Type", list(rock_type_dict[rock_category]
 mi = rock_type_dict[rock_category][rock_name]
 st.sidebar.write(f"**Selected mi value:** {mi}")
 
-# --- Reference Table ---
-with st.sidebar.expander("📘 Reference Table: Suggested $m_i$ Values"):
-    st.image("mi_reference.png", caption="Hoek & Marinos (2000): Suggested mi Values", use_column_width=True)
-
 # --- Computation ---
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
 mb, s, a = calculate_hb_parameters(GSI, mi, D)
@@ -162,6 +158,11 @@ for _, row in circle_data.iterrows():
 
 ax2.legend()
 st.pyplot(fig)
+
+# ✅ ADD THIS BELOW st.pyplot(fig)
+with st.expander("📘 Suggested $m_i$ Values for Rock Types (Hoek & Marinos, 2000)", expanded=True):
+    st.image("mi_reference.png", caption="Suggested $m_i$ values for various rock types", use_container_width=True)
+
 
 # --- Data Output ---
 with st.expander("View Failure Envelope Data"):
