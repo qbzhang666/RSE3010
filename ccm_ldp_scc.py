@@ -167,7 +167,7 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
 # GRC + SCC
 ax1.plot(u_grc * 1000, p_grc, label="GRC", lw=2)
 ax1.plot(u_scc * 1000, scc_vals, '--', color='orange', label="SCC", lw=2)
-ax1.axvline(disp_thresh, linestyle=':', color='red', label=f"Threshold = {disp_thresh} mm")
+ax1.axvline(disp_thresh, linestyle=':', color='green', label=f"Threshold = {disp_thresh} mm")
 
 # Mark point where SCC reaches max pressure
 if u_eq and p_scc_at_u_eq and np.isclose(p_scc_at_u_eq, p_max, atol=1e-3):
