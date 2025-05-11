@@ -31,10 +31,10 @@ h = st.sidebar.number_input("Tunnel Depth (m)", 10.0, 2000.0, 180.0)
 K = st.sidebar.number_input("Horizontal Stress Ratio (K)", 0.1, 5.0, 2.0)
 unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", 10.0, 35.0, 27.0)
 
-# --- Experimental Data Manual Entry ---
-st.markdown("### Manual Input of Experimental Data")
-manual_data = st.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):",
-                           value="0,5\n2,10\n4,16\n6,21")
+# --- Experimental Data ---
+st.sidebar.markdown("### Manual Input of Experimental Data")
+manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):",
+                                   value="0,5\n2,10\n4,16\n6,21")
 
 data_lines = manual_data.strip().split("\n")
 sigma3_list, sigma1_list = [], []
@@ -48,7 +48,6 @@ except:
     st.error("Invalid format. Please enter numeric σ₃ and σ₁ pairs, separated by a comma.")
     st.stop()
 
-# --- Experimental Data Upload ---
 st.sidebar.markdown("### Upload Experimental Data")
 uploaded_file = st.sidebar.file_uploader("Upload CSV file with σ₃ and σ₁ columns", type="csv")
 
