@@ -140,6 +140,11 @@ x_fit = np.linspace(0, df.sign.max(), 100)
 y_fit = mc_model.predict(x_fit.reshape(-1, 1))
 ax2.plot(x_fit, y_fit, 'k--', lw=2, label='Mohr-Coulomb Fit')
 
+# Calculate limits before using them
+x_max = df.sign.max() * 1.1
+y_max = df.tau.max() * 1.1
+max_limit = max(x_max, y_max)
+
 # Annotate cohesion and phi
 ax2.text(
     0.05 * max_limit,
@@ -149,15 +154,6 @@ ax2.text(
     bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.4')
 )
 
-ax2.set_xlabel(r'$\sigma_n$ [MPa]')
-ax2.set_ylabel(r'$\tau$ [MPa]')
-ax2.set_title("Shear-Normal Stress Space")
-ax2.grid(True)
-
-# Mohr Circles
-x_max = df.sign.max() * 1.1
-y_max = df.tau.max() * 1.1
-max_limit = max(x_max, y_max)
 ax2.set_xlim(0, max_limit)
 ax2.set_ylim(0, max_limit)
 ax2.set_aspect('equal')
