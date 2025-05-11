@@ -153,7 +153,12 @@ fig, ax = plt.subplots(figsize=(10, 6))
 ax.plot(u_r * 1000, p, label="GRC", lw=2)
 ax.plot(u_scc * 1000, scc_vals, label="SCC", linestyle='--', color='orange', lw=2)
 if u_int is not None:
+    # Plot point on GRC curve
     ax.plot(u_int * 1000, p_int, 'ro', label=f"Intersection\nFoS = {p_max / p_int:.2f}")
+    
+    # Also plot point on SCC curve for visual confirmation
+    scc_val_at_u_int = min(k * (u_int - u_install), p_max) if u_int >= u_install else 0
+    ax.plot(u_int * 1000, scc_val_at_u_int, 'ro')
 ax.set_xlabel("Tunnel Wall Displacement [mm]", fontsize=14)
 ax.set_ylabel("Radial Stress [MPa]", fontsize=14)
 ax.set_title("GRC + SCC Interaction", fontsize=16)
