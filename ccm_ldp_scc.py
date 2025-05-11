@@ -191,7 +191,7 @@ if install_criteria == "Distance from face":
 ax2.set_xlabel("Distance to Tunnel Face [m]")
 ax2.set_ylabel("Radial Displacement [mm]")
 ax2.set_title("Longitudinal Deformation Profile")
-ax2.set_xlim(15, -5)  # ✅ Set display range: 15 m to -5 m
+ax2.set_xlim(20, -10)  # ✅ Set display range: 20 m to 10 m
 ax2.grid(True, color='lightgrey', alpha=0.4)
 ax2.legend()
 
