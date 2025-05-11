@@ -19,14 +19,10 @@ def calculate_insitu_stresses(h, K, unit_weight):
     return sigma_v, sigma_h, sigma_1, sigma_3, direction
 
 def calculate_hb_parameters(GSI, mi, D):
-    if GSI < 25:
-        mb = mi * np.exp((GSI - 100) / (28 - 14 * D))
-        s = 0.0
-        a = 0.65 - (GSI / 200)
-    else:
-        mb = mi * np.exp((GSI - 100) / (28 - 14 * D))
-        s = np.exp((GSI - 100) / (9 - 3 * D))
-        a = 0.5 + (1/6) * (np.exp(-GSI/15) - np.exp(-20/3))
+    """Generalised Hoek-Brown Criterion (Hoek, Carranza-Torres & Corkum, 2002)"""
+    mb = mi * np.exp((GSI - 100) / (28 - 14 * D))
+    s = np.exp((GSI - 100) / (9 - 3 * D))
+    a = 0.5 + (1/6) * (np.exp(-GSI / 15) - np.exp(-20 / 3))
     return mb, s, a
 
 def hoek_brown(sigci, mb, s, a, min_sig3, max_sig3, num_points=100):
@@ -52,22 +48,54 @@ def fit_mohr_coulomb(df):
     cohesion = intercept
     return cohesion, phi_deg, model
 
+# --- Rock Types Dictionary ---
+rock_type_dict = {
+    "Igneous": {
+        "Granite": 32, "Granodiorite": 29, "Diorite": 25, "Gabbro": 27, "Norite": 22, "Peridotite": 25,
+        "Dolerite": 16, "Rhyolite": 16, "Andesite": 25, "Basalt": 16, "Diabase": 16, "Porphyries": 20,
+        "Agglomerate": 19, "Tuff": 13
+    },
+    "Sedimentary": {
+        "Conglomerate": 4, "Breccia": 6, "Sandstone": 17, "Siltstone": 7, "Mudstone": 4, "Shale": 6,
+        "Marl": 7, "Crystalline limestone": 12, "Sparitic limestone": 10, "Micritic limestone": 9,
+        "Dolomite": 9, "Gypsum": 8, "Anhydrite": 12, "Coal": 8, "Chalk": 7
+    },
+    "Metamorphic": {
+        "Gneiss": 28, "Schist": 12, "Phyllites": 7, "Slate": 7, "Migmatite": 29, "Amphibolite": 26,
+        "Quartzite": 20, "Meta-sandstone": 19, "Hornfels": 19, "Marble": 9
+    }
+}
+
 # --- Sidebar Inputs ---
 st.sidebar.header("Input Parameters")
 h = st.sidebar.number_input("Tunnel Depth (m)", value=250.0, step=10.0, format="%.1f")
 K = st.sidebar.number_input("Horizontal Stress Ratio (K)", value=1.5, step=0.1, format="%.1f")
 unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", value=27.0, step=1.0, format="%.1f")
 GSI = st.sidebar.slider("Geological Strength Index (GSI)", 10, 100, 45)
-mi = st.sidebar.number_input("Intact Rock Parameter (mi)", value=20.0, step=1.0, format="%.1f")
 D = st.sidebar.slider("Disturbance Factor (D)", 0.0, 1.0, 1.0, 0.1)
 sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", value=25.0, step=1.0, format="%.1f")
+
+# --- Rock Selection for mi ---
+st.sidebar.markdown("### Rock Type Selection")
+rock_category = st.sidebar.selectbox("Rock Category", list(rock_type_dict.keys()))
+rock_name = st.sidebar.selectbox("Rock Type", list(rock_type_dict[rock_category].keys()))
+mi = rock_type_dict[rock_category][rock_name]
+st.sidebar.write(f"**Selected mi value:** {mi}")
+
+# --- Reference Tables ---
+with st.sidebar.expander("📘 Reference Table: Suggested $m_i$ Values"):
+    st.image("/mnt/data/ab488f71-ab98-4f71-889d-24f30f21c7cf.png", 
+             caption="Hoek & Marinos (2000): Suggested mi Values", use_column_width=True)
+
+with st.sidebar.expander("📘 Generalised H-B Criterion (2002)"):
+    st.image("/mnt/data/d9088f9d-f4cb-4819-82ba-77b33353555c.png", 
+             caption="Reference: Generalised Hoek-Brown Parameters (Hoek et al., 2002)", use_column_width=True)
 
 # --- Computation ---
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
 mb, s, a = calculate_hb_parameters(GSI, mi, D)
 df = hoek_brown(sigci, mb, s, a, min_sig3=0.8*sigma_3, max_sig3=1.2*sigma_1)
 cohesion, phi_deg, mc_model = fit_mohr_coulomb(df)
-
 circle_indices = np.linspace(0, len(df)-1, 10, dtype=int)
 circle_data = df.iloc[circle_indices]
 
@@ -81,7 +109,7 @@ st.markdown(f"""
 - **Minor Principal Stress (σ₃):** {sigma_3:.2f} MPa  
 """)
 
-st.subheader("Hoek-Brown Parameters")
+st.subheader("Generalised Hoek-Brown Parameters (2002)")
 st.markdown(f"""
 - **mb:** {mb:.4f}  
 - **s:** {s:.4f}  
