@@ -1,4 +1,4 @@
-# Streamlit App: CCM with Rock Mass Failure, GRC, LDP, SCC (Final-Fix)
+# Streamlit App: CCM with GRC, LDP, SCC (Final Version)
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -55,12 +55,10 @@ p_cr = (2 * p0 - sigma_cm_MC) / (1 + k_rock)
 G = E / (2 * (1 + nu))
 u_ie = (p0 - p_cr) * r0 / (2 * G)
 
-# -------------------------------
-# GRC Calculation
-# -------------------------------
-p_raw = np.linspace(0.1, p0, 500)
-u_r = np.zeros_like(p_raw)
-for i, p_i in enumerate(p_raw):
+# Ground Reaction Curve (GRC)
+p = np.linspace(0.1, p0, 500)
+u_r = np.zeros_like(p)
+for i, p_i in enumerate(p):
     if p_i >= p_cr:
         u_r[i] = (p0 - p_i) * r0 / (2 * G)
     else:
@@ -108,6 +106,7 @@ k = st.sidebar.number_input("Support Stiffness (MPa/m)", 100, 2000, 650)
 p_max = st.sidebar.number_input("Max Support Pressure (MPa)", 0.5, 10.0, 3.0)
 diameter = 2 * r0
 
+# Determine u_install
 if support_criteria == "Distance from Tunnel Face (L)":
     support_pos_x = st.sidebar.slider("Support Distance from Tunnel Face (x/r₀)", 0.0, 10.0, 1.5)
     u_install = ldp_profile(np.array([support_pos_x]), ldp_model, alpha, R_star)[0] * u_max
@@ -117,15 +116,9 @@ elif support_criteria == "When Convergence (ε) = displacement/diameter":
     convergence_pct = st.sidebar.slider("Convergence (%)", 0.0, 10.0, 1.0)
     u_install = (convergence_pct / 100) * diameter
 
-# -------------------------------
-# Common Displacement Array (u_common)
-# -------------------------------
-u_common = np.linspace(0, np.max(u_r)*1.2, 1000)
+# SCC Curve
+u_scc = np.sort(np.unique(np.append(np.linspace(0, np.max(u_r), 499), u_install)))
 
-# Interpolated GRC
-grc_vals = np.interp(u_common, u_r, p_raw)
-
-# SCC function
 def calculate_scc(u_values, k, u_install, p_max):
     scc = np.zeros_like(u_values)
     for i, u in enumerate(u_values):
@@ -133,10 +126,11 @@ def calculate_scc(u_values, k, u_install, p_max):
             scc[i] = min(k * (u - u_install), p_max)
     return scc
 
-scc_vals = calculate_scc(u_common, k, u_install, p_max)
+scc_vals = calculate_scc(u_scc, k, u_install, p_max)
+scc_on_grc = calculate_scc(u_r, k, u_install, p_max)
 
 # -------------------------------
-# Find GRC-SCC Intersection
+# Intersection Detection
 # -------------------------------
 def find_intersection(u_vals, grc_vals, scc_vals):
     for i in range(1, len(u_vals)):
@@ -146,14 +140,14 @@ def find_intersection(u_vals, grc_vals, scc_vals):
             return u_int, p_int
     return None, None
 
-u_int, p_int = find_intersection(u_common, grc_vals, scc_vals)
+u_int, p_int = find_intersection(u_r, p, scc_on_grc)
 
 # -------------------------------
 # Plot: GRC + SCC
 # -------------------------------
 fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(u_common * 1000, grc_vals, label="GRC", lw=2)
-ax.plot(u_common * 1000, scc_vals, label="SCC", linestyle='--', color='orange', lw=2)
+ax.plot(u_r * 1000, p, label="GRC", lw=2)
+ax.plot(u_scc * 1000, scc_vals, label="SCC", linestyle='--', color='orange', lw=2)
 
 if u_int is not None and p_int is not None:
     ax.plot(u_int * 1000, p_int, 'ro', label="Intersection")
@@ -195,7 +189,8 @@ st.markdown("### Summary")
 st.write(f"- Rock Mass Criterion: **{failure_criterion}**")
 st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
 st.write(f"- Installation Displacement: **{u_install * 1000:.2f} mm**")
-if u_int:
+
+if u_int and p_int:
     st.success(f"✅ GRC and SCC intersect at {u_int*1000:.2f} mm, pressure = {p_int:.2f} MPa → FoS = {p_max/p_int:.2f}")
 else:
     st.warning("⚠️ No intersection between GRC and SCC (support insufficient)")
