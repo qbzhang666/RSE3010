@@ -91,18 +91,18 @@ p_grc, u_grc, p_cr = calculate_GRC()
 # -------------------------------
 with st.sidebar:
     st.header("3. LDP Curve & Support Criteria")
-    ldp_model = st.selectbox("LDP Model", ["Vlachopoulos", "Hoek", "Panet"])
+    ldp_model = st.selectbox("LDP Model", ["Vlachopoulos and Diederichs (2009)", "Hoek et al. (2002)", "Panet (1995)"])
     alpha = st.slider("Alpha α", 0.6, 0.95, 0.85)
     R_star = st.slider("Plastic Radius R*", 1.0, 5.0, 2.5)
 
     install_criteria = st.selectbox("Installation Criteria", [
         "Distance from face",
-        "When Tunnel Wall Displacement = uₛ₀",
+        "When Radial Displacement = uₛ₀",
         "Convergence %"
     ])
     if install_criteria == "Distance from face":
         x_install = st.slider("Support Distance x/r₀", 0.0, 10.0, 1.5)
-    elif install_criteria == "When Tunnel Wall Displacement = uₛ₀":
+    elif install_criteria == "When Radial Displacement = uₛ₀":
         u_install_mm = st.number_input("Target Displacement uₛ₀ [mm]", 1.0, 500.0, 30.0)
         u_install = u_install_mm / 1000
     elif install_criteria == "Convergence %":
@@ -111,11 +111,11 @@ with st.sidebar:
 
 ldp_x = np.linspace(-5, 10, 500)
 def ldp_profile(x_star, model, alpha, R_star):
-    if model == "Panet":
+    if model == "Panet (1995)":
         return np.where(x_star <= 0, 1 - alpha * np.exp(-1.5 * x_star), np.exp(-1.5 * x_star))
-    elif model == "Hoek":
+    elif model == "Hoek et al. (2002)":
         return np.where(x_star <= 0, 0.25 * np.exp(2.5 * x_star), 1 - 0.75 * np.exp(-0.5 * x_star))
-    elif model == "Vlachopoulos":
+    elif model == "Vlachopoulos and Diederichs (2009)":
         return np.where(x_star <= 0,
                         (1/3) * np.exp(2 * x_star - 0.15 * x_star / alpha),
                         1 - (1 - (1/3) * np.exp(-0.15 * x_star)) * np.exp(-3 * x_star / R_star))
@@ -197,7 +197,7 @@ ax2.axvline(0, color='black', linestyle='-', linewidth=1.5, label='Tunnel Face (
 # Formatting
 ax2.set_xlabel("Distance to Tunnel Face [m]")
 ax2.set_ylabel("Radial Displacement [mm]")
-ax2.set_title("Longitudinal Deformation Profile")
+ax2.set_title("LDP Longitudinal Deformation Profile")
 ax2.set_xlim(20, -10)  # reversed x-axis range
 ax2.grid(True, color='lightgrey', alpha=0.4)
 ax2.legend()
