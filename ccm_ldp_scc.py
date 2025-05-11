@@ -35,7 +35,7 @@ with st.sidebar:
     else:
         sigma_ci = st.number_input("Uniaxial compressive strength σ_ci [MPa]", 1, 100, 30, step=1, format="%d")
         GSI = st.slider("Geological Strength Index (GSI)", 10, 100, 25)
-        mi = st.number_input("Intact rock constant (mᵢ)", 5.0, 35.0, 15.0)
+        mi = st.number_input("Intact rock constant (mᵢ)", 5, 35, 15, step=1, format="%d")
         D = st.slider("Disturbance Factor (D)", 0.0, 1.0, 0.0)
 
         # Hoek-Brown calculations
@@ -131,8 +131,8 @@ if install_criteria == "Distance from face":
 # -------------------------------
 with st.sidebar:
     st.header("4. Support System & Threshold")
-    k_supp = st.number_input("Support Stiffness k [MPa/m]", 100, 5000, 650)
-    p_max = st.number_input("Max Support Pressure pₛₘ [MPa]", 0.1, 10.0, 3.0)
+    k_supp = st.number_input("Support Stiffness k [MPa/m]", 100, 5000, 650, step=50, format="%d")
+    p_max = st.number_input("Max Support Pressure pₛₘ [MPa]", 0.1, 10.0, 3.1, step=0.1, format="%.1f")
     disp_thresh = st.slider("Display Threshold [mm]", 10, 100, 40)
 
 u_scc = np.linspace(0, np.max(u_grc) * 1.2, 500)
