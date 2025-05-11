@@ -80,4 +80,31 @@ ax1.legend()
 
 # Shear-Normal Plot
 mc_label = rf"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n(c = {cohesion:.2f} MPa, $\phi$ = {friction_angle:.1f}\u00b0)"
-ax2.plot(x_fit,
+ax2.plot(x_fit, y_fit, 'k--', lw=2, label=mc_label)
+
+colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
+for σ3, σ1, color in zip(sigma3_values, sigma1_values, colors):
+    center = (σ1 + σ3) / 2
+    radius = (σ1 - σ3) / 2
+    ax2.add_patch(Arc((center, 0), 2*radius, 2*radius, theta1=0, theta2=180, color=color, alpha=0.6, lw=1))
+    ax2.plot(center, 0, 'o', color=color, markersize=4)
+
+max_limit = max((sigma1_values + sigma3_values)/2 + (sigma1_values - sigma3_values)/2) * 1.1
+ax2.set_xlim(0, max_limit)
+ax2.set_ylim(0, max_limit)
+ax2.set_aspect('equal')
+ax2.set_xlabel(r'Normal Stress ($\sigma_n$) [MPa]')
+ax2.set_ylabel(r'Shear Stress ($\tau$) [MPa]')
+ax2.grid(True)
+ax2.legend()
+
+st.pyplot(fig)
+
+# --- Equation Reference ---
+with st.expander("\U0001F4D8 Show All Equations Used"):
+    st.markdown("#### Mohr-Coulomb Failure Criteria")
+    st.latex(r"\sigma_1 = \frac{2c \cos \phi}{1 - \sin \phi} + \frac{1 + \sin \phi}{1 - \sin \phi} \cdot \sigma_3")
+    st.latex(r"\tau = c + \sigma_n \tan \phi")
+    st.markdown("#### Stress Transformations")
+    st.latex(r"\sigma_n = \frac{\sigma_1 + \sigma_3}{2}")
+    st.latex(r"\tau = \frac{\sigma_1 - \sigma_3}{2}")
