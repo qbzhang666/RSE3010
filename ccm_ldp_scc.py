@@ -96,11 +96,11 @@ with st.sidebar:
     R_star = st.slider("Plastic Radius R*", 1.0, 5.0, 2.5)
 
     install_criteria = st.selectbox("Installation Criteria", [
-        "Distance from face",
+        "Distance from Tunnel Face",
         "When Radial Displacement = uₛ₀",
         "Convergence %"
     ])
-    if install_criteria == "Distance from face":
+    if install_criteria == "Distance from Tunnel Face":
         x_install = st.slider("Support Distance x/r₀", 0.0, 10.0, 1.5)
     elif install_criteria == "When Radial Displacement = uₛ₀":
         u_install_mm = st.number_input("Target Displacement uₛ₀ [mm]", 1.0, 500.0, 30.0)
