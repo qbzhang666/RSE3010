@@ -130,9 +130,16 @@ for _, row in circle_data.iterrows():
     arc = Arc((center, 0), 2*radius, 2*radius, theta1=0, theta2=180, color='grey', alpha=0.4)
     ax2.add_patch(arc)
 
-max_lim = max(df['sign'].max(), df['tau'].max()) * 1.1
-ax2.set_xlim(0, max_lim)
-ax2.set_ylim(0, max_lim)
+# Get limits from full Mohr circle data
+circle_centers = (circle_data.sig1 + circle_data.sig3) / 2
+circle_radii = (circle_data.sig1 - circle_data.sig3) / 2
+x_max = (circle_centers + circle_radii).max() * 1.1
+y_max = circle_radii.max() * 1.1
+lim = max(x_max, y_max)
+
+ax2.set_xlim(0, lim)
+ax2.set_ylim(0, lim)
+
 ax2.set_aspect('equal')
 ax2.set_xlabel(r'$\sigma_n$ [MPa]')
 ax2.set_ylabel(r'$\tau$ [MPa]')
