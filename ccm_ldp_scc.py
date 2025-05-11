@@ -198,7 +198,7 @@ ax2.axvline(0, color='black', linestyle='-', linewidth=1.5, label='Tunnel Face (
 ax2.set_xlabel("Distance to Tunnel Face [m]")
 ax2.set_ylabel("Radial Displacement [mm]")
 ax2.set_title("Longitudinal Deformation Profile")
-ax2.set_xlim(15, -5)  # reversed x-axis range
+ax2.set_xlim(20, -10)  # reversed x-axis range
 ax2.grid(True, color='lightgrey', alpha=0.4)
 ax2.legend()
 
