@@ -47,7 +47,7 @@ unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", 10.0, 35.0, 27.0)
 fit_method = st.sidebar.radio("Fitting Method", ["ransac", "linear"])
 thresh = st.sidebar.slider("RANSAC Residual Threshold", 0.1, 5.0, 1.0)
 
-# --- Experimental Data ---
+# --- Experimental Data Inputs ---
 st.sidebar.markdown("### Manual Input of Experimental Data")
 manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):",
                                    value="0,5\n2,10\n4,16\n6,21")
@@ -125,7 +125,7 @@ ax1.grid(True)
 ax1.legend()
 
 # Shear-Normal Plot
-mc_label = fr"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n$(c = {cohesion:.2f} MPa, \phi = {friction_angle:.1f}^\circ)$"
+mc_label = fr"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n$(c = {cohesion:.2f}\ MPa, \phi = {friction_angle:.1f}^\circ)$"
 ax2.plot(x_fit, y_fit, 'k--', lw=2, label=mc_label)
 
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
