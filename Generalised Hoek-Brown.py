@@ -68,19 +68,25 @@ rock = st.sidebar.selectbox("Rock Type", list(rock_type_dict[category].keys()))
 mi = rock_type_dict[category][rock]
 st.sidebar.write(f"**Selected mi value:** {mi}")
 
+# Mohr Circle Selection
+num_circles = st.sidebar.slider("Number of Mohr Circles", 1, 20, 10, step=1)
+
 # --- Computation ---
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
 mb, s, a = calculate_hb_parameters(GSI, mi, D)
 df = hoek_brown(sigci, mb, s, a, 0.8 * sigma_3, 1.2 * sigma_1)
 cohesion, phi_deg = fit_mohr_coulomb(df)
 
-# --- Mohr-Coulomb Lines ---
 x_fit = np.linspace(0, df['sign'].max(), 100)
 y_fit = cohesion + np.tan(np.radians(phi_deg)) * x_fit
 
 mc_sig3 = np.linspace(0, df.sig3.max(), 100)
 mc_sig1 = ((2 * cohesion * np.cos(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg))) +
            ((1 + np.sin(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg)))) * mc_sig3)
+
+# Mohr Circle selection
+circle_indices = np.linspace(0, len(df)-1, num_circles, dtype=int)
+circle_data = df.iloc[circle_indices]
 
 # --- Results Display ---
 st.subheader("In-situ Stress Analysis")
@@ -115,10 +121,9 @@ ax1.legend()
 
 # Plot τ–σₙ
 ax2.plot(df['sign'], df['tau'], 'r-', lw=2, label=r'Hoek-Brown: $\tau = \frac{(\sigma_1-\sigma_3)\sqrt{d\sigma_1/d\sigma_3}}{d\sigma_1/d\sigma_3+1}$')
-ax2.plot(x_fit, y_fit, 'k--', lw=2, label=fr'Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$ (c = {cohesion:.2f} MPa, φ = {phi_deg:.1f}°)')
+ax2.plot(x_fit, y_fit, 'k--', lw=2, label=fr'Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n(c = {cohesion:.2f} MPa, φ = {phi_deg:.1f}°)')
 
 # Mohr Circles
-circle_data = df.iloc[::len(df)//10]
 for _, row in circle_data.iterrows():
     center = (row.sig1 + row.sig3)/2
     radius = (row.sig1 - row.sig3)/2
