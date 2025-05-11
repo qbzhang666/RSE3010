@@ -50,7 +50,7 @@ with st.sidebar:
 
 # -------------------------------
 def calculate_GRC():
-    p = np.linspace(p0, 0.1, 500)
+    p = np.linspace(p0 * 0.999, 0.1, 500)  # Start just below p0
     u = np.zeros_like(p)
     G = E / (2 * (1 + nu))  # Shear modulus
 
