@@ -153,11 +153,12 @@ def find_intersection(u_vals, p1, p2):
     return None, None
 
 u_eq, p_eq = find_intersection(u_grc, p_grc, scc_on_grc)
+p_scc_at_u_eq = np.interp(u_eq, u_scc, scc_vals) if u_eq is not None else None
+
+# Determine FoS only if SCC hasn't reached max pressure
 FoS = None
-if p_eq is not None and p_eq > 0:
-    if p_eq >= p_max:
-        FoS = None  # Indicates insufficient support
-    else:
+if u_eq is not None and p_eq is not None and p_eq > 0:
+    if p_scc_at_u_eq is not None and not np.isclose(p_scc_at_u_eq, p_max, atol=1e-3):
         FoS = p_max / p_eq
 
 # -------------------------------
@@ -169,12 +170,18 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
 ax1.plot(u_grc * 1000, p_grc, label="GRC", lw=2)
 ax1.plot(u_scc * 1000, scc_vals, '--', color='orange', label="SCC", lw=2)
 ax1.axvline(disp_thresh, linestyle=':', color='red', label=f"Threshold = {disp_thresh} mm")
+
+# Mark point where SCC reaches max pressure
+if u_eq and p_scc_at_u_eq and np.isclose(p_scc_at_u_eq, p_max, atol=1e-3):
+    ax1.plot(u_eq * 1000, p_scc_at_u_eq, 'ro', label="Max Support Reached")
+
 ax1.set_xlabel("Tunnel Wall Displacement [mm]")
 ax1.set_ylabel("Radial Pressure [MPa]")
 ax1.set_title("GRC + SCC Interaction")
 ax1.set_xlim(0, 100)
 ax1.grid(True, color='lightgrey', alpha=0.4)
-if u_eq:
+
+if u_eq and p_eq and FoS is not None:
     ax1.legend(title=f"FoS = pₛₘ / p_eq = {p_max:.2f} / {p_eq:.2f} = {FoS:.2f}")
 else:
     ax1.legend()
@@ -197,13 +204,14 @@ st.pyplot(fig)
 st.markdown("### Safety Summary")
 st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
 st.write(f"- Installation Displacement $u_{{install}}$: **{u_install*1000:.2f} mm**")
-if FoS is None:
-    st.error(f"⚠️ Insufficient support: intersection occurs after maximum pressure is reached (p_eq = {p_eq:.2f} MPa ≥ pₛₘ = {p_max:.2f} MPa)")
-elif u_eq:
-    st.success(f"✅ GRC and SCC intersect at displacement = {u_eq*1000:.2f} mm, pressure = {p_eq:.2f} MPa → FoS = {FoS:.2f}")
-else:
-    st.warning("⚠️ No intersection found – support system insufficient")
 
+if u_eq and p_eq:
+    if np.isclose(p_scc_at_u_eq, p_max, atol=1e-3):
+        st.warning("⚠️ Intersection occurs after support reaches max pressure. FoS is not valid – support system may be insufficient.")
+    elif FoS is not None:
+        st.success(f"✅ GRC and SCC intersect at displacement = {u_eq*1000:.2f} mm, pressure = {p_eq:.2f} MPa → FoS = {FoS:.2f}")
+else:
+    st.warning("⚠️ No intersection found – support system insufficient.")
 
 # Optional Geotechnical Summary
 with st.expander("📘 Geotechnical Parameters"):
