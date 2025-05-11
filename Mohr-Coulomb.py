@@ -31,21 +31,35 @@ h = st.sidebar.number_input("Tunnel Depth (m)", 10.0, 2000.0, 180.0)
 K = st.sidebar.number_input("Horizontal Stress Ratio (K)", 0.1, 5.0, 2.0)
 unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", 10.0, 35.0, 27.0)
 
+# --- Experimental Data Upload ---
+st.sidebar.markdown("### Upload Experimental Data")
+uploaded_file = st.sidebar.file_uploader("Upload CSV file with σ₃ and σ₁ columns", type="csv")
+
+if uploaded_file:
+    data = pd.read_csv(uploaded_file)
+    if "sigma3" in data.columns and "sigma1" in data.columns:
+        sigma3_values = data["sigma3"].values
+        sigma1_values = data["sigma1"].values
+    else:
+        st.error("CSV must contain 'sigma3' and 'sigma1' columns.")
+        st.stop()
+else:
+    st.warning("Please upload a CSV file with experimental data.")
+    st.stop()
+
 # --- Computation ---
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
-sigma3_values = np.linspace(0, sigma_3*2, 6)
-sigma1_values = 2.5 * sigma3_values + 5
 cohesion, friction_angle = fit_mohr_coulomb(sigma1_values, sigma3_values)
 
 # Regression lines
-x_fit = np.linspace(0, sigma3_values.max(), 100)
+x_fit = np.linspace(0, max(sigma3_values)*1.1, 100)
 y_fit = cohesion + np.tan(np.radians(friction_angle)) * x_fit
 
 # Mohr-Coulomb envelope in principal stress space
 sin_phi = np.sin(np.radians(friction_angle))
 term1 = (2 * cohesion * np.cos(np.radians(friction_angle))) / (1 - sin_phi)
 term2 = (1 + sin_phi) / (1 - sin_phi)
-mc_sig3 = np.linspace(0, sigma3_values.max(), 100)
+mc_sig3 = np.linspace(0, max(sigma3_values)*1.1, 100)
 mc_sig1 = term1 + term2 * mc_sig3
 
 # --- Text Outputs ---
@@ -71,7 +85,7 @@ fig.suptitle(f'Mohr-Coulomb Strength Analysis\nDepth: {h} m, K: {K}', fontsize=1
 # Principal Stress Plot
 ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2,
          label=r'Mohr-Coulomb: $\sigma_1 = \frac{2c\cos\phi}{1-\sin\phi} + \frac{1+\sin\phi}{1-\sin\phi}\sigma_3$')
-ax1.scatter(sigma3_values, sigma1_values, c='b', s=80, label='Synthetic Stress States')
+ax1.scatter(sigma3_values, sigma1_values, c='b', s=80, label='Experimental Data')
 ax1.scatter(sigma_3, sigma_1, c='r', s=120, label='In-situ Stress', marker='*')
 ax1.set_xlabel(r'Minor Principal Stress ($\sigma_3$) [MPa]')
 ax1.set_ylabel(r'Major Principal Stress ($\sigma_1$) [MPa]')
@@ -79,7 +93,8 @@ ax1.grid(True)
 ax1.legend()
 
 # Shear-Normal Plot
-mc_label = rf"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n(c = {cohesion:.2f} MPa, $\phi$ = {friction_angle:.1f}\u00b0)"
+mc_label = rf"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$
+(c = {cohesion:.2f} MPa, $\phi$ = {friction_angle:.1f}\u00b0)"
 ax2.plot(x_fit, y_fit, 'k--', lw=2, label=mc_label)
 
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
