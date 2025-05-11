@@ -12,19 +12,19 @@ GRAVITY = 9.81  # m/s²
 # 1. Tunnel & Rock Parameters
 # -------------------------------
 with st.sidebar:
-    st.header("1. Tunnel Parameters")
-    r0 = st.number_input("Tunnel Radius [m]", 1.0, 10.0, 5.0)
+    st.header("1. Tunnel & Rock Parameters")
+    r0 = st.number_input("Tunnel Radius [m]", 1.0, 10.0, 5.0, step=0.1, format="%.1f")
     diameter = 2 * r0
-    tunnel_depth = st.number_input("Tunnel Depth [m]", 10.0, 5000.0, 500.0)
-
-    st.header("2. Rock Parameters")
-    density = st.number_input("Rock Density [kg/m³]", 1500.0, 3500.0, 2650.0)
+    tunnel_depth = st.number_input("Tunnel Depth [m]", 10.0, 5000.0, 500.0, step=10.0, format="%.1f")
+    density = st.number_input("Rock Density [kg/m³]", 1500.0, 3500.0, 2650.0, step=50.0, format="%.1f")
     p0 = (tunnel_depth * density * GRAVITY) / 1e6  # MPa
     st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
-    E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 10000.0)
-    nu = st.number_input("Poisson's Ratio ν", min_value=0.1, max_value=0.49, value=0.3, step=0.01)
-
-    st.subheader("Failure Criterion")
+    E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 10000.0, step=500.0, format="%.1f")
+    nu = st.number_input("Poisson's Ratio ν", min_value=0.10, max_value=0.49, value=0.30, step=0.01, format="%.2f")
+# -------------------------------
+# 2. GRC Calculation
+# -------------------------------
+    st.subheader("2. GRC Calculation")
     criterion = st.selectbox("Select Failure Criterion", ["Mohr-Coulomb", "Hoek-Brown"])
 
     if criterion == "Mohr-Coulomb":
@@ -47,9 +47,6 @@ with st.sidebar:
                     f"s = {s_val:.4f}  \n"
                     f"a = {a_val:.3f}")
 
-# -------------------------------
-# 2. GRC Calculation
-# -------------------------------
 def calculate_GRC():
     p = np.linspace(p0, 0.1, 500)
     u = np.zeros_like(p)
