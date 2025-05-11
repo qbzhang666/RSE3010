@@ -1,4 +1,4 @@
-# Streamlit App: CCM Analysis with Auto In-Situ Stress
+# Streamlit App: CCM Analysis with Corrected Hoek-Brown
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -69,7 +69,7 @@ with st.sidebar:
         conv_pct = st.slider("Convergence [%]", 0.1, 10.0, 1.0)
 
 # ========================
-# 2. GRC Calculations
+# 2. GRC Calculations (Corrected Hoek-Brown)
 # ========================
 def calculate_GRC():
     p = np.linspace(p0, 0.1, 1000)
@@ -82,21 +82,24 @@ def calculate_GRC():
         p_cr = (2*p0 - sigma_cm)/(1 + k)
         exponent = (k - 1)/2
     else:
-        # Hoek-Brown corrections
-        sigma_cm = (sigma_ci / 2) * ((m_b + 4*s)**a - m_b**a)
-        k_HB = (2*(1-nu)*(m_b + 4*s)**a) / (1 + nu)
-        p_cr = p0 - sigma_cm / 2
-        R_pl = r0 * ((2*p0 / sigma_cm) + 1)**(1/k_HB)
+        # Corrected Hoek-Brown implementation
+        sigma_cm = (sigma_ci/2) * ((m_b + 4*s)**a - m_b**a)
+        k_HB = (2*(1-nu)*(m_b + 4*s)**a)/(1 + nu)
+        p_cr = p0 - sigma_cm/2
+        R_pl = r0 * ((2*p0/sigma_cm) + 1)**(1/k_HB)
         
-        # Elastic zone
-        elastic_mask = p >= p_cr
-        G = E / (2*(1 + nu))
-        u_elastic = (p0 - p_cr) * r0 / (2*G)
-        u[elastic_mask] = (p0 - p[elastic_mask]) * r0 / (2*G)
-        
-        # Plastic zone
+    G = E/(2*(1 + nu))
+    u_elastic = (p0 - p_cr)*r0/(2*G)
+    
+    elastic_mask = p >= p_cr
+    u[elastic_mask] = (p0 - p[elastic_mask])*r0/(2*G)
+    
+    if "Mohr" in criterion:
+        u[~elastic_mask] = u_elastic * (p_cr/p[~elastic_mask])**exponent
+    else:
+        # Hoek-Brown plastic zone displacement
         plastic_mask = ~elastic_mask
-        u[plastic_mask] = u_elastic * (R_pl / r0)**k_HB * (p_cr / p[plastic_mask])**k_HB
+        u[plastic_mask] = u_elastic * (R_pl/r0)**k_HB * (p_cr/p[plastic_mask])**k_HB
     
     return p, u, p_cr
 
@@ -200,14 +203,29 @@ else:
     st.error("No intersection - support system inadequate!")
 
 # Documentation
-with st.expander("Geotechnical Parameters"):
-    st.markdown(f"""
-    **In-situ Stress Calculation:**
-    - Depth: {tunnel_depth:.0f} m
-    - Density: {density:.0f} kg/m³
-    - Gravitational acceleration: 9.81 m/s²
+with st.expander("Hoek-Brown Implementation Details"):
+    st.markdown("""
+    **Corrected Hoek-Brown Formulation:**
+    1. **Critical Pressure Calculation:**
+       \[
+       \sigma_{cm} = \frac{\sigma_{ci}}{2} \left[(m_b + 4s)^a - m_b^a \right]
+       \]
+       \[
+       p_{cr} = p_0 - \frac{\sigma_{cm}}{2}
+       \]
     
-    \[
-    p_0 = \frac{{\\rho \cdot g \cdot z}}{{10^6}} = \\frac{{{density:.0f} \cdot 9.81 \cdot {tunnel_depth:.0f}}}{{10^6}} = {p0:.2f}\ \text{{MPa}}
-    \]
+    2. **Plastic Zone Exponent:**
+       \[
+       k_{HB} = \frac{2(1-\nu)(m_b + 4s)^a}{1 + \nu}
+       \]
+    
+    3. **Plastic Radius:**
+       \[
+       R_{pl} = r_0 \left(\frac{2p_0}{\sigma_{cm}} + 1\right)^{1/k_{HB}}
+       \]
+    
+    4. **Plastic Displacements:**
+       \[
+       u_{plastic} = u_{elastic} \left(\frac{R_{pl}}{r_0}\right)^{k_{HB}} \left(\frac{p_{cr}}{p}\right)^{k_{HB}}
+       \]
     """)
