@@ -87,8 +87,14 @@ sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, 
 mb, s, a = calculate_hb_parameters(GSI, mi, D)
 df = hoek_brown(sigci, mb, s, a, min_sig3=0.8*sigma_3, max_sig3=1.2*sigma_1)
 cohesion, phi_deg, mc_model = fit_mohr_coulomb(df)
-circle_indices = np.linspace(0, len(df)-1, 10, dtype=int)
+num_circles = st.sidebar.slider("Number of Mohr Circles", min_value=1, max_value=20, value=10, step=1)
+circle_indices = np.linspace(0, len(df)-1, num_circles, dtype=int)
 circle_data = df.iloc[circle_indices]
+available_sig3 = df['sig3'].round(2).tolist()
+selected_sig3 = st.sidebar.multiselect("Select σ₃ values for Mohr Circles", options=available_sig3, default=available_sig3[::len(available_sig3)//10])
+
+circle_data = df[df['sig3'].round(2).isin(selected_sig3)]
+
 
 # --- Results ---
 st.subheader("In-situ Stress Analysis")
