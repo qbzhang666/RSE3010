@@ -38,8 +38,8 @@ with st.sidebar:
         c = st.number_input("Cohesion [MPa]", 0.1, 10.0, 1.5)
         phi = np.radians(st.number_input("Friction angle [°]", 5.0, 60.0, 30.0))
     else:
-        sigma_ci = st.number_input("σ_ci [MPa]", 1.0, 100.0, 30.0)
-        m_b = st.number_input("m_b [-]", 0.1, 35.0, 15.0)
+        sigma_ci = st.number_input("σ_ci [MPa]", 1.0, 100.0, 15.0)
+        m_b = st.number_input("m_b [-]", 0.1, 35.0, 8.0)
         s = st.number_input("s [-]", 0.0, 1.0, 0.1)
         a = st.number_input("a [-]", 0.3, 1.0, 0.5)
         
