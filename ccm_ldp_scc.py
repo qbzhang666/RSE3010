@@ -228,10 +228,83 @@ else:
     st.warning("⚠️ No intersection found – support system insufficient.")
 
 # Optional Geotechnical Summary
-with st.expander("📘 Geotechnical Parameters"):
-    st.markdown(f"""
-    - **In-situ Stress Calculation**:  
-      \( p_0 = \\frac{{\\rho \cdot g \cdot z}}{{10^6}} = \\frac{{{density:.0f} \cdot 9.81 \cdot {tunnel_depth:.0f}}}{{10^6}} = {p0:.2f}\ \text{{MPa}} \)
-    - **Tunnel Depth**: {tunnel_depth:.0f} m  
-    - **Rock Density**: {density:.0f} kg/m³  
-    """)
+with st.expander("📘 Geotechnical Parameters & Equations"):
+    st.markdown(r"""
+**1. In-situ Stress**  
+\[
+p_0 = \frac{\rho \cdot g \cdot z}{10^6} \quad [\text{MPa}]
+\]
+
+**2. Mohr-Coulomb Parameters**  
+\[
+\sigma_{cm} = \frac{2c \cdot \cos(\phi)}{1 - \sin(\phi)}, \quad
+k = \frac{1 + \sin(\phi)}{1 - \sin(\phi)}
+\]  
+\[
+p_{cr} = \frac{2p_0 - \sigma_{cm}}{1 + k}, \quad
+u_{\text{elastic}} = \frac{(p_0 - p_{cr}) \cdot r_0}{2G}, \quad
+G = \frac{E}{2(1 + \nu)}
+\]
+
+**3. Hoek-Brown Parameters**  
+\[
+m_b = m_i \cdot e^{\frac{GSI - 100}{28 - 14D}}, \quad
+s = e^{\frac{GSI - 100}{9 - 3D}}, \quad
+a = 0.5 + \frac{1}{6} \left( e^{-GSI/15} - e^{-20/3} \right)
+\]
+
+**4. Hoek-Brown Strength & Transition**  
+\[
+\sigma_{cm} = \frac{\sigma_{ci}}{2} \left[ (m_b + 4s)^a - m_b^a \right]
+\]  
+\[
+p_{cr} = p_0 \cdot \left(1 - \frac{\sigma_{cm}}{2p_0} \right), \quad
+k_{\text{HB}} = \frac{2(1 - \nu)(m_b + 4s)^a}{1 + \nu}
+\]  
+\[
+R_{pl} = r_0 \cdot \left( \frac{2p_0}{\sigma_{cm}} + 1 \right)^{1 / k_{\text{HB}}}
+\]
+
+**5. Longitudinal Displacement Profiles (LDP)**  
+
+*Panet (1995):*  
+\[
+u^*(X^*) = 
+\begin{cases}
+(1 - \alpha) e^{1.5X^*}, & X^* \leq 0 \\
+1 - \alpha e^{-1.5X^*}, & X^* > 0
+\end{cases}
+\]
+
+*Hoek et al. (2002):*  
+\[
+u^*(X^*) = 
+\begin{cases}
+0.25 e^{2.5X^*}, & X^* \leq 0 \\
+1 - 0.75 e^{-0.5X^*}, & X^* > 0
+\end{cases}
+\]
+
+*Vlachopoulos & Diederichs (2009):*  
+\[
+u^*(X^*) = 
+\begin{cases}
+\frac{1}{3} e^{2X^* - 0.15R^*}, & X^* \leq 0 \\
+1 - \left[1 - \frac{1}{3} e^{-0.15R^*} \right] e^{-3X^*/R^*}, & X^* > 0
+\end{cases}
+\]
+
+**6. Support Pressure (SCC)**  
+\[
+p_{\text{supp}}(u) = 
+\begin{cases}
+0, & u < u_{\text{install}} \\
+\min(k \cdot (u - u_{\text{install}}), p_{\text{max}}), & u \geq u_{\text{install}}
+\end{cases}
+\]
+
+**7. Factor of Safety**  
+\[
+\text{FoS} = \frac{p_{\text{max}}}{p_{\text{eq}}}
+\]
+""")
