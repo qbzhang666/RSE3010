@@ -82,14 +82,9 @@ rock_name = st.sidebar.selectbox("Rock Type", list(rock_type_dict[rock_category]
 mi = rock_type_dict[rock_category][rock_name]
 st.sidebar.write(f"**Selected mi value:** {mi}")
 
-# --- Reference Tables ---
+# --- Reference Table ---
 with st.sidebar.expander("📘 Reference Table: Suggested $m_i$ Values"):
-    st.image("/mnt/data/ab488f71-ab98-4f71-889d-24f30f21c7cf.png", 
-             caption="Hoek & Marinos (2000): Suggested mi Values", use_column_width=True)
-
-with st.sidebar.expander("📘 Generalised H-B Criterion (2002)"):
-    st.image("/mnt/data/d9088f9d-f4cb-4819-82ba-77b33353555c.png", 
-             caption="Reference: Generalised Hoek-Brown Parameters (Hoek et al., 2002)", use_column_width=True)
+    st.image("mi_reference.png", caption="Hoek & Marinos (2000): Suggested mi Values", use_column_width=True)
 
 # --- Computation ---
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
@@ -109,7 +104,7 @@ st.markdown(f"""
 - **Minor Principal Stress (σ₃):** {sigma_3:.2f} MPa  
 """)
 
-st.subheader("Generalised Hoek-Brown Parameters (2002)")
+st.subheader("Hoek-Brown Parameters (2002)")
 st.markdown(f"""
 - **mb:** {mb:.4f}  
 - **s:** {s:.4f}  
