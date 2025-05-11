@@ -6,10 +6,15 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="CCM Analysis Tool", layout="wide")
 st.title("Convergence-Confinement Method (CCM) – Interactive Analysis")
 
-# Sidebar Input Sections
+# -------------------------------
+# 1. Tunnel Parameters
+# -------------------------------
 st.sidebar.header("1. Tunnel Parameters")
 r0 = st.sidebar.number_input("Tunnel Radius (m)", 1.0, 10.0, 5.0)
 
+# -------------------------------
+# 2. Rock / Soil Parameters
+# -------------------------------
 st.sidebar.header("2. Rock / Soil Parameters")
 p0 = st.sidebar.number_input("In-situ Stress (MPa)", 1.0, 50.0, 10.0)
 E = st.sidebar.number_input("Young's Modulus (MPa)", 500.0, 100000.0, 30000.0)
@@ -17,6 +22,9 @@ nu = st.sidebar.slider("Poisson's Ratio", 0.1, 0.49, 0.3)
 c = st.sidebar.number_input("Cohesion (MPa)", 0.1, 10.0, 1.5)
 phi_deg = st.sidebar.number_input("Friction Angle (°)", 5.0, 60.0, 30.0)
 
+# -------------------------------
+# 3. GRC – Rock Mass Failure Criterion
+# -------------------------------
 st.sidebar.header("3. Rock Mass Failure Criterion (GRC)")
 failure_criterion = st.sidebar.selectbox(
     "Select Rock Mass Failure Criterion",
@@ -30,16 +38,15 @@ failure_criterion = st.sidebar.selectbox(
     ]
 )
 
-# Assign values or model-dependent adjustment (placeholder logic)
+# Auto-adjust for illustration (optional logic)
 if "Hoek-Brown" in failure_criterion:
     phi_deg = 35.0
     c = 2.0
 elif "Mohr-Coulomb" in failure_criterion:
     phi_deg = 30.0
     c = 1.5
-# Add more mappings if needed
 
-# Derived parameters
+# Derived values
 phi_rad = np.radians(phi_deg)
 sin_phi = np.sin(phi_rad)
 k_rock = (1 + sin_phi) / (1 - sin_phi)
@@ -48,7 +55,7 @@ p_cr = (2 * p0 - sigma_cm_MC) / (1 + k_rock)
 G = E / (2 * (1 + nu))
 u_ie = (p0 - p_cr) * r0 / (2 * G)
 
-# Compute GRC
+# Compute Ground Reaction Curve (GRC)
 p = np.linspace(0.1, p0, 500)
 u_r = np.zeros_like(p)
 for i, p_i in enumerate(p):
@@ -59,13 +66,16 @@ for i, p_i in enumerate(p):
         u_elastic = (p0 - p_cr) * r0 / (2 * G)
         u_r[i] = u_elastic * (p_cr / p_i) ** exponent
 
-# LDP profile options
+# -------------------------------
+# 4. LDP Profile
+# -------------------------------
 st.sidebar.header("4. LDP Curve Selection")
 ldp_model = st.sidebar.selectbox("Select LDP Model", ["Vlachopoulos", "Hoek", "Panet"])
 alpha = st.sidebar.slider("Alpha (α): deformation behind face", 0.6, 0.95, 0.85)
 R_star = st.sidebar.slider("Plastic Radius R*", 1.0, 5.0, 2.5)
 
 ldp_x = np.linspace(-5, 10, 500)
+
 def ldp_profile(x_star, model, alpha, R_star):
     if model == "Panet":
         return np.where(x_star <= 0,
@@ -79,11 +89,14 @@ def ldp_profile(x_star, model, alpha, R_star):
         return np.where(x_star <= 0,
                         (1/3) * np.exp(2 * x_star - 0.15 * x_star / alpha),
                         1 - (1 - (1/3) * np.exp(-0.15 * x_star)) * np.exp(-3 * x_star / R_star))
+
 ldp_y = ldp_profile(ldp_x, ldp_model, alpha, R_star)
 u_max = np.max(u_r)
 u_ldp_actual = ldp_y * u_max
 
-# SCC definition
+# -------------------------------
+# 5. SCC Support Definition
+# -------------------------------
 st.sidebar.header("5. Support System & SCC")
 support_criteria = st.sidebar.selectbox("LDP Support Criteria", [
     "Distance from Tunnel Face (L)",
@@ -95,15 +108,19 @@ k = st.sidebar.number_input("Support Stiffness (MPa/m)", 100, 2000, 650)
 p_max = st.sidebar.number_input("Max Support Pressure (MPa)", 0.5, 10.0, 3.0)
 
 diameter = 2 * r0
+
 if support_criteria == "Distance from Tunnel Face (L)":
     support_pos_x = st.sidebar.slider("Support Distance from Tunnel Face (x/r₀)", 0.0, 10.0, 1.5)
-    elif support_criteria == "When Tunnel Wall Displacement = uₛ₀":
+    u_install = ldp_profile(np.array([support_pos_x]), ldp_model, alpha, R_star)[0] * u_max
+
+elif support_criteria == "When Tunnel Wall Displacement = uₛ₀":
     u_install = st.sidebar.number_input("Target Displacement uₛ₀ (mm)", 0.0, 500.0, 30.0) / 1000
+
 elif support_criteria == "When Convergence (ε) = displacement/diameter":
     convergence_pct = st.sidebar.slider("Convergence (%)", 0.0, 10.0, 1.0)
     u_install = (convergence_pct / 100) * diameter
 
-u_install = ldp_profile(np.array([support_pos_x]), ldp_model, alpha, R_star)[0] * u_max
+# Compute SCC
 def calculate_scc(u_values):
     scc = np.zeros_like(u_values)
     for i, u in enumerate(u_values):
@@ -113,8 +130,9 @@ def calculate_scc(u_values):
 
 scc = calculate_scc(u_r)
 
-# Find GRC-SCC intersection
-
+# -------------------------------
+# GRC-SCC Intersection
+# -------------------------------
 def find_intersection(u_gr, p_gr, u_sc, p_sc):
     for i in range(1, len(u_gr)):
         if (p_sc[i] - p_gr[i]) * (p_sc[i-1] - p_gr[i-1]) < 0:
@@ -125,7 +143,9 @@ def find_intersection(u_gr, p_gr, u_sc, p_sc):
 
 u_int, p_int = find_intersection(u_r, p, u_r, scc)
 
-# Main Plot
+# -------------------------------
+# Main Plot: GRC + SCC
+# -------------------------------
 fig, ax = plt.subplots(figsize=(10, 6))
 ax.plot(u_r * 1000, p, label="GRC", lw=2)
 ax.plot(u_r * 1000, scc, label="SCC", linestyle='--', lw=2)
@@ -138,7 +158,9 @@ ax.grid(True, linestyle='--', alpha=0.7)
 ax.legend()
 st.pyplot(fig)
 
+# -------------------------------
 # LDP Plot
+# -------------------------------
 fig2, ax2 = plt.subplots(figsize=(10, 6))
 ax2.plot(ldp_x, u_ldp_actual * 1000, lw=2, label=f"LDP Model: {ldp_model}")
 if support_criteria == "Distance from Tunnel Face (L)":
@@ -150,11 +172,13 @@ ax2.grid(True, linestyle='--', alpha=0.7)
 ax2.legend()
 st.pyplot(fig2)
 
+# -------------------------------
 # Results Summary
+# -------------------------------
 st.markdown("### Summary")
 st.write(f"- Rock Mass Criterion: **{failure_criterion}**")
 st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
-st.write(f"- Installation Displacement from LDP: **{u_install*1000:.2f} mm**")
+st.write(f"- Installation Displacement: **{u_install * 1000:.2f} mm**")
 if u_int:
     st.success(f"✅ GRC and SCC intersect at {u_int*1000:.2f} mm, pressure = {p_int:.2f} MPa → FoS = {p_max/p_int:.2f}")
 else:
