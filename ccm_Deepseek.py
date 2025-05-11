@@ -1,4 +1,4 @@
-# Streamlit App: CCM Analysis with Corrected Hoek LDP
+# Streamlit App: Advanced CCM Analysis with Depth & Density
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,16 +6,26 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="CCM Analysis Tool", layout="wide")
 st.title("Convergence-Confinement Method Analysis")
 
+# Constants
+GRAVITY = 9.81  # m/s²
+
 # ========================
 # 1. Input Parameters
 # ========================
 with st.sidebar:
     st.header("1. Tunnel Parameters")
     r0 = st.number_input("Tunnel radius [m]", 1.0, 10.0, 5.0)
+    tunnel_depth = st.number_input("Tunnel depth [m]", 10.0, 5000.0, 100.0)
     diameter = 2 * r0
     
     st.header("2. Rock Mass Parameters")
-    p0 = st.number_input("In-situ stress [MPa]", 1.0, 50.0, 10.0)
+    density = st.number_input("Density [kg/m³]", 1500.0, 3500.0, 2650.0)
+    
+    # Overburden stress calculation
+    overburden_stress = (tunnel_depth * density * GRAVITY) / 1e6  # Convert Pa to MPa
+    st.metric("Calculated Overburden Stress [MPa]", f"{overburden_stress:.2f}")
+    
+    p0 = st.number_input("In-situ Stress [MPa]", 1.0, 50.0, 10.0)
     E = st.number_input("Young's modulus [MPa]", 500.0, 1e5, 3e4)
     nu = st.slider("Poisson's ratio [-]", 0.1, 0.49, 0.3)
     
@@ -89,10 +99,10 @@ def calculate_GRC():
 p_grc, u_grc, p_cr = calculate_GRC()
 
 # ========================
-# 3. Corrected LDP Calculations
+# 3. LDP Calculations
 # ========================
 def calculate_LDP():
-    x = np.linspace(-2, 6, 400)  # Standardized range for all models
+    x = np.linspace(-2, 6, 400)
     
     if ldp_model == "Vlachopoulos":
         R_star = ldp_params['R_star']
@@ -105,7 +115,6 @@ def calculate_LDP():
                     1 - alpha*np.exp(1.5*x),
                     np.exp(-1.5*x))
     elif ldp_model == "Hoek":
-        # Corrected Hoek implementation (no R* dependency)
         y = np.where(x <= 0,
                     0.25*np.exp(2.5*x),
                     1 - 0.75*np.exp(-0.5*x))
@@ -132,7 +141,7 @@ def calculate_SCC():
 u_scc, scc_p, u_install = calculate_SCC()
 
 # ========================
-# 5. Plotting with Physical Distance
+# 5. Plotting
 # ========================
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 
@@ -142,14 +151,14 @@ ax1.plot(u_scc*1000, scc_p, '--', label='SCC', lw=2)
 ax1.set_xlabel("Radial Displacement [mm]", fontsize=12)
 ax1.set_ylabel("Radial Pressure [MPa]", fontsize=12)
 ax1.grid(True, alpha=0.3)
-ax1.legend()
+ax1.legend(title=f"Depth: {tunnel_depth:.0f}m | Density: {density:.0f}kg/m³")
 
-# LDP Plot with Physical Distance
-physical_distance = ldp_x * r0  # Convert normalized distance to meters
+# LDP Plot
+physical_distance = ldp_x * r0
 ax2.plot(physical_distance, ldp_u*1000, label=f'{ldp_model} LDP', lw=2)
 
 if install_criteria == "Distance from face":
-    install_pos = x_install * r0  # Convert to physical distance
+    install_pos = x_install * r0
     ax2.axvline(install_pos, color='r', ls='--', 
                label=f'Installation @ {install_pos:.1f}m')
 
@@ -181,20 +190,18 @@ if len(crossings) > 0:
     with cols[2]:
         st.metric("Factor of Safety (FoS)", f"{fos:.2f}")
     
-    st.success(f"Intersection at {u_int*1000:.1f} mm displacement")
+    st.success(f"""Intersection at {u_int*1000:.1f} mm displacement
+               Depth: {tunnel_depth:.0f}m | Density: {density:.0f}kg/m³""")
 else:
     st.error("No intersection - support system inadequate!")
 
-# Model Documentation
-with st.expander("LDP Model Equations"):
-    st.markdown("""
-    **Hoek et al. (2002) LDP:**
-    \[
-    u^{*(X^*)} = 
-    \begin{cases} 
-    0.25 e^{2.5X^*} & X^* \leq 0 \\ 
-    1 - 0.75 e^{-0.5X^*} & X^* > 0 
-    \end{cases}
-    \]
-    where \( X^* = x/R_0 \) is the normalized distance from the tunnel face.
+# Documentation
+with st.expander("Geotechnical Parameters"):
+    st.markdown(f"""
+    - **Overburden Stress**: {overburden_stress:.2f} MPa  
+      Calculated from:  
+      \( \sigma_v = \\frac{{\\rho \cdot g \cdot z}}{{10^6}} = \\frac{{{density:.0f} \cdot 9.81 \cdot {tunnel_depth:.0f}}}{{10^6}} \)
+    - **In-situ Stress**: {p0:.2f} MPa (user input)
+    - **Tunnel Depth**: {tunnel_depth:.0f} m
+    - **Rock Density**: {density:.0f} kg/m³
     """)
