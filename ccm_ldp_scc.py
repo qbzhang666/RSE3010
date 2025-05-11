@@ -63,12 +63,20 @@ for i, p_i in enumerate(p):
         u_r[i] = u_elastic * (p_cr / p_i) ** exponent
 
 # -------------------------------
-# 4. LDP Curve Selection
+# 4. LDP Curve Selection + Support Trigger
 # -------------------------------
 st.sidebar.header("4. LDP Curve Selection")
 ldp_model = st.sidebar.selectbox("Select LDP Model", ["Vlachopoulos", "Hoek", "Panet"])
 alpha = st.sidebar.slider("Alpha (α): deformation behind face", 0.6, 0.95, 0.85)
 R_star = st.sidebar.slider("Plastic Radius R*", 1.0, 5.0, 2.5)
+
+install_criteria = st.sidebar.selectbox("LDP Support Criteria", [
+    "Distance from face",
+    "When Tunnel Wall Displacement = uₛ₀",
+    "Convergence %"
+])
+
+diameter = 2 * r0
 
 ldp_x = np.linspace(-5, 10, 500)
 def ldp_profile(x_star, model, alpha, R_star):
@@ -85,20 +93,6 @@ ldp_y = ldp_profile(ldp_x, ldp_model, alpha, R_star)
 u_max = np.max(u_r)
 u_ldp_actual = ldp_y * u_max
 
-# -------------------------------
-# 5. SCC Support System
-# -------------------------------
-st.sidebar.header("5. Support System & SCC")
-install_criteria = st.sidebar.selectbox("LDP Support Criteria", [
-    "Distance from face",
-    "When Tunnel Wall Displacement = uₛ₀",
-    "Convergence %"
-])
-
-k_supp = st.sidebar.number_input("Support Stiffness k (MPa/m)", 100, 2000, 650)
-p_max = st.sidebar.number_input("Max Support Pressure pₛₘ (MPa)", 0.5, 10.0, 3.0)
-diameter = 2 * r0
-
 if install_criteria == "Distance from face":
     x_install = st.sidebar.slider("Support Distance x/r₀", 0.0, 10.0, 1.5)
     u_install = np.interp(x_install, ldp_x, u_ldp_actual)
@@ -107,6 +101,17 @@ elif install_criteria == "When Tunnel Wall Displacement = uₛ₀":
 elif install_criteria == "Convergence %":
     conv_pct = st.sidebar.slider("Convergence (%)", 0.1, 10.0, 1.0)
     u_install = (conv_pct / 100) * diameter
+
+# -------------------------------
+# 5. Support System & SCC
+# -------------------------------
+st.sidebar.header("5. Support System & SCC")
+k_supp = st.sidebar.number_input("Support Stiffness k (MPa/m)", 100, 2000, 650)
+p_max = st.sidebar.number_input("Max Support Pressure pₛₘ (MPa)", 0.5, 10.0, 3.0)
+
+st.sidebar.markdown("**Displacement Threshold**")
+threshold_mm = st.sidebar.number_input("Threshold Limit (mm)", 10.0, 200.0, 40.0)
+threshold_m = threshold_mm / 1000
 
 u_scc = np.linspace(0, np.max(u_r) * 1.2, 500)
 def calculate_SCC(u_vals, k, u0, p_max):
@@ -120,14 +125,7 @@ scc_vals = calculate_SCC(u_scc, k_supp, u_install, p_max)
 scc_on_grc = calculate_SCC(u_r, k_supp, u_install, p_max)
 
 # -------------------------------
-# 6. Displacement Threshold
-# -------------------------------
-st.sidebar.header("6. Displacement Threshold")
-threshold_mm = st.sidebar.number_input("Threshold Limit (mm)", 10.0, 200.0, 40.0)
-threshold_m = threshold_mm / 1000
-
-# -------------------------------
-# Intersection and FoS
+# Find Intersection and FoS
 # -------------------------------
 def find_intersection(u_vals, grc_vals, scc_vals):
     for i in range(1, len(u_vals)):
@@ -143,50 +141,41 @@ fos = p_max / p_eq if p_eq and p_eq > 0 else float("inf")
 # -------------------------------
 # Plot GRC + SCC
 # -------------------------------
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(u_r * 1000, p, label="GRC", lw=2)
-ax.plot(u_scc * 1000, scc_vals, linestyle='--', lw=2, color='orange', label="SCC")
-ax.axvline(threshold_mm, linestyle=':', color='gray', label=f"Threshold = {threshold_mm} mm")
+fig1, ax1 = plt.subplots(figsize=(10, 6))
+ax1.plot(u_r * 1000, p, label="GRC", lw=2)
+ax1.plot(u_scc * 1000, scc_vals, linestyle='--', lw=2, color='orange', label="SCC")
+ax1.axvline(threshold_mm, linestyle=':', color='red', label=f"Threshold = {threshold_mm:.0f} mm")
 
-if install_criteria == "Distance from face":
-    ax.axvline(u_install * 1000, linestyle='--', color='blue', label=f"uₛ₀ = {u_install*1000:.1f} mm")
-
-if u_eq and p_eq:
-    ax.legend(title=f"FoS = pₛₘ / pₑq = {p_max:.2f} / {p_eq:.2f} = {fos:.2f}")
-else:
-    ax.legend(title="No intersection")
-
-ax.set_xlabel("Tunnel Wall Displacement [mm]", fontsize=14)
-ax.set_ylabel("Radial Stress [MPa]", fontsize=14)
-ax.set_title("GRC + SCC Interaction", fontsize=16)
-ax.grid(True)
-st.pyplot(fig)
+legend_title = f"FoS = pₛₘ / pₑq = {p_max:.2f} / {p_eq:.2f} = {fos:.2f}" if p_eq else ""
+ax1.legend(title=legend_title)
+ax1.set_xlabel("Tunnel Wall Displacement [mm]", fontsize=14)
+ax1.set_ylabel("Radial Stress [MPa]", fontsize=14)
+ax1.set_title("GRC + SCC Interaction", fontsize=16)
+ax1.grid(True)
+st.pyplot(fig1)
 
 # -------------------------------
-# Plot LDP Curve
+# Plot LDP
 # -------------------------------
-fig2, ax2 = plt.subplots(figsize=(10, 5))
-ax2.plot(ldp_x, u_ldp_actual * 1000, lw=2, label=f"LDP – {ldp_model}")
+fig2, ax2 = plt.subplots(figsize=(10, 6))
+ax2.plot(ldp_x, u_ldp_actual * 1000, lw=2, label=f"LDP: {ldp_model}")
 if install_criteria == "Distance from face":
-    ax2.axvline(x_install, linestyle='--', color='blue', label=f"Support at x/r₀ = {x_install:.2f}")
-ax2.set_xlabel("Distance from Tunnel Face (x/r₀)", fontsize=13)
-ax2.set_ylabel("Radial Displacement [mm]", fontsize=13)
-ax2.set_title("Longitudinal Deformation Profile (LDP)", fontsize=15)
+    ax2.axvline(x_install, linestyle='--', color='r', label=f"x/r₀ = {x_install}")
+ax2.set_xlabel("Distance to Tunnel Face (x/r₀)", fontsize=14)
+ax2.set_ylabel("Radial Displacement [mm]", fontsize=14)
+ax2.set_title("Longitudinal Deformation Profile (LDP)", fontsize=16)
 ax2.grid(True)
 ax2.legend()
 st.pyplot(fig2)
 
 # -------------------------------
-# Summary
+# Results
 # -------------------------------
 st.markdown("### Summary")
 st.write(f"- Rock Mass Criterion: **{failure_criterion}**")
 st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
 st.write(f"- Installation Displacement $u_{{install}}$: **{u_install*1000:.2f} mm**")
-
 if u_eq and p_eq:
     st.success(f"✅ GRC and SCC intersect at displacement = {u_eq*1000:.2f} mm, pressure = {p_eq:.2f} MPa → FoS = {fos:.2f}")
-    if u_eq > threshold_m:
-        st.error(f"⚠️ Displacement exceeds threshold: {u_eq*1000:.2f} mm > {threshold_mm:.1f} mm")
 else:
     st.warning("⚠️ No intersection found – support system insufficient")
