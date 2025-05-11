@@ -185,14 +185,15 @@ else:
     ax1.legend()
 
 # LDP
-ax2.plot(ldp_x, u_ldp * 1000, label=f"{ldp_model} LDP", lw=2)
+ax2.plot(ldp_x * r0, u_ldp * 1000, label=f"{ldp_model} LDP", lw=2)
 if install_criteria == "Distance from face":
-    ax2.axvline(x_install, color='r', linestyle='--', label=f'Support @ x/r₀ = {x_install}')
+    ax2.axvline(x_install * r0, color='r', linestyle='--', label=f'Support @ x/r₀ = {x_install}')
 ax2.set_xlabel("Distance to Tunnel Face [m]")
 ax2.set_ylabel("Radial Displacement [mm]")
 ax2.set_title("Longitudinal Deformation Profile")
 ax2.grid(True, color='lightgrey', alpha=0.4)
 ax2.legend()
+ax2.invert_xaxis()  # ✅ Reverse horizontal axis so negative is on the right
 
 st.pyplot(fig)
 
