@@ -153,7 +153,12 @@ def find_intersection(u_vals, p1, p2):
     return None, None
 
 u_eq, p_eq = find_intersection(u_grc, p_grc, scc_on_grc)
-FoS = p_max / p_eq if p_eq and p_eq > 0 else float("inf")
+FoS = None
+if p_eq is not None and p_eq > 0:
+    if p_eq >= p_max:
+        FoS = None  # Indicates insufficient support
+    else:
+        FoS = p_max / p_eq
 
 # -------------------------------
 # 6. Plotting
@@ -192,10 +197,13 @@ st.pyplot(fig)
 st.markdown("### Safety Summary")
 st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
 st.write(f"- Installation Displacement $u_{{install}}$: **{u_install*1000:.2f} mm**")
-if u_eq:
+if FoS is None:
+    st.error(f"⚠️ Insufficient support: intersection occurs after maximum pressure is reached (p_eq = {p_eq:.2f} MPa ≥ pₛₘ = {p_max:.2f} MPa)")
+elif u_eq:
     st.success(f"✅ GRC and SCC intersect at displacement = {u_eq*1000:.2f} mm, pressure = {p_eq:.2f} MPa → FoS = {FoS:.2f}")
 else:
     st.warning("⚠️ No intersection found – support system insufficient")
+
 
 # Optional Geotechnical Summary
 with st.expander("📘 Geotechnical Parameters"):
