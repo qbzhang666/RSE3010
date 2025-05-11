@@ -186,12 +186,19 @@ else:
 
 # LDP
 ax2.plot(ldp_x * r0, u_ldp * 1000, label=f"{ldp_model} LDP", lw=2)
+
+# Vertical line for support installation
 if install_criteria == "Distance from face":
-    ax2.axvline(x_install * r0, color='r', linestyle='--', label=f'Support @ x/r₀ = {x_install}')
+    ax2.axvline(x_install * r0, color='red', linestyle='--', linewidth=2, label=f'Support @ x/r₀ = {x_install}')
+
+# Solid line at tunnel face (x = 0)
+ax2.axvline(0, color='black', linestyle='-', linewidth=1.5, label='Tunnel Face (x = 0)')
+
+# Formatting
 ax2.set_xlabel("Distance to Tunnel Face [m]")
 ax2.set_ylabel("Radial Displacement [mm]")
 ax2.set_title("Longitudinal Deformation Profile")
-ax2.set_xlim(20, -10)  # ✅ Set display range: 20 m to 10 m
+ax2.set_xlim(15, -5)  # reversed x-axis range
 ax2.grid(True, color='lightgrey', alpha=0.4)
 ax2.legend()
 
