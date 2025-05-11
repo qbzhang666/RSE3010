@@ -17,29 +17,38 @@ with st.sidebar:
     diameter = 2 * r0
     tunnel_depth = st.number_input("Tunnel Depth [m]", 10.0, 5000.0, 500.0)
 
-    st.header("2. Rock Parameters")
-    density = st.number_input("Rock Density [kg/m³]", 1500.0, 3500.0, 2650.0)
-    p0 = (tunnel_depth * density * GRAVITY) / 1e6
-    st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
-    E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 10000.0)
-    nu = st.number_input("Poisson's Ratio ν", min_value=0.1, max_value=0.49, value=0.3, step=0.01)
+    # -------------------------------
+# 2. Rock Parameters (fixed order)
+# -------------------------------
+st.header("2. Rock Parameters")
+density = st.number_input("Rock Density [kg/m³]", 1500.0, 3500.0, 2650.0)
+p0 = (tunnel_depth * density * GRAVITY) / 1e6  # MPa
+st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
+E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 10000.0)
+nu = st.number_input("Poisson's Ratio ν", min_value=0.1, max_value=0.49, value=0.3, step=0.01)
 
-    st.header("3. Failure Criterion")
-    criterion = st.selectbox("Select Failure Criterion", ["Mohr-Coulomb", "Hoek-Brown"])
+st.subheader("Failure Criterion")
+criterion = st.selectbox("Select Failure Criterion", ["Mohr-Coulomb", "Hoek-Brown"])
 
-    if criterion == "Mohr-Coulomb":
-        c = st.number_input("Cohesion c [MPa]", 0.1, 10.0, 1.5)
-        phi_deg = st.number_input("Friction Angle φ [°]", 5.0, 60.0, 30.0)
-        phi_rad = np.radians(phi_deg)
-    else:
-        sigma_ci = st.number_input("Uniaxial compressive strength σ_ci [MPa]", 1.0, 100.0, 30.0)
-        GSI = st.slider("Geological Strength Index (GSI)", 10, 100, 75)
-        mi = st.number_input("Intact rock constant (mᵢ)", 5.0, 35.0, 15.0)
-        D = st.slider("Disturbance Factor (D)", 0.0, 1.0, 0.0)
-        mb = mi * np.exp((GSI - 100) / (28 - 14 * D))
-        s_val = np.exp((GSI - 100) / (9 - 3 * D))
-        a_val = 0.5 + (1 / 6) * (np.exp(-GSI / 15) - np.exp(-20 / 3))
-        st.markdown(f"**Calculated Parameters:** m_b = {mb:.2f}, s = {s_val:.4f}, a = {a_val:.3f}")
+if criterion == "Mohr-Coulomb":
+    c = st.number_input("Cohesion c [MPa]", 0.1, 10.0, 1.5)
+    phi_deg = st.number_input("Friction Angle φ [°]", 5.0, 60.0, 30.0)
+    phi_rad = np.radians(phi_deg)
+else:
+    sigma_ci = st.number_input("Uniaxial compressive strength σ_ci [MPa]", 1.0, 100.0, 30.0)
+    GSI = st.slider("Geological Strength Index (GSI)", 10, 100, 75)
+    mi = st.number_input("Intact rock constant (mᵢ)", 5.0, 35.0, 15.0)
+    D = st.slider("Disturbance Factor (D)", 0.0, 1.0, 0.0)
+    
+    # Hoek-Brown calculations
+    mb = mi * np.exp((GSI - 100) / (28 - 14 * D))
+    s_val = np.exp((GSI - 100) / (9 - 3 * D))
+    a_val = 0.5 + (1 / 6) * (np.exp(-GSI / 15) - np.exp(-20 / 3))
+    
+    st.markdown(f"**Calculated Parameters:**  \n"
+                f"m_b = {mb:.2f}  \n"
+                f"s = {s_val:.4f}  \n"
+                f"a = {a_val:.3f}")
 
 # -------------------------------
 # 2. GRC Calculation
