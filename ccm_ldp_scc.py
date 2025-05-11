@@ -1,4 +1,4 @@
-# Streamlit App: Convergence-Confinement Method (Compact View with Accurate FoS)
+# Streamlit App: CCM with In-Situ Stress from Tunnel Depth & Density
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,27 +6,30 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="CCM Analysis Tool", layout="wide")
 st.title("Convergence-Confinement Method Analysis")
 
-# ========================
-# 1. Tunnel Parameters
-# ========================
+# Constants
+GRAVITY = 9.81  # m/s²
+
+# -------------------------------
+# 1. Tunnel & Rock Parameters
+# -------------------------------
 with st.sidebar:
     st.header("1. Tunnel Parameters")
     r0 = st.number_input("Tunnel Radius [m]", 1.0, 10.0, 5.0)
     diameter = 2 * r0
+    tunnel_depth = st.number_input("Tunnel Depth [m]", 10.0, 5000.0, 100.0)
 
-# ========================
-# 2. Rock Parameters
-# ========================
-    st.header("2. Rock/Soil Parameters")
-    p0 = st.number_input("In-situ Stress p₀ [MPa]", 1.0, 50.0, 10.0)
+    st.header("2. Rock Parameters")
+    density = st.number_input("Rock Density [kg/m³]", 1500.0, 3500.0, 2650.0)
+    p0 = (tunnel_depth * density * GRAVITY) / 1e6  # MPa
+    st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
     E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 30000.0)
-    nu = st.slider("Poisson's Ratio ν [-]", 0.1, 0.49, 0.3)
+    nu = st.slider("Poisson's Ratio ν", 0.1, 0.49, 0.3)
     c = st.number_input("Cohesion c [MPa]", 0.1, 10.0, 1.5)
     phi_deg = st.number_input("Friction Angle φ [°]", 5.0, 60.0, 30.0)
 
-# ========================
-# 3. Failure Criterion (GRC)
-# ========================
+# -------------------------------
+# 2. GRC Computation (Mohr-Coulomb)
+# -------------------------------
 phi_rad = np.radians(phi_deg)
 sin_phi = np.sin(phi_rad)
 k_rock = (1 + sin_phi) / (1 - sin_phi)
@@ -45,11 +48,11 @@ for i, p in enumerate(p_grc):
         u_elastic = (p0 - p_cr) * r0 / (2 * G)
         u_grc[i] = u_elastic * (p_cr / p) ** exponent
 
-# ========================
-# 4. LDP Model Selection
-# ========================
+# -------------------------------
+# 3. LDP
+# -------------------------------
 with st.sidebar:
-    st.header("3. LDP Curve Selection")
+    st.header("3. LDP Curve & Support Criteria")
     ldp_model = st.selectbox("LDP Model", ["Vlachopoulos", "Hoek", "Panet"])
     alpha = st.slider("Alpha α", 0.6, 0.95, 0.85)
     R_star = st.slider("Plastic Radius R*", 1.0, 5.0, 2.5)
@@ -69,7 +72,7 @@ with st.sidebar:
         conv_pct = st.slider("Convergence [%]", 0.1, 10.0, 1.0)
         u_install = (conv_pct / 100) * diameter
 
-# LDP Calculation
+# LDP displacement profile
 ldp_x = np.linspace(-5, 10, 500)
 def ldp_profile(x_star, model, alpha, R_star):
     if model == "Panet":
@@ -84,18 +87,17 @@ ldp_y = ldp_profile(ldp_x, ldp_model, alpha, R_star)
 u_max = np.max(u_grc)
 u_ldp = ldp_y * u_max
 
-# Define u_install if not yet
 if install_criteria == "Distance from face":
     u_install = np.interp(x_install, ldp_x, u_ldp)
 
-# ========================
-# 5. Support System (SCC)
-# ========================
+# -------------------------------
+# 4. SCC
+# -------------------------------
 with st.sidebar:
     st.header("4. Support System & Threshold")
     k_supp = st.number_input("Support Stiffness k [MPa/m]", 100, 5000, 650)
     p_max = st.number_input("Max Support Pressure pₛₘ [MPa]", 0.1, 10.0, 3.0)
-    disp_thresh = st.slider("Displacement Threshold [mm]", 10, 100, 40)
+    disp_thresh = st.slider("Display Threshold [mm]", 10, 100, 40)
 
 u_scc = np.linspace(0, np.max(u_grc) * 1.2, 500)
 scc_vals = np.zeros_like(u_scc)
@@ -103,16 +105,15 @@ for i, u in enumerate(u_scc):
     if u >= u_install:
         scc_vals[i] = min(k_supp * (u - u_install), p_max)
 
-# SCC on GRC grid for intersection
 scc_on_grc = np.zeros_like(u_grc)
 for i, u in enumerate(u_grc):
     if u >= u_install:
         scc_on_grc[i] = min(k_supp * (u - u_install), p_max)
 
-# Find Intersection
+# Intersection
 def find_intersection(u_vals, p1, p2):
     for i in range(1, len(u_vals)):
-        if (p1[i] - p2[i]) * (p1[i - 1] - p2[i - 1]) < 0:
+        if (p1[i] - p2[i]) * (p1[i-1] - p2[i-1]) < 0:
             u_eq = np.interp(0, [p1[i-1]-p2[i-1], p1[i]-p2[i]], [u_vals[i-1], u_vals[i]])
             p_eq = np.interp(u_eq, u_vals, p1)
             return u_eq, p_eq
@@ -121,9 +122,9 @@ def find_intersection(u_vals, p1, p2):
 u_eq, p_eq = find_intersection(u_grc, p_grc, scc_on_grc)
 FoS = p_max / p_eq if p_eq and p_eq > 0 else float("inf")
 
-# ========================
-# Plotting
-# ========================
+# -------------------------------
+# 5. Plotting
+# -------------------------------
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
 
 # GRC + SCC
@@ -133,28 +134,40 @@ ax1.axvline(disp_thresh, linestyle=':', color='red', label=f"Threshold = {disp_t
 ax1.set_xlabel("Tunnel Wall Displacement [mm]")
 ax1.set_ylabel("Radial Pressure [MPa]")
 ax1.set_title("GRC + SCC Interaction")
-ax1.grid(True)
-ax1.legend(title=f"FoS = pₛₘ / p_eq = {p_max:.2f} / {p_eq:.2f} = {FoS:.2f}" if u_eq else None)
+ax1.grid(True, color='lightgrey', alpha=0.4)
+if u_eq:
+    ax1.legend(title=f"FoS = pₛₘ / p_eq = {p_max:.2f} / {p_eq:.2f} = {FoS:.2f}")
+else:
+    ax1.legend()
 
-# LDP Plot
-ax2.plot(ldp_x, u_ldp * 1000, lw=2, label=f"{ldp_model} LDP")
+# LDP
+ax2.plot(ldp_x, u_ldp * 1000, label=f"{ldp_model} LDP", lw=2)
 if install_criteria == "Distance from face":
     ax2.axvline(x_install, color='r', linestyle='--', label=f'Support @ x/r₀ = {x_install}')
 ax2.set_xlabel("Normalized Distance x/r₀")
 ax2.set_ylabel("Radial Displacement [mm]")
-ax2.set_title("Longitudinal Deformation Profile (LDP)")
-ax2.grid(True)
+ax2.set_title("Longitudinal Deformation Profile")
+ax2.grid(True, color='lightgrey', alpha=0.4)
 ax2.legend()
 
 st.pyplot(fig)
 
-# ========================
-# Results
-# ========================
+# -------------------------------
+# 6. Results
+# -------------------------------
 st.markdown("### Safety Summary")
 st.write(f"- Critical Pressure $p_{{cr}}$: **{p_cr:.2f} MPa**")
 st.write(f"- Installation Displacement $u_{{install}}$: **{u_install*1000:.2f} mm**")
 if u_eq:
     st.success(f"✅ GRC and SCC intersect at displacement = {u_eq*1000:.2f} mm, pressure = {p_eq:.2f} MPa → FoS = {FoS:.2f}")
 else:
-    st.warning("⚠️ No intersection between GRC and SCC (support insufficient)")
+    st.warning("⚠️ No intersection found – support system insufficient")
+
+# Optional Geotechnical Summary
+with st.expander("📘 Geotechnical Parameters"):
+    st.markdown(f"""
+    - **In-situ Stress Calculation**:  
+      \( p_0 = \\frac{{\\rho \cdot g \cdot z}}{{10^6}} = \\frac{{{density:.0f} \cdot 9.81 \cdot {tunnel_depth:.0f}}}{{10^6}} = {p0:.2f}\ \text{{MPa}} \)
+    - **Tunnel Depth**: {tunnel_depth:.0f} m  
+    - **Rock Density**: {density:.0f} kg/m³  
+    """)
