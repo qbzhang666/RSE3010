@@ -17,14 +17,22 @@ def calculate_insitu_stresses(h, K, unit_weight):
     else:
         return sigma_v, sigma_h, sigma_h, sigma_v, "Horizontal"
 
-def fit_mohr_coulomb(sigma1_values, sigma3_values):
+def fit_mohr_coulomb(sigma1_values, sigma3_values, method='ransac', threshold=1.0):
     normal_stress = (sigma1_values + sigma3_values)/2
     shear_stress = (sigma1_values - sigma3_values)/2
     X = normal_stress.reshape(-1, 1)
     y = shear_stress
-    ransac = RANSACRegressor(LinearRegression(), residual_threshold=1.0).fit(X, y)
-    slope = ransac.estimator_.coef_[0]
-    intercept = ransac.estimator_.intercept_
+
+    if method == 'ransac':
+        ransac = RANSACRegressor(LinearRegression(), residual_threshold=threshold).fit(X, y)
+        inlier_mask = ransac.inlier_mask_
+        X_inliers, y_inliers = X[inlier_mask], y[inlier_mask]
+        model = LinearRegression().fit(X_inliers, y_inliers)
+    else:
+        model = LinearRegression().fit(X, y)
+
+    slope = model.coef_[0]
+    intercept = model.intercept_
     phi = np.degrees(np.arctan(slope))
     cohesion = intercept
     return cohesion, phi
@@ -34,6 +42,10 @@ st.sidebar.header("Input Parameters")
 h = st.sidebar.number_input("Tunnel Depth (m)", 10.0, 2000.0, 180.0)
 K = st.sidebar.number_input("Horizontal Stress Ratio (K)", 0.1, 5.0, 2.0)
 unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", 10.0, 35.0, 27.0)
+
+# --- Fitting Method Selection ---
+fit_method = st.sidebar.radio("Fitting Method", ["ransac", "linear"])
+thresh = st.sidebar.slider("RANSAC Residual Threshold", 0.1, 5.0, 1.0)
 
 # --- Experimental Data ---
 st.sidebar.markdown("### Manual Input of Experimental Data")
@@ -69,7 +81,7 @@ else:
 
 # --- Computation ---
 sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
-cohesion, friction_angle = fit_mohr_coulomb(sigma1_values, sigma3_values)
+cohesion, friction_angle = fit_mohr_coulomb(sigma1_values, sigma3_values, method=fit_method, threshold=thresh)
 
 # Regression lines
 x_fit = np.linspace(0, max(sigma3_values)*1.1, 100)
