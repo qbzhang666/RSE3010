@@ -49,12 +49,10 @@ with st.sidebar:
 
 
 # -------------------------------
-# 2. GRC Calculation
-# -------------------------------
 def calculate_GRC():
     p = np.linspace(p0, 0.1, 500)
     u = np.zeros_like(p)
-    G = E / (2 * (1 + nu))
+    G = E / (2 * (1 + nu))  # Shear modulus
 
     if criterion == "Mohr-Coulomb":
         sin_phi = np.sin(phi_rad)
@@ -71,20 +69,20 @@ def calculate_GRC():
                 u[i] = u_elastic * (p_cr / pi) ** exponent
 
     else:  # Hoek-Brown
+        # Calculate strength parameters
         sigma_cm = (sigma_ci / 2) * ((mb + 4 * s_val) ** a_val - mb ** a_val)
+        p_cr = p0 - sigma_cm / 2  # Transition pressure
         k_HB = (2 * (1 - nu) * (mb + 4 * s_val) ** a_val) / (1 + nu)
-        p_cr = p0 - sigma_cm / 2
         R_pl = r0 * ((2 * p0 / sigma_cm) + 1) ** (1 / k_HB)
         u_elastic = (p0 - p_cr) * r0 / (2 * G)
 
         for i, pi in enumerate(p):
             if pi >= p_cr:
-                u[i] = (p0 - pi) * r0 / (2 * G)
+                u[i] = (p0 - pi) * r0 / (2 * G)  # Same elastic stage as MC
             else:
-                u[i] = u_elastic * (R_pl / r0) ** k_HB * (p_cr / pi) ** k_HB
+                u[i] = u_elastic * (R_pl / r0) ** k_HB * (p_cr / pi) ** k_HB  # Plastic HB
 
     return p, u, p_cr
-
 
 p_grc, u_grc, p_cr = calculate_GRC()
 
