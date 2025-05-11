@@ -23,7 +23,7 @@ with st.sidebar:
     p0 = (tunnel_depth * density * GRAVITY) / 1e6  # MPa
     st.metric("In-situ Stress p₀ [MPa]", f"{p0:.2f}")
     E = st.number_input("Young's Modulus E [MPa]", 500.0, 100000.0, 10000.0)
-    nu = st.slider("Poisson's Ratio ν", 0.1, 0.49, 0.3)
+    nu = st.number_input("Poisson's Ratio ν", min_value=0.1, max_value=0.49, value=0.3, step=0.01)
     c = st.number_input("Cohesion c [MPa]", 0.1, 10.0, 1.5)
     phi_deg = st.number_input("Friction Angle φ [°]", 5.0, 60.0, 30.0)
 
