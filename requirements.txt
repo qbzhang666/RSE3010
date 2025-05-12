@@ -1,11 +1,11 @@
-streamlit>=1.22
-numpy>=1.24
-matplotlib>=3.7  # Critical update for style compatibility
-mplstereonet>=0.6
-XlsxWriter>=3.0
-openpyxl>=3.1
-plotly>=5.14
-pandas>=2.0
-scipy>=1.10
-scikit-learn>=1.2
-seaborn>=0.12  # Required for darkgrid styles
+streamlit
+numpy
+matplotlib
+mplstereonet
+XlsxWriter
+openpyxl
+plotly
+pandas
+scipy
+scikit-learn
+seaborn
