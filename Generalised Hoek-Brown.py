@@ -60,7 +60,7 @@ K = st.sidebar.number_input("Horizontal Stress Ratio (K)", 0.1, 5.0, 1.5)
 unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", 10.0, 35.0, 27.0)
 GSI = st.sidebar.slider("Geological Strength Index (GSI)", 10, 100, 45)
 D = st.sidebar.slider("Disturbance Factor (D)", 0.0, 1.0, 1.0, step=0.1)
-sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", 5.0, 250.0, 25.0)
+sigci = st.sidebar.number_input("UCS of Intact Rock ($\sigma_{ci}$) [MPa]", 5.0, 250.0, 25.0)
 
 st.sidebar.markdown("### Rock Type Selection")
 category = st.sidebar.selectbox("Rock Category", list(rock_type_dict.keys()))
@@ -73,11 +73,11 @@ sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, 
 mb, s, a = calculate_hb_parameters(GSI, mi, D)
 
 # Custom σ₃ Range
-st.sidebar.markdown("### Custom σ₃ Range for Envelope")
+st.sidebar.markdown("### Custom $\sigma_3$ Range for Envelope")
 default_min = round(0.8 * sigma_3, 2)
 default_max = round(1.2 * sigma_1, 2)
-sig3_min = st.sidebar.number_input("Minimum σ₃ [MPa]", value=default_min, step=0.1)
-sig3_max = st.sidebar.number_input("Maximum σ₃ [MPa]", value=default_max, step=0.1)
+sig3_min = st.sidebar.number_input("Minimum $\sigma_3$ [MPa]", value=default_min, step=0.1)
+sig3_max = st.sidebar.number_input("Maximum $\sigma_3$ [MPa]", value=default_max, step=0.1)
 
 # Compute Envelope
 df = hoek_brown(sigci, mb, s, a, sig3_min, sig3_max)
@@ -98,17 +98,17 @@ circle_data = pd.DataFrame({'sig3': circle_sig3, 'sig1': circle_sig1})
 st.subheader("In-situ Stress Analysis")
 st.markdown(f"""
 - **Unit weight:** {unit_weight} kN/m³  
-- **Vertical stress (σ_v):** {sigma_v:.2f} MPa  
-- **Horizontal stress (σ_h):** {sigma_h:.2f} MPa  
-- **Major Principal Stress (σ₁):** {sigma_1:.2f} MPa ({direction})  
-- **Minor Principal Stress (σ₃):** {sigma_3:.2f} MPa  
+- **Vertical stress** $\sigma_v$: {sigma_v:.2f} MPa  
+- **Horizontal stress** $\sigma_h$: {sigma_h:.2f} MPa  
+- **Major Principal Stress** $\sigma_1$: {sigma_1:.2f} MPa ({direction})  
+- **Minor Principal Stress** $\sigma_3$: {sigma_3:.2f} MPa  
 """)
 
 st.subheader("Hoek-Brown Parameters")
 st.markdown(f"**mb:** {mb:.4f}, **s:** {s:.4f}, **a:** {a:.4f}")
 
 st.subheader("Mohr-Coulomb Parameters")
-st.markdown(f"**Cohesion (c):** {cohesion:.2f} MPa, **Friction angle (φ):** {phi_deg:.2f}°")
+st.markdown(f"**Cohesion (c):** {cohesion:.2f} MPa, **Friction angle** $\phi$: {phi_deg:.2f}°")
 
 # --- Plotting ---
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
@@ -129,7 +129,8 @@ ax1.legend(loc="upper left", fontsize=9)
 ax2.plot(df['sign'], df['tau'], 'r-', lw=2,
          label=r'Hoek-Brown: $\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{d\sigma_1/d\sigma_3}}{d\sigma_1/d\sigma_3 + 1}$')
 ax2.plot(x_fit, y_fit, 'k--', lw=2,
-         label=fr'Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$ (c = {cohesion:.2f} MPa, φ = {phi_deg:.1f}°)')
+         label=fr'Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$  
+$(c = {cohesion:.2f}\ MPa,\ \phi = {phi_deg:.1f}^\circ)$')
 
 # Mohr Circles
 circle_centers = (circle_data.sig1 + circle_data.sig3) / 2
@@ -155,7 +156,7 @@ ax2.legend(loc="upper left", fontsize=9)
 st.pyplot(fig)
 
 # --- Equation Reference ---
-with st.expander("📘 Show All Equations Used"):
+with st.expander("\U0001F4D8 Show All Equations Used"):
     st.markdown("#### Hoek-Brown and Mohr-Coulomb Strength Criteria")
     st.latex(r"\sigma_1 = \sigma_3 + \sigma_{ci} \left( m_b \frac{\sigma_3}{\sigma_{ci}} + s \right)^a")
     st.latex(r"\sigma_1 = \frac{2c \cos \phi}{1 - \sin \phi} + \frac{1 + \sin \phi}{1 - \sin \phi} \cdot \sigma_3")
@@ -167,9 +168,8 @@ with st.expander("📘 Show All Equations Used"):
     st.latex(r"s = \exp\left(\frac{{\text{GSI} - 100}}{{9 - 3D}}\right)")
     st.latex(r"a = 0.5 + \frac{1}{6} \left( \exp\left(-\frac{\text{GSI}}{15}\right) - \exp\left(-\frac{20}{3} \right) \right)")
 
-
 # --- Reference Table ---
-with st.expander("📘 Suggested $m_i$ Values for Rock Types (Hoek & Marinos, 2000)", expanded=False):
+with st.expander("\U0001F4D8 Suggested $m_i$ Values for Rock Types (Hoek & Marinos, 2000)", expanded=False):
     st.image("mi_reference.png", caption="Suggested $m_i$ values for various rock types", use_container_width=True)
 
 # --- Data Output ---
