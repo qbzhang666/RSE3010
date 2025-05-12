@@ -69,7 +69,8 @@ ax1.axvline(u_ie, color='purple', ls='-.', lw=2, label=f"$u_{{ie}}$ = {u_ie:.3f}
 ax1.set_xlabel("Radial Displacement $u_r$ (m)")
 ax1.set_ylabel("Support Pressure $p_i$ (MPa)")
 ax1.set_ylim(0, max(p0, p_cr) + y_buffer)
-ax1.set_xlim(0, max(u_r) + x_buffer)
+x_max = st.sidebar.slider("Max Displacement Axis (m)", 0.02, 0.2, 0.08, step=0.01)
+ax1.set_xlim(0, x_max)
 ax1.tick_params(axis='both', which='major', labelsize=10)
 
 ax2 = ax1.twinx()
