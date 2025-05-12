@@ -150,8 +150,7 @@ ax1.legend()
 
 # Shear-Normal Plot
 mc_label = fr"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n$(c = {cohesion:.2f}\ \mathrm{{MPa}},\ \phi = {friction_angle:.1f}^\circ)$"
-cutoff_label = fr"Tensile Cut-off: $\sigma_t = {tensile_cutoff_ratio:.2f} \times \sigma_c = {tensile_cutoff:.2f}\ \mathrm{{MPa}}$
-
+cutoff_label = fr"Tensile Cut-off: $\sigma_t = {tensile_cutoff_ratio:.2f} \times \sigma_c = {tensile_cutoff:.2f}\ \mathrm{{MPa}}$"
 
 # Mohr-Coulomb (black) extended to horizontal axis
 x_mc_extended = np.linspace(-cohesion / np.tan(np.radians(friction_angle)), max(sigma3_values) * 1.2, 200)
