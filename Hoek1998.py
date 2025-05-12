@@ -169,13 +169,13 @@ with tab3:
     # Display parameters and equations separately
     st.markdown("**Analysis Parameters:**")
     st.code(f"""\
-Project Name: {project_name}
-Tunnel Radius: {r0:.2f} m
-In-Situ Stress: {p0:.2f} MPa
-Cohesion: {c:.2f} MPa
-Friction Angle: {phi_deg:.1f}°
-Young's Modulus: {E:.0f} MPa
-Poisson's Ratio: {nu:.2f}""", language="text")
+    Project Name: {project_name}
+    Tunnel Radius: {r0:.2f} m
+    In-Situ Stress: {p0:.2f} MPa
+    Cohesion: {c:.2f} MPa
+    Friction Angle: {phi_deg:.1f}°
+    Young's Modulus: {E:.0f} MPa
+    Poisson's Ratio: {nu:.2f}""", language="text")
 
     st.markdown("**Fundamental Equations:**")
     st.latex(r"""
