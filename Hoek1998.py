@@ -147,34 +147,28 @@ with tab3:
     
     # In the Data Export (tab3) section:
     st.code(f"""Analysis Parameters:
-    Project Name: {project_name}
-    Tunnel Radius: {r0:.2f} m
-    In-Situ Stress: {p0:.2f} MPa
-    Cohesion: {c:.2f} MPa
-    Friction Angle: {phi_deg:.1f}°
-    Young's Modulus: {E:.0f} MPa
-    Poisson's Ratio: {nu:.2f}
+Project Name: {project_name}
+Tunnel Radius: {r0:.2f} m
+In-Situ Stress: {p0:.2f} MPa
+Cohesion: {c:.2f} MPa
+Friction Angle: {phi_deg:.1f}°
+Young's Modulus: {E:.0f} MPa
+Poisson's Ratio: {nu:.2f}""", language="text")
 
     st.markdown("**Fundamental Equations:**")
     st.latex(r"""
-    1.\ Critical\ Pressure: 
-    p_{cr} = \frac{2p_0 - \sigma_{cm}}{1 + k}
-    """)
-    st.latex(r"""
-    2.\ \sigma_{cm}:
-    \sigma_{cm} = \frac{2c\cos\phi}{1 - \sin\phi}
-    """)
-    st.latex(r"""
-    3.\ k-value:
-    k = \frac{1 + \sin\phi}{1 - \sin\phi}
-    """)
-    st.latex(r"""
-    4.\ Shear\ Modulus:
-    G = \frac{E}{2(1+\nu)}
-    """)
-    st.latex(r"""
-    5.\ Transition\ Displacement:
-    u_{ie} = \frac{(p_0 - p_{cr}) r_0}{2G}
+    \begin{aligned}
+    1.\ & \text{Critical Pressure:} \\
+    & p_{cr} = \frac{2p_0 - \sigma_{cm}}{1 + k} \\
+    2.\ & \sigma_{cm}: \\
+    & \sigma_{cm} = \frac{2c\cos\phi}{1 - \sin\phi} \\
+    3.\ & \text{k-value:} \\
+    & k = \frac{1 + \sin\phi}{1 - \sin\phi} \\
+    4.\ & \text{Shear Modulus:} \\
+    & G = \frac{E}{2(1+\nu)} \\
+    5.\ & \text{Transition Displacement:} \\
+    & u_{ie} = \frac{(p_0 - p_{cr}) r_0}{2G}
+    \end{aligned}
     """)
     
     # Export controls
