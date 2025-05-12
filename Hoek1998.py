@@ -102,23 +102,29 @@ with tab2:
             st.success("Valid elasto-plastic analysis domain")
 
 with tab3:
+    # Data export system
     st.markdown("### 📥 Export Results")
+    
+    # Create dataframe with formatted values
     df = pd.DataFrame({
         "Support Pressure (MPa)": np.round(p, 2),
         "Radial Displacement (m)": np.round(u_r, 4),
         "Plastic Radius (m)": np.round(R_p, 2),
         "Zone Type": np.where(p >= p_cr, "Elastic", "Plastic")
     })
-
+    
+    # SINGLE SET OF EXPORT CONTROLS
     col1, col2 = st.columns(2)
+    
     with col1:
         st.download_button(
             label="📄 Download CSV Data",
             data=df.to_csv(index=False).encode('utf-8'),
             file_name=f"grc_data_{project_name}.csv",
             mime='text/csv',
-            key="csv_download_button"
+            key="csv_export_tab3"
         )
+        
     with col2:
         buf = io.BytesIO()
         fig.savefig(buf, format="png", dpi=150, facecolor='white')
@@ -127,8 +133,34 @@ with tab3:
             data=buf.getvalue(),
             file_name=f"grc_plot_{project_name}.png",
             mime="image/png",
-            key="plot_download_button"
+            key="plot_export_tab3"
         )
+    
+    # Display parameters and equations
+    st.markdown("**Analysis Parameters:**")
+    st.code(f"""Project Name: {project_name}
+Tunnel Radius: {r0:.2f} m
+In-Situ Stress: {p0:.2f} MPa
+Cohesion: {c:.2f} MPa
+Friction Angle: {phi_deg:.1f}°
+Young's Modulus: {E:.0f} MPa
+Poisson's Ratio: {nu:.2f}""", language="text")
+
+    st.markdown("**Fundamental Equations:**")
+    st.latex(r"""
+    \begin{aligned}
+    1.\ & \text{Critical Pressure:} \\
+    & p_{cr} = \frac{2p_0 - \sigma_{cm}}{1 + k} \\
+    2.\ & \sigma_{cm}: \\
+    & \sigma_{cm} = \frac{2c\cos\phi}{1 - \sin\phi} \\
+    3.\ & \text{k-value:} \\
+    & k = \frac{1 + \sin\phi}{1 - \sin\phi} \\
+    4.\ & \text{Shear Modulus:} \\
+    & G = \frac{E}{2(1+\nu)} \\
+    5.\ & \text{Transition Displacement:} \\
+    & u_{ie} = \frac{(p_0 - p_{cr}) r_0}{2G}
+    \end{aligned}
+    """)
 
 # Warnings
 if max(u_r) > 0.1:
