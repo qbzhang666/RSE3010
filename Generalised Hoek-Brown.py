@@ -31,10 +31,8 @@ def hoek_brown(sigci, mb, s, a, min_sig3, max_sig3, num_points=100):
     df = pd.DataFrame({'sig3': sig3, 'sig1': sig1})
     df.dropna(inplace=True)
     df['ds1ds3'] = 1 + a * mb * (mb * (df.sig3 / sigci) + s) ** (a - 1)
-    df['sign'] = ((df.sig1 + df.sig3) / 2 -
-                  (df.sig1 - df.sig3) / 2 * (df.ds1ds3 - 1) / (df.ds1ds3 + 1))
-    df['tau'] = ((df.sig1 - df.sig3) *
-                 np.sqrt(df.ds1ds3) / (df.ds1ds3 + 1))
+    df['sign'] = ((df.sig1 + df.sig3) / 2 - (df.sig1 - df.sig3) / 2 * (df.ds1ds3 - 1) / (df.ds1ds3 + 1))
+    df['tau'] = ((df.sig1 - df.sig3) * np.sqrt(df.ds1ds3) / (df.ds1ds3 + 1))
     return df
 
 def fit_mohr_coulomb(df):
@@ -79,7 +77,36 @@ default_max = round(1.2 * sigma_1, 2)
 sig3_min = st.sidebar.number_input("Minimum $\sigma_3$ [MPa]", value=default_min, step=0.1)
 sig3_max = st.sidebar.number_input("Maximum $\sigma_3$ [MPa]", value=default_max, step=0.1)
 
-# Compute Envelope
+# --- Mohr Circle Data Input ---
+st.sidebar.markdown("### Manual Input of Mohr Circle Data")
+manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma-separated):", "1,4\n3,10\n5,17\n7,25")
+
+data_lines = manual_data.strip().split("\n")
+sigma3_list, sigma1_list = [], []
+try:
+    for line in data_lines:
+        parts = line.split(',')
+        if len(parts) == 2:
+            sigma3_list.append(float(parts[0]))
+            sigma1_list.append(float(parts[1]))
+except:
+    st.sidebar.error("Invalid format. Use two numbers per line separated by a comma.")
+
+# CSV Upload Alternative
+st.sidebar.markdown("### Or Upload CSV File")
+uploaded_file = st.sidebar.file_uploader("Upload CSV with 'sigma3' and 'sigma1' columns", type='csv')
+
+if uploaded_file:
+    data = pd.read_csv(uploaded_file)
+    if 'sigma3' in data.columns and 'sigma1' in data.columns:
+        circle_data = data[['sigma3', 'sigma1']]
+    else:
+        st.error("CSV must contain columns: 'sigma3' and 'sigma1'")
+        st.stop()
+else:
+    circle_data = pd.DataFrame({'sigma3': sigma3_list, 'sigma1': sigma1_list})
+
+# --- Compute Envelope and MC Fit ---
 df = hoek_brown(sigci, mb, s, a, sig3_min, sig3_max)
 cohesion, phi_deg = fit_mohr_coulomb(df)
 x_fit = np.linspace(0, df['sign'].max(), 100)
@@ -88,33 +115,11 @@ mc_sig3 = np.linspace(0, df['sig3'].max(), 100)
 mc_sig1 = ((2 * cohesion * np.cos(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg))) +
            ((1 + np.sin(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg)))) * mc_sig3)
 
-# Mohr Circles
-num_circles = st.sidebar.slider("Number of Mohr Circles", 1, 20, 10)
-circle_sig3 = np.linspace(sig3_min, sig3_max, num_circles)
-circle_sig1 = np.interp(circle_sig3, df['sig3'], df['sig1'])
-circle_data = pd.DataFrame({'sig3': circle_sig3, 'sig1': circle_sig1})
-
-# --- Text Output ---
-st.subheader("In-situ Stress Analysis")
-st.markdown(f"""
-- **Unit weight:** {unit_weight} kN/m³  
-- **Vertical stress** $\sigma_v$: {sigma_v:.2f} MPa  
-- **Horizontal stress** $\sigma_h$: {sigma_h:.2f} MPa  
-- **Major Principal Stress** $\sigma_1$: {sigma_1:.2f} MPa ({direction})  
-- **Minor Principal Stress** $\sigma_3$: {sigma_3:.2f} MPa  
-""")
-
-st.subheader("Hoek-Brown Parameters")
-st.markdown(f"**mb:** {mb:.4f}, **s:** {s:.4f}, **a:** {a:.4f}")
-
-st.subheader("Mohr-Coulomb Parameters")
-st.markdown(f"**Cohesion (c):** {cohesion:.2f} MPa, **Friction angle** $\phi$: {phi_deg:.2f}°")
-
 # --- Plotting ---
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 fig.suptitle("Hoek-Brown & Mohr-Coulomb Envelopes", fontsize=16)
 
-# σ₁–σ₃ with equations
+# σ₁–σ₃
 ax1.plot(df.sig3, df.sig1, 'b-', lw=2,
          label=r'Hoek-Brown: $\sigma_1 = \sigma_3 + \sigma_{ci}(m_b \frac{\sigma_3}{\sigma_{ci}} + s)^a$')
 ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2,
@@ -125,27 +130,23 @@ ax1.set_ylabel(r'$\sigma_1$ [MPa]')
 ax1.grid(True)
 ax1.legend(loc="upper left", fontsize=9)
 
-# τ–σₙ with equations
+# τ–σₙ
 ax2.plot(df['sign'], df['tau'], 'r-', lw=2,
          label=r'Hoek-Brown: $\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{d\sigma_1/d\sigma_3}}{d\sigma_1/d\sigma_3 + 1}$')
 ax2.plot(x_fit, y_fit, 'k--', lw=2,
          label = fr'Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$' + 
                  fr'  $(c = {cohesion:.2f}\ \mathrm{{MPa}},\ \phi = {phi_deg:.1f}^\circ)$')
-# Mohr Circles
-circle_centers = (circle_data.sig1 + circle_data.sig3) / 2
-circle_radii = (circle_data.sig1 - circle_data.sig3) / 2
-x_max = (circle_centers + circle_radii).max() * 1.1
-y_max = circle_radii.max() * 1.1
-lim = max(x_max, y_max)
 
+# Mohr Circles
 for _, row in circle_data.iterrows():
-    center = (row.sig1 + row.sig3) / 2
-    radius = (row.sig1 - row.sig3) / 2
+    center = (row.sigma1 + row.sigma3) / 2
+    radius = (row.sigma1 - row.sigma3) / 2
     arc = Arc((center, 0), 2 * radius, 2 * radius, theta1=0, theta2=180, color='grey', alpha=0.4)
     ax2.add_patch(arc)
 
-ax2.set_xlim(0, lim)
-ax2.set_ylim(0, lim)
+max_limit = max(circle_data.apply(lambda r: (r.sigma1 + r.sigma3) / 2 + (r.sigma1 - r.sigma3) / 2, axis=1)) * 1.1
+ax2.set_xlim(0, max_limit)
+ax2.set_ylim(0, max_limit)
 ax2.set_aspect('equal')
 ax2.set_xlabel(r'$\sigma_n$ [MPa]')
 ax2.set_ylabel(r'$\tau$ [MPa]')
@@ -154,17 +155,16 @@ ax2.legend(loc="upper left", fontsize=9)
 
 st.pyplot(fig)
 
-# --- Equation Reference ---
+# --- Equations ---
 with st.expander("\U0001F4D8 Show All Equations Used"):
     st.markdown("#### Hoek-Brown and Mohr-Coulomb Strength Criteria")
     st.latex(r"\sigma_1 = \sigma_3 + \sigma_{ci} \left( m_b \frac{\sigma_3}{\sigma_{ci}} + s \right)^a")
     st.latex(r"\sigma_1 = \frac{2c \cos \phi}{1 - \sin \phi} + \frac{1 + \sin \phi}{1 - \sin \phi} \cdot \sigma_3")
     st.latex(r"\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{\frac{d\sigma_1}{d\sigma_3}}}{\frac{d\sigma_1}{d\sigma_3} + 1}")
     st.latex(r"\tau = c + \sigma_n \tan \phi")
-
     st.markdown("#### Hoek-Brown Parameter Equations (Hoek et al., 2002)")
-    st.latex(r"m_b = m_i \cdot \exp\left(\frac{{\text{GSI} - 100}}{{28 - 14D}}\right)")
-    st.latex(r"s = \exp\left(\frac{{\text{GSI} - 100}}{{9 - 3D}}\right)")
+    st.latex(r"m_b = m_i \cdot \exp\left(\frac{\text{GSI} - 100}{28 - 14D}\right)")
+    st.latex(r"s = \exp\left(\frac{\text{GSI} - 100}{9 - 3D}\right)")
     st.latex(r"a = 0.5 + \frac{1}{6} \left( \exp\left(-\frac{\text{GSI}}{15}\right) - \exp\left(-\frac{20}{3} \right) \right)")
 
 # --- Reference Table ---
