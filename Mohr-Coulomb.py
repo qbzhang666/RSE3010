@@ -111,13 +111,14 @@ fig, ax = plt.subplots(figsize=(10, 6))
 ax.plot(x_fit_original, y_fit_original, 'k--', label='Original Mohr-Coulomb Criterion')
 ax.plot(x_fit_cutoff, y_fit_cutoff, 'r-', label='Mohr-Coulomb Criterion with Tensile Cut-off')
 
-# Experimental data plotting
+# Experimental data plotting with safeguard
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
 for σ3, σ1, color in zip(sigma3_values, sigma1_values, colors):
     center = (σ1 + σ3) / 2
     radius = (σ1 - σ3) / 2
-    arc = Arc((center, 0), 2*radius, 2*radius, 0, 0, 180, color=color, alpha=0.6)
-    ax.add_patch(arc)
+    if radius > 0:
+        arc = Arc((center, 0), 2*radius, 2*radius, 0, 0, 180, color=color, alpha=0.6)
+        ax.add_patch(arc)
 
 # Axis adjustments
 ax.set_xlim(sig_t_cutoff * 1.2, max(sigma1_values)*1.2)
