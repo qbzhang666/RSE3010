@@ -162,6 +162,10 @@ x_cutoff = np.linspace(sig_t_cutoff, 0, 100)
 y_cutoff = cohesion + np.tan(np.radians(friction_angle)) * x_cutoff
 ax2.plot(x_cutoff, y_cutoff, 'r-', lw=2.5, label=cutoff_label)
 
+# Vertical line at cut-off
+ax2.vlines(x=sig_t_cutoff, ymin=0, ymax=cohesion + np.tan(np.radians(friction_angle)) * sig_t_cutoff,
+           colors='red', linestyles='-', lw=2)
+
 # Experimental Mohr circles
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
 for σ3, σ1, color in zip(sigma3_values, sigma1_values, colors):
