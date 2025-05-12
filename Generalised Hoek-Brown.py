@@ -129,7 +129,7 @@ ax1.legend(loc="upper left", fontsize=9)
 ax2.plot(df['sign'], df['tau'], 'r-', lw=2,
          label=r'Hoek-Brown: $\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{d\sigma_1/d\sigma_3}}{d\sigma_1/d\sigma_3 + 1}$')
 ax2.plot(x_fit, y_fit, 'k--', lw=2,
-         label=fr'Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$  
+         label=fr'Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n$(c = {cohesion:.2f} \ MPa, \phi = {phi_deg:.1f}^\circ)$'
 $(c = {cohesion:.2f}\ MPa,\ \phi = {phi_deg:.1f}^\circ)$')
 
 # Mohr Circles
