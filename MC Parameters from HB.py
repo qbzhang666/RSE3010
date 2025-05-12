@@ -48,9 +48,23 @@ def fit_mohr_coulomb(df):
 
 # --- Rock Types Dictionary ---
 rock_type_dict = {
-    "Igneous": {"Granite": 32, "Basalt": 16, "Diorite": 25},
-    "Sedimentary": {"Sandstone": 17, "Shale": 6, "Limestone": 12},
-    "Metamorphic": {"Gneiss": 28, "Schist": 12, "Marble": 9}
+    "Igneous": {
+        "Granite": 32, "Granodiorite": 29, "Diorite": 25, "Dolerite": 16,
+        "Gabbro": 27, "Norite": 22, "Peridotite": 25, "Rhyolite": 16,
+        "Andesite": 25, "Basalt": 16, "Diabase": 16, "Porphyry": 20,
+        "Agglomerate": 19, "Tuff": 13
+    },
+    "Sedimentary": {
+        "Conglomerate": 4, "Breccia": 4, "Sandstone": 17, "Siltstone": 7,
+        "Marl": 7, "Mudstone": 4, "Shale": 6, "Crystalline limestone": 12,
+        "Sparitic limestone": 10, "Micritic limestone": 9, "Dolomite": 9,
+        "Gypsum": 8, "Anhydrite": 12, "Coal": 8, "Chalk": 7
+    },
+    "Metamorphic": {
+        "Gneiss": 28, "Schist": 12, "Phyllites": 7, "Slate": 7,
+        "Migmatite": 29, "Amphibolite": 26, "Quartzite": 20,
+        "Meta-sandstone": 19, "Hornfels": 19, "Marble": 9
+    }
 }
 
 # --- Sidebar Inputs ---
