@@ -128,6 +128,8 @@ st.markdown(f"""
 - **Friction angle** $\phi$: {friction_angle:.2f}°  
 """)
 
+# (Same content up to the plotting section)
+
 # --- Plotting ---
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 fig.suptitle(f'Mohr-Coulomb Strength Analysis\nDepth: {h:.1f} m, K: {K}', fontsize=16)
@@ -138,7 +140,7 @@ term1 = (2 * cohesion * np.cos(np.radians(friction_angle))) / (1 - sin_phi)
 term2 = (1 + sin_phi) / (1 - sin_phi)
 mc_sig3 = np.linspace(0, max(sigma3_values) * 1.1, 100)
 mc_sig1 = term1 + term2 * mc_sig3
-ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2, label='Mohr-Coulomb Envelope')
+ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2, label=fr'Mohr-Coulomb: $\sigma_1 = \frac{{2c\cos\phi}}{{1-\sin\phi}} + \frac{{1+\sin\phi}}{{1-\sin\phi}}\sigma_3$')
 ax1.scatter(sigma3_values, sigma1_values, c='b', s=80, label='Experimental Data')
 ax1.scatter(sigma_3, sigma_1, c='r', s=120, label='In-situ Stress', marker='*')
 ax1.set_xlabel(r'Minor Principal Stress ($\sigma_3$) [MPa]')
@@ -148,8 +150,9 @@ ax1.legend()
 
 # Shear-Normal Plot
 mc_label = fr"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n$(c = {cohesion:.2f}\ MPa, \phi = {friction_angle:.1f}^\circ)$"
-ax2.plot(x_fit_original, y_fit_original, 'k--', lw=2, label='Original Mohr-Coulomb Criterion')
-ax2.plot(x_fit_cutoff, y_fit_cutoff, 'r-', label='Mohr-Coulomb Criterion with Tensile Cut-off')
+ax2.plot(x_fit_original, y_fit_original, 'k--', lw=2, label=mc_label)
+cutoff_label = fr"Tensile Cut-off: $\tau = c + \sigma_n \tan\phi$ (to $\sigma_t$ = {tensile_cutoff:.2f} MPa)"
+ax2.plot(x_fit_cutoff, y_fit_cutoff, 'r-', label=cutoff_label)
 
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
 for σ3, σ1, color in zip(sigma3_values, sigma1_values, colors):
@@ -160,7 +163,8 @@ for σ3, σ1, color in zip(sigma3_values, sigma1_values, colors):
         ax2.add_patch(arc)
 
 max_limit = max((sigma1_values + sigma3_values)/2 + (sigma1_values - sigma3_values)/2) * 1.1
-ax2.set_xlim(sig_t_cutoff * 1.5, max_limit)
+left_limit = min(sig_t_cutoff * 1.1, -1.5)  # avoid very large negative space
+ax2.set_xlim(left_limit, max_limit)
 ax2.set_ylim(0, max_limit)
 ax2.set_aspect('equal')
 ax2.set_xlabel(r'Normal Stress ($\sigma_n$) [MPa]')
