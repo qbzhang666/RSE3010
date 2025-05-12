@@ -145,8 +145,30 @@ with tab3:
         "Zone Type": np.where(p >= p_cr, "Elastic", "Plastic")
     })
     
-    # In the Data Export (tab3) section:
-    st.code(f"""Analysis Parameters:
+    # Export controls
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.download_button(
+            label="📄 Download CSV Data",
+            data=df.to_csv(index=False).encode('utf-8'),
+            file_name=f"grc_data_{project_name}.csv",
+            mime='text/csv'
+        )
+        
+    with col2:
+        buf = io.BytesIO()
+        fig.savefig(buf, format="png", dpi=150, facecolor='white')
+        st.download_button(
+            label="🖼️ Download Plot",
+            data=buf.getvalue(),
+            file_name=f"grc_plot_{project_name}.png",
+            mime="image/png"
+        )
+    
+    # Display parameters and equations separately
+    st.markdown("**Analysis Parameters:**")
+    st.code(f"""\
 Project Name: {project_name}
 Tunnel Radius: {r0:.2f} m
 In-Situ Stress: {p0:.2f} MPa
