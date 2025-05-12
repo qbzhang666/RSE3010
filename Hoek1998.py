@@ -146,9 +146,7 @@ with tab3:
     })
     
     # In the Data Export (tab3) section:
-
-    # In the Data Export (tab3) section:
-    metadata = f"""Analysis Parameters:
+    st.code(f"""Analysis Parameters:
     Project Name: {project_name}
     Tunnel Radius: {r0:.2f} m
     In-Situ Stress: {p0:.2f} MPa
@@ -157,12 +155,27 @@ with tab3:
     Young's Modulus: {E:.0f} MPa
     Poisson's Ratio: {nu:.2f}
 
-    Fundamental Equations:
-    1. Critical Pressure: $p_{{cr}} = \\frac{{2p_0 - \\sigma_{{cm}}}}{{1 + k}}$
-    2. Sigma_cm: $\\sigma_{{cm}} = \\frac{{2c\\cos\\phi}}{{1 - \\sin\\phi}}$
-    3. k-value: $k = \\frac{{1 + \\sin\\phi}}{{1 - \\sin\\phi}}$
-    4. Shear Modulus: $G = \\frac{{E}}{{2(1+\\nu)}}$
-    5. Transition Displacement: $u_{{ie}} = \\frac{{(p_0 - p_{{cr}}) r_0}}{{2G}}$"""
+    st.markdown("**Fundamental Equations:**")
+    st.latex(r"""
+    1.\ Critical\ Pressure: 
+    p_{cr} = \frac{2p_0 - \sigma_{cm}}{1 + k}
+    """)
+    st.latex(r"""
+    2.\ \sigma_{cm}:
+    \sigma_{cm} = \frac{2c\cos\phi}{1 - \sin\phi}
+    """)
+    st.latex(r"""
+    3.\ k-value:
+    k = \frac{1 + \sin\phi}{1 - \sin\phi}
+    """)
+    st.latex(r"""
+    4.\ Shear\ Modulus:
+    G = \frac{E}{2(1+\nu)}
+    """)
+    st.latex(r"""
+    5.\ Transition\ Displacement:
+    u_{ie} = \frac{(p_0 - p_{cr}) r_0}{2G}
+    """)
     
     # Export controls
     col1, col2 = st.columns(2)
