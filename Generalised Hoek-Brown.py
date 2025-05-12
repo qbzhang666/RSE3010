@@ -47,6 +47,9 @@ def fit_mohr_coulomb_tangent(sigma1_exp, sigma3_exp):
     result = least_squares(distance_residuals, [init_c, init_phi], bounds=(0, [np.inf, 90]))
     return result.x[0], result.x[1]
 
+def calculate_hoek_martin_cutoff(mi):
+    return 1 / (8.62 + 0.7 * mi)
+
 # --- Extended Rock Type Dictionary ---
 rock_type_dict = {
     "Igneous": {
@@ -174,6 +177,14 @@ ax2.legend(loc="upper left", fontsize=9)
 
 st.pyplot(fig)
 
+# --- Tensile Cut-off ---
+tensile_ratio = calculate_hoek_martin_cutoff(mi)
+st.subheader("Hoek-Martin 2014 Tensile Cut-off Ratio")
+st.markdown(f"""
+- $\sigma_c / |\sigma_t| = 8.62 + 0.7m_i$ → $\sigma_t = \sigma_c / ({8.62 + 0.7*mi:.2f})$  
+- **Tensile Cut-off Ratio**: {tensile_ratio:.3f}  
+""")
+
 with st.expander("\U0001F4D8 Show All Equations Used"):
     st.markdown("#### Hoek-Brown and Mohr-Coulomb Strength Criteria")
     st.latex(r"\sigma_1 = \sigma_3 + \sigma_{ci} \left( m_b \frac{\sigma_3}{\sigma_{ci}} + s \right)^a")
@@ -185,6 +196,9 @@ with st.expander("\U0001F4D8 Show All Equations Used"):
     st.latex(r"m_b = m_i \cdot \exp\left(\frac{{\text{GSI} - 100}}{{28 - 14D}}\right)")
     st.latex(r"s = \exp\left(\frac{{\text{GSI} - 100}}{{9 - 3D}}\right)")
     st.latex(r"a = 0.5 + \frac{1}{6} \left( \exp\left(-\frac{\text{GSI}}{15}\right) - \exp\left(-\frac{20}{3} \right) \right)")
+
+    st.markdown("#### Hoek-Martin 2014 Tensile Cut-off")
+    st.latex(r"\sigma_c / |\sigma_t| = 8.62 + 0.7m_i")
 
 with st.expander("\U0001F4D8 Suggested $m_i$ Values for Rock Types (Hoek & Marinos, 2000)", expanded=False):
     st.image("mi_reference.png", caption="Suggested $m_i$ values for various rock types", use_container_width=True)
