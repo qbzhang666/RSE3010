@@ -204,18 +204,18 @@ with st.expander("\U0001F4D8 Show All Equations Used"):
     st.latex(r"\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{\frac{d\sigma_1}{d\sigma_3}}}{\frac{d\sigma_1}{d\sigma_3} + 1}")
     st.latex(r"\tau = c + \sigma_n \tan \phi")
 
-    st.markdown("#### Hoek-Brown Parameter Equations (Hoek et al., 2002)")
+    st.markdown("#### Hoek-Brown Parameter Equations (Hoek and Brown, 2002)")
     st.latex(r"m_b = m_i \cdot \exp\left(\frac{{\text{GSI} - 100}}{{28 - 14D}}\right)")
     st.latex(r"s = \exp\left(\frac{{\text{GSI} - 100}}{{9 - 3D}}\right)")
     st.latex(r"a = 0.5 + \frac{1}{6} \left( \exp\left(-\frac{\text{GSI}}{15}\right) - \exp\left(-\frac{20}{3} \right) \right)")
 
-    st.markdown("#### Hoek-Martin 2014 Tensile Cut-off")
+    st.markdown("#### Tensile Cut-off (Hoek-Martin, 2014)")
     st.latex(r"\sigma_c / |\sigma_t| = 8.62 + 0.7m_i")
+
     
-    st.subheader("Hoek & Diederichs (2006) Deformation Modulus")
-st.markdown(f"""
-- **Deformation Modulus** $(E_m)$: {Em:.2f} MPa  
-""")
+    st.markdown("#### Generalised Deformation Modulus (Hoek & Diederichs, 2006) ")
+    st.latex(r"E_m = 100{,}000 \cdot \left( \frac{1 - D/2}{1 + e^{\left( \frac{75 + 15D - \text{GSI}}{11} \right)}} \right)")
+
 
 with st.expander("\U0001F4D8 Suggested $m_i$ Values for Rock Types (Hoek & Marinos, 2000)", expanded=False):
     st.image("mi_reference.png", caption="Suggested $m_i$ values for various rock types", use_container_width=True)
