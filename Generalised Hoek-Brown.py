@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Arc
 from sklearn.linear_model import LinearRegression
+from scipy.optimize import least_squares
 
 st.set_page_config(page_title="Generalised Hoek-Brown Hybrid", layout="wide")
 
@@ -22,34 +23,35 @@ def hoek_brown(sigci, mb, s, a, sig3_values):
     df['tau'] = ((df.sig1 - df.sig3) * np.sqrt(df.ds1ds3) / (df.ds1ds3 + 1))
     return df
 
-def fit_mohr_coulomb(df):
-    x = df['sign'].values
-    y = df['tau'].values
-    A = np.vstack([x, np.ones(len(x))]).T
-    slope, intercept = np.linalg.lstsq(A, y, rcond=None)[0]
-    phi = np.degrees(np.arctan(slope))
-    cohesion = intercept
-    return cohesion, phi
+def fit_mohr_coulomb_tangent(sigma1_exp, sigma3_exp):
+    centers = (sigma1_exp + sigma3_exp) / 2
+    radii = (sigma1_exp - sigma3_exp) / 2
 
-# --- Extended Rock Type Dictionary ---
+    def distance_residuals(params):
+        c, phi_deg = params
+        phi_rad = np.radians(phi_deg)
+        tan_phi = np.tan(phi_rad)
+        distances = []
+        for sn, r in zip(centers, radii):
+            tau_pred = c + sn * tan_phi
+            distance = np.abs(tau_pred) - r * np.sqrt(1 + tan_phi**2)
+            distances.append(distance)
+        return distances
+
+    tau = (sigma1_exp - sigma3_exp) / 2
+    sn = (sigma1_exp + sigma3_exp) / 2
+    lin_reg = LinearRegression().fit(sn.reshape(-1, 1), tau)
+    init_c = lin_reg.intercept_
+    init_phi = np.degrees(np.arctan(lin_reg.coef_[0]))
+
+    result = least_squares(distance_residuals, [init_c, init_phi], bounds=(0, [np.inf, 90]))
+    return result.x[0], result.x[1]
+
+# --- Rock Type Dictionary ---
 rock_type_dict = {
-    "Igneous": {
-        "Granite": 32, "Granodiorite": 29, "Diorite": 25, "Dolerite": 16,
-        "Gabbro": 27, "Norite": 22, "Peridotite": 25, "Rhyolite": 16,
-        "Andesite": 25, "Basalt": 16, "Diabase": 16, "Porphyry": 20,
-        "Agglomerate": 19, "Tuff": 13
-    },
-    "Sedimentary": {
-        "Conglomerate": 4, "Breccia": 4, "Sandstone": 17, "Siltstone": 7,
-        "Marl": 7, "Mudstone": 4, "Shale": 6, "Crystalline limestone": 12,
-        "Sparitic limestone": 10, "Micritic limestone": 9, "Dolomite": 9,
-        "Gypsum": 8, "Anhydrite": 12, "Coal": 8, "Chalk": 7
-    },
-    "Metamorphic": {
-        "Gneiss": 28, "Schist": 12, "Phyllites": 7, "Slate": 7,
-        "Migmatite": 29, "Amphibolite": 26, "Quartzite": 20,
-        "Meta-sandstone": 19, "Hornfels": 19, "Marble": 9
-    }
+    "Igneous": {"Granite": 32, "Diorite": 25},
+    "Sedimentary": {"Sandstone": 17, "Shale": 6},
+    "Metamorphic": {"Gneiss": 28, "Marble": 9}
 }
 
 # --- Sidebar Inputs ---
@@ -64,7 +66,6 @@ rock = st.sidebar.selectbox("Rock Type", list(rock_type_dict[category].keys()))
 mi = rock_type_dict[category][rock]
 st.sidebar.write(f"**Selected mi value:** {mi}")
 
-# --- Manual Input of Experimental Data ---
 st.sidebar.markdown("### Manual Input of Experimental Data")
 manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):", value="0,5\n2,10\n4,16\n6,21\n7,25")
 
@@ -79,7 +80,6 @@ try:
 except:
     st.sidebar.error("Invalid format. Please enter numeric σ₃ and σ₁ pairs, separated by a comma.")
 
-# --- Upload CSV Alternative ---
 st.sidebar.markdown("### Upload Experimental Data")
 uploaded_file = st.sidebar.file_uploader("Upload CSV file with σ₃ and σ₁ columns", type="csv")
 if uploaded_file:
@@ -97,11 +97,12 @@ else:
 # --- Computation ---
 mb, s, a = calculate_hb_parameters(GSI, mi, D)
 df = hoek_brown(sigci, mb, s, a, sigma3_values)
-cohesion, phi_deg = fit_mohr_coulomb(df)
+cohesion, phi_deg = fit_mohr_coulomb_tangent(sigma1_values, sigma3_values)
 
-x_fit = np.linspace(0, df['sign'].max(), 100)
+x_fit = np.linspace(0, max((sigma1_values + sigma3_values)/2), 100)
 y_fit = cohesion + np.tan(np.radians(phi_deg)) * x_fit
-mc_sig3 = np.linspace(0, df['sig3'].max(), 100)
+
+mc_sig3 = np.linspace(0, max(sigma3_values), 100)
 mc_sig1 = ((2 * cohesion * np.cos(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg))) +
            ((1 + np.sin(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg)))) * mc_sig3)
 
