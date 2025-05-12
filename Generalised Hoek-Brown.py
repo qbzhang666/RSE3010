@@ -49,7 +49,11 @@ def fit_mohr_coulomb_tangent(sigma1_exp, sigma3_exp):
 
 def calculate_hoek_martin_cutoff(mi):
     return 1 / (8.62 + 0.7 * mi)
-
+    
+def calculate_deformation_modulus(GSI, D):
+    Em = 100000 * ((1 - D/2) / (1 + np.exp((75 + 15 * D - GSI) / 11)))
+    return Em
+    
 # --- Extended Rock Type Dictionary ---
 rock_type_dict = {
     "Igneous": {
@@ -146,6 +150,10 @@ st.markdown(f"""
 - **Tensile Cut-off Ratio**: {tensile_ratio:.3f}  
 """)
 
+st.subheader("Hoek & Diederichs (2006) Deformation Modulus")
+st.markdown(f"""
+- **Deformation Modulus** $(E_m)$: {Em:.2f} MPa  
+""")
 
 # --- Plotting ---
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
