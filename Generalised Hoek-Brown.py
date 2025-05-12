@@ -72,19 +72,19 @@ rock_type_dict = {
 }
 
 # --- Sidebar Inputs ---
-st.sidebar.header("Input Parameters")
+st.sidebar.header("Rock Mass and Disturbance Factor D")
 GSI = st.sidebar.slider("Geological Strength Index (GSI)", 10, 100, 45)
 D = st.sidebar.slider("Disturbance Factor (D)", 0.0, 1.0, 1.0, step=0.1)
 
-st.sidebar.markdown("### Rock Type Selection")
+st.sidebar.markdown("### Rock Type Selection mi")
 category = st.sidebar.selectbox("Rock Category", list(rock_type_dict.keys()))
 rock = st.sidebar.selectbox("Rock Type", list(rock_type_dict[category].keys()))
 mi = rock_type_dict[category][rock]
 st.sidebar.write(f"**Selected mi value:** {mi}")
 
 st.sidebar.markdown("### Manual Input of Experimental Data")
-manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):", value="0,5\n2,10\n4,16\n6,21\n7,25")
 sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", 5.0, 250.0, 25.0)
+manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):", value="0,5\n2,10\n4,16\n6,21\n7,25")
 
 sigma3_list, sigma1_list = [], []
 data_lines = manual_data.strip().split("\n")
