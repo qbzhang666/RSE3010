@@ -125,6 +125,7 @@ ax1.plot(df.sig3, df.sig1, 'b-', lw=2,
 ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2,
          label=r'Mohr-Coulomb: $\sigma_1 = \frac{2c \cos\phi}{1 - \sin\phi} + \frac{1 + \sin\phi}{1 - \sin\phi} \cdot \sigma_3$')
 ax1.scatter(sigma_3, sigma_1, c='r', s=80, label='In-situ Stress')
+ax1.scatter(circle_data['sigma3'], circle_data['sigma1'], c='black', label='Experimental Data', zorder=10)
 ax1.set_xlabel(r'$\sigma_3$ [MPa]')
 ax1.set_ylabel(r'$\sigma_1$ [MPa]')
 ax1.grid(True)
