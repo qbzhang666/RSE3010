@@ -145,8 +145,8 @@ with tab3:
         "Zone Type": np.where(p >= p_cr, "Elastic", "Plastic")
     })
     
-    # Metadata with equations
-    metadata = f"""Analysis Parameters:
+    # In the Data Export (tab3) section:
+metadata = f"""Analysis Parameters:
 Project Name: {project_name}
 Tunnel Radius: {r0:.2f} m
 In-Situ Stress: {p0:.2f} MPa
@@ -160,8 +160,7 @@ Fundamental Equations:
 2. Sigma_cm: $\\sigma_{{cm}} = \\frac{{2c\\cos\\phi}}{{1 - \\sin\\phi}}$
 3. k-value: $k = \\frac{{1 + \\sin\\phi}}{{1 - \\sin\\phi}}$
 4. Shear Modulus: $G = \\frac{{E}}{{2(1+\\nu)}}$
-5. Transition Displacement: $u_{{ie}} = \\frac{{(p_0 - p_{{cr}}) r_0}}{{2G}}$
-"""
+5. Transition Displacement: $u_{{ie}} = \\frac{{(p_0 - p_{{cr}}) r_0}}{{2G}}$"""
     
     # Export controls
     col1, col2 = st.columns(2)
