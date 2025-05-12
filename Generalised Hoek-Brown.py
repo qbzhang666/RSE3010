@@ -46,12 +46,27 @@ def fit_mohr_coulomb(df):
     cohesion = intercept
     return cohesion, phi
 
-# --- Rock Types Dictionary ---
+# --- Extended Rock Type Dictionary ---
 rock_type_dict = {
-    "Igneous": {"Granite": 32, "Basalt": 16, "Diorite": 25},
-    "Sedimentary": {"Sandstone": 17, "Shale": 6, "Limestone": 12},
-    "Metamorphic": {"Gneiss": 28, "Schist": 12, "Marble": 9}
+    "Igneous": {
+        "Granite": 32, "Granodiorite": 29, "Diorite": 25, "Dolerite": 16,
+        "Gabbro": 27, "Norite": 22, "Peridotite": 25, "Rhyolite": 16,
+        "Andesite": 25, "Basalt": 16, "Diabase": 16, "Porphyry": 20,
+        "Agglomerate": 19, "Tuff": 13
+    },
+    "Sedimentary": {
+        "Conglomerate": 4, "Breccia": 4, "Sandstone": 17, "Siltstone": 7,
+        "Marl": 7, "Mudstone": 4, "Shale": 6, "Crystalline limestone": 12,
+        "Sparitic limestone": 10, "Micritic limestone": 9, "Dolomite": 9,
+        "Gypsum": 8, "Anhydrite": 12, "Coal": 8, "Chalk": 7
+    },
+    "Metamorphic": {
+        "Gneiss": 28, "Schist": 12, "Phyllites": 7, "Slate": 7,
+        "Migmatite": 29, "Amphibolite": 26, "Quartzite": 20,
+        "Meta-sandstone": 19, "Hornfels": 19, "Marble": 9
+    }
 }
+
 
 # --- Sidebar Inputs ---
 st.sidebar.header("Input Parameters")
@@ -94,21 +109,28 @@ circle_sig3 = np.linspace(sig3_min, sig3_max, num_circles)
 circle_sig1 = np.interp(circle_sig3, df['sig3'], df['sig1'])
 circle_data = pd.DataFrame({'sig3': circle_sig3, 'sig1': circle_sig1})
 
-# --- Text Output ---
+# --- Output (Formatted like Mohr-Coulomb version) ---
 st.subheader("In-situ Stress Analysis")
 st.markdown(f"""
-- **Unit weight:** {unit_weight} kN/m³  
-- **Vertical stress (σ_v):** {sigma_v:.2f} MPa  
-- **Horizontal stress (σ_h):** {sigma_h:.2f} MPa  
-- **Major Principal Stress (σ₁):** {sigma_1:.2f} MPa ({direction})  
-- **Minor Principal Stress (σ₃):** {sigma_3:.2f} MPa  
+- **Unit weight:** {unit_weight:.1f} kN/m³  
+- **Vertical stress** $\sigma_v$: {sigma_v:.2f} MPa  
+- **Horizontal stress** $\sigma_h$: {sigma_h:.2f} MPa  
+- **Major Principal Stress** $\sigma_1$: {sigma_1:.2f} MPa ({direction})  
+- **Minor Principal Stress** $\sigma_3$: {sigma_3:.2f} MPa  
 """)
 
-st.subheader("Hoek-Brown Parameters")
-st.markdown(f"**mb:** {mb:.4f}, **s:** {s:.4f}, **a:** {a:.4f}")
+st.subheader("Hoek-Brown Parameters (Hoek & Brown, 2002)")
+st.markdown(f"""
+- **mb:** {mb:.4f}  
+- **s:** {s:.4f}  
+- **a:** {a:.4f}  
+""")
 
 st.subheader("Mohr-Coulomb Parameters")
-st.markdown(f"**Cohesion (c):** {cohesion:.2f} MPa, **Friction angle (φ):** {phi_deg:.2f}°")
+st.markdown(f"""
+- **Cohesion** $(c)$: {cohesion:.2f} MPa  
+- **Friction angle** $\phi$: {phi_deg:.2f}°  
+""")
 
 # --- Plotting ---
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
