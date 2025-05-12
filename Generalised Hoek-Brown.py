@@ -75,7 +75,6 @@ rock_type_dict = {
 st.sidebar.header("Input Parameters")
 GSI = st.sidebar.slider("Geological Strength Index (GSI)", 10, 100, 45)
 D = st.sidebar.slider("Disturbance Factor (D)", 0.0, 1.0, 1.0, step=0.1)
-sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", 5.0, 250.0, 25.0)
 
 st.sidebar.markdown("### Rock Type Selection")
 category = st.sidebar.selectbox("Rock Category", list(rock_type_dict.keys()))
@@ -85,6 +84,7 @@ st.sidebar.write(f"**Selected mi value:** {mi}")
 
 st.sidebar.markdown("### Manual Input of Experimental Data")
 manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):", value="0,5\n2,10\n4,16\n6,21\n7,25")
+sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", 5.0, 250.0, 25.0)
 
 sigma3_list, sigma1_list = [], []
 data_lines = manual_data.strip().split("\n")
@@ -138,6 +138,15 @@ st.markdown(f"""
 - **Friction angle** $\phi$: {phi_deg:.2f}°  
 """)
 
+# --- Tensile Cut-off ---
+tensile_ratio = calculate_hoek_martin_cutoff(mi)
+st.subheader("Hoek-Martin 2014 Tensile Cut-off Ratio")
+st.markdown(f"""
+- $\sigma_c / |\sigma_t| = 8.62 + 0.7m_i$ → $\sigma_t = \sigma_c / ({8.62 + 0.7*mi:.2f})$  
+- **Tensile Cut-off Ratio**: {tensile_ratio:.3f}  
+""")
+
+
 # --- Plotting ---
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 fig.suptitle("Hoek-Brown & Mohr-Coulomb Envelopes", fontsize=16)
@@ -177,13 +186,6 @@ ax2.legend(loc="upper left", fontsize=9)
 
 st.pyplot(fig)
 
-# --- Tensile Cut-off ---
-tensile_ratio = calculate_hoek_martin_cutoff(mi)
-st.subheader("Hoek-Martin 2014 Tensile Cut-off Ratio")
-st.markdown(f"""
-- $\sigma_c / |\sigma_t| = 8.62 + 0.7m_i$ → $\sigma_t = \sigma_c / ({8.62 + 0.7*mi:.2f})$  
-- **Tensile Cut-off Ratio**: {tensile_ratio:.3f}  
-""")
 
 with st.expander("\U0001F4D8 Show All Equations Used"):
     st.markdown("#### Hoek-Brown and Mohr-Coulomb Strength Criteria")
