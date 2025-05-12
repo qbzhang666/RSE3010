@@ -66,7 +66,7 @@ y_buffer = max(p0, p_cr) * 0.1
 
 ax1.plot(u_r, p, 'b-', lw=2.5, label="Ground Reaction Curve (GRC)")
 ax1.axhline(p_cr, color='r', ls='--', lw=2, label=f"$p_{{cr}}$ = {p_cr:.2f} MPa")
-ax1.axvline(u_ie, color='purple', ls='-.', lw=2, label=f"$u_{{ie}}$ = {u_ie:.3f} m")
+ax1.axvline(u_ie, color='#228b22', ls='-.', lw=2, label=f"$u_{{ie}}$ = {u_ie:.3f} m")
 
 ax1.set_xlabel("Radial Displacement $u_r$ (m)")
 ax1.set_ylabel("Support Pressure $p_i$ (MPa)")
