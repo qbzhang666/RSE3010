@@ -213,7 +213,7 @@ with st.expander("\U0001F4D8 Show All Equations Used"):
     st.latex(r"\sigma_c / |\sigma_t| = 8.62 + 0.7m_i")
 
     
-    st.markdown("#### Generalised Deformation Modulus (Hoek & Diederichs, 2006) ")
+    st.markdown("#### Simplified Deformation Modulus (Hoek & Diederichs, 2006) ")
     st.latex(r"E_m = 100{,}000 \cdot \left( \frac{1 - D/2}{1 + e^{\left( \frac{75 + 15D - \text{GSI}}{11} \right)}} \right)")
 
 
