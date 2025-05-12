@@ -163,7 +163,7 @@ Fundamental Equations:
 5. Transition Displacement: $u_{{ie}} = \\frac{{(p_0 - p_{{cr}}) r_0}}{{2G}}$"""
     
     # Export controls
-    col1, col2 = st.columns(2)
+col1, col2 = st.columns(2)
     
     with col1:
         st.download_button(
