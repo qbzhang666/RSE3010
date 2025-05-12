@@ -92,8 +92,9 @@ with tab1:
     ax1.set_xlabel("Radial Displacement $u_r$ (m)", fontsize=12)
     ax1.set_ylabel("Support Pressure $p_i$ (MPa)", fontsize=12)
     ax1.set_ylim(0, max(p0, p_cr)*1.15)
-    ax1.set_xlim(0, max(u_r)*1.15)
-    
+    x_max = st.sidebar.slider("Max Displacement Axis (m)", 0.02, 0.2, 0.08, step=0.01)
+    ax1.set_xlim(0, x_max)
+
     # Plastic radius plot
     ax2 = ax1.twinx()
     rp_line, = ax2.plot(u_r, R_p, color='darkorange', lw=2.5, 
