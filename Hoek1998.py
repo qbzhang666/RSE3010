@@ -60,7 +60,12 @@ except Exception as e:
 
 # ---------------- Plotting ----------------
 fig, ax1 = plt.subplots(figsize=(12, 7))
-plt.style.use('seaborn-darkgrid')
+
+# Style handling: fallback if seaborn style not available
+try:
+    plt.style.use('seaborn-darkgrid')
+except OSError:
+    plt.style.use('ggplot')
 
 x_buffer = max(u_r) * 0.1
 y_buffer = max(p0, p_cr) * 0.1
