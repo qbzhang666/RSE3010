@@ -140,7 +140,7 @@ st.markdown(f"""
 
 # --- Tensile Cut-off ---
 tensile_ratio = calculate_hoek_martin_cutoff(mi)
-st.subheader("Hoek-Martin 2014 Tensile Cut-off Ratio")
+st.subheader("Tensile Cut-off (Hoek-Martin 2014)")
 st.markdown(f"""
 - $\sigma_c / |\sigma_t| = 8.62 + 0.7m_i$ → $\sigma_t = \sigma_c / ({8.62 + 0.7*mi:.2f})$  
 - **Tensile Cut-off Ratio**: {tensile_ratio:.3f}  
