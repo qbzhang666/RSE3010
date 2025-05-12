@@ -85,7 +85,7 @@ with tab1:
     grc_line, = ax1.plot(u_r, p, '#1f77b4', lw=2.5, label="Ground Reaction Curve")
     crit_line = ax1.axhline(p_cr, color='#d62728', ls='--', lw=2, 
                           label=f"Critical Pressure ($p_{{cr}}$ = {p_cr:.2f} MPa)")
-    trans_line = ax1.axvline(u_ie, color='#9467bd', ls='-.', lw=2, 
+    trans_line = ax1.axvline(u_ie, color='#228b22', ls='-.', lw=2, 
                            label=f"Transition Displ. ($u_{{ie}}$ = {u_ie:.3f} m)")
     
     ax1.set_xlabel("Radial Displacement $u_r$ (m)", fontsize=12)
