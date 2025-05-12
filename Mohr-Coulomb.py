@@ -189,3 +189,15 @@ ax2.grid(True)
 ax2.legend()
 
 st.pyplot(fig)
+
+# --- Equation Reference ---
+with st.expander("\U0001F4D8 Show All Equations Used"):
+    st.markdown("#### Mohr-Coulomb Failure Criteria")
+    st.latex(r"\sigma_1 = \frac{2c \cos \phi}{1 - \sin \phi} + \frac{1 + \sin \phi}{1 - \sin \phi} \cdot \sigma_3")
+    st.latex(r"\tau = c + \sigma_n \tan \phi")
+    st.markdown("#### Stress Transformations")
+    st.latex(r"\sigma_n = \frac{\sigma_1 + \sigma_3}{2}")
+    st.latex(r"\tau = \frac{\sigma_1 - \sigma_3}{2}")
+    st.markdown("#### Tensile Cut-off Calculation")
+    st.latex(r"\sigma_t = \text{Ratio} \times \sigma_c")
+    st.markdown(f"Where ratio = {tensile_cutoff_ratio:.2f}, and $\sigma_c = {term1:.2f}$ MPa → $\sigma_t = {tensile_cutoff:.2f}$ MPa")
