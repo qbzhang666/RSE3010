@@ -152,7 +152,7 @@ st.markdown(f"""
 - **Tensile Cut-off Ratio**: {tensile_ratio:.3f}  
 """)
 
-st.subheader("Hoek & Diederichs (2006) Deformation Modulus")
+st.subheader("Deformation Modulus (Hoek & Diederichs 2006)")
 st.markdown(f"""
 - **Deformation Modulus** $(E_m)$: {Em:.2f} MPa  
 """)
