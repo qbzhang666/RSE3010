@@ -145,7 +145,7 @@ with tab3:
         "Zone Type": np.where(p >= p_cr, "Elastic", "Plastic")
     })
     
-    # Export controls
+    # SINGLE SET OF EXPORT CONTROLS
     col1, col2 = st.columns(2)
     
     with col1:
@@ -166,16 +166,15 @@ with tab3:
             mime="image/png"
         )
     
-    # Display parameters and equations separately
+    # Display parameters and equations
     st.markdown("**Analysis Parameters:**")
-    st.code(f"""\
-    Project Name: {project_name}
-    Tunnel Radius: {r0:.2f} m
-    In-Situ Stress: {p0:.2f} MPa
-    Cohesion: {c:.2f} MPa
-    Friction Angle: {phi_deg:.1f}°
-    Young's Modulus: {E:.0f} MPa
-    Poisson's Ratio: {nu:.2f}""", language="text")
+    st.code(f"""Project Name: {project_name}
+Tunnel Radius: {r0:.2f} m
+In-Situ Stress: {p0:.2f} MPa
+Cohesion: {c:.2f} MPa
+Friction Angle: {phi_deg:.1f}°
+Young's Modulus: {E:.0f} MPa
+Poisson's Ratio: {nu:.2f}""", language="text")
 
     st.markdown("**Fundamental Equations:**")
     st.latex(r"""
