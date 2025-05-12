@@ -150,21 +150,24 @@ ax1.legend()
 
 # Shear-Normal Plot
 mc_label = fr"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n$(c = {cohesion:.2f}\ \mathrm{{MPa}},\ \phi = {friction_angle:.1f}^\circ)$"
-cutoff_label = fr"Tensile Cut-off: $\sigma_t = {tensile_cutoff_ratio:.2f} \times \sigma_c = {tensile_cutoff:.2f}\ \mathrm{{MPa}}$"
+
+if apply_tensile_cutoff:
+    cutoff_label = fr"Tensile Cut-off: $\sigma_t = {tensile_cutoff_ratio:.2f} \times \sigma_c = {tensile_cutoff:.2f}\ \mathrm{{MPa}}$"
+else:
+    cutoff_label = None
 
 # Mohr-Coulomb (black) extended to horizontal axis
 x_mc_extended = np.linspace(-cohesion / np.tan(np.radians(friction_angle)), max(sigma3_values) * 1.2, 200)
 y_mc_extended = cohesion + np.tan(np.radians(friction_angle)) * x_mc_extended
 ax2.plot(x_mc_extended, y_mc_extended, 'k--', lw=2, label=mc_label)
 
-# Cut-off line shown only from tensile_cutoff to zero
-x_cutoff = np.linspace(sig_t_cutoff, 0, 100)
-y_cutoff = cohesion + np.tan(np.radians(friction_angle)) * x_cutoff
-ax2.plot(x_cutoff, y_cutoff, 'r-', lw=2.5, label=cutoff_label)
-
-# Vertical line at cut-off
-ax2.vlines(x=sig_t_cutoff, ymin=0, ymax=cohesion + np.tan(np.radians(friction_angle)) * sig_t_cutoff,
-           colors='red', linestyles='-', lw=2)
+# Conditional drawing of tensile cut-off line and vertical indicator
+if apply_tensile_cutoff:
+    x_cutoff = np.linspace(sig_t_cutoff, 0, 100)
+    y_cutoff = cohesion + np.tan(np.radians(friction_angle)) * x_cutoff
+    ax2.plot(x_cutoff, y_cutoff, 'r-', lw=2.5, label=cutoff_label)
+    ax2.vlines(x=sig_t_cutoff, ymin=0, ymax=cohesion + np.tan(np.radians(friction_angle)) * sig_t_cutoff,
+               colors='red', linestyles='-', lw=2)
 
 # Experimental Mohr circles
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
