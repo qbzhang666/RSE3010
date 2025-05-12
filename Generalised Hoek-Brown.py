@@ -96,7 +96,8 @@ else:
 
 # --- Computation ---
 mb, s, a = calculate_hb_parameters(GSI, mi, D)
-df = hoek_brown(sigci, mb, s, a, sigma3_values)
+sigma3_dense = np.linspace(0, max(sigma3_values)*1.2, 200)
+df = hoek_brown(sigci, mb, s, a, sigma3_dense)
 cohesion, phi_deg = fit_mohr_coulomb_tangent(sigma1_values, sigma3_values)
 
 x_fit = np.linspace(0, max((sigma1_values + sigma3_values)/2), 100)
