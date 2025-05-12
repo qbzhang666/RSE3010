@@ -157,11 +157,30 @@ x_mc_extended = np.linspace(-cohesion / np.tan(np.radians(friction_angle)), max(
 y_mc_extended = cohesion + np.tan(np.radians(friction_angle)) * x_mc_extended
 ax2.plot(x_mc_extended, y_mc_extended, 'k--', lw=2, label=mc_label)
 
-# Cut-off line shown only up to cut-off
-x_cutoff = np.linspace(sig_t_cutoff, max(sigma3_values) * 1.2, 100)
+# Cut-off line shown only from tensile_cutoff to zero
+x_cutoff = np.linspace(sig_t_cutoff, 0, 100)
 y_cutoff = cohesion + np.tan(np.radians(friction_angle)) * x_cutoff
-ax2.plot(x_cutoff, y_cutoff, 'r-', label=cutoff_label)
+ax2.plot(x_cutoff, y_cutoff, 'r-', lw=2.5, label=cutoff_label)
 
+# Annotate cohesion, phi, sigma_t', sigma_t, and sigma_c
+ax2.annotate(r'$c$', xy=(0.5, cohesion), xytext=(2, cohesion + 1), color='magenta', fontsize=14,
+             arrowprops=dict(arrowstyle='->', color='magenta'))
+ax2.annotate(r'$\phi$', xy=(5, cohesion + 5), xytext=(7, cohesion + 7), color='magenta', fontsize=14)
+ax2.annotate(r"$\sigma_t$", xy=(sig_t, 0), xytext=(sig_t - 2, 2), color='red', fontsize=13,
+             arrowprops=dict(arrowstyle='->', color='red'))
+ax2.annotate(r"$\sigma_t'$", xy=(sig_t_cutoff, 0), xytext=(sig_t_cutoff - 1.5, 3), color='red', fontsize=13,
+             arrowprops=dict(arrowstyle='->', color='red'))
+ax2.annotate(r"$\sigma_c$", xy=(sig_c, 0), xytext=(sig_c + 1, 3), color='green', fontsize=13,
+             arrowprops=dict(arrowstyle='->', color='green'))
+
+# Draw 2θ angle guide on the largest circle
+max_radius = max((sigma1_values - sigma3_values) / 2)
+if max_radius > 0:
+    ax2.annotate(r"$2\theta$", xy=(max_radius * np.cos(np.pi / 4), max_radius * np.sin(np.pi / 4)),
+                 xytext=(max_radius * 1.2, max_radius * 0.2), color='green', fontsize=13,
+                 arrowprops=dict(arrowstyle='->', color='green'))
+
+# Experimental Mohr circles
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
 for σ3, σ1, color in zip(sigma3_values, sigma1_values, colors):
     center = (σ1 + σ3) / 2
