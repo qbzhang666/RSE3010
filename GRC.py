@@ -38,32 +38,24 @@ try:
     R_p = np.zeros_like(p)
 
     if analysis_type == "Elastic Only":
-    u_r = (p0 - p) * r0 / (2 * G)
-    R_p[:] = r0  # no plastic zone
-else:
-    elastic_mask = p >= p_cr
-    plastic_mask = ~elastic_mask
+        u_r[:] = (p0 - p) * r0 / (2 * G)
+        R_p[:] = r0  # no plastic zone
+    else:
+        elastic_mask = p >= p_cr
+        plastic_mask = ~elastic_mask
 
-    u_r[elastic_mask] = (p0 - p[elastic_mask]) * r0 / (2 * G)
-    R_p[elastic_mask] = r0
+        u_r[elastic_mask] = (p0 - p[elastic_mask]) * r0 / (2 * G)
+        R_p[elastic_mask] = r0
 
-    numerator = 2 * (p0 * (k - 1) + sigma_cm)
-    denominator = (1 + k) * ((k - 1) * p[plastic_mask] + sigma_cm)
-    R_p[plastic_mask] = r0 * (numerator / denominator) ** (1 / (k - 1))
-    u_r[plastic_mask] = u_ie * (p_cr / p[plastic_mask]) ** ((k - 1) / 2)
-
-
-    u_r[elastic_mask] = (p0 - p[elastic_mask]) * r0 / (2 * G)
-    R_p[elastic_mask] = r0
-
-    numerator = 2 * (p0 * (k - 1) + sigma_cm)
-    denominator = (1 + k) * ((k - 1) * p[plastic_mask] + sigma_cm)
-    R_p[plastic_mask] = r0 * (numerator / denominator) ** (1 / (k - 1))
-    u_r[plastic_mask] = u_ie * (p_cr / p[plastic_mask]) ** ((k - 1) / 2)
+        numerator = 2 * (p0 * (k - 1) + sigma_cm)
+        denominator = (1 + k) * ((k - 1) * p[plastic_mask] + sigma_cm)
+        R_p[plastic_mask] = r0 * (numerator / denominator) ** (1 / (k - 1))
+        u_r[plastic_mask] = u_ie * (p_cr / p[plastic_mask]) ** ((k - 1) / 2)
 
 except Exception as e:
     st.error(f"Error in calculations: {str(e)}")
     st.stop()
+
 
 # ---------------- Main Plot ----------------
 fig, ax1 = plt.subplots(figsize=(12, 7))
