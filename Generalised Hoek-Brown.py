@@ -8,15 +8,6 @@ from sklearn.linear_model import LinearRegression
 st.set_page_config(page_title="Generalised Hoek-Brown Hybrid", layout="wide")
 
 # --- Functions ---
-def calculate_insitu_stresses(h, K, unit_weight):
-    unit_weight_mpa = unit_weight / 1000
-    sigma_v = unit_weight_mpa * h
-    sigma_h = K * sigma_v
-    if sigma_v >= sigma_h:
-        return sigma_v, sigma_h, sigma_v, sigma_h, "Vertical"
-    else:
-        return sigma_v, sigma_h, sigma_h, sigma_v, "Horizontal"
-
 def calculate_hb_parameters(GSI, mi, D):
     mb = mi * np.exp((GSI - 100) / (28 - 14 * D))
     s = np.exp((GSI - 100) / (9 - 3 * D))
@@ -63,9 +54,6 @@ rock_type_dict = {
 
 # --- Sidebar Inputs ---
 st.sidebar.header("Input Parameters")
-h = st.sidebar.number_input("Tunnel Depth (m)", 10.0, 2000.0, 250.0)
-K = st.sidebar.number_input("Horizontal Stress Ratio (K)", 0.1, 5.0, 1.5)
-unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", 10.0, 35.0, 27.0)
 GSI = st.sidebar.slider("Geological Strength Index (GSI)", 10, 100, 45)
 D = st.sidebar.slider("Disturbance Factor (D)", 0.0, 1.0, 1.0, step=0.1)
 sigci = st.sidebar.number_input("UCS of Intact Rock (σci) [MPa]", 5.0, 250.0, 25.0)
@@ -106,8 +94,7 @@ else:
     sigma3_values = np.array(sigma3_list)
     sigma1_values = np.array(sigma1_list)
 
-# --- In-situ Parameters and Computation ---
-sigma_v, sigma_h, sigma_1, sigma_3, direction = calculate_insitu_stresses(h, K, unit_weight)
+# --- Computation ---
 mb, s, a = calculate_hb_parameters(GSI, mi, D)
 df = hoek_brown(sigci, mb, s, a, sigma3_values)
 cohesion, phi_deg = fit_mohr_coulomb(df)
@@ -119,15 +106,6 @@ mc_sig1 = ((2 * cohesion * np.cos(np.radians(phi_deg))) / (1 - np.sin(np.radians
            ((1 + np.sin(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg)))) * mc_sig3)
 
 # --- Output ---
-st.subheader("In-situ Stress Analysis")
-st.markdown(f"""
-- **Unit weight:** {unit_weight:.1f} kN/m³  
-- **Vertical stress** $\sigma_v$: {sigma_v:.2f} MPa  
-- **Horizontal stress** $\sigma_h$: {sigma_h:.2f} MPa  
-- **Major Principal Stress** $\sigma_1$: {sigma_1:.2f} MPa ({direction})  
-- **Minor Principal Stress** $\sigma_3$: {sigma_3:.2f} MPa  
-""")
-
 st.subheader("Hoek-Brown Parameters (Hoek & Brown, 2002)")
 st.markdown(f"""
 - **mb:** {mb:.4f}  
@@ -149,7 +127,6 @@ ax1.plot(df.sig3, df.sig1, 'b-', lw=2,
          label=r'Hoek-Brown: $\sigma_1 = \sigma_3 + \sigma_{ci}(m_b \frac{\sigma_3}{\sigma_{ci}} + s)^a$')
 ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2,
          label=r'Mohr-Coulomb: $\sigma_1 = \frac{2c \cos\phi}{1 - \sin\phi} + \frac{1 + \sin\phi}{1 - \sin\phi} \cdot \sigma_3$')
-ax1.scatter(sigma_3, sigma_1, c='r', s=80, label='In-situ Stress')
 ax1.scatter(sigma3_values, sigma1_values, c='black', label='Experimental Data', zorder=10)
 ax1.set_xlabel(r'$\sigma_3$ [MPa]')
 ax1.set_ylabel(r'$\sigma_1$ [MPa]')
