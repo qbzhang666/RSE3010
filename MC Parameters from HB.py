@@ -108,9 +108,6 @@ circle_sig3 = np.linspace(sig3_min, sig3_max, num_circles)
 circle_sig1 = np.interp(circle_sig3, df['sig3'], df['sig1'])
 circle_data = pd.DataFrame({'sig3': circle_sig3, 'sig1': circle_sig1})
 
-# --- Manual Input and Upload (Mohr-style integration) ---
-st.sidebar.markdown("### Manual Input of Experimental Data")
-manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):", value="0,5\n2,10\n4,16\n6,21\n7,25")
 
 # --- Output Formatting ---
 st.subheader("In-situ Stress Analysis")
