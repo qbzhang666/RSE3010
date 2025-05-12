@@ -120,6 +120,7 @@ mb, s, a = calculate_hb_parameters(GSI, mi, D)
 sigma3_dense = np.linspace(0, max(sigma3_values)*1.2, 200)
 df = hoek_brown(sigci, mb, s, a, sigma3_dense)
 cohesion, phi_deg = fit_mohr_coulomb_tangent(sigma1_values, sigma3_values)
+Em = calculate_deformation_modulus(GSI, D)
 
 x_fit = np.linspace(0, max((sigma1_values + sigma3_values)/2), 100)
 y_fit = cohesion + np.tan(np.radians(phi_deg)) * x_fit
@@ -127,6 +128,7 @@ y_fit = cohesion + np.tan(np.radians(phi_deg)) * x_fit
 mc_sig3 = np.linspace(0, max(sigma3_values), 100)
 mc_sig1 = ((2 * cohesion * np.cos(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg))) +
            ((1 + np.sin(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg)))) * mc_sig3)
+
 
 # --- Output ---
 st.subheader("Hoek-Brown Parameters (Hoek & Brown, 2002)")
