@@ -49,7 +49,7 @@ K = st.sidebar.number_input("Horizontal Stress Ratio (K)", 0.1, 5.0, 2.0)
 unit_weight = st.sidebar.number_input("Unit Weight (kN/m³)", 10.0, 35.0, 27.0)
 
 st.sidebar.markdown("### Manual Input of Experimental Data")
-manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):", value="0,5\n2,10\n4,16\n6,21")
+manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):", value="0,5\n2,10\n4,16\n6,21\n7,25")
 
 data_lines = manual_data.strip().split("\n")
 sigma3_list, sigma1_list = [], []
@@ -95,16 +95,16 @@ mc_sig1 = term1 + term2 * mc_sig3
 st.subheader("In-situ Stress Analysis")
 st.markdown(f"""
 - **Unit weight:** {unit_weight} kN/m³  
-- **Vertical stress (\(σ_v\))**: {sigma_v:.2f} MPa  
-- **Horizontal stress (\(σ_h\))**: {sigma_h:.2f} MPa  
-- **Major Principal Stress (\(σ_1\))**: {sigma_1:.2f} MPa ({direction})  
-- **Minor Principal Stress (\(σ_3\))**: {sigma_3:.2f} MPa  
+- **Vertical stress** $\sigma_v$: {sigma_v:.2f} MPa  
+- **Horizontal stress** $\sigma_h$: {sigma_h:.2f} MPa  
+- **Major Principal Stress** $\sigma_1$: {sigma_1:.2f} MPa ({direction})  
+- **Minor Principal Stress** $\sigma_3$: {sigma_3:.2f} MPa  
 """)
 
 st.subheader("Mohr-Coulomb Parameters")
 st.markdown(f"""
 - **Cohesion (c):** {cohesion:.2f} MPa  
-- **Friction angle (\(φ\))**: {friction_angle:.2f}°  
+- **Friction angle** $\phi$: {friction_angle:.2f}°  
 """)
 
 # --- Plotting ---
