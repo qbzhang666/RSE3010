@@ -78,7 +78,8 @@ tab1, tab2, tab3 = st.tabs(["📈 Interactive Plot", "📝 Derived Values", "�
 
 with tab1:
     # Dynamic plot configuration
-    plt.style.use('seaborn-darkgrid')
+    import seaborn as sns
+    sns.set_theme(style="darkgrid")  # Recommended seaborn approach
     fig, ax1 = plt.subplots(figsize=(11, 6.5))
     
     # Main GRC plot
