@@ -211,6 +211,11 @@ with st.expander("\U0001F4D8 Show All Equations Used"):
 
     st.markdown("#### Hoek-Martin 2014 Tensile Cut-off")
     st.latex(r"\sigma_c / |\sigma_t| = 8.62 + 0.7m_i")
+    
+    st.subheader("Hoek & Diederichs (2006) Deformation Modulus")
+st.markdown(f"""
+- **Deformation Modulus** $(E_m)$: {Em:.2f} MPa  
+""")
 
 with st.expander("\U0001F4D8 Suggested $m_i$ Values for Rock Types (Hoek & Marinos, 2000)", expanded=False):
     st.image("mi_reference.png", caption="Suggested $m_i$ values for various rock types", use_container_width=True)
