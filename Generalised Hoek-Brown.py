@@ -118,7 +118,7 @@ mc_sig3 = np.linspace(0, df['sig3'].max(), 100)
 mc_sig1 = ((2 * cohesion * np.cos(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg))) +
            ((1 + np.sin(np.radians(phi_deg))) / (1 - np.sin(np.radians(phi_deg)))) * mc_sig3)
 
-# --- Output (Formatted like Mohr-Coulomb version) ---
+# --- Output ---
 st.subheader("In-situ Stress Analysis")
 st.markdown(f"""
 - **Unit weight:** {unit_weight:.1f} kN/m³  
@@ -140,3 +140,61 @@ st.markdown(f"""
 - **Cohesion** $(c)$: {cohesion:.2f} MPa  
 - **Friction angle** $\phi$: {phi_deg:.2f}°  
 """)
+
+# --- Plotting ---
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
+fig.suptitle("Hoek-Brown & Mohr-Coulomb Envelopes", fontsize=16)
+
+ax1.plot(df.sig3, df.sig1, 'b-', lw=2,
+         label=r'Hoek-Brown: $\sigma_1 = \sigma_3 + \sigma_{ci}(m_b \frac{\sigma_3}{\sigma_{ci}} + s)^a$')
+ax1.plot(mc_sig3, mc_sig1, 'g--', lw=2,
+         label=r'Mohr-Coulomb: $\sigma_1 = \frac{2c \cos\phi}{1 - \sin\phi} + \frac{1 + \sin\phi}{1 - \sin\phi} \cdot \sigma_3$')
+ax1.scatter(sigma_3, sigma_1, c='r', s=80, label='In-situ Stress')
+ax1.scatter(sigma3_values, sigma1_values, c='black', label='Experimental Data', zorder=10)
+ax1.set_xlabel(r'$\sigma_3$ [MPa]')
+ax1.set_ylabel(r'$\sigma_1$ [MPa]')
+ax1.grid(True)
+ax1.legend(loc="upper left", fontsize=9)
+
+ax2.plot(df['sign'], df['tau'], 'r-', lw=2,
+         label=r'Hoek-Brown: $\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{d\sigma_1/d\sigma_3}}{d\sigma_1/d\sigma_3 + 1}$')
+ax2.plot(x_fit, y_fit, 'k--', lw=2,
+         label=fr'Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$ (c = {cohesion:.2f} MPa, φ = {phi_deg:.1f}°)')
+
+for σ3, σ1 in zip(sigma3_values, sigma1_values):
+    center = (σ1 + σ3) / 2
+    radius = (σ1 - σ3) / 2
+    arc = Arc((center, 0), 2 * radius, 2 * radius, theta1=0, theta2=180, color='grey', alpha=0.4)
+    ax2.add_patch(arc)
+
+x_max = max((sigma3_values + sigma1_values) / 2 + (sigma1_values - sigma3_values) / 2) * 1.1
+y_max = max((sigma1_values - sigma3_values) / 2) * 1.1
+lim = max(x_max, y_max)
+
+ax2.set_xlim(0, lim)
+ax2.set_ylim(0, lim)
+ax2.set_aspect('equal')
+ax2.set_xlabel(r'$\sigma_n$ [MPa]')
+ax2.set_ylabel(r'$\tau$ [MPa]')
+ax2.grid(True)
+ax2.legend(loc="upper left", fontsize=9)
+
+st.pyplot(fig)
+
+with st.expander("\U0001F4D8 Show All Equations Used"):
+    st.markdown("#### Hoek-Brown and Mohr-Coulomb Strength Criteria")
+    st.latex(r"\sigma_1 = \sigma_3 + \sigma_{ci} \left( m_b \frac{\sigma_3}{\sigma_{ci}} + s \right)^a")
+    st.latex(r"\sigma_1 = \frac{2c \cos \phi}{1 - \sin \phi} + \frac{1 + \sin \phi}{1 - \sin \phi} \cdot \sigma_3")
+    st.latex(r"\tau = \frac{(\sigma_1 - \sigma_3) \sqrt{\frac{d\sigma_1}{d\sigma_3}}}{\frac{d\sigma_1}{d\sigma_3} + 1}")
+    st.latex(r"\tau = c + \sigma_n \tan \phi")
+
+    st.markdown("#### Hoek-Brown Parameter Equations (Hoek et al., 2002)")
+    st.latex(r"m_b = m_i \cdot \exp\left(\frac{{\text{GSI} - 100}}{{28 - 14D}}\right)")
+    st.latex(r"s = \exp\left(\frac{{\text{GSI} - 100}}{{9 - 3D}}\right)")
+    st.latex(r"a = 0.5 + \frac{1}{6} \left( \exp\left(-\frac{\text{GSI}}{15}\right) - \exp\left(-\frac{20}{3} \right) \right)")
+
+with st.expander("\U0001F4D8 Suggested $m_i$ Values for Rock Types (Hoek & Marinos, 2000)", expanded=False):
+    st.image("mi_reference.png", caption="Suggested $m_i$ values for various rock types", use_container_width=True)
+
+with st.expander("View Failure Envelope Data"):
+    st.dataframe(df.reset_index(drop=True))
