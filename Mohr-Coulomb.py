@@ -122,7 +122,8 @@ for σ3, σ1, color in zip(sigma3_values, sigma1_values, colors):
     center = (σ1 + σ3) / 2
     radius = (σ1 - σ3) / 2
     if radius > 0:
-        ax.add_patch(Arc((center, 0), 2*abs(radius), 2*abs(radius), 0, 0, 180, color=color, alpha=0.6))
+        arc = Arc(xy=(center, 0), width=2*radius, height=2*radius, angle=0, theta1=0, theta2=180, color=color, alpha=0.6)
+        ax.add_patch(arc)
 
 ax.set_xlim(sig_t_cutoff * 1.2, max(sigma1_values)*1.2)
 ax.set_ylim(0, max(sigma1_values)*0.7)
