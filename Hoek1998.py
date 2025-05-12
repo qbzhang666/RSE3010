@@ -39,8 +39,8 @@ try:
     phi = np.radians(phi_deg)
     sin_phi = np.sin(phi)
     k = (1 + sin_phi) / (1 - sin_phi)
-    sigma_cm = max((2 * c * np.cos(phi)) / (1 - sin_phi), 1e-6)  # Prevent division by zero
-    p_cr = max((2 * p0 - sigma_cm) / (1 + k), 0)  # Non-negative pressure
+    sigma_cm = max((2 * c * np.cos(phi)) / (1 - sin_phi), 1e-6)
+    p_cr = max((2 * p0 - sigma_cm) / (1 + k), 0)
     G = E / (2 * (1 + nu))
     u_ie = (p0 - p_cr) * r0 / (2 * G) if p0 > p_cr else 0
 
@@ -77,27 +77,26 @@ st.subheader("📊 Analysis Results")
 tab1, tab2, tab3 = st.tabs(["📈 Interactive Plot", "📝 Derived Values", "📦 Data Export"])
 
 with tab1:
-    # Dynamic plot configuration
-    import seaborn as sns
-    sns.set_theme(style="darkgrid")  # Recommended seaborn approach
-    fig, ax1 = plt.subplots(figsize=(11, 6.5))
+    # Plot configuration
+    plt.style.use('default')
+    fig, ax1 = plt.subplots(figsize=(11, 6.5), facecolor='white')
     
     # Main GRC plot
-    grc_line, = ax1.plot(u_r, p, 'b-', lw=2.5, label="Ground Reaction Curve")
-    crit_line = ax1.axhline(p_cr, color='r', ls='--', lw=2, 
+    grc_line, = ax1.plot(u_r, p, '#1f77b4', lw=2.5, label="Ground Reaction Curve")
+    crit_line = ax1.axhline(p_cr, color='#d62728', ls='--', lw=2, 
                           label=f"Critical Pressure ($p_{{cr}}$ = {p_cr:.2f} MPa)")
-    trans_line = ax1.axvline(u_ie, color='purple', ls='-.', lw=2, 
+    trans_line = ax1.axvline(u_ie, color='#9467bd', ls='-.', lw=2, 
                            label=f"Transition Displ. ($u_{{ie}}$ = {u_ie:.3f} m)")
     
     ax1.set_xlabel("Radial Displacement $u_r$ (m)", fontsize=12)
     ax1.set_ylabel("Support Pressure $p_i$ (MPa)", fontsize=12)
     ax1.set_ylim(0, max(p0, p_cr)*1.15)
-    x_max = st.sidebar.slider("Max Displacement Axis (m)", 0.02, 0.2, 0.08, step=0.01)
-    ax1.set_xlim(0, x_max)
+    ax1.set_xlim(0, 0.08)
+    ax1.grid(True, alpha=0.3)
 
     # Plastic radius plot
     ax2 = ax1.twinx()
-    rp_line, = ax2.plot(u_r, R_p, color='darkorange', lw=2.5, 
+    rp_line, = ax2.plot(u_r, R_p, color='#ff7f0e', lw=2.5, 
                        label="Plastic Radius $R_p$")
     ax2.set_ylabel("Plastic Radius $R_p$ (m)", fontsize=12)
     ax2.set_ylim(r0, max(R_p)*1.1 if max(R_p) > r0 else r0*1.1)
@@ -138,24 +137,32 @@ with tab3:
     # Data export system
     st.markdown("### 📥 Export Results")
     
-    # Create dataframe with full dataset
+    # Create dataframe with formatted values
     df = pd.DataFrame({
-        "Support Pressure (MPa)": p,
-        "Radial Displacement (m)": u_r,
-        "Plastic Radius (m)": R_p,
+        "Support Pressure (MPa)": np.round(p, 2),
+        "Radial Displacement (m)": np.round(u_r, 4),
+        "Plastic Radius (m)": np.round(R_p, 2),
         "Zone Type": np.where(p >= p_cr, "Elastic", "Plastic")
     })
     
-    # Add derived parameters to metadata
+    # Metadata with equations
     metadata = f"""Analysis Parameters:
 Project Name: {project_name}
-Tunnel Radius: {r0} m
-In-Situ Stress: {p0} MPa
-Cohesion: {c} MPa
-Friction Angle: {phi_deg}°
-Young's Modulus: {E} MPa
-Poisson's Ratio: {nu}
+Tunnel Radius: {r0:.2f} m
+In-Situ Stress: {p0:.2f} MPa
+Cohesion: {c:.2f} MPa
+Friction Angle: {phi_deg:.1f}°
+Young's Modulus: {E:.0f} MPa
+Poisson's Ratio: {nu:.2f}
+
+Fundamental Equations:
+1. Critical Pressure: $p_{{cr}} = \\frac{{2p_0 - \\sigma_{{cm}}}}{{1 + k}}$
+2. Sigma_cm: $\\sigma_{{cm}} = \\frac{{2c\\cos\\phi}}{{1 - \\sin\\phi}}$
+3. k-value: $k = \\frac{{1 + \\sin\\phi}}{{1 - \\sin\\phi}}$
+4. Shear Modulus: $G = \\frac{{E}}{{2(1+\\nu)}}$
+5. Transition Displacement: $u_{{ie}} = \\frac{{(p_0 - p_{{cr}}) r_0}}{{2G}}$
 """
+    
     # Export controls
     col1, col2 = st.columns(2)
     
@@ -169,7 +176,7 @@ Poisson's Ratio: {nu}
         
     with col2:
         buf = io.BytesIO()
-        fig.savefig(buf, format="png", dpi=150)
+        fig.savefig(buf, format="png", dpi=150, facecolor='white')
         st.download_button(
             label="🖼️ Download Plot",
             data=buf.getvalue(),
