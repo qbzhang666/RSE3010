@@ -81,8 +81,8 @@ GSI = st.sidebar.slider("Geological Strength Index (GSI)", 0, 100, 100)
 D = st.sidebar.slider("Disturbance Factor (D)", 0.0, 1.0, 0.0, step=0.1)
 
 st.sidebar.markdown("### Rock Type Selection mi")
-category = st.sidebar.selectbox("Rock Category", list(rock_type_dict.keys()))
-rock = st.sidebar.selectbox("Rock Type", list(rock_type_dict[category].keys()))
+category = st.sidebar.selectbox("Rock Category", list(rock_type_dict.keys()), index=1)  # Defaults to "Sedimentary"
+rock = st.sidebar.selectbox("Rock Type", list(rock_type_dict[category].keys()), index=2)  # Defaults to "Sandstone"
 mi = rock_type_dict[category][rock]
 st.sidebar.write(f"**Selected mi value:** {mi}")
 
