@@ -130,8 +130,6 @@ st.markdown(f"""
 
 # (Same content up to the plotting section)
 
-# (Same content up to the plotting section)
-
 # --- Plotting ---
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 fig.suptitle(f'Mohr-Coulomb Strength Analysis\nDepth: {h:.1f} m, K: {K}', fontsize=16)
@@ -154,11 +152,15 @@ ax1.legend()
 mc_label = fr"Mohr-Coulomb: $\tau = c + \sigma_n \tan\phi$\n$(c = {cohesion:.2f}\ MPa, \phi = {friction_angle:.1f}^\circ)$"
 cutoff_label = fr"Tensile Cut-off: $\tau = c + \sigma_n \tan\phi$ (to $\sigma_t$ = {tensile_cutoff:.2f} MPa)"
 
-# Extend the cutoff line back to intersect horizontal axis
-x_cutoff_extended = np.linspace(-cohesion / np.tan(np.radians(friction_angle)), max(sigma3_values) * 1.2, 200)
-y_cutoff_extended = cohesion + np.tan(np.radians(friction_angle)) * x_cutoff_extended
-ax2.plot(x_fit_original, y_fit_original, 'k--', lw=2, label=mc_label)
-ax2.plot(x_cutoff_extended, y_cutoff_extended, 'r-', label=cutoff_label)
+# Mohr-Coulomb (black) extended to horizontal axis
+x_mc_extended = np.linspace(-cohesion / np.tan(np.radians(friction_angle)), max(sigma3_values) * 1.2, 200)
+y_mc_extended = cohesion + np.tan(np.radians(friction_angle)) * x_mc_extended
+ax2.plot(x_mc_extended, y_mc_extended, 'k--', lw=2, label=mc_label)
+
+# Cut-off line shown only up to cut-off
+x_cutoff = np.linspace(sig_t_cutoff, max(sigma3_values) * 1.2, 100)
+y_cutoff = cohesion + np.tan(np.radians(friction_angle)) * x_cutoff
+ax2.plot(x_cutoff, y_cutoff, 'r-', label=cutoff_label)
 
 colors = plt.cm.viridis(np.linspace(0, 1, len(sigma3_values)))
 for σ3, σ1, color in zip(sigma3_values, sigma1_values, colors):
