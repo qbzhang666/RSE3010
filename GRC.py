@@ -54,10 +54,7 @@ except Exception as e:
 
 # ---------------- Main Plot ----------------
 fig, ax1 = plt.subplots(figsize=(12, 7))
-try:
-    plt.style.use('seaborn-darkgrid')
-except OSError:
-    plt.style.use('ggplot')
+plt.style.use('default')  # Clean, no background
 
 x_buffer = max(u_r) * 0.1
 y_buffer = max(p0, p_cr) * 0.1
@@ -143,6 +140,7 @@ with st.expander("⏳ Time-Dependent Support Pressure Simulation"):
     t_vals = np.linspace(0, t_max, 200)
     p_support = p_final * (1 - np.exp(-t_vals / tau))
 
+    plt.style.use('default')
     fig2, ax = plt.subplots(figsize=(8, 4))
     ax.plot(t_vals, p_support, 'g-', lw=2)
     ax.set_title("Time-Dependent Support Pressure", fontsize=12)
@@ -169,6 +167,7 @@ with st.expander("🔄 Support Characteristic Curve (SCC)"):
     u_vals = np.linspace(0, max(u_r)*1.1, 300)
     p_scc = np.where(u_vals >= u_install, k_supp * (u_vals - u_install), 0)
 
+    plt.style.use('default')
     fig3, ax = plt.subplots(figsize=(8, 4))
     ax.plot(u_vals, p_scc, 'm-', lw=2.5)
     ax.set_title("Support Characteristic Curve", fontsize=12)
@@ -196,6 +195,7 @@ with st.expander("📐 TBM / NATM Parameters"):
     time_days = np.linspace(0, max_days, 200)
     convergence_mm = np.minimum(time_days * convergence_rate, 100)
 
+    plt.style.use('default')
     fig4, ax = plt.subplots(figsize=(8, 4))
     ax.plot(time_days, convergence_mm, 'c-', lw=2)
     ax.axvline(time_lag, color='red', ls='--', label=f"Support Lag = {time_lag:.1f} days")
