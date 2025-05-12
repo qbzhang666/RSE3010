@@ -108,22 +108,32 @@ circle_sig3 = np.linspace(sig3_min, sig3_max, num_circles)
 circle_sig1 = np.interp(circle_sig3, df['sig3'], df['sig1'])
 circle_data = pd.DataFrame({'sig3': circle_sig3, 'sig1': circle_sig1})
 
-# --- Text Output ---
+# --- Manual Input and Upload (Mohr-style integration) ---
+st.sidebar.markdown("### Manual Input of Experimental Data")
+manual_data = st.sidebar.text_area("Enter σ₃ and σ₁ pairs (comma separated, one pair per line):", value="0,5\n2,10\n4,16\n6,21\n7,25")
+
+# --- Output Formatting ---
 st.subheader("In-situ Stress Analysis")
 st.markdown(f"""
-- **Unit weight:** {unit_weight} kN/m³  
-- **Vertical stress (σ_v):** {sigma_v:.2f} MPa  
-- **Horizontal stress (σ_h):** {sigma_h:.2f} MPa  
-- **Major Principal Stress (σ₁):** {sigma_1:.2f} MPa ({direction})  
-- **Minor Principal Stress (σ₃):** {sigma_3:.2f} MPa  
+- **Unit weight:** {unit_weight:.1f} kN/m³  
+- **Vertical stress** $\sigma_v$: {sigma_v:.2f} MPa  
+- **Horizontal stress** $\sigma_h$: {sigma_h:.2f} MPa  
+- **Major Principal Stress** $\sigma_1$: {sigma_1:.2f} MPa ({direction})  
+- **Minor Principal Stress** $\sigma_3$: {sigma_3:.2f} MPa  
 """)
 
 st.subheader("Hoek-Brown Parameters")
-st.markdown(f"**mb:** {mb:.4f}, **s:** {s:.4f}, **a:** {a:.4f}")
+st.markdown(f"""
+- **mb:** {mb:.4f}  
+- **s:** {s:.4f}  
+- **a:** {a:.4f}  
+""")
 
 st.subheader("Mohr-Coulomb Parameters")
-st.markdown(f"**Cohesion (c):** {cohesion:.2f} MPa, **Friction angle (φ):** {phi_deg:.2f}°")
-
+st.markdown(f"""
+- **Cohesion (c):** {cohesion:.2f} MPa  
+- **Friction angle** $\phi$: {phi_deg:.2f}°  
+""")
 # --- Plotting ---
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 fig.suptitle("Hoek-Brown & Mohr-Coulomb Envelopes", fontsize=16)
