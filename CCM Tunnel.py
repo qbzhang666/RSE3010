@@ -7,14 +7,14 @@ from scipy.optimize import brentq
 # PAGE CONFIG
 # =============================================================================
 st.set_page_config(
-    page_title="CCM — RSE3010 (Theme-safe v2)",
+    page_title="CCM — RSE3010",
     page_icon="⛰️",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# Theme-safe CSS: avoid forcing dark/light backgrounds.
-# Use subtle borders and spacing only, so Streamlit theme controls the colours.
+# Theme-safe CSS only: spacing, borders, rounding.
+# No hard-coded page/sidebar colours so Light/Dark/System all behave properly.
 st.markdown(
     """
 <style>
@@ -30,17 +30,12 @@ st.markdown(
         border-radius: 0.75rem;
         overflow: hidden;
     }
-    .small-note {
-        opacity: 0.8;
-        font-size: 0.92rem;
-    }
 </style>
 """,
     unsafe_allow_html=True,
 )
 
 st.title("RSE3010 — Convergence–Confinement Method (CCM)")
-
 
 # =============================================================================
 # CORE CALCULATIONS
@@ -306,40 +301,13 @@ def support_capacity_total(supports):
 
 
 # =============================================================================
-# EQUILIBRIUM SOLVER
+# EQUILIBRIUM
 # =============================================================================
 
 def build_grc_u_of_p(grc_method, p0, a, nu, Em, grc_kwargs):
     def grc_u(pi):
         return grc_displacement(grc_method, pi, p0, a, nu, Em, **grc_kwargs)
     return grc_u
-
-
-def build_physical_grc_curve(grc_fn_raw, p0, n=800):
-    """
-    Build a monotonic GRC for plotting and equilibrium solving.
-
-    The raw approximate H-B implementations can occasionally produce a small
-    non-monotonic tail near low confinement. Physically, tunnel wall displacement
-    should increase monotonically as internal pressure decreases.
-    """
-    p_desc = np.linspace(p0, 0.0, n)
-    u_raw_desc = np.array([grc_fn_raw(p) for p in p_desc], dtype=float)
-    u_phys_desc = np.maximum.accumulate(u_raw_desc)
-    was_corrected = bool(np.any(np.diff(u_raw_desc) < -1e-9))
-    return p_desc, u_raw_desc, u_phys_desc, was_corrected
-
-
-def make_monotonic_grc_interpolator(grc_fn_raw, p0, n=800):
-    p_desc, u_raw_desc, u_phys_desc, was_corrected = build_physical_grc_curve(grc_fn_raw, p0, n=n)
-    p_asc = p_desc[::-1]
-    u_asc = u_phys_desc[::-1]
-
-    def grc_u(p):
-        p_clip = float(np.clip(p, 0.0, p0))
-        return float(np.interp(p_clip, p_asc, u_asc))
-
-    return grc_u, p_desc, u_raw_desc, u_phys_desc, was_corrected
 
 
 def solve_equilibrium(grc_u, supports, us0_mm, p0, n_grid=600):
@@ -381,10 +349,6 @@ def solve_equilibrium(grc_u, supports, us0_mm, p0, n_grid=600):
         return {"p_eq": float(p_eq), "u_eq": float(u_eq), "FoS": float(fos) if fos is not None else None, "saturated": False, "valid": True}
 
 
-# =============================================================================
-# ANALYSIS
-# =============================================================================
-
 def run_analysis(params):
     p = params
     p0 = p["gamma"] * p["z"] / 1000.0
@@ -409,8 +373,7 @@ def run_analysis(params):
         "sigma_ci": p["sigma_ci"],
         **hb,
     }
-    grc_fn_raw = build_grc_u_of_p(p["grc_method"], p0, p["a"], p["nu"], Em, grc_kwargs)
-    grc_fn, p_desc_grc, u_raw_desc_grc, u_phys_desc_grc, grc_was_corrected = make_monotonic_grc_interpolator(grc_fn_raw, p0)
+    grc_fn = build_grc_u_of_p(p["grc_method"], p0, p["a"], p["nu"], Em, grc_kwargs)
     u_max = grc_fn(0.0)
 
     Xstar = p["L"] / p["a"]
@@ -436,8 +399,6 @@ def run_analysis(params):
         warnings.append("FoS < 1.0. Current support is inadequate.")
     if p["grc_method"] in ["Brown et al. (HB, 1983)", "Carranza-Torres (HB, 2004)"]:
         warnings.append("Selected H-B GRC method is an approximate teaching implementation.")
-    if grc_was_corrected:
-        warnings.append("Raw GRC from the selected method showed a small non-monotonic segment; a monotonic physical envelope has been enforced for plotting and equilibrium calculations.")
 
     return {
         "p0": p0,
@@ -458,11 +419,6 @@ def run_analysis(params):
         "us0": us0,
         "psm_total": psm_total,
         "grc_fn": grc_fn,
-        "grc_fn_raw": grc_fn_raw,
-        "grc_p_desc": p_desc_grc,
-        "grc_u_raw_desc": u_raw_desc_grc,
-        "grc_u_phys_desc": u_phys_desc_grc,
-        "grc_was_corrected": grc_was_corrected,
         "supports": supports,
         "warnings": warnings,
         **hb,
@@ -471,7 +427,7 @@ def run_analysis(params):
 
 
 # =============================================================================
-# PLOTS (theme-safe)
+# PLOTS
 # =============================================================================
 
 PLOT_COLORS = {
@@ -485,9 +441,8 @@ PLOT_COLORS = {
 
 def plot_grc_scc(result, params):
     p0 = result["p0"]
-    p_desc = result.get("grc_p_desc", np.linspace(p0, 0.0, 300))
-    u_desc = result.get("grc_u_phys_desc", np.array([result["grc_fn"](p) for p in p_desc]))
-
+    pi_range = np.linspace(0.0, p0, 300)
+    u_grc = np.array([result["grc_fn"](pi) for pi in pi_range])
     max_u = max(result["u_max"], result["us0"] + 50.0)
     if result.get("u_eq") is not None:
         max_u = max(max_u, result["u_eq"] * 1.2)
@@ -495,7 +450,7 @@ def plot_grc_scc(result, params):
     p_scc = np.array([support_response_at_u(u, result["us0"], result["supports"]) for u in u_plot]) if params["supports"] else np.zeros_like(u_plot)
 
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=u_desc, y=p_desc, mode="lines", line=dict(color=PLOT_COLORS["grc"], width=3), name="GRC"))
+    fig.add_trace(go.Scatter(x=u_grc, y=pi_range, mode="lines", line=dict(color=PLOT_COLORS["grc"], width=3), name="GRC"))
     if params["supports"]:
         fig.add_trace(go.Scatter(x=u_plot, y=p_scc, mode="lines", line=dict(color=PLOT_COLORS["scc"], width=3, dash="dash"), name="SCC"))
         fig.add_trace(go.Scatter(x=[result["us0"]], y=[0.0], mode="markers", marker=dict(size=10, color=PLOT_COLORS["highlight"]), name="u_s0"))
@@ -503,7 +458,6 @@ def plot_grc_scc(result, params):
         fig.add_trace(go.Scatter(x=[result["u_eq"]], y=[result["p_eq"]], mode="markers", marker=dict(size=12, color="black"), name=f"Intersection (FoS={result['FoS']:.2f})"))
     if result["is_plastic"]:
         fig.add_hline(y=result["pcr"], line=dict(color=PLOT_COLORS["neutral"], dash="dot"), annotation_text=f"p_cr = {result['pcr']:.2f} MPa")
-
     fig.update_layout(
         title="Ground Reaction & Support Reaction",
         xaxis_title="Tunnel wall displacement uᵢ (mm)",
@@ -601,9 +555,15 @@ def plot_envelope(result, params):
 st.sidebar.header("Project Settings")
 
 with st.sidebar.expander("Solution method", expanded=True):
-    grc_options = ["Duncan-Fama (MC)", "Salençon (MC, 1969)", "Vrakas & Anagnostou (MC, 2014)", "Brown et al. (HB, 1983)", "Carranza-Torres (HB, 2004)"]
+    grc_options = [
+        "Duncan-Fama (MC)",
+        "Salençon (MC, 1969)",
+        "Vrakas & Anagnostou (MC, 2014)",
+        "Brown et al. (HB, 1983)",
+        "Carranza-Torres (HB, 2004)",
+    ]
     grc_method = st.selectbox("GRC", grc_options, index=0)
-    ldp_method = st.selectbox("LDP", ["Vlachopoulos & Diederichs (2009)", "Panet (1995)", "Hoek (2002)"])
+    ldp_method = st.selectbox("LDP", ["Vlachopoulos & Diederichs (2009)", "Panet (1995)", "Hoek (2002)"], index=0)
     alpha_panet = st.slider("Panet α", 0.5, 0.95, 0.75, 0.05) if ldp_method == "Panet (1995)" else 0.75
 
 with st.sidebar.expander("Project & stress", expanded=True):
@@ -711,33 +671,27 @@ if result["warnings"]:
     for w in result["warnings"]:
         st.warning(w)
 
-with st.expander("Calculation workflow", expanded=False):
-    st.markdown(
-        """
-1. Compute in-situ stress **p₀ = γz**  
-2. Compute Hoek–Brown parameters **m_b, s, a**  
-3. Compute rock mass modulus **E_m** and equivalent **MC parameters**  
-4. Compute **critical pressure p_cr** and unsupported **R_p**  
-5. Compute unsupported maximum displacement **u_max**  
-6. Use the **LDP** to obtain **u_s0**  
-7. Build the **combined SCC** from selected supports  
-8. Solve the **GRC–SCC intersection** for **p_eq, u_eq, FoS**
-"""
-    )
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "Results",
+    "Plots",
+    "Failure Envelope",
+    "Tunnel Section",
+    "Calculation Workflow",
+])
 
-m1, m2, m3, m4 = st.columns(4)
-m1.metric("p₀ (MPa)", f"{result['p0']:.2f}")
-m2.metric("p_cr (MPa)", f"{result['pcr']:.2f}")
-m3.metric("R_p unsupported (m)", f"{result['Rp_unsup']:.2f}")
-m4.metric("u_max (mm)", f"{result['u_max']:.2f}")
+with tab1:
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("p₀ (MPa)", f"{result['p0']:.2f}")
+    m2.metric("p_cr (MPa)", f"{result['pcr']:.2f}")
+    m3.metric("R_p unsupported (m)", f"{result['Rp_unsup']:.2f}")
+    m4.metric("u_max (mm)", f"{result['u_max']:.2f}")
 
-m5, m6, m7, m8 = st.columns(4)
-m5.metric("u_s0 (mm)", f"{result['us0']:.2f}")
-m6.metric("p_sm,total (MPa)", f"{result['psm_total']:.2f}")
-m7.metric("p_eq (MPa)", "—" if result['p_eq'] is None else f"{result['p_eq']:.2f}")
-m8.metric("FoS", "—" if result['FoS'] is None else f"{result['FoS']:.2f}")
+    m5, m6, m7, m8 = st.columns(4)
+    m5.metric("u_s0 (mm)", f"{result['us0']:.2f}")
+    m6.metric("p_sm,total (MPa)", f"{result['psm_total']:.2f}")
+    m7.metric("p_eq (MPa)", "—" if result['p_eq'] is None else f"{result['p_eq']:.2f}")
+    m8.metric("FoS", "—" if result['FoS'] is None else f"{result['FoS']:.2f}")
 
-with st.expander("Summary table", expanded=True):
     summary = {
         "GRC method": params["grc_method"],
         "LDP method": params["ldp_method"],
@@ -762,17 +716,10 @@ with st.expander("Summary table", expanded=True):
         "Rstar": result["Rstar"],
         "is_plastic": result["is_plastic"],
     }
+    st.subheader("Summary table")
     st.table({"Parameter": list(summary.keys()), "Value": [f"{v:.4g}" if isinstance(v, (float, np.floating)) else str(v) for v in summary.values()]})
 
-c1, c2 = st.columns(2)
-with c1:
-    st.plotly_chart(plot_grc_scc(result, params), use_container_width=True)
-    st.plotly_chart(plot_ldp(result, params), use_container_width=True)
-with c2:
-    st.plotly_chart(plot_tunnel_section(result, params), use_container_width=True)
-    st.plotly_chart(plot_envelope(result, params), use_container_width=True)
-
-with st.expander("Support components", expanded=False):
+    st.subheader("Support components")
     if supports:
         rows = []
         for i, s in enumerate(supports, start=1):
@@ -787,4 +734,108 @@ with st.expander("Support components", expanded=False):
     else:
         st.info("No support elements selected.")
 
+with tab2:
+    c1, c2 = st.columns(2)
+    with c1:
+        st.plotly_chart(plot_grc_scc(result, params), use_container_width=True)
+    with c2:
+        st.plotly_chart(plot_ldp(result, params), use_container_width=True)
 
+with tab3:
+    st.plotly_chart(plot_envelope(result, params), use_container_width=True)
+
+with tab4:
+    st.plotly_chart(plot_tunnel_section(result, params), use_container_width=True)
+
+with tab5:
+    st.header("Calculation Workflow")
+
+    st.markdown("### Step 1 — In-situ stress")
+    st.latex(r"p_0 = \gamma \cdot z")
+
+    st.markdown("### Step 2 — Hoek-Brown parameters")
+    st.latex(r"m_b = m_i \, \exp\!\left(\frac{GSI - 100}{28 - 14 D}\right), \quad s = \exp\!\left(\frac{GSI - 100}{9 - 3 D}\right)")
+    st.latex(r"a_{HB} = \tfrac{1}{2} + \tfrac{1}{6}\left(e^{-GSI/15} - e^{-20/3}\right)")
+
+    st.markdown("### Step 3 — Rock mass strength & modulus")
+    st.latex(r"\sigma_{cm} = \sigma_{ci} \cdot s^{a_{HB}}")
+    st.latex(r"E_m = E_i \left[0.02 + \frac{1 - D/2}{1 + \exp\!\big((60 + 15 D - GSI)/11\big)}\right]")
+
+    st.markdown("### Step 4 — Equivalent Mohr-Coulomb (Hoek et al. 2002 closed form)")
+    st.markdown("Many GRC solutions require MC parameters. Fit the H-B envelope over $0 \\le \\sigma_3 \\le \\sigma_{3,\\max}$:")
+    st.latex(r"\phi = \arcsin\!\left[\frac{6\,a_{HB}\, m_b \, (s + m_b \sigma_{3n})^{a_{HB} - 1}}{2(1+a_{HB})(2+a_{HB}) + 6\,a_{HB}\, m_b \, (s + m_b \sigma_{3n})^{a_{HB}-1}}\right]")
+    st.latex(r"c = \frac{\sigma_{ci}\,[(1+2 a_{HB})s + (1-a_{HB}) m_b \sigma_{3n}]\,(s+m_b \sigma_{3n})^{a_{HB}-1}}{(1+a_{HB})(2+a_{HB})\sqrt{1 + 6 a_{HB} m_b (s+m_b \sigma_{3n})^{a_{HB}-1}/[(1+a_{HB})(2+a_{HB})]}}")
+    st.caption(r"$\sigma_{3n} = \sigma_{3,\max}/\sigma_{ci}$. Derived: $k=(1+\sin\phi)/(1-\sin\phi)$, $\sigma_{cm,MC}=2c\cos\phi/(1-\sin\phi)$.")
+
+    st.markdown("### Step 5 — Critical pressure & plastic radius")
+    st.latex(r"p_{cr} = \frac{2 p_0 - \sigma_{cm,MC}}{1 + k}")
+    st.markdown(r"If $p_i \ge p_{cr}$: elastic response. If $p_i < p_{cr}$: plastic zone forms with radius:")
+    st.latex(r"R_p(p_i) = a \left[\frac{2\left(p_0(k-1) + \sigma_{cm,MC}\right)}{(1+k)\left(p_i(k-1) + \sigma_{cm,MC}\right)}\right]^{1/(k-1)}")
+
+    st.markdown("### Step 6 — Ground Reaction Curve (GRC)")
+    st.markdown("The GRC describes how tunnel wall displacement $u_r$ varies with internal support pressure $p_i$.")
+    st.markdown("**Elastic branch** ($p_i \\ge p_{cr}$):")
+    st.latex(r"u_r = \frac{(1+\nu)(p_0 - p_i)\,a}{E_m}")
+    st.markdown("**Duncan-Fama (MC, 1993):**")
+    st.latex(r"u_r = \frac{(1+\nu)(p_0 - p_{cr})\,a}{E_m} \cdot \left(\frac{R_p(p_i)}{a}\right)^2")
+    st.markdown("**Salençon (MC, 1969):**")
+    st.latex(r"u_r = \frac{(1+\nu)(p_0 - p_{cr})\,a}{E_m} \cdot \left(\frac{R_p(p_i)}{a}\right)^{(k+1)/(k-1)}")
+    st.markdown("**Vrakas & Anagnostou (MC, 2014):**")
+    st.latex(r"u_r^{\text{LS}} = u_r^{\text{SS}} \cdot \left(1 + \tfrac{1}{2}\,\varepsilon\,k_\psi\right), \quad k_\psi = \frac{1+\sin\psi}{1-\sin\psi}")
+    st.markdown("**Brown et al. (HB, 1983):**")
+    st.latex(r"\sigma_1 = \sigma_3 + \sigma_{ci}\sqrt{m_b\,\sigma_3/\sigma_{ci} + s}, \quad k_{sec} = [\sigma_1(p_i) - \sigma_{cm}]/p_i")
+    st.markdown("**Carranza-Torres (HB, 2004):**")
+    st.latex(r"k_{tan} = 1 + a_{HB}\,m_b\,(m_b\,\sigma_3/\sigma_{ci} + s)^{a_{HB}-1}")
+    st.info("💡 When methods disagree, differences usually arise in the plastic range. In the elastic range they reduce to the Kirsch result.")
+
+    st.markdown("### Step 7 — Maximum convergence (unsupported)")
+    st.latex(r"u_{\max} = u_r(p_i = 0)")
+
+    st.markdown("### Step 8 — Longitudinal Deformation Profile (LDP)")
+    st.markdown(r"$X^* = X/a$ where $X$ is distance from the face. Convention: **$X^* > 0$ behind face**, **$X^* < 0$ ahead of face**.")
+    st.markdown("**Panet (1995):**")
+    st.latex(r"u^*(X^*) = \begin{cases}(1 - \alpha)\,e^{1.5 X^*}, & X^* \le 0 \\[4pt]1 - \alpha\,e^{-1.5 X^*}, & X^* > 0\end{cases}")
+    st.markdown("**Vlachopoulos & Diederichs (2009):**")
+    st.latex(r"u^*(X^*) = \begin{cases}\tfrac{1}{3}\,e^{2 X^* - 0.15 R^*}, & X^* \le 0 \\[4pt]1 - \left[1 - \tfrac{1}{3}\,e^{-0.15 R^*}\right] e^{-3 X^*/R^*}, & X^* > 0\end{cases}")
+    st.markdown("**Hoek (2002):**")
+    st.latex(r"u^*(X^*) = \left(1 + \exp\!\left(-\frac{X^*/2}{1.1}\right)\right)^{-1.7}")
+
+    st.markdown("### Step 9 — Installation criterion")
+    st.markdown(r"- **Distance from face $L$** → $X^* = L/a$ → $u_{s0} = u^* \cdot u_{\max}$")
+    st.markdown(r"- **Target displacement $u_{s0}$** → back-solve LDP for $X^*$ such that $u^*(X^*) = u_{s0}/u_{\max}$")
+    st.markdown(r"- **Target strain $\varepsilon$ (%)** → $u_{s0} = \varepsilon \cdot a / 100$")
+
+    st.markdown("### Step 10 — Support Characteristic Curve (SCC)")
+    st.markdown("**Concrete / shotcrete ring:**")
+    st.latex(r"p_{sm} = \frac{\sigma_{ci,\text{lining}} \cdot t}{a}, \quad k_s = \frac{E_c \cdot t}{(1 - \nu_c^2)\,a^2}, \quad u_{sm} = p_{sm}/k_s")
+    st.markdown("**Combined support:**")
+    st.latex(r"p_{sm}^{\text{total}} = \sum_i p_{sm,i}")
+    st.caption("In this version, multiple support elements are combined through a piecewise SCC response.")
+
+    st.markdown("### Step 11 — Factor of Safety (GRC–SCC intersection)")
+    st.markdown(r"Solve $u_{GRC}(p_{eq}) = u_{SCC}(p_{eq})$ numerically. Then:")
+    st.latex(r"\mathrm{FoS} = \frac{p_{sm}}{p_{eq}}")
+
+    st.markdown("---")
+    st.subheader("Current numerical results")
+    rows = [
+        ("p₀ (in-situ stress, MPa)", result["p0"]),
+        ("m_b", result["mb"]), ("s", result["s"]), ("a_HB", result["a_HB"]),
+        ("σ_cm HB (MPa)", result["sigma_cm_HB"]),
+        ("E_m (MPa)", result["Em"]),
+        ("φ (°)", result["phi_deg"]), ("c (MPa)", result["c"]),
+        ("k", result["k"]), ("σ_cm,MC (MPa)", result["sigma_cm_MC"]),
+        ("p_cr (MPa)", result["pcr"]),
+        ("R_p unsupported (m)", result["Rp_unsup"]),
+        ("R_p supported (m)", result["Rp_sup"]),
+        ("R*=R_p/a", result["Rstar"]),
+        ("u_max (mm)", result["u_max"]),
+        ("X*=L/a", result["Xstar"]),
+        ("u* LDP", result["u_star"]),
+        ("u_s0 (mm)", result["us0"]),
+        ("Combined p_sm (MPa)", result["psm_total"]),
+        ("p_eq (MPa)", result["p_eq"]),
+        ("u_eq (mm)", result["u_eq"]),
+        ("FoS", result["FoS"]),
+    ]
+    st.table({"Quantity": [r[0] for r in rows], "Value": [f"{r[1]:.4g}" if isinstance(r[1], (int, float, np.floating)) and r[1] is not None else "—" for r in rows]})
