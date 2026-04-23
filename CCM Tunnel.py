@@ -166,9 +166,13 @@ def grc_carranza_torres_hb(pi, p0, a, nu, Em, sigma_ci, mb, s, a_HB):
     if pi >= pcr:
         ur = (1.0 + nu) * (p0 - pi) * a / Em
     else:
-        tangent_base = max(mb * pi / sigma_ci + s, 1e-10)
+        # --- Stabilise behaviour near pi → 0 ---
+        pi_eff = max(pi, 0.02 * p0)   # small cutoff (2% of p0)
+
+        tangent_base = max(mb * pi_eff / sigma_ci + s, 1e-10)
         k_tang = max(1.0 + a_HB * mb * tangent_base ** (a_HB - 1.0), 1.01)
-        sigma_cm_tang = sig1_hb(pi) - k_tang * pi
+# use consistent intercept at pi_eff (NOT pi)
+        sigma_cm_tang = sig1_hb(pi_eff) - k_tang * pi_eff
         Rp = a * ((2.0 * (p0 * (k_tang - 1.0) + sigma_cm_tang)) / ((1.0 + k_tang) * (pi * (k_tang - 1.0) + sigma_cm_tang))) ** (1.0 / (k_tang - 1.0))
         ur_pcr = (1.0 + nu) * (p0 - pcr) * a / Em
         ur = ur_pcr * (Rp / a) ** 2
