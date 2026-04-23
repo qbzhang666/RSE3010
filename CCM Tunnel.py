@@ -105,63 +105,140 @@ def grc_duncan_fama(pi, p0, a, nu, Em, phi_deg, c):
 
 
 def grc_carranza_torres_hb(pi, p0, a, nu, Em, sigma_ci, mb, s, a_HB):
-    """Carranza-Torres (2004) simplified HB GRC.
+    """Carranza-Torres (2004) closed-form GRC for generalised Hoek-Brown.
 
-    Uses a curve-matched approach: computes pcr and Rp from the generalised
-    Hoek-Brown criterion directly without requiring an equivalent MC fit.
-    For a_HB = 0.5 this recovers the original Carranza-Torres 2004 form;
-    for a_HB != 0.5 it uses a numerical root-find for pcr.
+    Implements the generalised HB solution using numerical integration for
+    the plastic-zone radius when a_HB ≠ 0.5 (exact closed form otherwise).
 
-    Simplifications from full CT 2004:
-    - No residual strength (peak = residual)
-    - Non-dilatant (associated flow with ψ = 0)
-    - Small-strain
+    Plastic zone radius:
+        ln(R_p/a) = ∫_{p_i}^{p_cr} dp / [σ_θ(p) - p]
+    where σ_θ(p) = p + σ_ci·(m_b·p/σ_ci + s)^a_HB is the HB yield function
+    at confining pressure p.
+
+    Wall displacement (Carranza-Torres & Fairhurst 2000, non-dilatant):
+        u_r = (1+ν)(p_0 - p_cr)/E_m · a · [2(R_p/a)² - (1-2ν)]
+
+    Assumptions: small-strain, non-dilatant (ψ = 0), no residual strength.
     """
     from scipy.optimize import brentq as _brentq
+    from scipy.integrate import quad as _quad
 
-    # Hoek-Brown sigma_1 as function of sigma_3
+    # Ensure physically sensible inputs
+    if mb <= 0 or a_HB <= 0:
+        return (1 + nu) * (p0 - pi) * a / Em * 1000
+
+    # Hoek-Brown σ₁(σ₃)
     def sig1_HB(sig3):
-        return sig3 + sigma_ci * (mb * sig3 / sigma_ci + s) ** a_HB
+        base = mb * sig3 / sigma_ci + s
+        if base < 0:
+            base = 0
+        return sig3 + sigma_ci * base ** a_HB
 
-    # Critical pressure: the value of pi at which the wall stress
-    # sigma_theta (= 2p0 - pi) equals sigma_1 from H-B at sigma_3 = pi
-    # i.e. 2p0 - pi = pi + sigma_ci * (mb*pi/sigma_ci + s)^a
-    def pcr_residual(p):
+    # Critical pressure: σ_θ = 2p₀ - p_i = σ₁(p_i)
+    def pcr_res(p):
         return (2 * p0 - p) - sig1_HB(p)
 
     try:
-        pcr = _brentq(pcr_residual, 0, p0, xtol=1e-8)
+        if pcr_res(0) < 0:
+            pcr = -1.0
+        else:
+            pcr = _brentq(pcr_res, 0.0, p0, xtol=1e-9)
     except ValueError:
-        # No yielding — fully elastic
-        pcr = -1
+        pcr = -1.0
 
     if pi >= pcr:
-        # Elastic branch (Kirsch)
-        ur = (1 + nu) * (p0 - pi) * a / Em
+        return (1 + nu) * (p0 - pi) * a / Em * 1000
+
+    # --- Plastic zone radius: use closed form for a_HB = 0.5, else integrate ---
+    if abs(a_HB - 0.5) < 1e-4:
+        # Exact closed form
+        P_cr = pcr / (mb * sigma_ci) + s / mb**2
+        P_i = pi / (mb * sigma_ci) + s / mb**2
+        sqrt_Pcr = np.sqrt(max(P_cr, 0))
+        sqrt_Pi = np.sqrt(max(P_i, 0))
+        Rp = a * np.exp(2.0 * (sqrt_Pcr - sqrt_Pi))
     else:
-        # Plastic branch. Use Carranza-Torres 2004 plastic-radius formula
-        # for generalised H-B (Eq. 42 in the paper, simplified, a = 0.5 form
-        # as an approximation for general a).
-        # Plastic zone radius:
-        # Rp/a = exp[ integral from pi to pcr of (1/sigma_cm) dp ]
-        # For the generalised HB with no dilation:
-        # Using the approximate form from CT 2004:
-        sigma_cm_0 = sig1_HB(0)  # Uniaxial HB strength = sigma_ci * s^a
-        # Tangent slope of HB envelope at sig_3 = pi:
-        if mb * pi / sigma_ci + s > 0:
-            k_tang = 1 + a_HB * mb * (mb * pi / sigma_ci + s) ** (a_HB - 1)
-        else:
-            k_tang = 1 + mb * a_HB  # limiting case
-        # Use the tangent-MC approximation at the yielding boundary:
-        sigma_cm_tang = sig1_HB(pi) - k_tang * pi
+        # Numerical integration for general a_HB
+        # ln(R_p/a) = ∫_{p_i}^{p_cr} dp / [σ_θ - p]
+        # where σ_θ - p = σ_ci * (m_b p/σ_ci + s)^a_HB  (HB yield surface strength)
+        def integrand(p):
+            base = mb * p / sigma_ci + s
+            if base < 1e-12:
+                return 0.0
+            return 1.0 / (sigma_ci * base ** a_HB)
+        try:
+            ln_ratio, _ = _quad(integrand, pi, pcr, limit=100)
+            Rp = a * np.exp(ln_ratio)
+        except Exception:
+            # Fall back to scaled-stress form if integration fails
+            P_cr = pcr / (mb * sigma_ci) + s / mb**2
+            P_i = pi / (mb * sigma_ci) + s / mb**2
+            sqrt_Pcr = np.sqrt(max(P_cr, 0))
+            sqrt_Pi = np.sqrt(max(P_i, 0))
+            Rp = a * np.exp(2.0 * (sqrt_Pcr - sqrt_Pi))
 
-        # Plastic radius (Duncan-Fama-like with tangent k):
-        Rp = a * ((2 * (p0 * (k_tang - 1) + sigma_cm_tang)) /
-                  ((1 + k_tang) * (pi * (k_tang - 1) + sigma_cm_tang))) ** (1 / (k_tang - 1))
-
-        ur_pcr = (1 + nu) * (p0 - pcr) * a / Em
-        ur = ur_pcr * (Rp / a) ** 2
+    # Wall displacement (CT & Fairhurst 2000, non-dilatant):
+    Rstar = Rp / a
+    ur = (1 + nu) * (p0 - pcr) / Em * a * (2.0 * Rstar**2 - (1.0 - 2.0 * nu))
     return ur * 1000
+
+
+def plastic_radius_ct(a, p0, pi, sigma_ci, mb, s, a_HB):
+    """Plastic zone radius from Carranza-Torres 2004.
+
+    Uses exact scaled-stress closed form for a_HB = 0.5, and numerical
+    integration of the HB yield surface for general a_HB. Returns the
+    tunnel radius if still elastic.
+    """
+    from scipy.optimize import brentq as _brentq
+    from scipy.integrate import quad as _quad
+
+    if mb <= 0 or a_HB <= 0:
+        return a
+
+    def sig1_HB(sig3):
+        base = mb * sig3 / sigma_ci + s
+        if base < 0:
+            base = 0
+        return sig3 + sigma_ci * base ** a_HB
+
+    def pcr_res(p):
+        return (2 * p0 - p) - sig1_HB(p)
+
+    try:
+        if pcr_res(0) < 0:
+            return a
+        pcr = _brentq(pcr_res, 0.0, p0, xtol=1e-9)
+    except ValueError:
+        return a
+
+    if pi >= pcr:
+        return a
+
+    if abs(a_HB - 0.5) < 1e-4:
+        # Exact closed form
+        P_cr = pcr / (mb * sigma_ci) + s / mb**2
+        P_i = pi / (mb * sigma_ci) + s / mb**2
+        sqrt_Pcr = np.sqrt(max(P_cr, 0))
+        sqrt_Pi = np.sqrt(max(P_i, 0))
+        return a * np.exp(2.0 * (sqrt_Pcr - sqrt_Pi))
+    else:
+        # Numerical integration
+        def integrand(p):
+            base = mb * p / sigma_ci + s
+            if base < 1e-12:
+                return 0.0
+            return 1.0 / (sigma_ci * base ** a_HB)
+        try:
+            ln_ratio, _ = _quad(integrand, pi, pcr, limit=100)
+            return a * np.exp(ln_ratio)
+        except Exception:
+            # Fall back to closed form
+            P_cr = pcr / (mb * sigma_ci) + s / mb**2
+            P_i = pi / (mb * sigma_ci) + s / mb**2
+            sqrt_Pcr = np.sqrt(max(P_cr, 0))
+            sqrt_Pi = np.sqrt(max(P_i, 0))
+            return a * np.exp(2.0 * (sqrt_Pcr - sqrt_Pi))
 
 
 def grc_vrakas_anagnostou(pi, p0, a, nu, Em, phi_deg, c, psi_deg=0.0):
@@ -215,48 +292,53 @@ def grc_salencon(pi, p0, a, nu, Em, phi_deg, c):
 
 
 def grc_brown_et_al(pi, p0, a, nu, Em, sigma_ci, mb, s, a_HB):
-    """Brown, Bray, Ladanyi & Hoek (1983) — original Hoek-Brown GRC
-    using a = 0.5 (the 1983 HB criterion). For modern H-B with general a,
-    we evaluate the 1983 form at a_HB = 0.5 for consistency with the
-    historical solution.
+    """Brown, Bray, Ladanyi & Hoek (1983) — original Hoek-Brown GRC using
+    the 1983 form with exponent a_HB = 0.5.
 
-    This method is often cited in textbooks (Hoek & Brown 1980; Brady & Brown)
-    and gives slightly larger displacements than Carranza-Torres because it
-    uses the secant rather than tangent stiffness for k.
+    This implementation follows the 1983 approach:
+    - 1983 HB failure criterion: σ₁ = σ₃ + σ_ci·sqrt(m·σ₃/σ_ci + s)
+    - Plastic zone from scaled-stress closed form (same as CT 2004 for a=0.5)
+    - Wall displacement uses the Brown et al. 1983 plastic formula:
+          u_r = u_r(p_cr) · (R_p/a)²
+      (i.e. no (1-2ν) correction term — simpler historical form).
+
+    Gives slightly smaller u_max than CT 2004 because of the missing
+    elastic-recovery term. Retained for pedagogical comparison.
     """
     from scipy.optimize import brentq as _brentq
 
-    # Use a_HB = 0.5 (1983 form) for this method regardless of input
-    a_use = 0.5
-
+    # Brown et al. 1983 uses a_HB = 0.5 regardless of input
     def sig1_HB(sig3):
-        return sig3 + sigma_ci * np.sqrt(max(mb * sig3 / sigma_ci + s, 0))
+        base = mb * sig3 / sigma_ci + s
+        if base < 0:
+            base = 0
+        return sig3 + sigma_ci * np.sqrt(base)
 
-    # Critical pressure: sigma_theta(= 2p0 - pi) = sigma_1_HB(pi)
     def pcr_residual(p):
         return (2 * p0 - p) - sig1_HB(p)
 
     try:
-        pcr = _brentq(pcr_residual, 0, p0, xtol=1e-8)
+        if pcr_residual(0) < 0:
+            pcr = -1.0
+        else:
+            pcr = _brentq(pcr_residual, 0.0, p0, xtol=1e-9)
     except ValueError:
-        pcr = -1
+        pcr = -1.0
 
     if pi >= pcr:
-        ur = (1 + nu) * (p0 - pi) * a / Em
-    else:
-        # Brown et al. (1983) plastic radius (secant k):
-        sigma_cm_0 = sigma_ci * np.sqrt(s)  # HB uniaxial strength
-        # Secant slope of HB envelope. To avoid divide-by-zero at pi = 0,
-        # use a small reference stress for the secant evaluation.
-        sig3_ref = max(pi, 0.05 * p0)  # lower bound prevents blow-up
-        k_sec = (sig1_HB(sig3_ref) - sigma_cm_0) / sig3_ref
-        k_sec = max(k_sec, 1.01)  # prevent k - 1 = 0
+        return (1 + nu) * (p0 - pi) * a / Em * 1000
 
-        Rp = a * ((2 * (p0*(k_sec-1) + sigma_cm_0)) /
-                  ((1+k_sec) * (pi*(k_sec-1) + sigma_cm_0))) ** (1/(k_sec-1))
+    # Scaled-stress closed-form for R_p (a_HB = 0.5 exact)
+    P_cr = pcr / (mb * sigma_ci) + s / mb**2
+    P_i = pi / (mb * sigma_ci) + s / mb**2
+    sqrt_Pcr = np.sqrt(max(P_cr, 0))
+    sqrt_Pi = np.sqrt(max(P_i, 0))
+    Rp = a * np.exp(2.0 * (sqrt_Pcr - sqrt_Pi))
 
-        ur_pcr = (1 + nu) * (p0 - pcr) * a / Em
-        ur = ur_pcr * (Rp / a) ** 2
+    # Brown et al. 1983 simpler plastic displacement:
+    # u_r = u_r(p_cr) · (R_p/a)²
+    ur_pcr = (1 + nu) * (p0 - pcr) / Em * a  # m
+    ur = ur_pcr * (Rp / a) ** 2
     return ur * 1000
 
 
@@ -420,15 +502,70 @@ def run_analysis(params):
     Em = rock_mass_modulus(p["E_i"], p["GSI"], p["D"])
     sigma_cm = p["sigma_ci"] * hb["s"] ** hb["a_HB"]
 
-    if p["mc_source"] == "Fit automatically (Hoek 2002)":
+    if p["mc_source"] == "Fit automatically (Hoek 2002 iterative)":
+        # Hoek 2002 iterative σ_3,max for tunnels
+        sigma_cm_global = p["sigma_ci"] * (
+            (hb["mb"] + 4 * hb["s"] - hb["a_HB"] * (hb["mb"] - 8 * hb["s"])) *
+            (hb["mb"] / 4 + hb["s"]) ** (hb["a_HB"] - 1)
+        ) / (2 * (1 + hb["a_HB"]) * (2 + hb["a_HB"]))
+        if sigma_cm_global > 0 and p0 > 0:
+            sig3_max_iter = 0.47 * (sigma_cm_global / p0)**(-0.94) * sigma_cm_global
+            sig3_max_iter = max(sig3_max_iter, 0.05)
+        else:
+            sig3_max_iter = p0
+        phi_deg, c = hoek_to_mc_fit(p["sigma_ci"], hb["mb"], hb["s"], hb["a_HB"],
+                                    sig3_max_iter)
+        # Store the actually-used sig3_max in result
+        actual_sig3_max = sig3_max_iter
+    elif p["mc_source"] == "Fit with manual σ_3,max":
         phi_deg, c = hoek_to_mc_fit(p["sigma_ci"], hb["mb"], hb["s"], hb["a_HB"],
                                     p["sig3_max"])
+        actual_sig3_max = p["sig3_max"]
     else:
         phi_deg, c = p["phi_deg"], p["c"]
+        actual_sig3_max = p["sig3_max"]
 
-    pcr, k, sigma_cm_MC = critical_pressure_mc(p0, phi_deg, c)
-    is_plastic = p0 > pcr
-    Rp_unsup = plastic_radius_mc(p["a"], p0, 0, phi_deg, c) if is_plastic else p["a"]
+    # Determine critical pressure and plastic radius using the method that
+    # corresponds to the selected GRC so that diagnostic outputs
+    # (pcr, Rp_unsup, Rp_sup) match what the GRC curve implies.
+    is_hb_method = p["grc_method"] in ["Brown et al. (HB, 1983)",
+                                        "Carranza-Torres (HB, 2004)"]
+
+    # Always compute MC quantities for reporting and envelope display
+    pcr_mc, k, sigma_cm_MC = critical_pressure_mc(p0, phi_deg, c)
+
+    if is_hb_method:
+        # Use HB-based p_cr and R_p for consistency with the GRC curve
+        def _sig1_hb(sig3):
+            base = hb["mb"] * sig3 / p["sigma_ci"] + hb["s"]
+            base = max(base, 0.0)
+            return sig3 + p["sigma_ci"] * base ** hb["a_HB"]
+
+        def _pcr_res(pp):
+            return (2 * p0 - pp) - _sig1_hb(pp)
+
+        try:
+            if _pcr_res(0) < 0:
+                pcr = -1.0
+                is_plastic = False
+            else:
+                pcr = brentq(_pcr_res, 0.0, p0, xtol=1e-9)
+                is_plastic = pcr > 0 and p0 > pcr
+        except ValueError:
+            pcr = pcr_mc
+            is_plastic = p0 > pcr_mc
+
+        if is_plastic:
+            Rp_unsup = plastic_radius_ct(p["a"], p0, 0.0, p["sigma_ci"],
+                                          hb["mb"], hb["s"], hb["a_HB"])
+        else:
+            Rp_unsup = p["a"]
+    else:
+        # MC-family methods: use MC p_cr and R_p
+        pcr = pcr_mc
+        is_plastic = p0 > pcr
+        Rp_unsup = plastic_radius_mc(p["a"], p0, 0, phi_deg, c) if is_plastic else p["a"]
+
     Rstar = Rp_unsup / p["a"]
 
     grc_kwargs = {"phi_deg": phi_deg, "c": c, "psi_deg": p.get("psi_deg", 0.0),
@@ -458,8 +595,13 @@ def run_analysis(params):
     else:
         fos_result = {"p_eq": None, "u_eq": None, "FoS": None, "saturated": False}
 
+    # Supported plastic zone radius using the same method as unsupported
     if fos_result["p_eq"] is not None and is_plastic:
-        Rp_sup = plastic_radius_mc(p["a"], p0, fos_result["p_eq"], phi_deg, c)
+        if is_hb_method:
+            Rp_sup = plastic_radius_ct(p["a"], p0, fos_result["p_eq"],
+                                        p["sigma_ci"], hb["mb"], hb["s"], hb["a_HB"])
+        else:
+            Rp_sup = plastic_radius_mc(p["a"], p0, fos_result["p_eq"], phi_deg, c)
     else:
         Rp_sup = Rp_unsup
 
@@ -841,90 +983,135 @@ def plot_envelope(result, params):
 
 
 # =============================================================================
-# SIDEBAR
+# SIDEBAR — 3 Categories: Project Settings, CCM Steps, Support System
 # =============================================================================
 
+# ----------------------------------------------------------------------------
+# CATEGORY 1: PROJECT SETTINGS
+# ----------------------------------------------------------------------------
 st.sidebar.header("⚙️ Project Settings")
 
-with st.sidebar.expander("**Solution method**", expanded=True):
+with st.sidebar.expander("**Tunnel & stress**", expanded=True):
+    a = st.number_input("Tunnel radius, a (m)", 0.5, 15.0, 5.0, 0.25,
+                        help="Tunnel radius (half of diameter).")
+    gamma = st.number_input("Unit weight, γ (kN/m³)", 15.0, 35.0, 27.0, 0.5,
+                            help="Rock unit weight (27 kN/m³ ≈ 0.027 MN/m³).")
+    z = st.number_input("Depth, z (m)", 5.0, 2000.0, 50.0, 5.0,
+                        help="Overburden depth to tunnel centreline.")
+    st.caption(f"→ in-situ stress p₀ = γ·z = {gamma * z / 1000:.3f} MPa")
+
+with st.sidebar.expander("**Rock mass (Hoek-Brown)**", expanded=True):
+    sigma_ci = st.number_input("σ_ci — intact UCS (MPa)", 0.5, 500.0, 5.0, 0.5,
+                                help="Uniaxial compressive strength of intact rock.")
+    E_i = st.number_input("E_i — intact modulus (GPa)", 0.1, 100.0, 15.0, 0.5,
+                          help="Young's modulus of intact rock.") * 1000
+    mi = st.number_input("m_i (Hoek-Brown)", 1.0, 40.0, 10.0, 0.5,
+                         help="Hoek-Brown constant. 7≈siltstone, 10≈limestone, "
+                              "17≈sandstone, 25≈granite.")
+    GSI = st.slider("GSI (Geological Strength Index)", 10, 100, 22, 1,
+                    help="Geological Strength Index. 10-30=poor, 30-60=average, "
+                         "60-80=good, 80-100=very good.")
+    D = st.slider("Disturbance factor D", 0.0, 1.0, 0.0, 0.1,
+                  help="0 = undisturbed (TBM), 0.5 = moderate blast, "
+                       "1.0 = severe blast damage.")
+    nu = st.number_input("Poisson's ratio ν", 0.0, 0.5, 0.3, 0.01)
+
+with st.sidebar.expander("**Mohr-Coulomb parameters**", expanded=False):
+    mc_source = st.radio(
+        "Source of φ and c",
+        ["Fit automatically (Hoek 2002 iterative)", "Fit with manual σ_3,max",
+         "Enter manually"],
+        help="**Iterative** = Hoek 2002 recommended σ_3,max based on "
+             "rock mass strength and in-situ stress (industry standard).\n"
+             "**Manual σ_3,max** = specify upper stress for MC linearisation.\n"
+             "**Manual** = input φ, c directly.")
+
+    # Compute the iterative σ_3,max automatically (Hoek 2002 for tunnels)
+    _hb_preview = hoek_brown_params(GSI, mi, D)
+    _mb_p, _s_p, _a_p = _hb_preview["mb"], _hb_preview["s"], _hb_preview["a_HB"]
+    _sigma_cm_global = sigma_ci * (
+        (_mb_p + 4*_s_p - _a_p*(_mb_p - 8*_s_p)) *
+        (_mb_p/4 + _s_p)**(_a_p - 1)
+    ) / (2 * (1 + _a_p) * (2 + _a_p))
+    _p0 = gamma * z / 1000
+    # Hoek 2002 Eq. for tunnels: σ_3,max/σ_cm = 0.47·(σ_cm/γH)^(-0.94)
+    if _sigma_cm_global > 0 and _p0 > 0:
+        _sig3_max_iter = 0.47 * (_sigma_cm_global / _p0)**(-0.94) * _sigma_cm_global
+        _sig3_max_iter = max(_sig3_max_iter, 0.1)
+    else:
+        _sig3_max_iter = _p0
+
+    if mc_source == "Fit automatically (Hoek 2002 iterative)":
+        sig3_max = _sig3_max_iter
+        phi_deg, c = hoek_to_mc_fit(sigma_ci, _mb_p, _s_p, _a_p, sig3_max)
+        st.caption(
+            f"→ σ_cm,global = {_sigma_cm_global:.3f} MPa, "
+            f"σ_3,max = {sig3_max:.3f} MPa (Hoek 2002 iterative)"
+        )
+        st.caption(f"→ Fitted: φ = {phi_deg:.2f}°, c = {c:.3f} MPa")
+    elif mc_source == "Fit with manual σ_3,max":
+        sig3_max = st.number_input(
+            "σ_3,max for MC fit (MPa)", 0.05, 50.0,
+            float(_sig3_max_iter), 0.05,
+            help="Upper bound of stress range for linearising the "
+                 "Hoek-Brown envelope.")
+        phi_deg, c = hoek_to_mc_fit(sigma_ci, _mb_p, _s_p, _a_p, sig3_max)
+        st.caption(f"→ Fitted: φ = {phi_deg:.2f}°, c = {c:.3f} MPa")
+    else:
+        phi_deg = st.number_input("φ — friction angle (°)", 5.0, 60.0, 25.0, 0.5)
+        c = st.number_input("c — cohesion (MPa)", 0.0, 20.0, 0.1, 0.01)
+        sig3_max = _p0
+
+# ----------------------------------------------------------------------------
+# CATEGORY 2: CCM STEPS
+# ----------------------------------------------------------------------------
+st.sidebar.header("📐 CCM Steps")
+
+with st.sidebar.expander("**Step 1: GRC method**", expanded=True):
     grc_method = st.selectbox(
-        "GRC (Ground Reaction Curve) method",
+        "Ground Reaction Curve",
         ["Duncan-Fama (MC)",
          "Salençon (MC, 1969)",
          "Vrakas & Anagnostou (MC, 2014)",
          "Brown et al. (HB, 1983)",
          "Carranza-Torres (HB, 2004)"],
-        index=0,
+        index=4,  # Default to Carranza-Torres per user request
         help="**MC methods** (need φ, c):\n"
-             "- Duncan-Fama: classical small-strain MC (default, widely used).\n"
-             "- Salençon (1969): earliest closed-form MC solution, benchmark.\n"
+             "- Duncan-Fama: classical small-strain MC (widely used).\n"
+             "- Salençon (1969): earliest closed-form MC solution.\n"
              "- Vrakas & Anagnostou (2014): large-strain MC with dilation ψ.\n\n"
              "**H-B methods** (need m_b, s, a):\n"
-             "- Brown et al. (1983): original H-B GRC, secant-k form.\n"
-             "- Carranza-Torres (2004): generalised H-B, tangent-k at yield boundary.\n\n"
+             "- Brown et al. (1983): original H-B GRC.\n"
+             "- Carranza-Torres (2004): generalised H-B (recommended).\n\n"
              "All methods give similar results in the elastic range; "
              "differences appear in the plastic zone (poor rock).")
+    if grc_method == "Vrakas & Anagnostou (MC, 2014)":
+        psi_deg = st.slider("Dilation angle ψ (°)", 0.0, 40.0, 0.0, 1.0,
+                            help="Dilation angle for large-strain correction. "
+                                 "ψ = 0 is non-associated (typical for rock).")
+    else:
+        psi_deg = 0.0
 
+with st.sidebar.expander("**Step 2: LDP method**", expanded=True):
     ldp_method = st.selectbox(
-        "LDP (Longitudinal Deformation Profile)",
+        "Longitudinal Deformation Profile",
         ["Vlachopoulos & Diederichs (2009)",
          "Panet (1995)",
          "Hoek (2002)"],
         index=0,
-        help="V&D (2009) = elastoplastic, depends on R_p. "
-             "Panet (1995) = elastic, exponential. "
-             "Hoek (2002) = empirical, diameter-normalised.")
+        help="**V&D (2009)** = elastoplastic, depends on R_p (recommended).\n"
+             "**Panet (1995)** = elastic, exponential, with adjustable α.\n"
+             "**Hoek (2002)** = empirical, diameter-normalised.")
 
     if ldp_method == "Panet (1995)":
         alpha_panet = st.slider("Panet α", 0.5, 0.95, 0.75, 0.05)
     else:
         alpha_panet = 0.75
 
-with st.sidebar.expander("**Tunnel & stress**", expanded=True):
-    a = st.number_input("Tunnel radius, a (m)", 0.5, 15.0, 4.75, 0.25)
-    gamma = st.number_input("Unit weight, γ (kN/m³)", 15.0, 35.0, 26.0, 0.5)
-    z = st.number_input("Depth, z (m)", 10.0, 2000.0, 650.0, 10.0)
-    st.caption(f"→ in-situ stress p₀ = γ·z = {gamma * z / 1000:.2f} MPa")
-
-with st.sidebar.expander("**Rock mass (Hoek-Brown)**", expanded=True):
-    sigma_ci = st.number_input("σ_ci — intact UCS (MPa)", 1.0, 500.0, 72.0, 1.0)
-    E_i = st.number_input("E_i — intact modulus (GPa)", 0.1, 100.0, 26.0, 0.5) * 1000
-    mi = st.number_input("m_i (Hoek-Brown)", 1.0, 40.0, 7.0, 0.5,
-                         help="7 ≈ siltstone, 17 ≈ sandstone, 10 ≈ limestone")
-    GSI = st.slider("GSI (Geological Strength Index)", 10, 100, 60, 5)
-    D = st.slider("Disturbance factor D", 0.0, 1.0, 0.0, 0.1)
-    nu = st.number_input("Poisson's ratio ν", 0.0, 0.5, 0.22, 0.01)
-
-with st.sidebar.expander("**Mohr-Coulomb parameters**", expanded=True):
-    mc_source = st.radio(
-        "Source of φ and c",
-        ["Fit automatically (Hoek 2002)", "Enter manually"],
-        help="Hoek (2002) closed-form fit over 0 ≤ σ₃ ≤ σ_3,max. "
-             "Choose 'manual' if you have pre-computed values.")
-    if mc_source == "Fit automatically (Hoek 2002)":
-        sig3_max_default = gamma * z / 1000
-        sig3_max = st.number_input("σ_3,max for MC fit (MPa)",
-                                   0.5, 50.0, float(sig3_max_default), 0.5,
-                                   help="Upper bound of fit range.")
-        _hb = hoek_brown_params(GSI, mi, D)
-        _phi, _c = hoek_to_mc_fit(sigma_ci, _hb["mb"], _hb["s"], _hb["a_HB"], sig3_max)
-        st.caption(f"→ Fitted: φ = {_phi:.2f}°, c = {_c:.3f} MPa")
-        phi_deg, c = _phi, _c
-    else:
-        phi_deg = st.number_input("φ — friction angle (°)", 5.0, 60.0, 31.5, 0.5)
-        c = st.number_input("c — cohesion (MPa)", 0.0, 20.0, 2.85, 0.1)
-        sig3_max = gamma * z / 1000
-
-    if grc_method == "Vrakas & Anagnostou (MC, 2014)":
-        psi_deg = st.slider("Dilation angle ψ (°)", 0.0, 40.0, 0.0, 1.0)
-    else:
-        psi_deg = 0.0
-
 # --- Preliminary analysis: compute u_max before defining installation criterion ---
-# We need u_max to convert between L, u_s0 target, and strain target.
 _prelim_params = dict(
     sigma_ci=sigma_ci, E_i=E_i, mi=mi, GSI=GSI, D=D, nu=nu,
-    gamma=gamma, z=z, a=a, L=3.0,  # placeholder L, will be recalculated
+    gamma=gamma, z=z, a=a, L=3.0,
     phi_deg=phi_deg, c=c, sig3_max=sig3_max, psi_deg=psi_deg,
     mc_source=mc_source,
     grc_method=grc_method, ldp_method=ldp_method, alpha_panet=alpha_panet,
@@ -934,7 +1121,7 @@ _prelim = run_analysis(_prelim_params)
 _u_max_prev = _prelim["u_max"]
 _Rstar_prev = _prelim["Rstar"]
 
-with st.sidebar.expander("**Support installation**", expanded=True):
+with st.sidebar.expander("**Step 3: Support installation**", expanded=True):
     install_method = st.radio(
         "Installation criterion",
         ["Distance from face L",
@@ -943,56 +1130,58 @@ with st.sidebar.expander("**Support installation**", expanded=True):
         help="Three ways to specify when the support is installed:\n"
              "• **L**: distance behind the face at installation (most common).\n"
              "• **u_s0**: target tunnel-wall displacement at installation.\n"
-             "• **ε**: target tunnel-convergence strain (= u_s0 / a × 100).\n\n"
-             "Methods 2 and 3 back-calculate L from the LDP. If the target is "
-             "larger than u_max, installation occurs at infinity (rock fully relaxed).")
+             "• **ε**: target tunnel-convergence strain (= u_s0 / a × 100).")
 
     if install_method == "Distance from face L":
-        L = st.number_input("Support distance L (m)", 0.0, 30.0, 3.0, 0.5)
-        # Compute corresponding u_s0 and strain for reference
+        L = st.number_input("Support distance L (m)", 0.0, 30.0, 2.0, 0.25)
         Xstar_show = L / a
         ustar_show = ldp(ldp_method, Xstar_show, _Rstar_prev, alpha_panet)
         _us0_show = ustar_show * _u_max_prev
         st.caption(f"→ u_s0 = {_us0_show:.2f} mm, "
-                   f"strain ε = {_us0_show / (a*1000) * 100:.3f} %")
+                   f"ε = {_us0_show / (a*1000) * 100:.3f} %")
     elif install_method == "Target displacement u_s0":
         us0_target = st.number_input("Target u_s0 (mm)", 0.0, 500.0,
                                      min(20.0, float(_u_max_prev) * 0.9), 0.5)
-        # Back-solve L from LDP: find X* such that u*(X*) = us0_target / u_max
-        target_ustar = us0_target / _u_max_prev if _u_max_prev > 0 else 0
-        target_ustar = min(target_ustar, 0.999)
+        target_ustar = min(us0_target / _u_max_prev if _u_max_prev > 0 else 0, 0.999)
         L = _back_solve_L_from_ustar(target_ustar, ldp_method, _Rstar_prev,
                                      alpha_panet, a)
         st.caption(f"→ L = {L:.2f} m, "
-                   f"strain ε = {us0_target / (a*1000) * 100:.3f} %")
-    else:  # strain criterion
+                   f"ε = {us0_target / (a*1000) * 100:.3f} %")
+    else:
         strain_pct = st.number_input("Target convergence ε (%)", 0.0, 10.0,
                                      0.2, 0.01,
                                      help="Strain = u_s0 / a × 100%")
-        us0_target = strain_pct / 100 * a * 1000  # mm
-        target_ustar = us0_target / _u_max_prev if _u_max_prev > 0 else 0
-        target_ustar = min(target_ustar, 0.999)
+        us0_target = strain_pct / 100 * a * 1000
+        target_ustar = min(us0_target / _u_max_prev if _u_max_prev > 0 else 0, 0.999)
         L = _back_solve_L_from_ustar(target_ustar, ldp_method, _Rstar_prev,
                                      alpha_panet, a)
         st.caption(f"→ u_s0 = {us0_target:.2f} mm, L = {L:.2f} m")
 
+# ----------------------------------------------------------------------------
+# CATEGORY 3: SUPPORT SYSTEM
+# ----------------------------------------------------------------------------
 st.sidebar.header("🔩 Support System")
 supports = []
 
 with st.sidebar.expander("**Shotcrete / Concrete lining**", expanded=True):
-    use_concrete = st.checkbox("Add concrete lining", value=True)
+    use_concrete = st.checkbox("Add shotcrete / concrete lining", value=True)
     if use_concrete:
-        sigma_ci_lining = st.number_input("σ_ci,lining (MPa)", 20.0, 200.0, 60.0, 5.0,
-                                          key="sc_ci")
-        Ec = st.number_input("E_c (GPa)", 10.0, 80.0, 40.0, 1.0, key="sc_Ec") * 1000
-        nu_c = st.number_input("ν_c", 0.0, 0.5, 0.25, 0.01, key="sc_nuc")
-        t = st.number_input("Thickness t (m)", 0.05, 2.0, 0.5, 0.05, key="sc_t")
+        sigma_ci_lining = st.number_input("σ_ci,lining (MPa)", 5.0, 200.0, 35.0, 1.0,
+                                          key="sc_ci",
+                                          help="28-day UCS: shotcrete ~30-40 MPa, "
+                                               "concrete ~40-60 MPa.")
+        Ec = st.number_input("E_c (GPa)", 5.0, 80.0, 30.0, 1.0, key="sc_Ec",
+                              help="Young's modulus at 28 days.") * 1000
+        nu_c = st.number_input("ν_c", 0.0, 0.5, 0.2, 0.01, key="sc_nuc")
+        t = st.number_input("Thickness t (m)", 0.01, 2.0, 0.05, 0.01, key="sc_t",
+                             help="Shotcrete typically 50-200 mm, "
+                                  "concrete lining 200-1000 mm.")
         c_props = support_concrete(sigma_ci_lining, Ec, nu_c, t, a)
-        c_props["name"] = "Concrete lining"; c_props["t"] = t
+        c_props["name"] = "Shotcrete / concrete lining"; c_props["t"] = t
         supports.append(c_props)
-        st.caption(f"→ p_sm = {c_props['psm']:.2f} MPa, "
-                   f"k_s = {c_props['ks']:.0f} MPa/m, "
-                   f"u_sm = {c_props['usm']:.2f} mm")
+        st.caption(f"→ p_sm = {c_props['psm']:.3f} MPa, "
+                   f"k_s = {c_props['ks']:.1f} MPa/m, "
+                   f"u_sm = {c_props['usm']:.3f} mm")
 
 with st.sidebar.expander("**Rockbolts**", expanded=False):
     use_bolts = st.checkbox("Add rockbolts", value=False)
@@ -1005,7 +1194,7 @@ with st.sidebar.expander("**Rockbolts**", expanded=False):
         b_props["name"] = f"Rockbolts ({rb_type})"
         supports.append(b_props)
         st.caption(f"→ p_sm = {b_props['psm']:.3f} MPa, "
-                   f"u_sm = {b_props['usm']:.1f} mm")
+                   f"u_sm = {b_props['usm']:.2f} mm")
 
 with st.sidebar.expander("**Steel sets**", expanded=False):
     use_sets = st.checkbox("Add steel sets", value=False)
@@ -1015,18 +1204,18 @@ with st.sidebar.expander("**Steel sets**", expanded=False):
         ss_props = support_steel_set(set_type, ss_spacing, a)
         ss_props["name"] = f"Steel sets ({set_type})"
         supports.append(ss_props)
-        st.caption(f"→ p_sm = {ss_props['psm']:.2f} MPa, "
-                   f"u_sm = {ss_props['usm']:.1f} mm")
+        st.caption(f"→ p_sm = {ss_props['psm']:.3f} MPa, "
+                   f"u_sm = {ss_props['usm']:.2f} mm")
 
 with st.sidebar.expander("**Custom support**", expanded=False):
     use_custom = st.checkbox("Add custom support", value=False)
     if use_custom:
-        cust_psm = st.number_input("p_sm (MPa)", 0.1, 50.0, 1.0, 0.1)
-        cust_ks = st.number_input("k_s (MPa/m)", 1.0, 5000.0, 500.0, 10.0)
+        cust_psm = st.number_input("p_sm (MPa)", 0.01, 50.0, 0.5, 0.05)
+        cust_ks = st.number_input("k_s (MPa/m)", 1.0, 10000.0, 100.0, 10.0)
         cust_usm = cust_psm / cust_ks * 1000
         supports.append({"psm": cust_psm, "ks": cust_ks, "usm": cust_usm,
                          "name": "Custom"})
-        st.caption(f"→ u_sm = {cust_usm:.2f} mm (computed)")
+        st.caption(f"→ u_sm = {cust_usm:.2f} mm")
 
 params = dict(
     sigma_ci=sigma_ci, E_i=E_i, mi=mi, GSI=GSI, D=D, nu=nu,
