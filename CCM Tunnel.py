@@ -7,40 +7,38 @@ from scipy.optimize import brentq
 # PAGE CONFIG
 # =============================================================================
 st.set_page_config(
-    page_title="CCM — RSE3010 (Patched)",
+    page_title="CCM — RSE3010",
     page_icon="⛰️",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
+# Theme-safe CSS only: spacing, borders, rounding.
+# No hard-coded page/sidebar colours so Light/Dark/System all behave properly.
 st.markdown(
     """
 <style>
     .main > div { padding-top: 1rem; }
-    .stMetric {
-        background-color: #f8f9fa;
-        padding: 0.75rem;
-        border-radius: 0.5rem;
-        border-left: 3px solid #1F4E78;
+    .block-container { padding-top: 1.2rem; padding-bottom: 2rem; }
+    h1, h2, h3 { letter-spacing: -0.01em; }
+    div[data-testid="stMetric"] {
+        border: 1px solid rgba(128,128,128,0.25);
+        border-radius: 0.75rem;
+        padding: 0.35rem 0.45rem;
     }
-    .stMetric label { font-size: 0.85rem !important; color: #555 !important; }
-    h1 { color: #1F4E78; border-bottom: 2px solid #1F4E78; padding-bottom: 0.3rem; }
-    h2 { color: #2E5984; margin-top: 1.2rem; }
-    h3 { color: #4A7BA7; }
-    .block-container { padding-top: 1.6rem; padding-bottom: 2rem; }
-    section[data-testid="stSidebar"] { background-color: #f7f9fc; }
+    div[data-testid="stExpander"] {
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
 </style>
 """,
     unsafe_allow_html=True,
 )
 
-st.title("RSE3010 — Convergence–Confinement Method (CCM) Interactive App")
-st.caption(
-    "Patched version with improved multi-support SCC handling, more robust equilibrium solving, and clearer teaching outputs."
-)
+st.title("RSE3010 — Convergence–Confinement Method (CCM)")
 
 # =============================================================================
-# CORE CALCULATIONS — HOEK-BROWN & ROCK MASS
+# CORE CALCULATIONS
 # =============================================================================
 
 def hoek_brown_params(GSI, mi, D):
@@ -55,16 +53,12 @@ def rock_mass_modulus(E_i, GSI, D):
 
 
 def hoek_to_mc_fit(sigma_ci, mb, s, a_HB, sig3_max):
-    """Hoek (2002) closed-form equivalent MC parameters over 0 <= sigma3 <= sig3_max."""
     sig3n = sig3_max / sigma_ci
     base = s + mb * sig3n
     pwr = base ** (a_HB - 1.0)
-
     num_phi = 6.0 * a_HB * mb * pwr
     den_phi = 2.0 * (1.0 + a_HB) * (2.0 + a_HB) + 6.0 * a_HB * mb * pwr
-    ratio = np.clip(num_phi / den_phi, -1.0, 1.0)
-    phi = np.degrees(np.arcsin(ratio))
-
+    phi = np.degrees(np.arcsin(np.clip(num_phi / den_phi, -1.0, 1.0)))
     num_c = sigma_ci * ((1.0 + 2.0 * a_HB) * s + (1.0 - a_HB) * mb * sig3n) * pwr
     den_c = (1.0 + a_HB) * (2.0 + a_HB) * np.sqrt(
         1.0 + 6.0 * a_HB * mb * pwr / ((1.0 + a_HB) * (2.0 + a_HB))
@@ -72,10 +66,6 @@ def hoek_to_mc_fit(sigma_ci, mb, s, a_HB, sig3_max):
     c = num_c / den_c
     return float(phi), float(c)
 
-
-# =============================================================================
-# GRC METHODS
-# =============================================================================
 
 def critical_pressure_mc(p0, phi_deg, c):
     phi = np.radians(phi_deg)
@@ -101,7 +91,6 @@ def grc_duncan_fama(pi, p0, a, nu, Em, phi_deg, c):
     k = (1.0 + np.sin(phi)) / (1.0 - np.sin(phi))
     sigma_cm = 2.0 * c * np.cos(phi) / (1.0 - np.sin(phi))
     pcr = (2.0 * p0 - sigma_cm) / (1.0 + k)
-
     if pi >= pcr:
         ur = (1.0 + nu) * (p0 - pi) * a / Em
     else:
@@ -116,7 +105,6 @@ def grc_salencon(pi, p0, a, nu, Em, phi_deg, c):
     k = (1.0 + np.sin(phi)) / (1.0 - np.sin(phi))
     sigma_cm = 2.0 * c * np.cos(phi) / (1.0 - np.sin(phi))
     pcr = (2.0 * p0 - sigma_cm) / (1.0 + k)
-
     if pi >= pcr:
         ur = (1.0 + nu) * (p0 - pi) * a / Em
     else:
@@ -134,7 +122,6 @@ def grc_vrakas_anagnostou(pi, p0, a, nu, Em, phi_deg, c, psi_deg=0.0):
     k_psi = (1.0 + np.sin(psi)) / (1.0 - np.sin(psi)) if psi_deg > 0 else 1.0
     sigma_cm = 2.0 * c * np.cos(phi) / (1.0 - np.sin(phi))
     pcr = (2.0 * p0 - sigma_cm) / (1.0 + k)
-
     if pi >= pcr:
         ur = (1.0 + nu) * (p0 - pi) * a / Em
     else:
@@ -142,31 +129,25 @@ def grc_vrakas_anagnostou(pi, p0, a, nu, Em, phi_deg, c, psi_deg=0.0):
         Rp = a * ((2.0 * (p0 * (k - 1.0) + sigma_cm)) / ((1.0 + k) * (pi * (k - 1.0) + sigma_cm))) ** (1.0 / (k - 1.0))
         ur_ss = ur_pcr * (Rp / a) ** 2
         strain = ur_ss / a
-        correction = 1.0 + 0.5 * strain * k_psi
-        ur = ur_ss * correction
+        ur = ur_ss * (1.0 + 0.5 * strain * k_psi)
     return ur * 1000.0
 
 
 def grc_brown_et_al(pi, p0, a, nu, Em, sigma_ci, mb, s, a_HB):
     def sig1_hb(sig3):
         return sig3 + sigma_ci * np.sqrt(max(mb * sig3 / sigma_ci + s, 0.0))
-
     def pcr_residual(p):
         return (2.0 * p0 - p) - sig1_hb(p)
-
     try:
         pcr = brentq(pcr_residual, 0.0, p0, xtol=1e-8)
     except ValueError:
         pcr = -1.0
-
     if pi >= pcr:
         ur = (1.0 + nu) * (p0 - pi) * a / Em
     else:
         sigma_cm_0 = sigma_ci * np.sqrt(max(s, 0.0))
         sig3_ref = max(pi, 0.05 * p0, 1e-6)
-        k_sec = (sig1_hb(sig3_ref) - sigma_cm_0) / sig3_ref
-        k_sec = max(k_sec, 1.01)
-
+        k_sec = max((sig1_hb(sig3_ref) - sigma_cm_0) / sig3_ref, 1.01)
         Rp = a * ((2.0 * (p0 * (k_sec - 1.0) + sigma_cm_0)) / ((1.0 + k_sec) * (pi * (k_sec - 1.0) + sigma_cm_0))) ** (1.0 / (k_sec - 1.0))
         ur_pcr = (1.0 + nu) * (p0 - pcr) * a / Em
         ur = ur_pcr * (Rp / a) ** 2
@@ -176,23 +157,18 @@ def grc_brown_et_al(pi, p0, a, nu, Em, sigma_ci, mb, s, a_HB):
 def grc_carranza_torres_hb(pi, p0, a, nu, Em, sigma_ci, mb, s, a_HB):
     def sig1_hb(sig3):
         return sig3 + sigma_ci * max(mb * sig3 / sigma_ci + s, 0.0) ** a_HB
-
     def pcr_residual(p):
         return (2.0 * p0 - p) - sig1_hb(p)
-
     try:
         pcr = brentq(pcr_residual, 0.0, p0, xtol=1e-8)
     except ValueError:
         pcr = -1.0
-
     if pi >= pcr:
         ur = (1.0 + nu) * (p0 - pi) * a / Em
     else:
         tangent_base = max(mb * pi / sigma_ci + s, 1e-10)
-        k_tang = 1.0 + a_HB * mb * tangent_base ** (a_HB - 1.0)
+        k_tang = max(1.0 + a_HB * mb * tangent_base ** (a_HB - 1.0), 1.01)
         sigma_cm_tang = sig1_hb(pi) - k_tang * pi
-        k_tang = max(k_tang, 1.01)
-
         Rp = a * ((2.0 * (p0 * (k_tang - 1.0) + sigma_cm_tang)) / ((1.0 + k_tang) * (pi * (k_tang - 1.0) + sigma_cm_tang))) ** (1.0 / (k_tang - 1.0))
         ur_pcr = (1.0 + nu) * (p0 - pcr) * a / Em
         ur = ur_pcr * (Rp / a) ** 2
@@ -214,7 +190,7 @@ def grc_displacement(method, pi, p0, a, nu, Em, **kwargs):
 
 
 # =============================================================================
-# LDP METHODS
+# LDP
 # =============================================================================
 
 def ldp_panet(Xstar, alpha=0.75):
@@ -247,15 +223,12 @@ def ldp(method, Xstar, Rstar=1.0, alpha=0.75):
 
 def back_solve_L_from_ustar(target_ustar, method, Rstar, alpha, a, L_min=-2.0, L_max=30.0):
     target_ustar = float(np.clip(target_ustar, 1e-6, 0.999))
-
     def residual(L_trial):
         return ldp(method, L_trial / a, Rstar, alpha) - target_ustar
-
     lo = L_min * a
     hi = L_max * a
     xs = np.linspace(lo, hi, 400)
     vals = np.array([residual(x) for x in xs])
-
     for i in range(len(xs) - 1):
         if vals[i] == 0:
             return xs[i]
@@ -264,12 +237,11 @@ def back_solve_L_from_ustar(target_ustar, method, Rstar, alpha, a, L_min=-2.0, L
                 return brentq(residual, xs[i], xs[i + 1], xtol=1e-5)
             except Exception:
                 break
-
     return 3.0
 
 
 # =============================================================================
-# SUPPORT SYSTEMS
+# SUPPORTS
 # =============================================================================
 
 def support_concrete(sigma_ci, Ec, nu_c, t, a):
@@ -320,8 +292,7 @@ def support_response_at_u(u_mm, us0_mm, supports):
     du_m = max(0.0, (u_mm - us0_mm) / 1000.0)
     p_total = 0.0
     for s in supports:
-        p_i = min(s["ks"] * du_m, s["psm"])
-        p_total += p_i
+        p_total += min(s["ks"] * du_m, s["psm"])
     return p_total
 
 
@@ -329,16 +300,8 @@ def support_capacity_total(supports):
     return sum(s["psm"] for s in supports) if supports else 0.0
 
 
-def support_breakpoints(us0_mm, supports):
-    bps = [us0_mm]
-    for s in supports:
-        if s["ks"] > 0:
-            bps.append(us0_mm + (s["psm"] / s["ks"]) * 1000.0)
-    return sorted(set(bps))
-
-
 # =============================================================================
-# EQUILIBRIUM SOLVER
+# EQUILIBRIUM
 # =============================================================================
 
 def build_grc_u_of_p(grc_method, p0, a, nu, Em, grc_kwargs):
@@ -350,44 +313,29 @@ def build_grc_u_of_p(grc_method, p0, a, nu, Em, grc_kwargs):
 def solve_equilibrium(grc_u, supports, us0_mm, p0, n_grid=600):
     if not supports:
         return {"p_eq": None, "u_eq": None, "FoS": None, "saturated": False, "valid": False}
-
     psm_total = support_capacity_total(supports)
     p_grid = np.linspace(0.0, min(p0, psm_total), n_grid)
     u_grid = np.array([grc_u(p) for p in p_grid])
     p_scc_grid = np.array([support_response_at_u(u, us0_mm, supports) for u in u_grid])
     residual = p_grid - p_scc_grid
-
     if np.all(residual < 0):
-        u_sat_candidates = []
-        for s in supports:
-            if s["ks"] > 0:
-                u_sat_candidates.append(us0_mm + (s["psm"] / s["ks"]) * 1000.0)
-        u_sat = max(u_sat_candidates) if u_sat_candidates else us0_mm
-        return {"p_eq": psm_total, "u_eq": u_sat, "FoS": 1.0, "saturated": True, "valid": True}
-
+        return {"p_eq": psm_total, "u_eq": float(np.max(u_grid)), "FoS": 1.0, "saturated": True, "valid": True}
     sign_change_idx = None
     for i in range(len(residual) - 1):
-        if residual[i] == 0:
+        if residual[i] == 0 or residual[i] * residual[i + 1] < 0:
             sign_change_idx = i
             break
-        if residual[i] * residual[i + 1] < 0:
-            sign_change_idx = i
-            break
-
     if sign_change_idx is None:
         j = int(np.argmin(np.abs(residual)))
         p_eq = p_grid[j]
         u_eq = u_grid[j]
         fos = psm_total / p_eq if p_eq > 1e-9 else None
         return {"p_eq": float(p_eq), "u_eq": float(u_eq), "FoS": float(fos) if fos is not None else None, "saturated": False, "valid": True}
-
     p_lo = p_grid[sign_change_idx]
     p_hi = p_grid[min(sign_change_idx + 1, len(p_grid) - 1)]
-
     def residual_p(p):
         u = grc_u(p)
         return p - support_response_at_u(u, us0_mm, supports)
-
     try:
         p_eq = brentq(residual_p, p_lo, p_hi, xtol=1e-7, maxiter=200)
         u_eq = grc_u(p_eq)
@@ -401,14 +349,9 @@ def solve_equilibrium(grc_u, supports, us0_mm, p0, n_grid=600):
         return {"p_eq": float(p_eq), "u_eq": float(u_eq), "FoS": float(fos) if fos is not None else None, "saturated": False, "valid": True}
 
 
-# =============================================================================
-# FULL ANALYSIS
-# =============================================================================
-
 def run_analysis(params):
     p = params
     p0 = p["gamma"] * p["z"] / 1000.0
-
     hb = hoek_brown_params(p["GSI"], p["mi"], p["D"])
     Em = rock_mass_modulus(p["E_i"], p["GSI"], p["D"])
     sigma_cm_HB = p["sigma_ci"] * hb["s"] ** hb["a_HB"]
@@ -439,7 +382,6 @@ def run_analysis(params):
 
     supports = p["supports"]
     psm_total = support_capacity_total(supports)
-
     if supports:
         fos_result = solve_equilibrium(grc_fn, supports, us0, p0)
     else:
@@ -451,18 +393,12 @@ def run_analysis(params):
         Rp_sup = Rp_unsup
 
     warnings = []
-    if pcr < 0:
-        warnings.append("Critical pressure p_cr is negative; check parameters or method assumptions.")
-    if u_max < 0:
-        warnings.append("Maximum displacement is negative, which is non-physical.")
-    if us0 > u_max:
-        warnings.append("Support installation displacement u_s0 exceeds u_max; installation timing is non-physical.")
     if Rp_unsup / p["a"] > 3.0:
-        warnings.append("Large plastic zone (R_p/a > 3). Results may indicate severe squeezing or method limitations.")
+        warnings.append("Large plastic zone (R_p/a > 3). Check assumptions and consider severe squeezing behaviour.")
     if fos_result.get("FoS") is not None and fos_result["FoS"] < 1.0:
-        warnings.append("FoS < 1.0. Support is inadequate at the current settings.")
+        warnings.append("FoS < 1.0. Current support is inadequate.")
     if p["grc_method"] in ["Brown et al. (HB, 1983)", "Carranza-Torres (HB, 2004)"]:
-        warnings.append("Selected H-B GRC method is a teaching-oriented approximation, not a full RocSupport replacement.")
+        warnings.append("Selected H-B GRC method is an approximate teaching implementation.")
 
     return {
         "p0": p0,
@@ -482,7 +418,6 @@ def run_analysis(params):
         "u_star": u_star,
         "us0": us0,
         "psm_total": psm_total,
-        "support_breakpoints": support_breakpoints(us0, supports) if supports else [us0],
         "grc_fn": grc_fn,
         "supports": supports,
         "warnings": warnings,
@@ -495,15 +430,12 @@ def run_analysis(params):
 # PLOTS
 # =============================================================================
 
-PALETTE = {
-    "grc": "#1F4E78",
-    "scc": "#C00000",
-    "ldp": "#2E7D32",
-    "highlight": "#FF6B35",
-    "elastic_zone": "#e8d99a",
-    "plastic_zone": "#f4c2a8",
-    "tunnel": "#ffffff",
-    "support": "#C00000",
+PLOT_COLORS = {
+    "grc": "#2E86DE",
+    "scc": "#E74C3C",
+    "ldp": "#27AE60",
+    "highlight": "#8E44AD",
+    "neutral": "#7F8C8D",
 }
 
 
@@ -511,119 +443,58 @@ def plot_grc_scc(result, params):
     p0 = result["p0"]
     pi_range = np.linspace(0.0, p0, 300)
     u_grc = np.array([result["grc_fn"](pi) for pi in pi_range])
-
     max_u = max(result["u_max"], result["us0"] + 50.0)
     if result.get("u_eq") is not None:
         max_u = max(max_u, result["u_eq"] * 1.2)
     u_plot = np.linspace(0.0, max_u * 1.15, 400)
+    p_scc = np.array([support_response_at_u(u, result["us0"], result["supports"]) for u in u_plot]) if params["supports"] else np.zeros_like(u_plot)
 
     fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=u_grc, y=pi_range, mode="lines",
-        line=dict(color=PALETTE["grc"], width=3),
-        name="Ground Reaction Curve (GRC)"
-    ))
-
-    if result["is_plastic"]:
-        fig.add_hline(
-            y=result["pcr"],
-            line=dict(color=PALETTE["grc"], width=1, dash="dot"),
-            annotation_text=f"p_cr = {result['pcr']:.2f} MPa",
-            annotation_position="right",
-            annotation_font_color=PALETTE["grc"],
-        )
-
+    fig.add_trace(go.Scatter(x=u_grc, y=pi_range, mode="lines", line=dict(color=PLOT_COLORS["grc"], width=3), name="GRC"))
     if params["supports"]:
-        p_scc = np.array([support_response_at_u(u, result["us0"], result["supports"]) for u in u_plot])
-        fig.add_trace(go.Scatter(
-            x=u_plot, y=p_scc, mode="lines",
-            line=dict(color=PALETTE["scc"], width=3, dash="dash"),
-            name="Support Characteristic Curve (SCC)"
-        ))
-        fig.add_trace(go.Scatter(
-            x=[result["us0"]], y=[0.0], mode="markers",
-            marker=dict(size=11, color="gold", line=dict(color=PALETTE["scc"], width=2)),
-            name="Support installation point"
-        ))
-
+        fig.add_trace(go.Scatter(x=u_plot, y=p_scc, mode="lines", line=dict(color=PLOT_COLORS["scc"], width=3, dash="dash"), name="SCC"))
+        fig.add_trace(go.Scatter(x=[result["us0"]], y=[0.0], mode="markers", marker=dict(size=10, color=PLOT_COLORS["highlight"]), name="u_s0"))
     if result.get("p_eq") is not None:
-        fos = result["FoS"]
-        verdict = "Safe" if fos is not None and fos >= 1.5 else "Marginal" if fos is not None and fos >= 1.0 else "Unsafe"
-        color = "#2E7D32" if fos is not None and fos >= 1.5 else "#F57C00" if fos is not None and fos >= 1.0 else "#C62828"
-        fig.add_trace(go.Scatter(
-            x=[result["u_eq"]], y=[result["p_eq"]], mode="markers",
-            marker=dict(size=14, color=color, symbol="circle", line=dict(color="white", width=2)),
-            name=f"Intersection: p={result['p_eq']:.2f} MPa, FoS={fos:.2f} ({verdict})" if fos is not None else "Intersection"
-        ))
-        fig.add_annotation(
-            x=result["u_eq"], y=result["p_eq"],
-            text=f"<b>p_eq = {result['p_eq']:.2f} MPa</b>",
-            showarrow=True, arrowhead=2, ax=60, ay=-40,
-            font=dict(size=11, color=color),
-            bgcolor="white", bordercolor=color, borderwidth=1,
-        )
-
+        fig.add_trace(go.Scatter(x=[result["u_eq"]], y=[result["p_eq"]], mode="markers", marker=dict(size=12, color="black"), name=f"Intersection (FoS={result['FoS']:.2f})"))
+    if result["is_plastic"]:
+        fig.add_hline(y=result["pcr"], line=dict(color=PLOT_COLORS["neutral"], dash="dot"), annotation_text=f"p_cr = {result['pcr']:.2f} MPa")
     fig.update_layout(
-        title=f"Ground Reaction & Support Reaction — {params['grc_method']}",
-        xaxis_title="Tunnel wall displacement u_i (mm)",
-        yaxis_title="Support pressure p_i (MPa)",
-        height=520,
-        hovermode="closest",
-        legend=dict(yanchor="top", y=0.98, xanchor="right", x=0.98,
-                    bgcolor="rgba(255,255,255,0.92)", bordercolor="#ccc", borderwidth=1,
-                    font=dict(size=10)),
-        paper_bgcolor="white", plot_bgcolor="#fafafa",
-        font=dict(family="Georgia, serif", size=12),
+        title="Ground Reaction & Support Reaction",
+        xaxis_title="Tunnel wall displacement uᵢ (mm)",
+        yaxis_title="Support pressure pᵢ (MPa)",
+        height=500,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        legend=dict(borderwidth=0),
     )
-    fig.update_xaxes(gridcolor="#e5e5e5", linecolor="#333", mirror=True, showline=True, range=[0.0, max_u * 1.15])
-    fig.update_yaxes(gridcolor="#e5e5e5", linecolor="#333", mirror=True, showline=True, range=[0.0, p0 * 1.05])
+    fig.update_xaxes(showgrid=True, gridcolor="rgba(128,128,128,0.18)")
+    fig.update_yaxes(showgrid=True, gridcolor="rgba(128,128,128,0.18)")
     return fig
 
 
 def plot_ldp(result, params):
     Rstar = result["Rstar"]
     Xstar_range = np.linspace(-5.0, 10.0, 400)
-
     fig = go.Figure()
     methods = ["Panet (1995)", "Vlachopoulos & Diederichs (2009)", "Hoek (2002)"]
-    colors = ["#888", "#888", "#888"]
-    widths = [1.5, 1.5, 1.5]
-    for i, m in enumerate(methods):
-        if m == params["ldp_method"]:
-            colors[i] = PALETTE["ldp"]
-            widths[i] = 3.5
-
-    for m, col, w in zip(methods, colors, widths):
+    for m in methods:
+        width = 3.2 if m == params["ldp_method"] else 1.5
+        color = PLOT_COLORS["ldp"] if m == params["ldp_method"] else PLOT_COLORS["neutral"]
         u_vals = np.array([ldp(m, x, Rstar, params.get("alpha_panet", 0.75)) * 100.0 for x in Xstar_range])
-        fig.add_trace(go.Scatter(x=Xstar_range, y=u_vals, mode="lines", line=dict(color=col, width=w), name=m))
-
-    fig.add_vline(x=0.0, line=dict(color="black", width=2), annotation_text="Tunnel face", annotation_position="top")
-    fig.add_vline(x=result["Xstar"], line=dict(color=PALETTE["highlight"], width=2, dash="dash"), annotation_text=f"Support (L={params['L']:.2f} m)", annotation_position="top")
-    fig.add_trace(go.Scatter(
-        x=[result["Xstar"]], y=[result["u_star"] * 100.0], mode="markers",
-        marker=dict(size=14, color=PALETTE["highlight"], symbol="star", line=dict(color="white", width=2)),
-        name=f"u_s0 point: u*={result['u_star']:.2f}"
-    ))
-
-    fig.add_annotation(x=-4.0, y=5.0, text="← <b>Ahead</b><br>(not yet excavated)", showarrow=False,
-                       font=dict(size=11, color="#555"), bgcolor="rgba(255,255,255,0.7)")
-    fig.add_annotation(x=8.0, y=95.0, text="<b>Behind face</b> →<br>(excavated)", showarrow=False,
-                       font=dict(size=11, color="#555"), bgcolor="rgba(255,255,255,0.7)")
-
+        fig.add_trace(go.Scatter(x=Xstar_range, y=u_vals, mode="lines", line=dict(color=color, width=width), name=m))
+    fig.add_vline(x=0.0, line=dict(color=PLOT_COLORS["neutral"], width=2), annotation_text="Tunnel face")
+    fig.add_vline(x=result["Xstar"], line=dict(color=PLOT_COLORS["highlight"], width=2, dash="dash"), annotation_text=f"L = {params['L']:.2f} m")
+    fig.add_trace(go.Scatter(x=[result["Xstar"]], y=[result["u_star"] * 100.0], mode="markers", marker=dict(size=11, color=PLOT_COLORS["highlight"]), name="u* point"))
     fig.update_layout(
-        title="Longitudinal Deformation Profiles",
-        xaxis_title="Normalised distance X* = X/a (positive = behind face)",
+        title="Longitudinal Deformation Profile",
+        xaxis_title="Normalised distance X* = X/a",
         yaxis_title="u / u_max (%)",
-        height=480,
-        hovermode="x",
-        legend=dict(yanchor="bottom", y=0.02, xanchor="right", x=0.98,
-                    bgcolor="rgba(255,255,255,0.92)", bordercolor="#ccc", borderwidth=1,
-                    font=dict(size=10)),
-        paper_bgcolor="white", plot_bgcolor="#fafafa",
-        font=dict(family="Georgia, serif", size=11),
+        height=460,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
     )
-    fig.update_xaxes(gridcolor="#e5e5e5", linecolor="#333", mirror=True, showline=True, autorange="reversed")
-    fig.update_yaxes(gridcolor="#e5e5e5", linecolor="#333", mirror=True, showline=True, range=[0.0, 110.0])
+    fig.update_xaxes(showgrid=True, gridcolor="rgba(128,128,128,0.18)", autorange="reversed")
+    fig.update_yaxes(showgrid=True, gridcolor="rgba(128,128,128,0.18)", range=[0, 110])
     return fig
 
 
@@ -632,78 +503,22 @@ def plot_tunnel_section(result, params):
     Rp_unsup = result["Rp_unsup"]
     Rp_sup = result["Rp_sup"]
     theta = np.linspace(0.0, 2.0 * np.pi, 200)
-
     fig = go.Figure()
-
     if Rp_unsup > a:
-        fig.add_trace(go.Scatter(
-            x=Rp_unsup * np.cos(theta), y=Rp_unsup * np.sin(theta),
-            mode="lines", line=dict(color="#aaa", dash="dot", width=1.5),
-            name=f"Unsupported plastic zone: {Rp_unsup:.2f} m",
-            fill="toself", fillcolor=PALETTE["elastic_zone"], opacity=0.35
-        ))
-
-    if params["supports"] and Rp_sup > a and Rp_sup < Rp_unsup:
-        fig.add_trace(go.Scatter(
-            x=Rp_sup * np.cos(theta), y=Rp_sup * np.sin(theta),
-            mode="lines", line=dict(color="#d4827b", width=2),
-            name=f"Supported plastic zone: {Rp_sup:.2f} m",
-            fill="toself", fillcolor=PALETTE["plastic_zone"], opacity=0.55
-        ))
-    elif Rp_unsup > a and not params["supports"]:
-        fig.add_trace(go.Scatter(
-            x=Rp_unsup * np.cos(theta), y=Rp_unsup * np.sin(theta),
-            mode="lines", line=dict(color="#d4827b", width=2),
-            name=f"Plastic zone: {Rp_unsup:.2f} m",
-            fill="toself", fillcolor=PALETTE["plastic_zone"], opacity=0.55
-        ))
-
-    fig.add_trace(go.Scatter(
-        x=a * np.cos(theta), y=a * np.sin(theta),
-        mode="lines", line=dict(color="black", width=2),
-        name=f"Tunnel (r = {a:.2f} m)",
-        fill="toself", fillcolor=PALETTE["tunnel"]
-    ))
-
-    if params["supports"]:
-        for s in params["supports"]:
-            if "t" in s:
-                t = s["t"]
-                fig.add_trace(go.Scatter(
-                    x=(a - t) * np.cos(theta), y=(a - t) * np.sin(theta),
-                    mode="lines", line=dict(color=PALETTE["support"], width=2),
-                    name=f"Lining ({t * 1000:.0f} mm)"
-                ))
-                break
-
-    if result.get("p_eq") is not None:
-        n_arrows = 12
-        arrow_theta = np.linspace(0.0, 2.0 * np.pi, n_arrows, endpoint=False)
-        for th in arrow_theta:
-            fig.add_annotation(
-                x=a * 0.95 * np.cos(th), y=a * 0.95 * np.sin(th),
-                ax=a * 0.75 * np.cos(th), ay=a * 0.75 * np.sin(th),
-                xref="x", yref="y", axref="x", ayref="y",
-                showarrow=True, arrowhead=3, arrowsize=1, arrowwidth=2,
-                arrowcolor=PALETTE["support"],
-            )
-        fig.add_annotation(x=0.0, y=0.0, text=f"<b>p_eq = {result['p_eq']:.2f} MPa</b>", showarrow=False,
-                           font=dict(size=13, color=PALETTE["support"]))
-
-    max_r = max(Rp_unsup, a) * 1.3
+        fig.add_trace(go.Scatter(x=Rp_unsup * np.cos(theta), y=Rp_unsup * np.sin(theta), mode="lines", line=dict(color=PLOT_COLORS["neutral"], dash="dot"), name=f"Unsupported R_p = {Rp_unsup:.2f} m"))
+    if params["supports"] and Rp_sup > a:
+        fig.add_trace(go.Scatter(x=Rp_sup * np.cos(theta), y=Rp_sup * np.sin(theta), mode="lines", line=dict(color=PLOT_COLORS["scc"], width=2), name=f"Supported R_p = {Rp_sup:.2f} m"))
+    fig.add_trace(go.Scatter(x=a * np.cos(theta), y=a * np.sin(theta), mode="lines", line=dict(color=PLOT_COLORS["grc"], width=3), name=f"Tunnel radius = {a:.2f} m"))
     fig.update_layout(
         title="Tunnel Section View",
-        xaxis=dict(title="x (m)", range=[-max_r, max_r], gridcolor="#e5e5e5", showline=True,
-                   linecolor="#333", scaleanchor="y", scaleratio=1, zeroline=False),
-        yaxis=dict(title="y (m)", range=[-max_r, max_r], gridcolor="#e5e5e5", showline=True,
-                   linecolor="#333", zeroline=False),
-        height=500,
-        paper_bgcolor="white",
-        plot_bgcolor="#fafafa",
-        font=dict(family="Georgia, serif", size=11),
-        legend=dict(yanchor="top", y=0.98, xanchor="left", x=0.02,
-                    bgcolor="rgba(255,255,255,0.92)", bordercolor="#ccc", borderwidth=1, font=dict(size=10)),
+        height=480,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=dict(scaleanchor="y", scaleratio=1, title="x (m)"),
+        yaxis=dict(title="y (m)"),
     )
+    fig.update_xaxes(showgrid=True, gridcolor="rgba(128,128,128,0.18)")
+    fig.update_yaxes(showgrid=True, gridcolor="rgba(128,128,128,0.18)")
     return fig
 
 
@@ -711,137 +526,104 @@ def plot_envelope(result, params):
     sigma_ci = params["sigma_ci"]
     mb, s, a_HB = result["mb"], result["s"], result["a_HB"]
     phi_deg, c = result["phi_deg"], result["c"]
-
     sig3_max = params.get("sig3_max", max(5.0, result["p0"]))
     sig3 = np.linspace(0.0, sig3_max, 100)
     sig1_hb = sig3 + sigma_ci * (mb * sig3 / sigma_ci + s) ** a_HB
     phi = np.radians(phi_deg)
     k = (1.0 + np.sin(phi)) / (1.0 - np.sin(phi))
     sig1_mc = 2.0 * c * np.cos(phi) / (1.0 - np.sin(phi)) + k * sig3
-
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=sig3, y=sig1_hb, mode="lines", line=dict(color=PALETTE["grc"], width=3), name="Hoek-Brown envelope"))
-    fig.add_trace(go.Scatter(x=sig3, y=sig1_mc, mode="lines", line=dict(color=PALETTE["scc"], width=2.5, dash="dash"), name=f"MC fit (φ={phi_deg:.1f}°, c={c:.2f} MPa)"))
+    fig.add_trace(go.Scatter(x=sig3, y=sig1_hb, mode="lines", line=dict(color=PLOT_COLORS["grc"], width=3), name="Hoek-Brown"))
+    fig.add_trace(go.Scatter(x=sig3, y=sig1_mc, mode="lines", line=dict(color=PLOT_COLORS["scc"], width=2, dash="dash"), name=f"MC fit (φ={phi_deg:.1f}°, c={c:.2f})"))
     fig.update_layout(
         title="H-B vs MC Failure Envelopes",
         xaxis_title="σ₃ (MPa)",
         yaxis_title="σ₁ (MPa)",
         height=420,
-        legend=dict(yanchor="bottom", y=0.02, xanchor="right", x=0.98, bgcolor="rgba(255,255,255,0.9)"),
-        paper_bgcolor="white", plot_bgcolor="#fafafa", font=dict(family="Georgia, serif", size=11),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
     )
-    fig.update_xaxes(gridcolor="#e5e5e5", linecolor="#333", mirror=True, showline=True)
-    fig.update_yaxes(gridcolor="#e5e5e5", linecolor="#333", mirror=True, showline=True)
+    fig.update_xaxes(showgrid=True, gridcolor="rgba(128,128,128,0.18)")
+    fig.update_yaxes(showgrid=True, gridcolor="rgba(128,128,128,0.18)")
     return fig
 
 
 # =============================================================================
-# SIDEBAR INPUTS
+# SIDEBAR
 # =============================================================================
 
-st.sidebar.header("⚙️ Project Settings")
-mode = st.sidebar.radio("Interface mode", ["Teaching mode", "Advanced mode"], index=0)
+st.sidebar.header("Project Settings")
 
 with st.sidebar.expander("Solution method", expanded=True):
-    grc_options_teaching = [
-        "Duncan-Fama (MC)",
-        "Vrakas & Anagnostou (MC, 2014)",
-        "Carranza-Torres (HB, 2004)",
-    ]
-    grc_options_advanced = [
+    grc_options = [
         "Duncan-Fama (MC)",
         "Salençon (MC, 1969)",
         "Vrakas & Anagnostou (MC, 2014)",
         "Brown et al. (HB, 1983)",
         "Carranza-Torres (HB, 2004)",
     ]
-    grc_method = st.selectbox("GRC method", grc_options_teaching if mode == "Teaching mode" else grc_options_advanced, index=0)
+    grc_method = st.selectbox("GRC", grc_options, index=0)
+    ldp_method = st.selectbox("LDP", ["Vlachopoulos & Diederichs (2009)", "Panet (1995)", "Hoek (2002)"], index=0)
+    alpha_panet = st.slider("Panet α", 0.5, 0.95, 0.75, 0.05) if ldp_method == "Panet (1995)" else 0.75
 
-    ldp_method = st.selectbox(
-        "LDP method",
-        ["Vlachopoulos & Diederichs (2009)", "Panet (1995)", "Hoek (2002)"],
-        index=0,
-    )
+with st.sidebar.expander("Project & stress", expanded=True):
+    a = st.number_input("Tunnel radius a (m)", 0.5, 20.0, 4.75, 0.25)
+    gamma = st.number_input("Unit weight γ (kN/m³)", 15.0, 35.0, 26.0, 0.5)
+    z = st.number_input("Depth z (m)", 5.0, 2000.0, 650.0, 10.0)
+    st.caption(f"p₀ = γ·z = {gamma * z / 1000.0:.2f} MPa")
 
-    if ldp_method == "Panet (1995)":
-        alpha_panet = st.slider("Panet α", 0.5, 0.95, 0.75, 0.05)
-    else:
-        alpha_panet = 0.75
-
-with st.sidebar.expander("Tunnel & stress", expanded=True):
-    a = st.number_input("Tunnel radius, a (m)", 0.5, 20.0, 4.75, 0.25)
-    gamma = st.number_input("Unit weight, γ (kN/m³)", 15.0, 35.0, 26.0, 0.5)
-    z = st.number_input("Depth, z (m)", 5.0, 2000.0, 650.0, 10.0)
-    st.caption(f"→ in-situ stress p₀ = γ·z = {gamma * z / 1000.0:.2f} MPa")
-
-with st.sidebar.expander("Rock mass (Hoek–Brown)", expanded=True):
-    sigma_ci = st.number_input("σ_ci — intact UCS (MPa)", 1.0, 500.0, 72.0, 1.0)
-    E_i = st.number_input("E_i — intact modulus (GPa)", 0.1, 100.0, 26.0, 0.5) * 1000.0
-    mi = st.number_input("m_i", 1.0, 40.0, 7.0 if mode == "Teaching mode" else 17.0, 0.5)
+with st.sidebar.expander("Rock mass (Hoek-Brown)", expanded=True):
+    sigma_ci = st.number_input("σ_ci (MPa)", 1.0, 500.0, 72.0, 1.0)
+    E_i = st.number_input("E_i (GPa)", 0.1, 100.0, 26.0, 0.5) * 1000.0
+    mi = st.number_input("m_i", 1.0, 40.0, 17.0, 0.5)
     GSI = st.slider("GSI", 10, 100, 60, 5)
     D = st.slider("Disturbance factor D", 0.0, 1.0, 0.0, 0.1)
     nu = st.number_input("Poisson's ratio ν", 0.0, 0.49, 0.22, 0.01)
 
-with st.sidebar.expander("Mohr–Coulomb parameters", expanded=True):
-    mc_source = st.radio("Source of φ and c", ["Fit automatically (Hoek 2002)", "Enter manually"])
+with st.sidebar.expander("MC parameters", expanded=True):
+    mc_source = st.radio("Source", ["Fit automatically (Hoek 2002)", "Enter manually"])
     if mc_source == "Fit automatically (Hoek 2002)":
-        sig3_max_default = gamma * z / 1000.0
-        sig3_max = st.number_input("σ_3,max for MC fit (MPa)", 0.1, 100.0, float(sig3_max_default), 0.5)
+        sig3_max = st.number_input("σ₃,max for MC fit (MPa)", 0.1, 100.0, float(gamma * z / 1000.0), 0.5)
         _hb = hoek_brown_params(GSI, mi, D)
         _phi, _c = hoek_to_mc_fit(sigma_ci, _hb["mb"], _hb["s"], _hb["a_HB"], sig3_max)
-        st.caption(f"→ fitted: φ = {_phi:.2f}°, c = {_c:.3f} MPa")
+        st.caption(f"φ = {_phi:.2f}°, c = {_c:.3f} MPa")
         phi_deg, c = _phi, _c
     else:
-        phi_deg = st.number_input("φ — friction angle (°)", 5.0, 60.0, 31.5, 0.5)
-        c = st.number_input("c — cohesion (MPa)", 0.0, 30.0, 2.85, 0.1)
+        phi_deg = st.number_input("φ (deg)", 5.0, 60.0, 31.5, 0.5)
+        c = st.number_input("c (MPa)", 0.0, 30.0, 2.85, 0.1)
         sig3_max = gamma * z / 1000.0
+    psi_deg = st.slider("Dilation angle ψ (deg)", 0.0, 40.0, 0.0, 1.0) if grc_method == "Vrakas & Anagnostou (MC, 2014)" else 0.0
 
-    if grc_method == "Vrakas & Anagnostou (MC, 2014)":
-        psi_deg = st.slider("Dilation angle ψ (°)", 0.0, 40.0, 0.0, 1.0)
-    else:
-        psi_deg = 0.0
-
-# Preliminary unsupported response for installation criteria conversion
 _prelim_params = dict(
     sigma_ci=sigma_ci, E_i=E_i, mi=mi, GSI=GSI, D=D, nu=nu,
     gamma=gamma, z=z, a=a, L=3.0,
     phi_deg=phi_deg, c=c, sig3_max=sig3_max, psi_deg=psi_deg,
-    mc_source=mc_source,
-    grc_method=grc_method, ldp_method=ldp_method, alpha_panet=alpha_panet,
-    supports=[],
+    mc_source=mc_source, grc_method=grc_method, ldp_method=ldp_method,
+    alpha_panet=alpha_panet, supports=[]
 )
 _prelim = run_analysis(_prelim_params)
 _u_max_prev = _prelim["u_max"]
 _Rstar_prev = _prelim["Rstar"]
 
-with st.sidebar.expander("Support installation", expanded=True):
-    install_method = st.radio(
-        "Installation criterion",
-        ["Distance from face L", "Target displacement u_s0", "Target convergence ε (%)"],
-        help="L may be negative if you want to explore installation ahead of the face."
-    )
-
+with st.sidebar.expander("Installation timing", expanded=True):
+    install_method = st.radio("Criterion", ["Distance from face L", "Target displacement u_s0", "Target convergence ε (%)"])
     if install_method == "Distance from face L":
-        L = st.number_input("Support distance L (m)", -2.0 * a, 30.0 * a, 3.0, 0.5)
-        Xstar_show = L / a
-        ustar_show = ldp(ldp_method, Xstar_show, _Rstar_prev, alpha_panet)
-        us0_show = ustar_show * _u_max_prev
-        st.caption(f"→ u_s0 = {us0_show:.2f} mm, strain ε = {us0_show / (a * 1000.0) * 100.0:.3f} %")
+        L = st.number_input("L (m)", -2.0 * a, 30.0 * a, 3.0, 0.5)
+        us0_show = ldp(ldp_method, L / a, _Rstar_prev, alpha_panet) * _u_max_prev
+        st.caption(f"u_s0 = {us0_show:.2f} mm")
     elif install_method == "Target displacement u_s0":
         us0_target = st.number_input("Target u_s0 (mm)", 0.0, 500.0, min(20.0, float(_u_max_prev)), 1.0)
-        target_ustar = us0_target / max(_u_max_prev, 1e-9)
-        L = back_solve_L_from_ustar(target_ustar, ldp_method, _Rstar_prev, alpha_panet, a)
-        st.caption(f"→ back-calculated L = {L:.2f} m, strain ε = {us0_target / (a * 1000.0) * 100.0:.3f} %")
+        L = back_solve_L_from_ustar(us0_target / max(_u_max_prev, 1e-9), ldp_method, _Rstar_prev, alpha_panet, a)
+        st.caption(f"Back-solved L = {L:.2f} m")
     else:
-        eps_target = st.number_input("Target convergence ε (%)", 0.0, 10.0, 0.3, 0.05)
+        eps_target = st.number_input("Target ε (%)", 0.0, 10.0, 0.3, 0.05)
         us0_target = eps_target / 100.0 * a * 1000.0
-        target_ustar = us0_target / max(_u_max_prev, 1e-9)
-        L = back_solve_L_from_ustar(target_ustar, ldp_method, _Rstar_prev, alpha_panet, a)
-        st.caption(f"→ target u_s0 = {us0_target:.2f} mm, back-calculated L = {L:.2f} m")
+        L = back_solve_L_from_ustar(us0_target / max(_u_max_prev, 1e-9), ldp_method, _Rstar_prev, alpha_panet, a)
+        st.caption(f"Target u_s0 = {us0_target:.2f} mm, back-solved L = {L:.2f} m")
 
 with st.sidebar.expander("Support system", expanded=True):
     supports = []
-    include_lining = st.checkbox("Include concrete lining", value=True)
+    include_lining = st.checkbox("Concrete lining", value=True)
     if include_lining:
         c1, c2 = st.columns(2)
         with c1:
@@ -851,96 +633,65 @@ with st.sidebar.expander("Support system", expanded=True):
             lining_nu = st.number_input("Lining ν", 0.0, 0.49, 0.22, 0.01)
             lining_t = st.number_input("Lining thickness t (m)", 0.01, 2.0, 0.50, 0.01)
         supports.append(support_concrete(lining_sigma, lining_E, lining_nu, lining_t, a))
-
-    include_bolts = st.checkbox("Include rockbolts", value=False)
+    include_bolts = st.checkbox("Rockbolts", value=False)
     if include_bolts:
-        c1, c2 = st.columns(2)
-        with c1:
-            bolt_type = st.selectbox("Bolt type", ["20 mm rebar", "25 mm rebar", "34 mm rebar", "Swellex Mn12", "Split Set SS39"])
-        with c2:
-            bolt_spacing = st.number_input("Bolt pattern spacing (m)", 0.4, 5.0, 1.5, 0.1)
+        bolt_type = st.selectbox("Bolt type", ["20 mm rebar", "25 mm rebar", "34 mm rebar", "Swellex Mn12", "Split Set SS39"])
+        bolt_spacing = st.number_input("Bolt spacing (m)", 0.4, 5.0, 1.5, 0.1)
         supports.append(support_rockbolt(bolt_type, bolt_spacing, a))
-
-    include_steel = st.checkbox("Include steel sets", value=False)
+    include_steel = st.checkbox("Steel sets", value=False)
     if include_steel:
-        c1, c2 = st.columns(2)
-        with c1:
-            set_type = st.selectbox("Steel set type", ["W6x20", "W8x31", "TH-29", "TH-36"])
-        with c2:
-            set_spacing = st.number_input("Steel set spacing (m)", 0.4, 5.0, 1.0, 0.1)
+        set_type = st.selectbox("Steel set type", ["W6x20", "W8x31", "TH-29", "TH-36"])
+        set_spacing = st.number_input("Steel set spacing (m)", 0.4, 5.0, 1.0, 0.1)
         supports.append(support_steel_set(set_type, set_spacing, a))
-
-    include_custom = st.checkbox("Include custom support element", value=False)
+    include_custom = st.checkbox("Custom support", value=False)
     if include_custom:
-        c1, c2 = st.columns(2)
-        with c1:
-            custom_psm = st.number_input("Custom p_sm (MPa)", 0.01, 200.0, 1.0, 0.1)
-        with c2:
-            custom_ks = st.number_input("Custom k_s (MPa/m)", 0.1, 1e6, 1000.0, 100.0)
+        custom_psm = st.number_input("Custom p_sm (MPa)", 0.01, 200.0, 1.0, 0.1)
+        custom_ks = st.number_input("Custom k_s (MPa/m)", 0.1, 1e6, 1000.0, 100.0)
         supports.append(support_custom(custom_psm, custom_ks))
-
-    if supports:
-        st.caption(f"→ total support capacity p_sm,total = {support_capacity_total(supports):.2f} MPa")
-    else:
-        st.caption("→ no support selected")
+    st.caption(f"Total p_sm,total = {support_capacity_total(supports):.2f} MPa" if supports else "No support selected")
 
 # =============================================================================
-# ANALYSE
+# RUN
 # =============================================================================
 
 params = dict(
-    sigma_ci=sigma_ci,
-    E_i=E_i,
-    mi=mi,
-    GSI=GSI,
-    D=D,
-    nu=nu,
-    gamma=gamma,
-    z=z,
-    a=a,
-    L=L,
-    phi_deg=phi_deg,
-    c=c,
-    sig3_max=sig3_max,
-    psi_deg=psi_deg,
-    mc_source=mc_source,
-    grc_method=grc_method,
-    ldp_method=ldp_method,
-    alpha_panet=alpha_panet,
-    supports=supports,
+    sigma_ci=sigma_ci, E_i=E_i, mi=mi, GSI=GSI, D=D, nu=nu,
+    gamma=gamma, z=z, a=a, L=L, phi_deg=phi_deg, c=c,
+    sig3_max=sig3_max, psi_deg=psi_deg, mc_source=mc_source,
+    grc_method=grc_method, ldp_method=ldp_method,
+    alpha_panet=alpha_panet, supports=supports,
 )
-
 result = run_analysis(params)
 
 # =============================================================================
-# OUTPUTS
+# LAYOUT
 # =============================================================================
 
 if result["warnings"]:
     for w in result["warnings"]:
         st.warning(w)
 
-m1, m2, m3, m4 = st.columns(4)
-with m1:
-    st.metric("p₀ (MPa)", f"{result['p0']:.2f}")
-with m2:
-    st.metric("p_cr (MPa)", f"{result['pcr']:.2f}")
-with m3:
-    st.metric("R_p unsupported (m)", f"{result['Rp_unsup']:.2f}")
-with m4:
-    st.metric("u_max (mm)", f"{result['u_max']:.2f}")
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "Results",
+    "Plots",
+    "Failure Envelope",
+    "Tunnel Section",
+    "Calculation Workflow",
+])
 
-m5, m6, m7, m8 = st.columns(4)
-with m5:
-    st.metric("u_s0 (mm)", f"{result['us0']:.2f}")
-with m6:
-    st.metric("p_sm,total (MPa)", f"{result['psm_total']:.2f}")
-with m7:
-    st.metric("p_eq (MPa)", "—" if result['p_eq'] is None else f"{result['p_eq']:.2f}")
-with m8:
-    st.metric("FoS", "—" if result['FoS'] is None else f"{result['FoS']:.2f}")
+with tab1:
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("p₀ (MPa)", f"{result['p0']:.2f}")
+    m2.metric("p_cr (MPa)", f"{result['pcr']:.2f}")
+    m3.metric("R_p unsupported (m)", f"{result['Rp_unsup']:.2f}")
+    m4.metric("u_max (mm)", f"{result['u_max']:.2f}")
 
-with st.expander("Summary table for export / assignment reporting", expanded=True):
+    m5, m6, m7, m8 = st.columns(4)
+    m5.metric("u_s0 (mm)", f"{result['us0']:.2f}")
+    m6.metric("p_sm,total (MPa)", f"{result['psm_total']:.2f}")
+    m7.metric("p_eq (MPa)", "—" if result['p_eq'] is None else f"{result['p_eq']:.2f}")
+    m8.metric("FoS", "—" if result['FoS'] is None else f"{result['FoS']:.2f}")
+
     summary = {
         "GRC method": params["grc_method"],
         "LDP method": params["ldp_method"],
@@ -965,20 +716,11 @@ with st.expander("Summary table for export / assignment reporting", expanded=Tru
         "Rstar": result["Rstar"],
         "is_plastic": result["is_plastic"],
     }
+    st.subheader("Summary table")
     st.table({"Parameter": list(summary.keys()), "Value": [f"{v:.4g}" if isinstance(v, (float, np.floating)) else str(v) for v in summary.values()]})
 
-col1, col2 = st.columns(2)
-with col1:
-    st.plotly_chart(plot_grc_scc(result, params), use_container_width=True)
-    st.plotly_chart(plot_ldp(result, params), use_container_width=True)
-with col2:
-    st.plotly_chart(plot_tunnel_section(result, params), use_container_width=True)
-    st.plotly_chart(plot_envelope(result, params), use_container_width=True)
-
-with st.expander("Support components", expanded=False):
-    if not supports:
-        st.info("No support elements selected.")
-    else:
+    st.subheader("Support components")
+    if supports:
         rows = []
         for i, s in enumerate(supports, start=1):
             rows.append({
@@ -989,17 +731,111 @@ with st.expander("Support components", expanded=False):
                 "u_sm (mm)": f"{s['usm']:.3f}",
             })
         st.table(rows)
+    else:
+        st.info("No support elements selected.")
 
-with st.expander("Teaching notes / interpretation", expanded=False):
-    st.markdown(
-        f"""
-- **Elastic or plastic response**: {'Plastic zone develops' if result['is_plastic'] else 'Response remains elastic'}.
-- **Installation timing**: support is installed at **L = {params['L']:.2f} m** from the face, giving **u_s0 = {result['us0']:.2f} mm**.
-- **Support response**: this patched version combines multiple support elements using a **piecewise SCC**, rather than a single simplified line.
-- **FoS**: computed as **p_sm,total / p_eq** when equilibrium exists.
-- **Interpretation**: FoS ≥ 1.5 is commonly acceptable for permanent support checks, but project-specific criteria should govern design.
-"""
-    )
+with tab2:
+    c1, c2 = st.columns(2)
+    with c1:
+        st.plotly_chart(plot_grc_scc(result, params), use_container_width=True)
+    with c2:
+        st.plotly_chart(plot_ldp(result, params), use_container_width=True)
 
-st.markdown("---")
-st.caption("Run with: streamlit run ccm_app_patched.py")
+with tab3:
+    st.plotly_chart(plot_envelope(result, params), use_container_width=True)
+
+with tab4:
+    st.plotly_chart(plot_tunnel_section(result, params), use_container_width=True)
+
+with tab5:
+    st.header("Calculation Workflow")
+
+    st.markdown("### Step 1 — In-situ stress")
+    st.latex(r"p_0 = \gamma \cdot z")
+
+    st.markdown("### Step 2 — Hoek-Brown parameters")
+    st.latex(r"m_b = m_i \, \exp\!\left(\frac{GSI - 100}{28 - 14 D}\right), \quad s = \exp\!\left(\frac{GSI - 100}{9 - 3 D}\right)")
+    st.latex(r"a_{HB} = \tfrac{1}{2} + \tfrac{1}{6}\left(e^{-GSI/15} - e^{-20/3}\right)")
+
+    st.markdown("### Step 3 — Rock mass strength & modulus")
+    st.latex(r"\sigma_{cm} = \sigma_{ci} \cdot s^{a_{HB}}")
+    st.latex(r"E_m = E_i \left[0.02 + \frac{1 - D/2}{1 + \exp\!\big((60 + 15 D - GSI)/11\big)}\right]")
+
+    st.markdown("### Step 4 — Equivalent Mohr-Coulomb (Hoek et al. 2002 closed form)")
+    st.markdown("Many GRC solutions require MC parameters. Fit the H-B envelope over $0 \\le \\sigma_3 \\le \\sigma_{3,\\max}$:")
+    st.latex(r"\phi = \arcsin\!\left[\frac{6\,a_{HB}\, m_b \, (s + m_b \sigma_{3n})^{a_{HB} - 1}}{2(1+a_{HB})(2+a_{HB}) + 6\,a_{HB}\, m_b \, (s + m_b \sigma_{3n})^{a_{HB}-1}}\right]")
+    st.latex(r"c = \frac{\sigma_{ci}\,[(1+2 a_{HB})s + (1-a_{HB}) m_b \sigma_{3n}]\,(s+m_b \sigma_{3n})^{a_{HB}-1}}{(1+a_{HB})(2+a_{HB})\sqrt{1 + 6 a_{HB} m_b (s+m_b \sigma_{3n})^{a_{HB}-1}/[(1+a_{HB})(2+a_{HB})]}}")
+    st.caption(r"$\sigma_{3n} = \sigma_{3,\max}/\sigma_{ci}$. Derived: $k=(1+\sin\phi)/(1-\sin\phi)$, $\sigma_{cm,MC}=2c\cos\phi/(1-\sin\phi)$.")
+
+    st.markdown("### Step 5 — Critical pressure & plastic radius")
+    st.latex(r"p_{cr} = \frac{2 p_0 - \sigma_{cm,MC}}{1 + k}")
+    st.markdown(r"If $p_i \ge p_{cr}$: elastic response. If $p_i < p_{cr}$: plastic zone forms with radius:")
+    st.latex(r"R_p(p_i) = a \left[\frac{2\left(p_0(k-1) + \sigma_{cm,MC}\right)}{(1+k)\left(p_i(k-1) + \sigma_{cm,MC}\right)}\right]^{1/(k-1)}")
+
+    st.markdown("### Step 6 — Ground Reaction Curve (GRC)")
+    st.markdown("The GRC describes how tunnel wall displacement $u_r$ varies with internal support pressure $p_i$.")
+    st.markdown("**Elastic branch** ($p_i \\ge p_{cr}$):")
+    st.latex(r"u_r = \frac{(1+\nu)(p_0 - p_i)\,a}{E_m}")
+    st.markdown("**Duncan-Fama (MC, 1993):**")
+    st.latex(r"u_r = \frac{(1+\nu)(p_0 - p_{cr})\,a}{E_m} \cdot \left(\frac{R_p(p_i)}{a}\right)^2")
+    st.markdown("**Salençon (MC, 1969):**")
+    st.latex(r"u_r = \frac{(1+\nu)(p_0 - p_{cr})\,a}{E_m} \cdot \left(\frac{R_p(p_i)}{a}\right)^{(k+1)/(k-1)}")
+    st.markdown("**Vrakas & Anagnostou (MC, 2014):**")
+    st.latex(r"u_r^{\text{LS}} = u_r^{\text{SS}} \cdot \left(1 + \tfrac{1}{2}\,\varepsilon\,k_\psi\right), \quad k_\psi = \frac{1+\sin\psi}{1-\sin\psi}")
+    st.markdown("**Brown et al. (HB, 1983):**")
+    st.latex(r"\sigma_1 = \sigma_3 + \sigma_{ci}\sqrt{m_b\,\sigma_3/\sigma_{ci} + s}, \quad k_{sec} = [\sigma_1(p_i) - \sigma_{cm}]/p_i")
+    st.markdown("**Carranza-Torres (HB, 2004):**")
+    st.latex(r"k_{tan} = 1 + a_{HB}\,m_b\,(m_b\,\sigma_3/\sigma_{ci} + s)^{a_{HB}-1}")
+    st.info("💡 When methods disagree, differences usually arise in the plastic range. In the elastic range they reduce to the Kirsch result.")
+
+    st.markdown("### Step 7 — Maximum convergence (unsupported)")
+    st.latex(r"u_{\max} = u_r(p_i = 0)")
+
+    st.markdown("### Step 8 — Longitudinal Deformation Profile (LDP)")
+    st.markdown(r"$X^* = X/a$ where $X$ is distance from the face. Convention: **$X^* > 0$ behind face**, **$X^* < 0$ ahead of face**.")
+    st.markdown("**Panet (1995):**")
+    st.latex(r"u^*(X^*) = \begin{cases}(1 - \alpha)\,e^{1.5 X^*}, & X^* \le 0 \\[4pt]1 - \alpha\,e^{-1.5 X^*}, & X^* > 0\end{cases}")
+    st.markdown("**Vlachopoulos & Diederichs (2009):**")
+    st.latex(r"u^*(X^*) = \begin{cases}\tfrac{1}{3}\,e^{2 X^* - 0.15 R^*}, & X^* \le 0 \\[4pt]1 - \left[1 - \tfrac{1}{3}\,e^{-0.15 R^*}\right] e^{-3 X^*/R^*}, & X^* > 0\end{cases}")
+    st.markdown("**Hoek (2002):**")
+    st.latex(r"u^*(X^*) = \left(1 + \exp\!\left(-\frac{X^*/2}{1.1}\right)\right)^{-1.7}")
+
+    st.markdown("### Step 9 — Installation criterion")
+    st.markdown(r"- **Distance from face $L$** → $X^* = L/a$ → $u_{s0} = u^* \cdot u_{\max}$")
+    st.markdown(r"- **Target displacement $u_{s0}$** → back-solve LDP for $X^*$ such that $u^*(X^*) = u_{s0}/u_{\max}$")
+    st.markdown(r"- **Target strain $\varepsilon$ (%)** → $u_{s0} = \varepsilon \cdot a / 100$")
+
+    st.markdown("### Step 10 — Support Characteristic Curve (SCC)")
+    st.markdown("**Concrete / shotcrete ring:**")
+    st.latex(r"p_{sm} = \frac{\sigma_{ci,\text{lining}} \cdot t}{a}, \quad k_s = \frac{E_c \cdot t}{(1 - \nu_c^2)\,a^2}, \quad u_{sm} = p_{sm}/k_s")
+    st.markdown("**Combined support:**")
+    st.latex(r"p_{sm}^{\text{total}} = \sum_i p_{sm,i}")
+    st.caption("In this version, multiple support elements are combined through a piecewise SCC response.")
+
+    st.markdown("### Step 11 — Factor of Safety (GRC–SCC intersection)")
+    st.markdown(r"Solve $u_{GRC}(p_{eq}) = u_{SCC}(p_{eq})$ numerically. Then:")
+    st.latex(r"\mathrm{FoS} = \frac{p_{sm}}{p_{eq}}")
+
+    st.markdown("---")
+    st.subheader("Current numerical results")
+    rows = [
+        ("p₀ (in-situ stress, MPa)", result["p0"]),
+        ("m_b", result["mb"]), ("s", result["s"]), ("a_HB", result["a_HB"]),
+        ("σ_cm HB (MPa)", result["sigma_cm_HB"]),
+        ("E_m (MPa)", result["Em"]),
+        ("φ (°)", result["phi_deg"]), ("c (MPa)", result["c"]),
+        ("k", result["k"]), ("σ_cm,MC (MPa)", result["sigma_cm_MC"]),
+        ("p_cr (MPa)", result["pcr"]),
+        ("R_p unsupported (m)", result["Rp_unsup"]),
+        ("R_p supported (m)", result["Rp_sup"]),
+        ("R*=R_p/a", result["Rstar"]),
+        ("u_max (mm)", result["u_max"]),
+        ("X*=L/a", result["Xstar"]),
+        ("u* LDP", result["u_star"]),
+        ("u_s0 (mm)", result["us0"]),
+        ("Combined p_sm (MPa)", result["psm_total"]),
+        ("p_eq (MPa)", result["p_eq"]),
+        ("u_eq (mm)", result["u_eq"]),
+        ("FoS", result["FoS"]),
+    ]
+    st.table({"Quantity": [r[0] for r in rows], "Value": [f"{r[1]:.4g}" if isinstance(r[1], (int, float, np.floating)) and r[1] is not None else "—" for r in rows]})
