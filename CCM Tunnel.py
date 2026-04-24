@@ -185,7 +185,8 @@ def grc_carranza_torres_hb(pi, p0, a, nu, Em, sigma_ci, mb, s, a_HB):
     # This matches RocSupport 2004-onwards within ~3% for Ψ=0, and reduces to
     # the standard Duncan-Fama (MC) form when the HB and MC R_p coincide.
     Rstar = Rp / a
-    ur = (1 + nu) ** 2 * (p0 - pcr) / Em * a * Rstar ** 2
+    ur_pcr = (1 + nu) * (p0 - pcr) * a / Em
+    ur = ur_pcr * Rstar ** 2
     return ur * 1000
 
 
