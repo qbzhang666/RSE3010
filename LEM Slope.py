@@ -6,14 +6,15 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="Week 12 Planar LEM", layout="wide")
 
 st.title("RSE3010 Week 12 — Planar Limit Equilibrium Method")
-st.caption("Standalone teaching app: planar stability — What will fail?")
+st.caption("Standalone teaching app: multiple failure modes — Planar, Wedge, Circular")
 
 st.markdown("""
-This app uses a **planar wedge** geometry for a daylighting discontinuity.
+This app covers **multiple failure modes** for slope stability:
+- **Planar wedge** geometry
+- **Wedge failure**
+- **Circular sliding failure**
 
-It is intended for teaching and assignment checking, not final design.
-
-**Assumption:** unit thickness into the page, triangular wedge between the slope face and the sliding plane.
+Each mode uses simple geometry with **unit thickness** into the page.
 """)
 
 # -------------------------------------------------------------------
@@ -44,6 +45,11 @@ with st.sidebar:
         max_value=89.0,
         value=40.0,
         step=1.0
+    )
+
+    failure_mode = st.selectbox(
+        "Select failure mode",
+        ["Planar", "Wedge", "Circular"]
     )
 
     st.header("Material")
@@ -168,31 +174,161 @@ def planar_wedge_fos(
         "FoS": fos
     }
 
+def wedge_fos(H, psi_deg, beta_deg, gamma, c_kpa, phi_deg, ru=0.0, support=0.0):
+    """
+    Wedge sliding FoS calculation (simplified).
+    """
+    psi_rad = math.radians(psi_deg)
+    beta_rad = math.radians(beta_deg)
+    phi_rad = math.radians(phi_deg)
+
+    # Horizontal distance to intersection
+    x_intersection = H / math.tan(psi_rad)  # Line intersection
+    x_plane = H / math.tan(beta_rad)  # Sliding plane
+
+    # Wedge area per meter
+    area = 0.5 * H * (x_plane - x_intersection)
+
+    # Weight of wedge
+    W = gamma * area
+
+    # Sliding plane length
+    L = H / math.sin(beta_rad)
+
+    # Normal force
+    N = W * math.cos(beta_rad)
+
+    # Pore pressure force using simplified ru ratio
+    U = ru * N
+
+    # Driving force
+    driving = W * math.sin(beta_rad)
+
+    # Resisting force
+    resisting = c_kpa * L + (N - U) * math.tan(phi_rad) + support
+
+    fos = resisting / driving if driving > 0 else float("inf")
+
+    return {
+        "valid": True,
+        "Area (m²/m)": area,
+        "Plane length L (m)": L,
+        "Weight W (kN/m)": W,
+        "Normal N (kN/m)": N,
+        "Pore force U (kN/m)": U,
+        "Driving Wsinβ (kN/m)": driving,
+        "Resisting (kN/m)": resisting,
+        "FoS": fos
+    }
+
+def circular_fos(H, psi_deg, beta_deg, gamma, c_kpa, phi_deg, ru=0.0, support=0.0):
+    """
+    Circular sliding FoS calculation (simplified).
+    Uses radius of curvature and slope height.
+    """
+    # Parameters for circular failure
+    radius = H / math.sin(math.radians(psi_deg))
+
+    area = math.pi * radius**2
+
+    # Wedge weight
+    W = gamma * area
+
+    # Normal force calculation
+    N = W * math.cos(math.radians(beta_deg))
+
+    # Pore pressure force
+    U = ru * N
+
+    # Driving force
+    driving = W * math.sin(math.radians(beta_deg))
+
+    # Resisting force
+    resisting = c_kpa * area + (N - U) * math.tan(math.radians(phi_deg)) + support
+
+    fos = resisting / driving if driving > 0 else float("inf")
+
+    return {
+        "valid": True,
+        "Area (m²/m)": area,
+        "Radius (m)": radius,
+        "Weight W (kN/m)": W,
+        "Normal N (kN/m)": N,
+        "Pore force U (kN/m)": U,
+        "Driving (kN/m)": driving,
+        "Resisting (kN/m)": resisting,
+        "FoS": fos
+    }
+
 # -------------------------------------------------------------------
-# Run dry and wet calculations
+# Run dry and wet calculations based on selected failure mode
 # -------------------------------------------------------------------
 
-dry = planar_wedge_fos(
-    H=H,
-    psi_deg=psi,
-    beta_deg=beta,
-    gamma=gamma,
-    c_kpa=c,
-    phi_deg=phi_dry,
-    ru=0.0,
-    support=support
-)
+if failure_mode == "Planar":
+    dry = planar_wedge_fos(
+        H=H,
+        psi_deg=psi,
+        beta_deg=beta,
+        gamma=gamma,
+        c_kpa=c,
+        phi_deg=phi_dry,
+        ru=0.0,
+        support=support
+    )
+    wet = planar_wedge_fos(
+        H=H,
+        psi_deg=psi,
+        beta_deg=beta,
+        gamma=gamma,
+        c_kpa=c,
+        phi_deg=phi_wet,
+        ru=ru,
+        support=support
+    )
 
-wet = planar_wedge_fos(
-    H=H,
-    psi_deg=psi,
-    beta_deg=beta,
-    gamma=gamma,
-    c_kpa=c,
-    phi_deg=phi_wet,
-    ru=ru,
-    support=support
-)
+elif failure_mode == "Wedge":
+    dry = wedge_fos(
+        H=H,
+        psi_deg=psi,
+        beta_deg=beta,
+        gamma=gamma,
+        c_kpa=c,
+        phi_deg=phi_dry,
+        ru=0.0,
+        support=support
+    )
+    wet = wedge_fos(
+        H=H,
+        psi_deg=psi,
+        beta_deg=beta,
+        gamma=gamma,
+        c_kpa=c,
+        phi_deg=phi_wet,
+        ru=ru,
+        support=support
+    )
+
+else:  # Circular failure mode
+    dry = circular_fos(
+        H=H,
+        psi_deg=psi,
+        beta_deg=beta,
+        gamma=gamma,
+        c_kpa=c,
+        phi_deg=phi_dry,
+        ru=0.0,
+        support=support
+    )
+    wet = circular_fos(
+        H=H,
+        psi_deg=psi,
+        beta_deg=beta,
+        gamma=gamma,
+        c_kpa=c,
+        phi_deg=phi_wet,
+        ru=ru,
+        support=support
+    )
 
 # -------------------------------------------------------------------
 # Display outputs
