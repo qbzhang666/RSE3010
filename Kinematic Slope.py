@@ -164,7 +164,7 @@ def draw_wulff_net_grid(ax, interval=10):
 
     This is an equal-angle stereographic net.
     The background is drawn using projected great-circle families,
-    so it does not look like a simple polar-coordinate plot.
+    so it does not look like a simple polar plot.
     """
 
     theta = np.linspace(0, 2 * np.pi, 720)
@@ -501,4 +501,119 @@ with col1:
             float(row["Dip β (deg)"])
         ))
 
-    for label, dip
+    for label, dip_direction, dip in items:
+
+        x, y = great_circle_points(dip_direction, dip)
+
+        if label == "Slope":
+            line_width = 3.0
+        else:
+            line_width = 2.0
+
+        ax.plot(
+            x,
+            y,
+            linewidth=line_width,
+            label=f"{label} {dip:.0f}°/{dip_direction:.0f}°"
+        )
+
+    # Friction circles
+    for phi, line_style, label in [
+        (dry_phi, "--", f"Dry φ={dry_phi:.0f}°"),
+        (wet_phi, ":", f"Wet φ={wet_phi:.0f}°")
+    ]:
+        r = math.tan(math.radians(90 - phi) / 2)
+
+        ax.plot(
+            r * np.sin(theta),
+            r * np.cos(theta),
+            linestyle=line_style,
+            color="black",
+            linewidth=1.2,
+            label=label
+        )
+
+    # Joint-pair intersections
+    for (_, r1), (_, r2) in combinations(jdf.iterrows(), 2):
+
+        trend, plunge = intersection_line(
+            float(r1["Dip direction α (deg)"]),
+            float(r1["Dip β (deg)"]),
+            float(r2["Dip direction α (deg)"]),
+            float(r2["Dip β (deg)"])
+        )
+
+        x, y = equal_angle_project(trend, plunge)
+
+        ax.scatter(
+            [x],
+            [y],
+            s=55,
+            color="yellow",
+            edgecolor="black",
+            zorder=5
+        )
+
+        ax.text(
+            x + 0.03,
+            y + 0.03,
+            f"{r1['Joint']}-{r2['Joint']}\n{plunge:.1f}/{trend:.1f}",
+            fontsize=8
+        )
+
+    ax.set_aspect("equal")
+    ax.set_xlim(-1.25, 1.25)
+    ax.set_ylim(-1.25, 1.25)
+    ax.axis("off")
+
+    ax.legend(
+        loc="lower center",
+        bbox_to_anchor=(0.5, -0.18),
+        ncol=2,
+        fontsize=8
+    )
+
+    st.pyplot(fig)
+
+    st.caption(
+        "Projection used: **Wulff net / equal-angle lower-hemisphere stereographic projection**. "
+        "The grid is drawn using projected great-circle families, not a simple polar-coordinate reference grid."
+    )
+
+
+# ============================================================
+# Results table and interpretation
+# ============================================================
+
+with col2:
+
+    st.subheader("Kinematic checks")
+
+    st.dataframe(
+        res_df,
+        use_container_width=True
+    )
+
+    st.markdown("""
+### Teaching interpretation
+
+- This app uses a **Wulff net (equal-angle projection)**, not a Schmidt equal-area net.
+- The background net is drawn using **equal-angle projected great-circle families**.
+- **Planar:** \\( \\phi < \\beta_j < \\psi_f \\) and joint direction is close to slope direction.
+- **Wedge:** \\( \\phi < \\beta_i < \\psi_f \\) and intersection trend exits through the slope.
+- **Toppling:** joint dips steeply opposite the slope face and satisfies the slip-limit condition.
+""")
+
+
+# ============================================================
+# Download results
+# ============================================================
+
+csv = res_df.to_csv(index=False).encode("utf-8")
+
+st.download_button(
+    "Download kinematic check table",
+    csv,
+    "week11_kinematic_checks.csv",
+    "text/csv"
+)
