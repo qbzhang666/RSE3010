@@ -84,7 +84,7 @@ def smr_class(smr):
     return "V", "Very poor", "Completely unstable", "Large wedges / circular", "Re-excavation"
 
 def equal_angle_project(trend_deg, plunge_deg):
-    """Equal-angle lower-hemisphere stereographic projection."""
+    """Wulff net: equal-angle lower-hemisphere stereographic projection."""
     tr = math.radians(trend_deg)
     r = math.tan(math.radians(90 - plunge_deg) / 2)
     return r * math.sin(tr), r * math.cos(tr)
@@ -119,8 +119,8 @@ from itertools import combinations
 
 st.set_page_config(page_title="Week 11 Kinematic Stereonet", layout="wide")
 
-st.title("RSE3010 Week 11 — Kinematic Analysis with Stereonet")
-st.caption("Standalone teaching app: geometry check — What can fail?")
+st.title("RSE3010 Week 11 — Kinematic Analysis with Wulff Net")
+st.caption("Standalone teaching app: equal-angle stereonet for kinematic analysis — What can fail?")
 
 with st.sidebar:
     st.header("Slope and friction inputs")
@@ -166,7 +166,7 @@ res_df = pd.DataFrame(results, columns=["Mode", "Joint / pair", "Dip or plunge �
 col1, col2 = st.columns([1.15, 1])
 
 with col1:
-    st.subheader("Model stereonet")
+    st.subheader("Model stereonet — Wulff net (equal-angle)")
     fig, ax = plt.subplots(figsize=(7,7))
     theta = np.linspace(0, 2*np.pi, 720)
     ax.plot(np.sin(theta), np.cos(theta), color="black", linewidth=1.3)
@@ -202,6 +202,7 @@ with col1:
     ax.axis("off")
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.18), ncol=2, fontsize=8)
     st.pyplot(fig)
+    st.caption("Projection used: Wulff net / equal-angle lower-hemisphere stereographic projection. This is appropriate for kinematic analysis because angular relationships are preserved.")
 
 with col2:
     st.subheader("Kinematic checks")
@@ -209,6 +210,7 @@ with col2:
 
     st.markdown("""
 ### Teaching interpretation
+- This app uses a **Wulff net (equal-angle projection)**, not a Schmidt equal-area net.
 - **Planar:** \( \\phi < \\beta_j < \\psi_f \) and joint direction close to slope direction.
 - **Wedge:** \( \\phi < \\beta_i < \\psi_f \) and intersection trend exits through the slope.
 - **Toppling:** joint dips steeply opposite the slope face and satisfies the slip-limit condition.
