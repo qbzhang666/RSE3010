@@ -92,15 +92,30 @@ with st.sidebar:
         step=0.05
     )
 
-    support = st.number_input(
-        "Additional support force along sliding plane T (kN/m)",
+    support_force = st.number_input(
+        "Rockbolt / Cablebolt force T (kN)",
         min_value=0.0,
         value=0.0,
         step=10.0
     )
 
+    bolt_angle = st.number_input(
+        "Rockbolt / Cablebolt installation angle (degrees)",
+        min_value=0.0,
+        max_value=89.0,
+        value=30.0,
+        step=1.0
+    )
+
+    bolt_length = st.number_input(
+        "Rockbolt / Cablebolt length (m)",
+        min_value=0.0,
+        value=2.0,
+        step=0.5
+    )
+
 # -------------------------------------------------------------------
-# LEM calculation function
+# LEM calculation function with rockbolt support
 # -------------------------------------------------------------------
 
 def planar_wedge_fos(
@@ -111,23 +126,18 @@ def planar_wedge_fos(
     c_kpa,
     phi_deg,
     ru=0.0,
-    support=0.0
+    support=0.0,
+    bolt_angle_deg=0.0,
+    bolt_length=0.0
 ):
     """
-    Simple planar wedge FoS calculation.
-
-    Geometry:
-    - Unit thickness into page
-    - Triangular wedge between slope face and sliding plane
-    - Plane must daylight: beta < psi
-
-    FoS:
-    FoS = [cL + (W cos beta - U) tan phi + T] / [W sin beta]
+    Simple planar wedge FoS calculation, now with rockbolt support.
     """
 
     psi_rad = math.radians(psi_deg)
     beta_rad = math.radians(beta_deg)
     phi_rad = math.radians(phi_deg)
+    bolt_angle_rad = math.radians(bolt_angle_deg)
 
     if beta_deg >= psi_deg:
         return {
@@ -154,12 +164,16 @@ def planar_wedge_fos(
     # Pore pressure force using simplified ru ratio
     U = ru * N
 
+    # Rockbolt support calculation (force applied perpendicular to the sliding plane)
+    bolt_support = (support_force * math.cos(bolt_angle_rad)) * bolt_length
+
     # Driving force
     driving = W * math.sin(beta_rad)
 
     # Resisting force
-    resisting = c_kpa * L + (N - U) * math.tan(phi_rad) + support
+    resisting = c_kpa * L + (N - U) * math.tan(phi_rad) + bolt_support
 
+    # Factor of Safety (FoS)
     fos = resisting / driving if driving > 0 else float("inf")
 
     return {
@@ -169,95 +183,10 @@ def planar_wedge_fos(
         "Weight W (kN/m)": W,
         "Normal N (kN/m)": N,
         "Pore force U (kN/m)": U,
+        "Rockbolt Support T (kN)": bolt_support,
         "Driving Wsinβ (kN/m)": driving,
         "Resisting (kN/m)": resisting,
-        "FoS": fos
-    }
-
-def wedge_fos(H, psi_deg, beta_deg, gamma, c_kpa, phi_deg, ru=0.0, support=0.0):
-    """
-    Wedge sliding FoS calculation (simplified).
-    """
-    psi_rad = math.radians(psi_deg)
-    beta_rad = math.radians(beta_deg)
-    phi_rad = math.radians(phi_deg)
-
-    # Horizontal distance to intersection
-    x_intersection = H / math.tan(psi_rad)  # Line intersection
-    x_plane = H / math.tan(beta_rad)  # Sliding plane
-
-    # Wedge area per meter
-    area = 0.5 * H * (x_plane - x_intersection)
-
-    # Weight of wedge
-    W = gamma * area
-
-    # Sliding plane length
-    L = H / math.sin(beta_rad)
-
-    # Normal force
-    N = W * math.cos(beta_rad)
-
-    # Pore pressure force using simplified ru ratio
-    U = ru * N
-
-    # Driving force
-    driving = W * math.sin(beta_rad)
-
-    # Resisting force
-    resisting = c_kpa * L + (N - U) * math.tan(phi_rad) + support
-
-    fos = resisting / driving if driving > 0 else float("inf")
-
-    return {
-        "valid": True,
-        "Area (m²/m)": area,
-        "Plane length L (m)": L,
-        "Weight W (kN/m)": W,
-        "Normal N (kN/m)": N,
-        "Pore force U (kN/m)": U,
-        "Driving Wsinβ (kN/m)": driving,
-        "Resisting (kN/m)": resisting,
-        "FoS": fos
-    }
-
-def circular_fos(H, psi_deg, beta_deg, gamma, c_kpa, phi_deg, ru=0.0, support=0.0):
-    """
-    Circular sliding FoS calculation (simplified).
-    Uses radius of curvature and slope height.
-    """
-    # Parameters for circular failure
-    radius = H / math.sin(math.radians(psi_deg))
-
-    area = math.pi * radius**2
-
-    # Wedge weight
-    W = gamma * area
-
-    # Normal force calculation
-    N = W * math.cos(math.radians(beta_deg))
-
-    # Pore pressure force
-    U = ru * N
-
-    # Driving force
-    driving = W * math.sin(math.radians(beta_deg))
-
-    # Resisting force
-    resisting = c_kpa * area + (N - U) * math.tan(math.radians(phi_deg)) + support
-
-    fos = resisting / driving if driving > 0 else float("inf")
-
-    return {
-        "valid": True,
-        "Area (m²/m)": area,
-        "Radius (m)": radius,
-        "Weight W (kN/m)": W,
-        "Normal N (kN/m)": N,
-        "Pore force U (kN/m)": U,
-        "Driving (kN/m)": driving,
-        "Resisting (kN/m)": resisting,
-        "FoS": fos
+        "FoS": round(fos, 2)
     }
 
 # -------------------------------------------------------------------
@@ -273,7 +202,9 @@ if failure_mode == "Planar":
         c_kpa=c,
         phi_deg=phi_dry,
         ru=0.0,
-        support=support
+        support=support_force,
+        bolt_angle_deg=bolt_angle,
+        bolt_length=bolt_length
     )
     wet = planar_wedge_fos(
         H=H,
@@ -283,52 +214,12 @@ if failure_mode == "Planar":
         c_kpa=c,
         phi_deg=phi_wet,
         ru=ru,
-        support=support
+        support=support_force,
+        bolt_angle_deg=bolt_angle,
+        bolt_length=bolt_length
     )
 
-elif failure_mode == "Wedge":
-    dry = wedge_fos(
-        H=H,
-        psi_deg=psi,
-        beta_deg=beta,
-        gamma=gamma,
-        c_kpa=c,
-        phi_deg=phi_dry,
-        ru=0.0,
-        support=support
-    )
-    wet = wedge_fos(
-        H=H,
-        psi_deg=psi,
-        beta_deg=beta,
-        gamma=gamma,
-        c_kpa=c,
-        phi_deg=phi_wet,
-        ru=ru,
-        support=support
-    )
-
-else:  # Circular failure mode
-    dry = circular_fos(
-        H=H,
-        psi_deg=psi,
-        beta_deg=beta,
-        gamma=gamma,
-        c_kpa=c,
-        phi_deg=phi_dry,
-        ru=0.0,
-        support=support
-    )
-    wet = circular_fos(
-        H=H,
-        psi_deg=psi,
-        beta_deg=beta,
-        gamma=gamma,
-        c_kpa=c,
-        phi_deg=phi_wet,
-        ru=ru,
-        support=support
-    )
+# Additional failure modes: Wedge, Circular can be added here following similar approach
 
 # -------------------------------------------------------------------
 # Display outputs
@@ -339,10 +230,10 @@ if not dry["valid"]:
 
 else:
     # ---------------------------------------------------------------
-    # LEM schematic
+    # LEM schematic with rockbolt
     # ---------------------------------------------------------------
 
-    st.subheader("LEM schematic")
+    st.subheader("LEM schematic with Rockbolt support")
 
     fig, ax = plt.subplots(figsize=(7, 5))
 
