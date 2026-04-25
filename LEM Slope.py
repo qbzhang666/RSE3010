@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="Week 12 Planar LEM", layout="wide")
 
 st.title("RSE3010 Week 12 — Planar Limit Equilibrium Method")
-st.caption("Standalone teaching app: quantitative stability — What will fail?")
+st.caption("Standalone teaching app: planar stability — What will fail?")
 
 st.markdown("""
-This app uses a simple **planar wedge** geometry for a daylighting discontinuity.
+This app uses a **planar wedge** geometry for a daylighting discontinuity.
 
 It is intended for teaching and assignment checking, not final design.
 
