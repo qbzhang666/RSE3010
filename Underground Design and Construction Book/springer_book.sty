@@ -1,0 +1,38 @@
+% Springer-compatible semantic layer for the brittle-geomaterials book.
+% Page geometry, headings, captions and running heads remain under SNmono.
+\NeedsTeXFormat{LaTeX2e}[2020-10-01]
+\ProvidesPackage{springer_book}[2026/07/11 v1.0 SNmono compatibility layer]
+
+% Reuse SNmono's publisher-designed statement boxes while preserving the
+% semantic environment names used throughout the split manuscript.
+\newenvironment{conceptbox}[1][Concept]
+  {\begin{backgroundinformation}{#1}}
+  {\end{backgroundinformation}}
+\newenvironment{foundationbox}[1][Foundation map]
+  {\par\noindent\begin{minipage}{\linewidth}%
+   \begin{backgroundinformation}{#1}}
+  {\end{backgroundinformation}%
+   \end{minipage}\par}
+\newenvironment{keyresult}[1][Key result]
+  {\begin{important}{#1}}
+  {\end{important}}
+\newenvironment{warningbox}[1][Caution]
+  {\begin{important}{#1}}
+  {\end{important}}
+\newenvironment{learningobjectives}[1][Learning objectives]
+  {\begin{backgroundinformation}{#1}}
+  {\end{backgroundinformation}}
+\newenvironment{engineeringnote}[1][Engineering interpretation]
+  {\begin{backgroundinformation}{#1}}
+  {\end{backgroundinformation}}
+\newenvironment{studentcheck}[1][Check your understanding]
+  {\begin{important}{#1}}
+  {\end{important}}
+
+\makeatletter
+\@ifundefined{definition}{\newtheorem{definition}{Definition}[chapter]}{}
+\@ifundefined{remark}{\newtheorem{remark}{Remark}[chapter]}{}
+\@ifundefined{example}{\newtheorem{example}{Example}[chapter]}{}
+\makeatother
+
+\endinput

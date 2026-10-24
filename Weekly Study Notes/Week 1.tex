@@ -1,0 +1,471 @@
+\documentclass[a4paper,12pt]{article}
+
+% ======================================================================
+% PACKAGES
+% ======================================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{float}
+\usepackage{siunitx}
+
+\geometry{margin=2.5cm}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    urlcolor=blue!60!black,
+    citecolor=blue!60!black
+}
+
+\setlist[itemize]{topsep=3pt,itemsep=2pt,parsep=0pt}
+\setlist[enumerate]{topsep=3pt,itemsep=2pt,parsep=0pt}
+\captionsetup{font=small,labelfont=bf}
+
+% ======================================================================
+% BOX STYLES
+% ======================================================================
+\newtcolorbox{notebox}[1][]{
+    enhanced,
+    colback=blue!4!white,
+    colframe=blue!55!black,
+    fonttitle=\bfseries,
+    title=#1,
+    boxrule=0.6pt,
+    arc=2mm,
+    left=2mm,right=2mm,top=1mm,bottom=1mm
+}
+
+\newtcolorbox{warnbox}[1][]{
+    enhanced,
+    colback=orange!5!white,
+    colframe=orange!65!black,
+    fonttitle=\bfseries,
+    title=#1,
+    boxrule=0.6pt,
+    arc=2mm,
+    left=2mm,right=2mm,top=1mm,bottom=1mm
+}
+
+\newtcolorbox{keybox}[1][]{
+    enhanced,
+    colback=green!4!white,
+    colframe=green!45!black,
+    fonttitle=\bfseries,
+    title=#1,
+    boxrule=0.6pt,
+    arc=2mm,
+    left=2mm,right=2mm,top=1mm,bottom=1mm
+}
+
+\newtcolorbox{assignmentbox}[1][]{
+    enhanced,
+    colback=purple!4!white,
+    colframe=purple!55!black,
+    fonttitle=\bfseries,
+    title=#1,
+    boxrule=0.6pt,
+    arc=2mm,
+    left=2mm,right=2mm,top=1mm,bottom=1mm
+}
+
+% ======================================================================
+% TITLE
+% ======================================================================
+\title{\textbf{RSE3010: Mine Geotechnical Engineering}\\Week 1 Study Notes}
+\author{Monash University, Semester 1, 2026}
+\date{Based on Week 1 Lecture Slides}
+
+\begin{document}
+
+\maketitle
+
+\section{Week 1: Infrastructure \& Geotechnical Challenges}
+
+\subsection{Purpose}
+This week introduces the infrastructure context and geotechnical challenges associated with major underground projects in Australia. The Melbourne Metro Tunnel and Snowy 2.0 are used as primary case studies to demonstrate how project scale, geology, groundwater, stress conditions, environmental approvals, and uncertainty influence underground engineering design.
+
+\begin{keybox}[Core message]
+Week 1 is not mainly about calculation. It is about understanding \textbf{why geotechnical characterisation matters}. Poorly understood ground conditions can affect design reliability, support selection, project cost, construction risk, and environmental approval.
+\end{keybox}
+
+\subsection{Learning Objectives}
+By the end of this week, students should be able to:
+\begin{itemize}
+    \item identify current major infrastructure programs in Australia;
+    \item explain how infrastructure demand affects geotechnical investigation and risk management;
+    \item compare shallow and deep underground project conditions;
+    \item recognise key geotechnical risks from infrastructure risk studies;
+    \item explain how early-stage geotechnical characterisation affects design reliability; and
+    \item distinguish between Environmental Effects Statement (EES) and Environmental Impact Statement (EIS) frameworks.
+\end{itemize}
+
+\subsection{Where Week 1 Fits in the Course}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Week} & \textbf{Main focus} & \textbf{Why it matters} \\
+\midrule
+1 & Infrastructure context and geotechnical risk & Frames the engineering problem and project uncertainty \\
+2 & Intact rock mechanics & Converts laboratory data into intact strength parameters \\
+3 & Rock mass classification & Converts geological observations into RMR, Q, and GSI \\
+4 & Rock mass design parameters & Derives Hoek--Brown and equivalent Mohr--Coulomb parameters \\
+\bottomrule
+\end{tabularx}
+\caption{Course progression for Assignment 1.}
+\end{table}
+
+\section{Infrastructure Market Capacity}
+
+\subsection{Historic Level of Investment}
+Australia has experienced a sustained period of major infrastructure investment, including a large number of underground transport, water, and energy projects. This creates strong demand for geotechnical engineers, but also places pressure on investigation programs, design timelines, construction resources, and risk management processes.
+
+\begin{itemize}
+    \item The 2021 infrastructure pipeline included \textbf{125 major transport infrastructure projects}, representing approximately \textbf{58\% of the infrastructure pipeline}.
+    \item Tunnelling projects were expected to increase substantially over the following five years.
+    \item Students should compare the 2021 Infrastructure Market Capacity Report with the most recent available report and note changes in project numbers, investment scale, and delivery risks.
+\end{itemize}
+
+\begin{notebox}[Teaching note]
+The numerical values above provide context rather than design input. For assignment writing, students should use them to support an argument about why geotechnical investigation and risk management are increasingly important.
+\end{notebox}
+
+\subsection{Selected Major Tunnelling Projects in Australia}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Project} & \textbf{Location} & \textbf{Key features} \\
+\midrule
+Melbourne Metro Tunnel & Victoria & Approximately 9 km twin tunnels and five new underground stations. \\
+Snowy 2.0 & New South Wales & Approximately 27 km waterway tunnel and an underground power station at large depth. \\
+West Gate Tunnel & Victoria & Large-diameter road tunnel constructed in an urban environment. \\
+Sydney Metro West & New South Wales & Twin metro tunnels constructed using TBMs. \\
+Suburban Rail Loop & Victoria & Long-term orbital rail project with major underground sections. \\
+North East Link & Victoria & Major road tunnel project in Melbourne. \\
+\bottomrule
+\end{tabularx}
+\caption{Selected major tunnelling projects in Australia. Students should verify current project status when citing external sources.}
+\end{table}
+
+\section{Infrastructure Risk Dashboard}
+
+\subsection{Critical Risks Identified}
+The Infrastructure Risk Dashboard identifies geotechnical and ground movement issues as major risks for urban infrastructure delivery. For underground projects, these risks are often linked to uncertainty in geology, groundwater, existing structures, contaminated ground, land acquisition, and public acceptance.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{X l l}
+\toprule
+\textbf{Sector risk} & \textbf{Typical rating} & \textbf{Typical trend} \\
+\midrule
+Ground movement and geotechnical issues & Critical & Increasing \\
+Environmental and land contamination & High & Increasing \\
+Social licence and community disruption & High & Increasing \\
+Land acquisition and corridor constraints & Critical & Increasing \\
+\bottomrule
+\end{tabularx}
+\caption{Infrastructure risk dashboard summary.}
+\end{table}
+
+\begin{keybox}[Engineering interpretation]
+A risk rating is not only an administrative label. It affects investigation scope, contingency planning, construction methodology, monitoring requirements, and contractual allocation of risk.
+\end{keybox}
+
+\section{Case Study 1: Melbourne Metro Tunnel}
+
+\subsection{Geological Setting}
+The Melbourne Metro Tunnel is a useful example of a shallow urban underground project constructed in variable ground conditions. The dominant rock unit is the \textbf{Melbourne Formation}, comprising Silurian siltstone and sandstone, with weathering and strength varying significantly with depth and location.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{l c c c c X c c}
+\toprule
+\textbf{Unit} & \boldmath{$\sigma_{ci}$} \textbf{(MPa)} & \boldmath{$m_i$} & \boldmath{$E_i$} \textbf{(GPa)} & \boldmath{$\nu$} & \textbf{Weathering} & \textbf{GSI} & \textbf{Depth (m)} \\
+\midrule
+MF1 & 19 & 13 & 6.0 & 0.20 & Slightly weathered--fresh & 55 & Below 30 \\
+MF2 & 61 & 3  & 3.5 & 0.20 & Moderately weathered & 45 & 15--30 \\
+MF3 & 21 & 3  & 1.5 & 0.25 & Highly weathered & 35 & 5--15 \\
+MF4 & 1  & -- & 0.4 & 0.30 & Extremely weathered & -- & 0--5 \\
+\bottomrule
+\end{tabularx}
+\caption{Representative Melbourne Metro geological units.}
+\end{table}
+
+\begin{notebox}[Important interpretation]
+MF2 has a higher intact compressive strength than MF1 even though it is more weathered. This reflects lithological variation within the Melbourne Formation. Weathering grade and intact strength are not always inversely correlated when lithology changes.
+\end{notebox}
+
+\subsection{Key Geotechnical Challenges}
+For shallow urban tunnelling, the main concern is often not only tunnel collapse, but also the effect of excavation on the urban environment. Key challenges include:
+\begin{enumerate}
+    \item \textbf{Geological structures}: faults, folds, dykes, and variable bedding conditions;
+    \item \textbf{Mixed ground conditions}: transitions between weathered rock, stronger rock, and soil-like material;
+    \item \textbf{Existing infrastructure}: interaction with nearby buildings, basements, utilities, City Loop tunnels, and road tunnels;
+    \item \textbf{Surface and groundwater}: potential influence of the Yarra River and shallow groundwater; and
+    \item \textbf{Settlement control}: serviceability limits may govern design even when overall stability is adequate.
+\end{enumerate}
+
+\subsection{Cost and Risk Context}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{0.8\textwidth}{X r}
+\toprule
+\textbf{Works package} & \textbf{Cost (\$ million)} \\
+\midrule
+Land acquisition & 781.2 \\
+Early works & 365.3 \\
+Tunnel and stations & 5,319.7 \\
+Rail infrastructure & 1,154.7 \\
+Rail systems & 1,384.5 \\
+Other state costs & 2,023.5 \\
+\midrule
+\textbf{Total original estimate} & \textbf{11,028.9} \\
+\bottomrule
+\end{tabularx}
+\caption{Melbourne Metro works package costs based on original budget estimate.}
+\end{table}
+
+\begin{keybox}[Link to geotechnical design]
+In shallow urban tunnels, a small amount of ground movement may still be unacceptable if it affects rail assets, buried utilities, heritage buildings, or sensitive facilities. Therefore, geotechnical design must consider both \textbf{ultimate stability} and \textbf{serviceability performance}.
+\end{keybox}
+
+\section{Case Study 2: Snowy 2.0}
+
+\subsection{Project Overview}
+Snowy 2.0 is a deep underground pumped-storage hydroelectric project. It provides a contrasting case to the Melbourne Metro Tunnel because the governing geotechnical issues are strongly influenced by depth, in-situ stress, groundwater pressure, and geological uncertainty.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{1\textwidth}{X l}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Installed capacity & 2,000 MW \\
+Large-scale storage & 350,000 MWh \\
+Waterway tunnel length & Approximately 27 km \\
+Power station depth & Approximately 850 m underground \\
+Original Snowy Scheme & 225 km of tunnels constructed between 1949 and 1972 \\
+\bottomrule
+\end{tabularx}
+\caption{Key Snowy 2.0 project statistics.}
+\end{table}
+
+\subsection{Key Geotechnical Challenges}
+\begin{enumerate}
+    \item \textbf{Geological uncertainty}: variable rock mass conditions along long tunnel alignments;
+    \item \textbf{High in-situ stress}: potential stress-induced damage, spalling, or rockburst in deep excavations;
+    \item \textbf{Groundwater}: complex hydrogeological conditions and potential high-pressure inflows;
+    \item \textbf{Rock mass variability}: high-strength intact rock may still contain faults, shear zones, and weak zones; and
+    \item \textbf{Construction access}: limited underground access increases the consequence of unexpected ground conditions.
+\end{enumerate}
+
+\begin{warnbox}[Snowy 2.0 as a geotechnical risk case]
+Snowy 2.0 demonstrates how geological uncertainty can significantly influence cost, schedule, and construction strategy. In Assignment 1, students should use this case to explain why early-stage investigation, parameter selection, and uncertainty management are central to underground engineering.
+\end{warnbox}
+
+\section{Case Study 3: West Gate Tunnel}
+
+\begin{warnbox}[Environmental and contaminated ground risk]
+The West Gate Tunnel illustrates that geotechnical risk is not limited to strength and deformation. Contaminated spoil, groundwater interaction, disposal requirements, and environmental approvals can dominate project cost and programme. These issues should be considered part of the broader geotechnical risk framework.
+\end{warnbox}
+
+\section{Shallow vs Deep Underground Conditions}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Aspect} & \textbf{Melbourne Metro Tunnel: shallow urban tunnel} & \textbf{Snowy 2.0: deep underground project} \\
+\midrule
+Depth & Typically shallow to moderate & Up to several hundred metres below ground \\
+Geology & Weathered Melbourne Formation, variable siltstone/sandstone & Granitic and metamorphic rocks with faults and weak zones \\
+Weathering & Strongly depth-dependent & Generally fresher rock, but geological structures remain critical \\
+Stress regime & Low to moderate & High; stress-induced failure may govern \\
+Ground control & Settlement, mixed ground, water, interaction with assets & Rock mass instability, squeezing, spalling, groundwater pressure \\
+Groundwater & Surface water and shallow groundwater interaction & Potentially high-pressure groundwater systems \\
+Construction & TBM and cut-and-cover station works & TBM and drill-and-blast methods \\
+Key design concern & Ground movement and serviceability & Stability, stress damage, support capacity, constructability \\
+\bottomrule
+\end{tabularx}
+\caption{Comparison between shallow and deep underground conditions.}
+\end{table}
+
+\begin{keybox}[How to compare projects]
+Do not simply list project facts. A good comparison explains how the differences in depth, stress, geology, groundwater, and urban constraints change the geotechnical design problem.
+\end{keybox}
+
+\section{Environmental Assessment Framework}
+
+\subsection{EIS vs EES}
+Large infrastructure projects in Australia require environmental assessment. The terminology varies between jurisdictions. Victoria commonly uses an \textbf{Environmental Effects Statement (EES)}, while other jurisdictions may use \textbf{Environmental Impact Statement (EIS)} terminology.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Aspect} & \textbf{EIS} & \textbf{EES} \\
+\midrule
+Jurisdiction & Used in several Australian states and territories & Specific to Victoria \\
+Legislation & State-specific environmental planning legislation & Environment Effects Act 1978 (Victoria) \\
+Commonwealth trigger & \multicolumn{2}{X}{EPBC Act 1999 applies when Matters of National Environmental Significance may be affected.} \\
+Typical relevance to geotechnics & Groundwater, spoil, contamination, settlement, vibration, ground movement & Groundwater, spoil, contamination, settlement, vibration, ground movement \\
+\bottomrule
+\end{tabularx}
+\caption{Comparison between EIS and EES frameworks.}
+\end{table}
+
+\subsection{EPBC Act and Key Tools}
+The \textbf{Environment Protection and Biodiversity Conservation Act 1999} is the Australian Government's key environmental legislation for matters of national environmental significance.
+
+\begin{itemize}
+    \item The EPBC Act Public Portal can be used to search project referrals and approval status.
+    \item The Protected Matters Search Tool can identify protected species, habitats, and environmental constraints.
+    \item For underground projects, environmental assessment often includes groundwater, settlement, vibration, spoil disposal, contamination, and impacts on sensitive receptors.
+\end{itemize}
+
+\section{Net Zero, Energy Storage, and Underground Engineering}
+
+Australia's net-zero transition has increased interest in renewable energy storage, including pumped hydro energy storage. Projects such as Snowy 2.0, Kidston, Borumba, and Pioneer-Burdekin require substantial underground engineering input.
+
+\begin{keybox}[Energy transition link]
+The energy transition creates new demand for underground engineering. Pumped hydro projects require tunnels, shafts, caverns, slopes, portals, and complex groundwater management. This creates direct links between climate policy and geotechnical engineering practice.
+\end{keybox}
+
+\section{Geotechnical Site Investigation and Rock Mass Classification}
+
+\subsection{Why Investigation Matters}
+A rock mass is not the same as intact rock. It consists of intact blocks separated by discontinuities such as joints, bedding planes, faults, shears, and weathered zones. Its engineering behaviour is governed by both intact rock properties and discontinuity characteristics.
+
+\begin{notebox}[Investigation-to-design chain]
+A typical design chain is:
+\[
+\begin{aligned}
+&\text{Field observations} \rightarrow \text{Core logging}
+\rightarrow \text{RQD/RMR/Q/GSI} \\
+&\rightarrow \text{Strength and deformation parameters}
+\rightarrow \text{Design model}
+\end{aligned}
+\]
+Each transformation introduces uncertainty. This idea becomes central in Weeks 2--5.
+\end{notebox}
+
+\subsection{Anderson Creek Formation Example}
+The Anderson Creek Formation siltstone and sandstone can be divided into subunits based on intact strength, degree of fracturing, and degree of weathering. Lower AF numbers generally indicate less weathered and better-quality rock.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{l X X X X X X}
+\toprule
+ & \multicolumn{6}{c}{\textbf{Intact strength class}} \\
+\cmidrule(lr){2-7}
+\textbf{GSI group} & \textbf{Soil} & \textbf{VL} & \textbf{L} & \textbf{M} & \textbf{H} & \textbf{VH} \\
+ & $<0.6$ MPa & $<0.6$ MPa & $2$--$6$ MPa & $6$--$20$ MPa & $20$--$60$ MPa & $>60$ MPa \\
+\midrule
+GSI1: 50--$>65$ & N/A & N/A & AF6 & AF4 & AF1 & AF1 \\
+GSI2: 40--$>55$ & N/A & N/A & AF6 & AF4 & AF2 & AF2 \\
+GSI3: 30--$>45$ & N/A & N/A & AF7 & AF5 & AF3 & N/A \\
+GSI4: 20--$>35$ & N/A & N/A & AF7 & AF5 & AF3 & N/A \\
+GSI5: 0--$>30$ & \multicolumn{6}{c}{Fault/shear zone} \\
+\bottomrule
+\end{tabularx}
+\caption{Example rock mass class definition matrix for the Anderson Creek Formation.}
+\end{table}
+
+\section{Week 1 Summary}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Topic} & \textbf{Key output} & \textbf{Connection to Assignment 1} \\
+\midrule
+Infrastructure market & Understanding of project scale and delivery pressure & Context for why geotechnical risk matters \\
+Risk dashboard & Recognition of ground movement, contamination, and land constraints & Supports discussion of project risk and uncertainty \\
+Melbourne Metro Tunnel & Shallow urban tunnelling case & Used to discuss settlement, mixed ground, and existing infrastructure \\
+Snowy 2.0 & Deep underground energy project & Used to discuss depth, stress, groundwater, and geological uncertainty \\
+Environmental assessment & EIS/EES/EPBC framework & Shows how geotechnical issues connect to approvals and environmental management \\
+Rock mass classification preview & Link between investigation and design parameters & Prepares for Weeks 2--4 calculations \\
+\bottomrule
+\end{tabularx}
+\caption{Week 1 summary and assignment connection.}
+\end{table}
+
+\section{Assignment 1 Tasks: Week 1 Component}
+
+\begin{assignmentbox}[Week 1 report task]
+Prepare a report section of approximately \textbf{1,000 words} addressing the infrastructure context and geotechnical challenges associated with the Melbourne Metro Tunnel and Snowy 2.0.
+\end{assignmentbox}
+
+\subsection{Suggested Structure}
+
+\subsubsection*{1. Infrastructure Market Capacity and Geotechnical Engineering Demands}
+\begin{itemize}
+    \item Provide a brief overview of current major infrastructure programs in Australia.
+    \item Explain how increasing infrastructure demand affects geotechnical investigation, design timelines, and risk management.
+    \item Discuss the role of geotechnical engineering in mitigating delivery risks.
+\end{itemize}
+
+\subsubsection*{2. Project Context: Melbourne Metro Tunnel and Snowy 2.0}
+\begin{itemize}
+    \item Summarise the geological settings for both projects.
+    \item Identify key geotechnical challenges, including depth, stress regime, groundwater, geological structures, and variability in rock mass conditions.
+    \item Compare shallow and deep underground conditions and explain their implications for design.
+\end{itemize}
+
+\subsubsection*{3. Geotechnical Risk and Uncertainty}
+\begin{itemize}
+    \item Identify key risks from the Infrastructure Risk Dashboard or related infrastructure risk studies.
+    \item Discuss ground movement, groundwater inflow, contaminated ground, and variability in rock mass quality.
+    \item Explain how early-stage geotechnical characterisation influences parameter selection and design reliability.
+\end{itemize}
+
+\begin{notebox}[Writing guidance]
+A strong Week 1 answer should not be a project description only. It should connect project facts to geotechnical engineering decisions. For example: \textit{deep excavation} $\rightarrow$ \textit{higher in-situ stress} $\rightarrow$ \textit{possible spalling/rockburst} $\rightarrow$ \textit{need for stress measurement, support design, and observational monitoring}.
+\end{notebox}
+
+\section{Common Mistakes}
+\begin{itemize}
+    \item Describing infrastructure projects without explaining their geotechnical implications.
+    \item Treating shallow and deep tunnels as different only in depth, without discussing stress, groundwater, and serviceability.
+    \item Using project cost overruns as general statements without connecting them to uncertainty, risk allocation, or ground conditions.
+    \item Confusing intact rock strength with rock mass behaviour.
+    \item Forgetting to reference the sources used for infrastructure reports, EES/EIS documents, or project descriptions.
+\end{itemize}
+
+\section{Key Takeaways}
+\begin{itemize}
+    \item Underground infrastructure demand creates strong pressure for reliable geotechnical investigation and design.
+    \item Shallow urban tunnels are often governed by settlement, serviceability, existing assets, and environmental constraints.
+    \item Deep underground projects are often governed by stress-induced damage, groundwater pressure, rock mass variability, and construction access.
+    \item Geological uncertainty can propagate through the entire design process and affect cost, programme, and safety.
+    \item Week 1 provides the project context for the calculation-based work in Weeks 2--4.
+\end{itemize}
+
+\vspace{1cm}
+\noindent\textit{End of Week 1 Study Notes}
+
+\end{document}

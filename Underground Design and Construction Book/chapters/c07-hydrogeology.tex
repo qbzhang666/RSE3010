@@ -1,0 +1,188 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+%  Chapter 7 -- Groundwater and Hydrogeology
+%  Sources: Goodman et al. (1965); Heuer (1995); El Tani (2003);
+%  ITA guidance on drainage and waterproofing.
+%------------------------------------------------------------------------------
+\chapter{Groundwater and Hydrogeology}
+\label{ch:hydrogeology}
+
+Groundwater affects underground construction in four ways that are frequently
+treated as one. It reduces effective stress and therefore strength; it flows
+into the excavation and must be handled and discharged; it destabilises the
+face, particularly in granular ground; and it loads the completed lining, in
+some cases for the whole service life. These require different analyses and
+different control measures, and a project that treats groundwater as a single
+topic tends to address whichever aspect is most familiar. This chapter
+separates them, and then examines the decision that follows from them all:
+whether the finished structure drains or resists the full head.
+
+These are different problems requiring different analyses, and a project that
+treats groundwater as a single topic tends to address whichever of them is
+most familiar. This chapter separates them, and then makes the argument that
+the single most consequential groundwater decision --- whether the finished
+structure drains or resists full head --- is taken early, on hydrogeological
+grounds, and constrains everything downstream.
+
+\section{Groundwater regime and flow}
+\label{sec:groundwater-regime}
+
+\subsection{Conceptual hydrogeological models}
+\label{sec:hydrogeological-model}
+
+A conceptual model states where water enters the system, where it leaves, what
+transmits it and what impedes it. Aquifers and aquitards are defined by
+contrast rather than in absolute terms, and the contrast that matters is
+usually several orders of magnitude in permeability. Perched systems, confined
+aquifers with heads well above their host unit, and recharge boundaries such
+as rivers all change the answer to the same excavation problem.
+
+The distinction that governs analysis is between porous-medium flow and
+fracture-controlled flow. In a granular soil or a well-connected porous rock,
+flow occupies the whole cross-section and an equivalent continuum treatment is
+sound. In a low-porosity fractured rock, flow is confined to a small number of
+connected features, and the equivalent continuum is a convenience that
+predicts the average while missing everything that matters. Inflow into a
+tunnel in such ground is not distributed along the drive; it arrives at
+discrete points, at rates the average would never suggest.
+
+Recognising which regime applies is a geological judgement made from the rock
+type, the structure and the fracture connectivity, and it should be made
+explicitly before any inflow calculation is attempted.
+
+\subsection{Permeability and effective stress}
+\label{sec:permeability}
+
+Permeability is measured over wildly different support volumes. A laboratory
+permeameter tests a specimen deliberately selected to be intact, and therefore
+measures matrix permeability --- frequently irrelevant in fractured rock. A
+packer or Lugeon test in a borehole measures a few metres of rock around the
+hole, including whatever fractures it happens to intersect. A pumping test
+integrates over tens or hundreds of metres and is the only routine measurement
+whose support volume approaches the scale of the problem.
+
+The consequence is that measured permeability rises with the scale of the
+test, sometimes by orders of magnitude, and a design based on single-borehole
+values will underestimate inflow. Where inflow governs, a pumping test is
+worth more than a large number of packer tests.
+
+Effective stress links water back to the mechanics. Excavation changes pore
+pressure as well as total stress, and the response depends on whether the
+ground drains during the time available. Low-permeability clays respond
+essentially undrained during construction and drain over subsequent years,
+so short-term face stability and long-term lining load are different
+calculations on the same section. Permeable ground drains as fast as it is
+loaded and only the drained case exists. The intermediate case --- partially
+drained, with the degree of drainage depending on advance rate --- is the most
+awkward and the most common in weathered rock.
+
+\subsection{Inflow prediction}
+\label{sec:inflow-prediction}
+
+Steady-state analytical solutions give inflow per unit length of tunnel as a
+function of permeability, head and tunnel radius, with the classical forms
+differing in their treatment of the free surface and the boundary conditions.
+They are simple, transparent and dimensionally correct, and they are only as
+good as the permeability supplied to them.
+
+Two systematic corrections are needed in fractured rock. The first is for
+scale, as above. The second follows from the discrete nature of the flow: a
+solution assuming uniform permeability distributes the predicted inflow evenly
+along the drive, whereas the real inflow concentrates at fractures and faults.
+The total may be approximately right while the peak, which determines pumping
+capacity and whether the face can be worked, is badly wrong.
+
+Realistic expectations matter here. Inflow predictions that fall within a
+factor of two or three of the outturn are good; order-of-magnitude errors are
+common where the flow regime was misdiagnosed. Design should therefore be
+based on a range with a stated basis, and pumping and treatment capacity sized
+against the upper bound rather than the central estimate. Probabilistic
+treatment along the alignment --- combining the probability of intersecting a
+water-bearing feature with the inflow expected if one is met --- is more
+informative than a single deterministic value.
+
+\section{Design consequences of groundwater}
+\label{sec:groundwater-consequences}
+
+\subsection{Drained and tanked linings}
+\label{sec:drained-vs-tanked}
+
+This is the governing groundwater decision. A drained lining admits water to a
+drainage layer and conveys it to a sump, so the lining carries little or no
+water pressure and can be correspondingly thinner and lower in carbon. In
+exchange the owner accepts permanent drawdown, perpetual pumping, and a
+drainage system that will scale with calcite and require access for flushing
+over the whole design life. A tanked lining resists the full hydrostatic head,
+which means a thicker and more heavily reinforced structure, an uplift check
+for shallow sections, and a watertightness requirement that the construction
+must actually achieve --- but the groundwater regime is left largely
+undisturbed and the operator has nothing to pump.
+
+Neither is universally correct, and the choice cannot be made on structural
+grounds alone. It is decided by the environmental acceptability of drawdown,
+the head, the permeability, the availability of maintenance access, and the
+owner's appetite for an operating liability in exchange for a capital saving.
+Because it determines lining thickness, reinforcement, waterproofing system
+and drainage detailing, it must be made early; reversing it at detailed design
+is effectively a redesign.
+
+Design head requires its own judgement. Water tables recover after
+construction, sometimes decades later and sometimes above the pre-construction
+level where regional abstraction has ceased. A tanked structure designed to
+the head measured during construction may be under-designed for the head it
+eventually sees, and shallow structures require an uplift check against the
+recovered water table with the structure empty.
+
+\subsection{Drawdown and environmental effects}
+\label{sec:drawdown}
+
+Drawdown causes settlement by increasing effective stress in compressible
+strata, and it does so over an area governed by the aquifer's transmissivity
+rather than by the tunnel's dimensions. The resulting settlement trough may be
+an order of magnitude wider than the volume-loss trough of
+Chapter~\ref{ch:settlement-damage}, is slower to develop, and is frequently
+attributed to the tunnel long after construction has finished. Where
+compressible layers overlie a dewatered aquifer, this mechanism can dominate
+the total settlement.
+
+The environmental consequences are what usually bind. Groundwater-dependent
+ecosystems, licensed bores, baseflow to watercourses and saline intrusion are
+all sensitive to drawdown, and limits on each are commonly written into
+approval conditions. Those limits then act as design constraints: a drawdown
+condition determines the lining drainage philosophy as directly as any
+structural calculation.
+
+Control measures span a wide range of permeability and head. Dewatering suits
+permeable ground where drawdown is acceptable; cut-off walls and
+pre-excavation grouting reduce inflow where it is not; ground freezing handles
+high heads and fine soils at high cost; compressed air is now rare on health
+grounds. Selection is treated in
+Chapter~\ref{ch:ground-improvement}. The point to carry from here is that
+control measures are chosen against the hydrogeological model, and a wrong
+diagnosis of the flow regime produces a measure that does not work.
+
+\subsection{Inrush and water chemistry}
+\label{sec:inrush-chemistry}
+
+Sudden inflow is a different hazard from steady seepage. It arises where the
+excavation intersects a confined high-head feature: a karst conduit, a
+fault-hosted aquifer, a buried valley, or old flooded workings. The volumes
+can overwhelm pumping capacity within minutes, and the consequence is loss of
+the heading and, on occasion, of life.
+
+The standard defence is procedural rather than analytical. Probe drilling
+ahead of the face, maintained as a policy through reaches identified as
+at-risk in the geological model, provides warning and allows controlled
+bleed-off or pre-excavation grouting before the feature is opened. The
+decision to probe is cheap; the decision not to probe is only cheap until it
+is not.
+
+Water chemistry closes the chapter because it determines what the structure
+must survive and what may be discharged. Sulfate, chloride, low pH and
+dissolved carbon dioxide all attack concrete, and the exposure classification
+that sets binder type and cover comes from groundwater analysis carried out
+during investigation (Chapter~\ref{ch:linings}). Sulfide-bearing rock exposed
+to air generates acid rock drainage that can persist for decades in spoil
+stockpiles. Discharge is regulated on quality as well as volume, and treatment
+requirements discovered late are expensive; the chemistry should be
+established while the investigation is still in the field.

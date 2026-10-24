@@ -1,0 +1,142 @@
+% !TeX root = ../main.tex
+% ---------------------------------------------------------------------------
+% Excavation Design by Ground Type
+% Scope extension added from the classical-textbook crosscheck.
+% Maps to: Brady & Brown (2006) Ch. 7 "Excavation design in massive elastic
+% rock", Ch. 8 "in stratified rock", Ch. 9 "in blocky rock";
+% Hoek & Brown (1980) Ch. 7 "Underground excavation failure
+% mechanisms".
+% Rationale: the classical books organise excavation design by ground type,
+% which is the structural idea the current book most clearly lacks. This
+% chapter supplies the organising frame that Chapter~\ref{ch:empirical-support}
+% then applies empirically.
+% ---------------------------------------------------------------------------
+\chapter{Excavation Design by Ground Type}
+\label{ch:ground-type-design}
+
+
+\section{Ground type as the organising principle}
+\label{sec:ground-type-as-the-organising-principle}
+
+\subsection{Ground type as the organising principle}
+\label{sec:ground-type-principle}
+\scopenote{Brady and Brown's central structural idea: massive, stratified and
+blocky rock fail by different mechanisms and therefore require different
+analyses. Classification systems describe quality; ground type describes
+behaviour.}
+
+\subsection{Behaviour classes and their diagnostic features}
+\label{sec:behaviour-classes}
+\scopenote{Massive, stratified, blocky, heavily fractured, weak and
+high-stress ground, with the field evidence that distinguishes them and the
+governing failure mode of each.}
+
+\section{Massive rock: stress and failure zone}
+\label{sec:massive-rock-stress-and-failure-zone}
+
+\subsection{Massive elastic rock: boundary stresses}
+\label{sec:massive-boundary-stress}
+\scopenote{Stress concentration at the excavation boundary as a function of
+shape and $k$-ratio; tensile zones in the crown and invert; the shape that
+minimises the worst boundary stress for a given stress field.}
+
+\subsection{Delineating the failure zone}
+\label{sec:failure-zone}
+\scopenote{Comparing boundary and near-boundary stress against a strength
+criterion to map the extent of overstressed rock, and using that extent to
+size reinforcement length.}
+
+\subsection{The zone of influence of an excavation}
+\label{sec:zone-of-influence}
+\scopenote{The distance at which an opening ceases to disturb the stress field
+appreciably, the conventional 5\,\% criterion, and its use in setting model
+boundaries and excavation separations.}
+
+\section{Excavation geometry and orientation}
+\label{sec:excavation-geometry-and-orientation}
+
+\subsection{Excavation shape and size effects}
+\label{sec:shape-size-effects}
+\scopenote{Aspect ratio, corner radius and sidewall height; why increasing
+span increases both stress and the probability of intersecting an adverse
+structure.}
+
+\subsection{Excavation orientation}
+\label{sec:excavation-orientation}
+\scopenote{Orientation relative to the principal stress directions and to the
+dominant discontinuity sets, and the resolution of conflict between the two.}
+
+\subsection{Weakness planes in otherwise massive rock}
+\label{sec:weakness-planes}
+\scopenote{A single fault or persistent joint intersecting an otherwise
+competent rock mass, and why it often governs a design that classification
+would call good ground.}
+
+\section{Stratified rock}
+\label{sec:stratified-rock}
+
+\subsection{Stratified rock: roof bed separation}
+\label{sec:roof-separation}
+\scopenote{Bedded and laminated roofs, separation between beds, the effective
+thickness of the immediate roof, and the influence of bed thickness on
+stability.}
+
+\subsection{Voussoir beam analysis}
+\label{sec:voussoir}
+\scopenote{The linear arch model for a jointed or fractured roof beam:
+compressive arch development, buckling and crushing limits, and the maximum
+stable span. Related script: \code{arc-beam.py}.}
+
+\subsection{Large-deflection roof behaviour}
+\label{sec:large-deflection-roof}
+\scopenote{Snap-through instability, progressive deflection under
+time-dependent loading, and the difference between a roof that sags and a roof
+that fails.}
+
+\section{Support of laminated roofs}
+\label{sec:laminated-roof-support}
+\scopenote{Bolting to suspend, to build a composite beam, or to clamp beds;
+selecting between these mechanisms from bed thickness and available anchorage.}
+
+\section{Blocky rock}
+\label{sec:blocky-rock}
+
+\subsection{Blocky rock: from geometry to stability}
+\label{sec:removability}
+\scopenote{Block identification and removability are established in
+Chapter~\ref{ch:structural-analysis}; this section takes the identified blocks
+and asks whether they are stable. The distinction matters: geometry says a
+block \emph{can} move, mechanics says whether it \emph{will}.}
+
+\subsection{Key block theory in design}
+\label{sec:key-blocks}
+\scopenote{Using Goodman \& Shi's key block result as a design screen: if the
+critical key block is stabilised, the blocks it keys are secured with it.
+Applying this to set a systematic bolting pattern.}
+
+\subsection{Wedge stability analysis}
+\label{sec:wedges}
+\scopenote{Limit equilibrium for the crown and sidewall wedges constructed in
+Section~\ref{sec:tunnel-wedges}: driving weight against joint shear strength
+and clamping stress, factor of safety conventions, and the sensitivity to
+water pressure on the joint planes. Procedure in
+Appendix~\ref{app:calculations}.}
+
+\section{Sidewalls and weak rock}
+\label{sec:sidewalls-and-weak-rock}
+
+\subsection{Sidewall and high-wall design in blocky rock}
+\label{sec:blocky-sidewalls}
+\scopenote{Sliding and toppling of sidewall blocks, the reduced clamping
+stress on a relaxed wall, and support selection for tall walls.}
+
+\subsection{Heavily fractured and weak rock}
+\label{sec:heavily-fractured}
+\scopenote{Where block-based analysis loses meaning and equivalent continuum
+treatment resumes; the transition criteria between the two frameworks.}
+
+\section{Selecting the analysis route}
+\label{sec:analysis-route}
+\scopenote{A decision table mapping ground type to the appropriate empirical,
+analytical and numerical methods, extending the matrix in
+Chapter~\ref{ch:construction}.}

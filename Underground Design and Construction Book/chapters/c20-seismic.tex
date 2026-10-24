@@ -1,0 +1,160 @@
+% !TeX root = ../main.tex
+% Seismic and dynamic design. Moved to Part IV: seismic action is an
+% imposed load case handled by design and analysis, not a property of
+% the ground.
+\chapter{Seismic and Dynamic Design}
+\label{ch:seismic}
+
+Seismic action is distinguished from the other loads considered in this book
+by the manner in which it is applied. The ground imposes a deformation, and
+the structure either accommodates that deformation or fails to; it is not
+loaded in the sense that a lining is loaded by ground pressure. The
+consequence, developed through the chapter, is that increased strength and
+stiffness are frequently the wrong response, and that the governing parameter
+is the relative stiffness of structure and ground rather than the capacity of
+the structure alone.
+
+\section{Seismic demand and analysis}
+\label{sec:seismic-demand}
+
+\subsection{Performance of underground structures}
+\label{sec:seismic-performance}
+
+Underground structures perform well in earthquakes, and the reason is
+kinematic rather than structural. A building responds dynamically, amplifying
+ground motion through its own inertia; a tunnel is confined by ground on all
+sides, its mass small relative to the surrounding soil, so it moves with the
+ground rather than responding to it. Damage databases confirm this
+consistently: deep bored tunnels in competent rock come through strong shaking
+with little or no damage.
+
+The exceptions define the design problem. Damage concentrates where cover is
+shallow, at portals, at junctions between structures of differing stiffness, in
+liquefiable ground, and above all where a fault ruptures through the
+alignment. Older tunnels with unreinforced masonry or brittle linings are more
+vulnerable than modern reinforced ones, and tunnels already deteriorated by
+water ingress and corrosion are more vulnerable again --- the interaction with
+condition that Chapter~\ref{ch:sustainability} identifies as a resilience
+issue.
+
+The essential distinction is between ground shaking and ground failure.
+Shaking imposes transient deformation as waves pass; the structure deforms,
+develops strain, and returns. Ground failure --- fault rupture, liquefaction,
+landsliding --- imposes permanent displacement that the structure must
+accommodate or fail. These require entirely different treatments, and
+combining them into a single seismic check confuses two unrelated problems.
+
+\subsection{Hazard and deformation demand}
+\label{sec:hazard-deformation}
+
+Seismic hazard assessment produces a design ground motion for a stated return
+period, and underground structures are usually designed for two levels: an
+operating earthquake, more frequent, after which the asset remains in service;
+and a maximum design earthquake, rare, after which life safety is assured and
+repairable damage is accepted. Intraplate regions of low to moderate
+seismicity present a particular framing problem, since the hazard is dominated
+by rare large events rather than by frequent moderate ones.
+
+The demand on the structure is deformation, not force. Three modes are
+distinguished. \emph{Axial} extension and compression occurs as a wave travels
+along the tunnel axis, straining the lining longitudinally.
+\emph{Longitudinal bending} occurs as the wave curves the alignment.
+\emph{Ovaling} of a circular section, or \emph{racking} of a rectangular one,
+occurs as a shear wave propagates perpendicular to the axis, distorting the
+cross-section.
+
+Free-field deformation methods take the strain that would occur in the ground
+without the tunnel and impose it on the structure. The wave-passage approach of
+\citet{newmark1968problems} gives axial and curvature strain from the peak particle velocity and
+acceleration and an assumed wave speed and angle of incidence. The angle is
+unknown, so the design case takes the worst orientation, which is conservative
+and cheap.
+
+\subsection{Simplified analysis methods}
+\label{sec:simplified-seismic}
+
+Ovaling and racking are handled by closed-form solutions whose central
+insight is a ratio. The \emph{flexibility ratio} compares the shear stiffness
+of the ground to the bending stiffness of the lining, and it determines
+whether the lining follows the ground or resists it. At high flexibility ratio
+the lining conforms and its distortion equals the free-field distortion, with
+small induced forces. At low flexibility ratio the lining resists, distorts
+less, and attracts large moments. The \emph{compressibility ratio} plays the
+same role for the axial mode.
+
+The design implication mirrors that of static lining design in
+Chapter~\ref{ch:linings}: a flexible lining is generally the better seismic
+structure. Stiffening a lining to resist seismic distortion increases the
+forces it must carry, and the more effective response is usually to allow the
+distortion and detail for it.
+
+Interface assumptions bracket the answer. Full-slip between lining and ground
+gives lower thrust and higher moment; no-slip gives the reverse. Real
+behaviour lies between, and both should be checked, since the governing
+condition differs between reinforcement design and section capacity.
+
+\section{Seismic design and permanent displacement}
+\label{sec:seismic-design-displacement}
+
+\subsection{Dynamic numerical analysis}
+\label{sec:dynamic-analysis}
+
+Where the simplified methods do not apply --- irregular geometry, strongly
+layered ground, soil-structure interaction at a portal or a station box ---
+dynamic numerical analysis is required. Three inputs dominate the result and
+each deserves scrutiny.
+
+Input motion must be defined at the model base, which requires deconvolving a
+surface motion downward through the soil profile; errors here propagate
+directly. Boundary conditions must absorb outgoing waves rather than reflect
+them, since a reflecting boundary traps energy in the model and produces
+spurious amplification. Damping must represent energy dissipation without
+suppressing the response, and the numerical damping formulations in common use
+are frequency-dependent in ways that are easy to apply and hard to justify.
+
+An analysis that has not been checked against a simplified solution for a
+comparable case should not be relied on, for the reasons set out in
+Chapter~\ref{ch:numerical-modelling}.
+
+\subsection{Permanent ground displacement}
+\label{sec:permanent-displacement}
+
+Fault rupture through an alignment imposes displacement that no lining can
+resist. The design objective becomes accommodation and repairability rather
+than protection. Options include oversizing the section through the fault zone
+so that the operating envelope survives the displacement; articulating the
+lining with flexible joints that concentrate the deformation where it can be
+tolerated; using a ductile lining that deforms without collapse; and accepting
+damage in a defined length while ensuring it can be repaired.
+
+Estimating the displacement demand requires the geological assessment of fault
+activity and slip rate --- a specialist input that must be obtained early,
+since it determines the alignment as much as the design.
+
+Liquefaction affects tunnels differently from buildings. A buoyant structure
+in liquefied soil floats: a shallow tunnel with a large void ratio relative to
+the surrounding soil can uplift substantially. Loss of lateral support during
+liquefaction also removes the confinement on which the flexible-lining
+argument depends. Mitigation is by ground improvement to prevent liquefaction,
+or by increasing the structure's weight, and the assessment must consider the
+tunnel empty as well as in service.
+
+\subsection{Structures and performance criteria}
+\label{sec:seismic-structures-criteria}
+
+The bored tunnel is rarely the critical element. Portals combine a slope
+problem with a stiffness transition; station boxes are stiff rectangular
+structures that rack rather than ovale and attract far larger forces than a
+circular section; shafts impose a vertical stiffness discontinuity; and
+junctions between structures of differing stiffness concentrate deformation at
+the interface. Seismic design effort should be directed at these rather than
+distributed uniformly along the alignment.
+
+Performance-based criteria make the objective explicit. Immediate occupancy
+requires the asset to remain in service after the event. Life safety requires
+that people can evacuate and that collapse does not occur, accepting damage
+and closure. Matching performance level to hazard level and to asset
+criticality --- immediate occupancy for the operating earthquake, life safety
+for the maximum design earthquake --- is the standard framing, and it connects
+directly to the functionality-over-time treatment in
+Chapter~\ref{ch:sustainability}.

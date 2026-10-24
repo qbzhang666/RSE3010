@@ -1,0 +1,128 @@
+% !TeX root = ../main.tex
+% ---------------------------------------------------------------------------
+%  Resilience of Underground Infrastructure
+%  Added from the author's study report on sustainability and resilience of
+%  underground infrastructure, which supplies the functionality-over-time
+%  framing, the resilience assessment sequence and the restoration decision
+%  logic used here.
+%  Chapter placed in Part VI so that the hazard chapters that precede it feed
+%  a common lifecycle metric rather than remaining separate design checks.
+% ---------------------------------------------------------------------------
+\chapter{Resilience of Underground Infrastructure}
+\label{ch:resilience}
+
+The hazard chapters that precede this one each treat a single threat: seismic
+shaking, water inrush, squeezing, deterioration. Designed against
+independently, they produce a set of unrelated capacity checks. What an asset
+owner needs instead is a common measure: how much service function is lost when
+something happens, and how quickly it returns.
+
+That measure is resilience, and it is expressed through functionality over
+time rather than through hazard intensity. An underground asset begins its life
+delivering a required level of service. Ageing, creep, deterioration and
+leakage erode that level gradually; earthquakes, blasting, pressure transients
+and construction events reduce it abruptly. Inspection, repair, strengthening,
+grouting and relining restore it. Resilience is the shape of that curve.
+
+\section{Functionality as the design measure}
+\label{sec:functionality-measure}
+
+\subsection{Why hazard intensity is not enough}
+\label{sec:beyond-hazard}
+\scopenote{A design that survives the design event may still be unusable for
+months. Capacity checks answer whether the structure stands; they do not
+answer whether the service continues, which is what the owner and the public
+experience.}
+
+\subsection{Defining the service function}
+\label{sec:service-function}
+\scopenote{Expressing function in terms the asset actually delivers ---
+traffic capacity, flow rate, safe occupancy, generating availability --- and
+setting the threshold below which the asset is considered out of service.}
+
+\section{Deterioration and hazard scenarios}
+\label{sec:deterioration-and-hazards}
+
+\subsection{Baseline life-cycle deterioration}
+\label{sec:baseline-deterioration}
+\scopenote{The slow decline against which events are superimposed: ageing,
+creep, corrosion, leaching, leakage and progressive lining damage. Mechanisms
+in Chapter~\ref{ch:asset-management}.}
+
+\subsection{Discrete hazard events}
+\label{sec:discrete-hazards}
+\scopenote{Earthquake (Chapter~\ref{ch:seismic-design}), blasting and
+construction disturbance, operational pressure transients, water inrush
+(Chapter~\ref{ch:construction-hazards}), impact and fire. Selecting scenarios
+proportionate to consequence.}
+
+\subsection{Multi-hazard interaction}
+\label{sec:multi-hazard}
+\scopenote{Deterioration raises vulnerability to events, and events accelerate
+deterioration. Treating the two independently understates lifetime risk.}
+
+\section{Resilience assessment}
+\label{sec:resilience-assessment}
+
+\subsection{The assessment sequence}
+\label{sec:resilience-sequence}
+A workable assessment proceeds in eight steps:
+
+\begin{enumerate}[nosep]
+  \item define the service function as a functionality curve over time;
+  \item establish baseline performance under ageing and deterioration;
+  \item apply the hazard scenarios;
+  \item quantify functionality loss immediately after each event, giving
+        vulnerability and robustness;
+  \item estimate residual functionality;
+  \item estimate delay time before restoration begins, and restoration
+        duration;
+  \item evaluate the recovery trajectory;
+  \item compute a resilience index and compare intervention options.
+\end{enumerate}
+
+\subsection{Resilience metrics}
+\label{sec:resilience-metrics}
+\scopenote{Initial functionality, hazard occurrence time, immediate loss,
+residual functionality, delay, recovery trajectory, final restored
+functionality, and the area under the functionality--time curve. Recovery
+shape matters as much as recovery duration.}
+
+\subsection{Uncertainty in the resilience estimate}
+\label{sec:resilience-uncertainty}
+\scopenote{Uncertainty enters through hazard intensity, damage state,
+detection delay and recovery rate. Reporting a single index without those
+bands overstates what the assessment establishes. Methods in
+Chapter~\ref{ch:reliability-codes}.}
+
+\section{Restoration as a design decision}
+\label{sec:restoration}
+
+\subsection{Comparing intervention options}
+\label{sec:intervention-comparison}
+\scopenote{Restoration schemes compared on functionality recovered, time,
+cost, constructability, risk reduction and carbon impact --- not on repair
+cost alone. Repair options are design decisions with service and carbon
+consequences.}
+
+\subsection{Designing for recoverability}
+\label{sec:design-for-recovery}
+\scopenote{Access for inspection and repair, replaceable elements, redundancy
+and sacrificial detailing at fault crossings. Decisions taken at design stage
+that determine how fast the asset can be brought back.}
+
+\section{Closing the loop}
+\label{sec:resilience-loop}
+
+\subsection{Inspection and post-intervention feedback}
+\label{sec:resilience-feedback}
+\scopenote{Condition data and post-repair performance feed back into the
+digital twin of Chapter~\ref{ch:digital-underground}, updating the baseline
+for the next assessment cycle.}
+
+\subsection{From reactive repair to forecast-based intervention}
+\label{sec:predictive-intervention}
+\scopenote{Surface observation, internal inspection and multi-physics
+modelling together support intervention before functionality is lost, which is
+the practical objective of predictive maintenance
+(Chapter~\ref{ch:asset-management}).}

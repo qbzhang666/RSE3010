@@ -1,0 +1,117 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Underground Design and Construction
+%  Springer book manuscript using the official SNmono class, matching the
+%  setup of Dynamic_Testing_and_Engineering_Applications_of_Brittle_
+%  Geomaterials_Springer_v2.tex.
+%
+%  No boxes and no colour: material that would once have been boxed runs in
+%  the main text, so the page is plain body type throughout.
+%
+%  Part order follows the project lifecycle. Part I sets out the challenges
+%  and opportunities that now govern how projects are conceived --- carbon,
+%  digital delivery and resilience --- and the lifecycle digital twin that
+%  carries them. Parts II to VI then characterise the ground, derive
+%  parameters, design, construct and operate.
+%
+%  Build:  latexmk -pdf -outdir=build main.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[envcountchap]{SNmono}
+
+\input{preamble}
+
+\usepackage[backend=biber,style=authoryear,natbib=true,
+            maxcitenames=2,mincitenames=1,maxbibnames=99,
+            uniquename=false,uniquelist=false,giveninits=true,
+            date=year,isbn=false,url=false,eprint=false]{biblatex}
+
+\usepackage{springer_book}
+\usepackage[hidelinks,hypertexnames=false]{hyperref}
+\hypersetup{
+  pdftitle={Underground Design and Construction},
+  pdfauthor={Qian-Bing Zhang},
+  pdfsubject={Underground design and construction: characterisation, design,
+              construction, sustainability and asset life},
+  pdfkeywords={tunnelling, rock mechanics, ground characterisation, digital
+               twin, carbon, resilience}
+}
+
+\addbibresource{references.bib}
+
+\setlength{\emergencystretch}{2em}
+\setcounter{tocdepth}{1}
+
+\begin{document}
+
+\author{Qian-Bing Zhang}
+\title{{\huge Underground Design\\ and Construction}}
+\date{2026}
+\maketitle
+
+\frontmatter
+
+\include{frontmatter/preface}
+\include{frontmatter/how-to-use-this-book}
+
+\tableofcontents
+
+\include{frontmatter/notation-and-units}
+\include{frontmatter/list-of-symbols}
+
+\mainmatter
+
+\part{Challenges, Opportunities and Digital Practice}\label{part:context}
+\include{chapters/c01-challenges}
+\include{chapters/c02-digital-twin}
+\include{chapters/c03-sustainability-resilience}
+
+\part{Site and Ground Characterisation}\label{part:characterisation}
+\include{chapters/c04-engineering-geology}
+\include{chapters/c05-site-investigation}
+\include{chapters/c06-ground-modelling}
+\include{chapters/c07-hydrogeology}
+\include{chapters/c08-in-situ-stress}
+\include{chapters/c09-structural-analysis}
+\include{chapters/c10-classification}
+
+\part{Geomechanical Parameters and Ground Behaviour}\label{part:parameters}
+\include{chapters/c11-rock-mechanics}
+\include{chapters/c12-rock-mass-parameters}
+\include{chapters/c13-ground-behaviour}
+\include{chapters/c14-high-stress-ground}
+
+\part{Design and Analysis: From Preliminary to Detailed Design}\label{part:design}
+\include{chapters/c15-empirical}
+\include{chapters/c16-analytical}
+\include{chapters/c17-numerical}
+\include{chapters/c18-support}
+\include{chapters/c19-linings}
+\include{chapters/c20-seismic}
+\include{chapters/c21-integrated-design}
+
+\part{Construction}\label{part:construction}
+\include{chapters/c22-excavation-methods}
+\include{chapters/c23-mechanised}
+\include{chapters/c24-openings}
+\include{chapters/c25-ground-improvement}
+
+\part{Performance and Asset Life}\label{part:performance}
+\include{chapters/c26-movement-monitoring}
+\include{chapters/c27-assets}
+\include{chapters/c28-delivery}
+
+\appendix
+\part{Appendices}\label{part:appendices}
+\include{backmatter/appendix-a-design-templates}
+\include{backmatter/appendix-b-worked-example-data}
+\include{backmatter/appendix-c-software-tools}
+\include{backmatter/appendix-d-glossary}
+\include{backmatter/appendix-e-stereographic-projection}
+\include{backmatter/appendix-f-closed-form-solutions}
+\include{backmatter/appendix-g-material-constants}
+\include{backmatter/appendix-h-calculation-sequences}
+
+\backmatter
+\printbibliography[heading=bibintoc,title={References}]
+
+\end{document}

@@ -1,0 +1,394 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+%  Chapter 18 -- Linings, Waterproofing and Durability
+%  Sources: Muir Wood (1975); Duddeck & Erdmann (1985); Einstein & Schwartz
+%  (1979); Janssen joint model; ITA WG2 segmental lining guidelines (2019);
+%  fib and ACI guidance on fibre-reinforced segments.
+%------------------------------------------------------------------------------
+\chapter{Linings, Waterproofing and Durability}
+\label{ch:linings}
+
+The lining is the component of an underground structure required to remain
+serviceable for the whole design life, commonly a century, in a wet and
+sometimes chemically aggressive environment to which access is limited. This
+chapter treats two lining families. A segmental ring is erected within a
+shield and serves simultaneously as the reaction frame for the machine, as
+primary support and as the permanent structure, three functions whose design
+drivers conflict. A cast in-situ lining is placed behind a primary support
+that has already accommodated the initial ground response, so the governing
+question becomes how much of the long-term load it must carry alone.
+Waterproofing and durability are considered together at the close, since both
+follow from the hydrogeological conditions established in
+Chapter~\ref{ch:hydrogeology}.
+
+This chapter treats two lining families. A segmental ring is erected inside a
+shield and is simultaneously the machine's reaction frame, the primary support
+and the permanent structure --- three roles whose design drivers conflict. A
+cast in-situ lining is placed later, behind a primary support that has already
+taken the ground's initial response, and the design question becomes how much
+of the long-term load it must carry alone. Waterproofing and durability are
+treated together at the end because they are decided by the same
+hydrogeological facts and, more than any structural check, determine whether
+the lining actually reaches its design life.
+
+\section{Segmental ring design}
+\label{sec:segmental-ring}
+
+\subsection{Ring function, geometry and materials}
+\label{sec:ring-function}
+
+The segmental ring is asked to do three incompatible things. As the machine's
+reaction frame it must carry concentrated thrust from the jacks, which loads it
+axially and locally at the jack shoes. As primary support it must accept ground
+load from the moment it leaves the shield tail, before the annulus grout has
+gained strength. As the permanent structure it must carry ground and water load
+for the design life and remain watertight.
+
+Geometry follows from erection rather than from statics. A ring is divided into
+segments small enough to handle and erect inside the shield, with a key segment
+inserted last. Universal rings, tapered on both faces, negotiate curves and
+correct alignment drift by rotating the build position from ring to ring; the
+taper must be sufficient for the tightest design radius plus an allowance for
+correcting accumulated error. Segment count is a trade: more segments mean
+easier handling and more joints, and joints are where stiffness is lost and
+water enters.
+
+Materials have shifted markedly. Conventionally reinforced concrete remains
+standard for large diameters and high loads. Steel fibre reinforced concrete
+has displaced it for many smaller rings, because the governing actions are
+often the transient ones --- demoulding, handling, storage, jack thrust ---
+which produce local rather than flexural demands that fibres address well, and
+because eliminating cage fabrication removes cost, congestion and a corrosion
+path. Hybrid arrangements use fibres for the general section and bars only
+where bursting demands them.
+
+\subsection{Load cases and ground loading}
+\label{sec:segment-loads}
+
+The permanent ground and water load is the case designers concentrate on and
+the one that cracks fewest segments. Most segment damage originates in the
+transient cases: demoulding at low concrete strength, handling and stacking,
+erection inside the shield, and thrust from the jacks bearing on the
+just-completed ring. Grout pressure during annulus filling is another, and it
+acts on a ring that has not yet any ground restraint.
+
+Ground loading itself requires a decision about arching. Full overburden
+pressure is safe and, at depth, absurdly conservative --- the ground arches
+over the opening and carries most of its own weight. Terzaghi's arching
+reduction and its descendants estimate the reduced load, and the choice between
+them is not a detail: the ratio between full and arched overburden at moderate
+depth can exceed three.
+
+Water load must be taken at the recovered water table rather than the
+construction-period level (Chapter~\ref{ch:hydrogeology}), and for a tanked
+ring it acts inward as pressure and, in shallow ground, upward as buoyancy on
+an empty tunnel. Longer-term additions --- future surcharge, adjacent
+construction, seismic actions --- belong in the load schedule from the outset,
+because a ring cannot be strengthened later.
+
+\subsection{Analysis methods}
+\label{sec:lining-analysis}
+
+Three families of method are in use, and each answers a slightly different
+question.
+
+\emph{Continuum solutions} treat the lining as an elastic ring embedded in an
+elastic medium and solve the interaction in closed form. The solution of \citet{muirwood1975},
+its development by \citet{duddeck1985structural}, and the formulation of Einstein and Schwartz
+all express the result through two dimensionless ratios: a
+compressibility ratio comparing the ground's stiffness to the lining's axial
+stiffness, and a flexibility ratio comparing it to the lining's bending
+stiffness. Those ratios carry the central insight of lining design. When the
+lining is flexible relative to the ground it deforms with the ground and
+carries thrust with little moment; when it is stiff it resists the ground and
+attracts large moments. A flexible lining is usually the better structure, and
+the instinct to stiffen is usually wrong.
+
+The interface assumption matters. Full-slip and no-slip solutions bracket the
+real condition, and moments differ substantially between them; a grouted
+annulus is closer to no-slip than designers often assume.
+
+\emph{Bedded beam-spring models} discretise the ring into beam elements
+supported by radial springs representing the ground, usually acting in
+compression only so the ring can separate from the ground where it deflects
+inward. They accommodate non-uniform loading and joint stiffness that
+closed-form solutions cannot, at the cost of a strong sensitivity to the
+assumed spring stiffness --- which is the least reliable input.
+
+\emph{Numerical models} embed the lining in a continuum
+(Chapter~\ref{ch:numerical-modelling}) and represent staged installation. They
+are necessary where ground and lining interact in ways the simpler methods
+cannot capture: twin tunnels, non-uniform ground, staged excavation. They are
+also where a spurious precision is easiest to generate.
+
+The reasonable practice is to design with a closed-form solution, understand
+the result through the compressibility and flexibility ratios, and use a
+numerical model to check the cases the closed-form solution cannot address.
+
+\section{Joints, connections and build quality}
+\label{sec:joints-and-build}
+
+\subsection{Joint behaviour}
+\label{sec:joint-behaviour}
+
+Radial joints are the reason a segmental ring is not a monolithic ring.
+Contact is over a reduced width, not the full section, so the joint transmits
+thrust with limited rotational stiffness. The model of \citet{janssen1895versuche} treats the joint as a
+reduced-height section in contact, giving a rotational stiffness that decreases
+as the eccentricity of the thrust increases: as the joint opens on one side,
+the contact width reduces, stiffness falls, and moment sheds to adjacent
+sections.
+
+That behaviour is beneficial. A ring with articulating joints redistributes
+moment away from its most loaded points and behaves more flexibly than its
+section properties suggest, which by the argument above reduces the load it
+attracts. Muir Wood's effective inertia correction captures this approximately
+for hand calculation; a beam-spring or numerical model can represent it
+directly through rotational springs.
+
+Circumferential joints couple successive rings. Where staggered so that radial
+joints do not align, the coupling lets a heavily loaded ring share load with
+its neighbours, and the ring effectively acts as part of a tube rather than in
+isolation. This is a real strengthening effect and is routinely neglected;
+where it is relied upon, the coupling must be detailed to transfer shear.
+
+\subsection{Connections and watertightness}
+\label{sec:connections-watertightness}
+
+Connections serve during erection and, sometimes, permanently. Their essential
+function is to hold segments in position and compress the gasket while the ring
+is built and before the annulus grout sets. Bolted connections do this
+reliably and leave pockets that must be sealed and that interrupt the section.
+Dowel and cam systems engage automatically as the ring is pushed together,
+which is faster and eliminates the pockets, and the trend is firmly towards
+bolt-free systems.
+
+Watertightness depends on the gasket, and the gasket depends on the build.
+EPDM profiles seal by compression, and their performance envelope is expressed
+as the water pressure sealed for a given combination of gap and offset between
+adjacent segments. Both gap and offset are build-quality outcomes. A gasket
+adequate for the design head at perfect build may leak at the same head with a
+few millimetres of offset, and hydrophilic gaskets --- which swell on wetting
+--- are used where tolerances cannot be guaranteed, at the cost of requiring
+water to activate.
+
+The design consequence is that the watertightness specification and the build
+tolerance specification are one requirement, not two, and a gasket selected
+without an achievable tolerance is a leak already designed in.
+
+\subsection{Local effects and build quality}
+\label{sec:local-effects-build}
+
+Concentrated loads govern more segment reinforcement than global actions do.
+Jack shoes bear on a small area of the ring face, and radial joints transmit
+thrust over a reduced contact width; both generate transverse tension behind
+the loaded area that will split the segment unless it is reinforced against
+bursting. Classical strut-and-tie and partially loaded area methods size that
+reinforcement, and it is frequently the governing reinforcement in an otherwise
+lightly loaded ring.
+
+Build defects have names because they recur. \emph{Ovalisation} is departure
+from circularity, which introduces moments the design did not consider.
+\emph{Lipping} is a radial step between adjacent segments; \emph{stepping} is
+the same between rings. \emph{Birdsmouthing} is a joint open on one face,
+concentrating thrust on a reduced width and inviting spalling. Each degrades
+both structural performance and gasket seating.
+
+Damage and repair complete the sequence. Cracking has diagnostic value:
+longitudinal cracks near a joint usually indicate bursting or eccentric
+thrust; radial cracks at mid-segment indicate flexure; corner spalling
+indicates lipping or point bearing. Acceptance criteria should be set against
+durability and watertightness rather than aesthetics, and repair --- injection,
+patching, local strengthening --- should address the cause. A ring repaired
+without correcting the build practice that damaged it will produce more
+damaged rings.
+
+\section{Permanent linings}
+\label{sec:permanent-linings}
+
+\subsection{Lining philosophies}
+\label{sec:lining-philosophies}
+
+Three philosophies divide the field, and the choice determines the verification
+burden more than the structural quantities.
+
+A \emph{double-shell} lining treats the primary support as sacrificial: the
+secondary lining is designed for the full long-term load as though the primary
+contributed nothing. It is the conservative and traditional approach, it wastes
+the primary lining's capacity, and it requires the least evidence.
+
+A \emph{composite} lining assumes primary and secondary act together. It is
+more economical and lower in carbon, and it requires the interface to transfer
+shear, the primary lining's long-term durability to be demonstrated, and the
+load sharing between them to be justified.
+
+A \emph{single-shell} lining is the permanent structure in its own right, with
+no secondary lining at all. It is the most economical, and it places the entire
+burden on the quality of a sprayed or segmental lining installed under
+construction conditions.
+
+The progression is one of increasing economy and increasing verification. The
+error to avoid is claiming the economy without accepting the verification.
+
+\subsection{Cast in-situ linings and composite action}
+\label{sec:cast-insitu-composite}
+
+Cast in-situ linings are placed with a travelling formwork in bays of ten to
+fifteen metres, and the construction sequence shapes the design as much as the
+loading does. Bay length, pour rate, formwork stripping time and the treatment
+of construction joints all follow from the traveller cycle, and construction
+joints are the locations where leakage and cracking concentrate.
+
+Unreinforced linings remain viable and are common in good rock. A lining
+carrying predominantly thrust with small eccentricity needs no reinforcement,
+and omitting it removes a corrosion mechanism and substantial cost. What
+unreinforced linings tolerate poorly is any action producing significant
+moment: non-uniform ground load, seismic racking, or thermal restraint.
+Reinforcement is therefore a decision about the moment regime, not a default.
+
+Composite action requires assumptions about the interface and about time. A
+bonded interface transfers shear and lets the two shells act as one thicker
+section, with substantially higher bending capacity; a debonded interface lets
+them act as two independent shells. Load sharing between them further depends
+on their relative stiffness at the time of loading, and the primary lining's
+stiffness rises with curing while its creep relaxes load into the secondary.
+These are assumptions rather than measurements, and a composite design should
+state them and demonstrate that the outcome is not sensitive to plausible
+variation.
+
+\subsection{Drained and tanked systems}
+\label{sec:drained-tanked-systems}
+
+The hydrogeological decision of Chapter~\ref{ch:hydrogeology} arrives here as a
+detailing problem. A \emph{drained} system provides a drainage layer behind the
+lining and invert drains to convey water to a sump; the lining carries little
+water pressure, but the system requires permanent pumping and drains that must
+remain functional and accessible for the asset's life. A \emph{tanked} system
+resists the full head with a continuous waterproofing barrier; there is nothing
+to pump, and the lining is heavier, must be checked for uplift when empty, and
+depends on a membrane that has to be installed correctly the first time.
+
+Partial systems --- drained invert with tanked arch, or drainage above a
+defined level --- are common compromises and require the transition to be
+detailed explicitly, since that is where both systems are at their weakest.
+
+\section{Waterproofing and durability}
+\label{sec:waterproofing-durability}
+
+\subsection{Waterproofing systems and drainage}
+\label{sec:waterproofing-systems}
+
+Sheet membranes --- PVC or TPO, typically 2 to 3\,mm --- are the established
+tanking system, installed against a protective geotextile on a prepared
+substrate and welded at overlaps. Their reliability rests entirely on the
+welding, which is why double-track welds with a testable air channel between
+them are standard: every metre of weld can be pressure tested and the result
+recorded.
+
+Compartmentalisation is the feature that makes a membrane maintainable.
+Waterbars divide the waterproofed volume into compartments, each with grout
+injection and venting tubes, so that a leak can be located to one compartment
+and treated by re-injection rather than by exploratory demolition. Membranes
+installed without compartmentalisation are cheaper and effectively
+irreparable.
+
+Sprayed membranes bond to both substrate and lining, which allows genuine
+composite shell construction and eliminates the sheet membrane's slip plane.
+They are attractive and their long-term evidence base remains shorter than that
+of sheet systems, with performance sensitive to substrate condition, curing and
+application thickness. They should be specified with that asymmetry
+acknowledged rather than treated as equivalent.
+
+Drainage systems fail by clogging, not by structural inadequacy. Groundwater
+carrying dissolved calcium precipitates calcite in the drains, and in some
+geologies the deposition rate is fast enough to block a drain within a few
+years. Sediment adds to it. A drainage system must therefore be designed for
+cleaning --- adequate diameter, rodding and flushing access at sensible
+intervals, and inspectable outlets --- and its maintenance requirement written
+into the operating manual. A drain that cannot be cleaned is a temporary work
+with a permanent function.
+
+\subsection{Durability and serviceability}
+\label{sec:durability-serviceability}
+
+Concrete durability in tunnels is governed by groundwater chemistry. Sulfate
+attack expands and disrupts the cement matrix; acidic and carbonate-aggressive
+water dissolves it; chlorides depassivate reinforcement and initiate pitting
+corrosion; leaching removes calcium hydroxide and increases permeability over
+time. Exposure classification from the groundwater analysis sets binder type,
+minimum cement content, maximum water-binder ratio and cover, and those are
+specification decisions taken from investigation data rather than structural
+calculation.
+
+Cover is the single most important durability parameter and the one most often
+compromised in construction. Its verification is a quality control matter that
+belongs in the same category as segment build tolerance.
+
+Cracking controls serviceability. Crack width limits follow from watertightness
+and from corrosion protection rather than from strength, and typical limits are
+a fraction of a millimetre where water pressure acts. Two mechanisms dominate
+in linings. Early thermal cracking arises in thick pours as hydration heat
+generates expansion that is then restrained on cooling, and it is controlled by
+limiting pour thickness and binder heat, or by accepting and detailing the
+crack pattern. Restrained shrinkage produces the same effect more slowly. Both
+are construction-sequence problems, and both are cheaper to prevent than to
+inject.
+
+\subsection{Fire resistance and design life}
+\label{sec:fire-design-life}
+
+Tunnel fires reach temperatures and heating rates far beyond building fires ---
+a heavy goods vehicle fire develops far more severely than the standard
+cellulosic curve --- and design fire curves such as the hydrocarbon and RWS
+curves reflect this.
+
+The governing mechanism is explosive spalling. Rapid heating vaporises pore
+water faster than it can escape through a low-permeability concrete, and the
+resulting pore pressure spalls the surface in layers, exposing reinforcement
+and reducing section progressively during the fire. Dense durable concrete is
+the most vulnerable, so the durability specification and the fire
+specification pull in opposite directions. Polypropylene micro-fibres are the
+standard mitigation: they melt at low temperature and leave a capillary network
+through which vapour escapes. Sacrificial boards are used where the
+requirement is severe or the concrete cannot be modified.
+
+The performance requirement must state what is required during the fire and
+what is required after it. Stability during the fire for the evacuation and
+intervention period is one criterion; retaining sufficient capacity to remain
+in service, or to be repaired rather than replaced, is a different and often
+governing one. For a tanked lining, a fire that breaches the waterproofing has
+consequences that outlast the fire.
+
+Design life ties the chapter together. A hundred to a hundred and twenty years
+is now normal, and it is achieved through cover, binder selection, crack
+control, waterproofing and a maintenance regime --- not through strength. The
+maintenance assumption is part of the design: a lining whose durability
+depends on drains being flushed every five years has been designed on a promise
+about the operator's behaviour, and that promise should be recorded in the
+handover documentation rather than left implicit
+(Chapter~\ref{ch:delivery-assets}).
+
+\section{Internal fit-out and secondary structures}
+\label{sec:fitout}
+
+The lining is not the last structure built. Road pavements, track slabs,
+walkways and cable routes, cross-passage doors, ventilation structures,
+drainage channels and services all follow, and each interfaces with the lining
+mechanically and geometrically.
+
+Three interface issues recur. Fixings into the lining penetrate the cover and,
+in a tanked structure, potentially the waterproofing --- so the fixing
+philosophy must be established before the membrane is designed, and cast-in
+sockets are strongly preferable to post-drilled anchors. Secondary structures
+add load, and a track slab or a road pavement is a substantial one that must
+appear in the lining's load schedule rather than being added after it is fixed.
+And the fit-out consumes the space that inspection and maintenance need: a
+lining that cannot be inspected because a walkway was built against it has lost
+a capability that Chapter~\ref{ch:delivery-assets} assumes it has.
+
+Fit-out is also where clearance envelopes bind. The internal diameter required
+is the sum of the operational envelope, the fit-out, the construction
+tolerances and an allowance for convergence and future relining --- and since
+diameter drives lining thickness, excavation volume, spoil and carbon
+(Chapter~\ref{ch:sustainability}), the fit-out layout is a first-order
+influence on the whole project rather than a detail settled late.

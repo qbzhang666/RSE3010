@@ -1,0 +1,528 @@
+% !TeX root = ../main.tex
+% Ground movement, monitoring and the observational method. Merged:
+% predicting movement, assessing third-party impact, setting limits and
+% monitoring against them are one workflow, not two subjects.
+\chapter{Ground Movement, Monitoring and the Observational Method}
+\label{ch:movement-monitoring}
+\label{ch:settlement-damage}
+\label{ch:monitoring}
+
+In urban tunnelling the governing constraints are commonly imposed by assets
+the designer does not control. Buildings, railways, utilities and existing
+tunnels carry movement limits far below any threshold that would endanger the
+excavation, and satisfying them determines the excavation method, the face
+pressure, the extent of ground treatment and, on occasion, the alignment.
+Prediction and monitoring are treated here as one subject. The chain runs from
+construction control through ground movement and structural strain to damage;
+every link carries uncertainty; and the only defence against that uncertainty
+is to predict, set limits, measure, and act on the measurement. That sequence
+is the observational method, and third-party protection is its most demanding
+application.
+
+In urban tunnelling the design is usually governed by something the designer does not own. Buildings, railways, utilities and existing tunnels impose movement limits far below anything that threatens the excavation, and meeting them determines the excavation method, the face pressure, the extent of ground treatment and, frequently, the alignment itself.
+
+Prediction and monitoring are one subject rather than two. The chain runs from construction control to ground movement to structural strain to damage; every link is imperfectly known; and the only way to design against that uncertainty is to predict, set limits, measure, and act on the measurement. That is the observational method, and third-party protection is its most demanding application.
+
+\section{Predicting ground movement}
+\label{sec:predicting-movement}
+
+\subsection{The ground movement field}
+\label{sec:movement-field}
+
+Surface settlement above a tunnel is described by a Gaussian curve whose
+maximum lies above the axis and whose width is set by the trough width
+parameter and the depth. The area under the curve equals the volume loss ---
+the ground that entered the tunnel and did not come out as intended
+excavation, expressed as a proportion of the theoretical excavated volume.
+Volume loss is a construction outcome, not a ground property: the same ground
+gives very different volume loss under different face pressure and grouting
+control.
+
+The transverse Gaussian is only one section through a three-dimensional field.
+Longitudinally, settlement develops as the face approaches and passes,
+following a cumulative probability form: some settlement occurs ahead of the
+face, roughly half is complete as the face passes beneath, and the remainder
+develops behind. A structure therefore experiences a settlement history, not a
+single value, and it is subjected to hogging as the face approaches and
+sagging after it passes --- a reversal that a static assessment does not
+capture.
+
+Subsurface movements matter for anything founded below the surface. The trough
+narrows and deepens with depth towards the tunnel, so a piled foundation may
+experience considerably more movement than the surface above it. Horizontal
+movement accompanies the vertical: ground moves towards the tunnel axis, giving
+horizontal strain that is compressive over the trough centre and tensile at
+its edges. The tensile zone at the trough edge is where most building damage
+occurs, and an assessment that considers settlement alone will miss it.
+
+\subsection{Building damage assessment}
+\label{sec:damage-assessment}
+
+Assessment is staged because the asset population is large and most of it is
+unaffected. The first stage screens on maximum settlement and slope, typically
+excluding buildings below roughly 10\,mm settlement and a slope of 1 in 500.
+The second stage assesses buildings that pass that screen against greenfield
+movements, treating the building as though it conformed to the ground
+movements with no stiffness of its own. The third stage examines the remainder
+in detail, accounting for the building's own stiffness, its foundation type,
+its condition and its orientation to the trough.
+
+The staging works because of the shape of the problem rather than merely to
+save effort. Figure~\ref{fig:settlement-screening} shows that shape along an
+illustrative corridor: settlement above 5\,mm is confined to a band a few tens
+of metres either side of the centreline, and better than nine buildings in ten
+in a three-thousand-building population never leave the first stage. The bands
+in that figure are settlement magnitudes and not damage categories. The screen
+is deliberately crude; the assessment that follows it is not.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.94\textwidth]{ch26/damage-map}
+\par\smallskip
+\datafigure[0.68\textwidth]{ch26/damage-categories}
+\caption[First-stage settlement screening across a building population]{%
+What the first stage screens. Above: predicted settlement band by position for
+three thousand buildings along an illustrative twin-tunnel corridor, plotted by
+chainage and by offset from the centreline. Below: the same population by band.
+The bands are magnitudes of predicted settlement and not damage categories ---
+they carry no building stiffness, no foundation type and no orientation to the
+trough --- and their only purpose is to decide which buildings are assessed
+further. Synthetic demonstrator data (Appendix~\ref{app:software}).}
+\label{fig:settlement-screening}
+\end{figure}
+
+The damage criterion itself is limiting tensile strain. The idealisation of
+\citet{burland1974settlement} treats the building as a deep beam undergoing both bending and shear, from
+which a maximum tensile strain is derived and compared against thresholds
+corresponding to damage categories --- negligible, very slight, slight,
+moderate, severe, very severe. The categories are defined by the ease of
+repair, which is what an owner cares about, rather than by structural capacity.
+
+\citet{boscardin1989building} extended this by combining bending strain with the
+horizontal strain from the ground movement field, producing an interaction
+chart in which the two are plotted against one another with damage category
+contours. The extension matters because horizontal strain shifts many
+buildings up a damage category, and this is the step most often omitted in
+practice.
+
+Building stiffness is where the greenfield assumption is conservative. A real
+building does not conform to the ground; it resists, modifying the trough
+beneath itself and experiencing less deflection than the greenfield curve
+implies. Relative stiffness modification factors quantify this, and the
+reduction can be substantial for a stiff building on a shallow trough.
+Applying them requires care about openings, since a facade with a high window
+ratio is far less stiff than its dimensions suggest, and about the building's
+orientation --- a building at an angle to the tunnel is subject to a more
+complex deformation than a two-dimensional assessment represents.
+
+\subsection{Foundations and buried assets}
+\label{sec:foundations-buried}
+
+Foundation type changes the response. Strip and raft foundations follow the
+ground closely and are assessed by the methods above. Piled foundations are
+governed by the settlement at the pile toe rather than at the surface, which
+requires the subsurface movement field. A pile whose toe is above the tunnel
+axis may settle more than the surface; a pile founded below the zone of
+influence may not settle at all, in which case the building experiences
+differential settlement between piled and non-piled elements. Tunnelling
+beside a pile also reduces its shaft friction, transferring load to the toe.
+
+Buried services are assessed on joint rotation for jointed pipelines and on
+strain for continuous ones. The governing uncertainty is rarely the analysis:
+it is the condition and position of the service. Records of buried
+infrastructure in older cities are incomplete and frequently wrong, and a
+cast-iron main of unknown age and condition is not amenable to a strain
+calculation with any real confidence. Survey, condition assessment and, where
+critical, replacement in advance are more reliable than analysis.
+
+Operating railways impose the tightest limits of all. Track twist, cant and
+alignment tolerances are measured in millimetres over defined base lengths,
+and exceeding them requires a possession to correct. The limits are
+maintenance limits rather than safety limits, and they routinely govern the
+design of a tunnel passing beneath a railway.
+
+\section{Assessing and protecting assets}
+\label{sec:assessing-protecting}
+
+\subsection{Existing tunnels and excavation interaction}
+\label{sec:existing-tunnels-interaction}
+
+Tunnelling near an existing tunnel loads a structure whose condition and
+capacity are usually poorly known. The new excavation causes the existing
+lining to ovalise, its joints to open or close, and its alignment to move. A
+segmental lining tolerates ovalisation better than a cast-iron or masonry one,
+and a masonry tunnel from the nineteenth century may have little reserve at
+all.
+
+Proximity criteria based on clear separation in diameters are a useful screen
+and no more. What governs is the movement imposed at the existing structure
+and its capacity to accommodate it, so the assessment needs the subsurface
+movement field and a structural assessment of the existing tunnel --- often
+the harder of the two, because the as-built details are unknown.
+
+Twin tunnels interact with each other. The second drive imposes additional
+movement, and it does so on ground already disturbed and loosened by the
+first, so its volume loss is typically higher for the same construction
+control. Simple superposition of two greenfield troughs therefore
+underestimates the total, and modification factors are applied to the second
+drive. Pillar width and construction sequence both matter, and a design that
+assumes symmetric behaviour from two nominally identical drives has ignored
+the mechanism.
+
+\subsection{Subsidence over voids and legacy workings}
+\label{sec:void-subsidence}
+
+A different mechanism operates above voids. Where a cavity exists --- an
+abandoned mine working, a karst cavern, a poorly backfilled shaft --- the
+ground above it can migrate downward progressively, the void working upward as
+material falls into it. Because collapsed material bulks, the migration
+arrests once the bulked volume fills the void, and the height at which this
+occurs depends on the bulking factor and the void height. If the arrest height
+is less than the cover, nothing appears at the surface; if it exceeds the
+cover, a sinkhole appears, often suddenly and long after the working was
+abandoned.
+
+The crown pillar between a working and the surface is therefore the quantity
+of interest, and its adequacy depends on the span of the void, the strength
+and bedding of the overlying rock, and time --- deterioration of a crown
+pillar continues for decades.
+
+Investigating legacy voids begins with records research, which is frequently
+the most productive step and often the only one that identifies workings at
+all. Probe drilling on a grid and geophysics follow, and both have low
+detection reliability for small voids. Treatment is by grout filling, by
+capping, or by structurally bridging the affected area, and residual risk
+remains after all of them, because the investigation cannot demonstrate that
+every void has been found.
+
+\subsection{Protection and monitoring}
+\label{sec:protection-monitoring}
+
+Where predicted damage is unacceptable, the responses fall in a clear order of
+preference. Reducing the ground movement at source --- better face pressure
+control, improved grouting, a different alignment or depth --- is the most
+effective and the cheapest, and it is frequently dismissed too early because
+the alignment is treated as fixed. Ground treatment between the tunnel and the
+structure (Chapter~\ref{ch:ground-improvement}) intercepts the movement.
+Compensation grouting actively replaces the lost volume in response to
+monitoring. Structural strengthening or underpinning of the building accepts
+the movement and makes the structure able to tolerate it.
+
+Compensation grouting deserves its reputation and its caveats. It is effective
+and it is expensive, requires access between the tunnel and the structure,
+demands real-time monitoring and a decision process able to act within hours,
+and cannot protect against a sudden loss. It should be planned as a system,
+with the sleeve pipes installed and the response established before tunnelling
+approaches, not mobilised after settlement has appeared.
+
+Monitoring of third-party assets closes the loop, and its design is as much
+contractual as technical. Instruments on other people's property require
+agreements; trigger levels become commitments; and exceedance triggers
+obligations. The condition survey carried out before work begins is the single
+most valuable document in the process, because without it every pre-existing
+crack becomes a claim. It should be thorough, photographic, dated and agreed
+with the owner --- and it costs a fraction of the disputes it prevents.
+\section{Instrumentation and observational design}
+\label{sec:instrumentation-observational}
+
+\subsection{Purpose and the observational method}
+\label{sec:purpose-observational}
+
+Monitoring serves five purposes, and being explicit about which applies is
+what determines the design of the array. It \emph{verifies design
+assumptions}, confirming that the ground is behaving as predicted. It
+\emph{controls construction}, giving the face team the information to adjust
+support or sequence. It \emph{protects third parties}, demonstrating that
+movement limits on adjacent assets are being respected. It provides a
+\emph{contractual record} of conditions and behaviour. And it builds
+\emph{knowledge} for future projects.
+
+The observational method makes the first two into a design philosophy rather
+than a check. The formulation of \citet{peck1969observational}, later codified in
+Eurocode~7, sets four preconditions: the range of possible behaviour must be
+assessed and the acceptable limits established \emph{before} construction; a
+plan of monitoring capable of detecting departure from the predicted behaviour
+must be devised; the response time of the instruments and the analysis must be
+short compared with the rate at which the situation could develop; and
+contingency measures must be prepared and capable of being implemented in the
+time available.
+
+Every one of those is routinely violated, and the fourth most often. A
+monitoring regime with trigger levels but no pre-agreed, resourced contingency
+is not the observational method; it is an alarm with nothing behind it. The
+method can be applied from the outset, with the design based on the most
+probable conditions and contingency held for the unfavourable case, or as a
+recovery when behaviour departs from expectation --- but the recovery
+application is much weaker, because the preparation was not done.
+
+\subsection{Instrument types}
+\label{sec:instrument-types}
+
+\emph{Deformation} instruments are the backbone. Convergence arrays measure
+the change in chord lengths across the excavation and are cheap, robust and
+directly meaningful. Borehole extensometers measure displacement at several
+depths into the rock, which distinguishes movement of the whole rock mass from
+loosening of the immediate skin --- a distinction convergence alone cannot
+make. Inclinometers measure lateral profile in a borehole and are the standard
+instrument for retaining walls. Settlement cells and magnetic extensometers
+measure vertical movement at depth.
+
+\emph{Load and stress} instruments are less reliable and should be specified
+with that in mind. Load cells on bolts and anchors measure a well-defined
+quantity and work well. Pressure cells embedded in shotcrete or between lining
+and ground attempt to measure stress in a medium whose stiffness they alter by
+being present, and their absolute readings should be treated with caution;
+their trends are more trustworthy than their values. Strain gauges in a lining
+measure strain reliably and require an assumed modulus to become stress --- for
+young shotcrete, that modulus is changing as the reading is taken.
+
+\emph{Groundwater} instruments complete the set. Standpipe piezometers are
+simple and slow; vibrating wire piezometers respond quickly and can be
+installed in multiple horizons in one borehole. Response time depends on the
+permeability of the ground, and in low-permeability clay a standpipe may lag
+the true pressure by weeks --- long enough to give a comfortable reading during
+exactly the period when the pressure is changing.
+
+\subsection{Surface and remote monitoring}
+\label{sec:surface-remote}
+
+Third-party protection is monitored from the surface. Precise levelling
+remains the reference method; automated total stations tracking prism arrays
+provide continuous measurement without access; tiltmeters detect rotation of
+structures; crackmeters track existing cracks whose behaviour is often the
+most legible indicator a building offers.
+
+What is achievable in a live urban environment is less than laboratory figures
+suggest. Automated total stations are affected by atmospheric refraction,
+temperature gradients and instrument stability, and sub-millimetre precision
+is claimed more often than it is delivered. Since trigger levels are
+frequently set at a few millimetres, the measurement precision and the trigger
+threshold can be uncomfortably close, and the resolution is redundancy and
+trend analysis rather than reliance on any single reading.
+
+Remote sensing extends coverage. Satellite radar interferometry measures
+wide-area settlement over time without any site installation and is
+particularly effective for drawdown settlement, which is too broad for a
+conventional array. Terrestrial laser scanning and photogrammetry measure
+profile and convergence over whole surfaces rather than at points, and are the
+practical route to measuring overbreak and shotcrete thickness. Ground
+penetrating radar locates voids behind a lining, and computer vision detects
+and classifies lining defects from imagery.
+
+Wide coverage is not the same as a wide-area answer. A radar record is a rate
+measured against a reference frame over an archive period, and the movement the
+works caused is the difference between what the record shows during
+construction and what the ground was already doing
+(Figure~\ref{fig:remote-baseline}). Where no pre-construction archive has been
+processed that difference cannot be formed, and the whole of the observed
+movement is attributed to the excavation by default.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.94\textwidth]{ch26/insar-baseline}
+\par\smallskip
+\datafigure[0.94\textwidth]{ch26/settlement-attributable}
+\caption[Wide-area radar: the baseline and what is attributed to the works]{%
+Wide-area coverage and the interpretation it requires. Above: line-of-sight
+rates over an illustrative corridor before excavation begins, which is the
+movement field the works inherit. Below: the same buildings once that baseline
+is removed, which is the movement for which the works are answerable. The lower
+panel is derived rather than measured, and it remains conditional on the archive
+period the baseline was fitted over, on the reference frame and on the passage
+window assumed for each drive. Synthetic demonstrator data.}
+\label{fig:remote-baseline}
+\end{figure}
+
+Each of these is a data stream into the model of
+Chapter~\ref{ch:digital-twin} rather than a standalone record, and their value
+lies in updating the model that the design decisions rest on.
+
+\section{Interpretation and design updating}
+\label{sec:interpretation-updating}
+
+\subsection{Data acquisition and array design}
+\label{sec:acquisition-array}
+
+Automated acquisition, telemetry and dashboards have removed the delay between
+measurement and availability, which was historically the limiting factor in
+applying the observational method. What they have introduced is data volume:
+a project can now generate more readings than anyone examines, and the
+discipline has shifted from collecting data to filtering it.
+
+Array design should start from the design question rather than from the
+instrument catalogue. For each assumption the design depends on, the questions
+are what would indicate that it is wrong, what instrument would detect that,
+where must it be installed and how often must it be read. Instruments that
+survive this test earn their place; those that do not are recording for its
+own sake.
+
+Three practical requirements follow. Monitoring sections should be spaced to
+capture variation along the drive, with additional sections at every feature
+of interest --- fault crossings, low cover, third-party assets, changes in
+ground class. Instruments must be installed close enough to the face to
+capture the deformation that matters, which for convergence means within a
+fraction of a diameter, because deformation missed before installation is lost
+permanently. And baselines must be established before construction begins; a
+monitoring programme that starts after the works have started has no datum,
+and its readings are uninterpretable.
+
+\subsection{Trigger levels and interpretation}
+\label{sec:triggers-interpretation}
+
+Trigger levels convert measurements into decisions, and the conventional
+green--amber--red scheme works when the thresholds derive from the design
+prediction rather than from convenience. The amber level should correspond to
+behaviour departing from prediction while remaining acceptable, prompting
+increased monitoring and review; the red level to behaviour approaching the
+limit of what the design can tolerate, prompting the contingency measure.
+Setting them by rounding down a calculated capacity produces triggers that
+either fire constantly or never fire at all.
+
+Each level needs an owner, an escalation path and an action. Who is informed,
+who decides, within what time, and what happens --- specified in advance, not
+determined during the event.
+
+Interpretation is where experience is required. Instrument drift, temperature
+effects, construction disturbance and simple malfunction all produce readings
+that resemble ground movement. Cross-checking between instruments of different
+type is the reliable defence: convergence and extensometer readings that
+disagree indicate an instrument problem, while agreement in both indicates
+ground movement.
+
+The quantity to watch is usually the rate rather than the magnitude.
+Displacement that grows and decelerates is a system finding equilibrium;
+displacement that grows at constant or increasing rate is a system that has
+not. A tunnel can accommodate large convergence safely if it is converging
+towards a limit, and a much smaller convergence at a steady rate is the more
+serious observation.
+
+\subsection{Design updating and common failures}
+\label{sec:updating-failures}
+
+Monitoring closes the design loop by feeding back into the ground model and
+the support design. Measured behaviour calibrates the numerical model
+(Chapter~\ref{ch:numerical-modelling}), and the calibrated model predicts the
+remainder of the drive far better than the original. Ground class assignments
+ahead of the face can be revised, support classes adjusted, and the prediction
+against which the next section is compared updated.
+
+Back-analysis carries the non-uniqueness caveat already noted: several
+parameter combinations reproduce one measured quantity, so calibration should
+use several --- convergence, extensometer profile and support load together.
+
+The recurring failures are worth stating plainly, because they are failures of
+process rather than of instrumentation. Instruments installed too late to
+capture the initial response. No pre-construction baseline. Data collected and
+never examined. Trigger levels with no owner and no contingency. Monitoring
+specified as a deliverable to be provided rather than as a decision tool to be
+used. And the design team disbanded before the evidence arrives, so that
+nobody with the knowledge to interpret the readings is still on the project
+when they are taken.
+
+The last is the most consequential and the easiest to prevent: the
+observational method requires the designer to remain engaged through
+construction, and that engagement has to be in the contract rather than in
+anyone's goodwill.
+
+\section{Remote sensing and as-built geometry}
+\label{sec:remote-sensing-geometry}
+
+The instruments of the preceding sections measure points. Laser scanning and
+photogrammetry measure surfaces, returning a dense record of the excavation as
+it actually is rather than at the small number of locations an array happens
+to occupy. That difference in kind changes what can be asked: not only how
+much a section has converged, but where the profile departs from the design,
+how much material was taken beyond it, and whether the lining is as thick as
+specified.
+
+The technique is now routine, and the data is frequently captured and then
+used for nothing beyond a visual record. The reason is usually that nobody
+decided in advance which engineering question the survey was to answer.
+
+\subsection{Acquisition and registration}
+\label{sec:point-cloud-acquisition}
+
+Two methods dominate. Terrestrial laser scanning measures range directly and
+performs well in the dark, wet, dusty conditions of a heading; it is fast, and
+accuracy at tunnel scale is typically a few millimetres. Photogrammetry
+recovers geometry from overlapping images and needs lighting and texture, but
+the equipment is cheap, it carries colour information useful for face mapping
+and defect recording, and it can be flown or hand-held. Mobile systems mounted
+on a vehicle or on the machine trade some accuracy for the ability to survey
+without stopping the works, which in an operating drive is often the decisive
+consideration.
+
+Registration is where the accuracy is won or lost. A scan is measured in the
+instrument's own frame, and converting it to project coordinates requires
+control --- surveyed targets, or overlap with a previous scan, or both. The
+resulting registration error is systematic rather than random, it accumulates
+along a drive when scans are chained to one another rather than tied to
+control, and it is invisible in the point cloud itself, which looks equally
+convincing whether correctly registered or not. Any statement of accuracy that
+quotes the instrument's ranging precision without the registration error is
+describing the wrong quantity.
+
+The adequacy test is against the question. Detecting overbreak of a few
+hundred millimetres tolerates registration error of ten; detecting convergence
+of two millimetres between epochs does not, and that case demands the
+discipline of Section~\ref{sec:change-detection}.
+
+\subsection{As-built against as-designed}
+\label{sec:as-built}
+
+Comparing the surveyed surface with the design profile produces several
+quantities at once, which is the technique's principal economy.
+
+Overbreak and underbreak are measured directly, over the whole surface rather
+than at the section a profile gauge happens to check. Overbreak is a cost and
+a carbon quantity through the volume of shotcrete or concrete needed to fill
+it, and a quality indicator for the perimeter blasting practice of
+Chapter~\ref{ch:construction}: a systematic pattern points at the drilling and
+charging rather than at the ground. Underbreak is an immediate construction
+problem, since the clearance envelope must be achieved.
+
+Applied sprayed concrete thickness follows from differencing the scan before
+and the scan after spraying. This is worth emphasising because thickness is
+otherwise verified by depth pins at a handful of points, and the difference
+between specified and achieved thickness is a recurring durability problem
+(Chapter~\ref{ch:linings}). The same differencing gives the volume placed,
+which reconciles against delivery records and exposes rebound losses that are
+otherwise estimated.
+
+Finally, the clearance envelope can be checked against the surveyed surface
+rather than against the design, which is the check that actually matters
+before fit-out. Where the structure is handed over with this record, the
+operator inherits a dimensioned account of what was built, which is the
+starting point for the inspection regime of Chapter~\ref{ch:assets}.
+
+\subsection{Change detection over time}
+\label{sec:change-detection}
+
+Repeat surveys can measure movement, but the analysis is more demanding than
+the single-epoch case, and treating one as the other produces confident
+nonsense.
+
+The difficulty is that a point in one cloud has no counterpart in the next:
+the surfaces are sampled independently, so differencing must compare surfaces
+rather than points, and the comparison is contaminated by registration error
+between epochs. That error behaves like a rigid movement of the whole scan,
+which is precisely the signature that a genuine uniform convergence would
+also produce. Separating them requires stable reference surfaces inside the
+scanned volume --- a completed lining section, a rock face outside the zone of
+influence --- against which each epoch is registered.
+
+Within that constraint the method is powerful. It detects movement anywhere on
+the surface rather than at instrumented points, which is what allows an
+unexpected mechanism to be seen at all; a conventional array measures only
+where somebody anticipated a problem. It suits slow processes with no fixed
+location, such as progressive deterioration or subsidence over legacy
+workings. And it produces a record that can be revisited when a question
+arises years later, which point measurements cannot.
+
+It does not replace instrumentation. Scanning is episodic where an array is
+continuous, and the observational method of
+Section~\ref{sec:purpose-observational} depends on a measurement
+frequency high enough to act on before the ground does. The sound arrangement
+uses both: continuous instrumentation at the sections identified as critical,
+periodic scanning to establish that nothing is happening where nobody is
+looking.

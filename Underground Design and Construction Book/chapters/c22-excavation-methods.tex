@@ -1,0 +1,499 @@
+% !TeX root = ../main.tex
+% Rebuilt from: ch10-construction-methods.tex, drill-and-blast.tex
+\chapter{Excavation Methods and Design Philosophies}
+\label{ch:construction}
+
+Excavation method determines the stress path the ground follows, the
+disturbance it sustains, the working space available for support, and the
+timing with which that support can be installed. The same ground may therefore
+require quite different support depending on how it is excavated, which places
+method selection among the design decisions rather than among the contractor's
+means. This chapter examines the principal method families, the design
+philosophies that developed alongside them, and the practice of drilling and
+blasting, whose damage to the surrounding rock connects construction directly
+to the parameters derived in Chapter~\ref{ch:rock-mass-parameters}.
+
+\section{Method families and design philosophies}
+\label{sec:method-families-and-design-philosophies}
+
+\subsection{Design guidelines}
+\label{sec:design-guidelines-for-underground-excavation}
+
+\paragraph{Chapter logic}
+The previous chapters developed the mechanics and design tools used in underground engineering. This chapter asks how those tools are used when excavation actually begins. Construction method controls the stress path, disturbance, groundwater response, face stability, available working space, installation timing and monitoring strategy. The same ground can require very different support if it is excavated by drill and blast, roadheader, shield TBM, cut-and-cover or immersed-tube methods.
+
+The material is organised around three practical questions:
+\begin{enumerate}
+ \item How will the opening be excavated?
+ \item Which design philosophy governs support and deformation control?
+ \item How will monitoring confirm that the ground-support system is behaving acceptably?
+\end{enumerate}
+
+\paragraph{Design guidelines}
+\label{sec:design-guidelines}
+Underground excavation design combines empirical, analytical and numerical methods. Their roles depend on the dominant failure mechanism:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{p{0.24\textwidth} X X X}
+\toprule
+\textbf{Approach} & \textbf{Weak-rock shear or squeezing} & \textbf{Structurally controlled instability} & \textbf{Brittle failure} \\
+\midrule
+Empirical & Squeezing charts; RMR, Q and GSI screening & Decision trees and joint-block checks & Spalling depth and brittle strain criteria \\
+Analytical & Plasticity-based closed-form solutions & Limit-equilibrium checks for blocks and wedges & Elastic stress concentration around the opening \\
+Numerical & 2D or 3D continuum models & Discontinuum or hybrid models where joint geometry governs & Continuum, discontinuum or FDEM models for stress-driven damage \\
+\bottomrule
+\end{tabularx}
+\caption{Analysis method matched to the governing underground failure mechanism.}
+\label{tab:ch10-methods-by-failure}
+\end{table}
+
+This matrix is useful because it prevents a common design error: using a familiar method for an unsuitable mechanism. A rock mass classification chart may be adequate for preliminary support in fair to good jointed rock, but it cannot by itself resolve a high-stress brittle damage problem, a squeezing zone, or a face-control problem in weak ground.
+
+\subsection{Construction method families}
+\label{sec:construction-method-families}
+
+\paragraph{Conventional tunnelling}
+\label{sec:conventional-tunnelling}
+Conventional tunnelling constructs openings using repeated cycles. A typical cycle includes excavation, mucking and installation of primary support. Excavation may be by drill and blast, roadheader or simpler mechanical excavators. Support commonly includes steel ribs or lattice girders, soil or rock bolts, sprayed concrete, cast in-situ concrete and local ground improvement.
+
+Its strength is flexibility. Excavation shape, round length, sequencing and support can be adjusted as ground conditions change. This makes conventional tunnelling attractive for complex geometry, caverns, variable ground and projects where observational control is central. Its weakness is that progress depends heavily on cyclic operations and experienced construction judgement.
+
+\paragraph{Mechanised tunnelling and TBMs}
+\label{sec:mechanised-tunnelling}
+Mechanised tunnelling uses machines that excavate by teeth, picks, cutters or discs. In many cases the machine also controls the face or perimeter and installs permanent lining. Shield TBMs provide peripheral support; earth pressure balance and slurry machines can also apply face support. Mucking is usually integrated into the machine operation, and precast segmental lining can be erected inside the shield soon after excavation.
+
+Mechanised tunnelling is powerful where geometry is repetitive, alignment is long and production consistency matters. The design focus shifts toward face pressure, volume loss, segmental lining, tail void grouting, settlement control and machine-ground compatibility. The excavation method therefore links directly to Chapter~\ref{ch:numerical-modelling}: settlement prediction and staged numerical modelling are design checks on construction control.
+
+\paragraph{Surface tunnelling and cut-and-cover}
+\label{sec:cut-and-cover}
+Surface tunnelling includes methods where the underground structure is built within a temporary or permanent open trench. Cut-and-cover construction typically follows this sequence:
+\begin{enumerate}
+ \item construct retaining walls along the future underground structure;
+ \item excavate the ground while supporting the walls;
+ \item build the underground structure; and
+ \item reinstate the surface use.
+\end{enumerate}
+Practice uses station works such as Arden, Parkville and Anzac as examples of where surface access, urban constraints and construction staging govern the method choice.
+
+\paragraph{Immersed tube tunnelling}
+\label{sec:immersed-tube}
+Immersed tube tunnelling is used for crossings through water bodies. Tunnel units are fabricated, floated or transported into position, sunk into a prepared trench, joined and then protected. The construction sequence is:
+\begin{enumerate}
+ \item install a gravel bed within the trench;
+ \item immerse the tube unit;
+ \item connect it to the previously placed unit;
+ \item dewater the immersion joint;
+ \item complete finishing works and remove ballast tanks; and
+ \item place infill, backfill and rock armour around the tube.
+\end{enumerate}
+Compared with bored tunnelling, the key geotechnical issues are trench stability, foundation preparation, bedding tolerance, buoyancy, backfill protection and interface watertightness.
+
+\subsection{Design philosophies}
+\label{sec:design-philosophies}
+
+\paragraph{The New Austrian Tunnelling Method}
+\label{sec:natm}
+The New Austrian Tunnelling Method (NATM) treats the ground around the tunnel as a load-bearing part of the support system rather than as a load that must simply be resisted. Support type and quantity are adjusted using observed deformation and pressure response. The method emphasises four ideas:
+\begin{itemize}
+ \item the ground reaction is time dependent after excavation;
+ \item shotcrete, bolts, anchors, ribs and lattice girders are used to permit controlled deformation;
+ \item monitoring of lining deformation and pressure is part of the design process; and
+ \item face support such as face bolts, sealing shotcrete or pipe canopies may be required in difficult ground.
+\end{itemize}
+Similar terms include the Sequential Excavation Method (SEM), commonly used in North America, and Sprayed Concrete Lining (SCL), commonly used in the United Kingdom.
+
+\paragraph{The Norwegian Method of Tunnelling}
+\label{sec:nmt}
+The Norwegian Method of Tunnelling (NMT) grew from hard-rock tunnelling experience in Norway and Sweden and is closely linked to the development of the Q-system. It is instructive to contrast NMT with NATM. NATM is often suited to soft ground where a smooth profile and a complete load-bearing ring can be developed; NMT is commonly associated with harder jointed rock, drill-and-blast or hard-rock TBM excavation, overbreak and rock-bolt plus sprayed-concrete support.
+
+NMT typically uses a single-shell philosophy in which fibre-reinforced sprayed concrete (Sfr), reinforced ribs of sprayed concrete (RRS) and systematic bolting provide both construction and long-term support where conditions allow. The Gjovik Olympic Mountain Hall illustrates the approach: a very large span was supported using Q-system logic, sprayed concrete and long bolts or anchors.
+
+\paragraph{The convergence--confinement method as a design philosophy}
+\label{sec:ccm-as-philosophy}
+Chapter~\ref{ch:ccm} developed the mechanics of the convergence--confinement method. In construction-method terms, CCM is a philosophy for selecting when and how stiffly to support the ground. The ground reaction curve defines the pressure-displacement response of the rock mass. The support characteristic curve defines the load-displacement response of the support. The longitudinal deformation profile connects support installation distance behind the face to the amount of convergence already mobilised.
+
+The AFTES tradition is notable here, as is the use made of the longitudinal deformation profile for support timing by \citet{panet1995ccm}. This is the practical value of CCM: it links face advance, deformation allowance, support pressure and safety factor in a way that can be checked before construction and updated during monitoring.
+
+\paragraph{The New Italian Tunnelling Method and ADECO-RS}
+\label{sec:adeco-rs}
+The New Italian Tunnelling Method, commonly associated with ADECO-RS, is based on analysing and controlling deformation in soil and rock. Its central object is the advance core: the volume of ground ahead of the tunnel face, approximately cylindrical with a diameter similar to the tunnel. Two responses are especially important:
+\begin{itemize}
+ \item \textbf{extrusion}, the deformation of the advance core into the excavation; and
+ \item \textbf{preconvergence}, the convergence of the theoretical tunnel profile ahead of the face.
+\end{itemize}
+ADECO-RS aims to stabilise the advance core before excessive deformation develops. Reinforcement techniques, such as fibreglass elements, improve the strength and stiffness of the core. Protective techniques, such as jet grouting or mechanical pre-support, help channel stresses around the face. The method classifies deformation response into stable, short-term stable and unstable categories, then selects pre-support and excavation measures accordingly.
+
+\paragraph{Comparison of NATM and ADECO-RS}
+\label{sec:natm-vs-adeco}
+NATM and ADECO-RS both use observation, staged support and ground-support interaction, but they focus on different control points. NATM emphasises controlled deformation around and behind the excavation, with support adjusted from measured convergence and pressure response. ADECO-RS puts greater emphasis on the face and advance core, especially in poor or deformable ground where extrusion and preconvergence may determine stability before the support ring is fully active.
+
+In practice, projects often use hybrid thinking. A long tunnel may use classification-based support in competent rock, NATM or CCM principles in weak zones, face reinforcement where the advance core controls stability, and numerical modelling for high-stress or highly three-dimensional sections.
+
+\section{Support and monitoring in construction}
+\label{sec:support-and-monitoring-in-construction}
+
+\subsection{Ground support systems}
+\label{sec:ground-support-systems}
+
+\paragraph{Ground support systems}
+\label{sec:support-systems}
+Ground support has several objectives:
+\begin{itemize}
+ \item prevent the ground from losing strength;
+ \item prevent falls from unstable ground during excavation;
+ \item limit deformation around the cavity;
+ \item control seepage and protect exposed rock from weathering; and
+ \item protect workers, plant and permanent installations.
+\end{itemize}
+
+Support is commonly divided into temporary and permanent systems. Temporary or primary support is installed soon after excavation to provide short-term stability. Permanent or secondary support is designed for long-term serviceability, durability and structural stability.
+
+Primary support mechanisms fall into four categories:
+\begin{enumerate}
+ \item support that applies confining pressure to the surrounding ground, such as shotcrete;
+ \item support that acts as reinforcement while also contributing confinement, such as rock bolts and grouting;
+ \item support that provides direct structural resistance, such as steel linings and concrete segments; and
+ \item support that improves ground properties, such as grouting and ground freezing.
+\end{enumerate}
+
+\paragraph{Shotcrete, fibre-reinforced shotcrete and reinforced ribs}
+\label{sec:shotcrete}
+Shotcrete is central to many underground support systems because it can be applied quickly after excavation and can conform to irregular surfaces. In conventional tunnelling, shotcrete provides early confinement, surface protection and load transfer between reinforcement elements. Fibre-reinforced shotcrete improves toughness and post-crack behaviour by distributing short fibres through the concrete matrix. Fibres may be steel, glass, synthetic or natural depending on the project requirement.
+
+In Q-system terminology, Sfr denotes fibre-reinforced sprayed concrete and RRS denotes reinforced ribs of sprayed concrete. These support types connect Chapter~\ref{ch:classification} and Chapter~\ref{ch:ground-behaviour} directly to construction practice: the classification value is not the final design, but it guides the first support category, thickness, bolt spacing and need for ribs or additional reinforcement.
+
+\paragraph{Selecting a support design approach}
+\label{sec:support-approach-selection}
+A practical selection rule is:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{p{0.36\textwidth} X}
+\toprule
+\textbf{Rock quality and failure type} & \textbf{Appropriate support design approach} \\
+\midrule
+Jointed competent rock with block failure & Rock mass classification using RMR and Q, supported by joint assessment and local block checks \\
+Highly fractured or poor rock with general failure & Ground pressure assessment, classification methods and deformation-based checks \\
+High in-situ stress with burst or spalling potential & Stress analysis, shape optimisation, destress or yielding support where required \\
+Squeezing, swelling or large-deformation ground & Ground pressure and displacement analysis, CCM, numerical modelling and staged support \\
+\bottomrule
+\end{tabularx}
+\caption{Support design approach as a function of rock quality and failure type.}
+\label{tab:ch10-support-selection}
+\end{table}
+
+The important design habit is to update the support approach along the alignment. A single tunnel may pass through competent, highly weathered, high-stress and water-bearing zones. The design should therefore define support classes, trigger conditions for changing class, and monitoring thresholds that indicate when the assumed class is no longer appropriate.
+
+\subsection{Monitoring and case study}
+\label{sec:monitoring-and-case-study}
+
+\paragraph{Monitoring and the observational method}
+\label{sec:monitoring}
+Tunnel monitoring is based on systematic measurement of deformations and stresses caused by excavation and support installation. Monitoring does not merely record what happened; it tests whether the design model is still credible.
+
+Typical measurements include:
+\begin{itemize}
+ \item surface settlement and building movement;
+ \item ground movement from inclinometers or extensometers;
+ \item tunnel convergence, meaning reduction of the excavation section due to stress redistribution;
+ \item ground and support pressure using pressure cells; and
+ \item groundwater level, inflow and pore pressure.
+\end{itemize}
+
+Monitoring should be connected to action levels. A green response confirms expected behaviour. An amber response triggers review, increased measurement frequency or local support adjustment. A red response requires immediate engineering intervention, which may include reduced advance length, stronger primary support, face reinforcement, grouting, temporary closure or redesign.
+
+\paragraph{Case study: a deep underground power station}
+\label{sec:case-snowy-cavern}
+the deep pumped-storage scheme serves here as a construction and design case. The project includes a long waterway tunnel and an underground power station complex at significant depth. Construction methods include TBM excavation for long tunnel drives and drill-and-blast excavation for large underground structures.
+
+For the power station complex, this chapter highlights the relationship between cavern shape, deformation and failure. A machine hall must accommodate large electromechanical equipment and associated tunnels, but the excavation shape must also manage stress redistribution and support demand. Three conceptual cavern shapes are compared:
+\begin{itemize}
+ \item a mushroom-shaped cavern with a concrete arch;
+ \item a conventional horseshoe-shaped cavern with vertical sidewalls; and
+ \item an elliptical cavern designed for more favourable stress distribution.
+\end{itemize}
+Numerical modelling is required to evaluate deformation and failure in both the concrete structures and surrounding rock mass. Large deformation at the roof or sidewalls indicates that extensive support may be required. For high-stress cavern design, shape selection, staged excavation, support sequence and monitoring must be treated as one design problem rather than separate tasks.
+\subsection{Role and anatomy of blasting}
+\label{sec:blasting-role-anatomy}
+
+\paragraph{Where blasting remains the right choice.}
+Mechanised excavation has displaced blasting from long uniform drives, and it
+has not displaced it from the work blasting does best. Drill and blast remains
+the economic choice for short drives where machine mobilisation cannot be
+amortised, for variable geometry --- caverns, junctions, niches, shafts ---
+where a machine's fixed profile is a liability, for very hard or abrasive rock
+where cutter costs become prohibitive, and wherever the excavation shape must
+change along its length.
+
+Its defining advantage is adaptability: the round length, the pattern, the
+charge and the support can all be varied from one cycle to the next as
+conditions change. Its defining cost is that progress depends on a repeated
+cycle of separate operations, each of which must be completed before the next
+begins.
+
+\paragraph{Anatomy of a round.}
+A blast round works by creating a free face and then progressively exploiting
+it. The \emph{cut} --- burn, wedge or fan --- opens a void into which the
+remaining rock can expand, and it is the part of the round most likely to
+fail: if the cut does not pull, the round does not pull. \emph{Stoping} holes
+break rock towards the cut in delayed sequence, each firing to a face created
+by the preceding delay. \emph{Contour} holes on the perimeter define the
+profile, and \emph{lifters} at the invert clear the floor and throw the muck
+pile forward for loading.
+
+Delay sequencing is what makes this work. Each hole must fire when the
+preceding one has created relief and before the burden has moved so far that
+confinement is lost, and electronic detonators have made that timing precise
+enough to control both fragmentation and vibration deliberately.
+
+\section{Drilling and blasting}
+\label{sec:drilling-blasting}
+
+\subsection{Explosives and blast design}
+\label{sec:explosives-design}
+
+\paragraph{Explosives and initiation.}
+Bulk emulsions have largely replaced cartridged products for underground
+production blasting: they are pumped into the hole, couple well to the wall,
+are water-resistant, and are sensitised only at the point of loading, which
+removes an explosive from the transport and storage problem. ANFO is cheaper
+and unusable in wet holes. Cartridged products retain a role for perimeter
+holes, where a small decoupled charge is wanted.
+
+An explosive is characterised by its velocity of detonation, its energy and
+its gas volume, and the two effects matter differently. The detonation shock
+crushes and fractures rock near the hole; the gas pressure that follows
+extends the fractures and heaves the burden. Perimeter blasting works by
+reducing the first while retaining enough of the second.
+
+Initiation has moved from pyrotechnic delays to electronic detonators, whose
+timing is accurate to milliseconds rather than tens of milliseconds. That
+precision permits every hole to fire on its own delay, which reduces the
+charge weight per delay --- the quantity that governs vibration --- without
+reducing the total charge.
+
+\paragraph{Design parameters.}
+Burden and spacing set the volume each hole must break; hole diameter and
+charge concentration set the energy available. Their combination gives the
+specific charge, or powder factor, expressed as explosive mass per cubic metre
+of rock, and the drilling factor gives metres drilled per cubic metre.
+
+Empirical rules relate these to rock properties and round length, and they
+should be treated as starting points calibrated by trial rounds on the actual
+rock. The design is confirmed by the outcome rather than by the calculation: a round that pulls
+its full length, a muck pile of the intended fragmentation in the intended
+place, and a profile close to the design line. Persistent under-pull usually
+indicates a cut problem; persistent overbreak indicates a perimeter problem.
+
+\subsection{Perimeter control and excavation damage}
+\label{sec:perimeter-damage}
+
+\paragraph{Perimeter control.}
+Contour holes are charged and timed to split the rock between them rather than
+to crush it. \emph{Smooth blasting} fires the perimeter last on its own delay,
+with closely spaced, lightly charged holes. \emph{Presplitting} fires the
+perimeter first, creating a fracture plane that reflects the later blast
+energy. \emph{Cushion blasting} uses decoupled charges with an air or water
+annulus so that the shock reaching the wall is reduced.
+
+All three depend on decoupling: a charge diameter substantially smaller than
+the hole, so that the borehole pressure is lowered and the wall is split
+rather than crushed. All three cost drilling time, since perimeter holes are
+closely spaced. The trade is against overbreak, and it is usually
+straightforwardly favourable --- the shotcrete and concrete saved by a clean
+profile exceeds the cost of the extra holes.
+
+\paragraph{Overbreak and the damage zone.}
+Overbreak is excavation beyond the design line, and it is paid for three
+times: in mucking, in the shotcrete or concrete that fills it, and in the
+programme those consume. Measuring it, by profile scanning against the design
+line, converts it from an accepted nuisance into a controllable quantity, and
+crews respond to being shown their own overbreak.
+
+Behind the profile lies the damage zone --- rock fractured by the blast but
+not removed. Its depth depends on charge concentration and perimeter practice,
+and it typically extends from a few tens of centimetres to more than a metre
+for poor practice. This zone is the physical meaning of the disturbance factor
+$\Dfac$ introduced in Chapter~\ref{ch:rock-mass-parameters}, and it closes the
+loop between construction practice and design parameters: a $\Dfac$ of 0.8
+assumed at design stage is an assumption about how the contractor will blast,
+and good perimeter control is worth a measurable increase in rock mass
+strength.
+
+\subsection{Vibration and environmental effects}
+\label{sec:vibration-environment}
+
+\paragraph{Vibration prediction.}
+Ground vibration is quantified by peak particle velocity, and predicted by
+scaled distance relations in which the velocity depends on the distance from
+the blast and the charge weight per delay. The scaling laws are empirical and
+site-specific: published constants give an order of magnitude, and a
+site-specific regression from monitored blasts gives a usable prediction.
+Establishing that regression from early blasts, before the drive approaches
+sensitive receivers, is standard practice on urban projects.
+
+Scaled distance relations break down close to the charge, where the charge
+cannot be treated as a point. Near-field models that integrate the
+contribution along the charge length are used where the receiver is within a
+few charge lengths --- for a structure directly above a shallow tunnel, or for
+fresh concrete in an adjacent drive.
+
+\paragraph{Damage criteria.}
+Limits depend on what is being protected and are far more stringent for
+disturbance than for damage. Structural damage to ordinary buildings requires
+velocities well above those that generate complaints, and the binding limit on
+an urban project is usually human response rather than structural capacity.
+Heritage structures, buried services, fresh concrete and sensitive equipment
+each carry their own limits, and fresh concrete is the one most often
+overlooked --- a limit that varies with the age of the pour and can constrain
+the sequence between adjacent headings.
+
+Distinguishing damage thresholds from disturbance thresholds explicitly, in
+the design and in communication with the community, avoids a common and
+avoidable dispute.
+
+\paragraph{Airblast, fumes and flyrock.}
+Airblast overpressure travels along the tunnel and out of the portal, and it
+is controlled by stemming, by portal attenuation and by timing. Flyrock is
+managed by exclusion zones, which underground means securing the approach
+rather than a surface radius.
+
+Post-blast fumes govern re-entry. Nitrogen oxides and carbon monoxide must be
+diluted below exposure limits before anyone returns to the face, and the time
+required is set by the ventilation capacity of
+Chapter~\ref{ch:ground-improvement}. On a long drive, ventilation clearance
+rather than the blast itself can be the longest element of the cycle.
+
+\section{Productivity and urban practice}
+\label{sec:productivity-urban}
+
+\paragraph{Cycle time.}
+The cycle is drilling, charging, blasting, ventilating, mucking, scaling and
+supporting, and the advance per cycle is the round length actually pulled.
+Progress is the product of the two, and improving it means attacking whichever
+element dominates.
+
+That element is rarely the blast. Support installation frequently governs in
+poor ground; ventilation clearance governs on long drives; mucking governs
+where haulage distance is long. Analysing where the time actually goes ---
+rather than assuming the answer --- is what distinguishes a realistic
+programme from an optimistic one, and realistic advance rates by ground class
+should come from comparable projects rather than from the sum of theoretical
+operation times.
+
+\paragraph{Urban practice.}
+Blasting near people is a regulatory and social activity as much as a
+technical one. It requires approvals with vibration and airblast limits
+attached, a monitoring network at agreed receivers, notification to the
+community before each blast, and compliance reporting.
+
+Two practices reduce disputes more than any technical measure. Pre-condition
+surveys of nearby structures, carried out and documented before blasting
+begins, establish what damage already existed --- and without them, every
+existing crack becomes a claim. And publishing monitored results against the
+agreed limits, rather than only reporting exceedances, builds the credibility
+that makes an occasional exceedance manageable.
+
+\section{Automation of the excavation cycle}
+\label{sec:automation}
+
+The drill-and-blast cycle described in the preceding sections has been
+progressively mechanised for a century and is now, in parts, automated: the
+machine executes a plan rather than an instruction, and the operator supervises
+rather than drives. The distinction matters for design, because an automated
+cycle changes what can be specified, what can be verified, and where the
+people are when the ground moves.
+
+Three threads run through what follows. Automation improves consistency more
+reliably than it improves speed. It generates a record as a by-product, which
+is often worth more than the productivity gain. And its strongest
+justification is not economic at all: it removes people from the position
+immediately behind an unsupported face, which is where underground fatalities
+concentrate.
+
+\subsection{Computer-controlled drilling}
+\label{sec:automated-drilling}
+
+A modern drilling jumbo can be given the round as a digital drill plan ---
+collar positions, directions, depths --- and will position each boom and drill
+each hole to it, navigating from total station or laser reference. What the
+designer specifies as a blast pattern is then what is drilled, within a few
+centimetres, rather than what a tired operator approximates at the end of a
+shift.
+
+The consequence that matters most is perimeter control. The overbreak and
+excavation damage discussed in Section~\ref{sec:perimeter-damage} depend
+heavily on the accuracy of the contour holes: their alignment, their spacing,
+and the look-out angle at the collar. Hole deviation is the dominant source of
+scatter in blast results, and accurate positioning improves the profile, the
+shotcrete quantity and the damage zone together. Where the finished profile is
+surveyed as in Section~\ref{sec:as-built}, the loop closes: the design pattern,
+the drilled pattern and the resulting profile can all be compared, and a
+systematic departure can be attributed rather than argued about.
+
+The by-product is the drilling record itself. A rig executing a plan is also
+logging what it met, which is the measurement-while-drilling data of
+Section~\ref{sec:mwd}, obtained at no additional cost from work that was going
+to happen regardless. A project that automates its drilling and does not
+capture that record has bought half of what it paid for.
+
+\subsection{Mechanised support and materials handling}
+\label{sec:mechanised-support}
+
+Sprayed concrete application is the clearest case after drilling. A
+manipulator places the nozzle at a controlled distance and angle, which
+governs rebound and in-place quality more than the mix does, and it does so
+without a person standing beneath freshly exposed ground. Systems that scan
+the profile and control thickness against it close the gap between specified
+and achieved thickness that Section~\ref{sec:as-built} identifies as a
+durability problem, and they report the achieved thickness rather than
+inferring it from volume placed.
+
+Rock bolt installation follows the same pattern, with rigs that drill,
+inject grout and install the element in one sequence, recording the installed
+length and grout volume per bolt. That record is the verification the support
+design of Chapter~\ref{ch:support} has always wanted and rarely had: not that
+a pattern was specified, but that it was installed as specified.
+
+In mechanised tunnelling the segment erector has been mechanised since the
+beginning, and the current development is automated ring build and automatic
+grouting of the annulus, both of which reduce the variability that feeds volume
+loss (Chapter~\ref{ch:tbm}). Loading and haulage are the furthest
+advanced in mining, where remote-operated and autonomous units run in
+production areas that people are not permitted to enter --- which is a support
+design decision as much as a productivity one, since it changes what
+standard of ground support the area requires.
+
+\subsection{The safety case and its limits}
+\label{sec:automation-safety}
+
+The safety argument is strong and should be stated precisely, because it is
+often overstated. Automation removes people from specific hazardous positions:
+under an unsupported crown during scaling and support installation, at the
+face during charging, and in production areas subject to rockburst or
+air-blast. Those are the positions where the fatal accidents occur, and
+removing people from them is a real reduction in exposure rather than a
+transfer of risk.
+
+What it does not do is remove the need for judgement at the face. Somebody
+still has to decide whether the ground exposed by the last round matches the
+prediction, and a machine executing a drill plan has no view about whether the
+plan is still appropriate for the geology it has entered. The risk introduced
+by automation is that the interval between decisions lengthens: a cycle that
+proceeds without a person looking at the face can proceed a long way into
+ground it was not designed for. The observational method of
+Chapter~\ref{ch:movement-monitoring} depends on somebody actually observing,
+and the mapping of each round remains a design activity whoever or whatever
+drills it.
+
+Three further limits are worth recording. Automated positioning relies on
+survey control, and control that drifts produces a confidently misplaced
+round. Machine records verify what the machine did, not whether it worked ---
+an installed bolt is not a functioning bolt, and pull testing remains
+necessary. And the skills required to recognise adverse ground are acquired at
+the face; a workforce that no longer goes there acquires them more slowly,
+which is a real cost and one that shows up years after the equipment was
+bought.

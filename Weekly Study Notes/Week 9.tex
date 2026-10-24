@@ -1,0 +1,353 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+\geometry{margin=2.5cm}
+
+\newtcolorbox{notebox}[1][]{colback=blue!5!white, colframe=blue!50!black, fonttitle=\bfseries, title=#1}
+\newtcolorbox{warnbox}[1][]{colback=orange!5!white, colframe=orange!50!black, fonttitle=\bfseries, title=#1}
+\newtcolorbox{cautionbox}[1][]{colback=red!5!white, colframe=red!50!black, fonttitle=\bfseries, title=#1}
+\newtcolorbox{deliverablebox}[1][]{colback=green!5!white, colframe=green!40!black, fonttitle=\bfseries, title=#1}
+
+\title{\textbf{RSE3010: Mine Geotechnical Engineering} \\ Week 9 Study Notes}
+\author{Monash University, Semester 1, 2026}
+\date{Based on Weeks 5--8 Integration and Assignment 2}
+
+\begin{document}
+
+\maketitle
+
+\section{Week 9: Integrated Underground Design}
+
+\subsection{Purpose}
+To integrate the work from Weeks 5--8 into one clear workflow. This is a synthesis task, not a new calculation exercise. The goal is to demonstrate how the four stages of geotechnical design---site investigation, empirical design, analytical design, and numerical modelling---connect to form a coherent engineering process. The SRL East Monash tunnel case and the Snowy 2.0 project serve as the two threads running through the assignment.
+
+\begin{notebox}[How to use these notes]
+These notes assume you have completed the Week 5--8 material. They do not repeat the calculation procedures from those weeks---refer back to the original lecture notes and your Assignment 2 working for details. Week 9 is about \textit{connecting} what you have already done into a coherent workflow.
+\end{notebox}
+
+\subsection{Learning Objectives}
+\begin{itemize}
+    \item Understand the complete design workflow from site investigation through to numerical verification.
+    \item Recognise how each method (empirical, analytical, numerical) contributes different information and has different limitations.
+    \item Appreciate that uncertainty propagates through the entire chain and must be managed at every stage.
+    \item Synthesise results from multiple methods into a justified engineering recommendation.
+\end{itemize}
+
+\begin{deliverablebox}[Assignment 2: Week 9 Deliverable at a Glance]
+\textbf{Length:} 2--3 pages of written synthesis plus one workflow figure. \\
+\textbf{Components:}
+\begin{enumerate}[nosep, label=(\arabic*)]
+    \item Workflow figure (Weeks 5--8, both projects, four stages).
+    \item Integrated reflection (method roles, uncertainties).
+    \item Guest lecture reflection.
+\end{enumerate}
+\vspace{0.5 em}
+
+\textbf{No new calculations required.} The task assesses your ability to \textit{synthesise} Weeks 5--8 rather than produce additional technical results. Refer to the Assignment 2 brief for formatting requirements and weighting.
+\end{deliverablebox}
+
+\subsection{Where We Are in the Course}
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{c l l X}
+\toprule
+\textbf{Week} & \textbf{Topic} & \textbf{Project} & \textbf{What it delivers} \\
+\midrule
+5 & Site Investigation & SRL East \& Snowy 2.0 & Geological model, parameters, data reliability \\
+6 & Empirical Design & SRL East \& Snowy 2.0 & Failure mode, RMR/Q support recommendations \\
+7 & Analytical Design & SRL East \& Snowy 2.0 & Kirsch stresses, HB/MC parameters, CCM \\
+8 & Numerical Modelling & SRL East \& Snowy 2.0 & Mair settlement, RS2/RocSupport verification \\
+\textbf{9} & \textbf{Integration} & \textbf{Both} & \textbf{Workflow, synthesis, reflection} \\
+\bottomrule
+\end{tabularx}
+\caption{Course progression: Weeks 5--9.}
+\end{table}
+
+\subsection{The Design Workflow}
+
+The four stages of underground geotechnical design form a logical sequence. Each stage builds on the outputs of the previous one:
+
+\[
+\text{Site Investigation} \xrightarrow{\text{params}} \text{Empirical} \xrightarrow{\text{support}} \text{Analytical} \xrightarrow{\text{CCM}} \text{Numerical}
+\]
+
+\subsubsection{Stage 1: Site Investigation (Week 5)}
+
+\textbf{SRL East:} EES documents (TA J.1 and J.2), virtual site inspection (OpenStreetMap/Nearmap), geological cross-sections. Outputs: two-layer geological model (TprC over AF7/Sla), parameter tables (Table~\ref{tab:srl_params}), groundwater conditions, existing infrastructure constraints.
+
+\textbf{Snowy 2.0:} Geological mapping, borehole investigations, laboratory testing of intact sandstone/siltstone. Outputs: two rock mass conditions (Good: RMR\,=\,58, Q\,=\,8, GSI\,=\,60; Poor: RMR\,=\,34, Q\,=\,1.5, GSI\,=\,30), intact properties (UCS\,=\,72~MPa, $E_i$\,=\,26~GPa), joint set descriptions.
+
+\textbf{Key decisions:}
+\begin{itemize}[nosep]
+    \item \textit{SRL East:} Is TprC thick enough at the Monash alignment to influence tunnel response? Where exactly does the TprC/AF7 interface sit relative to the crown?
+    \item \textit{Snowy 2.0:} Are the Good and Poor rock mass domains spatially separable along the alignment? Which domain governs support design?
+    \item \textit{Both:} How reliable are the characteristic design values, given limited boreholes and core recovery issues?
+\end{itemize}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{l l c c c c}
+\toprule
+\textbf{Unit} & \textbf{Description} & $\gamma$ (kN/m$^3$) & $c'$ (kPa) & $\phi'$ ($^\circ$) & $E$ (MPa) \\
+\midrule
+TprC & Overlying soil (SRL East) & 20 & 7 & 30 & 50 \\
+AF7/Sla & Main rock unit (SRL East) & 21 & 20 & 28 & 150 \\
+\bottomrule
+\end{tabular}
+\caption{SRL East Monash parameters from TA J.2 GM IA (p.~303).}
+\label{tab:srl_params}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{l c c}
+\toprule
+\textbf{Parameter} & \textbf{Good rock (GSI = 60)} & \textbf{Poor rock (GSI = 30)} \\
+\midrule
+RMR & 58 & 34 \\
+Q & 8 & 1.5 \\
+UCS, $\sigma_{ci}$ (MPa) & 72 & 72 \\
+Intact modulus, $E_i$ (GPa) & 26 & 26 \\
+$m_i$ (assumed) & 17 & 17 \\
+$m_b$ (HB) & 4.1 & 1.4 \\
+$s$ (HB) & 0.012 & 0.0004 \\
+$a$ (HB) & 0.503 & 0.522 \\
+Rock mass strength, $\sigma_{cm}$ (MPa) & $\sim$12 & $\sim$2 \\
+Rock mass modulus, $E_m$ (GPa) & $\sim$13 & $\sim$2.6 \\
+MC equivalent $c'$ (MPa) & $\sim$3.0 & $\sim$0.6 \\
+MC equivalent $\phi'$ ($^\circ$) & $\sim$45 & $\sim$30 \\
+\bottomrule
+\end{tabular}
+\caption{Snowy 2.0 intact and derived rock mass parameters for the two design domains. Values are indicative and should be recomputed from your Week 7 Hoek--Brown fit.}
+\label{tab:snowy_params}
+\end{table}
+
+\begin{notebox}[Link to later stages]
+The SRL East parameters feed into Numerical Software (e.g., RS2) (Week~8) and could also be used for empirical/analytical assessment of station caverns and tunnels. The Snowy 2.0 site data feeds into the empirical (Week~6) and analytical (Week~7) stages. Their reliability determines the confidence in all subsequent results---an error at Stage~1 propagates to every stage that follows.
+\end{notebox}
+
+\subsubsection{Stage 2: Empirical Design (Week 6)}
+
+\textbf{SRL East:} The Anderson Creek Formation rock units (AF2--AF7) have RMR and GSI ranges that allow empirical support design for the SRL East tunnels and station caverns. RMR-based stand-up time can be assessed for the tunnel at Monash, and Q-system support can be designed for the underground station excavations.
+
+\textbf{Snowy 2.0:} Failure mode identification using the decision tree (Martin et al., 2003), Martin's spalling equation, and Kaiser et al.'s design chart. RMR-based stand-up time for the main access tunnel (span 9.5~m). Q-system support for the machine hall, transformer hall, and main access tunnel under both good and poor rock conditions.
+
+\textbf{Key decisions:}
+\begin{itemize}[nosep]
+    \item \textit{SRL East:} Which RMR class applies at the tunnel horizon? Is the stand-up time sufficient for the proposed advance rate?
+    \item \textit{Snowy 2.0:} Is failure structurally controlled, stress-induced, or a combination? Does empirical support cover both Good and Poor domains?
+    \item \textit{Both:} What preliminary support class should be carried forward into the analytical/numerical stages?
+\end{itemize}
+
+\begin{warnbox}[Empirical methods assume structurally controlled failure]
+RMR and Q-system were developed from case histories of jointed rock masses. They are not reliable for severe stress-induced spalling (which may apply to Snowy 2.0 at 650~m depth). The decision tree helps identify when empirical methods are appropriate and when analytical/numerical methods are needed.
+\end{warnbox}
+
+\subsubsection{Stage 3: Analytical Design (Week 7)}
+
+\textbf{SRL East:} Kirsch solutions can estimate elastic stress concentrations around the tunnel at Monash. For the shallow tunnel ($z_0 = 5$--25~m in AF7), the low stress means the response is likely elastic or mildly plastic. A simplified CCM analysis provides a cross-check against the numerical modelling results.
+
+\textbf{Snowy 2.0:} Kirsch elastic stresses at various depths (100--600~m). Rock mass parameters ($m_b$, $s$, $a$, $\sigma_{cm}$, $E_m$, MC $c'$ and $\phi'$) for GSI\,=\,60 and GSI\,=\,30 at 650~m. Critical pressure, plastic zone radius, and CCM equilibrium with TBM lining support via RocSupport.
+
+\textbf{Key decisions:}
+\begin{itemize}[nosep]
+    \item \textit{SRL East:} Is the analytical response elastic (no support driven by strength) or mildly plastic? Does CCM agree with numerical modelling?
+    \item \textit{Snowy 2.0:} What is the required support capacity? Is the factor of safety adequate in the Poor rock domain?
+    \item \textit{Both:} Where does the analytical solution disagree with empirical expectations, and why?
+\end{itemize}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{l c c}
+\toprule
+\textbf{Parameter} & \textbf{GSI = 60} & \textbf{GSI = 30} \\
+\midrule
+Response & Plastic & Plastic \\
+$R_p/a$ & 1.23 & 1.84 \\
+$u_{\max}$ (mm) & 8.3 & 86.8 \\
+$u_{s0}$ at $L=3$~m (mm) & 7.0 & 63.6 \\
+\bottomrule
+\end{tabular}
+\caption{CCM results for Snowy 2.0 main access tunnel at 650~m. The order-of-magnitude difference in displacement between GSI\,=\,60 and GSI\,=\,30 illustrates why rock mass characterisation dominates the design outcome---a 30-point change in GSI changes $u_{\max}$ by a factor of $\sim$10.}
+\end{table}
+
+\begin{notebox}[Analytical $\to$ Numerical]
+The CCM provides displacement and FoS for a circular tunnel in hydrostatic stress. It cannot handle non-circular geometry, staged excavation, or layered ground. These limitations motivate numerical modelling.
+\end{notebox}
+
+\subsubsection{Stage 4: Numerical Modelling (Week 8)}
+
+\textbf{SRL East:} Mair method (Mair et al., 1993) for surface settlement prediction (Gaussian trough, $V_L = 0.5\%$--$1.5\%$). 2D FEM models for the shallow ($z_0=5$~m) and deep ($z_0=25$~m) cases using TprC and AF7/Sla. Outputs: settlement troughs, displacement contours, lining forces. Comparison of Mair vs FEM results.
+
+\textbf{Snowy 2.0:} For Snowy 2.0, the Stage 4 numerical component is delivered as \textit{software-assisted analytical verification} using RocSupport, which computes the GRC, SCC, and LDP curves and finds the equilibrium point between ground and support. This is appropriate because (i) the Snowy 2.0 main access tunnel is approximately circular and driven by TBM, (ii) the stress field is close to hydrostatic at depth, and (iii) the primary engineering question is support capacity rather than complex ground--structure interaction. A full 2D FEM (e.g., RS2) or 3D analysis of the machine hall and transformer hall, which are non-circular and involve intersecting excavations, would be the logical extension for a detailed design phase but is beyond the scope of Assignment 2.
+
+\textbf{Key decisions:}
+\begin{itemize}[nosep]
+    \item \textit{SRL East:} Does FEM confirm the Mair-predicted settlement trough? Are surface settlements within third-party damage criteria?
+    \item \textit{Snowy 2.0:} Does CCM confirm that the TBM lining sits on a stable portion of the GRC? Is the FoS adequate in both domains?
+    \item \textit{Both:} Where do numerical results contradict earlier stages, and what does that tell us about our assumptions?
+\end{itemize}
+
+\subsection{How the Methods Complement Each Other}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l X X X}
+\toprule
+\textbf{Purpose} & \textbf{Best method} & \textbf{Why} & \textbf{Limitation} \\
+\midrule
+Concept development & Empirical (RMR, Q) & Quick, requires minimal data, gives preliminary support & Assumes structurally controlled failure; no stress-strain detail \\
+Identifying risks & Decision tree + SMR & Classifies failure mode; flags stress vs gravity vs squeezing & Qualitative; does not quantify FoS \\
+Deformation assessment & Analytical (CCM) or Mair & Gives displacement estimate and FoS; fast parametric studies & Circular geometry, hydrostatic stress, simplified ground \\
+Engineering decision & Numerical (RS2) & Handles real geometry, layered ground, staged construction, lining forces & Requires validated parameters; mesh/boundary sensitivity; time-consuming \\
+\bottomrule
+\end{tabularx}
+\caption{Which method for which purpose.}
+\end{table}
+
+\begin{notebox}[No single method is sufficient]
+Empirical methods give a starting point. Analytical methods provide a cross-check and quantify ground-support interaction. Numerical methods handle the real complexity. The three approaches should be used together, not as alternatives. Disagreement between methods is informative---it highlights where assumptions break down.
+\end{notebox}
+
+\subsubsection{Worked Example: Resolving Method Disagreement}
+
+Suppose at the Snowy 2.0 main access tunnel in the Poor rock domain:
+\begin{itemize}[nosep]
+    \item \textbf{Empirical (Q-system):} Q\,=\,1.5, span 9.5~m $\to$ Category 5 support: systematic bolting + 50--90~mm fibre-reinforced shotcrete.
+    \item \textbf{Analytical (CCM):} $u_{\max} = 86.8$~mm, $R_p/a = 1.84$, indicates a large plastic zone and significant squeezing potential. The Q-recommended support would likely be overstressed.
+    \item \textbf{Numerical:} Support curve intersects GRC only after substantial convergence; lining safety factor marginal.
+\end{itemize}
+
+\noindent \textbf{Resolution.} The empirical recommendation is non-conservative for this stress/strength regime because the Q-system was calibrated against cases with lower squeezing. The engineer should: (i) adopt a stronger support class (e.g., yielding steel sets or thicker shotcrete with lattice girders), (ii) allow for convergence by using a flexible/yielding support philosophy, and (iii) flag the Poor rock domain as a high-risk zone requiring face mapping and probe drilling during construction. This is the kind of \textit{judgement-driven synthesis} that Week 9 is asking you to demonstrate.
+
+\subsection{Uncertainty Through the Workflow}
+
+Uncertainty enters at every stage and propagates forward:
+
+\begin{enumerate}
+    \item \textbf{Site investigation} (Week 5): RQD orientation bias, core loss, limited boreholes, spatial variability of GSI.
+    \item \textbf{Empirical classification} (Week 6): Subjectivity in joint condition rating, SRF estimation, RMR/Q input errors ($\pm$10\% changes support category).
+    \item \textbf{Analytical parameters} (Week 7): GSI $\pm$10 points changes $\sigma_{cm}$ by $\sim$40\%. MC fitting range affects $c'$ and $\phi'$.
+    \item \textbf{Numerical modelling} (Week 8): Mesh sensitivity, boundary effects, constitutive model choice, $K_0$ assumption, volume loss assumption in Mair method.
+\end{enumerate}
+
+\begin{cautionbox}[Project-specific uncertainties: Monash tunnel]
+\begin{itemize}[nosep]
+    \item The TprC/AF7 interface depth is inferred, not directly measured at the tunnel location.
+    \item AF7 parameters ($c'=20$~kPa, $\phi'=28^\circ$) are equivalent continuum values---the actual rock mass may be more variable.
+    \item The shallow case ($z_0=5$~m, $D=7.2$~m) is at the limit of the Mair method's validity ($z_0 < D$).
+    \item Groundwater conditions were simplified (dry or piezometric) --- real conditions may involve transient pore pressures.
+    \item $K_0$ was assumed, not measured; this significantly affects horizontal stresses and lining forces.
+\end{itemize}
+\end{cautionbox}
+
+\begin{warnbox}[Uncertainty is not just a caveat---address it in your reflection]
+In your Week 9 reflection, identify \textbf{at least two uncertainties from different stages} of the workflow and explain how they would affect the final engineering recommendation. Also state, for each one, what \textit{additional data} (more boreholes, in-situ stress measurement, laboratory testing, monitoring) would reduce that uncertainty and at what cost. This moves the discussion from ``things we don't know'' to ``what we would do about it''---which is what engineering practice actually looks like.
+\end{warnbox}
+
+\subsection{Assignment 2 Tasks (Week 9 Component)}
+
+Week 9 is a short synthesis task (2--3 pages plus one workflow figure). No new calculations are required.
+
+\subsubsection{(1) Workflow Figure}
+Prepare one workflow diagram or flow chart showing how the project developed from Week 5 to Week 8. A simple sequence is sufficient:
+
+\[
+\boxed{\text{Site Investigation}} \to \boxed{\text{Empirical}} \to \boxed{\text{Analytical}} \to \boxed{\text{Numerical}}
+\]
+
+For each box, indicate: the project (SRL East or Snowy 2.0), the key method used, and the main output. You may use PowerPoint, draw.io, or hand-drawn diagrams.
+
+\begin{deliverablebox}[Workflow figure checklist]
+A strong workflow figure includes:
+\begin{itemize}[nosep]
+    \item Both projects (SRL East \textit{and} Snowy 2.0) shown in parallel or on the same diagram.
+    \item All four stages (Site Investigation $\to$ Empirical $\to$ Analytical $\to$ Numerical).
+    \item For each stage: the key method(s) applied and the main output/result.
+    \item Arrows or annotations showing \textit{what flows between stages} (e.g., ``GSI $\to$ HB parameters'', ``support class $\to$ CCM input'').
+    \item A clear title and caption.
+\end{itemize}
+\end{deliverablebox}
+
+\subsubsection{(2) Integrated Reflection}
+Briefly discuss how the methods from Weeks 5--8 complement one another. Address the following:
+\begin{itemize}
+    \item Which method is most useful for \textbf{concept development}? (Typically empirical---fast, minimal data.)
+    \item Which method is most useful for \textbf{identifying geotechnical risks}? (Decision tree, SMR, or site investigation.)
+    \item Which method is most useful for \textbf{deformation assessment}? (Mair method or CCM for first estimates; FEM (e.g., RS2) for detailed analysis.)
+    \item Which method is most useful for \textbf{engineering decision-making}? (Numerical modelling, because it produces lining forces and settlement troughs that can be checked against design criteria.)
+    \item What are the \textbf{main uncertainties} that remain in the Monash tunnel case? (Identify at least two from different stages; see the uncertainty section above.)
+\end{itemize}
+
+\subsubsection{(3) Guest Lecture Reflection}
+Write a short reflection on the guest lecture. Rather than summarising the talk, engage with it using these prompts:
+\begin{itemize}
+    \item Did the practitioner use methods in the same sequence as the course workflow (Site Investigation $\to$ Empirical $\to$ Analytical $\to$ Numerical), or did their practice diverge?
+    \item Where did \textit{industry practice} go beyond the textbook workflow (e.g., monitoring, observational method, risk registers)?
+    \item What role did \textit{engineering judgement} play in their example, and how did they handle uncertainty?
+    \item Did the lecture strengthen, change, or confirm your understanding of design integration? Be specific about what shifted.
+\end{itemize}
+
+\subsection{Example Workflow Structure}
+
+The following is a suggested structure for the workflow figure. Adapt it to reflect your own analysis:
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{c l X X}
+\toprule
+\textbf{Week} & \textbf{Stage} & \textbf{SRL East} & \textbf{Snowy 2.0} \\
+\midrule
+5 & Site Investigation & EES, virtual inspection, TprC/AF7 parameters & Geological mapping, RMR/Q/GSI, intact properties \\
+6 & Empirical Design & RMR/Q for station and tunnel & Failure mode, RMR/Q for caverns and access tunnel \\
+7 & Analytical Design & Kirsch, simplified CCM cross-check & Kirsch at depth, HB/MC params, CCM + RocSupport \\
+8 & Numerical & Mair settlement, FEM model & RocSupport verification (full FEM as extension) \\
+9 & Integration & \multicolumn{2}{c}{Workflow figure, synthesis, reflection} \\
+\bottomrule
+\end{tabularx}
+\caption{Dual-project workflow for Assignment 2. Both projects follow the same four-stage sequence.}
+\end{table}
+
+\subsection{Linking the Two Projects}
+
+Both projects follow the same four-stage design workflow, but they emphasise different aspects---and \textit{the emphasis follows from the engineering problem}, not from arbitrary choice:
+
+\textbf{SRL East (Monash).} A shallow urban tunnel in weathered rock/soil. The governing engineering concern is surface settlement and its impact on existing buildings, services, and roads. Because the critical design question is \textit{how much will the ground above the tunnel move}, the decision-making tools are the Mair method and FEM ---i.e., Stage 1 (site investigation) and Stage 4 (numerical modelling) dominate. Empirical classification of the AF rock units and analytical stress/displacement estimates still apply, but they inform rather than govern the design.
+
+\textbf{Snowy 2.0.} A deep tunnel and cavern system in hard rock at high stress. The governing engineering concern is rock mass failure mode and support capacity. Because the critical design question is \textit{will the rock mass fail around the opening and what support will hold it}, the decision-making tools are the failure-mode decision tree, RMR/Q support, and the CCM---i.e., Stage 2 (empirical) and Stage 3 (analytical) dominate. The project still begins with site investigation data, and the CCM/RocSupport analysis serves as the numerical verification stage.
+
+\begin{notebox}[Both projects demonstrate the complete workflow]
+The key integration insight is that the same four-stage sequence applies to \textit{any} underground project, regardless of depth, rock type, or excavation method. Shallow tunnels in weak ground and deep caverns in hard rock both require site investigation $\to$ empirical classification $\to$ analytical assessment $\to$ numerical verification. The difference lies in which stage is most critical and which tools are most appropriate at each stage---and that difference is driven by the engineering question, not by preference.
+\end{notebox}
+
+\subsection{Key Takeaways}
+\begin{itemize}
+    \item \textbf{Design is iterative:} Each stage refines the previous one. Numerical results may prompt a return to the site investigation or a revision of empirical estimates.
+    \item \textbf{Methods are complementary, not competing:} Empirical gives speed, analytical gives insight, numerical gives detail. Use all three.
+    \item \textbf{Uncertainty must be acknowledged:} State your assumptions, perform sensitivity checks, and discuss what additional data would reduce uncertainty.
+    \item \textbf{Engineering judgment bridges the gaps:} No method gives a definitive answer. The engineer must synthesise results, weigh uncertainties, and make defensible decisions.
+    \item \textbf{The engineering problem drives method choice:} Shallow urban tunnels emphasise settlement (numerical); deep hard-rock caverns emphasise failure mode and support (empirical + analytical). Match the tool to the question.
+\end{itemize}
+
+
+\vspace{1cm}
+\noindent\textit{End of Week 9 Study Notes}
+
+\end{document}

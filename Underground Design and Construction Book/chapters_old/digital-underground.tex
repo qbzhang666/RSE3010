@@ -1,0 +1,149 @@
+% !TeX root = ../main.tex
+% ---------------------------------------------------------------------------
+%  Digital Underground: Geo-Integrated Models and Digital Twins
+%  Enriched from the author's study report on sustainability and resilience of
+%  underground infrastructure, which supplies the geo-integrated asset model
+%  and the four-level digital twin framework used to organise this chapter.
+%  Other sources: buildingSMART IFC-Tunnel; ISO 19650; ITA WG22 on BIM.
+%  Related work in the parent repository: CRC_Book_Chapter/BIM_DigitalTwin,
+%  Tunnel-DT2026, TunVision, Digital-Twin.
+% ---------------------------------------------------------------------------
+\chapter{Digital Underground: Geo-Integrated Models and Digital Twins}
+\label{ch:digital-underground}
+
+A geometric model of a tunnel is of limited engineering value. What underground
+projects need is a model that also carries the ground: strata and inferred
+boundaries, hydrogeological units, design parameters and their uncertainty,
+construction sequence and support timing, quantities and carbon factors,
+monitoring and inspection records. That object --- the geo-integrated asset
+model --- is what allows design, construction, carbon accounting, risk
+management and operation to draw on the same project information rather than
+maintaining separate and divergent versions of it.
+
+This chapter treats digital practice as information flow and decision
+traceability, not as software or visualisation.
+
+\section{Digital transformation and information management}
+\label{sec:digital-transformation-and-information-management}
+
+\subsection{What has actually changed}
+\label{sec:digital-transformation}
+\scopenote{Demonstrated capability against routine adoption, and the
+organisational rather than technical obstacles to closing that gap.}
+
+\subsection{BIM for linear underground assets}
+\label{sec:bim-underground}
+\scopenote{Why building-oriented BIM adapts poorly to alignments and to
+ground: parametric alignment modelling, the ground as a modelled object rather
+than a backdrop, and level of information need.}
+
+\section{Standards and data environments}
+\label{sec:standards-and-data-environments}
+
+\subsection{Data standards and interoperability}
+\label{sec:data-standards}
+\scopenote{IFC and the IFC-Tunnel extension, LandXML, ISO 19650 information
+management, and the cost of proprietary lock-in over an asset life measured in
+a century.}
+
+\subsection{Common data environments}
+\label{sec:cde}
+\scopenote{Single source of truth, version and status control, and the
+contractual standing of model information.}
+
+\section{The geo-integrated asset model}
+\label{sec:geo-integrated-model}
+
+\subsection{What the model must contain}
+\label{sec:model-contents}
+The model is useful only when it integrates, in one structure:
+
+\begin{itemize}[nosep]
+  \item infrastructure function and system interfaces;
+  \item alignment, geometry, lining, support, shafts, stations and fit-out;
+  \item borehole data, geological interpretation, hydrogeological units,
+        design parameters and uncertainty;
+  \item construction method, sequence, support timing, machine performance and
+        haulage assumptions;
+  \item quantities, carbon factors, energy factors and the declared system
+        boundary;
+  \item monitoring, inspection, condition, damage and maintenance records.
+\end{itemize}
+
+\subsection{Ground models as digital objects}
+\label{sec:digital-ground-model}
+\scopenote{Three-dimensional geological modelling, implicit surface methods,
+chainage-based ground classification, and the problem of representing
+uncertainty inside a model that renders as though it were certain.}
+
+\subsection{Level of detail as a decision variable}
+\label{sec:level-of-detail}
+\scopenote{Detail should follow the decision being made. Early planning needs
+system-level quantities; detailed design, construction control and operation
+need component- and material-level information. Modelling everything to the
+finest level is a common and expensive error.}
+
+\section{The analysis loop}
+\label{sec:analysis-loop}
+
+\subsection{Instantiating analysis models}
+\label{sec:model-instantiation}
+\scopenote{Generating settlement, support-interaction, lining and
+excavation-sequence models from the asset and ground models rather than
+rebuilding geometry by hand for each analysis.
+Chapter~\ref{ch:advanced-numerical}.}
+
+\subsection{Forward prediction and backward updating}
+\label{sec:forward-backward}
+\scopenote{Forward analysis predicts performance; observation and validation
+data feed back to update parameters, refine the design or change construction
+control. The loop must stay active through construction and operation, which
+is what distinguishes a working model from a drawing container.}
+
+\section{Digital twins}
+\label{sec:digital-twins}
+
+\subsection{Four levels of twin maturity}
+\label{sec:twin-maturity}
+The useful distinction between a model and a twin is the feedback loop. Four
+levels can be separated:
+
+\begin{description}[leftmargin=28mm,style=nextline,nosep]
+  \item[Descriptive] What is the asset? Geometry, geology, systems, materials
+    and records organised into a structured asset model.
+  \item[Reflective] What is happening now? Monitoring, machine data, inspection
+    and condition observations validate the model and diagnose current state.
+  \item[Predictive] What will happen next? Physical, statistical, machine
+    learning and surrogate models forecast settlement, convergence, leakage,
+    deterioration, damage, energy, carbon and functionality.
+  \item[Prescriptive] What should be done? Intervention options are compared on
+    risk, recovery, cost, time, carbon and service outcome.
+\end{description}
+
+\subsection{Closing the loop}
+\label{sec:twin-loop}
+\scopenote{Each observation and intervention updates the model for the next
+decision. Without that return path, a twin is a dashboard.}
+
+\section{Analytics, prediction and governance}
+\label{sec:analytics-and-governance}
+
+\subsection{Construction and machine data analytics}
+\label{sec:tbm-analytics}
+\scopenote{Machine data streams, cleaning and ring-based aggregation, and
+inference of ground conditions from machine response ahead of and behind the
+face.}
+
+\subsection{Machine learning and automated inspection}
+\label{sec:machine-learning}
+\scopenote{Supervised prediction of penetration rate, ground class and
+settlement; automated photogrammetric and LiDAR face mapping; lining defect
+detection. The transferability problem between projects, and the danger of
+models that extrapolate confidently outside their training envelope.}
+
+\subsection{Data quality, governance and responsibility}
+\label{sec:data-governance}
+\scopenote{Model provenance, auditability, and where engineering judgement and
+accountability sit when a model informs a safety-critical decision. Emerging
+methods should be presented as such until supported by mature project
+evidence.}

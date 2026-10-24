@@ -1,0 +1,629 @@
+% !TeX root = ../main.tex
+% Rebuilt from: ch07-convergence-confinement.tex, support-interaction.tex
+\chapter{Analytical Methods and Ground--Support Interaction}
+\label{ch:ccm}
+
+Analytical methods occupy the middle of the design progression established in
+Chapter~\ref{ch:empirical-design}. They require parameters rather than
+ratings, they address one mechanism at a time, and they return an explicit
+relationship between ground behaviour and support response. Their value is
+diagnostic: unlike an empirical chart, a closed-form solution states why a
+support system reaches equilibrium and at what convergence. This chapter
+develops the elastic and elasto-plastic solutions for a circular opening, the
+convergence--confinement method that follows from them, and the treatment of
+support as a problem of stiffness, capacity and installation timing.
+
+\section{Closed-form solutions}
+\label{sec:closed-form-solutions}
+
+\subsection{Assumptions and Limitations of Analytical Methods}
+The analytical methods in this chapter rest on a set of common assumptions, which must be understood before any of them is applied:
+
+\begin{itemize}
+ \item \textbf{Circular tunnel geometry} -- the solutions are strictly valid only for circular openings.
+ \item \textbf{Plane strain conditions} -- the tunnel is considered infinitely long, so no end effects are included.
+ \item \textbf{Hydrostatic or simplified stress fields} -- most closed-form solutions assume a hydrostatic far-field stress ($K=1$) or axisymmetric loading.
+ \item \textbf{Idealised material behaviour} -- the rock mass is modelled as elastic, elastic-perfectly plastic, or using simplified constitutive laws.
+ \item \textbf{Isotropic, homogeneous rock mass} -- anisotropy and large-scale geological structures are neglected.
+ \item \textbf{No explicit representation of joints or blocks} -- structurally controlled failures require different analytical or numerical tools.
+\end{itemize}
+
+These methods provide first-order estimates and valuable design insights, but they must always be validated against site observations and, where appropriate, supplemented by numerical modelling (Chapter~\ref{ch:numerical-modelling}).
+
+\subsection{Elastic and elastic--plastic solutions}
+\label{sec:elastic-and-elastic-plastic-solutions}
+
+\paragraph{Elastic Solutions -- Kirsch (1898)}
+
+\paragraph{Purpose of Kirsch Solutions}
+The Kirsch solutions~\citep{kirsch1898} describe the complete stress and displacement fields around a circular opening excavated in a linear-elastic, homogeneous, isotropic medium subjected to biaxial far-field stresses. They form the basis for estimating elastic stress concentrations and serve as the starting point for more advanced elastic--plastic analyses.
+
+\paragraph{Boundary Stresses at the Tunnel Wall ($r = a$)}
+At the tunnel wall, the radial and shear stresses vanish, and the tangential stress is given by:
+\[
+\sigma_{\theta\theta} = p\left[(1 + K) + 2(1 - K)\cos 2\theta\right],
+\]
+where $p$ is the vertical far-field stress, $K = \sigma_h / \sigma_v$ is the horizontal-to-vertical stress ratio, and $\theta$ is the angular coordinate measured from the horizontal axis.
+
+\textbf{Critical locations:}
+\begin{itemize}
+ \item Crown and invert ($\theta = 90^\circ$, $270^\circ$): $\sigma_{\theta\theta} = p(3K - 1)$.
+ \item Side walls ($\theta = 0^\circ$, $180^\circ$): $\sigma_{\theta\theta} = p(3 - K)$.
+\end{itemize}
+
+\textbf{Sign convention:} Compressive stresses are taken as positive; negative values indicate tension.
+
+\paragraph{Engineering Applications}
+\begin{itemize}
+ \item Compare the tangential boundary stress with the rock mass strength (e.g., uniaxial compressive strength or crack initiation stress).
+ \item If $\sigma_{\theta\theta}$ exceeds the strength, purely elastic analysis is insufficient and plasticity must be considered.
+ \item Evaluate the influence of the stress ratio $K$ on the distribution of tangential stress around the opening.
+\end{itemize}
+
+\paragraph{Illustrative Example}
+Consider a tunnel at depth $z = 700$ m with unit weight $\gamma = 0.027$ MPa/m, giving a vertical stress $p = 18.9$ MPa. For $K = 0.5$, the crown tangential stress is $\sigma_{\theta\theta} = 18.9 \times (3 \times 0.5 - 1) = 9.45$ MPa (compressive). For $K = 2.0$, $\sigma_{\theta\theta} = 18.9 \times (3 \times 2 - 1) = 94.5$ MPa (compressive).
+
+\textbf{Note:} This calculation assumes a homogeneous, intact elastic medium. It does not account for the presence of joints, fractures, or non-elastic behaviour. A definitive stability assessment requires a failure criterion and an appropriate rock mass strength.
+
+\paragraph{Elastic--Plastic Zones -- Hoek (1998)}
+
+\paragraph{Rationale for Plasticity Analysis}
+When the induced stresses exceed the rock mass strength, a plastic zone develops around the excavation. The axisymmetric solution for a circular tunnel in a hydrostatic stress field $p_0$, employing a Mohr--Coulomb failure criterion, is presented here.
+
+\paragraph{Key parameters}
+\[
+\sigma_{cm,MC} = \frac{2c\cos\phi}{1-\sin\phi}, \qquad
+k = \frac{1+\sin\phi}{1-\sin\phi},
+\]
+where $c$ and $\phi$ are the Mohr--Coulomb cohesion and friction angle of the rock mass.
+
+\paragraph{Critical Internal Pressure}
+The internal pressure below which a plastic zone forms is given by:
+\[
+p_{cr} = \frac{2p_0 - \sigma_{cm,MC}}{1 + k}.
+\]
+For $p_i > p_{cr}$ the rock mass remains elastic; for $p_i < p_{cr}$ a plastic zone of radius $R_p$ develops.
+
+\paragraph{Plastic Zone Radius -- Unsupported Case ($p_i = 0$)}
+The radius of the plastic zone for an unsupported tunnel is:
+\[
+R_p = a \left[ \frac{2\left(p_0(k - 1) + \sigma_{cm,MC}\right)}{(1 + k)\sigma_{cm,MC}} \right]^{\frac{1}{k-1}}.
+\]
+
+\paragraph{Stresses in the Plastic Zone -- Unsupported Case}
+Within the plastic zone ($a \leq r \leq R_p$) and for $p_i = 0$, the radial and tangential stresses are:
+\[
+\sigma_r^{\text{plastic}} = \frac{\sigma_{cm,MC}}{k - 1}\left[\left(\frac{r}{a}\right)^{k-1} - 1\right],
+\]
+\[
+\sigma_\theta^{\text{plastic}} = k\,\sigma_r^{\text{plastic}} + \sigma_{cm,MC}.
+\]
+
+\textbf{Important:} These expressions are valid only for the unsupported condition. For supported tunnels ($p_i > 0$) different formulations apply; these can be found in specialised literature or implemented numerically.
+
+\subsection{Convergence--Confinement Method (CCM)}
+
+\paragraph{Fundamental Principle}
+The CCM conceptualises tunnel excavation as a progressive reduction of the internal support pressure $p_i$ from the initial in-situ stress $p_0$ down to a lower value, while tracking the corresponding inward displacement $u_i$ of the tunnel wall. The method consists of three interrelated components:
+\begin{enumerate}[leftmargin=*]
+ \item \textbf{Ground Reaction Curve (GRC):} relationship $p_i$ vs $u_i$ for the rock mass.
+ \item \textbf{Support Characteristic Curve (SCC):} relationship $p_i$ vs $u_i$ for the installed support system.
+ \item \textbf{Longitudinal Deformation Profile (LDP):} describes how $u_i$ varies with distance from the tunnel face, allowing the displacement at support installation to be determined.
+\end{enumerate}
+
+\paragraph{Ground Reaction Curve (GRC)}
+Several analytical formulations for the GRC are available; the choice depends on the expected ground behaviour. Table 1 summarises two formulations presented in this chapter slides.
+
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{Reference} & \textbf{Description} \\
+\midrule
+Carranza-Torres (2004) -- $GRC_{2004}^{GHB}$ & Small-strain generalised Hoek--Brown model with dilation and residual strength. \\
+Vrakas \& Anagnostou (2014) -- $GRC_{2014}^{MC}$ & Large-strain Mohr--Coulomb model with dilation. \\
+\bottomrule
+\end{tabularx}
+\caption{GRC formulations discussed Chapter~\ref{ch:ccm}.}
+\end{table}
+
+\textbf{Model uncertainty:} Different constitutive assumptions can lead to significantly different predictions. Both models should be considered as bounds in sensitivity analyses, consistent with the uncertainty theme introduced Chapter~\ref{ch:site-investigation}.
+
+\textbf{Mohr--Coulomb GRC (simplified, no dilation):}
+
+The GRC has two branches, divided by the critical pressure $p_{cr}$:
+
+\textit{Elastic branch} ($p_i \geq p_{cr}$):
+\[
+u_r = \frac{(1+\nu)(p_0 - p_i)\,a}{E_m}
+\]
+
+
+\noindent\textbf{Why $E_m$ and not $E_i$?.}\enspace The modulus appearing in any tunnel deformation formula must represent the material that is actually deforming around the opening. The \textit{rock mass} surrounding a tunnel contains joints, fractures, and discontinuities --- these dominate the bulk deformation response at tunnel scale. The intact rock modulus $E_i$ (measured on a $\sim$50~mm laboratory core) describes only the stiffness between joints and would dramatically underpredict convergence. The reduction is significant: for the deep pumped-storage scheme, $E_i = 26$~GPa but $E_m \approx 13.5$~GPa at GSI~=~60 and only $\sim$2.1~GPa at GSI~=~30. By analogy, the SCC uses $E_c$ (concrete modulus) because the lining is what deforms there. Each modulus must match the material whose deformation it controls.
+
+
+\textit{Plastic branch} ($p_i < p_{cr}$): First compute the plastic zone radius at the current $p_i$:
+\[
+R_p(p_i) = a \left[ \frac{2\left(p_0(k-1)+\sigma_{cm,MC}\right)}{(1+k)\left(p_i(k-1)+\sigma_{cm,MC}\right)} \right]^{\frac{1}{k-1}}
+\]
+Then the wall displacement (approximate):
+\[
+u_r \approx u_r(p_{cr}) \times \left(\frac{R_p(p_i)}{a}\right)^2
+\]
+where $u_r(p_{cr}) = (1+\nu)(p_0-p_{cr})\,a/E_m$ is the elastic displacement at the onset of yielding.
+
+
+\noindent\textbf{GRC shape.}\enspace The GRC starts at $(u_r=0,\; p_i=p_0)$ and ends at $(u_r=u_{\max},\; p_i=0)$. The elastic branch is linear with gradient $E_m/[(1+\nu)\,a]$. At $p_i = p_{cr}$ the curve transitions to the plastic branch, which is concave (displacement increases rapidly as $p_i$ decreases). The unsupported case ($p_i = 0$) gives the maximum convergence $u_{\max}$.
+
+
+\paragraph{Support Characteristic Curve (SCC)}
+Key parameters defining the SCC (from the slides) are:
+\begin{itemize}
+ \item $k_s$: support stiffness (gradient of the SCC).
+ \item $u_{s0}$: radial displacement at the moment of support installation (obtained from the LDP).
+ \item $u_{sm}$: maximum elastic displacement capacity of the support.
+ \item $p_{sm}$: maximum support pressure capacity.
+\end{itemize}
+
+\textbf{SCC for a thin concrete ring} (segmental lining, thickness $t$, radius $a$):
+\[
+p_{sm} = \frac{\sigma_{ci,\text{lining}} \cdot t}{a}, \qquad
+k_s = \frac{E_c \cdot t}{(1-\nu_c^2)\,a^2}, \qquad
+u_{sm} = \frac{p_{sm}}{k_s}
+\]
+
+The SCC is a straight line starting at $(u_{s0},\; 0)$ with gradient $k_s$ until it reaches $p_{sm}$:
+\[
+p_i = k_s \cdot (u_r - u_{s0}) \quad \text{for } u_{s0} \leq u_r \leq u_{s0}+u_{sm}; \qquad p_i = p_{sm} \text{ thereafter.}
+\]
+
+
+\noindent\textbf{SCC position depends on installation timing.}\enspace The SCC starts at $u_{s0}$, which is determined by the LDP. Moving $u_{s0}$ to the left (earlier installation) shifts the entire SCC leftward, causing the GRC--SCC intersection to occur at a higher $p_{eq}$ (more load on the support). Moving $u_{s0}$ to the right (later installation) reduces $p_{eq}$ but allows more convergence before support activation.
+
+
+\paragraph{Longitudinal Deformation Profile (LDP)}
+The LDP provides the radial displacement that has already taken place before support is installed. Two commonly used LDP formulations are:
+
+\textit{Elastic LDP (Panet 1995):}
+\[
+u^*(X^*) =
+\begin{cases}
+(1 - \alpha)\,e^{1.5X^*}, & X^* \leq 0 \quad \text{(ahead of face)},\\[4pt]
+1 - \alpha\,e^{-1.5X^*}, & X^* > 0 \quad \text{(behind face)},
+\end{cases}
+\]
+with $u^* = u/u_{\max}$ and $X^* = X/a$, where $X$ is distance from the tunnel face (positive behind, negative ahead). The parameter $\alpha$ represents the fraction of total convergence occurring behind the face; Panet's original calibration uses $\alpha = 0.75$, which gives $u^* = 0.25$ at the face ($X^* = 0$) on both branches. Substituting $\alpha = 0.75$ into the behind-face branch recovers the familiar form $u = u_{\max}[0.25 + 0.75(1 - e^{-1.5X^*})]$.
+
+\textit{Elastic-plastic LDP (Vlachopoulos \& Diederichs 2009):}
+\[
+u^*(X^*) =
+\begin{cases}
+\frac{1}{3} e^{2X^* - 0.15R^*}, & X^* \leq 0 \quad \text{(ahead of face)},\\[4pt]
+1 - \left[1 - \frac{1}{3} e^{-0.15R^*}\right] e^{\frac{-3X^*}{R^*}}, & X^* > 0 \quad \text{(behind face)},
+\end{cases}
+\]
+with $u^* = u/u_{\max}$, $X^* = X/a$, and $R^* = R_p/a$.
+
+
+\noindent\textbf{How to compute $u_{s0}$ from the LDP.}\enspace Given installation distance $L$ behind the face:
+\begin{enumerate}[nosep]
+\item Compute $X^* = L/a$ and $R^* = R_p/a$ from the GRC.
+\item Evaluate $u^*$ using the V\&D formula (the $X^*>0$ branch for installation behind the face).
+\item $u_{s0} = u^* \times u_{\max}$, where $u_{\max}$ is the GRC displacement at $p_i = 0$.
+\end{enumerate}
+
+
+\paragraph{Influence of Installation Timing on $u_{s0}$}
+The LDP yields $u_{s0}$, the radial displacement at the location where support is installed. This value determines the starting point of the SCC on the displacement axis. The relationship between installation timing and overall stability is non-monotonic and requires careful optimisation:
+
+\begin{itemize}
+ \item \textbf{Earlier installation (smaller $u_{s0}$):} The support engages while the rock mass retains a greater portion of its load-bearing capacity, thereby limiting ultimate convergence. However, if the ground continues to deform significantly, the support may be subjected to higher loads. The net benefit depends on the stiffness and capacity of the support relative to the GRC.
+ \item \textbf{Later installation (larger $u_{s0}$):} A larger proportion of the total convergence occurs before support activation, reducing the load transferred to the support. Nevertheless, excessive pre-convergence may compromise tunnel functionality or lead to instability prior to support installation.
+\end{itemize}
+
+The optimal installation point is determined through iterative CCM analysis, balancing these competing effects to achieve an acceptable factor of safety while maintaining serviceability limits.
+
+\paragraph{Equilibrium and Factor of Safety}
+The intersection of the GRC and SCC defines the equilibrium state, characterised by the equilibrium pressure $p_{eq}$ and displacement $u_{eq}$. The factor of safety is then computed as:
+\[
+\text{FoS} = \frac{p_{sm}}{p_{eq}}.
+\]
+
+\textbf{Note on FoS targets:} Acceptable values of the factor of safety are project-specific and depend on asset criticality, design life, consequences of failure, uncertainty in input parameters, and the use of observational methods. Typical targets for permanent tunnels range from 1.5 to 2.0, but engineering judgment and project specifications must always be consulted.
+
+
+\noindent\textbf{Is dedicated software required?}\enspace No. The whole convergence--confinement calculation, including the equilibrium pressure $p_{eq}$, can be carried out by hand or in a few lines of code; the sequence is set out step by step in Appendix~\ref{app:calculations} and implemented in \companionname\ (Appendix~\ref{app:software}). Commercial packages automate the intersection and the plotting, which is a convenience rather than a capability.
+
+\vspace{0.5em}
+
+
+\textbf{Finding $p_{eq}$:} the intersection is a single nonlinear equation in one unknown, and two approaches are practical:
+\begin{itemize}[nosep]
+ \item \textbf{Numerical root-finding:} tabulate $p_i$ from $p_0$ down to zero, compute the corresponding ground reaction displacement $u_r$ and the support pressure at the same displacement, $k_s(u_r - u_{s0})$, and solve for the $p_i$ at which $p_{\mathrm{GRC}}(u_r) = p_{\mathrm{SCC}}(u_r)$. Any root-finding facility will do, including the goal-seek function of a spreadsheet.
+ \item \textbf{Graphical inspection:} Plot GRC and SCC on the same $(u_r, p_i)$ axes and read off the intersection. Precision is lower but adequate for a design check.
+\end{itemize}
+\vspace{0.5em}
+
+\textbf{Where dedicated software earns its place:} non-circular openings, several support layers acting together, combined systems of steel sets, sprayed concrete and bolts, residual-strength formulations, and parametric studies run over many cases. For the axisymmetric single-lining problem treated here, a hand calculation gives the same answer, and the discipline of producing one is the best available check on whatever the software returns.
+
+
+\section{The convergence--confinement method}
+\label{sec:the-convergence-confinement-method}
+
+\subsection{Applications and worked examples}
+\label{sec:applications-and-worked-examples}
+
+\paragraph{Case study: a deep motorway tunnel}
+\textbf{Input parameters:} $a = 6$ m, depth $60$ m, $p_0 = 1.62$ MPa, intact UCS $= 7$ MPa, GSI $= 15$, $m_i = 10$, $D = 0$.
+
+\textbf{Rock mass properties.} $\sigma_{cm} = 0.47$ MPa, $E_m = 353$ MPa, $\nu = 0.3$, $\phi = 25.64^\circ$.
+
+\paragraph{Comparison of GRC Solutions}
+Table 2 compares predictions obtained with two different GRC formulations.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Parameter} & \textbf{$GRC_{2004}^{GHB}$} & \textbf{$GRC_{2014}^{MC}$} \\
+\midrule
+Plastic zone radius (unsupported) & 22.4 m & 13.5 m \\
+Tunnel convergence (unsupported) & 4.99\% & 1.97\% \\
+\bottomrule
+\end{tabular}
+\caption{Comparison of plastic zone radii and tunnel convergence predicted by two ground reaction curve formulations.}
+\end{table}
+
+The substantial difference highlights the influence of model uncertainty; both solutions should be considered as plausible bounds in design.
+
+\paragraph{Effect of Installation Timing ($GRC_{2014}^{MC}$, $LDP_{2009}^{EP}$)}
+Table 3 illustrates how the factor of safety varies with the timing of support installation.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Installation criterion} & $L = 3$ m & $u_{s0} = 40$ mm & $\epsilon = 0.3\%$ \\
+\midrule
+Resulting $u_{s0}$ (mm) & 53.7 & 40.0 & 18.0 \\
+$R_p$ supported (m) & 10.0 & 9.2 & 8.28 \\
+Convergence (\%) & 1.0 & 0.8 & 0.64 \\
+FoS & 1.93 & 1.38 & 0.82 \\
+\bottomrule
+\end{tabular}
+\caption{Influence of support installation timing on plastic zone radius, tunnel convergence, and factor of safety. The three criteria correspond to installing the support at $L=3$~m behind the face, when convergence reaches $u_{s0}=40$~mm, and when the strain reaches $\epsilon=0.3\%$, respectively.}
+\end{table}
+
+As installation occurs earlier (i.e., $u_{s0}$ decreases from 53.7~mm to 40~mm to 18~mm), the factor of safety correspondingly declines from 1.93 to 0.82. This trend demonstrates that earlier support engagement increases the load demand on the support system, potentially leading to an unsafe design if installation is too early.
+
+\paragraph{Worked example: deep tunnel at 650 m}
+\label{sec:ch07-worked-example}
+
+Using the deep pumped-storage scheme data ($\sigma_{ci}=72$~MPa, $E_i=26$~GPa, $\nu = 0.22$, $\gamma=26$~kN/m$^3$, $a=4.75$~m, $L=3$~m):
+
+
+\noindent\textbf{Rock mass and lining assumptions for this worked example.}\enspace \textbf{Rock mass:} The deep pumped-storage scheme rock mass consists of interbedded sandstone and siltstone. To reflect the influence of weaker layers and provide a conservative estimate, $m_i = 7$ (siltstone) is adopted.
+\vspace{0.5em}
+
+\textbf{Concrete lining (illustrative only):} $\sigma_{ci,\text{lining}} = 60$~MPa, $E_c = 40$~GPa, $\nu_c = 0.25$, thickness $t = 0.5$~m.
+\vspace{0.5em}
+
+\textbf{Note:} the values used here are illustrative; project values should be taken from the project specification.
+
+
+\paragraph{Calculation Workflow for Table 4}
+
+The values in Table~4 follow from the workflow below. All inputs above; $p_0 = \gamma z = 26 \times 650/1000 = 16.9$~MPa.
+
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+ \item \textbf{Hoek--Brown parameters} ($D=0$): compute $m_b$, $s$, and $a_{HB}$ from GSI and $m_i$.
+ \item \textbf{Rock mass UCS:} $\sigma_{cm} = \sigma_{ci} \cdot s^{a_{HB}}$.
+ \item \textbf{Rock mass modulus} (Hoek--Diederichs 2006): $E_m = E_i \,[0.02 + 1/(1 + e^{(60-GSI)/11})]$.
+ \item \textbf{Equivalent Mohr--Coulomb} ($\phi$, $c$): obtained by fitting the Hoek--Brown envelope over the relevant confining range. For deep tunnels where the plastic zone extends well into the rock mass, the fit stress range is typically taken up to $\sigma_{3,\max} \approx p_0$ so that the linearised MC envelope spans stresses from the tunnel wall ($\sigma_3 \approx 0$) out to the elastic boundary ($\sigma_3 \approx p_0$). Hoek (2002) provides an iterative formula relating $\sigma_{3,\max}$ to tunnel geometry and in-situ stress; for the deep pumped-storage scheme example the fit gives the ($\phi$, $c$) values listed in Table~4.
+ \item \textbf{MC-derived quantities:} $k$, $\sigma_{cm,MC}$, and $p_{cr}$ from the equations in Sections~1.5.2 and 1.5.3.
+ \item \textbf{Plastic zone radius:} apply the $R_p$ equation in Section~1.5.4 with $p_i = 0$.
+ \item \textbf{Maximum convergence:} $u_r(p_{cr}) = (1+\nu)(p_0-p_{cr})a/E_m$, then $u_{\max} \approx u_r(p_{cr}) \cdot (R_p/a)^2$.
+ \item \textbf{LDP at $L = 3$~m:} compute $X^* = L/a$, $R^* = R_p/a$, evaluate the V\&D (2009) behind-face branch, and $u_{s0} = u^* \cdot u_{\max}$.
+ \item \textbf{Support properties} (independent of GSI): apply the SCC equations in Section~1.6.3 with the lining properties above.
+\end{enumerate}
+
+\paragraph{Results Summary}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Parameter} & \textbf{GSI = 60} & \textbf{GSI = 30} \\
+\midrule
+$m_b$ & 1.68 & 0.575 \\
+$s$ & 0.0117 & 0.000418 \\
+$a_{HB}$ & 0.503 & 0.522 \\
+\midrule
+$\sigma_{cm}$ (MPa) & 7.70 & 1.24 \\
+$E_m$ (GPa) & 13.52 & 2.14 \\
+$\phi$ (\textdegree) & 31.5 & 23.8 \\
+$c$ (MPa) & 2.85 & 1.72 \\
+\midrule
+$p_0$ (MPa) & 16.90 & 16.90 \\
+$\sigma_{cm,MC}$ (MPa) & 10.18 & 5.28 \\
+$k$ & 3.19 & 2.35 \\
+$p_{cr}$ (MPa) & 5.64 & 8.51 \\
+Response & Plastic & Plastic \\
+\midrule
+$R_p$ (m) & 6.83 & 11.17 \\
+$R_p/a$ & 1.44 & 2.35 \\
+$u_{\max}$ (mm) & 9.97 & 125.6 \\
+$u_{s0}$ at $L=3$~m (mm) & 8.0 & 82.6 \\
+\midrule
+$p_{sm}$ (MPa) & 6.32 & 6.32 \\
+$k_s$ (MPa/m) & 945.6 & 945.6 \\
+$u_{sm}$ (mm) & 6.68 & 6.68 \\
+\bottomrule
+\end{tabular}
+\caption{The deep pumped-storage scheme CCM summary using $m_i = 7$ (siltstone-controlled rock mass) and an illustrative 0.5~m thick concrete lining ($\sigma_{ci,\text{lining}}=60$~MPa, $E_c=40$~GPa, $\nu_c=0.25$). Lining properties are independent of GSI.}
+\end{table}
+
+
+\noindent\textbf{Effect of $m_i$ selection.}\enspace Using a lower $m_i$ (siltstone instead of sandstone) significantly reduces $m_b$, leading to lower rock mass strength, larger plastic zones, and increased tunnel convergence. This demonstrates the strong sensitivity of Hoek--Brown parameters to lithological assumptions and highlights the importance of selecting representative values for mixed ground conditions.
+
+
+\noindent\textbf{GSI = 30 — solving the GRC--SCC intersection.}\enspace A common mistake is to compare the lining's elastic capacity $u_{sm}$ against the \textit{unsupported} remaining convergence $u_{\max} - u_{s0} \approx 43$~mm and conclude the lining fails. This reasoning is incorrect: once the lining engages, it applies pressure on the rock mass, which reduces $R_p$ and therefore reduces the final convergence $u_{eq}$ well below $u_{\max}$. The CCM methodology requires solving the GRC--SCC intersection explicitly.\\[4pt]
+
+\textbf{Intersection analysis for GSI = 30:} For $p_i > 0$, the supported GRC displacement is $u_r(p_i) = u_r(p_{cr}) \cdot (R_p(p_i)/a)^2$ where $R_p(p_i)$ shrinks as $p_i$ increases. Setting this equal to the SCC $p_i = k_s(u_r - u_{s0})$ and solving numerically gives $p_{eq} \approx 1.23$~MPa at $u_{eq} \approx 83.9$~mm (just $\sim$1.3~mm of post-installation displacement, well within $u_{sm} = 6.7$~mm). The corresponding factor of safety is:
+\[
+\mathrm{FoS} = \frac{p_{sm}}{p_{eq}} = \frac{6.32}{1.23} \approx 5.1
+\]
+A similar analysis for GSI = 60 gives $p_{eq} \approx 0.71$~MPa, FoS $\approx 8.9$. So the lining is nominally adequate for both conditions in this idealised CCM model.
+
+\textbf{Caveats: why numerical modelling is still needed.} The result above is optimistic because the analytical framework has limitations that are acute in poor ground:
+\begin{itemize}[nosep]
+ \item \textbf{Axisymmetric assumption} ignores gravity asymmetry, non-circular deformations, and stress-induced anisotropy that become significant at large $R_p/a$.
+ \item \textbf{Pre-convergence control:} $u_{s0} \approx 83$~mm ahead of the lining is a very large strain ($\sim$1.7\% of diameter). In reality, the tunnel face may lose stability before this displacement can develop, requiring face bolts, forepoling, or probe drilling.
+ \item \textbf{Time-dependent effects} (creep, squeezing) are not captured and can double long-term convergence.
+ \item \textbf{Local failures} (block detachment, ravelling, structurally-controlled wedges) at $R_p/a > 2$ are outside CCM's scope.
+\end{itemize}
+
+\textbf{Practical design implications:} Even though the simplified CCM gives FoS $\sim$5 for GSI = 30, experienced designers would add contingency measures for poor rock:
+\begin{itemize}[nosep]
+ \item \textbf{Yielding support elements} (compressible blocks, sliding steel sets) to handle unexpected squeezing;
+ \item \textbf{Pre-reinforcement} (rock bolts, forepoling, face dowels) to control the $\sim$83~mm pre-convergence;
+ \item \textbf{Observational method} with convergence monitoring to validate the CCM predictions.
+\end{itemize}
+The equilibrium pressure and the factor of safety follow from the root-finding step above. For verification against asymmetric loading, non-circular geometry and construction sequence, numerical modelling (Chapter~\ref{ch:numerical-modelling}) is required.
+
+
+\paragraph{Summary}
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Component} & \textbf{Purpose} & \textbf{Key assumptions / cautions} \\
+\midrule
+Kirsch (1898) & Elastic boundary stress for circular tunnel & Elastic, homogeneous, isotropic; invalid once yielding occurs. \\
+Hoek (1998) & Plastic radius $R_p$ and critical pressure $p_{cr}$ & Circular geometry, hydrostatic stress, Mohr--Coulomb idealisation. \\
+GRC & Relationship between support pressure and convergence & Choice of constitutive model strongly affects results. \\
+SCC & Relationship between support pressure and displacement & Requires realistic stiffness, capacity, and $u_{s0}$. \\
+LDP & Displacement profile ahead of/behind the face & Model selection (elastic vs.\ elastic-plastic) influences $u_{s0}$. \\
+Equilibrium $p_{eq}$ & Intersection of GRC and SCC & Sensitive to all input parameters and assumptions. \\
+FoS ($p_{sm}/p_{eq}$) & Capacity-to-demand ratio & Target values are project-specific; engineering judgment essential. \\
+\bottomrule
+\end{tabularx}
+\caption{Summary Chapter~\ref{ch:ccm} concepts, their purpose, and associated caveats.}
+\end{table}
+
+\vspace{1cm}
+\noindent\textit{End Chapter~\ref{ch:ccm} Study Notes}
+\subsection{Support terminology and design variables}
+\label{sec:support-terminology-and-design-variables}
+
+\paragraph{Support, reinforcement and retention.}
+Three functions are routinely conflated. \emph{Support} applies pressure to
+the excavation boundary and resists convergence: shotcrete shells, steel sets,
+concrete linings, segmental rings. \emph{Reinforcement} acts within the rock
+mass and improves its own capacity: grouted bolts, cables, dowels.
+\emph{Retention} holds loose material between the other elements: mesh,
+straps, plates. A complete system needs all three, and the
+convergence--confinement framework of this chapter strictly describes only the
+first. Reinforcement enters it indirectly, by raising the ground reaction
+curve rather than by supplying boundary pressure.
+
+\paragraph{Stiffness, capacity and timing.}
+An installed support system is characterised by three quantities. Its
+\emph{stiffness} determines how much pressure it develops per unit of further
+convergence. Its \emph{capacity} is the maximum pressure it can sustain before
+yielding or failing. Its \emph{installation timing} determines how much
+convergence has already occurred before it begins to act at all.
+
+Chart-based design selects a support class and is silent on all three. That is
+why an empirically selected support can be inadequate in a way the chart
+cannot reveal: the class may be right for the ground quality and wrong for the
+convergence that will have occurred by the time it is installed.
+
+\subsection{Ground reaction and support characteristics}
+\label{sec:ground-reaction-and-support-characteristics}
+
+\paragraph{The ground reaction curve as a design tool.}
+Read as a design tool rather than as a derivation, the ground reaction curve
+makes one statement: the ground sheds load as it converges. At zero
+convergence the required support pressure equals the in-situ stress; as the
+opening converges the required pressure falls, steeply at first and then more
+gradually, and in competent ground it reaches zero at a finite convergence ---
+the excavation is self-supporting.
+
+The support does not determine the load it carries. The intersection of the
+two curves does. This is the single most useful idea in support design,
+because it explains why a support system cannot be designed against a
+predetermined load: the load is an outcome of the interaction, not an input to
+it.
+
+\paragraph{Support characteristic curves for real systems.}
+The support characteristic curve is the pressure a system develops as a
+function of convergence, and it must be derived from the actual system rather
+than assumed linear to an arbitrary capacity.
+
+A shotcrete or concrete shell behaves as a thick cylinder: its stiffness
+follows from the elastic modulus, thickness and radius, and its capacity from
+the compressive strength of the annulus. Both change with time as the concrete
+cures. Steel sets are far softer than they appear, because their stiffness is
+governed by blocking and by the seating of the invert rather than by the
+section --- a well-blocked set at close spacing behaves quite differently from
+a poorly blocked one. Grouted bolts contribute stiffness through the composite
+action of bar, grout and rock, and their equivalent pressure depends on
+spacing. Segmental rings are stiff and installed at a defined convergence set
+by the tail gap and the grouting.
+
+Expressions for each are collected in Appendix~\ref{app:closed-form}, and
+representative properties in Appendix~\ref{app:constants}.
+
+\section{Support as stiffness, capacity and timing}
+\label{sec:support-as-stiffness-capacity-and-timing}
+
+\subsection{Combined systems and installation timing}
+\label{sec:combined-systems-and-installation-timing}
+
+\paragraph{Combined and sequential support.}
+Where elements are installed together and deform together, their stiffnesses
+add in parallel and the combined capacity is reached when the first element
+reaches its own limit. That last point is routinely mishandled: summing the
+capacities of a shotcrete shell and a set of steel arches gives a number that
+is never available, because the stiffer element reaches its capacity while the
+softer one is still lightly loaded.
+
+Sequentially installed elements are worse. Each begins to act at the
+convergence prevailing when it is installed, so it carries load only from that
+point onward. Its contribution at equilibrium is therefore smaller than its
+nominal capacity suggests, and an element installed late may carry almost
+nothing. The correct construction offsets each element's characteristic curve
+along the convergence axis by the convergence already released.
+
+\paragraph{Installation timing.}
+The longitudinal deformation profile converts distance behind the face into
+convergence already released. A significant fraction --- often a quarter to a
+third --- occurs ahead of the face, and a further large fraction within one
+diameter behind it. Support installed two diameters behind the face may find
+that the ground has already shed most of the load it was going to shed.
+
+The design consequence runs in both directions. Installing too late allows
+excessive convergence and, in weak ground, loosening that permanently reduces
+the rock mass strength. Installing too early attracts high load into a
+support that must then carry it. The distance behind the face at which support
+is installed is therefore a design variable in its own right, and it is one of
+the few that the contractor controls directly --- which makes it a matter for
+the specification, not an assumption.
+
+\subsection{Stiffness and yielding}
+\label{sec:stiffness-and-yielding}
+
+\paragraph{Why stiffer is not always better.}
+A stiff support installed early develops pressure rapidly and therefore
+attracts a large load; a softer support at the same location reaches
+equilibrium at greater convergence and lower pressure. Where the ground
+reaction curve is steep, the difference is large.
+
+The design objective is equilibrium at an acceptable convergence, not minimum
+convergence. Stiffening a support that is already adequate increases the load
+it must carry without improving safety, and in squeezing ground it converts a
+serviceable design into an unserviceable one. The instinct that more support is
+safer is wrong in a way that this framework makes visible.
+
+\paragraph{Yielding support and controlled deformation.}
+Where the ground reaction curve does not fall to a pressure the support can
+carry within an acceptable convergence, the answer is to let the support
+deform. Sliding steel sets with friction joints, deformation slots fitted with
+compressible elements, and yielding bolts all maintain a roughly constant
+support pressure over a large convergence, so equilibrium is reached at a
+pressure below capacity.
+
+This is deliberate and controlled deformation, not a failure to control it,
+and it requires the excavated profile to be oversized so the finished profile
+survives. Detail in Chapter~\ref{ch:high-stress}.
+
+\subsection{Pre-reinforcement and block support}
+\label{sec:pre-reinforcement-and-block-support}
+
+\paragraph{Pre-reinforcement and pre-support.}
+Reinforcement installed before the ground is disturbed retains the rock mass
+in its undisturbed state; reinforcement installed afterwards can only hold
+what remains. The distinction is not rhetorical: rock mass strength falls
+markedly once discontinuities have opened and blocks have loosened, and no
+subsequent reinforcement restores it.
+
+This is the argument for cable bolting ahead of a cavern excavation, for
+umbrella arches and forepoling ahead of a weak-ground heading, and for face
+dowels in the advance core. Each costs programme, since it must be installed
+before the excavation reaches it, and each buys ground conditions that would
+otherwise be unavailable.
+
+\paragraph{Support of blocks and wedges.}
+Block support is a separate calculation from stress-driven support and must
+not be folded into it. The blocks identified in
+Chapter~\ref{ch:ground-behaviour} are discrete bodies whose stability is
+assessed by limit equilibrium, and the required bolt force follows from their
+weight, sliding mode and available friction. A support system adequate against
+the ground reaction curve may be entirely inadequate against a large crown
+wedge, because the two mechanisms load it in different ways.
+
+Both checks are required, and the governing one is whichever demands more.
+
+\section{Support classes and reconciliation}
+\label{sec:support-classes-and-reconciliation}
+
+\paragraph{Support classes.}
+Projects do not design support chainage by chainage. They define a small set
+of standard classes --- typically four to six --- each specifying bolt
+pattern, shotcrete thickness, steel sets if any, and the excavation sequence
+that accompanies it, and map each class to a range of ground conditions.
+
+Keeping the number small is a construction and contractual requirement rather
+than a technical one. Each class needs materials on site, a trained crew and a
+defined rate, and a proliferation of classes fragments production and invites
+misapplication at the face. The classes should span the expected range with
+sensible margin, and the rule for assigning them at the face must be simple
+enough to apply in a few minutes on limited information.
+
+\paragraph{Reconciling the three routes.}
+Empirical, analytical and numerical designs will differ. The reconciliation is
+not to average them but to identify which mechanism each represents and which
+mechanism governs the case in hand. Where the empirical chart is inside its
+case base and the mechanism is the one it encodes, it carries real evidential
+weight. Where the ground is outside that base --- high stress, squeezing,
+unusual span --- the analytical or numerical result governs and the chart
+should be treated as a sanity check rather than as a design. The systematic
+procedure is Chapter~\ref{ch:integrated-design}.
+
+\section{Quality and verification}
+\label{sec:quality-and-verification}
+
+\paragraph{Installation quality and as-built performance.}
+Support that is designed correctly and installed poorly is the most common
+cause of underperformance, and the failure modes are consistent: grout voids
+in bolt holes, shotcrete below specified thickness, bolts installed untensioned
+where the design assumed pretension, steel sets inadequately blocked so that
+they carry a fraction of their capacity, and support installed further behind
+the face than the design assumed.
+
+Each of these invalidates a specific design assumption, and each is detectable.
+The verification regime should be constructed by asking, for each assumption
+the design relies on, what evidence will confirm it --- and the assumption
+about installation distance deserves as much attention as the assumption about
+thickness, because it is equally influential and almost never recorded.
+
+\paragraph{Verifying a support system.}
+A complete verification proceeds as follows. Take the support class indicated
+by the empirical charts for the ground in question. Derive its stiffness and
+capacity from the actual materials and dimensions rather than from a nominal
+class description. Establish the convergence already released at the intended
+installation distance from the longitudinal deformation profile. Construct the
+support characteristic curve from that offset. Find its intersection with the
+ground reaction curve, and compare the equilibrium pressure with the support
+capacity to obtain the factor of safety. Then check that the convergence at
+equilibrium is acceptable against the clearance envelope and against any
+third-party movement limits.
+
+If the margin is inadequate, the available responses are to stiffen the
+support, to increase its capacity, to install it earlier, or to let it yield
+--- and the framework shows which of these will actually help. That is the
+practical value of treating support as stiffness, capacity and timing rather
+than as a class number. The calculation sequence is set out step by step in
+Appendix~\ref{app:calculations}.

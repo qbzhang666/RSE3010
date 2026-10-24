@@ -1,0 +1,299 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+%  Appendix H -- Worked Calculation Sequences
+%  Step-by-step procedures that can be followed by hand, so that software
+%  output can be verified independently.
+%------------------------------------------------------------------------------
+\chapter{Worked Calculation Sequences}
+\label{app:calculations}
+
+Each sequence below is set out as numbered steps, with the equation, the input
+required and the check to apply at that step. They are deliberately
+hand-workable: the point is to be able to verify what a program returns.
+Symbols follow the list of symbols; expressions referenced by number are in
+Appendix~\ref{app:closed-form} and typical values in
+Appendix~\ref{app:constants}.
+
+\section{Deriving rock mass design parameters}
+\label{sec:seq-parameters}
+
+Inputs: $\sci$, $\mi$, $\GSI$, $\Dfac$, $\Ei$, and the confining stress range
+of interest. Supports Chapter~\ref{ch:rock-mass-parameters}.
+
+\begin{enumerate}
+  \item Compute the rock mass constants:
+  \[
+  \mb = \mi \exp\!\left(\frac{\GSI-100}{28-14\Dfac}\right),\quad
+  s = \exp\!\left(\frac{\GSI-100}{9-3\Dfac}\right),
+  \]
+  \[
+  a = \tfrac{1}{2} + \tfrac{1}{6}\left(e^{-\GSI/15}-e^{-20/3}\right).
+  \]
+  \emph{Check:} for $\GSI = 100$ and $\Dfac = 0$ these return
+  $\mb = \mi$, $s = 1$, $a = 0.5$, recovering the intact criterion.
+
+  \item Compute the rock mass uniaxial strength
+  $\scm = \sci\,s^{a}$, and the tensile strength
+  $\sigma_{tm} = -s\sci/\mb$.
+  \emph{Check:} $\scm$ should be a small fraction of $\sci$ for jointed rock
+  --- typically a few per cent at $\GSI = 40$.
+
+  \item Estimate the rock mass modulus. Where $\Ei$ is known, use the
+  Hoek--Diederichs relation~\citep{hoekdiederichs2006}
+  \[
+  \Erm = \Ei\left[0.02 + \frac{1-\Dfac/2}
+  {1+\exp\!\left((60+15\Dfac-\GSI)/11\right)}\right].
+  \]
+  \emph{Check:} $\Erm/\Ei$ should fall between about 0.02 and 1, decreasing
+  with $\GSI$.
+
+  \item Compare against at least one independent modulus estimate --- a
+  $\GSI$--$\sci$ correlation, or an $\RMR$- or $Q$-based expression --- and
+  record which value is adopted and why.
+
+  \item Fit equivalent Mohr--Coulomb parameters over the confining stress
+  range that the problem actually spans, taking
+  $\sigma_{3\max}$ from the tunnel depth and geometry rather than from a
+  default.
+  \emph{Check:} the fitted envelope should lie within a few per cent of the
+  Hoek--Brown curve across that range and will diverge outside it.
+
+  \item Record $\sci$, $\mi$, $\GSI$, $\Dfac$, the confining range and the
+  date on the derivation sheet of Appendix~\ref{app:templates}.
+\end{enumerate}
+
+\section{Rock--support interaction sequence}
+\label{sec:seq-support-interaction}
+
+Inputs: $\pzero$, $a$, rock mass parameters from the sequence above, support
+properties, and the intended installation distance behind the face. Supports
+Chapters~\ref{ch:ccm} and~\ref{ch:support}.
+
+\begin{enumerate}
+  \item Compute the critical support pressure $\pin^{\text{cr}}$. If
+  $\pin^{\text{cr}} \le 0$, the ground is elastic and the problem is
+  structural rather than one of ground pressure.
+
+  \item Construct the ground reaction curve: compute wall convergence for a
+  series of support pressures from $\pzero$ down to zero, elastic above
+  $\pin^{\text{cr}}$ and elasto-plastic below.
+  \emph{Check:} the curve must pass through $(\pzero, 0)$ and fall
+  monotonically.
+
+  \item Compute the maximum convergence $u_{\max}$ at $\pin = 0$, and the
+  plastic radius $r_p$ at the anticipated equilibrium pressure.
+  \emph{Check:} $r_p/a$ above about 2 indicates a squeezing problem
+  (Chapter~\ref{ch:high-stress}).
+
+  \item From the longitudinal deformation profile, compute the convergence
+  $u_0$ already released at the installation distance $x$.
+  \emph{Check:} $u_0/u_{\max}$ should be roughly 0.25 at the face and 0.7 to
+  0.9 at two to three radii behind it.
+
+  \item Construct the support characteristic curve, using the stiffness and
+  capacity expressions for the actual system, offset along the convergence
+  axis by $u_0$.
+
+  \item Where several elements act together, sum the stiffnesses of those
+  installed at the same convergence and offset separately any installed
+  later.
+  \emph{Check:} do not sum capacities --- the system reaches its limit when
+  the first element does.
+
+  \item Find the intersection of the two curves. This gives the equilibrium
+  pressure $p_{\text{eq}}$ and the total convergence.
+
+  \item Compute the factor of safety as
+  $FS = p_{s,\max}/p_{\text{eq}}$, and check the equilibrium convergence
+  against the clearance envelope and any third-party movement limit.
+
+  \item If the margin is inadequate, test in turn: stiffer support, higher
+  capacity, earlier installation, or a yielding system. The construction shows
+  directly which of these helps.
+\end{enumerate}
+
+\section{Underground wedge analysis}
+\label{sec:seq-wedge}
+
+Inputs: three discontinuity orientations, their shear strength parameters, the
+excavation geometry and orientation, and any water pressure. Supports
+Chapters~\ref{ch:structural-analysis} and~\ref{ch:ground-behaviour}; the net
+constructions are in Appendix~\ref{app:stereonet}.
+
+\begin{enumerate}
+  \item Plot the three planes and the excavation surface, and apply the
+  removability test.
+  \emph{Check:} if the block is not removable, stop --- no stability
+  calculation is required.
+
+  \item Determine the three lines of intersection and identify the sliding
+  mode: free fall, single-plane sliding, or two-plane sliding along the
+  intersection.
+
+  \item Construct the wedge geometry and compute apex height, volume and
+  weight $W$.
+  \emph{Check:} wedge weight scales with the cube of the span; a doubling of
+  span should give roughly eight times the weight for similar geometry.
+
+  \item Resolve $W$ into components along and normal to the sliding
+  direction, and compute the normal force on each sliding plane.
+
+  \item Add the clamping stress contribution where the block is confined,
+  and subtract the water force $U$ on each plane where water pressure acts.
+  \emph{Check:} for a crown wedge in a relaxed roof, take the clamping
+  contribution as zero unless it can be demonstrated.
+
+  \item Compute the resisting force as
+  $\sum \left[(N-U)\tan\phi + cA\right]$ over the sliding planes, and the
+  factor of safety as resisting divided by driving force.
+
+  \item If $FS$ is below target, compute the required bolt force
+  $T$ from equilibrium at the target $FS$, and the optimum bolt
+  orientation --- generally inclined to the sliding direction rather than
+  normal to the surface.
+
+  \item Repeat with the orientation data sampled from their distributions to
+  obtain a distribution of $FS$ rather than a single value.
+\end{enumerate}
+
+\section{Voussoir beam check for a laminated roof}
+\label{sec:seq-voussoir}
+
+Inputs: bed thickness $t$, span $L$, unit weight, and rock compressive
+strength. Supports Chapter~\ref{ch:ground-behaviour}.
+
+\begin{enumerate}
+  \item Assume an initial moment arm, conventionally $z = 0.75\,t$.
+  \item Compute the arch thrust from moment equilibrium of the beam under its
+  self-weight, $T = wL^2/(8z)$ per unit width.
+  \item Compute the elastic shortening of the arch under that thrust and the
+  resulting deflection, and update the moment arm.
+  \item Iterate steps 2 and 3 until the moment arm converges.
+  \emph{Check:} failure to converge indicates snap-through --- the span is
+  unstable.
+  \item Check crushing: the compressive stress at the contact zones must not
+  exceed the rock strength, allowing for the reduced contact area.
+  \item Check buckling: compare the converged geometry against the
+  snap-through limit.
+  \item Repeat for a range of spans to establish the maximum stable span, and
+  compare against the actual span to determine the reinforcement required.
+\end{enumerate}
+
+\section{Pillar design sequence}
+\label{sec:seq-pillar}
+
+Inputs: depth, pillar and opening dimensions, and rock strength. Supports
+Chapter~\ref{ch:openings}.
+
+\begin{enumerate}
+  \item Compute the extraction ratio and the tributary area pillar stress
+  $\sigma_p = \gamma z\,/(1-e)$ for a regular layout, where $e$ is the
+  extraction ratio.
+  \emph{Check:} tributary area overestimates stress for a small group of
+  openings with stiff abutments.
+  \item Where the layout is irregular or the group small, obtain pillar stress
+  numerically instead.
+  \item Compute the pillar width-to-height ratio $W/H$.
+  \item Compute pillar strength from an empirical formula appropriate to the
+  rock type, incorporating the $W/H$ effect and the size effect.
+  \emph{Check:} pillar strength must be well below $\sci$; a computed strength
+  approaching the intact value indicates a misapplied formula.
+  \item Compute $FS$ as strength divided by stress, and compare against the
+  target for the pillar's duty and design life.
+  \item Check roof and floor bearing capacity against the pillar stress.
+  \emph{Check:} a strong pillar on weak roof or floor may punch at a load well
+  below its own strength.
+  \item Assess the post-peak behaviour: for $W/H$ below about 1.5, treat
+  failure as potentially violent and check the stiffness criterion of
+  Chapter~\ref{ch:high-stress}.
+\end{enumerate}
+
+\section{Empirical support design sequence}
+\label{sec:seq-empirical}
+
+Inputs: classification data from Chapter~\ref{ch:classification}, excavation
+dimensions and use. Supports Chapter~\ref{ch:empirical-design}.
+
+\begin{enumerate}
+  \item Compute $\RMR_{89}$ from the five basic parameters, without the
+  orientation adjustment.
+  \item Compute $Q = (\RQD/J_n)(J_r/J_a)(J_w/\mathrm{SRF})$, recording the
+  justification for each rating --- particularly SRF, which spans several
+  orders of magnitude.
+  \item Compute the equivalent dimension $D_e = B/\mathrm{ESR}$, taking ESR
+  from the excavation's use and required design life.
+  \item Enter the $Q$ support chart with $D_e$ and $Q$ to obtain the support
+  category, bolt length and spacing, and shotcrete thickness.
+  \item Obtain the maximum unsupported span and stand-up time from the
+  $\RMR$ chart, and apply the orientation adjustment for the tunnel case.
+  \item For walls, apply the wall factor to $Q$ before entering the chart.
+  \item Compare the two recommendations.
+  \emph{Check:} substantial disagreement usually indicates an inconsistent
+  rating rather than a real difference, and the inputs should be revisited
+  before either result is used.
+  \item Confirm that the ground lies within the case base of the charts. High
+  stress, squeezing, very weak rock or unusual span place it outside, and the
+  analytical or numerical route governs.
+\end{enumerate}
+
+\section{Settlement and damage assessment sequence}
+\label{sec:seq-settlement}
+
+Inputs: tunnel diameter and depth, volume loss, trough width parameter, and
+building geometry, foundation and condition. Supports
+Chapter~\ref{ch:settlement-damage}.
+
+\begin{enumerate}
+  \item Compute the trough width $i = K z_0$ and the maximum settlement
+  $S_{\max} = V_L \pi D^2 / (4 i \sqrt{2\pi})$.
+  \item Construct the transverse Gaussian trough and, where the building is
+  near the face during construction, the longitudinal profile.
+  \item Compute horizontal displacement and horizontal strain, tensile at the
+  trough edge and compressive over the centre.
+  \emph{Check:} omitting horizontal strain will understate damage, often by a
+  full category.
+  \item Screen: exclude buildings below about 10\,mm settlement and a slope of
+  1 in 500.
+  \item For the remainder, compute deflection ratio in sagging and hogging
+  over the building length, treating the building as conforming to the
+  greenfield trough.
+  \item Compute the maximum tensile strain from bending and shear, combine it
+  with the horizontal strain, and read the damage category.
+  \item For buildings failing the greenfield assessment, apply relative
+  stiffness modification factors and reassess.
+  \emph{Check:} allow for facade openings, which reduce stiffness
+  substantially below what the overall dimensions imply.
+  \item For piled foundations, repeat using the subsurface movement at the
+  pile toe rather than the surface settlement.
+  \item Where two drives are involved, apply the modification factor to the
+  second and superpose --- do not simply double the single-tunnel result.
+\end{enumerate}
+
+\section{Face support pressure sequence}
+\label{sec:seq-face-pressure}
+
+Inputs: cover, diameter, ground strength parameters, water table. Supports
+Chapters~\ref{ch:ground-behaviour} and~\ref{ch:tbm}.
+
+\begin{enumerate}
+  \item Compute the water pressure at the tunnel crown, axis and invert.
+  \item For cohesive ground, compute the stability ratio $N$ and compare
+  against the critical value for the cover-to-diameter ratio and heading
+  length.
+  \item For frictional ground, compute the required effective support pressure
+  from a wedge--silo analysis, using the silo reduction for the overburden
+  prism.
+  \emph{Check:} the required pressure should be nearly independent of cover
+  once arching develops; a result rising in proportion to depth indicates the
+  arching term has been omitted.
+  \item Add the water pressure to obtain the minimum total support pressure,
+  and add a control margin.
+  \item Compute the blow-out pressure from the weight of overburden, and
+  subtract a margin to obtain the maximum.
+  \emph{Check:} in shallow ground the window may be narrow; if it closes,
+  the alignment or the method must change.
+  \item Verify that both bounds are satisfied at crown and invert
+  simultaneously, allowing for the pressure gradient over the face height.
+  \item Convert to machine operating parameters, stating the reference
+  elevation at which the target pressure applies.
+\end{enumerate}

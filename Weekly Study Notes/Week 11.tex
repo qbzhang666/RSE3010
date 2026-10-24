@@ -1,0 +1,732 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{siunitx}
+
+\geometry{margin=2.5cm}
+
+\newtcolorbox{notebox}[1][]{colback=blue!5!white, colframe=blue!50!black, fonttitle=\bfseries, title=#1}
+\newtcolorbox{warnbox}[1][]{colback=orange!5!white, colframe=orange!50!black, fonttitle=\bfseries, title=#1}
+\newtcolorbox{calcbox}[1][]{colback=green!3!white, colframe=green!40!black, fonttitle=\bfseries, title=#1}
+
+\title{\textbf{RSE3010: Mine Geotechnical Engineering} \\ Week 11 Study Notes}
+\author{Monash University, Semester 1, 2026}
+\date{Week 11: Kinematic Analysis of Slope Stability}
+
+\begin{document}
+
+\maketitle
+
+\section{Week 11: Kinematic Analysis of Slope Stability}
+
+\subsection{Purpose}
+
+This week introduces stereographic projection and kinematic analysis for structurally controlled rock slope instability. The focus is on using discontinuity orientation and slope geometry to identify whether planar failure, wedge failure, or toppling failure is geometrically possible.
+
+Sequence across the unit:
+\begin{itemize}
+    \item \textbf{Week 10:} Failure Mechanisms and SMR for preliminary empirical assessment;
+    \item \textbf{Week 11:} Kinematic Analysis --- geometric feasibility of failure;
+    \item \textbf{Week 12:} Limit Equilibrium Method --- quantitative factor of safety.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+By the end of this week, students should be able to:
+\begin{itemize}
+    \item understand the purpose of stereographic projection for representing planes, lines, and their intersections;
+    \item plot planes, poles, and intersection lines on a stereonet;
+    \item apply kinematic criteria for planar, wedge, and flexural toppling failure;
+    \item distinguish between geometrically feasible failure and actual instability;
+    \item prepare stereonet plots for both slope faces in Assignment 3.
+\end{itemize}
+
+\subsection{Slope Engineering Design Context}
+
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Method} & \textbf{Application} & \textbf{Key advantage} \\
+\midrule
+Empirical methods & Preliminary assessment, e.g. SMR & Quick and low-cost \\
+Kinematic analysis & Identify possible failure modes from geometry & Visual and simple \\
+Limit equilibrium method & Calculate factor of safety & Quantitative and widely accepted \\
+Numerical modelling & Complex geology, stress and deformation & Captures progressive failure \\
+\bottomrule
+\end{tabularx}
+\caption{Position of kinematic analysis in the slope engineering workflow.}
+\end{table}
+
+\begin{notebox}[Role of kinematic analysis]
+Kinematic analysis does \textbf{not} calculate factor of safety. It only determines whether a failure mechanism is \textbf{geometrically possible}. If a mechanism is kinematically feasible, further stability assessment is needed using LEM or numerical modelling.
+\end{notebox}
+
+\begin{notebox}[Kinematic workflow]
+\begin{center}
+Slope + Joints $\rightarrow$ Stereonet $\rightarrow$ Daylighting $\rightarrow$ Friction $\rightarrow$ Failure Mode
+\end{center}
+\vspace{1.0 em}
+This process identifies \textbf{geometrically feasible failures}, not actual stability.
+\end{notebox}
+
+\begin{warnbox}[Necessary vs sufficient conditions]
+Kinematic conditions are \textbf{necessary but not sufficient} for failure.
+\vspace{1.0 em}
+\begin{itemize}[nosep]
+    \item If kinematic conditions are not satisfied, the failure mode cannot occur.
+    \item If kinematic conditions are satisfied, the failure mode is possible, but not guaranteed.
+\end{itemize}
+\vspace{1.0 em}
+Additional factors such as cohesion, persistence, groundwater, block size, and support determine actual stability.
+\end{warnbox}
+
+\subsection{Kinematic Analysis: Fundamentals}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}[nosep]
+    \item Discontinuities are sufficiently persistent to form sliding or toppling blocks.
+    \item Failure occurs by movement along pre-existing discontinuities.
+    \item Intact rock bridges, cohesion, and support are not explicitly included.
+    \item Friction angle $\phi$ is the only strength parameter used.
+\end{itemize}
+
+\subsubsection{Required Inputs}
+
+The required inputs are:
+\begin{itemize}[nosep]
+    \item slope orientation, given as dip/dip direction;
+    \item joint set orientations, given as dip/dip direction;
+    \item friction angle, usually checked under both dry and wet conditions.
+\end{itemize}
+
+\begin{warnbox}[Important limitation]
+A kinematically possible failure is not necessarily unstable. Limited joint persistence, intact rock bridges, roughness, cohesion, and reinforcement can prevent failure even when the geometry is unfavourable.
+\end{warnbox}
+
+\subsection{Stereographic Projection Method}
+
+\subsubsection{Orientation Terms}
+
+\begin{itemize}[nosep]
+    \item \textbf{Dip $\psi$:} maximum inclination of a plane from the horizontal.
+    \item \textbf{Dip direction $\alpha$:} azimuth of the line of maximum dip, measured clockwise from north.
+    \item \textbf{Strike:} horizontal line on the plane, perpendicular to dip direction.
+    \item \textbf{Trend:} azimuth of a line measured clockwise from north.
+    \item \textbf{Plunge:} inclination of a line below the horizontal.
+\end{itemize}
+
+\begin{notebox}[Important notation for slope face (Week 11)]
+In Week 11, the slope face notation follows classical rock slope references, including Hoek \& Bray, Goodman, and Wyllie \& Mah.
+\vspace{1.0 em}
+Therefore, the slope face is written using the subscript $f$:
+\[
+\psi_f = \text{slope face angle (dip)}, \qquad
+\alpha_f = \text{slope face dip direction}.
+\]
+
+This notation is used to remain consistent with the literature.
+\end{notebox}
+
+\subsubsection{Representation on a Stereonet}
+
+A plane is represented by a \textbf{great circle}. A line is represented by a \textbf{point}. The pole to a plane is the point normal to that plane; its trend is $\alpha + 180^\circ$ and its plunge is $90^\circ - \psi$.
+
+\subsubsection{Wulff Net vs Schmidt Net}
+
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Feature} & \textbf{Wulff net} & \textbf{Schmidt net} \\
+\midrule
+Projection type & Equal angle & Equal area \\
+Preserves & Angles & Areas \\
+Typical use & Kinematic analysis and rotations & Density contouring and pole concentrations \\
+\bottomrule
+\end{tabularx}
+\caption{Comparison between Wulff and Schmidt stereonets.}
+\end{table}
+
+\begin{notebox}[Stereonet requirement for Assignment 3]
+For Assignment 3, use a \textbf{Wulff net} or equal-angle projection. This is appropriate because kinematic analysis depends on angular relationships between slope faces, joints, friction cones, and daylight envelopes.
+\end{notebox}
+
+\subsection{Analytical Computation of Plane Intersections}
+A stereonet can be used graphically to obtain the line of intersection between two planes. The same result can also be obtained analytically using vector cross-products.
+\begin{calcbox}[Example: intersection line of two planes]
+Consider two planes:
+\[
+70^\circ/110^\circ
+\qquad \text{and} \qquad
+65^\circ/190^\circ
+\]
+where each plane is given as:
+\[
+\text{dip}/\text{dip direction}
+\]
+For a plane with dip $\psi$ and dip direction $\alpha$, the downward-pointing unit normal vector in an East--North--Up coordinate system is:
+\[
+\mathbf{n} =
+\begin{pmatrix}
+-\sin\alpha \sin\psi \\
+-\cos\alpha \sin\psi \\
+-\cos\psi
+\end{pmatrix}
+\]
+For Plane 1, $\psi_1=70^\circ$ and $\alpha_1=110^\circ$:
+\[
+\mathbf{n}_1 =
+\begin{pmatrix}
+-\sin110^\circ \sin70^\circ \\
+-\cos110^\circ \sin70^\circ \\
+-\cos70^\circ
+\end{pmatrix}
+=
+\begin{pmatrix}
+-0.883\\
+0.321\\
+-0.342
+\end{pmatrix}
+\]
+For Plane 2, $\psi_2=65^\circ$ and $\alpha_2=190^\circ$:
+\[
+\mathbf{n}_2 =
+\begin{pmatrix}
+-\sin190^\circ \sin65^\circ \\
+-\cos190^\circ \sin65^\circ \\
+-\cos65^\circ
+\end{pmatrix}
+=
+\begin{pmatrix}
+0.157\\
+0.893\\
+-0.423
+\end{pmatrix}
+\]
+The intersection line is obtained from the cross-product:
+\[
+\mathbf{L} = \mathbf{n}_1 \times \mathbf{n}_2
+\]
+\[
+\mathbf{L}
+=
+\begin{pmatrix}
+0.169\\
+-0.427\\
+-0.839
+\end{pmatrix}
+\]
+where $x_E=0.169$ is the East component, $y_N=-0.427$ is the North component, and $z=-0.839$ is the vertical component.
+\end{calcbox}
+\begin{calcbox}[Trend and plunge from the intersection vector]
+The horizontal projection of the line is:
+\[
+L_h = \sqrt{x_E^2+y_N^2}
+\]
+\[
+L_h =
+\sqrt{0.169^2+(-0.427)^2}
+=
+0.459
+\]
+The plunge is:
+\[
+\psi_i =
+\tan^{-1}
+\left(
+\frac{|z|}{\sqrt{x_E^2+y_N^2}}
+\right)
+\]
+\[
+\psi_i =
+\tan^{-1}
+\left(
+\frac{0.839}{0.459}
+\right)
+=
+61.3^\circ
+\]
+The trend of the intersection line is measured clockwise from north,
+so it is computed from the East ($x_E$) and North ($y_N$) components as:
+\[
+\alpha_i = \operatorname{atan2}(x_E,\, y_N)
+\]
+\begin{notebox}[atan2 argument order]
+The two-argument arctangent $\operatorname{atan2}(a,\, b)$ returns the angle
+whose tangent is $a/b$ while preserving the correct quadrant.
+That is, the first argument is the numerator and the second is the denominator.
+\vspace{1.0 em}
+For a compass trend (clockwise from north), the East component plays the role
+of the numerator and the North component plays the role of the denominator:
+\[
+\tan\alpha_i = \frac{x_E}{y_N}
+\quad\Longrightarrow\quad
+\alpha_i = \operatorname{atan2}(x_E,\, y_N).
+\]
+Note the geometric reversal compared with the standard mathematical convention
+$\operatorname{atan2}(y,\, x)$, which is used for angles measured
+counter-clockwise from east. There, the vertical coordinate $y$ sits in the
+numerator. For compass trends, the East coordinate sits in the numerator and
+the North coordinate sits in the denominator.
+\vspace{1.0 em}
+Excel's \texttt{ATAN2(x\_num, y\_num)} reverses the argument order relative to
+most programming languages, so the spreadsheet call must be written
+\texttt{ATAN2(y\_N, x\_E)} to obtain $\operatorname{atan2}(x_E,\, y_N)$
+(see the Common Spreadsheet Mistakes box).
+\end{notebox}
+Substituting $x_E = 0.169$ and $y_N = -0.427$:
+\[
+\alpha_i = \operatorname{atan2}(0.169,\, -0.427)
+\]
+Because $x_E > 0$ and $y_N < 0$, the line points East and South,
+so the compass trend lies in the south-east quadrant, between $90^\circ$ and $180^\circ$.
+Evaluating:
+\[
+\alpha_i = 180^\circ - \tan^{-1}\!\left(\frac{0.169}{0.427}\right)
+= 180^\circ - 21.6^\circ = 158.4^\circ
+\]
+Therefore, the analytical intersection line is approximately:
+\[
+\boxed{\psi_i/\alpha_i = 61^\circ/158^\circ}
+\]
+\end{calcbox}
+\begin{notebox}[Comparison with stereonet result in Lecture slides]
+Using the stereonet graphical method, the same intersection line may be read as:
+\[
+\boxed{55^\circ/160^\circ}
+\]
+Using the analytical vector method, the result is:
+\[
+\boxed{61^\circ/158^\circ}
+\]
+The trend differs by only about $2^\circ$, while the plunge differs by about $6^\circ$.
+This difference is acceptable because stereonet readings are graphical approximations. Small errors can occur when drawing great circles, rotating the tracing paper, and reading the plunge from the grid.
+\vspace{1.0 em}
+For calculations in Excel or Python, the analytical result should be used:
+\[
+\boxed{61^\circ/158^\circ}
+\]
+\end{notebox}
+\begin{warnbox}[Common spreadsheet mistakes]
+There are three common mistakes when calculating an intersection line analytically.
+\vspace{1.0 em}
+\textbf{1. ATAN2 argument order in Excel.}
+Excel's \texttt{ATAN2(x\_num, y\_num)} takes its arguments as
+(x-coordinate, y-coordinate) --- the reverse of most programming languages,
+which use \texttt{atan2(y, x)}. In either case, the function returns the angle
+whose tangent is $y/x$, measured counter-clockwise from the positive x-axis.
+To get a compass trend (clockwise from north) using East and North components,
+pass them as:
+\[
+\alpha_i =
+\mathrm{MOD}\!\left(\mathrm{DEGREES}(\mathrm{ATAN2}(y_N,\, x_E)),\, 360^\circ\right)
+\]
+For this example:
+\[
+\alpha_i =
+\mathrm{MOD}\!\left(\mathrm{DEGREES}(\mathrm{ATAN2}(-0.427,\, 0.169)),\, 360^\circ\right)
+=
+158.4^\circ
+\]
+\vspace{1.0 em}
+\textbf{2. Reporting the up-plunge direction.}
+A line has two opposite directions. Report the downward-plunging direction. If the calculated vector gives $z<0$, use the calculated trend directly. If $z>0$, reverse the vector or add $180^\circ$ to the trend.
+\vspace{1.0 em}
+\textbf{3. Expecting stereonet and analytical results to be identical.}
+A stereonet result is approximate. A difference of about $5^\circ$--$10^\circ$ is common and acceptable for graphical reading.
+\end{warnbox}
+
+\subsection{Planar Failure}
+
+\subsubsection{Kinematic Conditions (Markland 1972)}
+\begin{enumerate}[label=\arabic*., nosep]
+    \item \textbf{Daylighting:} $\psi_j < \psi_f$ (joint dips flatter than slope);
+    \item \textbf{Friction:} $\psi_j > \phi$ (joint dip exceeds friction);
+    \item \textbf{Parallelism:} $|\alpha_j - \alpha_f| \leq 20^\circ$ (joint dips approximately toward slope face).
+\end{enumerate}
+
+Combined:
+\[
+\boxed{\psi_f > \psi_j > \phi \quad \text{AND} \quad |\alpha_j - \alpha_f| \leq 20^\circ}
+\]
+
+\subsubsection{Friction Cone and Daylight Envelope}
+On the stereonet:
+\begin{itemize}[nosep]
+    \item The \textbf{friction cone} is a small circle around the vertical axis, of radius $\phi$. Poles falling \emph{inside} the friction cone are stable by friction.
+    \item The \textbf{daylight envelope} is a great circle representing the locus of joints that daylight on the slope face.
+    \item The \textbf{kinematic zone} for planar failure is the region between the daylight envelope (outer boundary) and the friction cone (inner boundary), restricted to the $\pm 20^\circ$ lateral band centered on the slope dip direction.
+\end{itemize}
+
+\begin{notebox}[Geometric intuition]
+\begin{itemize}[nosep]
+    \item Steeper slopes $\Rightarrow$ larger kinematic envelope.
+    \item Lower friction angles $\Rightarrow$ larger friction cone $\Rightarrow$ more joint orientations at risk.
+    \item The most critical case is a steep slope combined with low friction, i.e. a steep wet slope in weathered rock.
+\end{itemize}
+\end{notebox}
+
+\subsubsection{Three-Joint Example (from lecture)}
+For slope $55^\circ/220^\circ$:
+\begin{itemize}[nosep]
+    \item Joint 1 ($40^\circ/225^\circ$): daylights ($40 < 55$) and sub-parallel ($|225-220| = 5^\circ < 20^\circ$); if $\phi < 40^\circ$, planar sliding possible.
+    \item Joint 2 ($65^\circ/225^\circ$): too steep ($65 > 55$), no daylighting.
+    \item Joint 3 ($80^\circ/045^\circ$): dips into the face ($|\alpha_j - \alpha_f - 180^\circ| = 5^\circ$, approximately opposite); candidate for toppling.
+\end{itemize}
+
+
+\begin{warnbox}[Planar failure screening]
+Planar failure is usually checked first because it is geometrically simpler than wedge failure and often more likely when a single persistent joint set is present.
+\end{warnbox}
+
+\subsection{Wedge Failure}
+
+\subsubsection{Kinematic Conditions (Markland / Hocking)}
+\begin{enumerate}[label=\arabic*., nosep]
+    \item \textbf{Intersection daylights:} $\psi_i < \psi_f$;
+    \item \textbf{Friction:} $\psi_i > \phi$;
+    \item \textbf{Trend exits slope:} $|\alpha_i - \alpha_f| < 90^\circ$ (the line of intersection exits through the slope face, not around or behind it).
+\end{enumerate}
+
+\subsubsection{Worked Examples}
+
+\textbf{Example 1 (wedge feasible):} J$_a = 60^\circ/090^\circ$, J$_b = 60^\circ/210^\circ$, slope $70^\circ/135^\circ$. Intersection: $41^\circ/150^\circ$. 
+\begin{itemize}[nosep]
+    \item Daylights: $41 < 70$ $\checkmark$
+    \item If $\phi = 30^\circ$: $41 > 30$ $\checkmark$
+    \item Trend: $|150 - 135| = 15^\circ < 90^\circ$ $\checkmark$
+\end{itemize}
+Wedge failure possible.
+
+\textbf{Example 2 (no wedge):} J$_a = 60^\circ/090^\circ$, J$_b = 40^\circ/210^\circ$, slope $70^\circ/135^\circ$. Intersection: $29^\circ/161^\circ$. Plunge $29^\circ < \phi = 30^\circ$ $\Rightarrow$ friction condition fails, no wedge.
+
+\subsubsection{Planar or Wedge: Which Governs?}
+When both mechanisms are kinematically feasible and a single joint alone meets the planar-failure conditions, treat the case as \textbf{planar failure} --- it is usually easier to mobilise (one surface, not two). The wedge only governs when neither joint alone daylights.
+
+
+\begin{warnbox}[Common Mistakes in Kinematic Analysis]
+\begin{itemize}[nosep]
+    \item Confusing dip direction vs strike
+    \item Ignoring lateral limit ($\pm 20^\circ$)
+    \item Treating kinematic feasibility as actual failure
+    \item Missing wedge trend condition ($< 90^\circ$)
+\end{itemize}
+\end{warnbox}
+
+\subsection{Toppling Failure}
+
+\subsubsection{Geometric Setting}
+Toppling occurs where strata dip steeply \emph{away from the slope} (into the face) and are strike-parallel or sub-parallel.
+
+\subsubsection{Main Types}
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Type} & \textbf{Mechanism} & \textbf{Typical structure} \\
+\midrule
+Block toppling & Rigid-body rotation about the base & Columns bounded by steep joints plus basal plane \\
+Flexural toppling & Bending of columns until breakage & Thin steeply dipping slabs \\
+Block-flexural & Mixed rotation and bending & Long columns with cross joints \\
+\bottomrule
+\end{tabularx}
+\caption{Main toppling failure modes.}
+\end{table}
+
+\subsubsection{Why Only Flexural Toppling Has a Closed-Form Kinematic Equation}
+
+A natural question is why the kinematic test on the stereonet only delivers a clean criterion (Goodman's slip rule) for flexural toppling, while block and block-flexural toppling do not. The answer lies in what each mechanism physically requires.
+
+\begin{notebox}[Kinematic vs stability split]
+\textbf{Kinematic analysis} on a stereonet asks ``\emph{Is this failure mode geometrically possible from orientations alone?}'' All inputs are angles (dip, dip direction, friction).
+
+\textbf{Stability analysis} (limit equilibrium) asks ``\emph{Given the geometry, will it actually fail?}'' Inputs include lengths (block height, base width, column slenderness) and material strengths (cohesion, tensile strength).
+
+Modes whose feasibility depends only on angles fit naturally on a stereonet. Modes whose feasibility depends on dimensions do not.
+\end{notebox}
+
+\textbf{Flexural toppling} reduces to a single kinematic question: \emph{can adjacent slabs slide past each other along their shared joint?} This is a Mohr--Coulomb friction problem on a known plane orientation, under a stress direction parallel to the slope face. The result is purely angular:
+\[
+\psi_j \geq (90^\circ - \psi_f) + \phi_j
+\]
+No lengths appear, so the criterion plots cleanly on a stereonet.
+
+\textbf{Block toppling} requires the centre of gravity of a rigid block to pass outside its base. For a single block of width $b$ and height $h$ resting on a plane dipping at $\alpha$:
+\[
+\boxed{\text{Block topples when } \frac{b}{h} < \tan\alpha}
+\]
+This is geometric, but the geometry includes the \emph{block dimensions}, which are not encoded on a stereonet. A second condition compares sliding versus toppling tendency, giving a four-region behaviour map (Goodman \& Bray, 1976):
+
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{Region} & \textbf{Condition} \\
+\midrule
+Stable & $\tan\alpha < \tan\phi_b$ \quad and \quad $b/h > \tan\alpha$ \\
+Sliding only & $\tan\alpha > \tan\phi_b$ \quad and \quad $b/h > \tan\alpha$ \\
+Toppling only & $\tan\alpha < \tan\phi_b$ \quad and \quad $b/h < \tan\alpha$ \\
+Sliding + toppling & $\tan\alpha > \tan\phi_b$ \quad and \quad $b/h < \tan\alpha$ \\
+\bottomrule
+\end{tabularx}
+\caption{Goodman \& Bray (1976) behaviour regions for a single block on an inclined base; $\phi_b$ is the friction angle on the base.}
+\end{table}
+
+\textbf{Block-flexural toppling} adds a third ingredient: the rock columns are long but bounded by cross joints, so they can both rotate \emph{and} break in flexure. Stability now depends on:
+\begin{itemize}[nosep]
+    \item base inclination $\alpha$ and base friction $\phi_b$;
+    \item joint friction $\phi_j$ between blocks within a column;
+    \item column slenderness ($h/b$);
+    \item rock tensile strength $\sigma_t$ (controls flexural breakage);
+    \item slope geometry (overall and bench).
+\end{itemize}
+Closed-form solutions exist，but are continuum models, not stereonet tests.
+
+\begin{warnbox}[Summary of the three modes]
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
+
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}
+                                >{\centering\arraybackslash}p{1.8cm}
+                                >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Mode} & \textbf{Stereonet test?} & \textbf{Stability calculation needs} \\
+\midrule
+Flexural 
+& \textbf{Yes} 
+& Same kinematic criterion, plus column dimensions for full FoS calculation. \\
+
+Block 
+& No 
+& $b/h$, base friction, block weight, and Goodman--Bray block toppling procedure. \\
+
+Block-flexural 
+& No 
+& All block-toppling inputs, plus tensile strength and column slenderness. \\
+\bottomrule
+\end{tabularx}
+
+\end{warnbox}
+
+\begin{notebox}[Practical workflow]
+\begin{enumerate}[nosep]
+    \item Use the stereonet to screen for \textbf{flexural toppling} via Goodman's slip criterion.
+    \item Identify \textbf{block} and \textbf{block-flexural} toppling \emph{qualitatively} from the structural geology: presence of orthogonal cross joints (block); long pseudo-continuous columns with many cross joints (block-flexural).
+    \item For any toppling mode flagged in steps 1--2, perform a \textbf{dimensional analysis} (Goodman--Bray block procedure) or use \textbf{numerical modelling} (UDEC, 3DEC) to assess stability quantitatively.
+\end{enumerate}
+\end{notebox}
+
+\subsubsection{Goodman--Bray Block-Toppling Procedure (Reference)}
+
+For block toppling in a slope, Goodman \& Bray (1976) developed an iterative limit-equilibrium method that propagates forces from the topmost block down a stack of columns. The key elements are:
+\begin{itemize}[nosep]
+    \item Each block $n$ is classified \emph{a priori} as stable, sliding, or toppling based on its $b/h$ ratio and base inclination.
+    \item For each toppling block, moment equilibrium about the toe gives the inter-block force $P_n$ required from the block above:
+    \[
+    P_n = \frac{P_{n+1}\,(M_n \cos\alpha - \tfrac{1}{2}h_n \sin\alpha) + W_n(\tfrac{1}{2}b\cos\alpha - \tfrac{1}{2}h_n \sin\alpha)}{L_n}
+    \]
+    where $W_n$ is the block weight, $h_n$ its height, $b$ its width, $\alpha$ the base dip, and $M_n,\,L_n$ are moment arms determined by the slope geometry.
+    \item For each sliding block, force equilibrium along the base replaces moment equilibrium.
+    \item The procedure marches down the column stack until the bottom block is reached. If the cumulative force is positive, the system is unstable; the FoS is found by reducing $\tan\phi$ until equilibrium is just achieved.
+\end{itemize}
+This is a numerical procedure rather than a single closed-form equation, which is why it does not appear in stereonet-based kinematic charts. For most practical work, Goodman--Bray is implemented in a spreadsheet or in dedicated software (RocScience \texttt{RocTopple}). Numerical methods (UDEC, 3DEC) are preferred where block geometry is irregular or where pre-existing damage is significant.
+
+\begin{warnbox}[Scope for RSE3010]
+For this unit, only \textbf{flexural toppling} is assessed quantitatively, using Goodman's slip criterion on the stereonet. Block and block-flexural toppling are identified \emph{qualitatively} from the structural geology and flagged for further analysis. Quantitative block-toppling assessment using the Goodman--Bray procedure is a postgraduate-level extension, treated alongside numerical modelling.
+\end{warnbox}
+
+\subsubsection{Flexural Toppling: Goodman's Slip-Limit Criterion}
+For flexural toppling to initiate, interlayer slip must be possible. Goodman (in Goodman \& Bray, 1976) reasoned that the major principal stress in a slope is parallel to the slope face (dip $\psi_f$), and that interlayer slip on a joint set with friction $\phi_j$ requires the major principal stress direction to make an angle greater than $\phi_j$ with the joint normal. This yields the slip criterion:
+\[
+\boxed{\psi_j \geq (90^\circ - \psi_f) + \phi_j}
+\]
+which can also be written as $\psi_f - \phi_j \geq 90^\circ - \psi_j$. The boundary case defines the \textbf{Slip-Limit Plane}, a great circle of dip $\psi_f - \phi_j$ in the slope dip direction $\alpha_f$. Joint planes steeper than the Slip-Limit Plane (poles falling \emph{outside} it on the stereonet) can slip; joint planes flatter than it cannot.
+
+The full kinematic zone for flexural toppling --- the \textbf{Critical Zone} --- is bounded on the stereonet by:
+\begin{itemize}[nosep]
+    \item the Slip-Limit Plane (great circle of dip $\psi_f - \phi_j$ in the slope dip direction $\alpha_f$) --- inner boundary;
+    \item the stereonet perimeter (poles at plunge $= 0$, i.e. vertical planes) --- outer boundary;
+    \item the lateral limits $\pm 20^\circ$ either side of the reverse slope dip direction $\alpha_f + 180^\circ$.
+\end{itemize}
+Any joint pole falling within this Critical Zone represents a potential flexural-toppling failure.
+
+\begin{notebox}[Geometric intuition]
+\begin{itemize}[nosep]
+    \item As $\phi_j$ increases (rougher joints), the Slip-Limit Plane becomes flatter (dip $\psi_f - \phi_j$ decreases), so the Critical Zone shrinks --- fewer joint orientations can topple.
+    \item For $\phi_j > \psi_f$ the Slip-Limit Plane has negative dip and the Critical Zone closes entirely: smooth-faced joints in a steep slope are essentially immune to flexural toppling driven by gravity alone.
+    \item The criterion $\psi_j \geq (90^\circ - \psi_f) + \phi_j$ shows that toppling is most likely when the slope is steep \emph{and} the joints are steep \emph{and} the friction is low.
+\end{itemize}
+\end{notebox}
+
+\begin{notebox}[title={Lecture worked example: Joint $80^\circ/040^\circ$, slope $70^\circ/220^\circ$}]
+The slip criterion threshold is $90^\circ - \psi_f + \phi_j = 20^\circ + \phi_j$:
+
+\begin{itemize}[nosep]
+    \item $\phi_j = 35^\circ$: threshold $=55^\circ$, Slip-Limit Plane dip $=35^\circ$. $\psi_j = 80^\circ > 55^\circ$ $\Rightarrow$ slip possible.
+    \item $\phi_j = 55^\circ$: threshold $=75^\circ$, Slip-Limit Plane dip $=15^\circ$. $\psi_j = 80^\circ > 75^\circ$ $\Rightarrow$ slip possible.
+    \item $\phi_j = 65^\circ$: threshold $=85^\circ$, Slip-Limit Plane dip $=5^\circ$. $\psi_j = 80^\circ < 85^\circ$ $\Rightarrow$ \textbf{slip not possible}.
+\end{itemize}
+\vspace{1.0 em}
+This shows how a high friction angle can suppress flexural toppling even on a very steeply dipping joint set.
+\end{notebox}
+
+\begin{warnbox}[Toppling screening summary]
+Flexural toppling is kinematically possible when both conditions are satisfied:
+\[
+|\alpha_j - \alpha_f - 180^\circ| \leq 20^\circ \quad \text{AND} \quad \psi_j \geq (90^\circ - \psi_f) + \phi_j
+\]
+The first is the lateral-limit (opposite-dip) condition; the second is Goodman's slip criterion. Compare with the SMR toppling criterion from Week~10: $A = |\alpha_j - \alpha_f - 180^\circ|$, $C = \psi_j + \psi_f$.
+\end{warnbox}
+
+\subsection{Assumptions and Limitations}
+
+\begin{itemize}
+    \item Kinematic analysis considers geometry only.
+    \item Cohesion, water pressure, seismic loading, and support are not included.
+    \item Discontinuities are assumed sufficiently persistent to form blocks or wedges.
+    \item Results are sensitive to orientation data quality.
+    \item Kinematic feasibility is not the same as actual failure.
+\end{itemize}
+
+\begin{warnbox}[Engineering caution]
+A slope may be kinematically feasible for failure yet remain stable because of limited persistence, intact rock bridges, roughness, cohesion, or support. Conversely, a slope may fail by mechanisms not captured if unexpected structures, groundwater, or excavation damage exist.
+\end{warnbox}
+
+\subsection{Assignment 3 Project Data (Weeks 10--12)}
+
+A road-cut slope is to be excavated in a sandstone rock mass with three persistent joint sets. The cut has two opposite slope faces, referred to as Side A and Side B. Because the two slope faces dip in opposite directions, the same joint sets may be critical on one side but less critical on the opposite side.
+
+Students are required to evaluate the stability of both slope faces using SMR, kinematic analysis, and LEM, and then propose suitable support or corrective measures. All orientations are given as \textbf{dip/dip direction}. The basic RMR value is the value before applying slope-orientation and excavation-method adjustments.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{l l}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Basic RMR & 50 \\
+Slope Side A (dip / dip direction) & $50^\circ / 170^\circ$ \\
+Slope Side B (opposite road-cut side, dip / dip direction) & $70^\circ / 350^\circ$ \\
+$J_1$ (dip / dip direction) & $40^\circ / 155^\circ$ \\
+$J_2$ (dip / dip direction) & $55^\circ / 110^\circ$ \\
+$J_3$ (dip / dip direction) & $80^\circ / 345^\circ$ \\
+Dry friction angle, $\phi_{\mathrm{dry}}$ & $45^\circ$ \\
+Wet friction angle, $\phi_{\mathrm{wet}}$ & $28^\circ$ \\
+Excavation method & Deficient blasting \\
+Slope height, $H$ & $15$~m \\
+Unit weight, $\gamma$ & $20$~kN/m$^3$ \\
+Cohesion, $c$ & $20$~kPa \\
+\bottomrule
+\end{tabular}
+\caption{Assignment 3 road-cut slope data.}
+\end{table}
+
+\subsection{Assignment 3 --- Week 11: Kinematic Analysis}
+
+Use the project data above to analyse \textbf{both slope faces} (Side A and Side B).
+
+Kinematic analysis determines whether planar, wedge, or toppling failure is \textbf{geometrically feasible}. It does \textbf{not} evaluate stability or factor of safety.
+
+\begin{notebox}[Key principle]
+Kinematic analysis answers:
+\vspace{1.0em}
+\begin{center}
+\textbf{Can this failure mode occur geometrically?}
+\end{center}
+\vspace{1.0em}
+If a mechanism is feasible, it should be carried forward to further evaluation (e.g. Week 12 or design discussion).
+\end{notebox}
+
+\subsubsection{Analysis procedure}
+
+The kinematic assessment should be carried out systematically for planar, wedge, and toppling failure. For each slope face, all relevant joint sets and their combinations must be considered. The analysis should include both dry and wet conditions where applicable.
+
+\subsubsection{Tasks}
+
+\begin{enumerate}
+    \item \textbf{Planar failure assessment}
+
+    Evaluate all joint sets ($J_1$, $J_2$, and $J_3$) for both slope faces. A joint set is considered kinematically feasible for planar failure if it satisfies:
+    \[
+    \psi_f > \psi_j > \phi
+    \qquad \text{and} \qquad
+    |\alpha_j - \alpha_f| \leq 20^\circ
+    \]
+    The assessment should be conducted for both dry and wet friction angles.
+
+    \item \textbf{Wedge failure assessment}
+
+    Evaluate all joint pair combinations ($J_1$--$J_2$, $J_1$--$J_3$, and $J_2$--$J_3$). The line of intersection for each pair should be determined using either stereonet plotting or analytical methods (e.g. vector cross-product).
+
+    A wedge is considered kinematically feasible if:
+    \[
+    \psi_f > \psi_i > \phi
+    \qquad \text{and} \qquad
+    |\alpha_i - \alpha_f| < 90^\circ
+    \]
+
+    \item \textbf{Toppling failure assessment}
+
+    Evaluate all joint sets for potential toppling. A joint set is considered kinematically feasible for toppling if:
+    \[
+    \psi_j \geq (90^\circ - \psi_f) + \phi
+    \qquad \text{and} \qquad
+    |\alpha_j - \alpha_f - 180^\circ| \leq 20^\circ
+    \]
+    The assessment should again consider both dry and wet conditions.
+
+    \item \textbf{Stereonet representation}
+
+    Prepare one stereonet plot for each slope face using a \textbf{Wulff net (equal-angle projection)}. The plots should clearly show the slope face, joint sets (as great circles or poles), friction circles (dry and wet), daylight envelope, and any relevant wedge intersections. Plots may be hand-drawn or generated using appropriate software (e.g. Stereonet or Dips).
+
+    \item \textbf{Interpretation of results}
+
+    Based on the analysis, identify the feasible failure modes and determine the most critical joint set or joint combination for each slope face. A comparison between Side A and Side B should be provided, together with a brief discussion of how the kinematic results relate to the Week 10 SMR assessment.
+\end{enumerate}
+
+\begin{warnbox}[Common student errors]
+Typical mistakes include checking only dip magnitude without considering direction, confusing dip direction with strike, using an incorrect stereonet projection (Schmidt instead of Wulff), neglecting one of the slope faces, and interpreting kinematic feasibility as actual failure.
+\end{warnbox}
+
+\subsection{Week 11 Summary}
+
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Component} & \textbf{Purpose} & \textbf{Key caution} \\
+\midrule
+Stereonet projection & Plot planes and lines in 2D & Use correct orientation conventions \\
+Planar failure & Sliding on one discontinuity & Requires daylighting, friction, and parallelism \\
+Wedge failure & Sliding on intersection of two planes & Requires daylighting of the intersection line \\
+Flexural toppling & Forward rotation of steep columns & Requires opposite-dip condition and Goodman criterion \\
+Wulff net & Equal-angle projection & Appropriate for kinematic analysis \\
+SMR comparison & Cross-check empirical and kinematic results & Consistency strengthens interpretation \\
+Week 12 LEM & Quantitative factor of safety & Applied after feasible mechanisms are identified \\
+\bottomrule
+\end{tabularx}
+\caption{Week 11 summary.}
+\end{table}
+
+\begin{notebox}[Link to Week 12]
+Week 11 identifies \textbf{possible failure modes}. Week 12 will calculate the \textbf{factor of safety} for the critical cases using limit equilibrium methods.
+\end{notebox}
+
+\vspace{1cm}
+\noindent\textit{End of Week 11 Study Notes}
+
+\end{document}

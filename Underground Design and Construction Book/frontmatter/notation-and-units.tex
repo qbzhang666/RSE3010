@@ -1,0 +1,53 @@
+% !TeX root = ../main.tex
+\chapter*{Notation and Units}
+\addcontentsline{toc}{chapter}{Notation and Units}
+\markboth{Notation and Units}{Notation and Units}
+\label{ch:notation}
+
+\noindent\textbf{Sign convention.}\enspace Compression is positive. This is
+standard in rock mechanics and it is the opposite of the structural
+engineering convention, in which tension is positive. The difference matters
+most at interfaces between disciplines --- when lining thrusts and moments
+computed by a geotechnical model are passed to a structural check, or when a
+finite element package written for structures is applied to ground. Where a
+result is quoted from a structural source, the convention is stated
+explicitly.
+
+\noindent\textbf{Principal stresses.}\enspace Principal stresses are ordered
+$\sigma_1 \geq \sigma_2 \geq \sigma_3$, so that $\sigma_1$ is the major and
+$\sigma_3$ the minor principal stress. In failure criteria the pair
+$(\sigma_1, \sigma_3)$ refers to the stresses acting on the element under
+consideration, not to the in-situ field. In-situ stresses are written
+$\sigma_v$ and $\sigma_h$, and the ratio $k = \sigma_h / \sigma_v$. Confusing
+the in-situ field with the criterion stresses is among the most common errors
+in parameter derivation, and Chapter~\ref{ch:rock-mechanics} treats it
+explicitly.
+
+\noindent\textbf{Effective stress.}\enspace A prime denotes an effective
+stress: $\sigma' = \sigma - u$, where $u$ is pore pressure. Rock mass
+parameters derived from the Hoek--Brown criterion are total-stress quantities
+unless stated otherwise, and combining them with effective-stress soil
+parameters in the same model requires care.
+
+\noindent\textbf{Units.}\enspace SI units are used throughout. Stresses and
+strengths are in \si{\mega\pascal}; deformation moduli in \si{\giga\pascal};
+unit weight in \si{\kilo\newton\per\metre\cubed}; lengths in \si{\metre};
+displacements in \si{\milli\metre}. Groundwater pressures are given in
+\si{\kilo\pascal} or as an equivalent head in metres, with the datum stated.
+
+\noindent\textbf{Dimensional inconsistency in empirical correlations.}\enspace
+Several widely used correlations are not dimensionally homogeneous and are
+therefore valid only in the units in which they were calibrated. Rock mass
+modulus expressions returning \si{\giga\pascal} from a $\GSI$ value and a
+$\sci$ in \si{\mega\pascal} are the common example. Wherever such an
+expression appears in this book, the required input units are stated with it.
+Substituting into these relations in unfamiliar units is a reliable way to
+produce an answer wrong by orders of magnitude, and the error is not always
+obvious in the result.
+
+\noindent\textbf{Rounding and reported precision.}\enspace Design parameters
+are reported to a precision consistent with their derivation. A rock mass
+strength derived from a $\GSI$ estimated to the nearest five points does not
+support three significant figures, and quoting it that way misrepresents the
+evidence. This applies with particular force to numerical output, which is
+returned to machine precision regardless of the quality of its input.

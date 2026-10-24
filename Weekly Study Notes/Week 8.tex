@@ -1,0 +1,546 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+\geometry{margin=2.5cm}
+
+\newtcolorbox{notebox}[1][]{colback=blue!5!white, colframe=blue!50!black, fonttitle=\bfseries, title=#1}
+\newtcolorbox{warnbox}[1][]{colback=orange!5!white, colframe=orange!50!black, fonttitle=\bfseries, title=#1}
+
+\title{\textbf{RSE3010: Mine Geotechnical Engineering} \\ Week 8 Study Notes}
+\author{Monash University, Semester 1, 2026}
+\date{Based on Week 8 Lecture Slides -- SRL East Focus}
+
+\begin{document}
+
+\maketitle
+
+\section{Week 8: Numerical Modelling -- Settlement Prediction and FEM}
+
+\subsection{Purpose}
+To introduce settlement prediction using the Mair method and numerical modelling using the Finite Element Method (FEM) for analysing tunnel excavation and its effects on the surrounding ground. The focus is the SRL East Monash area, using the same geological context established in Week~5. This week compares two approaches for the same project: (1) a simplified settlement estimate using the Mair/Gaussian method, and (2) a 2D numerical analysis using RS2 software.
+
+\subsection{Learning Objectives}
+\begin{itemize}
+    \item Apply the Gaussian settlement trough equation (Mair method) to estimate surface settlements from volume loss, trough width parameter $k$, and tunnel geometry.
+    \item Build and interpret a 2D numerical model: geometry, material assignment, meshing, boundary conditions, staged excavation, and lining.
+    \item Compare Mair method and settlement predictions, and critically evaluate the assumptions and limitations of each approach.
+    \item Relate numerical modelling outputs (displacement contours, lining forces, plastic zones) to tunnel design criteria.
+\end{itemize}
+
+\subsection{Required Reading (from Assignment Brief)}
+\begin{notebox}[Mandated reference documents]
+The Week 8 assignment requires you to inform your report using:
+\begin{itemize}[nosep]
+    \item \textit{MT-EES-TN053-Updated-Geological-Interpretation-Attachment-A-Memo-by-Anthony-Bennett.pdf} (Moodle)
+    \item Rocscience case study by a Monash student: 
+    \href{https://www.rocscience.com/learning/finite-element-analysis-in-verifying-stability-of-the-melbourne-metro-tunnel}{Rocscience case study on Melbourne Metro tunnel stability}
+\end{itemize}
+\vspace{0.5em}
+
+The Rocscience case study walks through a closely-related RS2 workflow for the Melbourne Metro tunnel and is the most directly useful reference for Question~2.
+\end{notebox}
+
+% ======================================================================
+% SECTION 1: GROUND MOVEMENT CAUSED BY TUNNELLING
+% ======================================================================
+\subsection{Ground Movement Caused by Tunnelling}
+
+\subsubsection{Gaussian Settlement Trough (Peck 1969, Mair \& Taylor 1997)}
+The transverse settlement trough above a single tunnel is approximated by a Gaussian distribution:
+\[
+S_y = S_{\text{max}} \, \exp\left(-\frac{y^2}{2i^2}\right)
+\]
+where $S_y$ is the surface settlement at transverse distance $y$ from the tunnel centreline, $S_{\text{max}}$ is the maximum settlement (at $y=0$), and $i$ is the horizontal distance to the inflection point:
+\[
+i = k \, z_0
+\]
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Ground Type} & \textbf{$k$ Range} \\
+\midrule
+Stiff clay & 0.3 -- 0.5 \\
+Soft clay & 0.5 -- 0.7 \\
+Loose/medium sand & 0.4 -- 0.6 \\
+Dense sand / granular & 0.25 -- 0.4 \\
+Rock & $<0.25$ \\
+\bottomrule
+\end{tabular}
+\caption{Trough width parameter $k$ (after Peck 1969).}
+\label{tab:k_values}
+\end{table}
+
+\subsubsection{Volume Loss and Maximum Settlement}
+The volume of the settlement trough per unit length is related to the volume loss $V_L$ (\%):
+\[
+V_s = \frac{V_L}{100} \times \frac{\pi D^2}{4}
+\]
+
+Equating to the Gaussian integral:
+\[
+\boxed{S_{\text{max}} = \frac{V_s}{i \sqrt{2\pi}}}
+\]
+
+\begin{warnbox}[Units convention --- read this carefully]
+In the boxed formula, $V_s$ already has $V_L$ converted from percent to decimal (the $/100$ is in the $V_s$ equation). Use the procedure:
+\begin{enumerate}[nosep]
+    \item Compute $V_s$ in m\textsuperscript{2} using $V_L$ as a decimal (e.g., $V_L = 0.5\%$ $\Rightarrow$ enter $0.005$ in the $V_s$ formula).
+    \item Compute $S_{\text{max}}$ in metres, then convert to mm by multiplying by 1000.
+\end{enumerate}
+\vspace{0.5em}
+
+A common error is mixing percent and decimal in one step --- the result will be off by a factor of 100.
+\end{warnbox}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Tunnelling Method} & \textbf{$V_L$ (\%) Typical} \\
+\midrule
+TBM (closed face) in clay/sand & 0.5 -- 1.5 \\
+TBM (open face) in rock & 0.5 -- 2.0 \\
+NATM / SEM in soft ground & 1.0 -- 3.0 \\
+\bottomrule
+\end{tabular}
+\caption{Typical volume loss values.}
+\label{tab:vl_values}
+\end{table}
+
+\subsubsection{Components of Ground Movement in TBM Tunnelling}
+According to Mair \& Taylor (1997), volume loss arises from: (1) face loss (stress relief), (2) shield passage with over-cutting, (3) tail void before grout takes effect, (4) lining deflection under ground loading, and (5) consolidation from pore pressure changes. These components together make up the total $V_L$ used in Table~\ref{tab:vl_values} and in the Mair calculations below.
+
+% ======================================================================
+% ASSIGNMENT 2 MATERIAL PROPERTIES
+% ======================================================================
+\subsection{Material Properties for Assignment 2 (Week 8)}
+
+\begin{notebox}[Only two geomaterials for RS2 modelling]
+Per the assignment brief, idealise the ground using only TprC (Red Bluff Sands) as a thin overlying soil layer and AF7/Sla (Anderson Creek Formation) as the main rock unit surrounding the tunnel. Do not include any other geomaterials or mixed-ground conditions. Reference: TA J.2 Ground Movement Impact Assessment, p.~303.
+\end{notebox}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{l l c c c c c c c}
+\toprule
+\textbf{Unit} & \textbf{Description} & $\gamma$ & $c'$ & $\phi'$ & $\psi$ & $E_i$ & $\nu$ & $K_0$ \\
+ & & (kN/m\textsuperscript{3}) & (kPa) & (\textdegree) & (\textdegree) & (MPa) & & \\
+\midrule
+TprC & Red Bluff Sands (overlying soil) & 20 & 7 & 30 & 2 & 50 & 0.3 & 0.7 \\
+AF7/Sla & Anderson Creek Formation (rock) & 21 & 20 & 28 & 2 & 150 & 0.3 & 0.75* \\
+\bottomrule
+\end{tabular}
+\caption{Geotechnical parameters for RS2 modelling (from Assignment~2 Table~1). Constitutive model: Mohr--Coulomb. *AF7/Sla is anisotropic: $K_H = 0.9$ (out-of-plane), $K_0 = 0.75$ (in-plane).}
+\label{tab:props}
+\end{table}
+
+\begin{warnbox}[Anisotropic stress field for AF7/Sla]
+The AF7/Sla rock unit has an anisotropic in-situ stress field: $K_H = 0.9$ (out-of-plane horizontal) and $K_0 = 0.75$ (in-plane horizontal). In RS2:
+\begin{itemize}[nosep]
+    \item Use \texttt{Loading $\to$ Field Stress $\to$ Constant} (or \texttt{Gravity} with custom $K$ values).
+    \item Set $\sigma_1$ (vertical) from gravity, $\sigma_3 = K_0 \cdot \sigma_v = 0.75\,\sigma_v$ (in-plane horizontal), and $\sigma_z = K_H \cdot \sigma_v = 0.9\,\sigma_v$ (out-of-plane).
+    \item For TprC, use the simpler isotropic $K_0 = 0.7$ from Table~\ref{tab:props}.
+\end{itemize}
+\vspace{0.5em}
+
+The brief states: ``Use EES values unless otherwise justified.'' If you simplify (e.g., adopt a single $K_0$ value), justify it explicitly in your report.
+\end{warnbox}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{l l l}
+\toprule
+\textbf{Support} & \textbf{Type} & \textbf{Parameters} \\
+\midrule
+Shotcrete lining & Standard beam, Concrete, Plastic & $E = 40$~GPa, $\nu = 0.25$, $\gamma = 25$~kN/m\textsuperscript{3} \\
+ & & $\sigma_{ci,\text{peak}} = 50$~MPa, $\sigma_{t,\text{peak}} = 4$~MPa \\
+ & & $\sigma_{ci,\text{res}} = 10$~MPa, $\sigma_{t,\text{res}} = 0$~MPa \\
+\bottomrule
+\end{tabular}
+\caption{Shotcrete lining properties for RS2 (representing segmental lining). From Assignment~2 Table~4.}
+\label{tab:lining}
+\end{table}
+
+\subsection{Tunnel Geometry and Geological Idealisation}
+\begin{itemize}
+    \item Tunnel diameter $D = 7.2$~m (radius $a = 3.6$~m).
+    \item \textbf{Shallow case:} tunnel axis depth $z_0 = 5$~m.
+    \item \textbf{Deep case:} tunnel axis depth $z_0 = 25$~m.
+    \item Single circular tunnel (not twin tunnels for this assignment).
+\end{itemize}
+
+\begin{notebox}[Where is the TprC/AF7 interface?]
+The brief states the tunnel is ``located mainly within the Sla rock unit \dots with only a small part of the ground profile consisting of TprC.'' This means TprC is a thin overburden layer at the surface, and the tunnel --- in both shallow and deep cases --- should sit \textbf{entirely or predominantly within AF7/Sla}.
+\vspace{0.5em}
+
+A reasonable adopted interface depth is approximately 2--3~m below the ground surface. With this:
+\begin{itemize}[nosep]
+    \item Shallow case ($z_0 = 5$~m): tunnel crown at depth $5 - 3.6 = 1.4$~m sits inside the TprC, but the bulk of the tunnel is in AF7/Sla. Discuss this geometric reality in your report.
+    \item Deep case ($z_0 = 25$~m): tunnel is entirely within AF7/Sla.
+\end{itemize}
+\vspace{0.5em}
+
+State and justify your assumed interface depth in the report.
+\end{notebox}
+
+\subsection{Initial Stress Worked Example}
+At tunnel axis depth $z_0 = 25$~m, assuming TprC interface at 2.5~m:
+\[
+\sigma_v = (20)(2.5) + (21)(25 - 2.5) = 50 + 472.5 = 522.5\ \text{kPa}
+\]
+With AF7 anisotropic stresses:
+\[
+\sigma_h^{\text{in-plane}} = K_0 \, \sigma_v = 0.75 \times 522.5 = 391.9\ \text{kPa}
+\]
+\[
+\sigma_h^{\text{out-of-plane}} = K_H \, \sigma_v = 0.9 \times 522.5 = 470.3\ \text{kPa}
+\]
+RS2 will compute these automatically once the field stress is configured correctly.
+
+% ======================================================================
+% SECTION 2: MAIR METHOD WORKED EXAMPLES
+% ======================================================================
+\subsection{Mair Method Worked Examples}
+
+\begin{notebox}[Sensitivity of $k$]
+The trough-width parameter $k$ is the dominant control on trough shape. Smaller $k$ (rock) gives a narrower, deeper trough; larger $k$ (soil) gives a wider, shallower trough for the same $V_L$. When applying both $k$ values to the same physical tunnel, this is a \emph{sensitivity check on the ground assumption} --- the geometry, $D$, and $V_L$ do not change.
+\end{notebox}
+
+\subsubsection{Teaching Example}
+To illustrate the method (this is \emph{not} the assignment case), consider a tunnel with $D = 6$~m at depths $z_0 = 5$~m (shallow) and $z_0 = 20$~m (deep), in both stiff clay ($k = 0.5$) and rock ($k = 0.25$), with $V_L = 1\%$.
+
+\textbf{Worked example --- Shallow stiff clay, $z_0 = 5$~m, $k=0.5$, $V_L = 1\%$:}
+\[
+i = k \, z_0 = 0.5 \times 5 = 2.5\ \text{m}
+\]
+\[
+V_s = 0.01 \times \frac{\pi \times 6^2}{4} = 0.01 \times 28.27 = 0.2827\ \text{m}^2
+\]
+\[
+S_{\text{max}} = \frac{0.2827}{2.5 \times \sqrt{2\pi}} = \frac{0.2827}{6.267} = 0.0451\ \text{m} = 45.1\ \text{mm}
+\]
+
+\textbf{Worked example --- Deep rock, $z_0 = 20$~m, $k=0.25$, $V_L = 1\%$:}
+\[
+i = 0.25 \times 20 = 5.0\ \text{m}
+\]
+\[
+S_{\text{max}} = \frac{0.2827}{5.0 \times 2.507} = \frac{0.2827}{12.53} = 0.0226\ \text{m} = 22.6\ \text{mm}
+\]
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{l l c c c}
+\toprule
+\textbf{Case} & \textbf{Ground} & $i$ (m) & $S_{\text{max}}$ (mm) & \textbf{Trend} \\
+\midrule
+Shallow ($z_0=5$~m) & Stiff clay ($k=0.5$) & 2.5 & 45.1 & Wider, shallower \\
+Shallow ($z_0=5$~m) & Rock ($k=0.25$) & 1.25 & 90.2 & Narrower, deeper \\
+Deep ($z_0=20$~m) & Stiff clay ($k=0.5$) & 10.0 & 11.3 & Wide, very shallow \\
+Deep ($z_0=20$~m) & Rock ($k=0.25$) & 5.0 & 22.6 & Narrower, shallower \\
+\bottomrule
+\end{tabular}
+\caption{Teaching example: $D = 6$~m, $V_L = 1\%$. Note how depth halves $S_{\text{max}}$ (because $i$ doubles) and how the rock assumption doubles $S_{\text{max}}$ relative to clay (because $i$ halves).}
+\label{tab:teaching_example}
+\end{table}
+
+\begin{warnbox}[Mair method limitation for very shallow tunnels]
+When $z_0 < D$, cover above the crown is less than one radius. The deformation mechanism then approaches that of a shallow trapdoor rather than a deep cavity, and the smooth Gaussian bell shape may no longer hold. Treat shallow-case Mair results as illustrative and discuss this limitation when reporting.
+\end{warnbox}
+
+% ======================================================================
+% SECTION 3: NUMERICAL MODELLING – FEM
+% ======================================================================
+\subsection{Numerical Modelling -- Finite Element Method (FEM)}
+
+\subsubsection{Basic Principles}
+FEM discretises the continuum into elements connected at nodes. For 2D tunnel analysis in RS2, typical elements are 6-noded triangles (plane strain). The governing equations are solved by assembling element stiffness matrices into a global system.
+
+\subsubsection{RS2 Modelling Workflow}
+\begin{enumerate}
+    \item \textbf{Geometry:} Create model domain with ground surface, TprC/AF7 layer boundary, and tunnel circle. Lateral boundaries at least $3D$--$5D$ from the tunnel. Bottom boundary well below tunnel invert.
+    \item \textbf{Material properties:} Assign Mohr--Coulomb to TprC and AF7/Sla (Table~\ref{tab:props}). Assign shotcrete lining (Table~\ref{tab:lining}).
+    \item \textbf{Meshing:} Refine mesh around tunnel (element size $\approx 0.5$~m near tunnel, coarser away).
+    \item \textbf{Boundary conditions:} Rollers on vertical sides (restrain X), pinned at base (restrain XY), free at ground surface.
+    \item \textbf{Initial stresses:} Gravity field stress with $K_0$ values from Table~\ref{tab:props}. Use anisotropic $K_H/K_0$ for AF7/Sla.
+    \item \textbf{Staged excavation:} Stage~1 = initial stress; Stage~2 = excavate tunnel + install lining.
+    \item \textbf{Results:} Extract surface settlement trough, total displacement contours, lining forces, and yielded elements.
+\end{enumerate}
+
+\subsubsection{Boundary Conditions}
+\begin{itemize}
+    \item \textbf{Restrain X:} Vertical sides --- free to move vertically, fixed horizontally.
+    \item \textbf{Restrain XY:} Base --- fixed in both directions.
+    \item \textbf{Free:} Ground surface --- no restraint.
+\end{itemize}
+
+\subsubsection{Failure Criteria}
+\begin{itemize}
+    \item \textbf{Mohr--Coulomb:} Used for this assignment. Requires $c'$ and $\phi'$.
+    \item \textbf{Hoek--Brown:} Better for rock masses at depth (e.g., Snowy 2.0). Not required here.
+\end{itemize}
+
+\begin{notebox}[MC vs HB for shallow tunnels]
+For the SRL East Monash section (depth 5--25~m, low confinement), the Hoek--Brown curve is nearly linear. Equivalent Mohr--Coulomb parameters are acceptable. For deep caverns (e.g., Snowy 2.0 at 850~m), the HB criterion is preferred because it captures confinement-dependent strengthening.
+\end{notebox}
+
+% ======================================================================
+% SECTION 4: RS2 PRACTICAL TIPS
+% ======================================================================
+\subsection{RS2 Practical Tips for Assignment 2}
+
+\subsubsection{Recommended Model Dimensions}
+\begin{itemize}
+    \item \textbf{Lateral extent:} At least $5D = 36$~m each side of the tunnel centreline (i.e., total model width $\geq 72$~m). For the shallow case, use a wider model ($\geq 80$~m) because the settlement trough is wide relative to the tunnel depth.
+    \item \textbf{Bottom boundary:} At least $5D = 36$~m below the tunnel invert. For the shallow case ($z_0=5$~m), a bottom at $-40$~m is sufficient. For the deep case ($z_0=25$~m), extend to at least $-65$~m.
+    \item \textbf{Ground surface:} Free boundary (no restraints).
+\end{itemize}
+
+\subsubsection{Mesh Refinement}
+
+\begin{warnbox}[Mesh quality matters]
+A coarse mesh gives inaccurate settlements and lining forces. A mesh that is too fine slows computation without improving accuracy. Use graded meshing:
+\begin{itemize}[nosep]
+\item \textbf{Near tunnel} (within $2D$): element size $\approx 0.3$--$0.5$~m
+\item \textbf{Intermediate zone} ($2D$--$5D$): element size $\approx 1$--$2$~m
+\item \textbf{Far field} ($>5D$): element size $\approx 3$--$5$~m
+\end{itemize}
+\vspace{0.5em}
+
+In RS2, use \texttt{Mesh $\to$ Discretize and Mesh} with a custom element density around the tunnel. Run your deep case with two mesh densities and check that the settlement changes by $< 5\%$ --- this confirms mesh convergence.
+\end{warnbox}
+
+\subsubsection{The Shallow Case ($z_0 = 5$~m) --- Common Pitfalls}
+
+\begin{warnbox}[Shallow tunnel warning --- modelling and engineering responses]
+A very shallow tunnel ($z_0 < D$, e.g., $z_0 = 5$~m with $D = 7.2$~m gives only 1.4~m of cover above the crown) creates several modelling challenges:
+\begin{itemize}[nosep]
+    \item The plastic zone may reach the ground surface, causing very large settlements or non-convergence.
+    \item The mesh must be very fine between the tunnel crown and the surface (only 1.4~m of material).
+    \item The solution is sensitive to the constitutive model and $K_0$ assumption.
+\end{itemize}
+\vspace{0.5em}
+
+\textbf{Numerical fixes (try these first if time is short):}
+\begin{itemize}[nosep]
+    \item Use a load-split factor (gradual stress relaxation) instead of single-stage excavation.
+    \item Loosen the convergence tolerance slightly, or increase the maximum number of iterations.
+    \item Refine the mesh near the crown only (avoid uniform global refinement).
+\end{itemize}
+\vspace{0.5em}
+
+\textbf{Engineering responses (preferred for this assignment if convergence keeps failing):}
+Rather than spending the assignment time troubleshooting the mesh, you can demonstrate engineering judgement by adopting one or more practical ground-improvement or support measures and re-running the model. Document these as deliberate design choices in your report.
+\begin{itemize}[nosep]
+    \item \textbf{Ground treatment} above and around the tunnel crown to improve mechanical properties of the geomaterials. In RS2, model this as a treated zone with enhanced $c'$, $\phi'$, and $E$ (typical uplift: $c'$ +50--100\%, $E$ +50--200\%). Common methods in practice include jet grouting, permeation grouting, and compaction grouting.
+    \item \textbf{Additional support beyond the lining}, such as systematic \textbf{rock bolts} or fully-grouted dowels radiating from the tunnel into the surrounding ground. In RS2, use \texttt{Support $\to$ Bolt} to add radial bolts (e.g., 3--4~m long, spaced at 1.0--1.5~m circumferentially).
+    \item \textbf{Forepoling or pipe umbrella} above the crown to pre-support the ground ahead of excavation. In a 2D model this is approximated as a stiffened crown zone or an additional liner segment.
+    \item \textbf{Increased lining stiffness or thickness} as a last resort.
+\end{itemize}
+\vspace{0.5em}
+
+A model that fails to converge is itself a meaningful result: it indicates the ground cannot support the excavation \emph{without enhanced measures}. Reporting that finding, then re-running with ground treatment or rock bolts and showing the improved response, is a stronger answer than wrestling with mesh convergence alone.
+\end{warnbox}
+
+\subsubsection{Lining Modelling}
+The assignment specifies a shotcrete liner representing a segmental lining (Table~\ref{tab:lining}). In RS2:
+\begin{itemize}
+    \item Use \texttt{Support $\to$ Liner} and select \texttt{Standard Beam}.
+    \item Set material type to \texttt{Concrete} and strength type to \texttt{Plastic}.
+    \item Enter the properties from Table~\ref{tab:lining} exactly.
+    \item Activate the liner in the same stage as excavation (Stage~2).
+\end{itemize}
+
+\begin{notebox}[Why ``shotcrete'' for a TBM tunnel?]
+In practice, TBM tunnels use precast concrete segments. However, RS2's beam element with concrete properties provides an equivalent structural response for 2D analysis. The key parameters (stiffness, strength) are what matter, not the label. State this modelling simplification in your report.
+\end{notebox}
+
+\subsubsection{Extracting Results from RS2}
+\textbf{Surface settlement trough (for comparison with Mair):}
+\begin{enumerate}
+    \item After computing, switch to \texttt{Interpret} mode.
+    \item Use \texttt{Query $\to$ Add Material Query} along the ground surface (from one lateral boundary to the other).
+    \item Choose \texttt{Total Displacement -- Y Component} (vertical settlement).
+    \item Export the data (\texttt{right-click $\to$ Export Data}) to Excel.
+    \item Plot the RS2 trough and overlay the Mair Gaussian curve on the same axes.
+\end{enumerate}
+
+\textbf{Plastic / yielded zone:} \texttt{Show $\to$ Yielded Elements} (or \texttt{Display Options $\to$ Yielded Elements}). Useful for the shallow case to show whether the plastic zone reaches the surface.
+
+\textbf{Maximum displacements:} Use \texttt{Show Values} on Total Displacement, Horizontal Displacement (X), and Vertical Displacement (Y) to populate the brief's results table.
+
+\subsubsection{Groundwater}
+The brief says ``state and justify.'' Options include:
+\begin{itemize}
+    \item \textbf{Dry analysis} (no pore pressures): simplest; appropriate if the EES indicates drained conditions or low water table.
+    \item \textbf{Piezometric line:} if the water table is known, set a piezometric surface and use effective stress parameters (which Table~\ref{tab:props} already provides as $c'$ and $\phi'$).
+\end{itemize}
+Whichever you choose, justify it with reference to the EES groundwater conditions discussed in Week~5.
+
+% ======================================================================
+% SECTION 5: RS2 MODELLING CASES
+% ======================================================================
+\subsection{RS2 Modelling Cases (Assignment 2)}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{l l}
+\toprule
+\textbf{Parameter} & \textbf{Value / Description} \\
+\midrule
+Shallow tunnel & $z_0 = 5$~m, $D = 7.2$~m, TprC over AF7/Sla \\
+Deep tunnel & $z_0 = 25$~m, $D = 7.2$~m, TprC over AF7/Sla \\
+Upper unit & TprC (Red Bluff Sands), Table~\ref{tab:props} \\
+Main unit & AF7/Sla (Anderson Creek Formation), Table~\ref{tab:props} \\
+Constitutive model & Mohr--Coulomb \\
+Groundwater & State and justify \\
+Lining/support & Table~\ref{tab:lining} (shotcrete representing segmental lining) \\
+$K_0$ assumption & TprC: $K_0 = 0.7$. AF7: $K_H = 0.9$, $K_0 = 0.75$ (anisotropic). \\
+\bottomrule
+\end{tabular}
+\caption{RS2 modelling cases (matches brief Table~3).}
+\label{tab:rs2_cases}
+\end{table}
+
+\textbf{Required outputs for each case (from brief Table~5a):}
+\begin{itemize}
+    \item Maximum surface settlement (mm)
+    \item Settlement at tunnel centreline (mm)
+    \item Maximum horizontal displacement (mm)
+    \item Maximum total displacement (mm)
+    \item Surface settlement trough plot (overlay with Mair method)
+    \item Total displacement contour plot
+    \item Yielded element plot (especially for shallow case)
+\end{itemize}
+
+% ======================================================================
+% SECTION 6: COMPARISON OF METHODS
+% ======================================================================
+\subsection{Comparison: Mair Method vs RS2}
+The assignment requires a comparison for both cases (brief Table~5b --- note the brief labels both result tables ``Table~5'', so refer to them as 5a and 5b in your report to avoid confusion).
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l c c X}
+\toprule
+\textbf{Item} & \textbf{Mair} & \textbf{RS2} & \textbf{Comment} \\
+\midrule
+Maximum settlement   & From formula        & From model            & Direct comparison \\
+Trough width & $i = k z_0$         & Measured from output  & Shape comparison \\
+Settlement shape     & Gaussian assumed    & Computed              & Overlay plots \\
+Max horizontal disp. & N/A                 & From model            & RS2 only \\
+Max total disp.      & N/A                 & From model            & RS2 only \\
+Main assumptions     & $V_L$, $k$ assumed  & Full stress--strain   & Discuss \\
+Main limitation      & Empirical, no stress & Mesh sensitivity & Discuss \\
+\bottomrule
+\end{tabularx}
+\caption{Comparison framework for Mair method vs RS2. Horizontal and total displacements are RS2-only --- the Mair method does not predict these.}
+\label{tab:comparison}
+\end{table}
+
+\begin{warnbox}[Why results will differ]
+The Mair method assumes a prescribed volume loss and Gaussian shape derived from soft-soil case histories. RS2 computes the actual stress-strain response based on the constitutive model. For the rock-influenced Monash section, the Gaussian shape may not apply because: (1) the ground is mostly rock (AF7/Sla), not homogeneous soft soil; (2) the rock--soil interface affects the trough shape; (3) the in-situ stress field is anisotropic; and (4) the shallow case has $z_0/D < 1$. Discuss these differences in your report.
+\end{warnbox}
+
+% ======================================================================
+% SECTION 7: GENERAL FEM CONCEPTS
+% ======================================================================
+\subsection{General FEM Concepts}
+
+\subsubsection{Tunnel Lining Design Criteria}
+Lining design must satisfy Ultimate Limit State (ULS) and Serviceability Limit State (SLS):
+\begin{itemize}
+    \item Crack width limits: typically $< 0.2$~mm for durability.
+    \item Convergence limits: radial convergence $\leq 0.1$--$0.3\%$ of tunnel diameter.
+    \item Ovalization: $\leq 1$--$2\%$ of tunnel diameter.
+\end{itemize}
+
+\subsubsection{Digital Transformation}
+Modern geotechnical practice integrates: 3D geological models from borehole data and geophysics, Building Information Modelling (BIM) for clash detection, and digital twins for real-time updating based on monitoring data.
+
+\subsubsection{Twin Tunnel Interaction (Background Context Only)}
+Although the SRL East project comprises twin tunnels in practice, \textbf{Assignment~2 considers a single tunnel only}. Twin-tunnel interaction effects (e.g.\ pillar response and sequential excavation effects) are mentioned here for background only and will not be assessed in the final exam. However, you are encouraged to build a twin-tunnel model to further develop your understanding.
+
+% ======================================================================
+% SECTION 8: ASSIGNMENT 2 TASKS
+% ======================================================================
+\subsection{Assignment 2 Tasks (Week 8 Component)}
+
+\begin{enumerate}
+    \item \textbf{Settlement prediction using the Mair method:}
+    \begin{itemize}
+        \item Show the full calculation procedure for one representative case.
+        \item Calculate $i = k z_0$ and $S_{\text{max}}$ for all cases in Table~\ref{tab:k_values}.
+        \item Plot the complete surface settlement trough for each case.
+        \item Discuss how settlement changes between shallow and deep cases, how $V_L$ affects magnitude, and how $k$ influences trough width.
+    \end{itemize}
+
+    \item \textbf{RS2 numerical modelling:}
+    \begin{itemize}
+        \item Build 2D RS2 models for the shallow ($z_0=5$~m) and deep ($z_0=25$~m) cases using TprC and AF7/Sla only.
+        \item Include: ground surface, two-layer profile, tunnel geometry, boundary conditions, mesh refinement, excavation stage, and lining.
+        \item Use $K_0$ values from Table~\ref{tab:props} (anisotropic for AF7/Sla).
+        \item Report maximum surface settlement, centreline settlement, horizontal displacement, total displacement, plus contour and yielded-element plots.
+    \end{itemize}
+
+    \item \textbf{Comparison of the two methods:}
+    \begin{itemize}
+        \item Overlay Mair and RS2 settlement troughs for both cases.
+        \item Explain why the Mair method is only an approximate comparison for the rock-influenced Monash section.
+        \item Identify which method is more useful for preliminary estimation vs deformation assessment.
+    \end{itemize}
+\end{enumerate}
+
+\begin{notebox}[Submission deliverables]
+Per the brief, submit:
+\begin{itemize}[nosep]
+    \item Excel spreadsheet of the Mair calculations (keep all formulas visible).
+    \item RS2 \texttt{.fez} files for both shallow and deep cases.
+    \item Technical report informed by the Bennett geological memo and the Rocscience Melbourne Metro case study (both on Moodle).
+\end{itemize}
+\end{notebox}
+
+% ======================================================================
+% SECTION 9: SUMMARY
+% ======================================================================
+\subsection{Week 8 Summary}
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Topic} & \textbf{Key Outputs} & \textbf{Connection to Assignment} \\
+\midrule
+Gaussian trough & $S_{\text{max}}$ from $V_L$, $k$, $z_0$ & Mair method calculations \\
+Volume loss & Quantifies ground loss & Input for settlement prediction \\
+RS2 workflow & Geometry, materials, mesh, staging & Numerical model for both cases \\
+Initial stresses & Anisotropic $K_H/K_0$ for AF7 & Realistic in-situ stress field \\
+Mair vs RS2 & Compare settlement troughs & Critical discussion of assumptions \\
+Lining design & Forces, deformation limits & Interpret RS2 lining outputs \\
+\bottomrule
+\end{tabularx}
+\caption{Week 8 summary.}
+\label{tab:summary}
+\end{table}
+
+\vspace{1cm}
+\noindent\textit{End of Week 8 Study Notes}
+
+\end{document}

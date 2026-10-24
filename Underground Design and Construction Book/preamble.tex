@@ -1,0 +1,164 @@
+%==============================================================================
+%  Underground Design and Construction -- shared preamble.
+%
+%  Follows the Springer SNmono setup used for
+%  Dynamic_Testing_and_Engineering_Applications_of_Brittle_Geomaterials.
+%  There are no statement boxes and no colour anywhere in the book: material
+%  that would once have been framed now runs in the main text, with a bold
+%  run-in lead-in where the point needed a label.
+%==============================================================================
+
+% --- Springer Nature template packages ---------------------------------------
+\usepackage{type1cm}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[bottom]{footmisc}
+\usepackage{newtxtext}
+\usepackage[varvw]{newtxmath}
+\usepackage{bm}
+
+% --- Content packages --------------------------------------------------------
+\usepackage{amsmath}
+% newtxmath already defines \Bbbk; release it before amssymb reloads it.
+\let\Bbbk\relax
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}[=v4.13]
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{ragged2e}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{siunitx}
+\sisetup{mode=math}
+\usepackage{microtype}
+\usepackage{csquotes}
+\usepackage{xurl}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+
+\graphicspath{{figures/}}
+
+% --- Data figures: which vector format is included ---------------------------
+% tools/export_twin_figures.py writes every data figure three times from the
+% same drawing: PDF, SVG, and a PNG that exists only to be glanced at. The two
+% vector files are siblings, not conversions -- neither is made from the other,
+% and neither is made from a raster -- so the geometry is identical in both and
+% the type is real type in both.
+%
+% PDF is the default route because pdflatex embeds it natively and as vector.
+% The SVG route needs the svg package to call Inkscape at compile time, which
+% means Inkscape on PATH and the whole document compiled with -shell-escape;
+% Inkscape then writes a PDF and includes that. So the switch chooses which
+% program converts the drawing, not whether the figure is vector: it is vector
+% either way. Turn it on when the SVG is the file being edited by hand and the
+% edits must reach the page without a re-export.
+%
+%   latexmk -pdf -shell-escape -outdir=build main.tex
+%
+% \datafigure[<width>]{<chapter>/<name>} -- no extension, both routes add it.
+\newif\ifsvgfigures
+\svgfiguresfalse
+
+\ifsvgfigures
+  \usepackage{svg}
+  \svgpath{{figures/}}
+  \newcommand{\datafigure}[2][\textwidth]{\includesvg[width=#1]{#2}}
+\else
+  \newcommand{\datafigure}[2][\textwidth]{\includegraphics[width=#1]{#2}}
+\fi
+
+% --- Table conventions -------------------------------------------------------
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\renewcommand{\arraystretch}{1.15}
+
+% --- Figure palette ----------------------------------------------------------
+% Shared with the Hydropower slide set and the Tri-HB Springer book. Colour is
+% used for figures only; the running text and the statement environments remain
+% unshaded, as elsewhere in this book.
+\usepackage{xcolor}
+\input{palette}
+
+% --- TikZ workflow diagram styles --------------------------------------------
+% Size and role are orthogonal: a node takes one size style and one role style,
+% for example [smallworkflowbox, wfstep]. The roles carry meaning, so the same
+% colour means the same thing in every diagram:
+%
+%   wfinput   neutral   what the sequence starts from
+%   wfstep    CMAIN     a computation
+%   wfcheck   CLOSS     a comparison against a threshold or an independent value
+%   wfadopt   CGOOD     the value that leaves the diagram and enters the design
+%   feedbackarrow CFAIL the path back when the check is not satisfied
+%
+% Every diagram is also legible without colour: the steps are numbered, the
+% forward path is solid and the return path dashed. See palette.tex, rule 1.
+\tikzset{
+  workflowbox/.style={
+    rectangle, rounded corners, draw=CINK, fill=CBOX,
+    thick, align=center, text width=2.8cm, minimum height=1.65cm, inner sep=4pt},
+  smallworkflowbox/.style={
+    rectangle, rounded corners, draw=CINK, fill=CBOX,
+    thick, align=center, text width=2.65cm, minimum height=1.45cm, inner sep=3pt},
+  tinyworkflowbox/.style={
+    rectangle, rounded corners, draw=CINK, fill=CBOX,
+    thick, align=center, text width=2.45cm, minimum height=1.45cm, inner sep=3pt},
+  wfinput/.style={draw=CINK,  fill=CBOX,   text=black},
+  wfstep/.style={ draw=CMAIN, fill=CWATER, text=black},
+  wfcheck/.style={draw=CLOSS, fill=CBAND,  text=black},
+  wfadopt/.style={draw=CGOOD, fill=CPASS,  text=black},
+  workflowarrow/.style={-{Latex[length=2mm]}, thick, draw=CINK},
+  feedbackarrow/.style={-{Latex[length=2mm]}, thick, dashed, draw=CFAIL}
+}
+
+% --- Draft aids --------------------------------------------------------------
+% Set \draftmodefalse before submission to hide all editorial markers.
+\newif\ifdraftmode
+\draftmodetrue
+
+\newcommand{\todo}[1]{\ifdraftmode\textbf{[TODO: #1]}\fi}
+\newcommand{\source}[1]{\ifdraftmode\marginpar{\scriptsize #1}\fi}
+
+% Outline-stage scope note: states what a section will cover and which method
+% or source governs it. Renders as plain italic; no colour.
+\newcommand{\scopenote}[1]{\ifdraftmode
+  \par\smallskip\noindent{\small\itshape #1}\par\smallskip\fi}
+
+% --- Statement boxes ---------------------------------------------------------
+% None. The material that was formerly boxed now runs in the main text, with a
+% bold run-in lead-in where the point needed a label. Springer's own box
+% environments remain available through springer_book.sty if ever required.
+
+% --- Notation ----------------------------------------------------------------
+\newcommand{\sci}{\sigma_{ci}}                % UCS of intact rock
+\newcommand{\scm}{\sigma_{cm}}                % rock mass strength
+\newcommand{\sone}{\sigma_1}
+\newcommand{\stwo}{\sigma_2}
+\newcommand{\sthree}{\sigma_3}
+\newcommand{\sv}{\sigma_v}                    % vertical in-situ stress
+\newcommand{\sh}{\sigma_h}                    % horizontal in-situ stress
+\newcommand{\pzero}{p_0}                      % far-field pressure
+\newcommand{\pin}{p_i}                        % internal support pressure
+\newcommand{\mb}{m_b}
+\newcommand{\mi}{m_i}
+\newcommand{\GSI}{\mathrm{GSI}}
+\newcommand{\RMR}{\mathrm{RMR}}
+\newcommand{\RQD}{\mathrm{RQD}}
+\newcommand{\Erm}{E_{rm}}                     % rock mass modulus
+\newcommand{\Ei}{E_i}                         % intact rock modulus
+\newcommand{\Dfac}{D}                         % disturbance factor
+
+\newcommand{\etal}{et al.}
+\newcommand{\code}[1]{\texttt{#1}}
+
+% --- Companion open-access application ---------------------------------------
+% The book is tool-neutral: no chapter depends on a proprietary program. Where a
+% calculation is more convenient run than done by hand, the text points to the
+% open-access companion instead. Both the name and the address are set here, so
+% that moving or renaming the repository is a one-line change.
+\newcommand{\companionname}{the companion open-access application}
+\newcommand{\companionurl}{https://github.com/qbzhang666/RSE3010}
+\newcommand{\companionlink}{\expandafter\url\expandafter{\companionurl}}
+\newcommand{\companion}{\companionname\ (Appendix~\ref{app:software})}

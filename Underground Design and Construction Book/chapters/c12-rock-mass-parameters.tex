@@ -1,0 +1,787 @@
+% !TeX root = ../main.tex
+% Rebuilt from: ch04-rock-mass-design-parameters.tex
+\chapter{Rock Mass Strength and Design Parameters}
+\label{ch:rock-mass-parameters}
+
+The parameters used in analysis describe a rock mass, whereas the measurements
+available describe intact specimens and discontinuity surfaces. Bridging that
+gap is the subject of this chapter. The generalised Hoek--Brown
+criterion~\citep{hoek2019hb} provides the standard route, taking the intact
+strength, a material constant, the Geological Strength Index and a disturbance
+factor, and returning strength and deformability at rock mass scale. The
+derivation is short and its sensitivity is not: small changes in the index
+terms produce large changes in the derived strength, so the chapter gives as
+much attention to the propagation of uncertainty as to the algebra itself.
+
+\section{Deriving rock mass parameters}
+\label{sec:deriving-rock-mass-parameters}
+
+\subsection{The generalised Hoek--Brown criterion}
+\label{sec:the-generalised-hoek-brown-criterion}
+
+\paragraph{Generalised Hoek--Brown Criterion}
+
+\paragraph{Rock Mass Failure Criterion}
+
+The generalised Hoek--Brown criterion for jointed rock masses is:
+\[
+\sigma_1^f =
+\sigma_3 +
+\sigma_{ci}
+\left(
+m_b\frac{\sigma_3}{\sigma_{ci}} + s
+\right)^a
+\]
+
+where:
+\begin{itemize}
+ \item \(\sigma_1^f\) = major principal stress at failure;
+ \item \(\sigma_3\) = confining stress used in the failure criterion;
+ \item \(\sigma_{ci}\) = uniaxial compressive strength of intact rock;
+ \item \(m_b\), \(s\), \(a\) = rock mass Hoek--Brown parameters;
+ \item \(m_i\) = intact rock material constant;
+ \item \(GSI\) = Geological Strength Index;
+ \item \(D\) = disturbance factor.
+\end{itemize}
+
+
+\noindent\textbf{From intact rock to rock mass.}\enspace The intact Hoek--Brown criterion uses \(m_i\), \(s=1\), and \(a=0.5\). 
+The generalised Hoek--Brown criterion modifies these values using \(GSI\) and \(D\)
+to represent a jointed and disturbed rock mass.
+
+
+\paragraph{Hoek--Brown Rock Mass Parameters}
+
+The rock mass constants are calculated as:
+\[
+m_b =
+m_i
+\exp
+\left(
+\frac{GSI-100}{28-14D}
+\right)
+\]
+
+\[
+s =
+\exp
+\left(
+\frac{GSI-100}{9-3D}
+\right)
+\]
+
+\[
+a =
+\frac{1}{2}
++
+\frac{1}{6}
+\left(
+e^{-GSI/15}
+-
+e^{-20/3}
+\right)
+\]
+
+
+\noindent\textbf{Key check.}\enspace For intact rock:
+\[
+GSI=100,\qquad D=0
+\]
+then:
+\[
+m_b=m_i,\qquad s=1,\qquad a=0.5
+\]
+and the criterion reduces to the original intact Hoek--Brown criterion.
+
+
+\paragraph{Disturbance Factor \(D\)}
+
+The disturbance factor accounts for blast damage, stress relaxation, and excavation-induced
+disturbance around an opening. It reduces the rock mass strength and deformation modulus.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l Y c}
+\toprule
+\textbf{Excavation method} & \textbf{Description} & \textbf{Suggested \(D\)} \\
+\midrule
+TBM excavation & Mechanical excavation, minimal disturbance to surrounding rock & 0 \\
+Good quality drill-and-blast & Controlled blasting, smooth wall, presplit & 0.5 \\
+Poor quality drill-and-blast & Uncontrolled production blasting, significant damage & 0.8 \\
+Very poor blasting & Heavy damage, stress relaxation & 1.0 \\
+\bottomrule
+\end{tabularx}
+\caption{Typical disturbance factor \(D\) for different excavation methods.}
+\label{tab:Dfactor}
+\end{table}
+
+
+\noindent\textbf{Engineering effect of D.}\enspace Increasing \(D\) decreases \(m_b\), decreases \(s\), reduces rock mass strength, and reduces
+rock mass modulus. Poor blasting can therefore significantly increase support demand even
+when the original geological conditions are the same.
+
+
+\subsection{Calculation workflow and notation}
+\label{sec:calculation-workflow-and-notation}
+
+\paragraph{Calculation workflow}
+
+Figure~\ref{fig:hb-parameter-workflow} sets out the order in which the
+parameters are derived.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[node distance=0.35cm, font=\small]
+
+\node[smallworkflowbox, wfinput] (input)
+{\textbf{1. Inputs}\\
+\footnotesize \(\sigma_{ci},E_i,m_i,GSI,D\)};
+
+\node[smallworkflowbox, wfstep, right=of input] (hb)
+{\textbf{2. HB parameters}\\
+\footnotesize \(m_b,s,a\)};
+
+\node[smallworkflowbox, wfstep, right=of hb] (strength)
+{\textbf{3. Strength}\\
+\footnotesize \(\sigma_{cm},\sigma_{1m}^f,\sigma_{tm}\)};
+
+\node[smallworkflowbox, wfstep, right=of strength] (modulus)
+{\textbf{4. Modulus}\\
+\footnotesize \(E_m\)};
+
+\node[smallworkflowbox, wfadopt, right=of modulus] (mc)
+{\textbf{5. Equivalent MC}\\
+\footnotesize \(c,\phi\)};
+
+\draw[workflowarrow] (input) -- (hb);
+\draw[workflowarrow] (hb) -- (strength);
+\draw[workflowarrow] (strength) -- (modulus);
+\draw[workflowarrow] (modulus) -- (mc);
+
+\end{tikzpicture}
+}
+\caption{Derivation of rock mass design parameters from intact properties and the Geological Strength Index.}
+\label{fig:hb-parameter-workflow}
+\end{figure}
+
+
+\noindent\textbf{Organising the calculation.}\enspace Whatever the medium, the
+derivation should carry one line for each rock type and a separate block for
+each disturbance case, typically \(D=0\) and \(D=0.8\), so that the effect of
+blast damage is visible rather than buried. Every quantity should be computed
+from the recorded inputs rather than transcribed, so that changing
+\(\GSI\) or \(\sci\) propagates through the whole derivation. This is the
+single most effective guard against the error described in
+Chapter~\ref{ch:ground-modelling}, in which a parameter is revised in one
+place and not in another.
+
+
+\paragraph{Stress notation}
+
+The symbols below follow the convention established in
+Chapter~\ref{ch:rock-mechanics}.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l l Y}
+\toprule
+\textbf{Symbol} & \textbf{Meaning} & \textbf{Use.} \\
+\midrule
+\(\sigma_v\) & Vertical in-situ stress & Calculated from \(\gamma z\). \\
+\(\sigma_{h,K}\) & Horizontal stress from project \(K\) ratio & Calculated from \(K\sigma_v\). \\
+\(\sigma_1^{IS}\) & Maximum in-situ principal stress & Current maximum stress demand. \\
+\(\sigma_3^{IS}\) & Minimum in-situ principal stress & Used as the in-situ confinement for \(\sigma_{1m}^f\). \\
+\(\sigma_3\) in HB & Variable confining stress in the failure criterion & Used to generate the HB envelope. \\
+\(\sigma_1^f\) & Major principal stress at failure & Strength capacity predicted by HB. \\
+\(\sigma_{3,\mathrm{fit,max}}\) & Upper fitting limit for HB--MC conversion & Used only to define the fitting range. \\
+\bottomrule
+\end{tabularx}
+\caption{Stress notation used in the derivation of design parameters.}
+\label{tab:stress_notation}
+\end{table}
+
+
+\noindent\textbf{Most important distinction.}\enspace \[
+\sigma_3^{IS}=\min(\sigma_v,\sigma_{h,K})
+\]
+is the simplified minimum in-situ principal stress.
+
+\[
+\sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,K})
+\]
+is the upper fitting limit used to convert the nonlinear Hoek--Brown envelope to
+equivalent Mohr--Coulomb parameters.
+
+They are not the same quantity.
+
+
+\subsection{Rock mass strength and deformability}
+\label{sec:rock-mass-strength-and-deformability}
+
+\paragraph{Rock Mass Strength Parameters}
+
+Once \(m_b\), \(s\), and \(a\) are known, the following strength parameters can be derived.
+
+\paragraph{Uniaxial Compressive Strength of Rock Mass}
+
+Set \(\sigma_3=0\) in the generalised Hoek--Brown equation:
+\[
+\sigma_{cm}
+=
+\sigma_{ci}s^a
+\]
+
+where \(\sigma_{cm}\) is the uniaxial compressive strength of the rock mass.
+
+
+\noindent\textbf{Interpretation.}\enspace \(\sigma_{cm}\) is usually much smaller than \(\sigma_{ci}\), especially for low GSI or high
+disturbance factor \(D\). This reflects the weakening effect of discontinuities and
+excavation disturbance.
+
+
+\paragraph{Triaxial Strength at In-Situ Confinement}
+
+In practice:
+\[
+\sigma_v = \gamma z
+\]
+\[
+\sigma_{h,K}=K\sigma_v
+\]
+
+The simplified in-situ minor principal stress is:
+\[
+\sigma_3^{IS}=\min(\sigma_v,\sigma_{h,K})
+\]
+
+The triaxial rock mass strength at this in-situ confinement is:
+\[
+\sigma_{1m}^f =
+\sigma_3^{IS}
++
+\sigma_{ci}
+\left(
+m_b\frac{\sigma_3^{IS}}{\sigma_{ci}} + s
+\right)^a
+\]
+
+
+\noindent\textbf{Do not confuse demand and capacity.}\enspace \(\sigma_3^{IS}\) is used as the confining stress level. 
+\(\sigma_{1m}^f\) is the major principal stress required to cause failure at that confinement.
+It is a strength capacity, not the current in-situ maximum stress.
+
+
+\paragraph{Tensile Strength of Rock Mass}
+
+From the Hoek--Brown criterion:
+\[
+\sigma_{tm}
+=
+-\frac{s\sigma_{ci}}{m_b}
+\]
+
+The negative sign indicates tensile stress under the compression-positive convention.
+
+An alternative estimate using the Hoek--Martin tensile cut-off is:
+\[
+\sigma_{tm,HM}
+=
+-\frac{\sigma_{cm}}{8.62+0.7m_i}
+\]
+
+
+\noindent\textbf{Why compare two tensile estimates?.}\enspace The direct Hoek--Brown tensile strength and the Hoek--Martin cut-off may differ.
+For design discussion, compare both values and explain which one appears more conservative
+or more realistic for brittle cracking.
+
+
+\paragraph{Deformation Modulus of Rock Mass}
+
+The rock mass deformation modulus \(E_m\) is a key input for deformation analysis,
+support design, and numerical modelling. Unlike intact Young's modulus \(E_i\), the
+rock mass modulus accounts for discontinuities, weathering, blockiness, joint condition,
+and excavation disturbance.
+
+
+\noindent\textbf{Important distinction.}\enspace \[
+E_i = \text{intact rock Young's modulus from laboratory testing}
+\]
+\[
+E_m = \text{equivalent deformation modulus of the jointed rock mass}
+\]
+Normally:
+\[
+E_m < E_i
+\]
+especially when the rock mass has low GSI, persistent joints, weathering, or excavation
+disturbance.
+
+
+Several empirical equations exist for estimating \(E_m\). They may give different results
+because they were developed from different datasets and classification systems. Therefore,
+they should be treated as estimates rather than exact material constants.
+
+\paragraph{Hoek--Diederichs Generalised Equation}
+
+When laboratory intact modulus \(E_i\) is available, the generalised Hoek--Diederichs
+equation is preferred:
+
+\[
+E_m =
+E_i
+\left(
+0.02+
+\frac{1-D/2}
+{1+e^{(60+15D-GSI)/11}}
+\right)
+\]
+
+where:
+\begin{itemize}
+ \item \(E_m\) = rock mass deformation modulus;
+ \item \(E_i\) = intact rock Young's modulus;
+ \item \(GSI\) = Geological Strength Index;
+ \item \(D\) = disturbance factor.
+\end{itemize}
+
+
+\noindent\textbf{Units.}\enspace The output unit follows the unit used for \(E_i\). If \(E_i\) is entered in GPa, then
+\(E_m\) is obtained in GPa. If \(E_i\) is entered in MPa, then \(E_m\) is obtained in MPa.
+
+
+\noindent\textbf{Preferred for design.}\enspace Where \(E_i\) is available for each rock type, this generalised
+Hoek--Diederichs equation should be used as the \textbf{primary} estimate of \(E_m\).
+
+
+\paragraph{Hoek--Diederichs Simplified Equation}
+
+When reliable intact modulus \(E_i\) is not available, the simplified Hoek--Diederichs
+equation may be used:
+
+\[
+E_m~(\text{MPa}) =
+100000
+\left(
+\frac{1-D/2}
+{1+e^{(75+25D-GSI)/11}}
+\right)
+\]
+
+or, equivalently, in GPa:
+
+\[
+E_m~(\text{GPa}) =
+100
+\left(
+\frac{1-D/2}
+{1+e^{(75+25D-GSI)/11}}
+\right)
+\]
+
+
+\noindent\textbf{Correction from common mistake.}\enspace The simplified Hoek--Diederichs equation uses:
+\[
+75+25D-GSI
+\]
+The generalised Hoek--Diederichs equation uses:
+\[
+60+15D-GSI
+\]
+Do not mix these two expressions.
+
+
+\noindent\textbf{Limitation.}\enspace The simplified equation does not use the measured \(E_i\). It can therefore overestimate
+\(E_m\) for weak rocks with low intact modulus, such as mudstone.
+
+
+\paragraph{Hoek et al. GSI--UCS Equation}
+
+An earlier Hoek et al. equation estimates rock mass modulus using \(GSI\), disturbance
+factor \(D\), and intact compressive strength \(\sigma_{ci}\):
+
+\[
+E_m~(\text{GPa}) =
+\left(1-\frac{D}{2}\right)
+\sqrt{\frac{\sigma_{ci}}{100}}
+\,
+10^{(GSI-10)/40}
+\qquad
+(\sigma_{ci} \leq 100~\text{MPa})
+\]
+
+For stronger intact rocks, it is commonly capped as:
+
+\[
+E_m~(\text{GPa}) =
+\left(1-\frac{D}{2}\right)
+10^{(GSI-10)/40}
+\qquad
+(\sigma_{ci} > 100~\text{MPa})
+\]
+
+
+\noindent\textbf{Use as a comparison only.}\enspace This equation is useful when \(E_i\) is not available but \(\sigma_{ci}\) and GSI are known.
+It should be used as a comparison only, because measured \(E_i\) values
+are provided.
+
+
+\paragraph{RMR-Based Equations}
+
+Some older empirical equations estimate \(E_m\) directly from RMR.
+
+\subsubsection{Bieniawski Equation}
+
+For better-quality rock masses, a simple linear estimate is:
+
+\[
+E_m~(\text{GPa}) = 2RMR - 100
+\qquad
+(RMR > 50)
+\]
+
+\subsubsection{Serafim--Pereira Equation}
+
+Another widely used RMR-based estimate is:
+
+\[
+E_m~(\text{GPa}) =
+10^{(RMR-10)/40}
+\]
+
+
+\noindent\textbf{RMR-based equations.}\enspace RMR-based equations are simple, but they do not explicitly include intact modulus
+\(E_i\), disturbance factor \(D\), or excavation method. They should be used only as
+rough comparison checks.
+
+
+\paragraph{Q-Based Equation}
+
+A Q-system-based estimate can be written using the normalised \(Q_c\) value:
+
+\[
+E_m~(\text{GPa}) =
+10Q_c^{1/3}
+\]
+
+where:
+
+\[
+Q_c =
+Q\frac{\sigma_{ci}}{100}
+\]
+
+
+\noindent\textbf{When this may be useful.}\enspace The Q-based modulus estimate may be useful when Q-system data are more reliable than
+RMR or GSI, especially in tunnel support design. However, it should still be compared
+with GSI-based estimates.
+
+
+\paragraph{Recommended Approach for design}
+
+Use the following hierarchy:
+
+\begin{enumerate}
+ \item \textbf{Primary estimate:} Hoek--Diederichs generalised equation, because \(E_i\),
+ GSI, and \(D\) are available.
+ 
+ \item \textbf{Secondary comparison:} Hoek--Diederichs simplified equation.
+ 
+ \item \textbf{Optional sensitivity checks:} Hoek et al. GSI--UCS equation,
+ RMR-based equations, or Q-based equation.
+\end{enumerate}
+
+
+\noindent\textbf{Recommended reporting wording.}\enspace ``The generalised Hoek--Diederichs equation is adopted as the primary estimate because it
+uses the measured intact modulus \(E_i\), the adopted GSI, and the disturbance factor
+\(D\). Other empirical equations are used only as sensitivity checks because they do not
+fully account for the project-specific intact modulus or excavation disturbance.''
+
+
+\paragraph{Suggested Comparison Table}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l c c c c}
+\toprule
+\textbf{Method} & \textbf{Granite} & \textbf{Sandstone} & \textbf{Mudstone} & \textbf{Limestone} \\
+\midrule
+Hoek--Diederichs generalised & & & & \\
+Hoek--Diederichs simplified & & & & \\
+Hoek et al. GSI--UCS equation & & & & \\
+Bieniawski RMR equation & & & & \\
+Serafim--Pereira RMR equation & & & & \\
+Q-based equation & & & & \\
+\midrule
+\textbf{Adopted \(E_m\)} & & & & \\
+\bottomrule
+\end{tabularx}
+\caption{Suggested comparison of rock mass deformation modulus estimates. Complete separately for \(D=0\) and \(D=0.8\) where applicable.}
+\label{tab:modulus_comparison}
+\end{table}
+\section{Application and verification}
+\label{sec:application-and-verification}
+
+\subsection{Converting Hoek--Brown to equivalent Mohr--Coulomb parameters}
+
+Many design calculations and numerical models require Mohr--Coulomb parameters
+\(c\) and \(\phi\). Because Hoek--Brown is nonlinear, \(c\) and \(\phi\) are obtained by
+fitting an equivalent linear envelope over a selected stress range.
+
+\paragraph{Selecting the Fitting Range}
+
+Use:
+\[
+0 \leq \sigma_3 \leq \sigma_{3,\mathrm{fit,max}}
+\]
+
+In practice:
+\[
+\sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,K})
+\]
+
+
+\noindent\textbf{Stress range matters.}\enspace The equivalent Mohr--Coulomb parameters are not unique. A smaller fitting range usually
+gives a higher \(\phi\) and lower \(c\), while a larger fitting range usually gives a lower
+\(\phi\) and higher \(c\). Always state the fitting range used.
+
+
+\noindent\textbf{Why use sigma3 fit max?.}\enspace \(\sigma_{3,\mathrm{fit,max}}\) is the upper confining stress used to fit the HB envelope.
+It is not the minimum in-situ principal stress. It is a modelling choice for obtaining
+equivalent \(c\) and \(\phi\).
+
+
+\paragraph{Method 1: Mohr Circle Regression}
+
+\begin{enumerate}
+ \item Select a series of \(\sigma_3\) values between 0 and \(\sigma_{3,\mathrm{fit,max}}\).
+ \item Compute corresponding \(\sigma_1^f\) values using:
+ \[
+ \sigma_1^f =
+ \sigma_3+
+ \sigma_{ci}
+ \left(
+ m_b\frac{\sigma_3}{\sigma_{ci}}+s
+ \right)^a
+ \]
+ \item For each pair, compute:
+ \[
+ C=\frac{\sigma_1^f+\sigma_3}{2}
+ \]
+ \[
+ R=\frac{\sigma_1^f-\sigma_3}{2}
+ \]
+ \item Fit:
+ \[
+ R=A+BC
+ \]
+ \item Convert:
+ \[
+ \phi=\arcsin(B)
+ \]
+ \[
+ c=\frac{A}{\cos\phi}
+ \]
+\end{enumerate}
+
+
+\noindent\textbf{Fitting the line.}\enspace $B$ and $A$ are the gradient and
+intercept of an ordinary least-squares fit and $R^2$ its coefficient of
+determination. Any spreadsheet or statistical package computes them, as does
+\companionname\ (Appendix~\ref{app:software}). The fitting range matters more
+than the method: the resulting $c$ and $\phi$ describe the Hoek--Brown
+envelope only over the confining stresses used to fit them.
+
+
+\paragraph{Method 2: Linear Regression in \(\sigma_1^f-\sigma_3\) Space}
+
+Using the same generated data, fit:
+\[
+\sigma_1^f=a_{\mathrm{fit}}+b_{\mathrm{fit}}\sigma_3
+\]
+
+Then:
+\[
+\sin\phi=
+\frac{b_{\mathrm{fit}}-1}
+{b_{\mathrm{fit}}+1}
+\]
+
+\[
+c=
+\frac{a_{\mathrm{fit}}(1-\sin\phi)}
+{2\cos\phi}
+\]
+
+
+\noindent\textbf{Cross-check.}\enspace Methods 1 and 2 should give similar \(c\) and \(\phi\) values if the same stress range
+and data points are used. Large differences usually indicate an arithmetic or range error rather than a genuine feature of the data.
+
+
+\subsection{Worked example: a sandstone rock mass}
+\label{sec:ch04-worked-example}
+
+Consider an illustrative sandstone rock mass:
+\[
+GSI=75,\qquad m_i=17,\qquad \sigma_{ci}=75~\text{MPa},\qquad D=0
+\]
+
+The calculated Hoek--Brown parameters are approximately:
+\[
+m_b=6.96,\qquad s=0.062,\qquad a=0.501
+\]
+
+Generated values are shown in Table~\ref{tab:example}.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{c c c c}
+\toprule
+\(\sigma_3\) (MPa) & \(\sigma_1^f\) (MPa) & \(C\) (MPa) & \(R\) (MPa) \\
+\midrule
+0 & 18.7 & 9.3 & 9.3 \\
+5 & 60.5 & 32.8 & 27.8 \\
+10 & 93.9 & 52.0 & 42.0 \\
+15 & 124.0 & 69.5 & 54.5 \\
+20 & 152.0 & 86.0 & 66.0 \\
+\bottomrule
+\end{tabular}
+\caption{Generated Hoek--Brown data for an illustrative sandstone rock mass.}
+\label{tab:example}
+\end{table}
+
+Using linear regression in \(\sigma_1^f-\sigma_3\) space:
+\[
+b_{\mathrm{fit}}\approx 6.67,
+\qquad
+a_{\mathrm{fit}}\approx 18.7
+\]
+
+\[
+\sin\phi=
+\frac{6.67-1}{6.67+1}
+=
+0.739
+\]
+
+\[
+\phi\approx47.7^\circ
+\]
+
+\[
+c=
+\frac{18.7(1-0.739)}
+{2\cos(47.7^\circ)}
+\approx
+3.6~\text{MPa}
+\]
+
+
+\noindent\textbf{Interpretation.}\enspace The equivalent Mohr--Coulomb parameters represent a linear approximation to the nonlinear
+Hoek--Brown envelope over the selected stress range. They should not be treated as
+unique material constants independent of confinement range.
+
+
+\subsection{Design data and calculation tables}
+\label{sec:ch4-design-data}
+
+\paragraph{Project Input Data for design}
+
+The following table summarises the intact rock properties and project stress conditions.
+The GSI values must be taken from engineers' Chapter~\ref{ch:classification} results.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{l c c c c}
+\toprule
+\textbf{Parameter} & \textbf{Granite} & \textbf{Sandstone} & \textbf{Mudstone} & \textbf{Limestone} \\
+\midrule
+\(\sigma_{ci}\) (MPa) & 265 & 110 & 27 & 85 \\
+\(E_i\) (GPa) & 80 & 30 & 0.76 & 20 \\
+\(m_i\) & 32 & 17 & 4 & 12 \\
+Depth \(z\) (m) & 780 & 450 & 100 & 80 \\
+\(K=\sigma_{h,K}/\sigma_v\) & 3.2 & 1.8 & 1.0 & 2.0 \\
+\(\gamma\) (kN/m\(^3\)) & 27 & 27 & 27 & 27 \\
+\midrule
+\(\sigma_v\) (MPa) & 21.06 & 12.15 & 2.70 & 2.16 \\
+\(\sigma_{h,K}\) (MPa) & 67.39 & 21.87 & 2.70 & 4.32 \\
+\(\sigma_1^{IS}=\max(\sigma_v,\sigma_{h,K})\) (MPa) & 67.39 & 21.87 & 2.70 & 4.32 \\
+\(\sigma_3^{IS}=\min(\sigma_v,\sigma_{h,K})\) (MPa) & 21.06 & 12.15 & 2.70 & 2.16 \\
+\(\sigma_{3,\mathrm{fit,max}}\) (MPa) & 67.39 & 21.87 & 2.70 & 4.32 \\
+\midrule
+GSI Chapter~\ref{ch:classification} & \underline{\hspace{1.5cm}} & \underline{\hspace{1.5cm}} & \underline{\hspace{1.5cm}} & \underline{\hspace{1.5cm}} \\
+\bottomrule
+\end{tabularx}
+\caption{Input data Chapter~\ref{ch:rock-mass-parameters} rock mass parameter derivation.}
+\label{tab:inputdata}
+\end{table}
+
+\paragraph{Recommended Calculation Tables for Design Reports}
+
+\paragraph{Hoek--Brown Parameter Template}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{0.95\textwidth}{l c c c c}
+\toprule
+\textbf{Parameter} & \textbf{Granite} & \textbf{Sandstone} & \textbf{Mudstone} & \textbf{Limestone} \\
+\midrule
+\(GSI\) & & & & \\
+\(D\) & & & & \\
+\(m_i\) & & & & \\
+\(m_b\) & & & & \\
+\(s\) & & & & \\
+\(a\) & & & & \\
+\bottomrule
+\end{tabularx}
+\caption{Suggested table for Hoek--Brown rock mass parameters. Complete separately for \(D=0\) and \(D=0.8\).}
+\label{tab:hb_template}
+\end{table}
+
+\paragraph{Strength and Modulus Template}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{0.95\textwidth}{l c c c c}
+\toprule
+\textbf{Parameter} & \textbf{Granite} & \textbf{Sandstone} & \textbf{Mudstone} & \textbf{Limestone} \\
+\midrule
+\(\sigma_{cm}\) (MPa) & & & & \\
+\(\sigma_{1m}^f\) at \(\sigma_3^{IS}\) (MPa) & & & & \\
+\(\sigma_{tm}\) from HB (MPa) & & & & \\
+\(\sigma_{tm,HM}\) from cut-off (MPa) & & & & \\
+\(E_m\), generalised (GPa) & & & & \\
+\(E_m\), simplified (GPa) & & & & \\
+\bottomrule
+\end{tabularx}
+\caption{Suggested table for rock mass strength and modulus parameters. Complete separately for \(D=0\) and \(D=0.8\).}
+\label{tab:strength_template}
+\end{table}
+
+\paragraph{Equivalent Mohr--Coulomb Template}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{0.95\textwidth}{l c c c c}
+\toprule
+\textbf{Parameter} & \textbf{Granite} & \textbf{Sandstone} & \textbf{Mudstone} & \textbf{Limestone} \\
+\midrule
+\(\sigma_{3,\mathrm{fit,max}}\) (MPa) & & & & \\
+\(c\), Method 1 (MPa) & & & & \\
+\(\phi\), Method 1 (\(^\circ\)) & & & & \\
+\(c\), Method 2 (MPa) & & & & \\
+\(\phi\), Method 2 (\(^\circ\)) & & & & \\
+Difference/comment & & & & \\
+\bottomrule
+\end{tabularx}
+\caption{Suggested table for equivalent Mohr--Coulomb parameters. Complete separately for \(D=0\) and \(D=0.8\).}
+\label{tab:mc_template}
+\end{table}

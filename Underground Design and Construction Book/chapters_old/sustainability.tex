@@ -1,0 +1,199 @@
+% !TeX root = ../main.tex
+% ---------------------------------------------------------------------------
+%  Sustainability and Carbon in Underground Construction
+%  Enriched from the author's study report on sustainability and resilience of
+%  underground infrastructure (Lecture Slides/
+%  sustainability_resilience_logic_study_report.tex), which is the primary
+%  source for the module-based carbon workflow and the design-variable
+%  hierarchy below.
+%  Other sources: EN 15978; EN 17472; PAS 2080; ITA WG on sustainability;
+%  Infrastructure Sustainability Council (Australia).
+% ---------------------------------------------------------------------------
+\chapter{Sustainability and Carbon in Underground Construction}
+\label{ch:sustainability}
+
+Underground works are material-intensive and energy-intensive. A bored tunnel
+consumes concrete, steel, grout and backfill at a rate few other structures
+match, and consumes it in a setting where the excavation energy itself is a
+significant emission source. Carbon is therefore not a reporting exercise
+appended to a completed design: it is determined by decisions about alignment,
+diameter, lining thickness, support timing and excavation method --- the same
+decisions that govern safety and serviceability.
+
+This chapter treats carbon accordingly. It sets out the life-cycle module
+framework that makes a carbon figure defensible, quantifies the
+construction-stage terms that dominate a tunnel, and then treats carbon as a
+design variable alongside factor of safety and deformation.
+
+\section{Sustainability drivers and carbon sources}
+\label{sec:sustainability-drivers-and-carbon-sources}
+
+\subsection{Drivers for underground works}
+\label{sec:sustainability-drivers}
+\scopenote{Regulatory, client and social drivers; net zero commitments; and
+the position of underground infrastructure in decarbonising transport and
+energy systems.}
+
+\subsection{Where the carbon is}
+\label{sec:embodied-carbon}
+\scopenote{Concrete and cement above all, then steel reinforcement, then spoil
+haulage and construction energy. Typical proportions by tunnel type, and why
+the ranking shifts between a segmentally lined TBM drive and a sprayed
+concrete lined cavern.}
+
+\section{Life-cycle carbon assessment}
+\label{sec:lifecycle-carbon}
+
+\subsection{Module boundaries}
+\label{sec:carbon-modules}
+\scopenote{The EN 15978 and EN 17472 module structure applied to tunnels:
+A1--A3 product, A4 transport, A5 construction, B use and maintenance, C end of
+life, D beyond-system benefits. Most published tunnel carbon figures are not
+comparable because the boundary is not stated.}
+
+\subsection{Model-based quantity take-off}
+\label{sec:model-based-carbon}
+\scopenote{Carbon assessment depends on a quantity model, a carbon-factor
+library, a declared system boundary and a construction process model. Taking
+quantities from the digital asset model of
+Chapter~\ref{ch:digital-underground} --- lining concrete, reinforcement,
+grout, backfill, fit-out, spoil --- rather than from spreadsheets rebuilt at
+each design stage.}
+
+\subsection{Carbon factors and their provenance}
+\label{sec:carbon-factors}
+\scopenote{Database factors, environmental product declarations and
+project-specific data. Concrete grade, supplementary cementitious material
+content, steel type and geographical context must be recorded with the factor,
+or the result cannot be audited.}
+
+\section{Construction-stage carbon}
+\label{sec:construction-stage-carbon}
+
+\subsection{Accounting logic}
+\label{sec:carbon-formula}
+The construction-stage total assembles a product term, a transport term and a
+process term over the material inventory:
+\[
+GWP_A \;=\; \sum_i V_i \left( GWP_{i,\mathrm{A1-A3}} + GWP_{i,\mathrm{A4}} \right)
+\;+\; GWP_{\mathrm{A5}}
+\]
+where $V_i$ is the quantity of material $i$.
+
+\begin{warnbox}[This is accounting logic, not a design equation]
+The expression above is a bookkeeping structure, not a closed-form predictor.
+Its value lies in forcing every reported figure to be traceable to a quantity,
+a boundary, a carbon factor and a stated modelling assumption. A carbon number
+quoted without those four things cannot be compared with another project's.
+\end{warnbox}
+
+\subsection{Transport and spoil haulage}
+\label{sec:carbon-transport}
+\scopenote{A4 emissions from haulage distance, mode, mass, trip count and
+vehicle factor. Spoil haulage is frequently the largest single A4 term, and it
+is set by disposal siting decisions taken outside the engineering team.}
+
+\subsection{Excavation energy}
+\label{sec:carbon-tbm-energy}
+For mechanised excavation the construction-stage term is dominated by machine
+energy, which can be tied to the electricity and fuel factors applying to the
+site supply:
+\[
+GWP_{\mathrm{A5}} \;=\; E_{\mathrm{TBM}} \left( EF_2 + EF_3 \right)
+\]
+\scopenote{$E_{\mathrm{TBM}}$ should be estimated from ground--machine
+interaction --- torque, thrust, rate of penetration, rotation speed, diameter,
+depth, ground class and in-situ stress --- rather than assigned as a generic
+percentage of project emissions. This links directly to the performance
+prediction methods of Chapter~\ref{ch:tbm-engineering}.}
+
+\section{Carbon as a design variable}
+\label{sec:carbon-as-design-variable}
+
+\subsection{The design-variable hierarchy}
+\label{sec:carbon-hierarchy}
+Carbon sensitivity is not distributed evenly across design decisions. In
+approximate order of leverage:
+
+\begin{enumerate}[nosep]
+  \item alignment, depth, diameter and geometric scale;
+  \item lining thickness, concrete grade, SCM content and reinforcement ratio;
+  \item support distance from the face, and the ground--support interaction it
+        mobilises;
+  \item excavation method and the disturbance it causes;
+  \item machine performance --- thrust, torque, rate of penetration and the
+        resulting construction energy;
+  \item spoil removal distance and transport mode;
+  \item restoration strategy and its timing during operation.
+\end{enumerate}
+
+\scopenote{The practical message is that early geometric decisions and
+construction control usually dominate the achievable reduction, and material
+substitution alone is a late and limited lever.}
+
+\subsection{Geo-structural carbon optimisation}
+\label{sec:carbon-optimisation}
+\scopenote{A defensible optimisation workflow: define design variables; define
+geotechnical inputs and their uncertainty ranges; define performance
+constraints on factor of safety, support pressure, deformation, settlement,
+constructability and durability; define the carbon objective by module; then
+evaluate alternatives using analytical, convergence--confinement, numerical or
+surrogate models according to project stage.}
+
+\subsection{Trade-offs and Pareto solutions}
+\label{sec:carbon-pareto}
+\scopenote{There is rarely a single minimum-carbon design. Multi-objective
+optimisation yields a Pareto set, from which the preferred option is the one
+satisfying safety and deformation constraints without unnecessary support
+demand. Allowing controlled ground deformation can reduce structural demand
+and carbon together --- but only within serviceability and construction-risk
+limits. Applied in Chapter~\ref{ch:integrated-design}.}
+
+\section{Materials, spoil and circularity}
+\label{sec:materials-and-spoil}
+
+\subsection{Low-carbon concrete}
+\label{sec:low-carbon-concrete}
+\scopenote{Supplementary cementitious materials, alkali-activated and
+geopolymer binders, and the tension between carbon reduction and the early
+strength that tunnelling cycles depend on
+(Section~\ref{sec:early-age}).}
+
+\subsection{Spoil management, reuse and circularity}
+\label{sec:spoil}
+\scopenote{Excavated material as a resource rather than waste: aggregate
+recovery, conditioning residues, contamination constraints and the regulatory
+classification of tunnel spoil.}
+
+\section{Whole-life and thermal energy}
+\label{sec:whole-life-and-thermal-energy}
+
+\subsection{Operational energy and whole-life carbon}
+\label{sec:operational-carbon}
+\scopenote{Ventilation, lighting, pumping and maintenance over a century of
+operation, and the trade-off against embodied carbon in decisions such as
+drained versus tanked linings.}
+
+\subsection{Energy geostructures}
+\label{sec:energy-geostructures}
+\scopenote{Thermally activated linings and absorber piles, geothermal recovery
+from tunnels, and the design implications of cyclic thermal loading.}
+
+\section{Urban context, approvals and reporting}
+\label{sec:urban-and-environmental-context}
+
+\subsection{Underground space and urban sustainability}
+\label{sec:underground-space}
+\scopenote{Land take, surface amenity, urban heat and resilience: the case for
+underground solutions on grounds other than cost.}
+
+\subsection{Environmental impact and approvals}
+\label{sec:environmental-impact}
+\scopenote{Groundwater, noise, vibration, spoil transport and ecological
+impacts within the environmental assessment frameworks introduced in
+Chapter~\ref{ch:context}.}
+
+\subsection{Rating schemes and reporting}
+\label{sec:rating-schemes}
+\scopenote{Infrastructure Sustainability Council ratings and comparable
+international schemes; what they measure and what they miss.}

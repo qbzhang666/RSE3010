@@ -1,0 +1,80 @@
+%==============================================================================
+%  SHARED FIGURE PALETTE
+%  Identical, token for token, to the palette used by the Hydropower slide set
+%  (RSE3241/Springer_Handbook/slide_palette_tikz.tex) and the Tri-HB Springer
+%  book (Tri-HB/Springer_Book/figure_sources/palette.tex), so that a figure
+%  carries between projects without recolouring. The values are not to be
+%  adjusted here: change them in every project or in none.
+%
+%  The palette is built for a book read in colour on screen and printed in
+%  black and white. Greyscale keeps lightness and discards hue, so lightness
+%  carries the meaning and hue is confirmation. Strokes occupy a dark band and
+%  fills a light one, and the two never meet: a line therefore always reads
+%  dark against any fill, in colour, in greyscale, and under any colour-vision
+%  deficiency.
+%
+%  Measured, relative to white:
+%    strokes  CFAIL 8.0%  CMAIN 16.0%  CGOOD 23.9%  CLOSS 28.1%  luminance
+%    fills    CWATER 62%  CPASS 72%    CSTOP 80%    CBAND 88%
+%    contrast CFAIL 8.08:1  CMAIN 5.01:1  CGOOD 3.64:1  CLOSS 3.17:1 on white
+%
+%  THREE RULES
+%   1. Colour is never the only carrier of meaning. Adjacent members of each
+%      band are only about 4 L* apart -- CGOOD against CLOSS, and the three
+%      light fills against one another, are close to indistinguishable in a
+%      greyscale print. Pair colour with dash pattern, numbering or position
+%      so the figure survives a photocopy.
+%   2. CWATER is a fill, never a line: at 1.57:1 on white it fails the 3:1
+%      graphics-contrast floor, and it is the token that collapses into green
+%      under tritanopia.
+%   3. In TikZ a bare colour name after fill= overrides the fill. Write
+%      [fill=CBAND, draw=CLOSS], never [fill=CBAND, CLOSS].
+%
+%  Check every new figure in greyscale before committing it:
+%      pdftocairo -png -gray -r 150 figure.pdf out
+%==============================================================================
+
+% ---- strokes: lines, arrows, labels. All >= 3:1 on white. -------------------
+\definecolor{CFAIL}{HTML}{A50000}   %  8.0% grey, 8.08:1 -- failure, critical
+\definecolor{CMAIN}{HTML}{007D76}   % 16.0% grey, 5.01:1 -- principal series
+\definecolor{CGOOD}{HTML}{009C1C}   % 23.9% grey, 3.64:1 -- admissible, pass
+\definecolor{CLOSS}{HTML}{C18500}   % 28.1% grey, 3.17:1 -- threshold, limit
+
+% ---- fills: areas, bands, status boxes -------------------------------------
+\definecolor{CWATER}{HTML}{87DAF8}  % 62.1% grey -- cold / water / slow
+\definecolor{CPASS}{HTML}{B5E8CC}   % 71.9% grey -- admissible region
+\definecolor{CSTOP}{HTML}{F8E2E2}   % 79.8% grey -- excluded region
+\definecolor{CBAND}{HTML}{FFF1C5}   % 88.2% grey -- caution band
+
+% ---- neutrals: structure that carries no category ---------------------------
+\definecolor{CINK}{gray}{0.22}      % axes, frames, primary label text
+\definecolor{CTEXT}{gray}{0.34}     % secondary annotation
+\definecolor{CRULE}{gray}{0.78}     % grid lines, light rules
+\definecolor{CBOX}{gray}{0.95}      % neutral panel fill
+
+% ---- rate ramp: ordered cold-to-warm scale, built from the tokens above -----
+\colorlet{rateslow}{CMAIN}
+\colorlet{rateslowlt}{CWATER}
+\colorlet{ratefastlt}{CSTOP}
+\colorlet{ratefast}{CFAIL}
+
+% ---- cross-project compatibility -------------------------------------------
+%  Aliases used by figures written for the slide set and the Tri-HB book, so
+%  that source copied from either compiles here unchanged. New figures in this
+%  book use the tokens above directly.
+\colorlet{CDARK}{black}
+\colorlet{CGONE}{black!80}
+\colorlet{CGTWO}{black!50}
+\colorlet{CGTHREE}{black!12}
+\colorlet{CACC}{CMAIN!80!black}
+\colorlet{slate}{CINK}
+\colorlet{steel}{CMAIN}
+\colorlet{clay}{CFAIL}
+\colorlet{ochre}{CLOSS}
+\colorlet{textgrey}{CTEXT}
+\colorlet{rulegrey}{CRULE}
+\colorlet{boxgrey}{CBOX}
+\colorlet{zonelite}{CBOX}
+\colorlet{zonemid}{CRULE}
+\colorlet{zonedark}{CTEXT}
+\colorlet{teal}{CGOOD}

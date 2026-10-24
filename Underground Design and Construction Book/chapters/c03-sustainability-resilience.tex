@@ -1,0 +1,312 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+% Chapter 3 -- Sustainability, Carbon and Resilience
+%
+% Enriched from the author's study report on sustainability and resilience of
+% underground infrastructure, which supplies the module-based carbon
+% workflow, the design-variable hierarchy and the resilience assessment
+% sequence. Other sources: EN 15978; EN 17472; PAS 2080.
+%------------------------------------------------------------------------------
+\chapter{Sustainability, Carbon and Resilience}
+\label{ch:sustainability}
+
+Two lifecycle criteria have entered underground design over the past decade,
+and this chapter treats them together because they are decided at the same
+point and measured against the same reference. Carbon is determined by
+decisions about alignment, diameter, lining thickness, support timing and
+excavation method, which are also the decisions that govern safety and
+serviceability; it is therefore a design quantity rather than a reporting
+obligation. Resilience concerns the service the asset delivers over its life
+and the rate at which that service is restored after disruption. Both are
+assessed against the functionality of the asset rather than the capacity of
+its components, and separating them encourages the mistaken view that
+sustainability concerns materials while resilience concerns hazards.
+
+Resilience belongs in the same chapter for a related reason. Both are
+lifecycle criteria: both are decided early, both are realised over decades,
+and both are measured against the asset's service function rather than against
+a component capacity. Treating them separately encourages the view that
+sustainability is about materials and resilience is about hazards. They are
+better understood as two views of the same question --- what this asset costs
+and delivers across its life.
+
+\section{Carbon sources and assessment}
+\label{sec:carbon-sources}
+
+\subsection{Where the carbon is}
+\label{sec:embodied-carbon}
+
+For a bored tunnel with a segmental lining, the concrete dominates. Cement
+clinker is the single largest contributor, followed by reinforcement steel,
+then annulus grout and secondary concrete, then the diesel and electricity
+consumed by excavation, ventilation, dewatering and spoil haulage. For a
+sprayed concrete lined cavern the ranking shifts: shotcrete quantities are
+harder to control, rebound losses are real material, and the reinforcement
+fraction is usually lower.
+
+Two consequences follow. The first is that lining geometry --- diameter and
+thickness --- is a first-order carbon variable, because it multiplies the
+largest term directly. The second is that construction energy, often assumed
+to be a minor contribution, becomes significant on long deep drives where
+excavation, ventilation and cooling run continuously for years.
+
+Spoil transport is the term most often underestimated. It scales with haulage
+distance and vehicle type, both of which are set by disposal siting decisions
+taken outside the engineering team, and it can rival the reinforcement
+contribution on a project with no local disposal option.
+
+\subsection{Life-cycle module boundaries}
+\label{sec:carbon-modules}
+
+Carbon figures are comparable only when the boundary is declared. The
+EN~15978 and EN~17472 module structure~\citep{en15978} provides that declaration: modules
+A1--A3 cover product manufacture, A4 transport to site, A5 construction
+process, B use and maintenance, C end of life, and D benefits beyond the
+system boundary.
+
+Most published tunnel carbon figures are not comparable, and the reason is
+almost always boundary rather than method. A figure covering A1--A3 only will
+be perhaps a third lower than one covering A1--A5 for the same design, and a
+whole-life figure including B and C may be higher again. Quoting a value
+without its modules is quoting a number without units.
+
+The practical rule is that a carbon assessment must state four things
+together: the quantities, their source; the carbon factors, their source; the
+modules included; and the process assumptions behind the construction-stage
+term. An assessment that omits any of the four cannot be audited, compared or
+defended.
+
+\subsection{Model-based quantity take-off and carbon factors}
+\label{sec:model-based-carbon}
+
+Quantities should come from the digital asset model of
+Chapter~\ref{ch:digital-twin} --- lining concrete, reinforcement, grout,
+backfill, fit-out, spoil --- rather than from a spreadsheet rebuilt at each
+design stage. The reason is not efficiency but consistency: when the quantity
+model and the design model are the same object, a design change updates the
+carbon estimate automatically, and the estimate stays current long enough to
+influence the design.
+
+Carbon factors require the same discipline. A factor is meaningful only with
+its provenance: database or environmental product declaration, concrete grade
+and supplementary cementitious material content, steel production route, and
+the geography of the supply and its electricity grid. Two projects using the
+same nominal concrete grade in different jurisdictions can differ by a
+substantial margin on the product term alone.
+
+\section{Carbon in design and construction}
+\label{sec:carbon-in-design}
+
+\subsection{The accounting logic}
+\label{sec:carbon-formula}
+
+The construction-stage total assembles a product term, a transport term and a
+process term over the material inventory:
+\[
+GWP_A \;=\; \sum_i V_i \left( GWP_{i,\mathrm{A1-A3}} + GWP_{i,\mathrm{A4}} \right)
+\;+\; GWP_{\mathrm{A5}}
+\]
+where $V_i$ is the quantity of material $i$. For mechanised excavation the
+construction-stage term is dominated by machine energy, and can be tied to the
+electricity and fuel factors applying to the site supply:
+\[
+GWP_{\mathrm{A5}} \;=\; E_{\mathrm{TBM}} \left( EF_2 + EF_3 \right)
+\]
+
+\noindent\textbf{This is accounting logic, not a design equation.}\enspace
+Neither expression predicts anything. Their value is that they force every
+reported figure to be traceable to a quantity, a boundary, a factor and a
+stated modelling assumption. The excavation energy $E_{\mathrm{TBM}}$ in
+particular should be estimated from ground--machine interaction --- torque,
+thrust, penetration rate, rotation speed, diameter, depth, ground class and
+in-situ stress --- using the performance methods of
+Chapter~\ref{ch:tbm}, not assigned as a generic percentage of project
+emissions.
+
+\subsection{Carbon as a design variable}
+\label{sec:carbon-hierarchy}
+
+Carbon sensitivity is not evenly distributed across design decisions. In
+approximate order of leverage:
+
+\begin{enumerate}
+ \item alignment, depth, diameter and geometric scale;
+ \item lining thickness, concrete grade, supplementary cementitious material
+ content and reinforcement ratio;
+ \item support distance from the face, and the ground--support interaction it
+ mobilises;
+ \item excavation method and the disturbance it causes;
+ \item machine performance --- thrust, torque, penetration rate --- and the
+ construction energy that follows;
+ \item spoil removal distance and transport mode;
+ \item restoration strategy and its timing during operation.
+\end{enumerate}
+
+The ordering carries the chapter's main design message. Early geometric
+decisions and construction control dominate the achievable reduction; material
+substitution is a late lever with a bounded ceiling. A project that defers
+carbon to the specification stage has already spent most of its opportunity.
+
+The third item deserves particular attention because it is the point where
+carbon meets rock mechanics. Permitting more ground convergence before support
+is mobilised reduces the support pressure the lining must carry, and therefore
+its thickness and reinforcement. That is a carbon reduction obtained through
+the ground reaction curve of Chapter~\ref{ch:ccm} rather than through a
+material substitution --- available only within serviceability, construction
+and risk limits, but real.
+
+\subsection{Optimisation and trade-offs}
+\label{sec:carbon-optimisation}
+
+A defensible optimisation workflow defines the design variables; the
+geotechnical inputs and their uncertainty ranges; the performance constraints
+on factor of safety, support pressure, deformation, settlement,
+constructability and durability; and the carbon objective by module. Design
+alternatives are then evaluated using analytical, convergence--confinement,
+numerical or surrogate models according to the project stage.
+
+There is rarely a single minimum-carbon design. Multi-objective optimisation
+yields a Pareto set within which no objective can be improved without
+worsening another, and the preferred option is selected from that set on
+stated grounds. Reporting the set rather than the optimum is the honest
+outcome, because it exposes the trade the client is actually being asked to
+accept. The integrated treatment is Chapter~\ref{ch:integrated-design}.
+
+\section{Materials, energy and environment}
+\label{sec:materials-energy-environment}
+
+\subsection{Low-carbon concrete and spoil}
+\label{sec:materials-spoil}
+
+Supplementary cementitious materials, alkali-activated binders and geopolymer
+systems all reduce the product term, and all interact with tunnelling's
+operational constraint: early strength. A sprayed lining that must carry load
+within hours, or a segment that must be demoulded on a production cycle,
+cannot accept an arbitrary reduction in early strength development. The
+achievable substitution is therefore bounded by the construction cycle, and it
+is set jointly by the designer and the contractor rather than by the
+specification alone.
+
+Excavated material is the other large flow. Treated as waste it is a disposal
+cost and an A4 carbon term; treated as a resource it can substitute for
+quarried aggregate, fill and construction material. What limits reuse is
+rarely the rock: it is contamination, conditioning residues from closed-face
+excavation, and the regulatory classification of the material. Planning reuse
+early --- while the alignment, the excavation method and the disposal
+strategy are still open --- is what makes it achievable.
+
+\subsection{Operational energy and thermal use}
+\label{sec:operational-thermal}
+
+Over a hundred-year life, ventilation, lighting, pumping and maintenance can
+approach or exceed the embodied carbon of the structure. This matters for
+design because some decisions trade one against the other. A drained lining
+carries lower structural demand and less concrete, but commits the operator to
+perpetual pumping and drainage maintenance; a tanked lining is heavier in
+embodied terms and lighter in operation. Neither is universally correct, and
+the comparison cannot be made without an operating assumption.
+
+Underground structures also present an energy opportunity. Thermally activated
+linings and absorber elements can recover geothermal heat from the ground, and
+tunnels in operation reject substantial waste heat. The design implication is
+cyclic thermal loading on the lining, which must be assessed rather than
+assumed benign.
+
+\subsection{Environmental approvals}
+\label{sec:environmental-approvals}
+
+Environmental assessment is where the sustainability argument becomes a
+consent condition. Underground projects are typically assessed for groundwater
+drawdown and its effect on dependent ecosystems and licensed bores, spoil
+transport and disposal, construction noise and vibration, surface disturbance
+at portals and shafts, and contaminated ground.
+
+The engineering significance is that approval conditions become design
+constraints, frequently binding ones. A drawdown limit set during approval
+determines the lining drainage philosophy; a night-works restriction
+determines the construction programme and therefore the ventilation and
+haulage design. Approvals are best treated as an early input to design rather
+than as a downstream permission to be obtained once the design is fixed.
+
+Rating schemes provide the complementary framework, scoring a project against
+defined sustainability criteria. They are useful for structuring an
+improvement programme and for external comparability; they are not a
+substitute for a quantified carbon assessment, and they measure process at
+least as much as outcome.
+
+\section{Resilience over the service life}
+\label{sec:resilience}
+
+\subsection{Functionality as the design measure}
+\label{sec:functionality-measure}
+
+A design that satisfies every capacity check can still leave an asset out of
+service for months. Capacity answers whether the structure stands; it does not
+answer whether the service continues, which is what the owner and the public
+experience.
+
+Resilience expresses performance as functionality over time. The asset begins
+its life delivering a required level of service. Ageing, creep, corrosion and
+leakage erode that level gradually; earthquakes, blasting, pressure transients
+and construction events reduce it abruptly. Inspection, repair, strengthening,
+grouting and relining restore it. Resilience is the shape of that curve, and
+the useful metrics are drawn from it: the functionality lost immediately after
+an event, the residual functionality, the delay before restoration begins, the
+recovery trajectory, and the area under the curve over the recovery window.
+
+Defining the service function is the first and most neglected step. It must be
+expressed in terms the asset actually delivers --- traffic capacity, flow
+rate, safe occupancy, generating availability --- with a stated threshold
+below which the asset counts as out of service. Without that definition the
+remaining metrics have no scale.
+
+\subsection{Assessment and hazards}
+\label{sec:resilience-assessment}
+
+A workable assessment proceeds in eight steps: define the service function as
+a functionality curve; establish baseline performance under ageing and
+deterioration; apply the hazard scenarios; quantify the functionality lost
+immediately after each event, giving vulnerability and robustness; estimate
+residual functionality; estimate the delay before restoration and its
+duration; evaluate the recovery trajectory; and compute a resilience index for
+comparing intervention options.
+
+The hazards themselves are treated in their own chapters --- seismic loading
+in Chapter~\ref{ch:seismic}, squeezing in Chapter~\ref{ch:high-stress}, water inrush and gas in
+Chapter~\ref{ch:ground-improvement}, deterioration in
+Chapter~\ref{ch:delivery-assets}. What this framework adds is a common metric,
+so that a fire, an earthquake and forty years of corrosion can be compared on
+the same axis instead of being designed against independently.
+
+Deterioration and discrete events also interact. A deteriorated lining is more
+vulnerable to an earthquake, and an earthquake accelerates subsequent
+deterioration. Treating the two as independent understates lifetime risk, and
+the interaction is strongest exactly where the consequence is highest --- in
+old assets carrying critical service.
+
+\subsection{Restoration and recoverability}
+\label{sec:restoration}
+
+Restoration options are engineering design decisions with service and carbon
+consequences, not maintenance activities to be selected on repair cost. The
+comparison should be made on functionality recovered, time to recovery, cost,
+constructability, risk reduction and carbon impact together. A cheaper repair
+that takes three months longer may be the more expensive option once lost
+service is counted.
+
+Recoverability is itself designed in. Access for inspection and repair,
+replaceable rather than monolithic elements, redundancy in critical systems,
+and sacrificial detailing at fault crossings all determine how quickly an
+asset can be brought back. These are decisions taken during design, usually
+without an explicit resilience calculation to justify them, and they are among
+the clearest cases where a lifecycle criterion changes a detail.
+
+Uncertainty runs through the whole assessment --- in hazard intensity, damage
+state, detection delay and recovery rate --- and reporting a single resilience
+index without those bands overstates what the analysis establishes. The
+methods for handling it are those of
+Chapter~\ref{ch:integrated-design}. Finally, condition data and post-repair
+performance should feed back into the model of
+Chapter~\ref{ch:digital-twin}, updating the baseline for the next assessment
+cycle. Without that return path the assessment is a one-off study rather than
+a lifecycle instrument.

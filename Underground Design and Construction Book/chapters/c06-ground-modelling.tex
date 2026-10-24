@@ -1,0 +1,338 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+%  Chapter 6 -- Three-Dimensional Ground Modelling
+%------------------------------------------------------------------------------
+\chapter{Three-Dimensional Ground Modelling}
+\label{ch:ground-modelling}
+
+The ground model is the object that every subsequent stage of design consumes.
+Empirical classification requires domains, analytical solutions require a
+stratigraphy and a stress state, numerical analysis requires geometry and
+material assignment, and construction control requires an expectation against
+which the exposed face can be compared. The model is therefore the principal
+engineering deliverable of an investigation rather than a by-product of it.
+What has changed in recent practice is the manner of its construction:
+sections interpolated by hand between boreholes have given way to implicit
+surfaces fitted to all available observations and updated as each new datum
+arrives.
+
+What has changed is how the model is built. Hand-drawn sections interpolated
+between boreholes have given way to implicit surfaces fitted to all available
+data, updated as each new borehole, geophysical line or mapped face arrives,
+and increasingly conditioned by statistical and machine-learning methods. The
+gain is not draughting speed. It is that the model can be rebuilt cheaply
+enough to be kept current, and that its uncertainty can be quantified rather
+than implied by the confidence of the draughtsman.
+
+\section{From data to ground model}
+\label{sec:data-to-ground-model}
+
+\subsection{Model types and their purposes}
+\label{sec:model-types}
+
+Four objects are commonly conflated. The geological model interprets units,
+contacts and structures. The hydrogeological model adds aquifers, aquitards,
+heads and boundaries, and need not share the geological model's unit
+boundaries --- a single lithological unit may contain several flow domains,
+and a permeable fault may connect units that are otherwise separated. The
+geotechnical ground model attaches material behaviour and design parameters.
+The analysis model is the idealisation actually meshed and solved.
+
+Each has a different tolerance. A geological model that misplaces a contact by
+five metres may be perfectly adequate for route selection and useless for
+setting a segment ring's design load. Building all four as a single object,
+which modern software encourages, hides these differing tolerances and
+transfers the finest requirement to every user.
+
+\subsection{Data sources and their support volumes}
+\label{sec:data-support}
+
+Data differ in what volume of ground each observation represents. A borehole
+samples a cylinder tens of millimetres across; a laboratory specimen a volume
+smaller again. A seismic refraction line averages properties over tens of
+metres. A mapped exposure or tunnel face gives dense two-dimensional structural
+information over a plane but says nothing directly about the volume behind it.
+Machine data from a tunnel boring machine integrates the response of the full
+face over a ring advance.
+
+Combining these without regard to support volume produces a model more precise
+than the data justifies. A point strength measurement and a geophysical
+velocity are not competing estimates of the same quantity: the first is a
+sample of a specific piece of rock, the second an average that includes the
+fractures the first avoided. The usual reconciliation is to use the dense but
+indirect data to define geometry and the sparse but direct data to assign
+properties within it, which is a division of labour rather than a merge.
+
+Sampling bias compounds this. Boreholes are drilled where access permits and
+where trouble is expected, so a borehole population is rarely a random sample
+of the alignment. Corrections exist for orientation bias in discontinuity
+sampling (Chapter~\ref{ch:structural-analysis}); there is no comparable
+correction for having drilled only in the paddocks.
+
+\subsection{Model resolution and decision scale}
+\label{sec:model-resolution}
+
+Resolution should follow the decision. Route selection needs formation-scale
+geometry over kilometres. Reference design needs unit boundaries to a few
+metres and parameters by domain. Detailed design needs the geometry of
+individual features that govern a specific structure. Construction control
+needs metre-scale ground classification updated at the face. These are
+different requirements, and satisfying the finest everywhere is expensive and
+misleading.
+
+The misleading part matters more than the expense. A ground surface rendered
+to millimetre tolerance between boreholes two hundred metres apart is a
+statement about the interpolator, not about the ground, and it will be read as
+survey by anyone who did not build it. Resolution should be declared with the
+model, and where it varies along the alignment --- as it always does --- that
+variation should be visible in the deliverable.
+
+\section{Building the geometry}
+\label{sec:building-geometry}
+
+\subsection{Explicit and implicit modelling}
+\label{sec:implicit-modelling}
+
+Explicit modelling constructs surfaces from digitised sections and hand-drawn
+contacts: the geologist decides where the boundary runs and the software
+records it. Implicit modelling instead fits a scalar field to the observations
+--- contact points, above-and-below constraints, structural orientation
+measurements --- and extracts the boundary as an isosurface of that field.
+
+The practical difference is reproducibility and update cost. An implicit model
+is a function of its inputs, so adding a borehole regenerates the surface in
+minutes and the change is attributable to the new datum. An explicit model
+embodies judgement that is not recorded anywhere except in the geologist's
+head, and updating it means redrawing.
+
+The trade is control. An interpolator has no geological knowledge, and left
+unconstrained it will produce surfaces that are smooth, plausible-looking and
+geologically impossible --- units that pinch and reappear without cause,
+contacts that cross, folds with no consistent axis. Implicit modelling is
+therefore not an alternative to geological interpretation but a way of
+recording it: the geologist's contribution moves from drawing the surface to
+supplying the constraints that force the surface to behave.
+
+\subsection{Structural and stratigraphic control}
+\label{sec:structural-control-modelling}
+
+The constraints that matter are the geological rules. Stratigraphic order must
+be imposed so that units appear in sequence and an erosional surface truncates
+what lies beneath it. Fault displacement must be applied so that the modelled
+offset matches the observed sense and magnitude rather than being smeared into
+a gradual flexure. Fold geometry is best handled by supplying orientation data
+--- measured dips, not just contact points --- so the interpolator reproduces
+limb dips instead of averaging across the hinge. Intrusive relationships must
+be declared, since an intrusion cross-cuts rather than conforms.
+
+Where these rules are supplied, the model reproduces the geologist's
+understanding and generalises it consistently between control points. Where
+they are not, the model reproduces the mathematics of the interpolator.
+Reviewing a ground model therefore means reviewing its constraints, and a
+model delivered without them cannot be reviewed at all.
+
+\subsection{Faults, domains and discontinuity networks}
+\label{sec:dfn}
+
+Faults enter the model as explicit surfaces with a defined zone thickness,
+because their engineering effect --- weakness, deformability, permeability,
+abrupt class change --- is distributed across the damage zone rather than
+concentrated on a plane. Modelling a fault as a zero-thickness surface makes
+it invisible to any subsequent volume-based calculation.
+
+Below fault scale, discontinuities are too numerous to model individually and
+too influential to omit. A discrete fracture network generates a synthetic
+population from the statistics established in
+Chapter~\ref{ch:structural-analysis}: orientation distributions by set,
+spacing or intensity, persistence, and termination rules. The result is not a
+map of the actual fractures --- it is one realisation of a population with the
+observed statistics.
+
+That distinction governs how such networks may be used. They are appropriate
+for questions about the distribution of outcomes: the range of block sizes,
+the probability of an adverse wedge on a given face, the connectivity that
+controls flow. They are not appropriate for predicting what will be found at a
+specific chainage. Conditioning a network to observed intersections, where
+mapping or borehole data allow, narrows the gap but does not close it.
+
+\section{Populating the model}
+\label{sec:populating-model}
+
+\subsection{Geostatistical estimation and simulation}
+\label{sec:geostatistics}
+
+Once geometry exists, properties must be distributed within it. Geostatistics
+begins by quantifying spatial correlation through the variogram: how rapidly
+the difference between two measurements grows with the distance between them,
+the range beyond which they become independent, and the nugget --- the
+variance that persists at zero separation, representing measurement error and
+variability at scales below the sample spacing.
+
+Kriging then estimates values at unsampled locations as a weighted average of
+the observations, with weights derived from the variogram. It is optimal in a
+least-squares sense, and it is smooth: the estimate at every point tends
+toward the mean, and the variance of the estimated field is lower than the
+variance of the real one.
+
+That smoothing is the reason estimation is often the wrong tool.
+Underground design is frequently governed by extremes --- the weakest zone,
+the most permeable path --- and a smoothed field has removed exactly those.
+Conditional simulation instead generates multiple realisations, each honouring
+the data at observation points and reproducing the observed variogram in
+between. No single realisation is the best estimate, but the ensemble
+describes the variability the design must tolerate. Where a design depends on
+variability rather than on the mean, simulation is the appropriate method and
+kriging is not.
+
+\subsection{Machine learning for property and lithology prediction}
+\label{sec:ml-ground-modelling}
+
+Supervised learning has found a genuine role where a property is expensive to
+measure and correlated with something cheap and abundant. Downhole geophysical
+logs, core photography and drilling parameters are all recorded continuously
+or nearly so; lithology, weathering grade and strength are determined at
+intervals. Training a classifier on the logged intervals and applying it to
+the unlogged remainder converts sparse determinations into a continuous
+profile.
+
+The technique works, with three conditions. Training data must span the
+classes to be predicted, and the classes are almost always imbalanced --- the
+fault gouge that matters most is the rarest label in the set. Validation must
+be against withheld boreholes rather than withheld samples, because samples
+from the same borehole are not independent and a model validated against them
+will report an accuracy it does not have. And the predicted quantity must
+genuinely be correlated with the inputs, not merely co-located with them.
+
+Automated interpretation of core imagery deserves separate mention because it
+addresses a real bottleneck. Fracture counting and $\RQD$ determination are
+tedious, subjective and slow, and consistency between loggers is poor. Image
+analysis is repeatable, which is a different property from being correct, but
+repeatability is itself worth a great deal when the output feeds a
+classification system calibrated on other people's logging.
+
+\subsection{Assigning parameters and domains}
+\label{sec:domain-assignment}
+
+The populated model is divided into geotechnical domains: volumes within which
+behaviour is sufficiently uniform that one parameter set applies. Domain
+boundaries follow whichever control dominates --- lithology, weathering grade,
+structural intensity, alteration --- and they need not coincide with
+geological unit boundaries.
+
+The parameter derivation chain of
+Chapter~\ref{ch:rock-mass-parameters} should be carried out inside the model
+rather than in a separate spreadsheet. The reason is traceability: when
+$\sci$, $\mi$, $\GSI$ and $\Dfac$ are attributes of a domain, the derived
+$\mb$, $s$, $a$ and $\Erm$ update automatically when the domain is revised,
+and the value used in an analysis can be traced to the observations behind it.
+When the derivation lives in a spreadsheet, the two diverge within weeks and
+nobody can say which is current.
+
+\section{Uncertainty}
+\label{sec:model-uncertainty}
+
+\subsection{Sources of model uncertainty}
+\label{sec:model-uncertainty-sources}
+
+Model uncertainty comes from four places: the density and spatial distribution
+of the data; ambiguity in the geological interpretation; the choice of
+interpolation method and its parameters; and the intrinsic complexity of the
+geology being modelled. These are not equally reducible. More drilling
+addresses the first and, sometimes, the second. Nothing addresses the fourth.
+
+The problem is that none of this is visible in the output. A model built from
+three boreholes and one built from three hundred render identically, in the
+same colours, with the same crisp surfaces. Every subsequent user inherits the
+appearance and not the evidence, and the appearance is uniformly confident.
+
+\subsection{Representing and communicating uncertainty}
+\label{sec:uncertainty-representation}
+
+Several devices restore the missing information. Multiple realisations,
+displayed as an ensemble rather than as a single surface, show directly how
+much the boundary could move. Probability-of-lithology volumes report, for
+each location, the proportion of realisations assigning it to each unit ---
+which makes the transition zones visible as zones rather than as lines.
+Distance-to-nearest-datum shading is cruder but immediately legible, and it
+answers the question a reviewer most often wants to ask.
+
+Simplest and most useful is a confidence classification along the alignment:
+high, moderate or low, with the criteria stated. It carries into the
+geotechnical baseline report, into investigation planning, and into the
+construction-stage expectation of how closely the ground should match the
+prediction. Where the model says confidence is low and the ground is
+consistently as predicted, that is worth knowing; where confidence is high and
+the ground differs, something is wrong with the model rather than with the
+ground.
+
+\subsection{Value of information}
+\label{sec:value-of-information}
+
+Investigation budgets are finite, and uniform borehole spacing is almost never
+the best use of them. The value of an additional observation is the extent to
+which it changes a decision, and that is not distributed uniformly along an
+alignment.
+
+The reasoning is straightforward even when the formal calculation is not. An
+additional borehole is worth drilling where uncertainty is high \emph{and} the
+consequence of being wrong is high \emph{and} the result could plausibly
+change what is done. Uncertainty alone is insufficient: there is no value in
+resolving a boundary in a reach where the design is the same either way.
+Consequence alone is insufficient: there is no value in re-confirming ground
+that is already well characterised.
+
+Used this way the ground model becomes an investigation planning tool as much
+as a design input, and the investigation becomes a sequence of decisions
+rather than a fixed programme executed to completion.
+
+\section{Keeping the model current}
+\label{sec:model-updating}
+
+\subsection{Updating during investigation and construction}
+\label{sec:model-update-cycle}
+
+The model should be regenerated whenever new data arrive: boreholes and
+geophysics during investigation, then probe holes, mapped faces, machine data
+and instrument readings during construction. The construction phase generates
+far more ground information than the investigation did, and it arrives
+progressively, at the face, in time to influence what is done next.
+
+Sequential updating in a Bayesian sense --- treating the existing model as a
+prior and the new observation as evidence --- is the appropriate formalism,
+and the informal version is universally practised even where the mathematics
+is not. What distinguishes a disciplined process is that updates are recorded,
+attributed and dated, so that a later reader can see how the interpretation
+evolved and on what evidence.
+
+\subsection{Reconciling prediction with observation}
+\label{sec:prediction-vs-observation}
+
+Systematic comparison of predicted against encountered conditions, chainage by
+chainage, serves three purposes at once. It is the evidence base for baseline
+comparison and therefore for claims. It calibrates the model, showing whether
+the interpretation is biased in a consistent direction. And it supports
+revising the ground class expectation ahead of the face, which is the
+mechanism by which observational design actually operates.
+
+The comparison is only meaningful if the prediction was recorded before the
+ground was seen. This sounds obvious and is routinely violated: a ground class
+assigned at the face and entered into the same record as the prediction
+destroys the evidence. Prediction and observation must be separately recorded
+and separately dated.
+
+\subsection{The model as a project record}
+\label{sec:model-as-record}
+
+An operator inheriting a tunnel needs to know what ground it passes through,
+what was encountered during construction, and where the interpretation was
+uncertain. That information exists at handover and is routinely lost, because
+it lives in a proprietary model file that no one maintains and in a set of
+construction records that are archived rather than integrated.
+
+Preserving it requires three things: version control with the provenance of
+every surface and parameter recorded; export in an open format that will
+outlive the software (Chapter~\ref{ch:digital-twin}); and an explicit handover
+of the model as a deliverable in its own right, with a named recipient. The
+asset will be inspected, assessed and possibly modified for a century. The
+ground model is the only document that explains why it was built the way it
+was.

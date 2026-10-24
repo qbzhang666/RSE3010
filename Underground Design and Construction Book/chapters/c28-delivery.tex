@@ -1,0 +1,233 @@
+% !TeX root = ../main.tex
+% Risk, contracts and project delivery.
+\chapter{Risk, Contracts and Project Delivery}
+\label{ch:delivery}
+
+Ground risk cannot be removed by investigation, and the commercial question is
+therefore how it is allocated. This chapter closes the book by returning to
+the argument with which it opened. What is known about the ground, and which
+party bears the consequences of the remaining uncertainty, underlies most
+disputes in underground construction, and the contractual instruments examined
+here exist to make that allocation explicit rather than to eliminate the
+uncertainty itself.
+
+\section{Ground risk and baselines}
+\label{sec:ground-risk-baselines}
+
+\subsection{The nature of ground risk}
+\label{sec:nature-ground-risk}
+
+Ground risk has three properties that distinguish it from most construction
+risk. It cannot be eliminated by investigation, only reduced and
+characterised. It is unevenly distributed along an alignment, concentrated at
+features that may not have been found. And the party best placed to manage it
+during construction --- the contractor --- is not always the party best placed
+to have investigated it.
+
+The second of those properties has a consequence for how exposure is
+presented. Figure~\ref{fig:exposure-by-zone} aggregates a predicted
+third-party exposure along an illustrative alignment by the zone it falls in,
+which is the form in which it can be owned: a register entry needs a location,
+a party and a mitigation, and a corridor-wide average carries none of the
+three.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.78\textwidth]{ch28/receptor-risk}
+\caption[Third-party exposure aggregated by zone]{%
+Exposure aggregated to a unit that can carry an owner. The share of buildings
+within 800\,m of each zone centre predicted to settle by more than 10\,mm along
+an illustrative twin-tunnel alignment; the figures beside each bar are the
+buildings affected and the buildings assessed. Concentration at particular
+zones rather than an even spread along the alignment is the normal case.
+Synthetic demonstrator data (Appendix~\ref{app:software}).}
+\label{fig:exposure-by-zone}
+\end{figure}
+
+Risk management runs on a register: hazards identified systematically,
+assessed for likelihood and consequence, assigned an owner and a mitigation,
+and reviewed as the project progresses. Its value depends entirely on being
+live. A register compiled to satisfy a requirement at design stage and never
+revisited is a compliance artefact; one updated as the ground is revealed is
+the mechanism by which the project learns.
+
+Quantitative assessment is justified where the exposure warrants it, with
+schedule and cost risk analysis producing a distribution of outcomes rather
+than a point estimate. The insurance-driven codes of practice for tunnelling
+risk management, developed after a sequence of major losses, made structured
+risk management a contractual requirement rather than good practice, and they
+place obligations on client, designer and contractor alike.
+
+\subsection{The geotechnical baseline report}
+\label{sec:baselines-differing}
+
+A geotechnical baseline report states the ground conditions the contract
+assumes. It is neither a factual report, which presents data, nor an
+interpretative report, which presents an opinion: it is a contractual
+statement that conditions no worse than those described will be treated as
+having been allowed for, and conditions worse than described will be treated
+as a changed condition.
+
+Writing one requires discipline, and the discipline is testability. Every
+baseline statement must be capable of being compared against what is
+encountered, by an agreed method, during construction. "Occasional fault
+zones" is not a baseline; "not more than 200\,m of ground classified as Class
+V by the stated method" is. Ambiguity here does not avoid the dispute; it
+guarantees it.
+
+\subsection{Differing conditions and claims}
+\label{sec:differing-conditions}
+
+The mechanism then works as intended. The contractor prices the baselined
+conditions without contingency for the unknown, the client carries the risk of
+conditions being worse, and the comparison is made against a stated method
+rather than argued from first principles. Where the baseline is silent or
+untestable, the parties fall back on argument about what a reasonable
+contractor should have anticipated, which is where underground disputes
+consume their reputation.
+
+\section{Contracts, cost and delivery}
+\label{sec:contracts-cost-delivery}
+
+Contract models differ mainly in where they place ground risk. Design-bid-build
+leaves the client with design risk and the contractor with construction risk,
+and the interface between them is where ground risk lands. Design and construct
+transfers more to the contractor, who prices the uncertainty --- and prices it
+high, or declines to bid, where it cannot be quantified. Early contractor
+involvement brings construction expertise into design, where it can influence
+the decisions that determine constructability. Alliance and other collaborative
+models share risk explicitly and align commercial interests, at the cost of
+requiring a client organisation able to participate rather than merely
+administer.
+
+No model eliminates ground risk; each decides who is paid to carry it. The
+failure mode common to all is transferring unquantifiable risk to a party
+without the information to price it, which produces either an inflated
+contingency the client pays regardless, or a contractor who prices optimistically
+and litigates later.
+
+Procurement determines how much of this is settled before the bid. Tender
+period investigation, reference designs, and a properly written baseline all
+reduce the uncertainty a bidder must price. Dispute avoidance mechanisms ---
+standing boards that follow the project and address issues as they arise ---
+resolve matters while the evidence is fresh and the relationship is intact, and
+their record is markedly better than adjudication after the event.
+
+Cost and programme estimation for underground works must be probabilistic,
+because the distribution of outcomes is skewed: the best case is bounded by
+the theoretical cycle, and the worst case is not. Reference class forecasting
+--- comparing against the outturn distribution of similar completed projects
+rather than building up from first principles --- consistently outperforms
+bottom-up estimation, precisely because it captures the difficulties that
+bottom-up estimates omit by construction. Advance rates should come from
+comparable projects by ground class, with realistic utilisation
+(Chapter~\ref{ch:tbm}), and contingency should be set from the risk analysis
+rather than as a percentage.
+
+Safety management closes both the chapter and the book. Safety in design
+obligations require that risk be designed out where practicable, which
+underground means alignment and method decisions taken with construction and
+maintenance safety as explicit criteria. The most effective safety measures
+are the earliest ones: an alignment that avoids the fault zone, a method that
+keeps people away from an unsupported face, and a design that can be inspected
+and maintained without exposing anyone to the conditions that made it
+difficult to build.
+
+\section{Digital delivery and model liability}
+\label{sec:digital-delivery}
+
+The baseline report of Section~\ref{sec:baselines-differing} is a document, and the contractual
+machinery around ground risk was built for documents. Projects are now
+delivered with models: a ground model, an asset model, and increasingly an
+operating twin. The commercial framework has not caught up, and the gap shows
+in three questions that arise on every digitally delivered project and are
+answered on very few. What was actually promised. Who owns the result. And who
+carries the consequence when a decision taken from a model turns out to have
+been taken from a wrong one.
+
+\subsection{The model as a contract deliverable}
+\label{sec:model-deliverable}
+
+A model becomes a deliverable only if the contract says what it must contain,
+and the useful discipline here is to specify the information required rather
+than the software used. The ISO~19650 series~\citep{iso19650} provides the
+structure: the client states its information requirements, the delivery team
+responds with a plan for meeting them, and information is produced,
+checked and issued through a common data environment with defined states of
+approval.
+
+Three specifications carry most of the weight. Purpose: what decisions the
+model must support, since a model adequate for clash detection is not adequate
+for settlement assessment and neither is adequate for asset management.
+Format: an open, documented exchange format, because a deliverable readable
+only by the licence that produced it is not a deliverable but a dependency.
+And fidelity: the level of detail and, more importantly, the level of
+information reliability --- which parts are measured, which interpreted, and
+which assumed.
+
+That last point connects the model directly to the baseline. A ground model
+carrying its uncertainty explicitly, as
+Chapter~\ref{ch:ground-modelling} describes, can support a baseline that
+states expected conditions and their variation rather than a single line on a
+long-section. This is more honest than the conventional document and it is
+also more testable, which cuts both ways commercially: it is harder to argue
+that conditions were unforeseen when the model published the range in advance,
+and harder to argue that they were foreseen when it did not.
+
+\subsection{Ownership, warranty and handover}
+\label{sec:model-ownership}
+
+Ownership of a model is rarely addressed and rarely simple. The ground model
+is typically built by the designer from data the client procured, updated by
+the contractor during construction, and needed by the operator for sixty years
+after both have left. Intellectual property in the model, in the software
+configuration and in the underlying data may sit with different parties, and a
+handover that transfers the file without transferring the right to use, modify
+and sub-licence it delivers an object the operator cannot lawfully maintain.
+
+Warranty requires equal care. A designer will warrant reasonable skill and
+care in preparing a model; no competent party will warrant that a ground model
+is correct, because it is an interpretation of sparse data and everyone knows
+it. What can sensibly be warranted is that the model represents the data
+available, that its assumptions are stated, and that it has been prepared to
+the agreed standard. Contracts that attempt more than this either fail to be
+signed or are signed by someone who has not read them.
+
+Handover should transfer four things, and the omission of the last is the
+usual failure. The model itself, in the agreed open format. The data behind
+it, so that it can be rebuilt rather than merely opened. The record of what
+was assumed and by whom. And a named party responsible for keeping it current,
+without which the model is accurate on the day of handover and steadily less
+so thereafter, becoming an asset that quietly turns into a liability
+(Chapter~\ref{ch:assets}).
+
+\subsection{Liability for model-informed decisions}
+\label{sec:model-liability}
+
+The exposure that concerns practitioners most is the one least settled: what
+happens when a decision is taken with the assistance of a model, or of a
+statistical prediction, and the outcome is bad.
+
+The principles that apply are not new. A professional who relies on a tool
+remains responsible for the reliance being reasonable, which requires knowing
+the tool's limits. A supplier who provides a model for a stated purpose may be
+liable if it is unfit for that purpose, which is why the stated purpose in
+Section~\ref{sec:model-deliverable} matters commercially and not only
+technically. And a party who uses output beyond the purpose for which it was
+supplied has generally assumed the risk of doing so.
+
+What is genuinely new is evidential. When a decision is informed by a
+statistical model that has since been retrained, the model that produced the
+advice no longer exists, and reconstructing the basis of the decision may be
+impossible. This is the practical reason for the record-keeping required in
+Chapter~\ref{ch:digital-twin}: versioned models, logged predictions, and a
+retraining trail. It is protection for the engineer as much as assurance for
+the client, and it is cheap to establish at the outset and impossible to
+create retrospectively.
+
+The prudent position for a designer is therefore conservative in a specific
+and limited way. State the purpose of every model issued. State what it does
+not cover. Keep the version that supported each decision. Avoid contractual
+language implying that a model predicts conditions rather than represents an
+interpretation of them. None of this obstructs digital delivery; all of it is
+what makes it defensible.

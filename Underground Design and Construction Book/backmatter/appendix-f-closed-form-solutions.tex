@@ -1,0 +1,313 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+%  Appendix F -- Closed-Form Solutions and Design Charts
+%  Sources: Kirsch (1898); Hoek & Brown (1980) appendices; Carranza-Torres &
+%  Fairhurst (2000); Muir Wood (1975); Duddeck & Erdmann (1985);
+%  Einstein & Schwartz (1979); Panet (1995).
+%------------------------------------------------------------------------------
+\chapter{Closed-Form Solutions and Design Charts}
+\label{app:closed-form}
+
+A consolidated reference for the elastic and elasto-plastic solutions used
+across Chapters~\ref{ch:ccm}, \ref{ch:ground-behaviour} and~\ref{ch:openings},
+with their assumptions stated once so the main text need not repeat them.
+Compression is positive throughout.
+
+\section{Assumptions common to all solutions}
+\label{sec:closed-form-assumptions}
+
+Every solution in this appendix assumes a homogeneous, isotropic, linearly
+elastic medium of infinite extent, plane strain conditions, and an opening
+whose boundary is traction-free or carries a uniform internal pressure. Body
+forces are neglected, so the stress field is uniform at infinity.
+
+Each assumption fails in a characteristic way. \emph{Homogeneity} fails where
+the opening crosses a boundary, and the solution then applies only to the
+weaker unit. \emph{Isotropy} fails in bedded and foliated rock, where the
+error is largest in the displacement field rather than the stresses.
+\emph{Elasticity} fails wherever the strength is exceeded, which is precisely
+where the answer matters --- hence the elasto-plastic solutions of
+Section~\ref{sec:elasto-plastic-and-support-solutions}. \emph{Plane strain}
+fails within about one diameter of the face
+(Chapter~\ref{ch:rock-mechanics}). \emph{Infinite extent} fails at shallow
+cover, conventionally below about two diameters, where the free surface
+interacts with the opening and the solutions overestimate confinement.
+
+\section{Circular and shaped openings}
+\label{sec:circular-and-shaped-openings}
+
+\subsection{Circular opening: the Kirsch solution~\citep{kirsch1898}}
+\label{sec:kirsch-appendix}
+
+For a circular opening of radius $a$ in a biaxial field with vertical stress
+$\pzero$ and horizontal stress $k\pzero$, the stresses at radius $r$ and angle
+$\theta$ measured from the horizontal axis are
+
+\begin{align}
+\sigma_r &= \tfrac{\pzero}{2}\left[(1+k)\left(1-\tfrac{a^2}{r^2}\right)
+   - (1-k)\left(1-\tfrac{4a^2}{r^2}+\tfrac{3a^4}{r^4}\right)\cos 2\theta\right],\\
+\sigma_\theta &= \tfrac{\pzero}{2}\left[(1+k)\left(1+\tfrac{a^2}{r^2}\right)
+   + (1-k)\left(1+\tfrac{3a^4}{r^4}\right)\cos 2\theta\right],\\
+\tau_{r\theta} &= \tfrac{\pzero}{2}\left[(1-k)
+   \left(1+\tfrac{2a^2}{r^2}-\tfrac{3a^4}{r^4}\right)\sin 2\theta\right].
+\end{align}
+
+At the boundary $r = a$ the radial and shear stresses vanish and the
+tangential stress reduces to
+\[
+\sigma_\theta = \pzero\left[(1+k) + 2(1-k)\cos 2\theta\right],
+\]
+giving, at the sidewall ($\theta = 0$) and the crown
+($\theta = 90^\circ$),
+\[
+\sigma_\theta^{\text{wall}} = \pzero\,(3-k), \qquad
+\sigma_\theta^{\text{crown}} = \pzero\,(3k-1).
+\]
+
+Two results follow directly. In a hydrostatic field ($k=1$) the boundary
+stress is $2\pzero$ everywhere. And the crown goes into tension whenever
+$k < 1/3$, which is the origin of the destressed crown discussed in
+Chapter~\ref{ch:ground-behaviour}.
+
+The radial displacement at the boundary of an unsupported opening in a
+hydrostatic field is
+\[
+u_a = \frac{\pzero\,a\,(1+\nu)}{E}.
+\]
+
+\subsection{Boundary stress concentration by opening shape}
+\label{sec:shape-factors}
+
+Boundary stresses for non-circular openings are conveniently expressed as
+concentration factors applied to the field stress. Table~\ref{tab:shape-factors}
+gives crown and sidewall factors for common profiles in a hydrostatic field;
+for other $k$ the values must be obtained from the elliptical solution or
+numerically.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l c c X}
+\toprule
+\textbf{Profile} & \textbf{Crown} & \textbf{Sidewall} & \textbf{Remarks} \\
+\midrule
+Circular & 2.0 & 2.0 & Uniform in a hydrostatic field \\
+Ovaloid, wide & higher & lower & Favours high $k$ \\
+Ovaloid, tall & lower & higher & Favours low $k$ \\
+Horseshoe & moderate & higher & Sharp invert corners require radiusing \\
+Square, radiused corners & low & low & Corner concentration governs \\
+\bottomrule
+\end{tabularx}
+\caption{Boundary stress concentration by profile, hydrostatic field.
+Corner values, not crown or sidewall values, govern angular profiles.}
+\label{tab:shape-factors}
+\end{table}
+
+For angular profiles the governing value is at the corners, where the
+concentration rises steeply as the radius decreases. This is why square
+profiles are radiused and why a flat roof is avoided in high horizontal
+stress.
+
+\subsection{Elliptical openings and the optimum shape}
+\label{sec:elliptical}
+
+For an ellipse with semi-axis $W$ parallel to the horizontal stress and $H$
+parallel to the vertical, in a field with vertical stress $\pzero$ and
+horizontal $k\pzero$, the boundary stresses at the ends of the axes are
+
+\[
+\sigma_{\text{crown}} = \pzero\left(2\frac{W}{H} + 1 - k\right),
+\qquad
+\sigma_{\text{wall}} = \pzero\left(k\left(2\frac{H}{W} + 1\right) - 1\right).
+\]
+
+Setting the two equal gives the \emph{harmonic hole} condition, at which the
+boundary stress is uniform around the opening and the peak concentration is
+minimised:
+\[
+\frac{W}{H} = k .
+\]
+
+The result is one of the more useful in underground design: the optimum
+opening is elongated in the direction of the major principal stress, in the
+ratio of the stresses. A cavern in a field with $k = 2$ is best made twice as
+wide as it is high, and the same cavern rotated through ninety degrees is the
+worst available shape.
+
+\section{Elasto-plastic and support solutions}
+\label{sec:elasto-plastic-and-support-solutions}
+
+\subsection{Elasto-plastic solutions}
+\label{sec:elasto-plastic-appendix}
+
+For a circular opening of radius $a$ in a hydrostatic field $\pzero$ with
+internal support pressure $\pin$, in Mohr--Coulomb ground with cohesion $c$
+and friction angle $\phi$, define
+\[
+k_\phi = \frac{1+\sin\phi}{1-\sin\phi},
+\qquad
+\sigma_{cm} = \frac{2c\cos\phi}{1-\sin\phi}.
+\]
+
+Yielding begins when the support pressure falls below the critical value
+\[
+\pin^{\text{cr}} = \frac{2\pzero - \sigma_{cm}}{1 + k_\phi}.
+\]
+
+For $\pin < \pin^{\text{cr}}$ the plastic zone extends to radius
+\[
+r_p = a\left[\frac{2\pzero + \sigma_{cm}(k_\phi-1)^{-1}\,(k_\phi+1)}
+{(1+k_\phi)\left(\pin + \sigma_{cm}(k_\phi-1)^{-1}\right)}\right]^{\frac{1}{k_\phi-1}} .
+\]
+
+\noindent\textbf{Use.}\enspace The critical pressure is the more useful of the
+two results, because it answers immediately whether the ground will yield at
+all. Where $\pin^{\text{cr}} \leq 0$ the opening is self-supporting in the
+elastic sense, and the design problem is structural rather than one of ground
+pressure.
+
+Equivalent expressions for Hoek--Brown ground follow the Carranza-Torres and
+Fairhurst formulation, in which the same quantities are obtained through a
+scaled stress transformation. They are algebraically longer and identical in
+structure and use.
+
+\subsection{Ground reaction and support characteristic expressions}
+\label{sec:grc-scc-appendix}
+
+The ground reaction curve relates support pressure to wall convergence. In the
+elastic range,
+\[
+u = \frac{(\pzero - \pin)\,a\,(1+\nu)}{E},
+\]
+and beyond yield it is obtained from the plastic solution above, with the
+convergence increasing rapidly as $\pin$ falls.
+
+Support stiffness $K_s$ and maximum pressure $p_{s,\max}$ for the common
+systems are as follows, with $a$ the tunnel radius throughout.
+
+\emph{Shotcrete or concrete ring} of thickness $t_c$, modulus $E_c$ and
+Poisson's ratio $\nu_c$, with unconfined strength $\sigma_{cc}$:
+\[
+K_s = \frac{E_c\left[a^2-(a-t_c)^2\right]}
+{(1+\nu_c)\left[(1-2\nu_c)a^2+(a-t_c)^2\right]a},
+\qquad
+p_{s,\max} = \frac{\sigma_{cc}}{2}\left[1-\frac{(a-t_c)^2}{a^2}\right].
+\]
+
+\emph{Steel sets} of cross-sectional area $A_s$, modulus $E_s$ and yield
+stress $\sigma_{ys}$, at longitudinal spacing $s$:
+\[
+K_s = \frac{E_s A_s}{s\,a^2},
+\qquad
+p_{s,\max} = \frac{A_s \sigma_{ys}}{s\,a}.
+\]
+Both must be reduced to allow for block seating; a poorly blocked set delivers
+a fraction of these values.
+
+\emph{Grouted or mechanically anchored bolts} of length $L$, diameter $d_b$
+and modulus $E_b$, at spacing $s_c$ circumferentially and $s_l$
+longitudinally, with a load--deformation constant $Q$ for the anchor and
+plate:
+\[
+K_s = \frac{1}{s_c s_l}\left[\frac{4L}{\pi d_b^2 E_b} + Q\right]^{-1},
+\qquad
+p_{s,\max} = \frac{T_{bf}}{s_c s_l},
+\]
+where $T_{bf}$ is the bolt capacity.
+
+For systems installed together, stiffnesses add:
+$K_{\text{total}} = \sum K_i$, and the combined capacity is reached when the
+first element attains its own $p_{s,\max}$ --- not the sum of the individual
+capacities.
+
+\subsection{Longitudinal deformation profile expressions}
+\label{sec:ldp-appendix}
+
+The longitudinal deformation profile gives the convergence at distance $x$
+behind the face as a fraction of the final convergence $u_{\max}$. Panet's
+widely used elastic fit is
+\[
+\frac{u(x)}{u_{\max}} = 0.25 + 0.75\left[1-\left(\frac{0.75}{0.75+x/a}\right)^{2}\right],
+\]
+which gives about 25\,\% of the total convergence at the face and
+approximately 90\,\% at three radii behind it.
+
+For elasto-plastic ground the profile is steeper and depends on the extent of
+the plastic zone; fits of the same form with the radius replaced by the
+plastic radius $r_p$ are used. The elastic fit under-predicts the convergence
+released before support installation in yielding ground, which is
+unconservative for support design.
+
+\noindent\textbf{Use.}\enspace The profile converts the distance behind the
+face at which support is installed into the convergence already released,
+which is the offset applied to the support characteristic curve in the
+verification sequence of Appendix~\ref{app:calculations}.
+
+\section{Charts and lining solutions}
+\label{sec:charts-and-lining-solutions}
+
+\paragraph{Zone of influence.}
+The zone of influence is conventionally bounded where the stress disturbance
+falls below 5\,\% of the field stress. For a circular opening in a hydrostatic
+field, the Kirsch solution gives the disturbance in $\sigma_\theta$ as
+$(a/r)^2$, so the 5\,\% contour lies at
+\[
+r \approx 4.5\,a ,
+\]
+that is, about two and a quarter diameters from the centre, or one and
+three-quarter diameters clear of the boundary. For non-hydrostatic fields the
+zone is elongated in the direction of the minor principal stress.
+
+Two openings whose zones of influence do not overlap may be analysed
+independently. Closer, they interact, and the treatment is
+Chapter~\ref{ch:openings}.
+
+\paragraph{Lining solutions.}
+For a circular lining of area $A_l$, second moment $I_l$ and modulus $E_l$ in
+ground of modulus $E$ and Poisson's ratio $\nu$, define the compressibility
+and flexibility ratios
+\[
+C = \frac{E\,a\,(1-\nu_l^2)}{E_l A_l (1-\nu^2)},
+\qquad
+F = \frac{E\,a^3(1-\nu_l^2)}{E_l I_l (1-\nu^2)} .
+\]
+
+The thrust and moment then follow as coefficients of the field stress. For the
+full-slip condition,
+\[
+T = \tfrac{1}{2}\pzero a (1+k)\,\frac{1}{1+C^{*}}
+  + \tfrac{1}{2}\pzero a (1-k)\,f_T(C,F,\nu),
+\qquad
+M = \tfrac{1}{2}\pzero a^2 (1-k)\, f_M(F,\nu),
+\]
+where $C^{*}$ and the coefficient functions $f_T$ and $f_M$ take the specific
+forms given by Muir Wood, Duddeck and Erdmann, or Einstein and Schwartz. The
+formulations differ in detail and agree in behaviour.
+
+\noindent\textbf{What the ratios mean.}\enspace At high $F$ the lining is
+flexible relative to the ground: it conforms, and the moment tends to zero
+while the thrust approaches the full ground load. At low $F$ the lining
+resists, distorts less, and attracts large moments. Since a lining designed
+for thrust alone is far more efficient than one designed for moment, high $F$
+is generally the better design --- the result quoted in
+Chapter~\ref{ch:linings}.
+
+Full-slip and no-slip solutions bracket the real interface condition; the
+no-slip case gives higher thrust and lower moment, and both should be checked.
+
+\section{Limits of use}
+\label{sec:closed-form-limits}
+
+These solutions remain the right tool for preliminary sizing, for
+understanding which variables govern, and --- most valuably --- as a check on
+numerical output. A numerical model of a circular opening in uniform ground
+that does not reproduce the Kirsch stresses to within a few per cent contains
+an error that will not announce itself in the complex geometry the model was
+built for.
+
+They serve only as a check where the geometry is non-circular and the ground
+non-uniform, where construction is staged, or where openings interact. They
+should not be used at all at shallow cover below about two diameters, in
+strongly anisotropic rock, where the excavation is not remote from the face,
+or where the ground is time-dependent. In each of those cases the assumption
+violated is not a refinement but the basis of the derivation.

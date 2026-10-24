@@ -1,0 +1,259 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+%  Appendix E -- Stereographic Net Constructions
+%  Procedures only. The concepts and the underground application are in
+%  Chapter~\ref{ch:structural-analysis}.
+%------------------------------------------------------------------------------
+\chapter{Stereographic Net Constructions}
+\label{app:stereonet}
+
+Each construction below is set out as numbered steps that can be followed on a
+printed net with tracing paper, so that the output of stereonet software can
+be checked by hand. The reasoning behind them is in
+Chapter~\ref{ch:structural-analysis}. All constructions assume lower
+hemisphere projection and the dip/dip-direction convention.
+
+\section{Setting up: nets, tracing paper and conventions}
+\label{sec:net-setup}
+
+Two nets are used and they are not interchangeable. The \emph{equal-angle}
+(Wulff) net preserves angular relationships and is used for all geometric
+construction --- intersections, angles, rotations. The \emph{equal-area}
+(Schmidt) net preserves area and is used for pole density contouring and any
+statistical work. Using an equal-angle net for contouring concentrates
+apparent density towards the centre of the plot and will invent a set that
+does not exist.
+
+\begin{enumerate}
+  \item Fix the net to a board and place a sheet of tracing paper over it,
+        pinned through the centre so that it rotates freely.
+  \item Trace the primitive circle and mark north on the tracing paper. This
+        index mark is the reference for every subsequent rotation, and all
+        readings are taken with it returned to the top of the net.
+  \item Record the convention on the sheet: lower hemisphere, dip/dip
+        direction, and the magnetic declination correction applied to the
+        field data if any.
+\end{enumerate}
+
+Convention errors are the commonest source of gross mistakes. Data recorded as
+strike and dip must be converted before plotting --- dip direction is strike
+plus $90^\circ$ under the right-hand rule --- and mixing the two produces
+planes rotated by a quarter turn.
+
+\section{Plotting planes, poles and lines}
+\label{sec:plotting-planes-poles-and-lines}
+
+\subsection{Plotting a plane as a great circle}
+\label{sec:construct-great-circle}
+
+Given a plane with dip $\psi$ and dip direction $\alpha$:
+
+\begin{enumerate}
+  \item Rotate the tracing paper until the index mark reads $\alpha$
+        clockwise from north on the net.
+  \item Count $\psi$ degrees inward from the primitive along the
+        east--west diameter of the net.
+  \item Trace the great circle passing through that point.
+  \item Return the index mark to north.
+\end{enumerate}
+
+\noindent\textbf{Check.}\enspace A vertical plane plots as a straight diameter;
+a horizontal plane plots as the primitive circle itself. If the traced great
+circle bulges the wrong way, the index was rotated in the wrong sense.
+
+\subsection{Plotting the pole to a plane}
+\label{sec:construct-pole}
+
+The pole is the projection of the normal to the plane, and it is a single
+point --- which is why poles rather than great circles are used when many
+planes must be plotted together.
+
+\begin{enumerate}
+  \item With the index at the dip direction $\alpha$ as above, count
+        $\psi$ inward from the primitive to locate the great circle.
+  \item Continue counting a further $90^\circ$ along the same diameter,
+        passing through the centre. Mark that point: it is the pole.
+  \item Return the index to north.
+\end{enumerate}
+
+Equivalently, the pole may be plotted directly by treating it as a line of
+plunge $90^\circ - \psi$ and trend $\alpha + 180^\circ$.
+
+\noindent\textbf{Check.}\enspace The pole to a horizontal plane is at the
+centre of the net; the pole to a vertical plane lies on the primitive.
+
+\subsection{Plotting a line from plunge and trend}
+\label{sec:construct-line}
+
+Given a line of plunge $\beta$ and trend $\theta$ --- a lineation, a borehole
+axis, or an intersection:
+
+\begin{enumerate}
+  \item Rotate the index to read $\theta$.
+  \item Count $\beta$ degrees inward from the primitive along the
+        east--west diameter.
+  \item Mark the point and return the index to north.
+\end{enumerate}
+
+To recover plunge and trend from a plotted point, reverse the procedure:
+rotate until the point lies on the east--west diameter, read the trend at the
+index and the plunge as the angular distance from the primitive.
+
+\section{Intersections, angles and rotation}
+\label{sec:intersections-angles-and-rotation}
+
+\subsection{Intersection of two planes}
+\label{sec:construct-intersection}
+
+This is the construction underlying every wedge analysis: the line of
+intersection is the direction along which a wedge formed by the two planes
+will slide.
+
+\begin{enumerate}
+  \item Plot both planes as great circles.
+  \item Mark the point where the two great circles cross. This point is the
+        line of intersection.
+  \item Rotate the tracing until that point lies on the east--west diameter.
+  \item Read the trend at the index mark and the plunge as the angular
+        distance inward from the primitive.
+\end{enumerate}
+
+\noindent\textbf{Check.}\enspace The intersection of two planes must lie on
+both great circles, and its plunge cannot exceed the dip of either plane. A
+plunge steeper than both dips indicates a plotting error.
+
+\subsection{Angle between two lines or two planes}
+\label{sec:construct-angles}
+
+\begin{enumerate}
+  \item For two lines, plot both as points, then rotate the tracing until
+        both lie on the same great circle.
+  \item Count the angular separation along that great circle. This is the
+        true angle between them.
+  \item For two planes, plot their poles and measure the angle between the
+        poles by the same method. The dihedral angle between the planes is
+        the supplement of the angle between their poles.
+\end{enumerate}
+
+Angles must be counted along a great circle, never as a straight-line distance
+on the projection, which is distorted.
+
+\subsection{Rotation about an axis}
+\label{sec:construct-rotation}
+
+Rotation is used to correct data for a plunging fold axis, to reorient data
+from an inclined borehole, and to test alternative excavation alignments.
+
+\begin{enumerate}
+  \item Plot the rotation axis and rotate the tracing until it lies at the
+        centre of the net, or on the primitive for a horizontal axis.
+  \item Move every plotted point along its small circle, through the required
+        angle, in the required sense.
+  \item Restore the tracing to its original position and read the rotated
+        orientations.
+\end{enumerate}
+
+For a horizontal axis the small circles are those of the net directly. For an
+inclined axis, the data must first be rotated to bring the axis to a
+convenient position, the required rotation applied, and the first rotation
+reversed.
+
+\section{Statistical treatment of orientation data}
+\label{sec:statistical-treatment-of-orientation-data}
+
+\paragraph{Pole density contouring.}
+Contouring identifies discontinuity sets within a scatter of poles. It must be
+done on an equal-area net.
+
+\begin{enumerate}
+  \item Plot all poles on the equal-area net.
+  \item Overlay a counting grid. Using a counting circle of one per cent of
+        the net area, count the poles falling within the circle centred at
+        each grid node; at the primitive, use the paired counting circle so
+        that poles near the edge are counted once.
+  \item Express each count as a percentage of the total number of poles.
+  \item Contour the resulting values at intervals chosen so that three to
+        five contours span the range.
+\end{enumerate}
+
+\noindent\textbf{Minimum data.}\enspace Contouring fewer than about a hundred
+poles produces contours that describe the sample rather than the rock mass. A
+plot of thirty poles should be presented as poles, not as contours.
+
+\paragraph{Terzaghi bias correction.}
+A scanline or borehole under-samples discontinuities lying close to parallel
+with it. The correction weights each observation by
+
+\[
+w = \frac{1}{\sin\delta}
+\]
+
+where $\delta$ is the acute angle between the discontinuity plane and the
+sampling line.
+
+\begin{enumerate}
+  \item For each observation, compute $\delta$ from the plotted pole and the
+        plotted sampling line.
+  \item Apply the weight $w$, counting the observation $w$ times in the
+        density calculation.
+  \item Apply a cut-off: where $\delta$ falls below a chosen minimum,
+        conventionally $15^\circ$ to $20^\circ$, cap $w$ at the value
+        corresponding to the cut-off.
+\end{enumerate}
+
+The cut-off is necessary because $w$ diverges as $\delta \to 0$, and without
+it a single observation of a near-parallel set is multiplied into an apparent
+cluster. Sets close to parallel with the sampling line remain
+under-represented after correction, and the only remedy is to sample in more
+than one direction.
+
+\section{Block and wedge construction}
+\label{sec:block-and-wedge-construction}
+
+\paragraph{Joint pyramid and removability.}
+
+\begin{enumerate}
+  \item Plot the great circles of the discontinuity sets bounding the block.
+        These divide the net into regions.
+  \item Select the region corresponding to the block under consideration.
+        This region is the joint pyramid: the set of directions in which the
+        block is free to move as determined by its faces.
+  \item Plot the great circle of the excavation surface, and identify the
+        region representing directions into the rock. This is the excavation
+        pyramid.
+  \item Apply the emptiness test. If the joint pyramid and the excavation
+        pyramid have no region in common, the block is removable. If they
+        overlap, the block is constrained by the surrounding rock and cannot
+        move regardless of its weight.
+\end{enumerate}
+
+\noindent\textbf{Check.}\enspace Removability depends only on orientation. A
+block that fails the test cannot move, and no calculation of its weight is
+required.
+
+\paragraph{Wedge geometry from the projection.}
+For a removable tetrahedral wedge formed by three planes in the crown:
+
+\begin{enumerate}
+  \item Determine the three lines of intersection of the bounding planes,
+        taken in pairs.
+  \item Identify the sliding direction: the line of intersection that
+        daylights into the excavation for a two-plane slide, or the dip
+        vector of the single sliding plane for a one-plane slide. If no
+        intersection daylights and the block is in the crown, the mode is
+        free fall.
+  \item Construct the wedge in section, using the excavation span and the
+        plane orientations, to obtain the apex height.
+  \item Compute the base area from the excavation geometry and the trace
+        lengths, the volume as one third of base area times apex height, and
+        the weight as volume times unit weight.
+\end{enumerate}
+
+The stability calculation that follows is in
+Appendix~\ref{app:calculations}.
+
+\section{Blank nets}
+\label{sec:blank-nets}
+
+Printable equal-angle and equal-area nets follow, at a diameter suitable for
+hand construction with a protractor. Both are drawn at two-degree intervals.

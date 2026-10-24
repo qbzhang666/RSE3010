@@ -1,0 +1,210 @@
+% !TeX root = ../main.tex
+% ---------------------------------------------------------------------------
+% Chapter 10 -- Construction Methods, Design Philosophies, Support and
+% Monitoring
+%
+% Source: Chapter Slides/RSE3010 Chapter~\ref{ch:construction}- Contruction Methods Underground
+% 2026.pdf. Removed topics from outside the approved chapter scope
+% are not included.
+% ---------------------------------------------------------------------------
+\chapter{Construction Methods, Design Philosophies, Support and Monitoring}
+\label{ch:construction}
+
+
+\section{Design guidelines for underground excavation}
+\label{sec:design-guidelines-for-underground-excavation}
+
+\subsection{Chapter logic}
+The previous chapters developed the mechanics and design tools used in underground engineering. This chapter asks how those tools are used when excavation actually begins. Construction method controls the stress path, disturbance, groundwater response, face stability, available working space, installation timing and monitoring strategy. The same ground can require very different support if it is excavated by drill and blast, roadheader, shield TBM, cut-and-cover or immersed-tube methods.
+
+The material is organised around three practical questions:
+\begin{enumerate}
+ \item How will the opening be excavated?
+ \item Which design philosophy governs support and deformation control?
+ \item How will monitoring confirm that the ground-support system is behaving acceptably?
+\end{enumerate}
+
+\subsection{Design guidelines for underground excavation}
+\label{sec:design-guidelines}
+Underground excavation design combines empirical, analytical and numerical methods. Their roles depend on the dominant failure mechanism:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{p{0.24\textwidth} X X X}
+\toprule
+\textbf{Approach} & \textbf{Weak-rock shear or squeezing} & \textbf{Structurally controlled instability} & \textbf{Brittle failure} \\
+\midrule
+Empirical & Squeezing charts; RMR, Q and GSI screening & Decision trees and joint-block checks & Spalling depth and brittle strain criteria \\
+Analytical & Plasticity-based closed-form solutions & Limit-equilibrium checks for blocks and wedges & Elastic stress concentration around the opening \\
+Numerical & 2D or 3D continuum models & Discontinuum or hybrid models where joint geometry governs & Continuum, discontinuum or FDEM models for stress-driven damage \\
+\bottomrule
+\end{tabularx}
+\caption{Analysis method matched to the governing underground failure mechanism.}
+\label{tab:ch10-methods-by-failure}
+\end{table}
+
+This matrix is useful because it prevents a common design error: using a familiar method for an unsuitable mechanism. A rock mass classification chart may be adequate for preliminary support in fair to good jointed rock, but it cannot by itself resolve a high-stress brittle damage problem, a squeezing zone, or a face-control problem in weak ground.
+
+\section{Construction method families}
+\label{sec:construction-method-families}
+
+\paragraph{Conventional tunnelling}
+\label{sec:conventional-tunnelling}
+Conventional tunnelling constructs openings using repeated cycles. A typical cycle includes excavation, mucking and installation of primary support. Excavation may be by drill and blast, roadheader or simpler mechanical excavators. Support commonly includes steel ribs or lattice girders, soil or rock bolts, sprayed concrete, cast in-situ concrete and local ground improvement.
+
+Its strength is flexibility. Excavation shape, round length, sequencing and support can be adjusted as ground conditions change. This makes conventional tunnelling attractive for complex geometry, caverns, variable ground and projects where observational control is central. Its weakness is that progress depends heavily on cyclic operations and experienced construction judgement.
+
+\paragraph{Mechanised tunnelling and TBMs}
+\label{sec:mechanised-tunnelling}
+Mechanised tunnelling uses machines that excavate by teeth, picks, cutters or discs. In many cases the machine also controls the face or perimeter and installs permanent lining. Shield TBMs provide peripheral support; earth pressure balance and slurry machines can also apply face support. Mucking is usually integrated into the machine operation, and precast segmental lining can be erected inside the shield soon after excavation.
+
+Mechanised tunnelling is powerful where geometry is repetitive, alignment is long and production consistency matters. The design focus shifts toward face pressure, volume loss, segmental lining, tail void grouting, settlement control and machine-ground compatibility. The excavation method therefore links directly to Chapter~\ref{ch:numerical-modelling}: settlement prediction and staged numerical modelling are design checks on construction control.
+
+\paragraph{Surface tunnelling and cut-and-cover}
+\label{sec:cut-and-cover}
+Surface tunnelling includes methods where the underground structure is built within a temporary or permanent open trench. Cut-and-cover construction typically follows this sequence:
+\begin{enumerate}
+ \item construct retaining walls along the future underground structure;
+ \item excavate the ground while supporting the walls;
+ \item build the underground structure; and
+ \item reinstate the surface use.
+\end{enumerate}
+Practice uses station works such as Arden, Parkville and Anzac as examples of where surface access, urban constraints and construction staging govern the method choice.
+
+\paragraph{Immersed tube tunnelling}
+\label{sec:immersed-tube}
+Immersed tube tunnelling is used for crossings through water bodies. Tunnel units are fabricated, floated or transported into position, sunk into a prepared trench, joined and then protected. The construction sequence is:
+\begin{enumerate}
+ \item install a gravel bed within the trench;
+ \item immerse the tube unit;
+ \item connect it to the previously placed unit;
+ \item dewater the immersion joint;
+ \item complete finishing works and remove ballast tanks; and
+ \item place infill, backfill and rock armour around the tube.
+\end{enumerate}
+Compared with bored tunnelling, the key geotechnical issues are trench stability, foundation preparation, bedding tolerance, buoyancy, backfill protection and interface watertightness.
+
+\section{Design philosophies}
+\label{sec:design-philosophies}
+
+\paragraph{The New Austrian Tunnelling Method}
+\label{sec:natm}
+The New Austrian Tunnelling Method (NATM) treats the ground around the tunnel as a load-bearing part of the support system rather than as a load that must simply be resisted. Support type and quantity are adjusted using observed deformation and pressure response. The method emphasises four ideas:
+\begin{itemize}
+ \item the ground reaction is time dependent after excavation;
+ \item shotcrete, bolts, anchors, ribs and lattice girders are used to permit controlled deformation;
+ \item monitoring of lining deformation and pressure is part of the design process; and
+ \item face support such as face bolts, sealing shotcrete or pipe canopies may be required in difficult ground.
+\end{itemize}
+Similar terms include the Sequential Excavation Method (SEM), commonly used in North America, and Sprayed Concrete Lining (SCL), commonly used in the United Kingdom.
+
+\paragraph{The Norwegian Method of Tunnelling}
+\label{sec:nmt}
+The Norwegian Method of Tunnelling (NMT) grew from hard-rock tunnelling experience in Norway and Sweden and is closely linked to the development of the Q-system. It is instructive to contrast NMT with NATM. NATM is often suited to soft ground where a smooth profile and a complete load-bearing ring can be developed; NMT is commonly associated with harder jointed rock, drill-and-blast or hard-rock TBM excavation, overbreak and rock-bolt plus sprayed-concrete support.
+
+NMT typically uses a single-shell philosophy in which fibre-reinforced sprayed concrete (Sfr), reinforced ribs of sprayed concrete (RRS) and systematic bolting provide both construction and long-term support where conditions allow. The Gjovik Olympic Mountain Hall illustrates the approach: a very large span was supported using Q-system logic, sprayed concrete and long bolts or anchors.
+
+\paragraph{The convergence--confinement method as a design philosophy}
+\label{sec:ccm-as-philosophy}
+Chapter~\ref{ch:ccm} developed the mechanics of the convergence--confinement method. In construction-method terms, CCM is a philosophy for selecting when and how stiffly to support the ground. The ground reaction curve defines the pressure-displacement response of the rock mass. The support characteristic curve defines the load-displacement response of the support. The longitudinal deformation profile connects support installation distance behind the face to the amount of convergence already mobilised.
+
+The AFTES tradition is notable here and Panet's use of the LDP for support timing. This is the practical value of CCM: it links face advance, deformation allowance, support pressure and safety factor in a way that can be checked before construction and updated during monitoring.
+
+\paragraph{The New Italian Tunnelling Method and ADECO-RS}
+\label{sec:adeco-rs}
+The New Italian Tunnelling Method, commonly associated with ADECO-RS, is based on analysing and controlling deformation in soil and rock. Its central object is the advance core: the volume of ground ahead of the tunnel face, approximately cylindrical with a diameter similar to the tunnel. Two responses are especially important:
+\begin{itemize}
+ \item \textbf{extrusion}, the deformation of the advance core into the excavation; and
+ \item \textbf{preconvergence}, the convergence of the theoretical tunnel profile ahead of the face.
+\end{itemize}
+ADECO-RS aims to stabilise the advance core before excessive deformation develops. Reinforcement techniques, such as fibreglass elements, improve the strength and stiffness of the core. Protective techniques, such as jet grouting or mechanical pre-support, help channel stresses around the face. The method classifies deformation response into stable, short-term stable and unstable categories, then selects pre-support and excavation measures accordingly.
+
+\paragraph{Comparison of NATM and ADECO-RS}
+\label{sec:natm-vs-adeco}
+NATM and ADECO-RS both use observation, staged support and ground-support interaction, but they focus on different control points. NATM emphasises controlled deformation around and behind the excavation, with support adjusted from measured convergence and pressure response. ADECO-RS puts greater emphasis on the face and advance core, especially in poor or deformable ground where extrusion and preconvergence may determine stability before the support ring is fully active.
+
+In practice, projects often use hybrid thinking. A long tunnel may use classification-based support in competent rock, NATM or CCM principles in weak zones, face reinforcement where the advance core controls stability, and numerical modelling for high-stress or highly three-dimensional sections.
+
+\section{Ground support systems}
+\label{sec:ground-support-systems}
+
+\subsection{Ground support systems}
+\label{sec:support-systems}
+Ground support has several objectives:
+\begin{itemize}
+ \item prevent the ground from losing strength;
+ \item prevent falls from unstable ground during excavation;
+ \item limit deformation around the cavity;
+ \item control seepage and protect exposed rock from weathering; and
+ \item protect workers, plant and permanent installations.
+\end{itemize}
+
+Support is commonly divided into temporary and permanent systems. Temporary or primary support is installed soon after excavation to provide short-term stability. Permanent or secondary support is designed for long-term serviceability, durability and structural stability.
+
+Primary support mechanisms fall into four categories:
+\begin{enumerate}
+ \item support that applies confining pressure to the surrounding ground, such as shotcrete;
+ \item support that acts as reinforcement while also contributing confinement, such as rock bolts and grouting;
+ \item support that provides direct structural resistance, such as steel linings and concrete segments; and
+ \item support that improves ground properties, such as grouting and ground freezing.
+\end{enumerate}
+
+\subsection{Shotcrete, fibre-reinforced shotcrete and reinforced ribs}
+\label{sec:shotcrete}
+Shotcrete is central to many underground support systems because it can be applied quickly after excavation and can conform to irregular surfaces. In conventional tunnelling, shotcrete provides early confinement, surface protection and load transfer between reinforcement elements. Fibre-reinforced shotcrete improves toughness and post-crack behaviour by distributing short fibres through the concrete matrix. Fibres may be steel, glass, synthetic or natural depending on the project requirement.
+
+In Q-system terminology, Sfr denotes fibre-reinforced sprayed concrete and RRS denotes reinforced ribs of sprayed concrete. These support types connect Chapter~\ref{ch:classification} and Chapter~\ref{ch:empirical-support} directly to construction practice: the classification value is not the final design, but it guides the first support category, thickness, bolt spacing and need for ribs or additional reinforcement.
+
+\subsection{Selecting a support design approach}
+\label{sec:support-approach-selection}
+A practical selection rule is:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{p{0.36\textwidth} X}
+\toprule
+\textbf{Rock quality and failure type} & \textbf{Appropriate support design approach} \\
+\midrule
+Jointed competent rock with block failure & Rock mass classification using RMR and Q, supported by joint assessment and local block checks \\
+Highly fractured or poor rock with general failure & Ground pressure assessment, classification methods and deformation-based checks \\
+High in-situ stress with burst or spalling potential & Stress analysis, shape optimisation, destress or yielding support where required \\
+Squeezing, swelling or large-deformation ground & Ground pressure and displacement analysis, CCM, numerical modelling and staged support \\
+\bottomrule
+\end{tabularx}
+\caption{Support design approach as a function of rock quality and failure type.}
+\label{tab:ch10-support-selection}
+\end{table}
+
+The important design habit is to update the support approach along the alignment. A single tunnel may pass through competent, highly weathered, high-stress and water-bearing zones. The design should therefore define support classes, trigger conditions for changing class, and monitoring thresholds that indicate when the assumed class is no longer appropriate.
+
+\section{Monitoring and case study}
+\label{sec:monitoring-and-case-study}
+
+\subsection{Monitoring and the observational method}
+\label{sec:monitoring}
+Tunnel monitoring is based on systematic measurement of deformations and stresses caused by excavation and support installation. Monitoring does not merely record what happened; it tests whether the design model is still credible.
+
+Typical measurements include:
+\begin{itemize}
+ \item surface settlement and building movement;
+ \item ground movement from inclinometers or extensometers;
+ \item tunnel convergence, meaning reduction of the excavation section due to stress redistribution;
+ \item ground and support pressure using pressure cells; and
+ \item groundwater level, inflow and pore pressure.
+\end{itemize}
+
+Monitoring should be connected to action levels. A green response confirms expected behaviour. An amber response triggers review, increased measurement frequency or local support adjustment. A red response requires immediate engineering intervention, which may include reduced advance length, stronger primary support, face reinforcement, grouting, temporary closure or redesign.
+
+\subsection{Case study: Snowy 2.0 underground power station}
+\label{sec:case-snowy-cavern}
+Snowy 2.0 serves here as a construction and design case. The project includes a long waterway tunnel and an underground power station complex at significant depth. Construction methods include TBM excavation for long tunnel drives and drill-and-blast excavation for large underground structures.
+
+For the power station complex, this chapter highlights the relationship between cavern shape, deformation and failure. A machine hall must accommodate large electromechanical equipment and associated tunnels, but the excavation shape must also manage stress redistribution and support demand. Three conceptual cavern shapes are compared:
+\begin{itemize}
+ \item a mushroom-shaped cavern with a concrete arch;
+ \item a conventional horseshoe-shaped cavern with vertical sidewalls; and
+ \item an elliptical cavern designed for more favourable stress distribution.
+\end{itemize}
+Numerical modelling is required to evaluate deformation and failure in both the concrete structures and surrounding rock mass. Large deformation at the roof or sidewalls indicates that extensive support may be required. For high-stress cavern design, shape selection, staged excavation, support sequence and monitoring must be treated as one design problem rather than separate tasks.

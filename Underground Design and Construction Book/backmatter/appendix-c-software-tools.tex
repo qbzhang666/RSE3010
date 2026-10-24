@@ -1,0 +1,123 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+%  Appendix C -- The companion open-access application
+%  The book is deliberately tool-neutral. No method in the main text depends on
+%  a particular program; this appendix describes the open-access scripts that
+%  accompany the book so that its calculations can be reproduced and varied.
+%------------------------------------------------------------------------------
+\chapter{The Companion Open-Access Application}
+\label{app:software}
+
+No method in this book requires a particular program. Every calculation in the
+main text is stated so that it can be followed by hand, and the sequences of
+Appendix~\ref{app:calculations} exist for exactly that purpose. Software is a
+convenience, not a prerequisite, and a reader with a calculator and the
+expressions of Appendix~\ref{app:closed-form} can reproduce every numerical
+result printed here.
+
+That said, several of the calculations are tedious by hand and instructive when
+varied. \companionname\ therefore accompanies the book. It is a set of scripts
+and small interactive applications, released openly at
+
+\begin{center}
+\companionlink
+\end{center}
+
+\noindent so that the worked examples can be reproduced, the parameters varied
+and the sensitivity of each result examined directly. They are provided for
+teaching and for checking. None of them contains judgement, and each returns an
+answer whether or not its assumptions apply to the problem in hand.
+
+\section{Contents and chapter mapping}
+\label{sec:companion-contents}
+
+The scripts are written in Python. Those whose names end in \code{\_app} or
+\code{\_streamlit} run as browser-based applications with interactive controls;
+the remainder run from the command line and print or plot their results. The
+dependencies are listed in \code{requirements.txt} in the repository root.
+
+\begin{longtable}{ll}
+\toprule
+Script & Supports \\
+\midrule
+\endhead
+\code{Mohr-Coulomb.py} & Chapter~\ref{ch:rock-mechanics} \\
+\code{Hoek1998.py} & Chapters~\ref{ch:rock-mechanics}, \ref{ch:ccm} \\
+\code{Generalised Hoek-Brown.py} & Chapter~\ref{ch:rock-mass-parameters} \\
+\code{MC Parameters from HB.py} & Chapters~\ref{ch:rock-mechanics}, \ref{ch:rock-mass-parameters} \\
+\code{GRC.py} & Chapter~\ref{ch:ccm} \\
+\code{ccm\_ldp\_scc.py} & Chapter~\ref{ch:ccm} \\
+\code{CCM Tunnel.py} & Chapter~\ref{ch:ccm} \\
+\code{arc-beam.py} & Chapter~\ref{ch:ccm} \\
+\code{tbm\_settlement.py} & Chapter~\ref{ch:numerical-modelling} \\
+\code{settlement\_app.py} & Chapter~\ref{ch:numerical-modelling} \\
+\code{TBM\_Vibration.py} & Chapter~\ref{ch:numerical-modelling} \\
+\code{Retaining-Wall.py} & Chapter~\ref{ch:construction} \\
+\bottomrule
+\end{longtable}
+
+\section{Structural analysis scripts}
+\label{sec:structural-scripts}
+
+\code{Stereonet and LEM.py} and \code{Kinematic Slope.py} contain the
+stereographic projection routines used in
+Chapter~\ref{ch:structural-analysis}. Although both were written for slope
+work, the projection, pole plotting, contouring and plane-intersection
+functions apply unchanged to underground wedge and block identification; only
+the kinematic failure tests at the end are slope-specific. The net
+constructions those routines automate are set out for hand working in
+Appendix~\ref{app:stereonet}, and the two should agree.
+
+The remaining slope-specific scripts in the repository belong to companion
+slope-engineering material and have no application to the methods in this book.
+
+\section{The demonstrator behind the data figures}
+\label{sec:demonstrator-figures}
+
+Seven figures in this book are not drawn but computed: two in
+Chapter~\ref{ch:digital-twin}, four in Chapter~\ref{ch:movement-monitoring} and
+one in Chapter~\ref{ch:delivery}. They come from a research demonstrator of a
+twin-tunnel corridor, and their data is synthetic throughout --- a simulated
+alignment through simulated ground, a simulated population of three thousand
+buildings above it, and a simulated movement field before and during
+construction. No project record appears in any of them.
+
+That is a deliberate choice rather than a limitation. Monitoring records of the
+kind these figures show are commercially and legally restricted almost
+everywhere, and a book that reproduced one could show it only in part and could
+not let a reader vary it. A synthetic corridor can be published whole. The
+consequence is that these figures illustrate the shape of a method and not the
+behaviour of any ground: no settlement, rate, error or proportion printed in
+them should be read as characteristic of a real machine, a real geology or a
+real building stock. Where a chapter needs a value a reader might use, it is
+given in the text and sourced there.
+
+Two cautions attach to reading them. The demonstrator is seeded, so the figures
+are stable between runs and the numbers quoted in the captions match what the
+export produces; a change to the demonstrator changes the figures, and the
+export script that writes them --- \code{tools/export\_twin\_figures.py} in the
+book's own repository --- reports the model error on every run so that such a
+change is visible rather than silent. The second caution is that the settlement
+bands of Figure~\ref{fig:settlement-screening} are magnitudes of predicted
+settlement and not damage categories in the sense of
+Section~\ref{sec:damage-assessment}: they carry no building stiffness, no
+foundation type and no orientation to the trough, and they stand for a
+first-stage screen and nothing beyond it.
+
+\section{Relationship to commercial software}
+\label{sec:commercial-software}
+
+Commercial packages are in general use for the analyses described in
+Chapters~\ref{ch:ccm} and~\ref{ch:numerical-modelling}, and nothing here argues
+against them. They automate the arithmetic, provide meshing and plotting, and
+handle geometries that closed-form methods cannot reach.
+
+Two cautions apply, and they are the reason this book states its methods
+independently of any package. The first is that a program will return a number
+for any input, including inputs outside the range in which its formulation is
+valid; the check on that is the reader's, and it is easier to make when the
+underlying expression is known. The second is that a result which cannot be
+reproduced by an independent route has not been verified. Running a hand
+calculation from Appendix~\ref{app:calculations}, or one of the scripts above,
+against a package result is the cheapest verification available, and
+disagreement between the two is informative whichever turns out to be wrong.

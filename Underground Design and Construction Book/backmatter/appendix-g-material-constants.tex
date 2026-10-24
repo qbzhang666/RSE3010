@@ -1,0 +1,302 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+%  Appendix G -- Typical Material Constants and Parameter Ranges
+%  Values compiled from the standard references (Hoek & Brown; Brady & Brown;
+%  Hoek, Kaiser & Bawden; Mair & Taylor). Every value must be verified against
+%  its source before use in print.
+%------------------------------------------------------------------------------
+\chapter{Typical Material Constants and Parameter Ranges}
+\label{app:constants}
+
+\noindent\textbf{Tabulated values are for checking, not for designing.}\enspace
+Every value in this appendix is a typical range drawn from published
+compilations. They are useful for sanity-checking a measured value, for
+preliminary study before site data exists, and for setting sensitivity bounds.
+They are not a substitute for project-specific testing, and a design relying
+on a table in a textbook should say so explicitly.
+
+\section{Intact rock and Hoek--Brown constants}
+\label{sec:intact-rock-and-hoek-brown-constants}
+
+\paragraph{Strength and stiffness by rock type.}
+Table~\ref{tab:intact-props} gives indicative ranges. The scatter within a
+rock type routinely exceeds the difference between types, so the table
+identifies an implausible value rather than supplying a design one.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l c c c X}
+\toprule
+\textbf{Rock type} & \boldmath{$\sci$} \textbf{(MPa)} & \boldmath{$\Ei$}
+\textbf{(GPa)} & \boldmath{$\nu$} & \textbf{Unit weight (kN/m\textsuperscript{3})} \\
+\midrule
+Granite            & 100--250 & 40--70 & 0.15--0.25 & 26--27 \\
+Basalt             & 100--300 & 40--80 & 0.15--0.25 & 27--30 \\
+Sandstone          & 20--170  & 5--40  & 0.15--0.30 & 22--26 \\
+Limestone          & 30--250  & 20--70 & 0.15--0.30 & 24--27 \\
+Siltstone          & 10--120  & 5--30  & 0.15--0.30 & 23--26 \\
+Shale / mudstone   & 5--100   & 2--20  & 0.20--0.35 & 22--26 \\
+Gneiss             & 80--250  & 30--70 & 0.15--0.25 & 26--29 \\
+Schist             & 20--150  & 5--50  & 0.15--0.30 & 25--28 \\
+Slate              & 60--250  & 20--60 & 0.15--0.25 & 26--28 \\
+\bottomrule
+\end{tabularx}
+\caption{Indicative intact rock properties. Anisotropic rocks
+(schist, slate, shale) vary strongly with the angle between loading and
+fabric; the ranges given span that variation.}
+\label{tab:intact-props}
+\end{table}
+
+The modulus ratio $MR = \Ei/\sci$ is often more stable than either quantity
+alone, and where $\Ei$ has not been measured it may be estimated as
+$\Ei = MR\,\sci$. Typical values run from about 300 for weak mudrocks to
+around 500 for many sandstones and limestones, and 350 to 500 for crystalline
+rocks.
+
+\paragraph{Hoek--Brown $\mi$ values.}
+The constant $\mi$ describes the curvature of the intact failure envelope and
+is grouped by rock type and texture, as in Table~\ref{tab:mi}. Values are
+approximate and are conventionally quoted with an uncertainty of a few units.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{X c X c}
+\toprule
+\textbf{Rock type} & \boldmath{$\mi$} & \textbf{Rock type} & \boldmath{$\mi$} \\
+\midrule
+Granite            & 32 & Sandstone          & 17 \\
+Granodiorite       & 29 & Siltstone          & 7 \\
+Diorite            & 25 & Claystone          & 4 \\
+Gabbro             & 27 & Greywacke          & 18 \\
+Basalt             & 25 & Limestone, crystalline & 12 \\
+Rhyolite           & 25 & Limestone, micritic    & 9 \\
+Andesite           & 25 & Dolomite           & 9 \\
+Gneiss             & 28 & Marble             & 9 \\
+Schist             & 12 & Quartzite          & 20 \\
+Phyllite           & 7  & Slate              & 7 \\
+Amphibolite        & 26 & Chalk              & 7 \\
+\bottomrule
+\end{tabularx}
+\caption{Hoek--Brown constant $\mi$ for intact rock. Anisotropic rocks are
+quoted for loading normal to the fabric; values fall substantially for loading
+at an unfavourable angle.}
+\label{tab:mi}
+\end{table}
+
+Interpolation for rocks not listed should be made by texture and mineralogy
+rather than by name: coarse-grained crystalline rocks tend to high $\mi$, and
+fine-grained clay-rich rocks to low.
+
+\section{Rock mass parameters}
+\label{sec:rock-mass-parameters-app}
+
+\paragraph{Geological Strength Index.}
+$\GSI$ is estimated from rock mass structure and discontinuity surface
+condition, as in Table~\ref{tab:gsi}. It is deliberately a range rather than a
+number, and a $\GSI$ quoted to a single unit misrepresents the evidence.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{X c c c}
+\toprule
+\textbf{Structure} & \textbf{Good surfaces} & \textbf{Fair} & \textbf{Poor} \\
+\midrule
+Intact or massive        & 80--90 & --     & --     \\
+Blocky                   & 65--80 & 55--70 & 40--55 \\
+Very blocky              & 55--70 & 45--60 & 30--45 \\
+Blocky/disturbed, seamy  & 45--60 & 35--50 & 25--40 \\
+Disintegrated            & 30--45 & 25--40 & 15--30 \\
+Laminated, sheared       & --     & 15--30 & 10--20 \\
+\bottomrule
+\end{tabularx}
+\caption{Indicative $\GSI$ ranges by structure and surface condition.}
+\label{tab:gsi}
+\end{table}
+
+Where classification data exist, the correlations
+$\GSI \approx \RMR_{89} - 5$ (for $\RMR > 23$) and
+$\GSI \approx 9\ln Q' + 44$ provide a cross-check. They agree with chart
+estimation to within about five points in competent rock and diverge in poor
+ground, where the chart is preferred.
+
+\paragraph{Disturbance factor.}
+Table~\ref{tab:d-factor} gives $\Dfac$ by excavation method. It applies to the
+damaged annulus only, not to the whole rock mass, and applying $\Dfac$
+throughout a numerical model is a common and severely conservative error. A
+practical rule is to apply it over a thickness comparable to the blast damage
+zone --- typically one to two metres for tunnels --- and to use $\Dfac = 0$
+beyond.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{X c}
+\toprule
+\textbf{Excavation method} & \boldmath{$\Dfac$} \\
+\midrule
+Mechanical excavation, minimal disturbance & 0 \\
+Good-quality controlled blasting, smooth wall & 0.5 \\
+Poor-quality production blasting & 0.8 \\
+Very poor blasting, heavy damage & 1.0 \\
+Mechanical excavation in squeezing ground & 0--0.5 \\
+Slope excavation, small-scale controlled blasting & 0.7 \\
+Slope excavation, production blasting & 1.0 \\
+\bottomrule
+\end{tabularx}
+\caption{Disturbance factor by excavation method.}
+\label{tab:d-factor}
+\end{table}
+
+\section{Discontinuities and soils}
+\label{sec:discontinuities-and-soils}
+
+\paragraph{Discontinuity strength.}
+Table~\ref{tab:joint} gives basic friction angles for clean, unweathered
+surfaces. Roughness adds to these through the joint roughness coefficient;
+weathering and infill subtract.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{X c X c}
+\toprule
+\textbf{Rock} & \boldmath{$\phi_b$} \textbf{(\textdegree)} & \textbf{Rock} & \boldmath{$\phi_b$} \textbf{(\textdegree)} \\
+\midrule
+Granite   & 29--35 & Sandstone & 26--35 \\
+Basalt    & 31--38 & Siltstone & 27--31 \\
+Limestone & 31--37 & Shale     & 27--32 \\
+Dolomite  & 27--35 & Slate     & 25--30 \\
+Gneiss    & 26--29 & Chalk     & 30--41 \\
+\bottomrule
+\end{tabularx}
+\caption{Basic friction angle $\phi_b$ for clean unweathered discontinuity
+surfaces. Residual friction angles for weathered surfaces are typically
+several degrees lower.}
+\label{tab:joint}
+\end{table}
+
+The joint roughness coefficient ranges from 0--2 for smooth planar surfaces to
+18--20 for very rough undulating ones, and it is scale-dependent: a value
+measured on a 100\,mm profile overestimates the roughness of a joint several
+metres across. Joint wall compressive strength equals $\sci$ for fresh
+surfaces and falls to a quarter of it or less for weathered ones.
+
+Where infill thickness exceeds the asperity amplitude, the surfaces are
+decoupled and the strength is that of the infill: typically $\phi' = 10$ to
+$20^\circ$ for clay gouge, with little or no effective cohesion.
+
+\paragraph{Soils for tunnelling.}
+Table~\ref{tab:soil-params} gives indicative ranges for soils commonly
+encountered in urban tunnelling.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{X c c c}
+\toprule
+\textbf{Soil} & \boldmath{$\phi'$} \textbf{(\textdegree)} & \boldmath{$c'$}
+\textbf{(kPa)} & \boldmath{$E'$} \textbf{(MPa)} \\
+\midrule
+Loose sand            & 28--32 & 0      & 10--25 \\
+Dense sand            & 35--45 & 0      & 50--150 \\
+Gravel                & 35--45 & 0      & 60--200 \\
+Soft clay             & 18--25 & 0--10  & 2--10 \\
+Stiff clay            & 20--28 & 5--30  & 20--60 \\
+Hard clay / residual  & 24--32 & 10--50 & 40--150 \\
+\bottomrule
+\end{tabularx}
+\caption{Indicative drained soil parameters. Small-strain stiffness governing
+ground movement outside the yield zone is commonly three to five times the
+values tabulated.}
+\label{tab:soil-params}
+\end{table}
+
+\section{Support elements and concrete}
+\label{sec:support-elements-and-concrete}
+
+\paragraph{Support element capacities.}
+Table~\ref{tab:support-props} gives representative capacities. Stiffness
+expressions for each system are in Appendix~\ref{app:closed-form}.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{X c X}
+\toprule
+\textbf{Element} & \textbf{Capacity} & \textbf{Remarks} \\
+\midrule
+Grouted rebar, 20\,mm       & 130--180\,kN & Bond usually governs before bar yield \\
+Grouted rebar, 25\,mm       & 200--280\,kN & \\
+Friction bolt (split set)   & 40--100\,kN  & Low capacity, high deformability \\
+Expandable friction bolt    & 100--200\,kN & \\
+Cable, single strand        & 200--260\,kN & \\
+Cable, multi-strand anchor  & 500--2000\,kN & Pre-tensioned; long free length \\
+Energy-absorbing bolt       & 100--200\,kN & Rated in kJ, not kN; 20--50\,kJ typical \\
+Welded mesh                 & 20--40\,kN/m & Brittle failure at welds \\
+Chain-link mesh             & 30--60\,kN/m & Large deformation capacity \\
+\bottomrule
+\end{tabularx}
+\caption{Representative support element capacities.}
+\label{tab:support-props}
+\end{table}
+
+\paragraph{Concrete and shotcrete.}
+Sprayed concrete is normally specified at 30 to 45\,MPa at 28 days, with
+accelerator dosage reducing long-term strength by 15 to 30\,\% relative to the
+unaccelerated mix --- an allowance that belongs in the design strength rather
+than in the test results.
+
+Early strength governs the excavation cycle. Indicative development for a
+wet-mix accelerated shotcrete is 0.2 to 0.5\,MPa at one hour, 1 to 3\,MPa at
+three hours, 5 to 10\,MPa at twelve hours and 15 to 25\,MPa at one day. Elastic
+modulus rises with strength, reaching roughly 10\,GPa at one day and 25 to
+30\,GPa at 28 days, and the creep coefficient of young shotcrete is large
+enough --- of order 2 to 3 --- to relax a substantial part of any load applied
+in the first days.
+
+Precast segments are typically specified at 45 to 60\,MPa, with steel fibre
+dosages of 30 to 45\,kg/m\textsuperscript{3} and residual flexural strength
+rather than dosage as the specified performance.
+
+\section{Settlement parameters and conversions}
+\label{sec:settlement-parameters-and-conversions}
+
+\paragraph{Volume loss and trough width.}
+Table~\ref{tab:volume-loss} gives volume loss achievable with good
+construction control. Poor control, mixed face conditions or inadequate
+grouting can multiply these by a factor of two or more.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{X c c}
+\toprule
+\textbf{Method and ground} & \boldmath{$V_L$} \textbf{(\%)} & \boldmath{$K$} \\
+\midrule
+Closed-face machine, stiff clay      & 0.5--1.5 & 0.4--0.5 \\
+Closed-face machine, soft clay       & 1.0--2.0 & 0.5 \\
+Closed-face machine, sand below water& 0.5--1.5 & 0.25--0.35 \\
+Sprayed concrete lining, stiff clay  & 0.5--1.5 & 0.4--0.5 \\
+Sprayed concrete lining, weak rock   & 0.3--1.0 & 0.3--0.4 \\
+Open face, stiff clay                & 1.0--3.0 & 0.5 \\
+\bottomrule
+\end{tabularx}
+\caption{Indicative volume loss and trough width parameter. The trough width
+$i = K z_0$, where $z_0$ is the depth to tunnel axis.}
+\label{tab:volume-loss}
+\end{table}
+
+Damage category thresholds in terms of limiting tensile strain are
+conventionally: negligible below 0.05\,\%; very slight 0.05--0.075\,\%; slight
+0.075--0.15\,\%; moderate 0.15--0.3\,\%; and severe above 0.3\,\%.
+
+\paragraph{Conversions.}
+$1\,\mathrm{MPa} = 10.2\,\mathrm{kgf/cm^2} = 145\,\mathrm{psi}$;
+$1\,\mathrm{MN/m^2} = 1\,\mathrm{MPa}$;
+$1\,\mathrm{bar} = 100\,\mathrm{kPa}$;
+a head of $1\,\mathrm{m}$ of water $= 9.81\,\mathrm{kPa}$;
+$1\,\mathrm{Lugeon} \approx 1.3\times10^{-7}\,\mathrm{m/s}$;
+$1\,\mathrm{tonne\,force} = 9.81\,\mathrm{kN}$.

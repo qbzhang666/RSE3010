@@ -1,0 +1,168 @@
+% !TeX root = ../main.tex
+% ---------------------------------------------------------------------------
+% Stereographic Projection and Structural Analysis of Underground Excavations
+%
+% Promoted from an appendix to a main-narrative chapter: stereographic
+% projection is a primary underground design tool, not slope-specific
+% background. Roof and sidewall wedges, block removability, intersection
+% geometry and excavation orientation all depend on it.
+%
+% Maps to: Hoek & Brown (1980) Ch. 4 "Graphical presentation of geological
+% data" and Ch. 7 (structurally controlled instability);
+% Brady & Brown (2006) Ch. 3 (projection tools) and Ch. 9
+% "Excavation design in blocky rock".
+% Net construction procedures are in Appendix~\ref{app:stereonet}.
+% Related scripts: ../Stereonet and LEM.py, ../Kinematic Slope.py
+% ---------------------------------------------------------------------------
+\chapter{Stereographic Projection and Structural Analysis of Underground
+Excavations}
+\label{ch:structural-analysis}
+
+
+\section{Projection in underground design}
+\label{sec:projection-in-underground-design}
+
+\subsection{Projection is an underground design tool}
+\label{sec:projection-underground}
+\scopenote{Stereographic projection is often introduced through slope
+stability and then assumed to belong there. It does not. Structurally
+controlled failure is one of the three primary underground failure modes
+(Chapter~\ref{ch:empirical-support}), and every roof wedge, sidewall block,
+portal failure and intersection collapse is identified by the same
+construction. This chapter establishes the technique and applies it
+underground; the slope-specific kinematic tests are not repeated here.}
+
+\subsection{Where structural control governs underground}
+\label{sec:structural-control-cases}
+\scopenote{Crown and sidewall wedges in tunnels, roof blocks in large-span
+caverns, wedges at junctions and cross-passages, portal and shaft-collar
+blocks, and blocks released by a single fault in otherwise competent rock.
+Cases where the rock mass is good by classification and still fails.}
+
+\section{Projection fundamentals}
+\label{sec:projection-fundamentals}
+
+\subsection{The reference sphere and projection methods}
+\label{sec:reference-sphere}
+\scopenote{The lower hemisphere construction, equal-angle (Wulff) versus
+equal-area (Schmidt) projection, and which to use for geometric construction
+as against statistical contouring.}
+
+\subsection{Plotting planes, poles and lines}
+\label{sec:plotting-elements}
+\scopenote{Great circles and poles for planes, points for lines. The
+dip/dip-direction and strike/dip conventions, and the sign and hemisphere
+errors that follow from mixing them. Step-by-step constructions in
+Appendix~\ref{app:stereonet}.}
+
+\subsection{Lines of intersection}
+\label{sec:intersection-lines}
+\scopenote{The intersection of two planes as a point on the net, its plunge
+and trend, and why it is the single most important construction for
+underground work: the intersection line is the direction a wedge slides.}
+
+\section{Discontinuity data and its limitations}
+\label{sec:discontinuity-data-and-its-limitations}
+
+\subsection{Identifying discontinuity sets}
+\label{sec:identifying-sets}
+\scopenote{Pole density contouring, distinguishing genuine sets from
+scatter and from random joints, mean set orientation, and dispersion measures
+such as the Fisher constant.}
+
+\subsection{Sampling bias and the Terzaghi correction}
+\label{sec:terzaghi-correction}
+\scopenote{Discontinuities subparallel to a borehole or scanline are
+systematically under-sampled. The Terzaghi weighting correction, its blow-up
+near the sampling direction, and the practical need for boreholes or scanlines
+in more than one orientation. Connects to
+Section~\ref{sec:orientation-bias}.}
+
+\subsection{Errors in structural data processing}
+\label{sec:projection-errors}
+\scopenote{The error catalogue in Hoek and Brown: convention confusion,
+uncorrected magnetic declination, merging incompatible data sets, contouring
+too few poles, and treating a mean orientation as if it had no scatter.}
+
+\section{From discontinuity sets to structural domains}
+\label{sec:structural-domains}
+\scopenote{Dividing an alignment into domains of consistent structure, and
+why a single stereonet for a whole project hides the variation that governs
+design.}
+
+\section{Block and wedge formation}
+\label{sec:block-and-wedge-formation}
+
+\subsection{Block removability}
+\label{sec:block-removability}
+\scopenote{The geometric question that precedes any stability calculation:
+given the discontinuity sets and the excavation surface, can the block move
+into the opening at all? Finiteness and removability, and the joint pyramid
+and excavation pyramid construction.}
+
+\subsection{Roof, sidewall and face wedges}
+\label{sec:tunnel-wedges}
+\scopenote{Forming the tetrahedral wedges released by three intersecting sets
+in the crown, each sidewall and the face of a tunnel; how the same joint sets
+produce different critical wedges on differently oriented surfaces.}
+
+\subsection{Wedge geometry, apex height and weight}
+\label{sec:wedge-geometry}
+\scopenote{Extracting apex height, base area and volume from the projection
+and the excavation dimensions; the scaling of wedge weight with span that
+makes large caverns structurally demanding.}
+
+\section{Failure mode and excavation orientation}
+\label{sec:failure-mode-and-excavation-orientation}
+
+\subsection{Failure modes: free fall, single-plane and two-plane sliding}
+\label{sec:wedge-modes}
+\scopenote{Determining the mode from the position of the intersection line
+relative to the excavation surface, and the different resisting mechanisms
+each mode mobilises.}
+
+\subsection{Excavation orientation as a design variable}
+\label{sec:orientation-design}
+\scopenote{Rotating the excavation on the stereonet to test how alignment
+changes wedge size and mode. One of the few structural problems where a design
+change removes the hazard rather than supporting it. Interacts with the
+stress-driven orientation argument in Section~\ref{sec:cavern-orientation}.}
+
+\subsection{Intersections, portals and shafts}
+\label{sec:structural-intersections}
+\scopenote{Additional free surfaces at junctions and cross-passages release
+blocks that neither drive would form alone; the near-surface stress relief
+that makes portal and shaft-collar blocks unusually mobile.}
+
+\section{From geometry to support}
+\label{sec:from-geometry-to-support}
+
+\subsection{From geometry to stability and support}
+\label{sec:geometry-to-support}
+\scopenote{Passing wedge geometry to a limit equilibrium check, the role of
+clamping stress and joint shear strength, and the required bolt force and
+orientation. Design treatment in
+Chapters~\ref{ch:ground-type-design} and~\ref{ch:support-interaction};
+calculation sequence in Appendix~\ref{app:calculations}.}
+
+\subsection{Probabilistic treatment of orientation}
+\label{sec:probabilistic-orientation}
+\scopenote{Discontinuity orientation is scattered, so wedge geometry is a
+distribution rather than a single case. Sampling orientations to obtain a
+distribution of wedge sizes and factors of safety.}
+
+\section{Software and worked example}
+\label{sec:software-and-worked-example}
+
+\subsection{Software and digital workflows}
+\label{sec:structural-software}
+\scopenote{UnWedge and equivalent block analysis tools, photogrammetric and
+LiDAR discontinuity extraction feeding projection directly, and the repository
+scripts \code{Stereonet and LEM.py} and \code{Kinematic Slope.py}.}
+
+\subsection{Worked example: cavern crown and sidewall wedges}
+\label{sec:structural-worked-example}
+\scopenote{Snowy 2.0 power station complex: joint sets from the geological
+profile, wedge identification for the crown and each sidewall, and support
+demand. Follows the UnWedge assessment referenced in
+Chapter~\ref{ch:caverns}.}

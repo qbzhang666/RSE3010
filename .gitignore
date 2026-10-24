@@ -1,0 +1,13 @@
+
+# Added 2026-10-24: scratch, third-party reading material and LaTeX build files
+tmp/
+.claude/
+Textbooks/
+ACRM-DBSD-RBHA-course-material/
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls

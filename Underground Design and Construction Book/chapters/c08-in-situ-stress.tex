@@ -1,0 +1,230 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+%  Chapter 8 -- In-Situ Stress
+%  Sources: Amadei & Stephansson (1997); Sheorey (1994); Hoek & Brown (1980);
+%  ISRM Suggested Methods for stress determination.
+%------------------------------------------------------------------------------
+\chapter{In-Situ Stress}
+\label{ch:in-situ-stress}
+
+In-situ stress supplies the demand against which strength, classification and
+support capacity are assessed. Neither side of that comparison carries meaning
+without the other, yet stress remains the input most often assumed rather than
+determined. The assumption ordinarily made, that vertical stress equals the
+overburden weight and horizontal stress follows from an assumed ratio, is
+adequate at moderate depth in simple settings and can be seriously in error
+elsewhere. This chapter examines what determines the field, how it is
+measured, what those measurements cost in reliability, and how a design is
+justified when the result remains uncertain.
+
+The assumption usually made, that the vertical stress equals the overburden
+weight and the horizontal stress follows from an assumed ratio, is adequate at
+moderate depth in simple settings and can be seriously wrong elsewhere. This
+chapter sets out what determines the field, how it is measured, what the
+measurements cost in reliability, and how a design is justified when the
+answer remains uncertain.
+
+\section{The stress field and its estimation}
+\label{sec:stress-field}
+
+\subsection{Origin and components}
+\label{sec:stress-components}
+
+The stress at a point in the ground is a second-order tensor with six
+independent components, and a complete determination requires all six. Four
+physical contributions combine to produce it.
+
+Gravitational loading supplies the vertical component directly and, through
+lateral restraint, a horizontal component. For a laterally confined elastic
+half-space with no tectonic contribution, the horizontal-to-vertical ratio
+follows from the Poisson effect,
+\[
+k = \frac{\nu}{1-\nu},
+\]
+which for $\nu$ between 0.2 and 0.3 gives $k$ between 0.25 and 0.43. Measured
+ratios in the upper few hundred metres of the crust routinely exceed unity, so
+this expression is better regarded as a lower bound than as an estimate.
+
+Tectonic stress transmitted from plate boundaries through the lithosphere
+supplies most of the excess. It is coherent over distances of hundreds of
+kilometres, which is what makes regional compilations useful, and it is
+largely independent of depth, so its relative importance diminishes as the
+gravitational component grows.
+
+Topography perturbs both contributions. Stresses concentrate beneath valley
+floors and relax beneath ridges, and the perturbation extends to a depth
+comparable with the width of the topographic feature. This matters for
+portals, for shallow alignments in mountainous terrain, and for any excavation
+beneath a steep slope, where the principal directions may also rotate away
+from the vertical.
+
+Residual stress locked in at grain and block scale by cooling, diagenesis and
+past deformation accounts for a smaller part of the total. Its practical
+signature is in observations that otherwise appear anomalous: core discing,
+time-dependent deformation of specimens after recovery, and measurement
+scatter beyond instrumental precision.
+
+Erosional unloading deserves particular attention, because it explains the
+most consequential departure from the naive estimate. As overburden is
+removed, the vertical stress falls with it, while horizontal strain remains
+restrained and the horizontal stress falls more slowly. The result near
+surface is a horizontal stress that can be several times the vertical, the
+reverse of what elastic confinement alone would predict. Shallow rock
+excavations in formerly deeply buried terrain therefore behave as though they
+were considerably deeper, and this is the usual explanation for spalling
+encountered where none was anticipated.
+
+\subsection{Magnitude with depth}
+\label{sec:k-ratio}
+
+The vertical stress is normally taken as $\sv = \gamma z$, and it is the most
+reliable component of the field. The approximation fails where topography is
+steep, beneath a valley or an overhang, and where a stiff unit bridges over a
+soft one.
+
+The horizontal stress is expressed through $k = \sh / \sv$. Compilations of
+measurements show a characteristic pattern: $k$ is high and widely scattered
+near surface, commonly between 1 and 3 and occasionally higher, and converges
+towards unity at depth as the gravitational contribution comes to dominate.
+\citet{hoekbrown1980underground} bounded the observed data by
+\[
+\frac{100}{z} + 0.3 \;<\; k \;<\; \frac{1500}{z} + 0.5,
+\]
+with $z$ in metres. The envelope is wide, and deliberately so: at 100\,m it
+admits $k$ between 1.3 and 15.5, and at 1000\,m between 0.4 and 2.0. Its value
+lies in establishing a plausible range rather than an estimate.
+
+\citet{sheorey1994theory} derived a physically based alternative from
+a thermo-elastic model of the crust,
+\[
+k = 0.25 + 7 E_h \left( 0.001 + \frac{1}{z} \right),
+\]
+in which $E_h$ is the horizontal deformation modulus in \si{\giga\pascal} and
+$z$ the depth in metres. The expression reproduces the observed hyperbolic
+decay without empirical fitting and links $k$ to a measurable rock property,
+which is its principal advantage. It is dimensionally inhomogeneous, as the
+statement of units indicates, and it applies to the modulus of the rock mass
+rather than of an intact specimen.
+
+Both relations should be treated as first estimates. Where stress governs the
+design, in deep caverns in brittle rock or wherever spalling is anticipated,
+direct determination is warranted.
+
+\subsection{Measurement methods}
+\label{sec:measurement-methods}
+
+Three families of technique are in routine use, and they differ in what they
+determine, not merely in how they determine it.
+
+Overcoring recovers the complete stress tensor from a single measurement. A
+small-diameter hole is instrumented, then overcored so that the surrounding
+annulus of rock relaxes, and the recovered strains are converted to stresses
+using elastic properties determined separately on the same core. The CSIRO
+hollow inclusion cell, the USBM deformation gauge and the doorstopper are the
+established variants; the first two recover all six components from a single
+installation, whereas the doorstopper requires measurements in three
+non-parallel holes. The method needs competent, reasonably intact rock, since
+core that discs or fractures on relief yields no usable strain record, and
+this excludes precisely the highly stressed ground in which the measurement is
+most wanted. Depth is limited by the requirement for access to the collar of
+the measurement hole.
+
+Hydraulic fracturing pressurises an isolated borehole interval until a tensile
+fracture forms, then records the pressure at which the fracture reopens and
+the pressure at which it closes. The shut-in pressure equals the stress normal
+to the fracture, which for a vertical fracture is the minimum horizontal
+stress, and this is the most reliable quantity the method produces. The
+maximum horizontal stress is inferred from the breakdown pressure through a
+relation that requires the tensile strength and the pore pressure, both of
+which carry significant uncertainty. The method assumes that one principal
+stress is vertical, an assumption that is reasonable in flat-lying ground away
+from major structure and unreliable elsewhere. Its advantages are depth
+capability and tolerance of poor rock. Hydraulic testing of pre-existing
+fractures relaxes the initiation assumption at the cost of requiring several
+fractures of suitably varied orientation.
+
+Relief methods measure stress at an existing excavation surface. A flat jack
+is installed in a slot cut in the wall, the closure across the slot recorded,
+and the jack then repressurised until the original geometry is restored, at
+which point the jack pressure equals the stress normal to the slot. The
+measurement is direct and mechanically simple, and it samples the disturbed
+zone rather than the far field, which is either exactly what is required or
+seriously misleading depending on the question being asked.
+
+\section{Indirect evidence and back-analysis}
+\label{sec:indirect-evidence}
+
+Where direct measurement is unavailable, several classes of observation
+constrain the field, and their combined use is often more informative than any
+single determination.
+
+Borehole breakout is the most valuable. Where the tangential stress at the
+borehole wall exceeds the rock strength, the wall spalls in the direction of
+the minimum horizontal stress, elongating the hole in a plane perpendicular to
+the maximum horizontal stress. Orientation is recovered robustly by acoustic
+or optical televiewer logging, and the breakout width constrains magnitude
+through the Kirsch stress concentration and an assumed strength.
+Drilling-induced tensile fractures form perpendicular to the breakouts and
+provide an independent check on orientation. Both can be obtained from
+geotechnical boreholes at modest additional cost, and both remain
+systematically under-used.
+
+Core discing indicates high stress relative to strength. It is a qualitative
+indicator, but its onset along a borehole marks the depth below which
+stress-driven behaviour should be anticipated, and disc thickness and
+curvature carry some information about magnitude. Focal mechanisms from local
+seismicity and slip data from mapped faults constrain the regional field over
+much larger volumes than any borehole measurement.
+
+Back-analysis from observed behaviour becomes available once construction
+begins, and it frequently yields the best estimate a project ever obtains.
+Measured convergence, the pattern and depth of overbreak, and the position of
+spalling around the profile all depend on the stress field, and a model
+calibrated to reproduce them constrains it. The limitation is non-uniqueness:
+stress, strength and modulus trade against one another, and several
+combinations reproduce the same observation. Back-analysis is therefore
+reliable when it refines a field already bracketed by measurement, and
+unreliable when asked to determine stress and strength simultaneously from
+displacement alone. Calibrating against several independent measured
+quantities rather than one substantially reduces the ambiguity.
+
+\section{Designing under stress uncertainty}
+\label{sec:stress-uncertainty}
+
+Stress measurements scatter. Repeat determinations at one site commonly differ
+by 20 to 50\,per cent in magnitude and by tens of degrees in orientation, and
+the scatter is largely real rather than instrumental. It reflects genuine
+variability at the scale of the measurement in a quantity that is sampled at
+points and applied over kilometres, so additional measurements reduce the
+standard error of the mean without reducing the variability itself.
+
+The design response is not to seek a single best estimate but to construct an
+envelope and test against it. An upper-bound case with high horizontal stress
+governs spalling, stress-induced failure in the sidewalls and support demand
+in the crown. A lower-bound case with low horizontal stress governs tensile
+zones in the crown, structurally controlled failure and, in shallow works,
+uplift. Because different bounds govern different mechanisms, neither can be
+described as conservative in general, and a design justified only at the mean
+has been checked against no mechanism at all.
+
+Orientation carries its own consequence, and it is the one variable a designer
+can sometimes exploit. The relationship between the excavation axis and the
+principal stress directions determines the boundary stress distribution around
+the profile, and in a strongly anisotropic field the difference between a
+favourable and an unfavourable orientation can be the difference between
+routine support and a persistent spalling problem. Where the alignment has
+freedom this becomes a design decision, treated in
+Chapter~\ref{ch:openings}; where it does not, it is a constraint that should be
+recognised early enough to influence the choice of excavation method.
+
+A defensible first pass proceeds as follows. Take $\sv = \gamma z$ and check it
+against the topography. Bracket $k$ using the depth envelope and, where rock
+properties allow, the thermo-elastic estimate. Take orientation from the
+regional compilation and check it against any breakout data available in the
+project boreholes. State the resulting field as a range rather than as a
+value. Then ask whether the design is sensitive to that range. If the support
+class is unchanged across it, the estimate is adequate and no measurement
+programme is required; if it is not, that sensitivity is itself the
+justification for one. The same test governs investigation targeting in
+Chapter~\ref{ch:ground-modelling}, and it is the appropriate basis for
+deciding how much stress determination a project needs.

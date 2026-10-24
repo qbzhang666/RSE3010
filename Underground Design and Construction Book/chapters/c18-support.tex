@@ -1,0 +1,391 @@
+% !TeX root = ../main.tex
+%------------------------------------------------------------------------------
+%  Chapter 17 -- Support and Reinforcement
+%  Sources: Hoek, Kaiser & Bawden (1995); Windsor & Thompson (1993);
+%  Thomas (2009) on sprayed concrete linings; ACI PRC-506; EN 14487.
+%------------------------------------------------------------------------------
+\chapter{Support and Reinforcement}
+\label{ch:support}
+
+The preceding chapters establish how much load the ground will shed and how
+much convergence it will undergo. This one deals with the hardware that
+receives that load: bolts and cables acting within the rock mass, sprayed
+concrete acting on its surface, and mesh and plates holding the loose material
+between them.
+
+Three ideas organise the chapter. The first is that reinforcement and support
+are mechanically distinct and are analysed differently. The second is that
+what a support element contributes is set by its stiffness, its capacity and
+the convergence that had already occurred when it was installed --- the
+argument developed in Chapter~\ref{ch:ccm} and applied here to real hardware.
+The third is that installation quality determines as-built performance more
+often than design does. A correctly designed bolt that is not tensioned, or a
+shotcrete layer 40\,mm thinner than specified over half its area, has failed
+in a way no analysis anticipates.
+
+\section{Reinforcement principles and hardware}
+\label{sec:reinforcement-principles}
+
+\subsection{Reinforcement, support and retention}
+\label{sec:reinforcement-vs-support}
+
+Three functions are routinely conflated in specifications and must be
+separated in analysis.
+
+\emph{Reinforcement} acts within the rock mass, improving its own capacity. A
+grouted bolt crossing a discontinuity adds confinement across it, raises the
+frictional resistance available on it, and resists shear across it. The rock
+mass remains the load-carrying structure; the reinforcement makes it better at
+the job.
+
+\emph{Support} acts on the excavation boundary, applying a pressure that
+resists convergence. Shotcrete shells, steel sets and concrete linings are
+support: they are structures in their own right, carrying load that the ground
+has shed onto them.
+
+\emph{Retention} holds loose material in place between other elements. Mesh
+and straps do almost nothing for global stability and prevent the small
+falls-of-ground that account for most underground injuries.
+
+The distinction determines the analysis. Reinforcement is assessed through its
+effect on the rock mass --- higher effective confinement, a raised ground
+reaction curve, a stabilised block. Support is assessed through its own
+structural capacity against the pressure it attracts. A design that treats
+grouted bolts as though they applied a boundary pressure has used the wrong
+model, and one that omits retention has designed a system that will still
+injure people.
+
+\subsection{Bolt types and load transfer}
+\label{sec:bolt-types}
+
+Reinforcement systems are usefully classified by how load transfers from the
+rock to the element. \emph{Continuously mechanically coupled} systems --- fully
+grouted rebar, resin-anchored bar --- transfer load along their whole length
+through a stiff grout or resin annulus. \emph{Continuously frictionally
+coupled} systems --- split sets, expandable friction bolts --- transfer through
+friction at the borehole wall along their length. \emph{Discretely mechanically
+coupled} systems --- mechanical expansion-shell anchors, and cables anchored
+only at their ends --- transfer at discrete points.
+
+The classification predicts behaviour. Continuously coupled elements develop
+load locally wherever the rock moves, which makes them stiff, effective across
+a discontinuity that opens anywhere along the bolt, and tolerant of losing any
+one section. Discretely coupled elements develop load only through relative
+displacement between their anchor points, which makes them softer and reliant
+on the anchor remaining sound. Frictionally coupled elements are the softest
+and the most forgiving of large deformation, which is why they persist in
+squeezing and burst-prone ground despite modest capacity.
+
+Load transfer along a grouted bolt is not uniform. Shear stress concentrates
+near the point of relative movement and decays along the bond, so only a
+limited embedment length is mobilised at any time. Past a critical shear
+stress the bond decouples progressively, and the load redistributes further
+along the bar. Two design consequences follow: embedment beyond the critical
+length adds no capacity in the short term, and grout quality along the whole
+bond governs performance in a way a pull test at one location may not reveal.
+
+Self-drilling anchors deserve mention because they solve a construction
+problem rather than a mechanical one. Where a borehole will not stay open ---
+in ravelling ground, in heavily fractured rock, in soil --- a hollow bar
+drilled and grouted in one operation is the only practical option, at some
+cost in steel efficiency.
+
+\subsection{Design for the governing mechanism}
+\label{sec:design-mechanism}
+
+Bolting design differs fundamentally according to what is being resisted, and
+the commonest error is to apply the pattern appropriate to one mechanism where
+the other governs.
+
+For \emph{structurally controlled} failure the calculation is discrete. The
+block is identified by the methods of
+Chapter~\ref{ch:structural-analysis}, its weight and sliding mode established,
+and the bolt force required to reach a target factor of safety follows from
+limit equilibrium. Bolt orientation matters: the optimum is generally inclined
+to the sliding direction rather than normal to the excavation surface, because
+an inclined bolt contributes both a direct restraining component and an
+increase in normal stress on the sliding plane. Bolts must be long enough to
+anchor beyond the block, which for a large crown wedge can exceed the length
+that standard equipment can install.
+
+For \emph{stress-induced} failure the calculation is continuum. Systematic
+bolting supplies a modest confining pressure at the boundary, and modest is
+enough: rock strength is strongly confinement-dependent near a free surface,
+so a few hundred kilopascals of confinement produces a disproportionate
+increase in strength. The bolting must extend beyond the computed yield zone
+(Chapter~\ref{ch:ground-behaviour}) so that it is anchored in rock that has
+not failed, and its effect appears as a raised ground reaction curve rather
+than as a resisted block weight.
+
+Pattern bolting reconciles the two in practice. Length is set from the larger
+of the yield zone depth and the critical block dimension; spacing from the
+block size that must be retained and from the confinement required. Empirical
+charts give both directly from classification (Chapter~\ref{ch:empirical-design}) and
+remain the sensible starting point, with the analytical checks used to confirm
+that the chart's implicit mechanism is the one actually operating.
+
+\section{Reinforcement design}
+\label{sec:reinforcement-design}
+
+\subsection{Shear, cables and dynamic reinforcement}
+\label{sec:shear-cables-dynamic}
+
+A bolt crossing a discontinuity that shears is loaded in combined tension and
+shear, not tension alone. As the joint displaces, the bar bends near the
+joint, develops axial tension through the geometry of that deformation, and
+contributes dowel action --- direct shear resistance across the plane. The
+combination is complex, the bar frequently fails at the joint where bending
+and tension coincide, and the practical consequence is that a bolt oriented
+perpendicular to a shearing joint is poorly used. An inclination of roughly
+$20$ to $30$ degrees from the normal, in the direction that puts the bar into
+tension as the joint moves, is substantially more efficient.
+
+Cables extend reinforcement to lengths bolts cannot reach. Plain strand,
+bulbed strand and multi-strand anchors span the range from a few metres to
+tens of metres, and pre-tensioning is used where the objective is to prevent
+displacement rather than to resist it after it occurs. Their role is in large
+spans --- cavern roofs and high sidewalls (Chapter~\ref{ch:openings}) --- where
+the blocks that can form are larger than any bolt can reach past. Because
+cables are usually discretely coupled, they are softer than grouted bolts, and
+a system combining both will load the bolts first.
+
+Burst-prone ground requires a different criterion entirely. The demand is
+energy rather than force: rock ejected at some velocity carries kinetic energy
+that the support must absorb, and a stiff high-capacity bolt that cannot
+deform absorbs almost none of it. Energy-absorbing bolts yield at a controlled
+load over a substantial displacement, and their capacity is quoted in
+kilojoules rather than kilonewtons.
+
+System compatibility is the governing constraint here, and it is frequently
+missed. An energy-absorbing bolt that can accommodate 200\,mm of displacement
+is useless behind a mesh that tears at 50\,mm, or a shotcrete layer that
+cracks and sheds at 20\,mm. The elements must be matched so they deform
+together, and in dynamic ground the retention system, not the bolt, is usually
+the weak link (Chapter~\ref{ch:high-stress}).
+
+\subsection{Surface retention and durability}
+\label{sec:retention-durability}
+
+Mesh is the least analysed and most frequently damaged element of a support
+system. Welded mesh is stiff and predictable but fails brittly at its welds;
+chain-link is far more ductile and can accommodate large deformation, which is
+why it persists in squeezing and burst-prone ground. What matters
+mechanically is the connection: mesh performs only as well as its attachment
+to the bolts, and the plate and its fixing are as much part of the system as
+the mesh sheet.
+
+Plate stiffness governs how load is collected from the surface into the bolt.
+A thin dished plate on a rough surface bears at a few points and deforms
+locally rather than transferring the load. This is a detailing question with
+mechanical consequences, and it is the kind of detail that is value-engineered
+out of a specification without anybody analysing what was lost.
+
+Durability separates temporary from permanent reinforcement. A bolt required
+for the construction period only can be plain steel. A bolt forming part of
+the permanent works must survive a century in ground whose aggressivity is
+established from the groundwater chemistry of
+Chapter~\ref{ch:hydrogeology}. Galvanising, epoxy coating, full encapsulation
+and double corrosion protection form a hierarchy of increasing cost and
+reliability. The decision needs to be explicit, because the common default ---
+installing temporary-grade reinforcement and later declaring it permanent
+because it is still there --- is not a design.
+
+\subsection{Testing and quality control}
+\label{sec:bolt-testing}
+
+Bolt testing answers a narrower question than is often assumed. A pull test
+loads the bar against the rock surface and demonstrates that the bond over
+some length can carry the applied load. It does not demonstrate that the grout
+column is complete, that the bar is centred, or that the anchorage beyond the
+tested length is sound.
+
+A useful regime therefore combines proof loading of a defined proportion of
+installed bolts, destructive testing of a small number to establish the
+capacity actually achievable in that ground, grout quality verification
+through mix records and cube testing, and installation records for every bolt
+--- location, orientation, length, grout batch, date. Overcoring a small
+sample to inspect the grout column is the only direct check of encapsulation,
+and it is worth doing where the reinforcement is permanent.
+
+Acceptance criteria must be set against the design assumption rather than
+against the bar's yield capacity, which is usually irrelevant because bond
+governs first.
+
+\section{Sprayed concrete}
+\label{sec:sprayed-concrete}
+
+\subsection{Role and process}
+\label{sec:shotcrete-role}
+
+Sprayed concrete began as a surface sealant, protecting weathering-sensitive
+rock and preventing small falls. It has become the primary structural lining
+for most conventionally excavated tunnels and, increasingly, a permanent one.
+That progression matters because the analysis, testing and quality regime
+appropriate to a sacrificial coating is inadequate for a structure carrying
+permanent load.
+
+The wet-mix process, in which fully batched concrete is pumped to the nozzle
+and accelerator added there, has displaced dry-mix almost entirely on major
+works. It gives better control of water content, far less rebound and dust,
+and much higher output. Dry-mix retains a role for small quantities,
+intermittent work and repairs, where the ability to stop and start without
+wasting a batch outweighs its disadvantages.
+
+Rebound is real material loss and a real cost --- and it is selective, since
+coarse aggregate rebounds preferentially and the material that stays on the
+wall is richer in fines and cement than the mix that left the pump. Rebound
+should be measured, not assumed, and mix design should account for the
+composition that actually adheres.
+
+\subsection{Mix design and reinforcement}
+\label{sec:shotcrete-mix}
+
+Sprayed concrete must satisfy two conflicting requirements: it must be pumpable
+and sprayable, which favours a fine, cohesive, workable mix, and it must
+develop strength within hours, which conflicts with the water content that
+pumpability demands. The mix is a negotiation between them, mediated by
+plasticisers, hydration control admixtures that extend working life, and
+accelerators added at the nozzle.
+
+Accelerator choice has consequences beyond setting time. Alkali-free
+accelerators have displaced alkaline products for health reasons --- the older
+products caused severe burns --- and they also reduce the long-term strength
+loss that heavy accelerator dosage causes. That loss is typically 15 to 30 per
+cent relative to the unaccelerated mix, and it must be allowed for in the
+design strength rather than discovered in core testing.
+
+Fibre reinforcement has largely replaced mesh in sprayed linings, and the
+reason is constructability as much as structure: fixing mesh to an irregular
+profile is slow, hazardous and produces shadowing behind the bars where the
+concrete does not compact. Steel fibres give higher residual strength and
+stiffness; macro-synthetic fibres are lighter, non-corroding and easier to
+handle, at lower residual capacity. What is specified is not a dosage but a
+performance --- residual flexural strength at defined crack openings, or
+energy absorption from a panel test --- because fibre performance depends on
+dosage, orientation and distribution together, and only a test on sprayed
+material measures the combination.
+
+\subsection{Early-age and structural behaviour}
+\label{sec:shotcrete-early-age}
+
+Early-age strength, not 28-day strength, governs tunnelling. The excavation
+cycle cannot advance until the lining can carry load and cannot be worked
+beneath until it is safe, so the strength development curve over the first few
+hours determines the cycle time and therefore the programme.
+
+The early strength classes distinguish rapid-setting mixes for overhead work
+in poor ground from slower mixes acceptable in better conditions, and
+compliance is verified in the tunnel by penetrometer at very early ages and
+stud driving thereafter. These are crude tests, and they are the ones the
+decision to re-enter actually rests on.
+
+Structurally, a sprayed lining is a thin shell in which thrust dominates and
+moment is secondary. Capacity is therefore assessed on a thrust--moment
+interaction diagram rather than against a bending capacity alone, and the
+governing case is often a modest thrust with an eccentricity caused by
+profile irregularity rather than the design thrust at the design thickness.
+
+Two time-dependent effects run in opposite directions and are frequently
+neglected. Stiffness rises as the concrete cures, so a lining installed
+against a converging ground attracts load progressively rather than all at
+once. Creep relaxes that load, and at early ages the creep of young shotcrete
+is very large --- enough that the load computed from an elastic shell with
+mature stiffness may exceed the actual load by a factor of two. Ignoring both
+is not conservative in a consistent direction, which is why load estimated
+from measured convergence is more reliable than load computed from an assumed
+stiffness.
+
+\section{Sprayed lining design and control}
+\label{sec:scl-design}
+
+\subsection{Lining design}
+\label{sec:scl-design-approach}
+
+The first decision is whether the sprayed lining is temporary, permanent, or
+part of a composite. A \emph{sacrificial} primary lining carries construction
+loads and is assumed to contribute nothing thereafter, with a secondary lining
+designed for the full long-term load. A \emph{composite} lining assumes the
+two act together, which requires the interface to transfer shear and the
+primary lining's long-term durability to be demonstrated. A \emph{single-shell}
+lining is the permanent structure in its own right.
+
+Each is defensible; the differences are in verification burden. Single-shell
+and composite designs are more economical and lower in carbon, and they
+require thickness control, durability evidence and quality records that a
+sacrificial lining does not. Choosing the economical option without accepting
+the verification obligation is the failure mode to avoid.
+
+Squeezing ground requires the lining to be allowed to deform. A stiff shell
+installed early in convergent ground attracts a load it cannot carry, and the
+result is systematic cracking and reprofiling. Deformation slots --- gaps in
+the shell fitted with yielding elements that shorten at controlled load ---
+let the lining converge while continuing to provide support pressure, so
+equilibrium is reached on the ground reaction curve at a pressure the lining
+can sustain. This is the clearest practical demonstration that support design
+is about equilibrium at an acceptable convergence, not about minimising
+convergence (Chapter~\ref{ch:ccm}).
+
+Reinforced ribs of sprayed concrete offer an intermediate stiffness between
+plain shotcrete and steel sets: reinforcing bars laid circumferentially and
+encased in a thickened sprayed rib, giving substantial bending capacity
+without the fit-up problems of steel arches.
+
+\subsection{Steel elements and substrate}
+\label{sec:steel-and-substrate}
+
+Lattice girders and steel sets serve three purposes that are worth separating
+because they have different design implications. They control profile, giving
+the crew a physical template for thickness. They provide immediate support in
+the interval before the shotcrete gains strength. And they contribute bending
+capacity to the completed lining.
+
+The third is the contested one. A lattice girder fully encased in sprayed
+concrete of comparable modulus contributes far less than its section
+properties suggest, and its principal value is the first two functions. Heavy
+steel arches genuinely contribute capacity but are difficult to encase without
+voids behind the flanges, and those voids are both a durability defect and a
+loss of the composite action assumed.
+
+Substrate preparation determines whether the lining acts as a shell at all.
+Bond to the rock and between successive layers requires a clean surface free
+of loose material, dust and standing water. Where bond fails, layers act
+independently and the effective thickness is that of one layer rather than
+their sum --- a reduction in bending capacity by a factor of several. Cold
+joints between layers sprayed hours or days apart are the most common
+location.
+
+Water inflow through the substrate is the most difficult condition. Water
+prevents bond, washes out cement paste locally and creates a permanent path.
+Local drainage --- pipes and fleece strips leading water to a collection point
+--- must be installed before spraying, and accepting a wet spot and spraying
+over it produces a defect that reappears as a leak.
+
+\subsection{Durability and quality control}
+\label{sec:scl-durability-qc}
+
+A sprayed permanent lining must satisfy the same durability requirements as
+cast concrete, against the exposure established in
+Chapter~\ref{ch:hydrogeology}, and it must do so with a material placed by
+projection onto an irregular surface. Cover to reinforcement, permeability and
+crack width are the controlling parameters, and all three are more variable in
+sprayed than in cast concrete.
+
+Fire performance requires explicit attention. Dense low-permeability concrete
+spalls explosively under rapid heating as pore water vaporises faster than it
+can escape, and the mixes used for durability are precisely the ones most
+vulnerable. Polypropylene micro-fibres, which melt and create escape paths,
+are the standard mitigation and must be specified for any lining with a fire
+requirement (Chapter~\ref{ch:linings}).
+
+Quality control is where sprayed concrete design most often fails. Thickness
+is the variable that matters and the hardest to control: it is placed by eye
+against an irregular profile, and under-thickness is systematic rather than
+random because a nozzleman working overhead against gravity naturally applies
+less. Depth pins, laser scanning of the sprayed surface against the design
+profile, and coring for verification are all used, and scanning is now the
+practical standard because it measures the whole surface rather than a sample.
+
+Strength verification requires cores from sprayed panels or from the lining
+itself, not cubes cast from the pump. Material that has been through the
+nozzle differs from the batch that entered it, and testing the batch measures
+something that was never installed.

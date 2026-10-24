@@ -1,0 +1,779 @@
+\documentclass[12pt,oneside]{book}
+
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xurl}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\setlist[itemize]{leftmargin=*,topsep=4pt,itemsep=2pt}
+\setlist[enumerate]{leftmargin=*,topsep=4pt,itemsep=2pt}
+
+\title{\textbf{Underground Design and Construction}\\
+Draft Textbook Content Outline for Review}
+\author{Compiled from RSE3010 Weekly Study Notes and Lecture Slides}
+\date{\today}
+
+\begin{document}
+\pagestyle{plain}
+
+\maketitle
+\tableofcontents
+
+\chapter*{Review Basis and Proposed Logic}
+\addcontentsline{toc}{chapter}{Review Basis and Proposed Logic}
+
+\section*{Local Document Basis}
+\addcontentsline{toc}{section}{Local Document Basis}
+
+This outline is compiled from the two project folders:
+
+\begin{itemize}
+    \item \texttt{Weekly Study Notes}: Weeks 1--9 were used as the main detailed text basis.
+    \item \texttt{Lecture Slides}: Weeks 1--9 and Week 12 were used to check lecture emphasis and add the construction-methods chapter.
+    \item Week 11 material is intentionally excluded according to the previous review instruction.
+\end{itemize}
+
+\section*{Benchmarking Against Comparable Textbooks}
+\addcontentsline{toc}{section}{Benchmarking Against Comparable Textbooks}
+
+The proposed book structure is not a direct week-by-week copy. It follows a textbook logic informed by comparable published books:
+
+\begin{itemize}
+    \item Rock engineering texts typically build from geological setting, stress, intact rock, discontinuities, rock masses, classification, excavation principles and support principles before detailed underground design.
+    \item Tunnel engineering handbooks usually move early into tunnel planning, geotechnical investigation, stabilisation, lining, excavation methods, TBMs, shotcrete, immersed tunnels, cut-and-cover structures, services, safety and contracting.
+    \item Tunnelling mechanics books commonly separate practical design topics from mechanics topics such as ground behaviour, stress redistribution, face stability, support action and tunnel response.
+    \item ADECO-RS literature emphasises a design-to-construction sequence: survey, diagnosis, therapy, operation, monitoring and final adjustment.
+    \item Practical construction books emphasise method selection, drill-and-blast, TBM, NATM, NMT, roadheaders, ground control, mucking and haulage, grouting, water handling and lining.
+\end{itemize}
+
+\section*{Recommended Textbook Logic}
+\addcontentsline{toc}{section}{Recommended Textbook Logic}
+
+The recommended logic is:
+
+\begin{enumerate}
+    \item Explain why underground engineering matters and how project risk is framed.
+    \item Establish the ground model and uncertainty before using parameters in design.
+    \item Build the rock mechanics basis: stress, intact rock and failure criteria.
+    \item Convert geological observations into rock mass classifications and design parameters.
+    \item Identify likely excavation behaviour and select preliminary support.
+    \item Check the design with analytical and numerical methods.
+    \item Integrate design evidence into a coherent recommendation.
+    \item Close the loop with construction method selection, support installation and monitoring.
+\end{enumerate}
+
+\section*{Source-to-Chapter Map}
+\addcontentsline{toc}{section}{Source-to-Chapter Map}
+
+\begin{longtable}{p{0.24\textwidth}p{0.68\textwidth}}
+\toprule
+\textbf{Primary source} & \textbf{Proposed textbook use} \\
+\midrule
+Week 1 notes and slides & Chapter 1: infrastructure context, project risk, shallow and deep underground conditions, environmental assessment, Australian case studies. \\
+Week 5 notes and slides & Chapter 2: site investigation, RQD, borehole interpretation, uncertainty, modern investigation methods and data fusion. \\
+Week 2 notes and slides & Chapter 3: stress, intact rock mechanics, Mohr--Coulomb, Hoek--Brown, tensile cut-off and equivalent parameter fitting. \\
+Week 3 notes and slides & Chapter 4: RMR, Q-system, GSI, classification workflow and final GSI selection. \\
+Week 4 notes and slides & Chapter 5: generalised Hoek--Brown, disturbance factor, rock mass strength, modulus and equivalent Mohr--Coulomb parameters. \\
+Week 6 notes and slides & Chapter 6: failure mechanisms and empirical support design using RMR and Q-system. \\
+Week 7 notes and slides & Chapter 7: Kirsch solutions, elastic-plastic response, convergence--confinement method, GRC, SCC, LDP and support timing. \\
+Week 8 notes and slides & Chapter 8: settlement prediction, Mair method, FEM workflow, RS2 modelling, lining modelling and practical numerical checks. \\
+Week 9 notes and slides & Chapter 9: integrated design workflow, uncertainty synthesis and method comparison. \\
+Week 12 slides & Chapter 10: conventional, mechanised, surface and immersed construction; NATM, NMT, CCM, ADECO-RS; support systems and monitoring. \\
+\bottomrule
+\end{longtable}
+
+\part{Project Context, Ground Models and Design Basis}
+
+\chapter{Underground Engineering in Infrastructure and Energy Projects}
+
+\section{Chapter Purpose}
+Introduce underground design as a risk-based engineering process shaped by infrastructure demand, geological uncertainty, environmental approval, construction access and long-term asset performance.
+
+\section{Core Content Outline}
+\begin{enumerate}
+    \item Infrastructure market capacity and the demand for geotechnical engineers.
+    \item Types of underground works: transport tunnels, water tunnels, energy storage, station caverns and underground power facilities.
+    \item Major Australian project context:
+    \begin{itemize}
+        \item Melbourne Metro Tunnel.
+        \item Snowy 2.0.
+        \item West Gate Tunnel.
+        \item Sydney Metro and SRL East as recurring examples.
+    \end{itemize}
+    \item Infrastructure risk dashboards and the role of geotechnical uncertainty.
+    \item Shallow versus deep underground conditions:
+    \begin{itemize}
+        \item Ground movement and serviceability for shallow urban works.
+        \item In-situ stress, spalling, squeezing and access constraints for deep works.
+    \end{itemize}
+    \item Environmental assessment frameworks:
+    \begin{itemize}
+        \item EIS and EES.
+        \item EPBC Act triggers and approval interfaces.
+    \end{itemize}
+    \item Net zero, pumped hydro and the renewed value of underground space.
+    \item From project context to design requirements.
+\end{enumerate}
+
+\section{Proposed Figures and Tables}
+\begin{itemize}
+    \item Workflow figure: project drivers to ground model to design method to construction decision.
+    \item Comparison table: shallow urban tunnel versus deep hard-rock tunnel.
+    \item Risk dashboard table for geotechnical, environmental and construction risks.
+\end{itemize}
+
+\section{Worked Examples and Exercises}
+\begin{itemize}
+    \item Compare Melbourne Metro and Snowy 2.0 in terms of design drivers.
+    \item Explain how poor ground knowledge affects cost, program and support decisions.
+\end{itemize}
+
+\chapter{Site Investigation, Ground Models and Uncertainty}
+
+\section{Chapter Purpose}
+Move site investigation earlier in the book so readers understand where rock mechanics inputs come from before using them in design equations.
+
+\section{Core Content Outline}
+\begin{enumerate}
+    \item Role of site investigation in underground design.
+    \item Ground model development:
+    \begin{itemize}
+        \item Geological units.
+        \item Weathering zones.
+        \item Structural domains.
+        \item Groundwater conditions.
+        \item Existing structures and construction sensitivity.
+    \end{itemize}
+    \item Borehole planning and core logging.
+    \item Rock Quality Designation:
+    \begin{itemize}
+        \item Definition and calculation.
+        \item Interpretation and limitations.
+        \item Drill orientation bias.
+        \item Statistical variability.
+    \end{itemize}
+    \item SRL East borehole interpretation.
+    \item From investigation data to design parameters.
+    \item Parameter uncertainty and sensitivity:
+    \begin{itemize}
+        \item GSI sensitivity in Hoek--Brown calculations.
+        \item Scale effects.
+        \item Data quality and confidence ratings.
+    \end{itemize}
+    \item Modern investigation methods:
+    \begin{itemize}
+        \item Digital core logging.
+        \item LiDAR and photogrammetry in tunnels.
+        \item Geophysics and data fusion.
+        \item Monitoring feedback and digital ground models.
+    \end{itemize}
+\end{enumerate}
+
+\section{Proposed Figures and Tables}
+\begin{itemize}
+    \item Ground model development flowchart.
+    \item RQD calculation sketch and limitations table.
+    \item Data confidence matrix linking investigation quality to design conservatism.
+\end{itemize}
+
+\section{Worked Examples and Exercises}
+\begin{itemize}
+    \item Calculate RQD from a core run and discuss uncertainty.
+    \item Interpret simplified SRL East borehole logs for design implications.
+\end{itemize}
+
+\part{Rock Mechanics and Rock Mass Design Parameters}
+
+\chapter{Stress, Intact Rock Mechanics and Failure Criteria}
+
+\section{Chapter Purpose}
+Provide the mechanical foundation for stress analysis, intact rock failure and the selection of strength criteria used later for tunnel design.
+
+\section{Core Content Outline}
+\begin{enumerate}
+    \item Overview of material failure theory.
+    \item Stress at a point and principal stresses.
+    \item In-situ stress:
+    \begin{itemize}
+        \item Vertical stress from overburden.
+        \item Horizontal stress and tectonic components.
+        \item Elastic at-rest approximation.
+        \item Stress regimes and design implications.
+    \end{itemize}
+    \item Selecting a failure criterion for underground design.
+    \item Mohr--Coulomb failure criterion:
+    \begin{itemize}
+        \item Basic equation.
+        \item Cohesion and friction angle.
+        \item Uniaxial and tensile strengths.
+        \item Failure plane orientation.
+        \item Mohr circle interpretation.
+        \item Limitations.
+    \end{itemize}
+    \item Hoek--Brown failure criterion for intact rock:
+    \begin{itemize}
+        \item Intact rock equation.
+        \item Material constant \(m_i\).
+        \item Tensile strength from Hoek--Brown.
+        \item Worked example for marble.
+    \end{itemize}
+    \item Converting Hoek--Brown to equivalent Mohr--Coulomb parameters:
+    \begin{itemize}
+        \item Fitting range.
+        \item Mohr circle regression.
+        \item Linear regression in \(\sigma_1^f-\sigma_3\) space.
+    \end{itemize}
+    \item Griffith theory and tensile cut-off.
+    \item Notation discipline: in-situ principal stresses versus failure stresses.
+\end{enumerate}
+
+\section{Proposed Figures and Tables}
+\begin{itemize}
+    \item In-situ stress components and principal stress notation.
+    \item Mohr--Coulomb envelope and Hoek--Brown curve comparison.
+    \item Parameter fitting workflow.
+\end{itemize}
+
+\section{Worked Examples and Exercises}
+\begin{itemize}
+    \item Calculate vertical and horizontal stress at depth.
+    \item Estimate confined compressive strength using Hoek--Brown.
+    \item Convert Hoek--Brown data into equivalent Mohr--Coulomb parameters.
+\end{itemize}
+
+\chapter{Rock Mass Classification: RMR, Q-System and GSI}
+
+\section{Chapter Purpose}
+Convert geological observations into reproducible engineering indices that support communication, parameter derivation and preliminary support design.
+
+\section{Core Content Outline}
+\begin{enumerate}
+    \item Why rock mass classification is used.
+    \item Classification workflow from logging to design input.
+    \item Rock Mass Rating system:
+    \begin{itemize}
+        \item Intact rock strength.
+        \item RQD.
+        \item Discontinuity spacing.
+        \item Discontinuity condition.
+        \item Groundwater condition.
+        \item Rock mass classes.
+    \end{itemize}
+    \item NGI Q-system:
+    \begin{itemize}
+        \item \(RQD/J_n\): block size.
+        \item \(J_r/J_a\): interblock shear strength.
+        \item \(J_w/SRF\): active stress and water effects.
+        \item Rock mass quality classes.
+    \end{itemize}
+    \item Geological Strength Index:
+    \begin{itemize}
+        \item Structure descriptions.
+        \item Joint surface condition.
+        \item Chart-based GSI estimation.
+        \item Empirical GSI correlations.
+    \end{itemize}
+    \item Selecting a final GSI value:
+    \begin{itemize}
+        \item Reconciliation of RMR, Q and chart estimates.
+        \item Conservatism and uncertainty.
+        \item Documentation for design review.
+    \end{itemize}
+\end{enumerate}
+
+\section{Proposed Figures and Tables}
+\begin{itemize}
+    \item Classification workflow diagram.
+    \item RMR, Q and GSI comparison table.
+    \item GSI selection decision table.
+\end{itemize}
+
+\section{Worked Examples and Exercises}
+\begin{itemize}
+    \item Complete RMR and Q-system calculations for a rock mass domain.
+    \item Compare multiple GSI estimates and justify a final design value.
+\end{itemize}
+
+\chapter{Rock Mass Strength, Deformability and Design Parameters}
+
+\section{Chapter Purpose}
+Translate rock mass quality into strength and deformability parameters suitable for empirical, analytical and numerical underground design.
+
+\section{Core Content Outline}
+\begin{enumerate}
+    \item Position of design parameter derivation in the underground design chain.
+    \item Generalised Hoek--Brown criterion for rock masses.
+    \item Rock mass Hoek--Brown parameters:
+    \begin{itemize}
+        \item \(m_b\).
+        \item \(s\).
+        \item \(a\).
+        \item \(\sigma_{ci}\), \(m_i\), GSI and disturbance factor.
+    \end{itemize}
+    \item Disturbance factor:
+    \begin{itemize}
+        \item TBM excavation.
+        \item Controlled blasting.
+        \item Poor drill-and-blast excavation.
+        \item Construction method sensitivity.
+    \end{itemize}
+    \item Rock mass strength parameters:
+    \begin{itemize}
+        \item Uniaxial compressive strength of rock mass.
+        \item Triaxial strength at in-situ confinement.
+        \item Tensile strength of rock mass.
+    \end{itemize}
+    \item Deformation modulus of rock mass:
+    \begin{itemize}
+        \item Hoek--Diederichs generalised equation.
+        \item Hoek--Diederichs simplified equation.
+        \item Hoek et al. GSI--UCS equation.
+        \item RMR-based equations.
+        \item Q-based equation.
+    \end{itemize}
+    \item Equivalent Mohr--Coulomb parameters for rock masses.
+    \item Parameter comparison and sensitivity tables.
+\end{enumerate}
+
+\section{Proposed Figures and Tables}
+\begin{itemize}
+    \item Hoek--Brown rock mass parameter workflow.
+    \item Disturbance factor comparison table.
+    \item Strength and modulus calculation templates.
+\end{itemize}
+
+\section{Worked Examples and Exercises}
+\begin{itemize}
+    \item Derive \(m_b\), \(s\), \(a\), \(\sigma_{cm}\), \(\sigma_t\) and \(E_m\) for a rock mass.
+    \item Compare TBM and poor drill-and-blast disturbance assumptions.
+    \item Convert rock mass Hoek--Brown to equivalent Mohr--Coulomb parameters.
+\end{itemize}
+
+\part{Underground Excavation Behaviour and Support Design}
+
+\chapter{Underground Failure Mechanisms and Empirical Support Design}
+
+\section{Chapter Purpose}
+Identify the likely failure mechanism before selecting preliminary support using rock mass classification systems.
+
+\section{Core Content Outline}
+\begin{enumerate}
+    \item Linking investigation uncertainty to support design.
+    \item Main underground failure mechanisms:
+    \begin{itemize}
+        \item Stress-induced failure.
+        \item Structurally controlled failure in underground openings.
+        \item Large deformation and squeezing ground.
+    \end{itemize}
+    \item Failure-mechanism decision workflow.
+    \item Empirical support design using RMR:
+    \begin{itemize}
+        \item Unsupported span.
+        \item Stand-up time.
+        \item Adjustment for joint orientation.
+        \item Support recommendations.
+    \end{itemize}
+    \item Empirical support design using the Q-system:
+    \begin{itemize}
+        \item Excavation Support Ratio.
+        \item Equivalent dimension \(D_e\).
+        \item Q-chart workflow.
+        \item Support categories.
+        \item Wall support adjustment.
+        \item Maximum unsupported span.
+    \end{itemize}
+    \item Case study: railway station cavern.
+    \item Case note: Sydney Opera House car park.
+    \item Influence of input uncertainty on support class.
+\end{enumerate}
+
+\section{Proposed Figures and Tables}
+\begin{itemize}
+    \item Failure mechanism decision tree.
+    \item RMR support recommendation table.
+    \item Simplified Q-system support category table.
+    \item Support sensitivity table for uncertain RMR and Q inputs.
+\end{itemize}
+
+\section{Worked Examples and Exercises}
+\begin{itemize}
+    \item Estimate RMR-based stand-up time and preliminary support.
+    \item Design Q-system support for tunnel and cavern spans.
+    \item Discuss why two empirical systems may produce different support recommendations.
+\end{itemize}
+
+\chapter{Analytical Tunnel Design and Ground--Support Interaction}
+
+\section{Chapter Purpose}
+Introduce closed-form and semi-analytical methods that check stress redistribution, deformation, plastic zone development and support timing.
+
+\section{Core Content Outline}
+\begin{enumerate}
+    \item Assumptions and limitations of analytical methods.
+    \item Elastic stress solutions:
+    \begin{itemize}
+        \item Kirsch equations.
+        \item Boundary stresses at the tunnel wall.
+        \item Stress concentration around circular openings.
+        \item Engineering applications and limitations.
+    \end{itemize}
+    \item Elastic-plastic response:
+    \begin{itemize}
+        \item Rationale for plasticity analysis.
+        \item Critical internal pressure.
+        \item Plastic zone radius for unsupported openings.
+        \item Stress redistribution in the plastic zone.
+    \end{itemize}
+    \item Convergence--confinement method:
+    \begin{itemize}
+        \item Conceptual reduction of internal support pressure.
+        \item Ground Reaction Curve.
+        \item Support Characteristic Curve.
+        \item Longitudinal Deformation Profile.
+        \item Installation timing and \(u_{s0}\).
+        \item Equilibrium point and factor of safety.
+    \end{itemize}
+    \item Support stiffness, support capacity and deformation allowance.
+    \item Role of spreadsheet calculation and RocSupport-type tools.
+    \item Case study: Gotthard Motorway Tunnel.
+    \item Worked example: Snowy 2.0 at depth.
+\end{enumerate}
+
+\section{Proposed Figures and Tables}
+\begin{itemize}
+    \item Kirsch stress distribution around a circular tunnel.
+    \item GRC--SCC--LDP combined design diagram.
+    \item Support installation timing comparison table.
+\end{itemize}
+
+\section{Worked Examples and Exercises}
+\begin{itemize}
+    \item Calculate tunnel wall stresses using Kirsch equations.
+    \item Estimate critical pressure and plastic zone radius.
+    \item Construct GRC, SCC and LDP curves and find the equilibrium point.
+\end{itemize}
+
+\chapter{Numerical Modelling and Settlement Prediction}
+
+\section{Chapter Purpose}
+Show how empirical and analytical designs are checked against settlement, staged excavation, geometry, lining response and material behaviour using numerical models.
+
+\section{Core Content Outline}
+\begin{enumerate}
+    \item Ground movement caused by tunnelling.
+    \item Gaussian settlement trough:
+    \begin{itemize}
+        \item Peck-type settlement trough.
+        \item Volume loss.
+        \item Maximum settlement.
+        \item Shallow and deep tunnel response.
+    \end{itemize}
+    \item Components of ground movement in TBM tunnelling.
+    \item Material properties for assignment-style modelling.
+    \item Tunnel geometry and geological idealisation.
+    \item Initial stress worked example.
+    \item Mair method worked examples.
+    \item Finite element modelling principles:
+    \begin{itemize}
+        \item Continuum idealisation.
+        \item Constitutive models.
+        \item Boundary conditions.
+        \item Mesh refinement.
+        \item Failure criteria.
+    \end{itemize}
+    \item RS2 modelling workflow:
+    \begin{itemize}
+        \item Geometry.
+        \item Materials.
+        \item Staging.
+        \item Lining model.
+        \item Result extraction.
+    \end{itemize}
+    \item Practical modelling issues:
+    \begin{itemize}
+        \item Shallow tunnel convergence problems.
+        \item Lining simplification.
+        \item Groundwater.
+        \item Model dimensions.
+        \item Interpreting non-convergence.
+    \end{itemize}
+    \item Comparing Mair method and RS2 results.
+    \item Digital transformation: BIM, digital twins and monitoring updates.
+\end{enumerate}
+
+\section{Proposed Figures and Tables}
+\begin{itemize}
+    \item Gaussian settlement trough schematic.
+    \item FEM modelling workflow.
+    \item Modelling assumptions checklist.
+    \item Mair method versus RS2 comparison table.
+\end{itemize}
+
+\section{Worked Examples and Exercises}
+\begin{itemize}
+    \item Estimate surface settlement from tunnel depth, diameter and volume loss.
+    \item Build a simplified FEM modelling plan.
+    \item Compare numerical output with analytical predictions and explain differences.
+\end{itemize}
+
+\chapter{Integrated Underground Design}
+
+\section{Chapter Purpose}
+Bring the previous methods together into a coherent engineering recommendation, with explicit treatment of uncertainty and disagreement between methods.
+
+\section{Core Content Outline}
+\begin{enumerate}
+    \item The integrated design workflow:
+    \begin{itemize}
+        \item Site investigation.
+        \item Empirical design.
+        \item Analytical design.
+        \item Numerical verification.
+        \item Construction and monitoring feedback.
+    \end{itemize}
+    \item How methods complement each other.
+    \item What each method can and cannot answer.
+    \item Resolving disagreement between empirical, analytical and numerical results.
+    \item Uncertainty through the workflow:
+    \begin{itemize}
+        \item Ground model uncertainty.
+        \item Parameter uncertainty.
+        \item Support class uncertainty.
+        \item Model uncertainty.
+        \item Construction variability.
+    \end{itemize}
+    \item Linking SRL East and Snowy 2.0 as recurring design cases.
+    \item Producing a defensible design recommendation.
+    \item Reporting structure for student and practitioner design reports.
+\end{enumerate}
+
+\section{Proposed Figures and Tables}
+\begin{itemize}
+    \item Integrated workflow diagram.
+    \item Method comparison matrix.
+    \item Uncertainty register.
+    \item Design decision traceability table.
+\end{itemize}
+
+\section{Worked Examples and Exercises}
+\begin{itemize}
+    \item Resolve a case where Q-system support is less conservative than CCM results.
+    \item Prepare an integrated design workflow figure for a tunnel project.
+    \item Write a short design reflection on uncertainty and additional data needs.
+\end{itemize}
+
+\part{Construction Methods, Support Systems and Observational Delivery}
+
+\chapter{Construction Methods, Support Systems and Monitoring}
+
+\section{Chapter Purpose}
+Close the design loop by connecting design assumptions to practical excavation methods, support installation, construction sequencing and monitoring-based design adjustment.
+
+\section{Core Content Outline}
+\begin{enumerate}
+    \item Construction method selection:
+    \begin{itemize}
+        \item Ground conditions.
+        \item Excavation geometry.
+        \item Depth and stress environment.
+        \item Groundwater.
+        \item Settlement tolerance.
+        \item Access, program and cost.
+        \item Support installation requirements.
+    \end{itemize}
+    \item Conventional tunnelling:
+    \begin{itemize}
+        \item Cyclic excavation.
+        \item Drill-and-blast.
+        \item Mechanical excavation.
+        \item Mucking.
+        \item Primary support installation.
+    \end{itemize}
+    \item Mechanised tunnelling:
+    \begin{itemize}
+        \item TBM principles.
+        \item Open hard-rock TBMs.
+        \item Shield TBMs.
+        \item Earth pressure balance machines.
+        \item Slurry shields.
+        \item Precast segmental lining.
+    \end{itemize}
+    \item Surface construction methods:
+    \begin{itemize}
+        \item Cut-and-cover sequence.
+        \item Retaining walls.
+        \item Excavation support.
+        \item Surface reinstatement.
+    \end{itemize}
+    \item Immersed tube tunnelling:
+    \begin{itemize}
+        \item Trench preparation.
+        \item Tube immersion.
+        \item Jointing and dewatering.
+        \item Backfill and protection.
+    \end{itemize}
+    \item Design and construction philosophies:
+    \begin{itemize}
+        \item NATM, SEM and SCL.
+        \item NMT and Q-system support.
+        \item CCM-based ground--support interaction.
+        \item ADECO-RS and advance-core control.
+    \end{itemize}
+    \item Comparing NATM, NMT, CCM and ADECO-RS:
+    \begin{itemize}
+        \item Ground treated as a load-bearing element.
+        \item Single-shell and double-shell support concepts.
+        \item Deformation control.
+        \item Construction feedback and dynamic design.
+    \end{itemize}
+    \item Underground support systems:
+    \begin{itemize}
+        \item Shotcrete.
+        \item Fibre-reinforced shotcrete.
+        \item Reinforced ribs of sprayed concrete.
+        \item Rock bolts and anchors.
+        \item Steel ribs and lattice girders.
+        \item Forepoling and pipe umbrellas.
+        \item Grouting and ground freezing.
+        \item Precast concrete segments.
+        \item Permanent lining concepts.
+    \end{itemize}
+    \item Monitoring systems:
+    \begin{itemize}
+        \item Surface settlement.
+        \item Ground movement.
+        \item Tunnel convergence.
+        \item Ground/support pressure.
+        \item Groundwater monitoring.
+        \item Trigger levels and response plans.
+    \end{itemize}
+    \item Construction case integration:
+    \begin{itemize}
+        \item TBM and drill-and-blast comparison for Snowy 2.0.
+        \item Cavern geometry and support demand.
+        \item Construction method implications for disturbance factor and support demand.
+    \end{itemize}
+\end{enumerate}
+
+\section{Proposed Figures and Tables}
+\begin{itemize}
+    \item Construction method selection matrix.
+    \item Conventional versus mechanised tunnelling comparison.
+    \item NATM, NMT, CCM and ADECO-RS comparison table.
+    \item Temporary and permanent support systems diagram.
+    \item Monitoring instrumentation and trigger-action framework.
+\end{itemize}
+
+\section{Worked Examples and Exercises}
+\begin{itemize}
+    \item Select a construction method for shallow urban and deep hard-rock cases.
+    \item Explain how the construction method changes disturbance factor and support demand.
+    \item Design a monitoring plan linked to expected failure mechanisms and model predictions.
+\end{itemize}
+
+\part{Back Matter}
+
+\appendix
+
+\chapter{Calculation Templates}
+\begin{itemize}
+    \item In-situ stress calculation template.
+    \item RMR calculation template.
+    \item Q-system calculation template.
+    \item GSI comparison template.
+    \item Hoek--Brown rock mass parameter template.
+    \item Equivalent Mohr--Coulomb fitting template.
+    \item CCM calculation template.
+    \item Settlement prediction template.
+\end{itemize}
+
+\chapter{Worked Project Data Sets}
+\begin{itemize}
+    \item Melbourne Metro Tunnel context data.
+    \item SRL East investigation and modelling data.
+    \item Snowy 2.0 underground design data.
+    \item Railway station cavern support design data.
+\end{itemize}
+
+\chapter{Software and Computational Tools}
+\begin{itemize}
+    \item Spreadsheet calculations for Hoek--Brown, Mohr--Coulomb and CCM.
+    \item RocSupport-type analysis for GRC, SCC and LDP checks.
+    \item RS2-type finite element modelling.
+    \item UnWedge-type underground block analysis as an optional extension for cavern design.
+    \item Python scripts for teaching demonstrations and reproducible calculations.
+\end{itemize}
+
+\chapter{Review Questions for the Textbook Outline}
+\begin{enumerate}
+    \item Should site investigation remain Chapter 2, or should rock mechanics be introduced before ground modelling?
+    \item Should empirical support design and failure mechanisms be one chapter, or split into two chapters?
+    \item Should Chapter 10 be one large construction chapter, or split into construction methods and observational monitoring?
+    \item Should assignment tasks remain as end-of-chapter exercises, or be moved into a separate project workbook?
+    \item Should software workflows be included inside the main chapters, or consolidated into appendices?
+\end{enumerate}
+
+\chapter{Selected Benchmarking Sources}
+\begin{thebibliography}{9}
+
+\bibitem{hoekbrown1980}
+E. Hoek and E. T. Brown.
+\textit{Underground Excavations in Rock}.
+Routledge/Spon Press.
+\url{https://www.dymocks.com.au/underground-excavations-in-rock-by-evert-hoek-and-ted-brown-9780419160304}
+
+\bibitem{hudsonharrison1997}
+J. A. Hudson and J. P. Harrison.
+\textit{Engineering Rock Mechanics: An Introduction to the Principles}.
+Elsevier, 1997.
+\url{https://shop.elsevier.com/books/engineering-rock-mechanics/hudson/978-0-08-043864-1}
+
+\bibitem{bradybrown2006}
+B. H. G. Brady and E. T. Brown.
+\textit{Rock Mechanics: For Underground Mining}.
+Springer, 2006.
+\url{https://link.springer.com/book/10.1007/978-1-4020-2116-9}
+
+\bibitem{kolymbas2005}
+D. Kolymbas.
+\textit{Tunnelling and Tunnel Mechanics: A Rational Approach to Tunnelling}.
+Springer, 2005.
+\url{https://link.springer.com/book/10.1007/3-540-28500-8}
+
+\bibitem{kuesel2012}
+T. R. Kuesel, E. H. King and J. O. Bickel.
+\textit{Tunnel Engineering Handbook}.
+Springer, 2012.
+\url{https://books.google.com/books/about/Tunnel_Engineering_Handbook.html?id=59V5BgAAQBAJ}
+
+\bibitem{hemphill2012}
+G. B. Hemphill.
+\textit{Practical Tunnel Construction}.
+John Wiley \& Sons, 2012.
+\url{https://books.google.com/books/about/Practical_Tunnel_Construction.html?id=exsarm92-64C}
+
+\bibitem{lunardi2008}
+P. Lunardi.
+\textit{Design and Construction of Tunnels: Analysis of Controlled Deformations in Rock and Soils (ADECO-RS)}.
+Springer, 2008.
+\url{https://link.springer.com/book/10.1007/978-3-540-73875-6}
+
+\bibitem{rocksoiladeco}
+Rocksoil.
+\textit{ADECO-RS}.
+\url{https://www.rocksoil.com/index.php/en/research-and-development/29-research-and-development/110-01-adeco-rs}
+
+\end{thebibliography}
+
+\end{document}
