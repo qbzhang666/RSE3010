@@ -227,11 +227,11 @@ with $u^* = u/u_{\max}$ and $X^* = X/a$, where $X$ is distance from the tunnel f
 \[
 u^*(X^*) =
 \begin{cases}
-\frac{1}{3} e^{2X^* - 0.15R^*}, & X^* \leq 0 \quad \text{(ahead of face)},\\[4pt]
-1 - \left[1 - \frac{1}{3} e^{-0.15R^*}\right] e^{\frac{-3X^*}{R^*}}, & X^* > 0 \quad \text{(behind face)},
+\frac{1}{3} e^{X^* - 0.15R^*}, & X^* \leq 0 \quad \text{(ahead of face)},\\[4pt]
+1 - \left[1 - \frac{1}{3} e^{-0.15R^*}\right] e^{\frac{-3X^*}{2R^*}}, & X^* > 0 \quad \text{(behind face)},
 \end{cases}
 \]
-with $u^* = u/u_{\max}$, $X^* = X/a$, and $R^* = R_p/a$.
+with $u^* = u/u_{\max}$, $X^* = X/a$, and $R^* = R_p/a$. Both distances are normalised by the tunnel \emph{radius}. Some software writes the same profile with $X$ normalised by the diameter, in which case the exponents read $2X^*$ and $-3X^*/R^*$; the two forms are identical, but the exponents must match the normalisation used.
 
 \begin{notebox}[How to compute $u_{s0}$ from the LDP]
 Given installation distance $L$ behind the face:
@@ -359,11 +359,11 @@ The values in Table~4 follow from the workflow below. All inputs above; $p_0 = \
 \textbf{Parameter} & \textbf{GSI = 60} & \textbf{GSI = 30} \\
 \midrule
 $m_b$ & 1.68 & 0.575 \\
-$s$ & 0.0117 & 0.000418 \\
+$s$ & 0.0117 & 0.000419 \\
 $a_{HB}$ & 0.503 & 0.522 \\
 \midrule
 $\sigma_{cm}$ (MPa) & 7.70 & 1.24 \\
-$E_m$ (GPa) & 13.52 & 2.14 \\
+$E_m$ (GPa) & 13.52 & 2.12 \\
 $\phi$ (\textdegree) & 31.5 & 23.8 \\
 $c$ (MPa) & 2.85 & 1.72 \\
 \midrule
@@ -375,11 +375,11 @@ Response & Plastic & Plastic \\
 \midrule
 $R_p$ (m) & 6.83 & 11.17 \\
 $R_p/a$ & 1.44 & 2.35 \\
-$u_{\max}$ (mm) & 9.97 & 125.6 \\
-$u_{s0}$ at $L=3$~m (mm) & 8.0 & 82.6 \\
+$u_{\max}$ (mm) & 9.97 & 126.9 \\
+$u_{s0}$ at $L=3$~m (mm) & 6.2 & 62.0 \\
 \midrule
 $p_{sm}$ (MPa) & 6.32 & 6.32 \\
-$k_s$ (MPa/m) & 945.6 & 945.6 \\
+$k_s$ (MPa/m) & 945.5 & 945.5 \\
 $u_{sm}$ (mm) & 6.68 & 6.68 \\
 \bottomrule
 \end{tabular}
@@ -391,26 +391,26 @@ Using a lower $m_i$ (siltstone instead of sandstone) significantly reduces $m_b$
 \end{warnbox}
 
 \begin{warnbox}[GSI = 30 — solving the GRC--SCC intersection]
-A common mistake is to compare the lining's elastic capacity $u_{sm}$ against the \textit{unsupported} remaining convergence $u_{\max} - u_{s0} \approx 43$~mm and conclude the lining fails. This reasoning is incorrect: once the lining engages, it applies pressure on the rock mass, which reduces $R_p$ and therefore reduces the final convergence $u_{eq}$ well below $u_{\max}$. The CCM methodology requires solving the GRC--SCC intersection explicitly.\\[4pt]
+A common mistake is to compare the lining's elastic capacity $u_{sm}$ against the \textit{unsupported} remaining convergence $u_{\max} - u_{s0} \approx 65$~mm and conclude the lining fails. This reasoning is incorrect: once the lining engages, it applies pressure on the rock mass, which reduces $R_p$ and therefore reduces the final convergence $u_{eq}$ well below $u_{\max}$. The CCM methodology requires solving the GRC--SCC intersection explicitly.\\[4pt]
 
-\textbf{Intersection analysis for GSI = 30:} For $p_i > 0$, the supported GRC displacement is $u_r(p_i) = u_r(p_{cr}) \cdot (R_p(p_i)/a)^2$ where $R_p(p_i)$ shrinks as $p_i$ increases. Setting this equal to the SCC $p_i = k_s(u_r - u_{s0})$ and iterating (Excel Goal Seek or equivalent) gives $p_{eq} \approx 1.23$~MPa at $u_{eq} \approx 83.9$~mm (just $\sim$1.3~mm of post-installation displacement, well within $u_{sm} = 6.7$~mm). The corresponding factor of safety is:
+\textbf{Intersection analysis for GSI = 30:} For $p_i > 0$, the supported GRC displacement is $u_r(p_i) = u_r(p_{cr}) \cdot (R_p(p_i)/a)^2$ where $R_p(p_i)$ shrinks as $p_i$ increases. Setting this equal to the SCC $p_i = k_s(u_r - u_{s0})$ and iterating (Excel Goal Seek or equivalent) gives $p_{eq} \approx 2.27$~MPa at $u_{eq} \approx 64.4$~mm (just $\sim$2.4~mm of post-installation displacement, well within $u_{sm} = 6.7$~mm). The corresponding factor of safety is:
 \[
-\mathrm{FoS} = \frac{p_{sm}}{p_{eq}} = \frac{6.32}{1.23} \approx 5.1
+\mathrm{FoS} = \frac{p_{sm}}{p_{eq}} = \frac{6.32}{2.27} \approx 2.8
 \]
-A similar analysis for GSI = 60 gives $p_{eq} \approx 0.71$~MPa, FoS $\approx 8.9$. So the lining is nominally adequate for both conditions in this idealised CCM model.
+A similar analysis for GSI = 60 gives $p_{eq} \approx 1.47$~MPa, FoS $\approx 4.3$. So the lining is nominally adequate for both conditions in this idealised CCM model.
 
 \textbf{Caveats — why numerical modelling (Week 8) is still needed:} The CCM result above is optimistic because the analytical framework has limitations that are acute in poor ground:
 \begin{itemize}[nosep]
     \item \textbf{Axisymmetric assumption} ignores gravity asymmetry, non-circular deformations, and stress-induced anisotropy that become significant at large $R_p/a$.
-    \item \textbf{Pre-convergence control:} $u_{s0} \approx 83$~mm ahead of the lining is a very large strain ($\sim$1.7\% of diameter). In reality, the tunnel face may lose stability before this displacement can develop, requiring face bolts, forepoling, or probe drilling.
+    \item \textbf{Pre-convergence control:} $u_{s0} \approx 62$~mm ahead of the lining is a large strain ($\sim$1.3\% of radius, $u_{s0}/a$). In reality, the tunnel face may lose stability before this displacement can develop, requiring face bolts, forepoling, or probe drilling.
     \item \textbf{Time-dependent effects} (creep, squeezing) are not captured and can double long-term convergence.
     \item \textbf{Local failures} (block detachment, ravelling, structurally-controlled wedges) at $R_p/a > 2$ are outside CCM's scope.
 \end{itemize}
 
-\textbf{Practical design implications:} Even though the simplified CCM gives FoS $\sim$5 for GSI = 30, experienced designers would add contingency measures for poor rock:
+\textbf{Practical design implications:} Even though the simplified CCM gives FoS $\sim$2.8 for GSI = 30, experienced designers would add contingency measures for poor rock:
 \begin{itemize}[nosep]
     \item \textbf{Yielding support elements} (compressible blocks, sliding steel sets) to handle unexpected squeezing;
-    \item \textbf{Pre-reinforcement} (rock bolts, forepoling, face dowels) to control the $\sim$83~mm pre-convergence;
+    \item \textbf{Pre-reinforcement} (rock bolts, forepoling, face dowels) to control the $\sim$62~mm pre-convergence;
     \item \textbf{Observational method} with convergence monitoring to validate the CCM predictions.
 \end{itemize}
 Use \textbf{RocSupport} (or Excel Goal Seek) to find $p_{eq}$ precisely and compute the FoS. For comprehensive verification including asymmetric loading, non-circular geometry, and construction sequencing, numerical modelling (Week~8) is essential.
