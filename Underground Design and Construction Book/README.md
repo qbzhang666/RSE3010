@@ -50,7 +50,7 @@ Part I establishes the criteria that now govern how projects are conceived. Part
 | `frontmatter/` | Preface, how to use this book, notation and units, list of symbols |
 | `chapters/` | 28 chapter files, `c01`–`c28`, numbered in book order |
 | `backmatter/` | Appendices A–F; A describes the companion open-access application |
-| `references.bib` | Bibliography, 89 entries |
+| `references.bib` | Bibliography, 91 entries |
 | `figures/` | Chapter figures in `chNN/`, as PDF and SVG, plus a PNG preview |
 | `tools/` | `export_twin_figures.py`, the demonstrator figure export |
 | `CLASSICAL-CROSSCHECK.md` | Mapping against Hoek & Brown (1980) and Brady & Brown (2006) |
