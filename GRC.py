@@ -50,7 +50,10 @@ try:
         numerator = 2 * (p0 * (k - 1) + sigma_cm)
         denominator = (1 + k) * ((k - 1) * p[plastic_mask] + sigma_cm)
         R_p[plastic_mask] = r0 * (numerator / denominator) ** (1 / (k - 1))
-        u_r[plastic_mask] = u_ie * (p_cr / p[plastic_mask]) ** ((k - 1) / 2)
+        # Zero-dilation plastic branch: the wall convergence scales with
+        # the square of the plastic radius, u_r = u_ie (R_p/r0)^2. It does
+        # NOT scale as (p_cr/p_i)^((k-1)/2), which diverges at p_i -> 0.
+        u_r[plastic_mask] = u_ie * (R_p[plastic_mask] / r0) ** 2
 
 except Exception as e:
     st.error(f"Error in calculations: {str(e)}")

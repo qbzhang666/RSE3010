@@ -1,12 +1,27 @@
-streamlit
-numpy
-mplstereonet
-XlsxWriter
-openpyxl
-plotly
-pandas
-scipy
-scikit-learn
-matplotlib>=3.7  # From 3.5 → 3.7 (style system overhaul)
-seaborn>=0.12    # From 0.11 → 0.12 (style registry fixes)
+# Companion application for Underground Design and Construction, and the
+# RSE3010 teaching apps. Floors are set at the versions these scripts were
+# last run against, so an install that satisfies them reproduces the figures
+# and numbers in the book.
+#
+# Install:  python -m pip install -r requirements.txt
+# Run:      streamlit run "CCM Tunnel.py"
+#
+# Every script except TBM_Vibration.py is a Streamlit application and must be
+# started with `streamlit run`, not `python`. TBM_Vibration.py is the one
+# command-line script and is run with `python`.
 
+streamlit>=1.40        # tested at 1.58.0
+numpy>=1.26            # tested at 2.4.3
+matplotlib>=3.8        # tested at 3.10.8
+pandas>=2.2            # tested at 3.0.1
+scipy>=1.11            # tested at 1.18.1
+seaborn>=0.13          # tested at 0.13.2
+plotly>=5.18           # tested at 6.8.0
+scikit-learn>=1.4
+XlsxWriter>=3.1
+openpyxl>=3.1
+
+# Required by SMR Slope.py and smr_streamlit.py for the stereographic
+# projection. It is not a dependency of any other script, and those two will
+# not start without it.
+mplstereonet>=0.6

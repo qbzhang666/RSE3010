@@ -97,10 +97,16 @@ def grc_duncan_fama(pi, p0, a, nu, Em, phi_deg, c):
     if pi >= pcr:
         ur = (1 + nu) * (p0 - pi) * a / Em
     else:
-        ur_pcr = (1 + nu) * (p0 - pcr) * a / Em
         Rp = a * ((2 * (p0*(k-1) + sigma_cm)) /
                   ((1+k) * (pi*(k-1) + sigma_cm))) ** (1/(k-1))
-        ur = ur_pcr * (Rp / a) ** 2
+        # Duncan-Fama (1993), as published and as implemented by RocSupport:
+        #   u_ip = a(1+nu)/E_m [2(1-nu)(p0-p_cr)(R_p/a)^2 - (1-2nu)(p0-p_i)]
+        # Dropping the 2(1-nu) factor and the (1-2nu) term gives the
+        # incompressible special case, which is Salencon's zero-dilatancy
+        # result and is offered separately by grc_salencon.
+        ur = (a * (1 + nu) / Em) * (
+            2 * (1 - nu) * (p0 - pcr) * (Rp / a) ** 2
+            - (1 - 2 * nu) * (p0 - pi))
     return ur * 1000
 
 
@@ -289,12 +295,16 @@ def grc_salencon(pi, p0, a, nu, Em, phi_deg, c):
         # Salençon's plastic radius (identical functional form to Duncan-Fama)
         Rp = a * ((2 * (p0*(k-1) + sigma_cm)) /
                   ((1+k) * (pi*(k-1) + sigma_cm))) ** (1/(k-1))
-        # Salençon's wall displacement (incompressible plastic flow):
-        # u_r = u_r(pcr) · (Rp/a)^((k+1)/(k-1))  — slightly different exponent
-        # from Duncan-Fama which uses exponent 2
+        # Salençon (1969), zero dilatancy. Plastic flow at constant volume
+        # conserves the area of the plastic annulus, which gives
+        #   u_r = u_r(p_cr) (R_p/a)^2
+        # exactly. The exponent is 2 for any friction angle; it is not a
+        # function of k. (An earlier form used (k+1)/(k-1), which diverges as
+        # k -> 1 and returned displacements of order 1e21 mm at phi = 5 deg.)
+        # This differs from Duncan-Fama, which carries the compressibility
+        # terms in nu; the two coincide only at nu = 0.5.
         ur_pcr = (1 + nu) * (p0 - pcr) * a / Em
-        exponent = (k + 1) / (k - 1) if k > 1 else 2.0
-        ur = ur_pcr * (Rp / a) ** exponent
+        ur = ur_pcr * (Rp / a) ** 2
     return ur * 1000
 
 
@@ -379,6 +389,12 @@ def plastic_radius_mc(a, p0, pi, phi_deg, c):
         return a
     num = 2 * (p0 * (k - 1) + sigma_cm)
     den = (1 + k) * (pi * (k - 1) + sigma_cm)
+    if den <= 0:
+        # Cohesionless ground at zero support pressure: sigma_cm = 0 and
+        # p_i = 0 make the denominator vanish and the plastic zone unbounded.
+        # The widget allows c = 0, and the GRC is evaluated at p_i = 0, so
+        # this is reachable from the sidebar rather than hypothetical.
+        return np.inf
     return a * (num / den) ** (1 / (k - 1))
 
 
@@ -408,9 +424,14 @@ def ldp_panet(Xstar, alpha=0.75):
 
 
 def ldp_vlachopoulos(Xstar, Rstar):
+    """Vlachopoulos and Diederichs (2009), as published, with X* = X/a.
+
+    Ahead of the face  u*/u_max = (1/3) exp(X*) exp(-0.15 R*)
+    Behind the face    u*/u_max = 1 - [1 - (1/3) exp(-0.15 R*)] exp(-3X*/(2R*))
+    """
     if Xstar <= 0:
-        return (1/3) * np.exp(2 * Xstar - 0.15 * Rstar)
-    return 1 - (1 - (1/3) * np.exp(-0.15 * Rstar)) * np.exp(-3 * Xstar / Rstar)
+        return (1/3) * np.exp(Xstar) * np.exp(-0.15 * Rstar)
+    return 1 - (1 - (1/3) * np.exp(-0.15 * Rstar)) * np.exp(-3 * Xstar / (2 * Rstar))
 
 
 def ldp_hoek(Xstar_over_D):
@@ -449,20 +470,16 @@ def ldp(method, X_over_a, Rp_over_a=1.0, alpha=0.75, norm=LDP_DEFAULT_NORM):
     norm : {"radius", "diameter"}
         Normalisation convention used inside the LDP formula.
     """
-    if norm == "diameter":
-        # RocSupport convention: X-distance uses X/D, but R* in the face-value
-        # term remains R_p/a.
-        Xs_dist = X_over_a / 2.0
-        Rs_face = Rp_over_a       # retain radius for face value
-    else:
-        # Academic V&D 2009: everything normalised by radius
-        Xs_dist = X_over_a
-        Rs_face = Rp_over_a
+    # Each formula below is written in its own published form and takes
+    # X/a directly. A single shared divisor cannot serve both: halving X for
+    # Panet halves its decay rate, which is why the app previously computed
+    # exp(-0.75 X/a) while its own Workflow tab showed exp(-1.5 X/a).
+    del norm  # retained in the signature for callers; no longer used here
 
     if method == "Panet (1995)":
-        return ldp_panet(Xs_dist, alpha)
+        return ldp_panet(X_over_a, alpha)
     if method == "Vlachopoulos & Diederichs (2009)":
-        return ldp_vlachopoulos(Xs_dist, Rs_face)
+        return ldp_vlachopoulos(X_over_a, Rp_over_a)
     if method == "Hoek (2002)":
         # Hoek formula is always expressed in terms of X/D, independent of norm
         return ldp_hoek(X_over_a / 2.0)
@@ -1590,7 +1607,7 @@ with tab6:
                 if sens_var == "a (tunnel radius, m)":
                     new_supports = []
                     for s in params["supports"]:
-                        if s["name"] == "Concrete lining":
+                        if s["name"] == "Shotcrete / concrete lining":
                             ns = support_concrete(sigma_ci_lining, Ec, nu_c,
                                                    s["t"], val)
                             ns["name"] = s["name"]; ns["t"] = s["t"]
@@ -1602,7 +1619,7 @@ with tab6:
                 # Update lining thickness
                 new_supports = []
                 for s in params["supports"]:
-                    if s["name"] == "Concrete lining":
+                    if s["name"] == "Shotcrete / concrete lining":
                         ns = support_concrete(sigma_ci_lining, Ec, nu_c, val,
                                                params["a"])
                         ns["name"] = s["name"]; ns["t"] = val

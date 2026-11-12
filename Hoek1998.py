@@ -47,7 +47,10 @@ try:
         numerator = 2 * (p0 * (k - 1) + sigma_cm)
         denominator = (1 + k) * ((k - 1) * p[plastic_mask] + sigma_cm)
         R_p[plastic_mask] = r0 * (numerator / denominator) ** (1 / (k - 1))
-        u_r[plastic_mask] = u_ie * (p_cr / p[plastic_mask]) ** ((k - 1) / 2)
+        # Zero-dilation plastic branch: the wall convergence scales with
+        # the square of the plastic radius, u_r = u_ie (R_p/r0)^2. It does
+        # NOT scale as (p_cr/p_i)^((k-1)/2), which diverges at p_i -> 0.
+        u_r[plastic_mask] = u_ie * (R_p[plastic_mask] / r0) ** 2
 
 except Exception as e:
     st.error(f"🚨 Calculation Error: {str(e)}")
@@ -67,7 +70,7 @@ with tab1:
     ax1.set_xlabel("Radial Displacement $u_r$ (m)")
     ax1.set_ylabel("Support Pressure $p_i$ (MPa)")
     ax1.set_ylim(0, max(p0, p_cr)*1.15)
-    ax1.set_xlim(0, 0.08)
+    ax1.set_xlim(0, max(float(np.max(u_r)) * 1.05, 1e-3))
     ax1.grid(True, alpha=0.3)
 
     ax2 = ax1.twinx()
