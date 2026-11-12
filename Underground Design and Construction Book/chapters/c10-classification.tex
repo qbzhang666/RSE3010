@@ -1,5 +1,4 @@
 % !TeX root = ../main.tex
-% Rebuilt from: ch03-rock-mass-classification.tex
 \chapter{Rock Mass Classification}
 \label{ch:classification}
 
@@ -12,8 +11,10 @@ Three systems dominate practice: the Rock Mass Rating of
 \citet{barton1974q}, and the Geological Strength Index introduced
 by Hoek and colleagues for parameter estimation rather than for support
 selection~\citep{marinos2000gsi}. This chapter sets out the three, the data
-each requires, and the conditions under which their recommendations may
-legitimately be compared.
+each requires, and the reasons their ratings diverge. The support
+recommendations built on the ratings, and the conditions under which those
+recommendations may legitimately be compared, are taken up in
+Chapter~\ref{ch:empirical-design}.
 
 \section{Classification systems}
 \label{sec:classification-systems}
@@ -21,36 +22,29 @@ legitimately be compared.
 \subsection{Purpose and workflow of classification}
 \label{sec:purpose-and-workflow-of-classification}
 
-\paragraph{Rock Mass Classification -- Overview}
+Classification systems were developed to do five things: to identify the
+parameters that most influence rock mass behaviour; to divide rock masses into
+groups of similar engineering behaviour; to supply quantitative guidance for
+preliminary design; to give engineers and geologists a common vocabulary; and
+to provide input to empirical support methods and to rock mass failure
+criteria. The line of development runs from the rock load factor of
+\citet{terzaghi1946rockload}, through the Rock Mass Rating and the $Q$-system
+in the 1970s, to the Geological Strength Index two decades
+later~\citep{hoek1995support}. The earlier schemes were written to select
+support. The last was written to feed a failure criterion, and the difference
+in purpose explains most of the differences in what each system counts.
 
-Rock mass classification systems were developed to:
-\begin{itemize}
- \item identify the most significant parameters influencing rock mass behaviour;
- \item divide rock masses into groups of similar engineering behaviour;
- \item provide quantitative data and guidelines for preliminary design;
- \item support communication between engineers and geologists; and
- \item provide input to empirical support systems and rock mass failure criteria.
-\end{itemize}
+A classification is not a calculation alone. Each system reduces to arithmetic
+once its ratings are assigned, but the ratings themselves are geological
+judgements, and a reported RMR, $Q$ or GSI value is incomplete without the
+justification for each rating behind it.
 
-Key contributors and systems include:
-\begin{itemize}
- \item Terzaghi (1946): Rock Load Factor;
- \item Bieniawski (1973, 1989): Rock Mass Rating (RMR);
- \item Barton et al.\ (1974): Q-system;
- \item Hoek et al.\ (1994--1995): Geological Strength Index (GSI);
- \item Molinda and Mark (1994): Coal Mine Roof Rating (CMRR).
-\end{itemize}
+Figure~\ref{fig:classification_workflow} sets out the sequence. The data are
+collected once and the three systems are evaluated from them in turn; the last
+step compares the results, and a comparison that exposes an inconsistency
+returns the process to the data rather than to the arithmetic.
 
-
-\noindent\textbf{Classification is not calculation only.}\enspace Rock mass classification requires both numerical calculation and geological judgement.
-Engineers must justify the selected ratings, not only report final RMR, Q, or GSI values.
-
-
-\paragraph{Classification Workflow}
-
-Figure~\ref{fig:classification_workflow} sets out the recommended sequence.
-
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[node distance=0.4cm, font=\small]
@@ -89,37 +83,39 @@ Figure~\ref{fig:classification_workflow} sets out the recommended sequence.
 \label{fig:classification_workflow}
 \end{figure}
 
+The three systems measure related but not identical aspects of rock mass
+quality, and they should not be forced to agree. A difference between them is
+not necessarily a mistake: RMR and $Q$ both penalise groundwater, for example,
+while GSI by construction does not. A sound classification explains why the
+values differ and then selects a defensible design value.
 
-\noindent\textbf{Do not force all systems to agree.}\enspace RMR, Q, and GSI measure related but not identical aspects of rock mass quality.
-Differences between them are not necessarily mistakes. A good report explains why
-the values differ and selects a defensible design value.
+\subsection{Rock Mass Rating (RMR) system}
+\label{sec:rmr-system}
 
-
-\subsection{Rock Mass Rating (RMR) System}
-
-The RMR system of Bieniawski (1989) is based on five parameters:
+The Rock Mass Rating of \citet{bieniawski1989rmr} is the sum of five ratings,
 \[
-\text{RMR} = R_1 + R_2 + R_3 + R_4 + R_5
+\text{RMR} = R_1 + R_2 + R_3 + R_4 + R_5 ,
 \]
-where:
-\begin{itemize}
- \item \(R_1\) = intact rock strength rating;
- \item \(R_2\) = RQD rating;
- \item \(R_3\) = discontinuity spacing rating;
- \item \(R_4\) = discontinuity condition rating;
- \item \(R_5\) = groundwater rating.
-\end{itemize}
+for intact rock strength, RQD, discontinuity spacing, discontinuity condition
+and groundwater respectively. The sum of the five as assessed is the
+\emph{basic} RMR. A sixth term, an adjustment for the orientation of the
+discontinuities relative to the excavation, is applied afterwards for design
+applications and is treated with them in Chapter~\ref{ch:empirical-design}.
+Neither of these is the quantity from which GSI is estimated; that is a third
+form of the rating, defined in Section~\ref{sec:geological-strength-index}.
 
+\paragraph{R1: strength of intact rock material}
+The first rating is read from the uniaxial compressive strength or, where that
+has not been measured, from the point load index
+(Table~\ref{tab:rmr_strength}). The two columns of the table are paired at a
+ratio of 25, whereas the ratio measured on a given rock varies with lithology.
+Where both are available the uniaxial compressive strength governs: the point
+load index is a field substitute, and a disagreement of one rating band
+between the two is to be expected.
 
-\noindent\textbf{Basic RMR vs adjusted RMR.}\enspace In Chapter~\ref{ch:classification}, calculate the \textbf{basic RMR} from the five parameters above.
-Orientation adjustment is used later for design applications such as tunnels and foundations. For GSI conversion, use \(RMR_{\text{basic}}\), not an orientation-adjusted RMR.
-
-
-\paragraph{R1: Strength of Intact Rock Material}
-
-This rating is based on uniaxial compressive strength or point load index.
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{RMR rating for intact rock strength.}
+\label{tab:rmr_strength}
 \centering
 \small
 \begin{tabularx}{0.85\textwidth}{l l c}
@@ -135,22 +131,23 @@ This rating is based on uniaxial compressive strength or point load index.
 -- & \(<1\) & 0 \\
 \bottomrule
 \end{tabularx}
-\caption{RMR rating for intact rock strength.}
-\label{tab:rmr_strength}
 \end{table}
 
 \paragraph{R2: Rock Quality Designation (RQD)}
-
+The second rating is read from the RQD (Table~\ref{tab:rmr_rqd}), defined in
+Chapter~\ref{ch:site-investigation} as
 \[
 \text{RQD} =
 \frac{
 \sum \text{length of sound core pieces} > 100~\text{mm}
 }
 {\text{total core run length}}
-\times 100\%
+\times 100\% .
 \]
 
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{RMR rating for RQD.}
+\label{tab:rmr_rqd}
 \centering
 \small
 \begin{tabular}{c c l}
@@ -164,19 +161,20 @@ This rating is based on uniaxial compressive strength or point load index.
 \(<25\) & 3 & Very poor \\
 \bottomrule
 \end{tabular}
-\caption{RMR rating for RQD.}
-\label{tab:rmr_rqd}
 \end{table}
 
+RQD is a geometric index and not a strength. It records the proportion of core
+recovered in pieces longer than 100\,mm, and it says nothing directly about
+joint roughness, infilling, shear strength or deformability, which is why the
+system carries a separate rating for discontinuity condition.
 
-\noindent\textbf{RQD is not strength.}\enspace RQD is a geometric index. It describes the percentage of core pieces longer than
-100 mm. It does not directly measure joint roughness, joint infilling, shear strength,
-or deformability.
+\paragraph{R3: spacing of discontinuities}
+The third rating is read from the spacing of the discontinuities
+(Table~\ref{tab:rmr_spacing}).
 
-
-\paragraph{R3: Spacing of Discontinuities}
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{RMR rating for discontinuity spacing.}
+\label{tab:rmr_spacing}
 \centering
 \small
 \begin{tabular}{c c}
@@ -190,43 +188,38 @@ or deformability.
 \(<0.06\) & 5 \\
 \bottomrule
 \end{tabular}
-\caption{RMR rating for discontinuity spacing.}
-\label{tab:rmr_spacing}
 \end{table}
 
-If joint spacing is not directly measured, it may be estimated from RQD using the
-Priest--Hudson relationship:
+Where spacing has not been measured directly it may be estimated from RQD
+through the linear approximation of Priest and Hudson,
 \[
 RQD = 110.4 - 3.68\lambda
 \qquad
-(6 < \lambda < 16)
+(6 < \lambda < 16) ,
 \]
-where \(\lambda\) is the joint frequency in joints per metre.
-
-The average joint spacing is then:
+where \(\lambda\) is the discontinuity frequency in joints per metre, the mean
+spacing being \(s = 1/\lambda\). An RQD of 68\,\% gives
 \[
-s = \frac{1}{\lambda}
+\lambda = \frac{110.4 - 68}{3.68} = 11.52~\text{joints/m},
+\qquad
+s = \frac{1}{11.52}=0.087~\text{m},
 \]
+which falls in the 0.06--0.2\,m band of Table~\ref{tab:rmr_spacing}. The
+approximation holds only for \(6 < \lambda < 16\), that is for RQD between
+about 51\,\% and 88\,\%. Outside that range, and in very poor rock in
+particular, it gives no more than a rough guide, and a spacing obtained from
+it carries that uncertainty into the rating.
 
+\paragraph{R4: condition of discontinuities}
+The fourth rating describes the surfaces themselves
+(Table~\ref{tab:rmr_condition}). Field descriptions seldom match a single row.
+Where a description mixes features, the rating adopted is the one that best
+represents the likely engineering behaviour, with the reason recorded; the
+most favourable reading of a mixed description is not a defensible default.
 
-\noindent\textbf{Example calculation.}\enspace If \(RQD = 68\%\), then:
-\[
-\lambda = \frac{110.4 - 68}{3.68} = 11.52~\text{joints/m}
-\]
-\[
-s = \frac{1}{11.52}=0.087~\text{m}
-\]
-This spacing would fall in the 0.06--0.2 m category.
-
-
-\noindent\textbf{Priest--Hudson validity range.}\enspace The linear approximation \(RQD = 110.4 - 3.68\lambda\) is only valid for
-\(6 < \lambda < 16\), approximately corresponding to RQD values between 51\% and 88\%.
-For very poor rock, use this only as a rough guide and explain the uncertainty.
-
-
-\paragraph{R4: Condition of Discontinuities}
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{RMR rating for discontinuity condition.}
+\label{tab:rmr_condition}
 \centering
 \small
 \begin{tabularx}{\textwidth}{Y c}
@@ -240,19 +233,16 @@ Slickensided surfaces OR gouge \(<5\) mm thick OR separation 1--5 mm, continuous
 Soft gouge \(>5\) mm thick OR separation \(>5\) mm, continuous & 0 \\
 \bottomrule
 \end{tabularx}
-\caption{RMR rating for discontinuity condition.}
-\label{tab:rmr_condition}
 \end{table}
 
+\paragraph{R5: groundwater conditions}
+The fifth rating is read from the inflow, from the ratio of joint water
+pressure to major principal stress, or from a general description of the
+condition (Table~\ref{tab:rmr_groundwater}).
 
-\noindent\textbf{Use the most representative condition.}\enspace If the joint description contains mixed features, choose the rating that best represents
-the likely engineering behaviour and justify the decision. Do not simply choose the most
-favourable description.
-
-
-\paragraph{R5: Groundwater Conditions}
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{RMR rating for groundwater.}
+\label{tab:rmr_groundwater}
 \centering
 \small
 \begin{tabularx}{\textwidth}{l l l c}
@@ -266,13 +256,18 @@ None & 0 & Completely dry & 15 \\
 \(>125\) & \(>0.5\) & Flowing & 0 \\
 \bottomrule
 \end{tabularx}
-\caption{RMR rating for groundwater.}
-\label{tab:rmr_groundwater}
 \end{table}
 
-\paragraph{Rock Mass Classes Based on RMR}
+\paragraph{Rock mass classes based on RMR}
+The total places the rock mass in one of five classes
+(Table~\ref{tab:rmr_classes}). The cohesion and friction angle attached to
+each class are indicative values for the rock mass as a whole. They pre-date
+the parameter derivation of Chapter~\ref{ch:rock-mass-parameters} and are no
+substitute for it.
 
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Rock mass classes based on RMR.}
+\label{tab:rmr_classes}
 \centering
 \small
 \begin{tabular}{c c l c c}
@@ -286,41 +281,34 @@ None & 0 & Completely dry & 15 \\
 \(<20\) & V & Very poor & \(<100\) & \(<15^\circ\) \\
 \bottomrule
 \end{tabular}
-\caption{Rock mass classes based on RMR.}
-\label{tab:rmr_classes}
 \end{table}
 
-\subsection{NGI Q-System}
+\subsection{NGI Q-system}
+\label{sec:q-system}
 
-The Q-system of Barton et al.\ (1974) is defined as:
+The $Q$-system of \citet{barton1974q} is a product of three quotients,
 \[
 Q =
 \frac{RQD}{J_n}
 \times
 \frac{J_r}{J_a}
 \times
-\frac{J_w}{SRF}
+\frac{J_w}{SRF} ,
 \]
+each of which has a physical reading. The first, $RQD/J_n$, is a measure of
+block size. The second, $J_r/J_a$, is a measure of the shear strength between
+blocks. The third, $J_w/SRF$, describes the active stress, in which water
+pressure and the stress state both act. RQD enters as a percentage: an RQD of
+70\,\% is entered as 70, not 0.70, and the decimal form returns a $Q$ value
+one hundred times too small.
 
-The three terms have physical meaning:
-\[
-\frac{RQD}{J_n} = \text{block size}
-\]
-\[
-\frac{J_r}{J_a} = \text{inter-block shear strength}
-\]
-\[
-\frac{J_w}{SRF} = \text{active stress and water effect}
-\]
+\paragraph{Joint set number \(J_n\)}
+The joint set number counts the sets present, with an allowance for random
+joints (Table~\ref{tab:jn}).
 
-
-\noindent\textbf{RQD is entered as a percentage.}\enspace Use \(RQD=70\), not \(0.70\). A common error is to enter the decimal form, which
-makes the Q-value 100 times too small.
-
-
-\paragraph{Joint Set Number \(J_n\)}
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Joint set number \(J_n\).}
+\label{tab:jn}
 \centering
 \small
 \begin{tabularx}{0.85\textwidth}{Y c}
@@ -338,13 +326,15 @@ Four or more joint sets, heavily jointed & 15 \\
 Crushed rock, earthlike & 20 \\
 \bottomrule
 \end{tabularx}
-\caption{Joint set number \(J_n\).}
-\label{tab:jn}
 \end{table}
 
-\paragraph{Joint Roughness Number \(J_r\)}
+\paragraph{Joint roughness number \(J_r\)}
+The joint roughness number describes the surface at both the small scale and
+the scale of the undulation (Table~\ref{tab:jr}).
 
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Joint roughness number \(J_r\).}
+\label{tab:jr}
 \centering
 \small
 \begin{tabularx}{0.85\textwidth}{Y c}
@@ -360,15 +350,18 @@ Smooth, planar & 1 \\
 Slickensided, planar & 0.5 \\
 \bottomrule
 \end{tabularx}
-\caption{Joint roughness number \(J_r\).}
-\label{tab:jr}
 \end{table}
 
-\paragraph{Joint Alteration Number \(J_a\)}
+\paragraph{Joint alteration number \(J_a\)}
+The joint alteration number describes the filling and the degree of rock-wall
+contact, in three groups according to whether the walls remain in contact
+during shear (Table~\ref{tab:ja}). The table is abridged from the original.
 
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Joint alteration number \(J_a\).}
+\label{tab:ja}
 \centering
-\footnotesize
+\small
 \begin{tabularx}{\textwidth}{Y c c}
 \toprule
 \textbf{Description} & \textbf{Residual friction angle} & \textbf{\(J_a\)} \\
@@ -390,18 +383,20 @@ Swelling clay fillings & 6--12\(^{\circ}\) & 8--12 \\
 Zones of disintegrated or crushed rock, strongly over-consolidated & 16--24\(^{\circ}\) & 6 \\
 Zones of clay, medium or low over-consolidation & 12--16\(^{\circ}\) & 8 \\
 Zones of clay, swelling clay & 6--12\(^{\circ}\) & 8--12 \\
-Thick continuous zones of clay, strongly over-consolidated & 12--16\(^{\circ}\) & 10 \\
+Thick continuous zones of clay, strongly over-consolidated & 16--24\(^{\circ}\) & 10 \\
 Thick continuous zones of clay, medium to low over-consolidation & 12--16\(^{\circ}\) & 13 \\
 Thick continuous zones with swelling clay & 6--12\(^{\circ}\) & 13--20 \\
 \bottomrule
 \end{tabularx}
-\caption{Joint alteration number \(J_a\).}
-\label{tab:ja}
 \end{table}
 
-\paragraph{Joint Water Reduction Factor \(J_w\)}
+\paragraph{Joint water reduction factor \(J_w\)}
+The joint water reduction factor is read from the inflow and the approximate
+water pressure (Table~\ref{tab:jw}).
 
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Joint water reduction factor \(J_w\).}
+\label{tab:jw}
 \centering
 \small
 \begin{tabularx}{\textwidth}{c Y c c}
@@ -416,19 +411,19 @@ E & Exceptionally high inflow, decaying with time & \(>10\) & 0.2--0.1 \\
 F & Exceptionally high inflow, continuing without decay & \(>10\) & 0.1--0.05 \\
 \bottomrule
 \end{tabularx}
-\caption{Joint water reduction factor \(J_w\).}
-\label{tab:jw}
 \end{table}
 
-\paragraph{Stress Reduction Factor (SRF)}
+\paragraph{Stress reduction factor (SRF)}
 \label{sec:srf}
+The stress reduction factor accounts for weakness zones, stress problems,
+squeezing and swelling (Table~\ref{tab:srf}), and it is among the most
+judgement-sensitive parts of the system.
 
-The SRF accounts for weakness zones, stress problems, squeezing, and swelling conditions.
-It is one of the most judgement-sensitive parts of the Q-system.
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Stress Reduction Factor (SRF).}
+\label{tab:srf}
 \centering
-\footnotesize
+\small
 \begin{tabularx}{\textwidth}{Y c}
 \toprule
 \textbf{Description} & \textbf{SRF} \\
@@ -457,32 +452,26 @@ Mild swelling & 5--10 \\
 Heavy swelling & 10--15 \\
 \bottomrule
 \end{tabularx}
-\caption{Stress Reduction Factor (SRF).}
-\label{tab:srf}
 \end{table}
 
+The choice of category matters more than the value read within it. Category
+(a) applies wherever the excavation intersects weakness zones, heavily jointed
+zones or poorly interlocked rock, whatever the stress level. Category (b)
+applies when the rock mass is competent and the ratio
+\(\sigma_{ci}/\sigma_1^{IS}\) can be meaningfully calculated. In that ratio
+\(\sigma_1^{IS}\) is the major in-situ principal stress, the demand, and not
+the major principal stress at failure \(\sigma_1^f\) returned by a failure
+criterion, the capacity. Chapter~\ref{ch:rock-mechanics} keeps the two apart
+by the same superscripts, and substituting one for the other here returns the
+wrong stress reduction factor.
 
-\noindent\textbf{Choosing the correct SRF category.}\enspace Category (b) applies when the rock mass is competent and the ratio
-\(\sigma_{ci}/\sigma_1^{IS}\) can be meaningfully calculated.
+\paragraph{Rock mass quality based on Q}
+The resulting value places the rock mass on a logarithmic scale of quality
+(Table~\ref{tab:q_quality}).
 
-Here:
-\[
-\sigma_1^{IS}=\text{maximum in-situ principal stress}
-\]
-not the Hoek--Brown failure stress \(\sigma_1^f\).
-
-Category (a) applies when the excavation intersects weakness zones, heavily jointed zones,
-or poorly interlocked rock, regardless of stress level.
-
-
-\noindent\textbf{Notation.}\enspace In Chapter~\ref{ch:rock-mechanics}, \(\sigma_1^{IS}\) was used for the maximum in-situ stress demand, while
-\(\sigma_1^f\) was used for the major principal stress at failure from Hoek--Brown.
-For SRF category (b), use \(\sigma_1^{IS}\), not \(\sigma_1^f\).
-
-
-\paragraph{Rock Mass Quality Based on Q}
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Rock mass quality based on Q-value.}
+\label{tab:q_quality}
 \centering
 \small
 \begin{tabular}{c l}
@@ -500,145 +489,100 @@ For SRF category (b), use \(\sigma_1^{IS}\), not \(\sigma_1^f\).
 \(<0.01\) & Exceptionally poor \\
 \bottomrule
 \end{tabular}
-\caption{Rock mass quality based on Q-value.}
-\label{tab:q_quality}
 \end{table}
 
 \section{Geological Strength Index}
 \label{sec:geological-strength-index}
 
-\paragraph{Geological Strength Index (GSI)}
+The Geological Strength Index describes two things only: the structure of the
+rock mass and the condition of its discontinuity surfaces. It is the input
+through which geology enters the generalised Hoek--Brown
+criterion~\citep{hoek2019hb} of Chapter~\ref{ch:rock-mass-parameters}, and for
+that reason it deliberately excludes groundwater, the orientation of the
+excavation and temporary construction effects, each of which is accounted for
+elsewhere in an analysis that uses the criterion.
 
-GSI describes rock mass structure and joint surface condition. It is used directly in
-the generalised Hoek--Brown criterion~\citep{hoek2019hb} of Chapter~\ref{ch:rock-mass-parameters}.
+\paragraph{Structure and surface condition}
+Structure is described on a scale of decreasing interlock. An \emph{intact or
+massive} rock mass has few, widely spaced discontinuities. A \emph{blocky}
+mass is well interlocked, with cubical blocks formed by about three joint
+sets; a \emph{very blocky} mass is interlocked but partially disturbed, with
+multifaceted angular blocks. A \emph{blocky, disturbed or seamy} mass is
+folded or faulted, with many intersecting discontinuities. A
+\emph{disintegrated} mass is a poorly interlocked, heavily broken mixture of
+fragments, and a \emph{laminated or sheared} mass lacks blockiness altogether
+because of weak foliation, schistosity or shearing.
 
+Surface condition is described on a second scale. \emph{Very good} surfaces
+are very rough, fresh and unweathered. \emph{Good} surfaces are rough,
+slightly weathered and iron-stained. \emph{Fair} surfaces are smooth,
+moderately weathered and altered. \emph{Poor} surfaces are slickensided and
+highly weathered, with compact coatings or fillings, and \emph{very poor}
+surfaces are slickensided and highly weathered with soft clay coatings or
+fillings.
 
-\noindent\textbf{What GSI should represent.}\enspace GSI should reflect the \textbf{geological structure} and \textbf{joint surface condition} of
-the rock mass. It should not directly include groundwater, excavation orientation, or
-temporary construction effects.
+\paragraph{Chart-based GSI estimation}
+The two descriptions are combined on the GSI chart, reproduced numerically as
+Table~\ref{tab:gsi} of Appendix~\ref{app:constants}, to give a range rather
+than a number. The range is the result. A single GSI value reported without
+its descriptive basis cannot be checked, and a record of the form ``blocky to
+very blocky, with slightly rough but highly weathered surfaces, giving a GSI
+range from which a representative value is adopted'' is the minimum that
+allows another assessor to agree or to disagree.
 
-
-\paragraph{Structure Descriptions}
-
-\begin{itemize}
- \item \textbf{Intact or massive}: intact rock specimens, few widely spaced discontinuities.
- \item \textbf{Blocky}: well interlocked, cubical blocks formed by approximately three joint sets.
- \item \textbf{Very blocky}: interlocked, partially disturbed, multifaceted angular blocks.
- \item \textbf{Blocky/disturbed/seamy}: folded or faulted rock with many intersecting discontinuities.
- \item \textbf{Disintegrated}: poorly interlocked, heavily broken mixture of rock fragments.
- \item \textbf{Laminated/sheared}: lack of blockiness due to weak foliation, schistosity, or shearing.
-\end{itemize}
-
-\paragraph{Joint Surface Condition}
-
-\begin{itemize}
- \item \textbf{Very good}: very rough, fresh, unweathered surfaces.
- \item \textbf{Good}: rough, slightly weathered, iron-stained surfaces.
- \item \textbf{Fair}: smooth, moderately weathered and altered surfaces.
- \item \textbf{Poor}: slickensided, highly weathered surfaces with compact coatings or fillings.
- \item \textbf{Very poor}: slickensided, highly weathered surfaces with soft clay coatings or fillings.
-\end{itemize}
-
-\paragraph{Chart-Based GSI Estimation}
-
-Chart-based GSI estimation uses two judgements:
+\paragraph{GSI from RMR}
+Where a chart assessment is unavailable or needs checking, GSI may be
+estimated from the Rock Mass Rating as
 \[
-\text{Rock mass structure}
-\quad + \quad
-\text{Joint surface condition}
-\quad \rightarrow \quad
-\text{GSI range}
+\text{GSI} = RMR'_{89} - 5 ,
 \]
-
-
-\noindent\textbf{Recommended reporting style.}\enspace Do not report only one GSI number. State the descriptive basis, for example:
-
-``The rock mass is interpreted as blocky to very blocky, with slightly rough but highly
-weathered joint surfaces. Therefore, a GSI range of approximately XX--YY is considered
-reasonable. A representative value of XX is adopted Chapter~\ref{ch:rock-mass-parameters} calculations.''
-
-
-\paragraph{Empirical GSI Correlations}
-
-\subsubsection{GSI from RMR}
-
+in which \(RMR'_{89}\) is the 1989 rating computed with the groundwater rating
+set to 15, the value for completely dry conditions, and with no orientation
+adjustment. It is related to the basic rating, which carries the groundwater
+rating \(R_5\) actually assessed, by
 \[
-\boxed{\text{GSI}=RMR_{\text{basic}}-5}
+RMR'_{89} = RMR_{\text{basic}} - R_5 + 15 .
 \]
-
-where \(RMR_{\text{basic}}\) is the RMR calculated with:
-\begin{itemize}
- \item groundwater rating set to 15, corresponding to completely dry conditions;
- \item orientation adjustment set to 0.
-\end{itemize}
-
-If the calculated RMR includes actual groundwater rating \(R_5\), then:
+For a basic RMR of 60 assessed with \(R_5 = 7\),
 \[
-RMR_{\text{basic}} = RMR - R_5 + 15
+RMR'_{89} = 60 - 7 + 15 = 68,
+\qquad
+\text{GSI} = 68 - 5 = 63 .
 \]
-and:
-\[
-\text{GSI} = RMR_{\text{basic}} - 5
-\]
+Entering the basic rating directly would give 55. The eight-point difference
+is the groundwater penalty counted twice: once in the classification, and
+again when pore pressure is introduced explicitly in the analysis for which
+the GSI is wanted.
 
-
-\noindent\textbf{Example.}\enspace If:
-\[
-RMR = 60,\qquad R_5=7
-\]
-then:
-\[
-RMR_{\text{basic}} = 60 - 7 + 15 = 68
-\]
-\[
-GSI = 68 - 5 = 63
-\]
-
-
-\noindent\textbf{Do not use raw RMR directly for GSI.}\enspace A common error is:
-\[
-GSI = RMR - 5
-\]
-without correcting the groundwater rating. This double-counts the groundwater penalty.
-GSI should describe rock mass structure and joint surface condition, not groundwater.
-
-
-\subsubsection{Other Empirical Correlations}
-
-Two additional empirical correlations are:
+\paragraph{Other empirical correlations}
+Two further correlations estimate GSI from quantities already assessed,
 \[
 GSI = 1.5J_{\text{cond89}} + \frac{RQD}{2}
 \]
-and:
+and
 \[
 GSI =
 \frac{52(J_r/J_a)}
 {1+(J_r/J_a)}
 +
-\frac{RQD}{2}
+\frac{RQD}{2} ,
 \]
+where \(J_{\text{cond89}}\) is the RMR discontinuity condition rating \(R_4\).
+It is not the joint roughness number \(J_r\) of the $Q$-system, which appears
+in the second expression, and the similarity of the two symbols is a known
+source of error.
 
-where \(J_{\text{cond89}}\) is the RMR joint condition rating \(R_4\), not the Q-system
-joint roughness number \(J_r\).
+\paragraph{Selecting a GSI value}
+Four estimates are therefore available: the chart value, the value from
+\(RMR'_{89}\), and the two from the correlations above.
+Figure~\ref{fig:gsi_selection} shows how they are reconciled. The chart-based
+value is the primary one, because it is the direct geological judgement the
+index was defined to record, and the correlations serve as checks on it. Where
+the estimates differ significantly, the difference is itself information about
+the rock mass or about the logging, and it is explained before a cautious
+value within the supported range is adopted.
 
-
-\noindent\textbf{Symbol caution.}\enspace \(J_{\text{cond89}}\) is the RMR joint condition rating. It is not the same as \(J_r\) in
-the Q-system. Mixing these two symbols gives incorrect GSI values.
-
-
-\paragraph{How to Select a Final GSI Value}
-
-Engineers should compare:
-\begin{itemize}
- \item chart-based GSI;
- \item GSI from \(RMR_{\text{basic}}-5\);
- \item GSI from \(1.5J_{\text{cond89}}+RQD/2\);
- \item GSI from the \(J_r/J_a\) correlation.
-\end{itemize}
-
-Figure~\ref{fig:gsi_selection} shows how the two routes are reconciled.
-
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \resizebox{0.95\textwidth}{!}{%
 \begin{tikzpicture}[node distance=0.45cm, font=\small]
@@ -669,22 +613,20 @@ Figure~\ref{fig:gsi_selection} shows how the two routes are reconciled.
 \label{fig:gsi_selection}
 \end{figure}
 
+\section{An illustrative data set}
+\label{sec:classification-design-data}
 
-\noindent\textbf{Preferred approach.}\enspace Use the chart-based GSI as the primary geological judgement. Use empirical correlations
-as checks. If the values differ significantly, explain why and adopt a conservative but
-reasonable design value.
+Table~\ref{tab:classification-input-data} sets out the information the three
+systems require for four rock masses spanning the range of civil practice: a
+strong granite at depth under high horizontal stress, a sandstone and a
+mudstone at intermediate and shallow depth, and a limestone near surface. The
+same four are carried through the stress and strength calculations of
+Chapter~\ref{ch:rock-mechanics} and the parameter derivation of
+Chapter~\ref{ch:rock-mass-parameters}.
 
-
-\section{Design data and calculation tables}
-\label{sec:ch3-design-data}
-
-\paragraph{Project Input Data for design}
-
-The following table summarises the key rock mass information for design.
-Engineers must use the full project descriptions when assigning
-ratings.
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Rock mass information required by the three classification systems.}
+\label{tab:classification-input-data}
 \centering
 \scriptsize
 \begin{tabularx}{\textwidth}{l Y Y Y Y}
@@ -692,88 +634,18 @@ ratings.
 \textbf{Parameter} & \textbf{Granite} & \textbf{Sandstone} & \textbf{Mudstone} & \textbf{Limestone} \\
 \midrule
 \(\sigma_{ci}\) (MPa) & 265 & 110 & 27 & 85 \\
-\(I_{s(50)}\) (MPa) & 12.2 & 5.3 & 2.3 & 5.0 \\
+\(I_{s(50)}\) (MPa) & 12.2 & 5.3 & 1.1 & 3.4 \\
 RQD (\%) & 70 & 68 & 38 & 52 \\
 Joint condition & Tight, closed, very rough, undulating, unweathered & Slightly rough, highly weathered, not separated & Slickensided and planar, aperture 1--2 mm & Smooth, undulating, slightly weathered, clay-filled, aperture 1--2 mm \\
-Joint sets / structure & Two joint sets from core observations & One sub-horizontal and one sub-vertical set & Poorly interlocked, heavily jointed, more than four sets & One joint set, spacing approximately 0.15 m \\
+Joint sets / structure & Two joint sets from core observations & One sub-horizontal and one sub-vertical set & Poorly interlocked, heavily jointed, more than four sets & One joint set, spacing approximately 0.06 m \\
 Groundwater & Dry & Medium inflow expected & Dripping at outcrop; medium inflow expected & Groundwater table 10 m below surface \\
 Depth (m) & 780 & 450 & 100 & 80 \\
-Stress ratio \(K\) & 3.2 & 1.8 & 1.0 & 2.0 \\
+Stress ratio \(k\) & 3.2 & 1.8 & 1.0 & 2.0 \\
 \bottomrule
 \end{tabularx}
-\caption{Rock mass information required by the three classification systems.}
-\label{tab:ch3-project-data}
 \end{table}
 
-
-\noindent\textbf{Do not treat this table as the full answer.}\enspace The table summarises key information only. Engineers still need to assign ratings,
-show calculations, and justify decisions against the project description.
-
-
-\paragraph{Recommended Calculation Tables for Design Reports}
-
-\paragraph{RMR Calculation Template}
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabularx}{\textwidth}{l Y c Y}
-\toprule
-\textbf{RMR parameter} & \textbf{Description/value} & \textbf{Rating} & \textbf{Justification} \\
-\midrule
-\(R_1\): Intact strength & & & \\
-\(R_2\): RQD & & & \\
-\(R_3\): Joint spacing & & & \\
-\(R_4\): Joint condition & & & \\
-\(R_5\): Groundwater & & & \\
-\midrule
-\multicolumn{2}{r}{\textbf{Total RMR}} & & \\
-\bottomrule
-\end{tabularx}
-\caption{Suggested RMR calculation table for each rock type.}
-\label{tab:rmr_template}
-\end{table}
-
-\paragraph{Q-System Calculation Template}
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabularx}{0.85\textwidth}{l Y c}
-\toprule
-\textbf{Parameter} & \textbf{Description/value} & \textbf{Adopted value} \\
-\midrule
-RQD & & \\
-\(J_n\) & & \\
-\(J_r\) & & \\
-\(J_a\) & & \\
-\(J_w\) & & \\
-SRF & & \\
-\midrule
-\multicolumn{2}{r}{\textbf{Q-value}} & \\
-\bottomrule
-\end{tabularx}
-\caption{Suggested Q-system calculation table for each rock type.}
-\label{tab:q_template}
-\end{table}
-
-\paragraph{GSI Comparison Template}
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabularx}{\textwidth}{l c Y}
-\toprule
-\textbf{Method} & \textbf{GSI value/range} & \textbf{Comment} \\
-\midrule
-Chart-based GSI & & Based on rock structure and surface condition \\
-\(RMR_{\text{basic}}-5\) & & Groundwater corrected \\
-\(1.5J_{\text{cond89}}+RQD/2\) & & Uses RMR joint condition rating \\
-\(J_r/J_a\) correlation & & Uses Q-system roughness and alteration numbers \\
-\midrule
-\textbf{Adopted GSI} & & Justify final value or range \\
-\bottomrule
-\end{tabularx}
-\caption{Suggested GSI comparison table for each rock type.}
-\label{tab:gsi_template}
-\end{table}
+A summary of this kind cannot carry everything a rating depends on. Ratings
+assigned from tabulated descriptors inherit whatever the descriptors omit, and
+the justification for each rating, with the calculation behind each derived
+value, belongs in the record alongside the result.

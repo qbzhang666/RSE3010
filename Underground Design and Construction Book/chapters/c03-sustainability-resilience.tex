@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-% Chapter 3 -- Sustainability, Carbon and Resilience
+% Sustainability, Carbon and Resilience
 %
 % Enriched from the author's study report on sustainability and resilience of
 % underground infrastructure, which supplies the module-based carbon
@@ -20,13 +20,7 @@ obligation. Resilience concerns the service the asset delivers over its life
 and the rate at which that service is restored after disruption. Both are
 assessed against the functionality of the asset rather than the capacity of
 its components, and separating them encourages the mistaken view that
-sustainability concerns materials while resilience concerns hazards.
-
-Resilience belongs in the same chapter for a related reason. Both are
-lifecycle criteria: both are decided early, both are realised over decades,
-and both are measured against the asset's service function rather than against
-a component capacity. Treating them separately encourages the view that
-sustainability is about materials and resilience is about hazards. They are
+sustainability concerns materials while resilience concerns hazards. They are
 better understood as two views of the same question --- what this asset costs
 and delivers across its life.
 
@@ -59,20 +53,21 @@ contribution on a project with no local disposal option.
 \label{sec:carbon-modules}
 
 Carbon figures are comparable only when the boundary is declared. The
-EN~15978 and EN~17472 module structure~\citep{en15978} provides that declaration: modules
+EN~15978 and EN~17472 module structure~\citep{en15978,en17472} provides that declaration: modules
 A1--A3 cover product manufacture, A4 transport to site, A5 construction
-process, B use and maintenance, C end of life, and D benefits beyond the
+process, B use, maintenance and operational energy, C end of life, and D benefits beyond the
 system boundary.
 
 Most published tunnel carbon figures are not comparable, and the reason is
 almost always boundary rather than method. A figure covering A1--A3 only will
-be perhaps a third lower than one covering A1--A5 for the same design, and a
+be materially lower than one covering A1--A5 for the same design, by a margin
+that widens with haulage distance and drive length, and a
 whole-life figure including B and C may be higher again. Quoting a value
 without its modules is quoting a number without units.
 
 The practical rule is that a carbon assessment must state four things
-together: the quantities, their source; the carbon factors, their source; the
-modules included; and the process assumptions behind the construction-stage
+together: the quantities and their source; the carbon factors and their
+source; the modules included; and the process assumptions behind the construction-stage
 term. An assessment that omits any of the four cannot be audited, compared or
 defended.
 
@@ -100,18 +95,30 @@ substantial margin on the product term alone.
 \subsection{The accounting logic}
 \label{sec:carbon-formula}
 
-The construction-stage total assembles a product term, a transport term and a
-process term over the material inventory:
+The total for the product and construction stages assembles a product term
+and a transport term, summed over the material inventory, and a project-level
+process term:
 \[
 GWP_A \;=\; \sum_i V_i \left( GWP_{i,\mathrm{A1-A3}} + GWP_{i,\mathrm{A4}} \right)
 \;+\; GWP_{\mathrm{A5}}
 \]
-where $V_i$ is the quantity of material $i$. For mechanised excavation the
-construction-stage term is dominated by machine energy, and can be tied to the
-electricity and fuel factors applying to the site supply:
+where $GWP_A$ is the global warming potential of the product and construction
+stages in
+kilograms of carbon dioxide equivalent, $V_i$ is the quantity of material $i$
+in the unit in which its factors are declared (cubic metres of concrete,
+tonnes of steel), $GWP_{i,\mathrm{A1-A3}}$ and $GWP_{i,\mathrm{A4}}$ are its
+product-stage and transport factors per unit of that quantity, and
+$GWP_{\mathrm{A5}}$ is the construction-process term; $i$ is here a summation
+index. For mechanised excavation the
+construction-stage term is dominated by machine energy, and is assembled by
+energy carrier:
 \[
-GWP_{\mathrm{A5}} \;=\; E_{\mathrm{TBM}} \left( EF_2 + EF_3 \right)
+GWP_{\mathrm{A5}} \;=\; \sum_j E_j\, EF_j ,
+\qquad E_{\mathrm{TBM}} = \sum_j E_j ,
 \]
+where $E_j$ is the energy drawn as carrier $j$ --- grid electricity and
+diesel in most drives --- and $EF_j$ is the emission factor of that carrier,
+including its upstream supply, in the unit in which $E_j$ is metered.
 
 \noindent\textbf{This is accounting logic, not a design equation.}\enspace
 Neither expression predicts anything. Their value is that they force every
@@ -153,7 +160,11 @@ is mobilised reduces the support pressure the lining must carry, and therefore
 its thickness and reinforcement. That is a carbon reduction obtained through
 the ground reaction curve of Chapter~\ref{ch:ccm} rather than through a
 material substitution --- available only within serviceability, construction
-and risk limits, but real.
+and risk limits, but real. The reduction holds only on the falling branch of
+the ground reaction curve. In squeezing or strain-softening ground, loosening
+beyond a critical convergence raises the pressure required, so that delaying
+support increases the demand on it, and the lever has to be checked against
+the curve for the ground in question.
 
 \subsection{Optimisation and trade-offs}
 \label{sec:carbon-optimisation}
@@ -188,7 +199,7 @@ is set jointly by the designer and the contractor rather than by the
 specification alone.
 
 Excavated material is the other large flow. Treated as waste it is a disposal
-cost and an A4 carbon term; treated as a resource it can substitute for
+cost and an A5 carbon term; treated as a resource it can substitute for
 quarried aggregate, fill and construction material. What limits reuse is
 rarely the rock: it is contamination, conditioning residues from closed-face
 excavation, and the regulatory classification of the material. Planning reuse
@@ -269,12 +280,16 @@ deterioration; apply the hazard scenarios; quantify the functionality lost
 immediately after each event, giving vulnerability and robustness; estimate
 residual functionality; estimate the delay before restoration and its
 duration; evaluate the recovery trajectory; and compute a resilience index for
-comparing intervention options.
+comparing intervention options. The index is the ratio of the area under the
+functionality curve over the recovery window to the area that full service
+would have delivered over the same window. It runs from 0 to 1, a higher
+value being better, and it has to be quoted with its recovery window, on
+which it depends.
 
 The hazards themselves are treated in their own chapters --- seismic loading
 in Chapter~\ref{ch:seismic}, squeezing in Chapter~\ref{ch:high-stress}, water inrush and gas in
 Chapter~\ref{ch:ground-improvement}, deterioration in
-Chapter~\ref{ch:delivery-assets}. What this framework adds is a common metric,
+Chapter~\ref{ch:assets}. What this framework adds is a common metric,
 so that a fire, an earthquake and forty years of corrosion can be compared on
 the same axis instead of being designed against independently.
 

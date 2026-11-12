@@ -10,6 +10,13 @@ assumptions at every later application --- and makes visible the fact that
 those assumptions are shared. A closed-form stress distribution and a
 sophisticated numerical model can be wrong for the same reason.
 
+The chapter then turns from the relations that govern stress to the
+criteria that limit it. It sets out the Mohr--Coulomb, Hoek--Brown and
+Griffith descriptions of intact rock strength, distinguishes the stress the
+ground imposes from the stress the rock can sustain, and derives the
+strength parameters of four intact rocks that
+Chapter~\ref{ch:rock-mass-parameters} carries forward to the rock mass.
+
 \section{Continuum description of stress and strain}
 \label{sec:continuum-description-of-stress-and-strain}
 
@@ -63,8 +70,10 @@ and drives shear failure. The split is fundamental to rock behaviour because
 rock strength depends on both: the deviatoric stress causes failure and the
 mean stress determines the resistance available. That dependence on confining
 pressure distinguishes rock from metals, whose yield is essentially
-pressure-independent, and it is why every rock criterion is a curve in
-$\sone$--$\sthree$ space rather than a horizontal line.
+pressure-independent, and it is why rock criteria rise with confinement in
+$\sone$--$\sthree$ space, whether as a straight line (Mohr--Coulomb) or as a
+curve (Hoek--Brown), rather than as the unit-slope line that
+pressure-independent yield would give.
 
 \subsection{Equilibrium}
 \label{sec:equilibrium}
@@ -80,7 +89,8 @@ body force and assuming axial symmetry, radial equilibrium reduces to
 \[
 \frac{\mathrm{d}\sigma_r}{\mathrm{d}r} + \frac{\sigma_r-\sigma_\theta}{r} = 0 ,
 \]
-which is the starting point for both the Kirsch solution and the elasto-plastic
+which is the starting point for both the Kirsch solution
+(Section~\ref{sec:kirsch-appendix}) and the elasto-plastic
 ground reaction curve of Chapter~\ref{ch:ccm}. Any candidate stress
 distribution around an opening must satisfy it; a numerical result that does
 not has failed a check that costs nothing to make.
@@ -251,28 +261,31 @@ determines whether it will slip. Three-dimensional states plot as three
 circles, and the region between them contains the admissible stress
 combinations --- a reminder that $\stwo$, ignored by both Mohr--Coulomb and
 Hoek--Brown, is nonetheless present and does affect strength.
-\subsection{Material failure theory}
+
+\subsection{Families of failure criteria}
 \label{sec:material-failure-theory}
 
-\paragraph{Overview of Material Failure Theory}
+A failure criterion states the combination of stresses at which a material
+ceases to carry further load in its existing form. No single criterion holds
+for all materials, and none is exact for any. Each is a simplified model
+developed for a class of material and a range of stress, so the choice among
+them is a design decision that has to be justified against the problem in
+hand. Three families are distinguished by what they take failure to be.
 
-Material failure theory describes how materials deform and ultimately fail under stress.
-Different criteria are used depending on the material type, loading condition, stress
-level, and purpose of analysis.
+\paragraph{Stress-based criteria.}
+Phenomenological criteria define failure as the attainment of a critical
+stress condition, without reference to the mechanism that produces it.
+Table~\ref{tab:phenomenological_criteria} lists those in common use. Two of
+them carry almost all of rock engineering practice. The Hoek--Brown criterion
+represents the curved, confinement-dependent strength of rock, and the
+Mohr--Coulomb criterion supplies the cohesion and friction angle in which
+strength enters most design calculations and many numerical models. The usual
+sequence is therefore to derive rock strength with Hoek--Brown and to convert
+it to equivalent Mohr--Coulomb parameters where a calculation requires them.
 
-
-\noindent\textbf{Big picture.}\enspace No single failure criterion is universally correct. Each criterion is a simplified model
-of reality, developed for particular material types and stress conditions. The engineer
-must justify the selected criterion based on the project problem.
-
-
-\paragraph{Categories of Failure Criteria}
-
-\subsubsection{Phenomenological or Stress-Based Criteria}
-
-These criteria define failure when stress reaches a critical condition.
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Common phenomenological failure criteria.}
+\label{tab:phenomenological_criteria}
 \centering
 \small
 \begin{tabularx}{\textwidth}{l Y Y}
@@ -288,54 +301,103 @@ Drucker--Prager & Smooth pressure-dependent approximation of Mohr--Coulomb & Num
 Cam--Clay & Critical-state soil mechanics model & Normally consolidated clays and advanced soil modelling \\
 \bottomrule
 \end{tabularx}
-\caption{Common phenomenological failure criteria.}
 \end{table}
 
+\paragraph{Fracture mechanics and energy methods.}
+Fracture-based criteria address the initiation and propagation of cracks
+rather than the overall stress state. Griffith theory, the earliest of them,
+holds that a crack extends when the energy released by its growth is
+sufficient to create the new surface~\citep{griffith1921rupture}. The approach
+suits brittle materials such as rock, concrete and glass, and rock in
+particular, because rock is a flawed material: failure initiates at
+microcracks, bedding planes, joints and other defects, and not from a
+homogeneous stress state.
 
-\noindent\textbf{Engineering relevance in this book.}\enspace The focus here is:
-\begin{itemize}
- \item \textbf{Hoek--Brown}: used to represent nonlinear rock behaviour;
- \item \textbf{Mohr--Coulomb}: used as a practical design and numerical modelling form.
-\end{itemize}
-Most practical rock engineering workflows use Hoek--Brown to derive rock strength, then
-convert to equivalent Mohr--Coulomb parameters when required by calculations or software.
+Energy-based methods extend the same reasoning to conditions in which a
+stress criterion alone is insufficient. These include anisotropic materials,
+complex loading paths, dynamic loading, fracture propagation and advanced
+numerical modelling. The energy treatment of rockburst in
+Chapter~\ref{ch:high-stress} is the principal instance in this book.
 
+\paragraph{Selecting a criterion.}
+The criterion should follow from the engineering problem and not from
+convenience. Table~\ref{tab:criterion_selection} sets out the considerations:
+the material, the scale, the level of confinement, the expected mechanism, the
+data available, the form the analysis accepts and the purpose of the
+calculation. To adopt Mohr--Coulomb because it is simple justifies nothing. To
+adopt it because the analysis requires a linear strength envelope over the
+confinement range of the project, with parameters derived from Hoek--Brown
+over that range, is a statement that can be examined and defended.
 
-\subsubsection{Fracture Mechanics-Based Criteria}
+\begin{table}[htbp]
+\caption{Considerations in selecting a failure criterion.}
+\label{tab:criterion_selection}
+\centering
+\small
+\begin{tabularx}{\textwidth}{l Y Y Y}
+\toprule
+\textbf{Consideration} & \textbf{Governing question} & \textbf{Suitable criterion} & \textbf{Treatment in this book} \\
+\midrule
+Material type
+& Is the material soil, intact rock, jointed rock, or concrete?
+& Rock: HB/MC; soil: MC/DP/Cam--Clay; concrete: MC or fracture-based checks
+& Rock projects use HB first, then MC when required. \\
 
-These criteria focus on crack initiation and crack propagation rather than only the overall
-stress state.
+Scale
+& Is the analysis at the scale of intact laboratory samples or of the rock mass around a tunnel?
+& Intact scale: intact HB; rock mass scale: generalised HB or equivalent MC
+& This chapter uses intact HB; Chapter~\ref{ch:rock-mass-parameters} uses generalised HB for rock masses. \\
 
-\begin{itemize}
- \item \textbf{Griffith theory}: failure occurs when sufficient energy is available for
- a crack to grow.
- \item This is especially relevant to brittle materials such as rock, concrete, and glass.
-\end{itemize}
+Confining stress
+& Is confinement low, moderate, or high?
+& Low confinement: MC may be adequate; high confinement: HB preferred
+& Deep tunnels and caverns need HB sensitivity checks. \\
 
+Failure mechanism
+& Is failure brittle, shear-dominated, structurally controlled, or squeezing?
+& Brittle: HB/Griffith concepts; shear: MC; structurally controlled: discontinuity and empirical methods
+& Chapter~\ref{ch:ground-behaviour} uses failure mechanism identification before support design. \\
 
-\noindent\textbf{Key insight.}\enspace Rock is usually a pre-cracked material. Failure often initiates from micro-cracks,
-bedding planes, joints, or other defects rather than from a perfectly homogeneous stress
-state.
+Available data
+& Are laboratory strengths, GSI and RMR or Q available, or only a limited description?
+& Detailed data: HB or advanced models; limited data: MC or empirical correlations
+& Practice moves from laboratory data to classification and then to design parameters. \\
 
+Analysis requirement
+& What criterion does the intended analysis accept?
+& Continuum codes generally accept both; several closed-form solutions require Mohr--Coulomb
+& Use MC where specified, but justify how it was derived. \\
 
-\subsubsection{Energy-Based Methods}
+Purpose
+& Is the purpose preliminary screening, parameter derivation, or final design?
+& Preliminary: MC/empirical; parameter derivation: HB; detailed design: calibrated numerical model
+& This chapter derives parameters; Chapters~\ref{ch:empirical-design} to~\ref{ch:numerical-modelling} compare empirical, analytical and numerical methods. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-Energy-based methods are useful when stress-based approaches become insufficient, for
-example:
-\begin{itemize}
- \item anisotropic materials;
- \item complex loading paths;
- \item dynamic loading;
- \item fracture propagation; and
- \item advanced numerical modelling.
-\end{itemize}
+For rock the sequence adopted in this book has four steps. The intact
+Hoek--Brown criterion gives the confined compressive strength and the tensile
+strength from \(\sigma_{ci}\) and \(m_i\). The Hoek--Brown envelope is
+converted to equivalent Mohr--Coulomb parameters \(c\) and \(\phi\) over a
+stress range \(0 \leq \sigma_3 \leq \sigma_{3,\mathrm{fit,max}}\) specific to
+the project. The condition of the rock mass is described by RMR, Q and GSI
+(Chapter~\ref{ch:classification}). Finally, the generalised Hoek--Brown
+criterion~\citep{hoek2019hb}, with GSI and the disturbance factor \(D\), gives
+the strength of the rock mass, which is converted in turn to equivalent
+Mohr--Coulomb parameters (Chapter~\ref{ch:rock-mass-parameters}). The sequence
+is defensible because Hoek--Brown captures the nonlinear behaviour of rock,
+while Mohr--Coulomb provides the \(c\) and \(\phi\) that many design
+calculations require.
 
-\paragraph{Material Failure Theory to Design Workflow}
+Figure~\ref{fig:failure_workflow} places the selection within the wider
+design sequence. The present chapter occupies the middle of it, the selection
+of a criterion for intact rock and the derivation of its parameters from
+laboratory data; Chapters~\ref{ch:classification}
+and~\ref{ch:rock-mass-parameters} carry the same logic from intact rock to the
+jointed rock mass.
 
-Figure~\ref{fig:failure_workflow} summarises how failure theory is used in engineering
-design.
-
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[node distance=0.45cm, font=\small]
@@ -370,264 +432,65 @@ design.
 
 \end{tikzpicture}
 }
-\caption{Material failure theory to engineering design workflow.}
+\caption{The place of the failure criterion in the design sequence, from the description of the ground to the validation of the analysis.}
 \label{fig:failure_workflow}
 \end{figure}
 
-
-\noindent\textbf{Connection to the preceding chapter.}\enspace Chapter~\ref{ch:rock-mechanics} focuses on the middle of the workflow: selecting suitable intact-rock failure
-criteria and deriving parameters from laboratory data. Chapters~\ref{ch:classification} to~\ref{ch:rock-mass-parameters} extend the same logic
-from intact rock to jointed rock masses.
-
-
-\paragraph{How to Select the Appropriate Failure Criterion for a Project}
-
-The failure criterion should be selected based on the engineering problem, not by
-convenience alone. Table~\ref{tab:criterion_selection} gives a practical selection guide.
-
-\begin{table}[H]
-\centering
-\footnotesize
-\begin{tabularx}{\textwidth}{l Y Y Y}
-\toprule
-\textbf{Consideration} & \textbf{Key question} & \textbf{Recommended criterion} & \textbf{Typical use in this book} \\
-\midrule
-Material type
-& Is the material soil, intact rock, jointed rock, or concrete?
-& Rock: HB/MC; soil: MC/DP/Cam--Clay; concrete: MC or fracture-based checks
-& Rock projects use HB first, then MC when required. \\
-
-Scale
-& Are we analysing intact laboratory samples or tunnel-scale rock masses?
-& Intact scale: intact HB; rock mass scale: generalised HB or equivalent MC
-& Chapter~\ref{ch:rock-mechanics} uses intact HB. Chapter~\ref{ch:rock-mass-parameters} uses generalised HB for rock masses. \\
-
-Confining stress
-& Is confinement low, moderate, or high?
-& Low confinement: MC may be adequate; high confinement: HB preferred
-& Deep tunnels and caverns need HB sensitivity checks. \\
-
-Failure mechanism
-& Is failure brittle, shear-dominated, structurally controlled, or squeezing?
-& Brittle: HB/Griffith concepts; shear: MC; structurally controlled: discontinuity and empirical methods
-& Chapter~\ref{ch:ground-behaviour} uses failure mechanism identification before support design. \\
-
-Available data
-& Do we have laboratory strength, GSI, RMR/Q, or only limited description?
-& Detailed data: HB or advanced models; limited data: MC or empirical correlations
-& Practice moves from laboratory data to classification and then to design parameters. \\
-
-Analysis requirement
-& What criterion does the intended analysis accept?
-& Continuum codes generally accept both; several closed-form solutions require Mohr--Coulomb
-& Use MC where specified, but justify how it was derived. \\
-
-Purpose
-& Is the purpose preliminary screening, parameter derivation, or final design?
-& Preliminary: MC/empirical; parameter derivation: HB; detailed design: calibrated numerical model
-& Chapter~\ref{ch:rock-mechanics} derives parameters; later weeks compare empirical, analytical, and numerical methods. \\
-\bottomrule
-\end{tabularx}
-\caption{Practical guide for selecting a failure criterion.}
-\label{tab:criterion_selection}
-\end{table}
-
-
-\noindent\textbf{Do not select criteria mechanically.}\enspace A common mistake is to say ``Mohr--Coulomb is used because it is simple''. A stronger
-engineering justification is: ``Mohr--Coulomb is adopted because the analysis requires an
-equivalent linear strength envelope over the project-relevant confinement range, and the
-parameters are derived from Hoek--Brown using the in-situ stress range.''
-
-
-\paragraph{Recommended Criterion Selection for design}
-
-The recommended sequence is:
-
-\begin{enumerate}
- \item \textbf{Intact rock behaviour.}
- use the intact Hoek--Brown criterion to calculate confined compressive strength and
- tensile strength from \(\sigma_{ci}\) and \(m_i\).
- 
- \item \textbf{Equivalent design parameters.}
- convert Hoek--Brown to equivalent Mohr--Coulomb parameters \(c\) and \(\phi\) over
- the project-specific stress range \(0 \leq \sigma_3 \leq \sigma_{3,\mathrm{fit,max}}\).
- 
- \item \textbf{Rock mass quality.}
- use RMR, Q, and GSI to describe rock mass condition.
- 
- \item \textbf{Rock mass strength.}
- use the generalised Hoek--Brown criterion~\citep{hoek2019hb} with GSI and disturbance factor \(D\), then
- convert to equivalent Mohr--Coulomb parameters for design calculations.
-\end{enumerate}
-
-
-\noindent\textbf{Practical selection for this project.}\enspace For the different rock types:
-\[
-\text{Intact rock strength: Hoek--Brown}
-\quad \rightarrow \quad
-\text{Design parameters: Mohr--Coulomb}
-\]
-This is the most defensible workflow because HB captures nonlinear rock behaviour, while
-MC provides the \(c\) and \(\phi\) parameters required by many design calculations.
-
-
-\subsection{Stress and the in-situ stress field}
+\subsection{In-situ stress as the demand}
 \label{sec:stress-and-the-in-situ-stress-field}
 
-\paragraph{Concept of Stress and Principal Stresses}
+A failure criterion supplies a capacity. The demand against which it is
+compared is the in-situ stress, whose origin, variation with depth and
+measurement are the subject of Chapter~\ref{ch:in-situ-stress}. Only what is
+needed to apply a criterion is restated here.
 
-\paragraph{Stress at a Point}
+\paragraph{Vertical and horizontal components.}
+In-situ stress is the natural stress in the ground before excavation. It is
+generated by the weight of the overlying rock or soil, by tectonic plate
+movements, by the geological history of erosion, uplift and residual stress,
+and by local structures such as faults, folds and bedding. It is a
+three-dimensional state, and the horizontal components may exceed the
+vertical.
 
-Stress describes the internal force intensity acting inside a material. At a point in a
-three-dimensional body, stresses may act normal to a plane or tangential to a plane.
-
-\begin{itemize}
- \item \textbf{Normal stress} acts perpendicular to a plane.
- \item \textbf{Shear stress} acts tangential to a plane.
-\end{itemize}
-
-In the general three-dimensional case, the stress state is represented by the stress tensor:
+The vertical stress is estimated from the overburden,
 \[
-\boldsymbol{\sigma}
-=
-\begin{bmatrix}
-\sigma_{xx} & \tau_{xy} & \tau_{xz} \\
-\tau_{yx} & \sigma_{yy} & \tau_{yz} \\
-\tau_{zx} & \tau_{zy} & \sigma_{zz}
-\end{bmatrix}
+\sigma_v = \gamma z ,
 \]
+where \(\gamma\) is the unit weight of the overlying material and \(z\) the
+depth below ground surface. The examples of this chapter take
+\(\gamma = 27~\text{kN/m}^3 = 0.027~\text{MPa/m}\), so that
+\(\sigma_v = 0.027z\) in megapascals and, at \(z=2000~\text{m}\),
+\(\sigma_v = 0.027 \times 2000 = 54~\text{MPa}\). Unit weights by rock type,
+which span 22 to 30~kN/m\textsuperscript{3}, are in
+Table~\ref{tab:intact-props} of Appendix~\ref{app:constants}.
 
-
-\noindent\textbf{Conceptual meaning.}\enspace The stress tensor describes stress on the original coordinate planes. However, these
-planes are not necessarily the planes on which shear stress is zero. By rotating the
-coordinate system, we can find three mutually perpendicular planes where shear stress is
-zero. The normal stresses on these planes are called the principal stresses.
-
-
-\paragraph{Principal Stresses}
-
-The principal stresses are denoted by:
+The horizontal stresses are expressed through in-situ stress ratios,
 \[
-\sigma_1,\quad \sigma_2,\quad \sigma_3
+\sigma_H = k_H \sigma_v ,
+\qquad
+\sigma_h = k_h \sigma_v ,
+\qquad
+\sigma_H \geq \sigma_h ,
 \]
-with:
-\[
-\sigma_1 \geq \sigma_2 \geq \sigma_3
-\]
+in which the uppercase subscript denotes the maximum horizontal stress and the
+lowercase the minimum. For ground deforming elastically under gravity with no
+lateral strain, the ratio is \(k = \nu/(1-\nu)\), which for \(\nu = 0.25\)
+gives \(k = 0.25/(1-0.25) = 0.33\). The expression takes no account of
+tectonic stress, stress history, erosion, faulting or locked-in residual
+stress, and Section~\ref{sec:stress-components} shows it to be a lower bound.
+Measured or project-specific ratios are preferred wherever they are
+available.
 
-where:
-\begin{itemize}
- \item \(\sigma_1\) = maximum principal stress;
- \item \(\sigma_2\) = intermediate principal stress;
- \item \(\sigma_3\) = minimum principal stress.
-\end{itemize}
+\paragraph{Stress regimes.}
+The relative magnitudes of \(\sigma_v\), \(\sigma_H\) and \(\sigma_h\) define
+three tectonic regimes (Table~\ref{tab:stress_regimes}). The major principal
+stress may therefore be vertical or horizontal, and \(\sigma_1=\sigma_v\)
+cannot be assumed. The three components are estimated first and then ranked to
+identify \(\sigma_1\), \(\sigma_2\) and \(\sigma_3\).
 
-
-\noindent\textbf{Sign convention.}\enspace In rock mechanics and in this book, compressive stress is usually taken as positive.
-Therefore, \(\sigma_1\) is the largest compressive principal stress and \(\sigma_3\) is the
-smallest compressive principal stress.
-
-
-\paragraph{In-Situ Stress: Gravitational and Tectonic Components}
-
-\paragraph{What Is In-Situ Stress?}
-
-In-situ stress is the natural stress existing in the ground before excavation. It is generated
-by:
-\begin{itemize}
- \item the weight of overlying rock or soil;
- \item tectonic plate movements;
- \item geological history, erosion, uplift, and residual stresses; and
- \item local geological structures such as faults, folds, and bedding.
-\end{itemize}
-
-
-\noindent\textbf{Why engineers often find this difficult.}\enspace In-situ stress is not simply ``vertical stress plus horizontal stress''. It is a
-three-dimensional stress state. The vertical stress is usually estimated from overburden,
-but the horizontal stresses can be strongly affected by tectonic history and may be larger
-than the vertical stress.
-
-
-\paragraph{Vertical Stress from Overburden}
-
-The vertical stress is commonly estimated as:
-\[
-\sigma_v = \gamma z
-\]
-where:
-\begin{itemize}
- \item \(\sigma_v\) = vertical stress;
- \item \(\gamma\) = unit weight of overlying material;
- \item \(z\) = depth below ground surface.
-\end{itemize}
-
-In practice:
-\[
-\gamma = 27~\text{kN/m}^3 = 0.027~\text{MPa/m}
-\]
-
-Therefore:
-\[
-\sigma_v = 0.027z
-\]
-
-For example, at \(z=2000~\text{m}\):
-\[
-\sigma_v = 0.027 \times 2000 = 54~\text{MPa}
-\]
-
-\paragraph{Horizontal Stresses}
-
-The horizontal stresses are commonly expressed using in-situ stress ratios:
-\[
-\sigma_H = K_H \sigma_v
-\]
-\[
-\sigma_h = K_h \sigma_v
-\]
-
-where:
-\begin{itemize}
- \item \(\sigma_H\) = maximum horizontal stress;
- \item \(\sigma_h\) = minimum horizontal stress;
- \item \(K_H\) = maximum horizontal stress ratio;
- \item \(K_h\) = minimum horizontal stress ratio.
-\end{itemize}
-
-
-\noindent\textbf{Notation.}\enspace Use uppercase \(H\) for the maximum horizontal stress and lowercase \(h\) for the
-minimum horizontal stress:
-\[
-\sigma_H \geq \sigma_h
-\]
-This avoids confusion with the vertical stress \(\sigma_v\).
-
-
-\paragraph{Elastic At-Rest Approximation}
-
-If the ground is assumed to deform elastically under one-dimensional gravitational loading
-with no lateral strain, the horizontal-to-vertical stress ratio may be estimated as:
-\[
-K_0 = \frac{\nu}{1-\nu}
-\]
-
-For example, if \(\nu = 0.25\):
-\[
-K_0 = \frac{0.25}{1-0.25} = 0.33
-\]
-
-
-\noindent\textbf{Do not overuse K0 = nu/(1-nu).}\enspace This equation is only a simple elastic approximation. It does not capture tectonic stress,
-stress history, erosion, faulting, or locked-in residual stresses. In rock engineering,
-measured or project-specific stress ratios are usually preferred where available.
-
-
-\paragraph{Stress Regimes}
-
-Depending on the relative magnitudes of \(\sigma_v\), \(\sigma_H\), and \(\sigma_h\), the
-in-situ stress state may correspond to different tectonic regimes.
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Common stress regimes in rock mechanics.}
+\label{tab:stress_regimes}
 \centering
 \small
 \begin{tabularx}{\textwidth}{l c Y}
@@ -637,30 +500,32 @@ in-situ stress state may correspond to different tectonic regimes.
 Normal faulting &
 \(\sigma_v = \sigma_1 > \sigma_H = \sigma_2 > \sigma_h = \sigma_3\) &
 Vertical stress is the largest stress; common in extensional settings. \\
-\midrule
 Strike-slip faulting &
 \(\sigma_H = \sigma_1 > \sigma_v = \sigma_2 > \sigma_h = \sigma_3\) &
 Maximum horizontal stress is largest; vertical stress is intermediate. \\
-\midrule
 Reverse faulting &
 \(\sigma_H = \sigma_1 > \sigma_h = \sigma_2 > \sigma_v = \sigma_3\) &
 Both horizontal stresses exceed vertical stress; common in compressional settings. \\
 \bottomrule
 \end{tabularx}
-\caption{Common stress regimes in rock mechanics.}
 \end{table}
 
+\paragraph{From depth to principal stresses.}
+Figure~\ref{fig:insitu_stress_workflow} sets out the sequence from the depth
+of the project to the comparison of demand with capacity. Where a project
+supplies a single stress ratio \(k\), as the data sets of this chapter and of
+Chapter~\ref{ch:rock-mass-parameters} do, the horizontal stress is
+\(\sigma_{h,k} = k\sigma_v\) and the ranking reduces to a comparison of two
+stresses,
+\[
+\sigma_1^{IS} = \max(\sigma_v,\sigma_{h,k}) ,
+\qquad
+\sigma_3^{IS} = \min(\sigma_v,\sigma_{h,k}) ,
+\]
+in which the superscript marks a principal stress acting in the ground before
+excavation.
 
-\noindent\textbf{Engineering implication.}\enspace The maximum principal stress may be vertical or horizontal. Therefore, do not assume
-\(\sigma_1=\sigma_v\). First calculate or estimate \(\sigma_v\), \(\sigma_H\), and \(\sigma_h\),
-then rank them to identify \(\sigma_1\), \(\sigma_2\), and \(\sigma_3\).
-
-
-\paragraph{Visual Workflow: From In-Situ Stress to Failure Criterion}
-
-Figure~\ref{fig:insitu_stress_workflow} connects the field stress, the principal stresses and the failure criterion.
-
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[node distance=0.27cm, font=\footnotesize]
@@ -675,8 +540,8 @@ determine \(z\) and \(\gamma\)};
 
 \node[tinyworkflowbox, wfstep, right=of b] (c)
 {\textbf{3. Horizontal stresses}\\
-\(\sigma_H=K_H\sigma_v\)\\
-\(\sigma_h=K_h\sigma_v\)};
+\(\sigma_H=k_H\sigma_v\)\\
+\(\sigma_h=k_h\sigma_v\)};
 
 \node[tinyworkflowbox, wfstep, right=of c] (d)
 {\textbf{4. Rank stresses}\\
@@ -694,330 +559,132 @@ with strength capacity};
 
 \end{tikzpicture}
 }
-\caption{Workflow for converting project depth and stress ratios into principal stresses for failure assessment.}
+\caption{Sequence from project depth and stress ratios to the principal stresses used in a failure assessment.}
 \label{fig:insitu_stress_workflow}
 \end{figure}
 
-\section{Criteria in application}
-\label{sec:criteria-in-application}
-
-\subsection{In-situ principal stresses and criterion stresses}
-
-A common source of confusion is that the symbols \(\sigma_1\) and \(\sigma_3\) are used
-in two related but different ways.
-
-\paragraph{In-Situ Principal Stresses}
-
-In the in-situ stress context:
-\[
-\sigma_1^{IS},\quad \sigma_2^{IS},\quad \sigma_3^{IS}
-\]
-represent the current principal stresses already acting in the ground before excavation.
-
-They are obtained by ranking:
-\[
-\sigma_v,\quad \sigma_H,\quad \sigma_h
-\]
-
-For example:
-\[
-\sigma_1^{IS} = \max(\sigma_v,\sigma_H,\sigma_h)
-\]
-\[
-\sigma_3^{IS} = \min(\sigma_v,\sigma_H,\sigma_h)
-\]
-
-These are the \textbf{stress demand} imposed by the ground environment.
-
-\paragraph{Hoek--Brown Failure Stresses}
-
-In the Hoek--Brown criterion:
-\[
-\sigma_1 =
-\sigma_3 + \sigma_{ci}
-\left(
-m_i\frac{\sigma_3}{\sigma_{ci}} + 1
-\right)^{1/2}
-\]
-
-\(\sigma_3\) is the confining stress applied to the specimen or rock mass, and
-\(\sigma_1\) is the major principal stress at failure.
-
-These are not automatically the same as the current in-situ stresses. Instead, the
-Hoek--Brown equation describes the \textbf{strength capacity} of the material.
-
-
-\noindent\textbf{Demand vs capacity.}\enspace \[
-\text{In-situ stresses} = \textbf{stress demand}
-\]
-\[
-\text{Hoek--Brown failure envelope} = \textbf{strength capacity}
-\]
-Failure is assessed by comparing demand with capacity.
-
-
-\paragraph{Recommended Notation to Avoid Confusion}
-
-Use the following notation in teaching notes and worked examples:
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabularx}{\textwidth}{l l Y}
-\toprule
-\textbf{Symbol} & \textbf{Meaning} & \textbf{Use} \\
-\midrule
-\(\sigma_v\) & Vertical in-situ stress & Calculated from \(\gamma z\). \\
-\(\sigma_H\) & Maximum horizontal in-situ stress & Calculated from \(K_H\sigma_v\). \\
-\(\sigma_h\) & Minimum horizontal in-situ stress & Calculated from \(K_h\sigma_v\). \\
-\(\sigma_1^{IS}\) & Maximum in-situ principal stress & Current stress demand in the ground. \\
-\(\sigma_3^{IS}\) & Minimum in-situ principal stress & Current minimum confinement in the ground. \\
-\(\sigma_3\) in HB & Confining stress used in the failure criterion & Input variable for the HB strength envelope. \\
-\(\sigma_1^f\) in HB & Major principal stress at failure & Strength capacity predicted by HB. \\
-\(\sigma_{3,\mathrm{fit,max}}\) & Upper confining stress used for HB--MC fitting & Modelling choice used to define the regression range. \\
-\bottomrule
-\end{tabularx}
-\caption{Recommended notation for distinguishing in-situ stresses and failure-criterion stresses.}
-\end{table}
-
-
-\noindent\textbf{Most important distinction.}\enspace When using Hoek--Brown:
-\[
-\sigma_1^f \neq \sigma_1^{IS}
-\]
-in general.
-
-\(\sigma_1^{IS}\) is the current maximum stress in the ground. 
-\(\sigma_1^f\) is the stress required to cause failure at a given confinement.
-
-
-\paragraph{How to Choose \(\sigma_{3,\mathrm{fit,max}}\)}
-
-The value \(\sigma_{3,\mathrm{fit,max}}\) is not the minimum in-situ principal stress.
-It is the upper limit of the confining stress range used to fit the nonlinear
-Hoek--Brown envelope with an equivalent linear Mohr--Coulomb envelope.
-
-
-\noindent\textbf{Recommended rule.}\enspace For preliminary design, use the simplified stress range:
-\[
-0 \leq \sigma_3 \leq \sigma_{3,\mathrm{fit,max}}
-\]
-where:
-\[
-\sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,K})
-\]
-
-This convention gives a fitting range that covers the main project stress level in the
-simplified two-stress calculation. The actual minimum in-situ principal stress is still:
-\[
-\sigma_3^{IS}=\min(\sigma_v,\sigma_{h,K})
-\]
-
-
-\noindent\textbf{Simple distinction.}\enspace \[
-\sigma_3^{IS}=\text{minimum in-situ principal stress}
-\]
-\[
-\sigma_{3,\mathrm{fit,max}}=\text{upper fitting limit for HB--MC conversion}
-\]
-The first is a real stress state in the ground. The second is a modelling choice for
-curve fitting.
-
-
-\noindent\textbf{Why not always use sigma3IS as the fitting limit?.}\enspace Using \(\sigma_3^{IS}\) as the upper fitting limit is possible, but it gives a narrower
-fitting range. A narrower range usually gives higher \(\phi\) and lower \(c\), while a
-wider range gives lower \(\phi\) and higher \(c\). Therefore, engineers must always state
-the fitting range and justify it.
-
-
-\paragraph{Applying the sequence}
-
-The logic to follow is:
-
-\begin{enumerate}
- \item Calculate:
- \[
- \sigma_v = \gamma z
- \]
- 
- \item Calculate the horizontal stress using the provided stress ratio:
- \[
- \sigma_{h,K} = K\sigma_v
- \]
- where \(\sigma_{h,K}\) is the project-specified horizontal stress used in the simplified
- two-dimensional calculation.
- 
- \item Rank the stresses to identify the simplified in-situ principal stresses:
- \[
- \sigma_1^{IS} = \max(\sigma_v,\sigma_{h,K})
- \]
- \[
- \sigma_3^{IS} = \min(\sigma_v,\sigma_{h,K})
- \]
- 
- \item For the Chapter~\ref{ch:rock-mechanics} intact rock calculation under a fixed confining pressure, use:
- \[
- \sigma_3 = 20~\text{MPa}
- \]
- in the Hoek--Brown equation.
- 
- \item For Mohr--Coulomb conversion, generate Hoek--Brown data over the selected
- fitting range:
- \[
- 0 \leq \sigma_3 \leq \sigma_{3,\mathrm{fit,max}}
- \]
- where, for this example:
- \[
- \sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,K})
- \]
- 
- \item Clearly state the chosen fitting range and explain why it is relevant to the
- project stress condition.
-\end{enumerate}
-
-
-\noindent\textbf{Suggested wording for design reports.}\enspace ``The in-situ stresses were first calculated from depth and stress ratio to define the
-project stress condition. These stresses represent the stress demand. The Hoek--Brown
-criterion was then used to estimate the intact rock strength capacity. Equivalent
-Mohr--Coulomb parameters were obtained by fitting the Hoek--Brown envelope over the
-project-relevant confinement range.''
-
-
-\subsection{Failure criteria for intact rock}
+\section{Failure criteria for intact rock}
 \label{sec:failure-criteria-for-intact-rock}
 
-\paragraph{Mohr--Coulomb Failure Criterion}
+\subsection{The Mohr--Coulomb criterion}
+\label{sec:mohr-coulomb-criterion}
 
-\paragraph{Basic Equation}
-
-The Mohr--Coulomb criterion expresses shear strength \(\tau\) as a linear function of
-normal stress \(\sigma_n\):
+\paragraph{The linear envelope.}
+The Mohr--Coulomb criterion expresses the shear strength \(\tau\) on a plane
+as a linear function of the normal stress \(\sigma_n\) acting on it,
 \[
-\tau = c + \sigma_n \tan\phi
+\tau = c + \sigma_n \tan\phi ,
 \]
-where:
-\begin{itemize}
- \item \(c\) = cohesion;
- \item \(\phi\) = friction angle;
- \item \(\sigma_n\) = normal stress on the failure plane.
-\end{itemize}
-
-In terms of principal stresses \((\sigma_1 \geq \sigma_2 \geq \sigma_3)\), failure occurs when:
+where \(c\) is the cohesion and \(\phi\) the friction angle. In terms of the
+principal stresses \((\sigma_1 \geq \sigma_2 \geq \sigma_3)\), failure occurs
+when
 \[
 \sigma_1 =
 \frac{2c\cos\phi + \sigma_3(1+\sin\phi)}
-{1-\sin\phi}
+{1-\sin\phi} ,
 \]
-
-This can also be written as:
+which is a straight line in \(\sigma_1\)--\(\sigma_3\) space,
 \[
-\sigma_1 = \sigma_c + \sigma_3 \tan\psi
-\]
-where:
-\[
-\sigma_c =
-\frac{2c\cos\phi}{1-\sin\phi},
+\sigma_1 = \sigma_c + k_\phi\,\sigma_3 ,
 \qquad
-\tan\psi =
-\frac{1+\sin\phi}{1-\sin\phi}
-\]
-
-
-\noindent\textbf{Engineering interpretation.}\enspace The parameter \(c\) mainly controls strength at low confinement, while \(\phi\) controls
-how rapidly strength increases with confining stress.
-
-
-\paragraph{Uniaxial and Tensile Strengths}
-
-For \(\sigma_3 = 0\), the uniaxial compressive strength predicted by Mohr--Coulomb is:
-\[
 \sigma_c =
-\frac{2c\cos\phi}{1-\sin\phi}
+\frac{2c\cos\phi}{1-\sin\phi} ,
+\qquad
+k_\phi =
+\frac{1+\sin\phi}{1-\sin\phi} .
 \]
+The cohesion mainly controls strength at low confinement, and the friction
+angle controls how rapidly strength rises with confining stress.
 
-For \(\sigma_1 = 0\), the uniaxial tensile strength is:
+\paragraph{Uniaxial and tensile strengths.}
+The intercept \(\sigma_c\) is the uniaxial compressive strength predicted by
+the criterion, obtained with \(\sigma_3 = 0\). Setting \(\sigma_1 = 0\)
+instead gives the uniaxial tensile strength,
 \[
 \sigma_t =
 -\frac{2c\cos\phi}{1+\sin\phi}
 =
--\frac{\sigma_c(1-\sin\phi)}{1+\sin\phi}
+-\frac{\sigma_c(1-\sin\phi)}{1+\sin\phi} ,
 \]
+negative under the compression-positive convention.
 
-\paragraph{Orientation of Failure Plane}
-
-The angle \(\theta\) between the failure plane and the direction of \(\sigma_1\) is:
+\paragraph{Orientation of the failure plane.}
+The failure plane is inclined to the direction of \(\sigma_3\), that is to the
+plane on which \(\sigma_1\) acts, at
 \[
-\theta = 45^\circ + \frac{\phi}{2}
+\theta = 45^\circ + \frac{\phi}{2},
 \]
+and therefore at \(45^\circ - \phi/2\) to the direction of \(\sigma_1\)
+itself. For \(\phi = 30^\circ\) the plane lies \(30^\circ\) from the
+\(\sigma_1\) direction.
 
-\paragraph{Mohr Circle Representation}
-
-For a triaxial stress state, the Mohr circle is defined by:
+\paragraph{Mohr circle representation.}
+A triaxial stress state plots as a Mohr circle of centre \(C\) and radius
+\(R\),
 \[
 C = \frac{\sigma_1+\sigma_3}{2},
 \qquad
-R = \frac{\sigma_1-\sigma_3}{2}
+R = \frac{\sigma_1-\sigma_3}{2} ,
 \]
-where \(C\) is the centre and \(R\) is the radius of the Mohr circle.
+and failure occurs when the circle touches the envelope
+\(\tau = c + \sigma_n \tan\phi\). The same two quantities are used in
+Section~\ref{sec:hb-to-mc-intact} to fit the envelope to strength data.
 
-Failure occurs when the Mohr circle touches the failure envelope:
-\[
-\tau = c + \sigma_n \tan\phi
-\]
+\paragraph{Limitations.}
+The criterion is linear, and so does not capture the curvature of rock
+strength across different levels of confinement. Extended into tension it
+often overestimates the tensile strength. It takes no explicit account of the
+intermediate principal stress \(\sigma_2\). And the parameters it provides are
+equivalent values that hold only over the stress range from which they were
+derived. Mohr--Coulomb is convenient, but it is not a universal material law,
+and it is best treated as a design approximation that depends on the stress
+range.
 
-\paragraph{Limitations of Mohr--Coulomb}
+\subsection{The Hoek--Brown criterion}
+\label{sec:hoek-brown-intact}
 
-\begin{itemize}
- \item It is linear and does not capture the nonlinear curvature of rock strength at
- different confinement levels.
- \item It often overestimates tensile strength.
- \item It does not explicitly account for the intermediate principal stress \(\sigma_2\).
- \item It provides equivalent parameters only over the selected stress range.
-\end{itemize}
-
-
-\noindent\textbf{Important limitation.}\enspace Mohr--Coulomb is convenient, but it is not a universal material law. It should be treated
-as a stress-range-dependent design approximation.
-
-
-\paragraph{Hoek--Brown Failure Criterion}
-
-\paragraph{Empirical Equation for Intact Rock}
-
-For intact rock, the Hoek--Brown criterion is:
+\paragraph{The criterion for intact rock.}
+For intact rock the empirical Hoek--Brown
+criterion~\citep{hoekbrown1980underground,hoek2019hb} is
 \[
 \sigma_1^f =
 \sigma_3 + \sigma_{ci}
 \left(
 m_i\frac{\sigma_3}{\sigma_{ci}} + 1
-\right)^{1/2}
+\right)^{1/2} ,
 \]
-
-This can equivalently be written as:
+or equivalently
 \[
 \sigma_1^f =
 \sigma_3 +
 \left(
 m_i\sigma_{ci}\sigma_3 + \sigma_{ci}^{2}
-\right)^{1/2}
+\right)^{1/2} ,
 \]
+where \(\sigma_{ci}\) is the uniaxial compressive strength of the intact
+rock, \(m_i\) a material constant, \(\sigma_3\) the confining stress and
+\(\sigma_1^f\) the major principal stress at failure. The criterion captures
+the nonlinear increase of rock strength with confinement, which is why it is
+widely used to derive strength parameters in rock engineering.
 
-where:
-\begin{itemize}
- \item \(\sigma_{ci}\) = uniaxial compressive strength of intact rock;
- \item \(m_i\) = intact rock material constant;
- \item \(\sigma_3\) = confining stress used in the failure criterion;
- \item \(\sigma_1^f\) = major principal stress at failure.
-\end{itemize}
+\paragraph{The material constant \(m_i\).}
+The constant \(m_i\) sets the curvature of the envelope and depends on rock
+type. Table~\ref{tab:mi_values} gives typical values for common rock types;
+those not listed there are in Table~\ref{tab:mi} of
+Appendix~\ref{app:constants}. Where a project supplies its own \(m_i\), that
+value takes precedence over the tabulated one. The four rocks of the data set
+used in Section~\ref{sec:design-data-and-stress-calculation} carry
+\[
+\text{Granite}=32,\quad
+\text{Sandstone}=17,\quad
+\text{Mudstone}=4,\quad
+\text{Limestone}=12 ,
+\]
+and a value once adopted is changed only with explicit justification.
 
-
-\noindent\textbf{Why Hoek--Brown is important.}\enspace Hoek--Brown captures the nonlinear increase in rock strength with confinement. This is
-why it is widely used for rock engineering parameter derivation.
-
-
-\paragraph{Material Constant \(m_i\)}
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Typical \(m_i\) values for intact rock.}
+\label{tab:mi_values}
 \centering
 \small
 \begin{tabularx}{0.75\textwidth}{l c}
@@ -1034,37 +701,23 @@ Marble & \(9 \pm 3\) \\
 Quartzite & \(20 \pm 3\) \\
 \bottomrule
 \end{tabularx}
-\caption{Typical \(m_i\) values for intact rock.}
 \end{table}
 
-
-\noindent\textbf{Project values.}\enspace Where the project supplies its own \(m_i\), that value takes precedence over the tabulated one:
-\[
-\text{Granite}=32,\quad
-\text{Sandstone}=17,\quad
-\text{Mudstone}=4,\quad
-\text{Limestone}=12
-\]
-Do not change these values unless explicitly justified.
-
-
-\paragraph{Tensile Strength from Hoek--Brown}
-
-Setting \(\sigma_1^f = 0\) and solving for \(\sigma_3\) gives:
+\paragraph{Tensile strength.}
+Setting \(\sigma_1^f = 0\) and solving for \(\sigma_3\) gives
 \[
 \sigma_t =
 \frac{\sigma_{ci}}{2}
 \left(
 m_i - \sqrt{m_i^2+4}
-\right)
+\right) .
 \]
+This is generally lower, and more realistic, than the tensile strength
+predicted by Mohr--Coulomb.
 
-This generally gives a lower and more realistic tensile strength than that predicted by
-Mohr--Coulomb.
-
-\paragraph{Worked Example: Marble}
-
-For marble with \(\sigma_{ci}=125~\text{MPa}\), \(m_i=9\), and \(\sigma_3=20~\text{MPa}\):
+\paragraph{Worked example: marble.}
+For marble with \(\sigma_{ci}=125~\text{MPa}\) and \(m_i=9\) under a
+confining stress \(\sigma_3=20~\text{MPa}\),
 \[
 \sigma_1^f =
 20 + 125
@@ -1074,10 +727,9 @@ For marble with \(\sigma_{ci}=125~\text{MPa}\), \(m_i=9\), and \(\sigma_3=20~\te
 =
 20 + 125(2.44)^{1/2}
 =
-215~\text{MPa}
+215~\text{MPa} ,
 \]
-
-The tensile strength is:
+and the tensile strength is
 \[
 \sigma_t =
 \frac{125}{2}
@@ -1087,205 +739,234 @@ The tensile strength is:
 =
 62.5(9-9.22)
 =
--13.7~\text{MPa}
+-13.7~\text{MPa} .
 \]
-
-\paragraph{Converting Hoek--Brown to Equivalent Mohr--Coulomb}
-
-Because Hoek--Brown is nonlinear, equivalent Mohr--Coulomb parameters \(c\) and
-\(\phi\) are obtained by fitting a straight line to Hoek--Brown data over a selected
-stress range.
-
-
-\noindent\textbf{Stress range matters.}\enspace Equivalent Mohr--Coulomb parameters are not unique. They depend on the selected
-confining stress range. A workable default is:
-\[
-0 \leq \sigma_3 \leq \sigma_{3,\mathrm{fit,max}}
-\]
-where \(\sigma_{3,\mathrm{fit,max}}\) is the upper confining stress used for fitting the
-Hoek--Brown envelope. It is a fitting limit, not the minimum in-situ principal stress.
-
-
-\noindent\textbf{How to determine sigma3 fit max.}\enspace Determine \(\sigma_{3,\mathrm{fit,max}}\) from the calculated project
-stress level:
-\[
-\sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,K})
-\]
-This choice gives a broad fitting range that covers the stress level relevant to the
-underground excavation.
-
-The minimum in-situ principal stress remains:
-\[
-\sigma_3^{IS}=\min(\sigma_v,\sigma_{h,K})
-\]
-
-Therefore:
-\[
-\sigma_3^{IS} \neq \sigma_{3,\mathrm{fit,max}}
-\]
-unless \(\sigma_v=\sigma_{h,K}\).
-
-
-\paragraph{Step-by-Step Procedure}
-
-\begin{enumerate}
- \item Select the intact rock parameters \(\sigma_{ci}\) and \(m_i\).
- \item Calculate project-specific in-situ stresses \(\sigma_v\) and \(\sigma_{h,K}\).
- \item Define the fitting range:
- \[
- 0 \leq \sigma_3 \leq \sigma_{3,\mathrm{fit,max}}
- \]
- where:
- \[
- \sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,K})
- \]
- \item Generate several \((\sigma_3,\sigma_1^f)\) data pairs using the Hoek--Brown equation.
- \item Convert the data to Mohr circle centre \(C\) and radius \(R\), or directly fit
- \(\sigma_1^f\) against \(\sigma_3\).
- \item Derive equivalent \(c\) and \(\phi\).
- \item Check whether the fitted line reasonably represents the nonlinear Hoek--Brown curve
- over the chosen range.
-\end{enumerate}
-
-\paragraph{Example Data for Sandstone}
-
-For sandstone with \(\sigma_{ci}=75~\text{MPa}\) and \(m_i=17\), example generated values are:
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{c c c c}
-\toprule
-\(\sigma_3\) (MPa) & \(\sigma_1^f\) (MPa) & Centre \(C\) (MPa) & Radius \(R\) (MPa) \\
-\midrule
-0 & 75 & 37.5 & 37.5 \\
-3 & 100 & 51.5 & 48.5 \\
-10 & 146 & 78.0 & 68.0 \\
-14 & 167 & 90.5 & 76.5 \\
-21 & 201 & 111.0 & 90.0 \\
-46 & 300 & 173.0 & 127.0 \\
-70 & 378 & 224.0 & 154.0 \\
-100 & 465 & 282.5 & 182.5 \\
-\bottomrule
-\end{tabular}
-\caption{Generated \(\sigma_1^f\) values for sandstone using the intact Hoek--Brown criterion.}
-\end{table}
-
-\paragraph{Method 1: Mohr Circle Regression}
-
-For each \((\sigma_3,\sigma_1^f)\) pair:
-\[
-C = \frac{\sigma_1^f+\sigma_3}{2},
-\qquad
-R = \frac{\sigma_1^f-\sigma_3}{2}
-\]
-
-Perform linear regression on the \((C,R)\) pairs:
-\[
-R = A + B C
-\]
-
-Then:
-\[
-\phi = \arcsin(B),
-\qquad
-c = \frac{A}{\cos\phi}
-\]
-
-
-\noindent\textbf{Fitting the line.}\enspace The gradient $B$, the
-intercept $A$ and the coefficient of determination $R^2$ are those of an
-ordinary least-squares fit, available in any spreadsheet or statistical
-package and implemented in \companionname\ (Appendix~\ref{app:software}).
-What matters is not the tool but the range: the fit must be made over the
-confining stresses the problem actually spans, because the equivalent
-cohesion and friction angle are properties of that range and not of the
-rock alone.
-
-
-\paragraph{Method 2: Linear Regression in \(\sigma_1^f-\sigma_3\) Space}
-
-Fit:
-\[
-\sigma_1^f = a + b\sigma_3
-\]
-
-where:
-\begin{itemize}
- \item \(a\) = intercept, equivalent apparent UCS;
- \item \(b\) = gradient.
-\end{itemize}
-
-Convert to Mohr--Coulomb parameters:
-\[
-\sin\phi = \frac{b-1}{b+1}
-\]
-\[
-c =
-\frac{a(1-\sin\phi)}
-{2\cos\phi}
-\]
-
-
-\noindent\textbf{Cross-check.}\enspace The two fitting methods should give similar results if the same stress range and data
-points are used. Large differences usually indicate an arithmetic or unit error rather than a genuine feature of the data.
-
 
 \subsection{Griffith theory and the tensile cut-off}
+\label{sec:griffith-tensile-cutoff}
 
-\paragraph{Griffith Criterion}
-
-Griffith theory considers failure from pre-existing cracks. For compressive stress states:
+\paragraph{The Griffith criterion.}
+Griffith theory considers failure that originates at pre-existing
+cracks~\citep{griffith1921rupture}. For compressive stress states it gives
 \[
 (\sigma_1-\sigma_3)^2 =
-8|\sigma_t|(\sigma_1+\sigma_3)
+8|\sigma_t|(\sigma_1+\sigma_3) ,
 \]
-
-For \(\sigma_3=0\):
+which for \(\sigma_3=0\) reduces to
 \[
-\sigma_c = 8|\sigma_t|
+\sigma_c = 8|\sigma_t| .
 \]
-
-The corresponding Mohr envelope is parabolic:
+The corresponding Mohr envelope is parabolic,
 \[
 \tau^2 =
-4|\sigma_t|(\sigma_n+|\sigma_t|)
+4|\sigma_t|(\sigma_n+|\sigma_t|) .
 \]
+The value of the theory is conceptual. It explains why the tensile strength
+of a brittle material such as rock is much lower than its compressive
+strength, although the ratio of eight that it predicts is lower than those
+ordinarily measured.
 
-
-\noindent\textbf{Conceptual value.}\enspace Griffith theory helps explain why tensile strength is much lower than compressive strength
-in brittle materials such as rock.
-
-
-\paragraph{Hoek--Martin (2014) Tensile Cut-Off}
-
-Hoek--Martin proposed the following empirical relationship:
+\paragraph{The Hoek--Martin tensile cut-off.}
+\citet{hoekmartin2014fracture} proposed the empirical relationship
 \[
 \frac{\sigma_{ci}}{|\sigma_t|}
 =
-8.62 + 0.7m_i
+8.62 + 0.7m_i ,
 \]
-
-Rearranging:
+which rearranges to
 \[
 \sigma_t =
--\frac{\sigma_{ci}}{8.62+0.7m_i}
+-\frac{\sigma_{ci}}{8.62+0.7m_i} .
 \]
+For the marble of the preceding example the ratio is 14.9 and the tensile
+strength \(-8.4~\text{MPa}\), about three-fifths of the value the Hoek--Brown
+expression returns. The tensile strength of rock is very low in comparison
+with its compressive strength, and this governs the interpretation of crack
+initiation, spalling and brittle failure around underground openings
+(Chapter~\ref{ch:high-stress}).
 
+\section{From criterion to design parameters}
+\label{sec:criteria-in-application}
 
-\noindent\textbf{Engineering implication.}\enspace Rock tensile strength is very low compared with compressive strength. This is important
-for interpreting crack initiation, spalling, and brittle failure around underground openings.
+\subsection{Stress demand and strength capacity}
+\label{sec:demand-and-capacity}
 
+The symbols \(\sigma_1\) and \(\sigma_3\) are used in two related but
+different senses, and the difference is a common source of error.
 
-\section{Design data and stress calculation}
+\paragraph{Two meanings of the principal stresses.}
+In the in-situ context, \(\sigma_1^{IS}\), \(\sigma_2^{IS}\) and
+\(\sigma_3^{IS}\) are the principal stresses already acting in the ground
+before excavation, obtained by ranking \(\sigma_v\), \(\sigma_H\) and
+\(\sigma_h\):
+\[
+\sigma_1^{IS} = \max(\sigma_v,\sigma_H,\sigma_h) ,
+\qquad
+\sigma_3^{IS} = \min(\sigma_v,\sigma_H,\sigma_h) .
+\]
+They are the stress demand imposed by the ground. In the Hoek--Brown
+criterion,
+\[
+\sigma_1^f =
+\sigma_3 + \sigma_{ci}
+\left(
+m_i\frac{\sigma_3}{\sigma_{ci}} + 1
+\right)^{1/2} ,
+\]
+\(\sigma_3\) is the confining stress applied to the specimen or the rock
+mass and \(\sigma_1^f\) the major principal stress at failure. These describe
+the strength capacity of the material and are not the in-situ stresses. In
+general
+\[
+\sigma_1^f \neq \sigma_1^{IS} ,
+\]
+since \(\sigma_1^{IS}\) is the maximum stress now in the ground and
+\(\sigma_1^f\) the stress required to cause failure at a given confinement.
+Failure is assessed by comparing the demand with the capacity, and
+Table~\ref{tab:notation_insitu_criterion} gives the notation that keeps the
+two apart.
+
+\begin{table}[htbp]
+\caption{Notation distinguishing in-situ stresses from the stresses of a failure criterion.}
+\label{tab:notation_insitu_criterion}
+\centering
+\small
+\begin{tabularx}{\textwidth}{l l Y}
+\toprule
+\textbf{Symbol} & \textbf{Meaning} & \textbf{Use} \\
+\midrule
+\(\sigma_v\) & Vertical in-situ stress & Calculated from \(\gamma z\). \\
+\(\sigma_H\) & Maximum horizontal in-situ stress & Calculated from \(k_H\sigma_v\). \\
+\(\sigma_h\) & Minimum horizontal in-situ stress & Calculated from \(k_h\sigma_v\). \\
+\(\sigma_1^{IS}\) & Maximum in-situ principal stress & Current stress demand in the ground. \\
+\(\sigma_3^{IS}\) & Minimum in-situ principal stress & Current minimum confinement in the ground. \\
+\(\sigma_3\) in HB & Confining stress used in the failure criterion & Input variable for the HB strength envelope. \\
+\(\sigma_1^f\) in HB & Major principal stress at failure & Strength capacity predicted by HB. \\
+\(\sigma_{3,\mathrm{fit,max}}\) & Upper confining stress used for HB--MC fitting & Modelling choice used to define the regression range. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{The fitting limit \(\sigma_{3,\mathrm{fit,max}}\).}
+The value \(\sigma_{3,\mathrm{fit,max}}\) is the upper limit of the range of
+confining stress over which the nonlinear Hoek--Brown envelope is replaced by
+an equivalent linear Mohr--Coulomb envelope. For preliminary design the range
+is taken as
+\[
+0 \leq \sigma_3 \leq \sigma_{3,\mathrm{fit,max}} ,
+\qquad
+\sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,k}) ,
+\]
+which covers the main stress level of the project in the simplified
+two-stress description. The minimum in-situ principal stress is still
+\[
+\sigma_3^{IS}=\min(\sigma_v,\sigma_{h,k}) ,
+\]
+and the two coincide only where \(\sigma_v=\sigma_{h,k}\). The first is a
+stress state in the ground. The second is a modelling choice made for curve
+fitting.
+
+Fitting to \(\sigma_3^{IS}\) instead is possible, but it gives a narrower
+range. A narrower range usually gives a higher \(\phi\) and a lower \(c\),
+and a wider range a lower \(\phi\) and a higher \(c\). A fitted pair is
+therefore meaningful only with its fitting range stated and justified.
+
+\paragraph{The sequence of calculation.}
+The calculation proceeds in a fixed order. The vertical stress
+\(\sigma_v = \gamma z\) is found first, and the horizontal stress
+\(\sigma_{h,k} = k\sigma_v\) from the stress ratio supplied for the project,
+where \(\sigma_{h,k}\) is the horizontal stress of the simplified
+two-dimensional calculation. The two are ranked to give \(\sigma_1^{IS}\) and
+\(\sigma_3^{IS}\). The intact strength is then evaluated from the Hoek--Brown
+criterion at the confinement of each rock, \(\sigma_3 = \sigma_3^{IS}\), and
+compared with \(\sigma_1^{IS}\). For the Mohr--Coulomb conversion,
+Hoek--Brown data are generated over the range
+\(0 \leq \sigma_3 \leq \sigma_{3,\mathrm{fit,max}}\). Finally, the fitting
+range is stated together with the reason it is relevant to the stress
+condition of the project.
+
+A design report records the same logic in the same order: the in-situ
+stresses calculated from depth and stress ratio define the stress condition
+of the project and represent the demand; the Hoek--Brown criterion gives the
+capacity of the intact rock; and the equivalent Mohr--Coulomb parameters are
+obtained by fitting the Hoek--Brown envelope over the confinement range
+relevant to the project.
+
+\subsection{Equivalent Mohr--Coulomb parameters}
+\label{sec:hb-to-mc-intact}
+
+Because the Hoek--Brown envelope is nonlinear, equivalent Mohr--Coulomb
+parameters \(c\) and \(\phi\) are obtained by fitting a straight line to
+Hoek--Brown data over a selected stress range. They are not unique: they
+depend on the range, which is why the limit
+\(\sigma_{3,\mathrm{fit,max}}\) of the preceding section is fixed before any
+fitting is done.
+
+\paragraph{Procedure.}
+The intact parameters \(\sigma_{ci}\) and \(m_i\) are selected, the in-situ
+stresses \(\sigma_v\) and \(\sigma_{h,k}\) calculated, and the fitting range
+defined from them. Several \((\sigma_3,\sigma_1^f)\) pairs are then generated
+from the Hoek--Brown equation across the range. The pairs are either
+converted to Mohr circle centres and radii or fitted directly as
+\(\sigma_1^f\) against \(\sigma_3\), and \(c\) and \(\phi\) follow from the
+coefficients of the fitted line. The last step is to check that the line
+represents the curved envelope reasonably over the chosen range.
+
+\paragraph{Method 1: Mohr circle regression.}
+Each \((\sigma_3,\sigma_1^f)\) pair defines a circle with
+\[
+C = \frac{\sigma_1^f+\sigma_3}{2},
+\qquad
+R = \frac{\sigma_1^f-\sigma_3}{2} .
+\]
+Linear regression on the \((C,R)\) pairs,
+\[
+R = A + B C ,
+\]
+gives
+\[
+\phi = \arcsin(B),
+\qquad
+c = \frac{A}{\cos\phi} .
+\]
+The gradient $B$, the intercept $A$ and the coefficient of determination
+$R^2$ are those of an ordinary least-squares fit, available in any
+spreadsheet or statistical package and implemented in \companionname\
+(Appendix~\ref{app:software}). What matters is not the tool but the range:
+the fit must be made over the confining stresses the problem actually spans,
+because the equivalent cohesion and friction angle are properties of that
+range and not of the rock alone.
+
+\paragraph{Method 2: linear regression in \(\sigma_1^f\)--\(\sigma_3\) space.}
+The same data may be fitted directly as
+\[
+\sigma_1^f = a_{\mathrm{fit}} + b_{\mathrm{fit}}\,\sigma_3 ,
+\]
+in which the intercept \(a_{\mathrm{fit}}\) is the uniaxial compressive
+strength implied by the fitted line and the gradient \(b_{\mathrm{fit}}\)
+corresponds to \(k_\phi\). The Mohr--Coulomb parameters are then
+\[
+\sin\phi = \frac{b_{\mathrm{fit}}-1}{b_{\mathrm{fit}}+1} ,
+\qquad
+c =
+\frac{a_{\mathrm{fit}}(1-\sin\phi)}
+{2\cos\phi} .
+\]
+The two methods give similar results when the same stress range and data
+points are used. A large difference usually indicates an arithmetic or unit
+error and not a genuine feature of the data.
+
+\subsection{Intact strength of four rocks}
 \label{sec:design-data-and-stress-calculation}
 
-\paragraph{Project Input Data for design}
+\paragraph{Input data.}
+Table~\ref{tab:intact_project_data} summarises the intact properties and
+project conditions of the four rocks introduced in
+Chapter~\ref{ch:classification}.
 
-The following table summarises the intact rock properties and project conditions provided
-for design.
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Intact properties and project conditions of the four rocks.}
+\label{tab:intact_project_data}
 \centering
 \small
 \begin{tabularx}{\textwidth}{l c c c c}
@@ -1294,52 +975,43 @@ for design.
 \midrule
 \(\sigma_{ci}\) (MPa) & 265 & 110 & 27 & 85 \\
 \(E_i\) (GPa) & 80 & 30 & 0.76 & 20 \\
-\(I_{s(50)}\) (MPa) & 12.2 & 5.3 & 2.3 & 5.0 \\
+\(I_{s(50)}\) (MPa) & 12.2 & 5.3 & 1.1 & 3.4 \\
 \(\sigma_t\) from lab (MPa) & \(-18.4\) & \(-6.7\) & \(-3.1\) & \(-4.5\) \\
 RQD (\%) & 70 & 68 & 38 & 52 \\
 \(m_i\) & 32 & 17 & 4 & 12 \\
 \midrule
 Depth \(z\) (m) & 780 & 450 & 100 & 80 \\
-Stress ratio \(K\) & 3.2 & 1.8 & 1.0 & 2.0 \\
+Stress ratio \(k\) & 3.2 & 1.8 & 1.0 & 2.0 \\
 \(\gamma\) (kN/m\textsuperscript{3}) & 27 & 27 & 27 & 27 \\
 \bottomrule
 \end{tabularx}
-\caption{Intact rock properties and project data for design.}
 \end{table}
 
-\paragraph{In-Situ Stress Calculation for design}
-
-Using:
-\[
-\gamma = 0.027~\text{MPa/m}
-\]
-
+\paragraph{In-situ stresses.}
+With \(\gamma = 0.027~\text{MPa/m}\),
 \[
 \sigma_v = \gamma z,
 \qquad
-\sigma_{h,K} = K\sigma_v
+\sigma_{h,k} = k\sigma_v .
 \]
+Only one horizontal stress ratio is available for each rock, so the
+two-stress comparison applies, with
+\(\sigma_1^{IS}=\max(\sigma_v,\sigma_{h,k})\),
+\(\sigma_3^{IS}=\min(\sigma_v,\sigma_{h,k})\) and the fitting limit
+\(\sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,k})\).
+Table~\ref{tab:insitu_stress_fitting} gives the results. The horizontal
+stress is the major principal stress in the granite, the sandstone and the
+limestone, and the mudstone, with \(k = 1.0\), is the one case in which the
+minimum in-situ stress and the fitting limit coincide.
 
-Where only one horizontal stress ratio \(K\) is available, a simplified two-stress
-comparison is used:
-\[
-\sigma_1^{IS}=\max(\sigma_v,\sigma_{h,K})
-\]
-\[
-\sigma_3^{IS}=\min(\sigma_v,\sigma_{h,K})
-\]
-
-For Hoek--Brown to Mohr--Coulomb fitting, the upper fitting limit is:
-\[
-\sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,K})
-\]
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{In-situ principal stresses of the four rocks and the upper fitting limit for the conversion to Mohr--Coulomb parameters. Stresses in MPa.}
+\label{tab:insitu_stress_fitting}
 \centering
 \small
 \begin{tabular}{l c c c c c c}
 \toprule
-\textbf{Rock} & \(\sigma_v\) & \(K\) & \(\sigma_{h,K}\) & \(\sigma_1^{IS}\) & \(\sigma_3^{IS}\) & \(\sigma_{3,\mathrm{fit,max}}\) \\
+\textbf{Rock} & \(\sigma_v\) & \(k\) & \(\sigma_{h,k}\) & \(\sigma_1^{IS}\) & \(\sigma_3^{IS}\) & \(\sigma_{3,\mathrm{fit,max}}\) \\
  & (MPa) & & (MPa) & (MPa) & (MPa) & (MPa) \\
 \midrule
 Granite & 21.06 & 3.2 & 67.39 & 67.39 & 21.06 & 67.39 \\
@@ -1348,20 +1020,87 @@ Mudstone & 2.70 & 1.0 & 2.70 & 2.70 & 2.70 & 2.70 \\
 Limestone & 2.16 & 2.0 & 4.32 & 4.32 & 2.16 & 4.32 \\
 \bottomrule
 \end{tabular}
-\caption{Distinction between in-situ principal stresses and the upper fitting limit for HB--MC conversion.}
 \end{table}
 
+\paragraph{Strength at in-situ confinement.}
+Table~\ref{tab:intact_strength_results} evaluates the intact Hoek--Brown
+criterion for each rock at its own \(\sigma_3^{IS}\). In every case the
+intact strength exceeds the major in-situ stress several times over, by a
+factor of about 8 in the granite and 9 in the sandstone. That margin belongs
+to the intact material. The strength that governs an excavation is that of
+the jointed rock mass, which Chapter~\ref{ch:rock-mass-parameters} derives
+from the same data and which is very much lower.
 
-\noindent\textbf{Stress range for Mohr--Coulomb conversion.}\enspace For each rock type, use:
-\[
-0 \leq \sigma_3 \leq \sigma_{3,\mathrm{fit,max}}
-\]
+\begin{table}[htbp]
+\caption{Intact strength of the four rocks at in-situ confinement, and
+tensile strength from the Hoek--Brown expression, from the Hoek--Martin
+cut-off and from laboratory tests. Stresses in MPa.}
+\label{tab:intact_strength_results}
+\centering
+\small
+\begin{tabular}{l c c c c c c}
+\toprule
+\textbf{Rock} & \(\sigma_3^{IS}\) & \(\sigma_1^f\) & \(\sigma_1^{IS}\)
+ & \(\sigma_t\), Hoek--Brown & \(\sigma_t\), Hoek--Martin & \(\sigma_t\), laboratory \\
+\midrule
+Granite & 21.06 & 519.9 & 67.39 & \(-8.3\) & \(-8.5\) & \(-18.4\) \\
+Sandstone & 12.15 & 198.8 & 21.87 & \(-6.5\) & \(-5.4\) & \(-6.7\) \\
+Mudstone & 2.70 & 34.6 & 2.70 & \(-6.4\) & \(-2.4\) & \(-3.1\) \\
+Limestone & 2.16 & 99.3 & 4.32 & \(-7.0\) & \(-5.0\) & \(-4.5\) \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-For this example:
-\[
-\sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,K})
-\]
+The three estimates of tensile strength do not agree. For the sandstone all
+three lie within about 20 per cent of one another. For the mudstone, with its
+low \(m_i\), the Hoek--Brown expression returns twice the measured value and
+the cut-off is the closer estimate, whereas for the granite both give less
+than half the laboratory magnitude. Where tensile failure matters, the measured
+value governs and the two expressions serve as checks on it.
 
-Do not interpret \(\sigma_{3,\mathrm{fit,max}}\) as the minimum in-situ principal stress.
-It is only the upper value of the confining stress range used for fitting.
+\paragraph{Equivalent parameters for the sandstone.}
+The sandstone, with \(\sigma_{ci}=110~\text{MPa}\) and \(m_i=17\), is fitted
+over \(0 \leq \sigma_3 \leq 21.87~\text{MPa}\).
+Table~\ref{tab:sandstone_hb_data} lists six evenly spaced points generated
+from the intact criterion.
 
+\begin{table}[htbp]
+\caption{Values of \(\sigma_1^f\) generated for the sandstone from the intact
+Hoek--Brown criterion over its fitting range.}
+\label{tab:sandstone_hb_data}
+\centering
+\small
+\begin{tabular}{c c c c}
+\toprule
+\(\sigma_3\) (MPa) & \(\sigma_1^f\) (MPa) & Centre \(C\) (MPa) & Radius \(R\) (MPa) \\
+\midrule
+0 & 110.00 & 55.00 & 55.00 \\
+4.37 & 146.78 & 75.58 & 71.20 \\
+8.75 & 177.45 & 93.10 & 84.35 \\
+13.12 & 204.53 & 108.83 & 95.71 \\
+17.50 & 229.20 & 123.35 & 105.85 \\
+21.87 & 252.08 & 136.98 & 115.11 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Method 1 gives \(R = 15.50 + 0.7325\,C\), from which
+\(\phi = 47.1^\circ\) and \(c = 22.8~\text{MPa}\). Method 2 gives
+\(\sigma_1^f = 116.3 + 6.432\,\sigma_3\), from which \(\phi = 47.0^\circ\)
+and \(c = 22.9~\text{MPa}\). The two agree, as they should on the same
+points. The intercept of the second line, 116.3~MPa, exceeds
+\(\sigma_{ci}\) by about 6 per cent, and the tensile strength the fitted pair
+implies is \(-18.1~\text{MPa}\) against a measured \(-6.7~\text{MPa}\): a
+straight line cannot follow the curved envelope at both ends, and it departs
+furthest in tension.
+
+Fitting over the narrower range \(0 \leq \sigma_3 \leq 12.15~\text{MPa}\),
+the minimum in-situ stress, gives \(\phi = 49.3^\circ\) and
+\(c = 20.9~\text{MPa}\) by the second method, a higher friction angle and a
+lower cohesion as expected. Neither pair is the more correct. Each describes
+the envelope over its own range, and a pair quoted without that range cannot
+be used safely. Chapter~\ref{ch:rock-mass-parameters} repeats the conversion
+for the same sandstone as an undisturbed rock mass of GSI~63, where the
+friction angle falls by
+about five degrees and the cohesion to less than a quarter of its intact
+value.

@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-% Chapter 2 -- Digital Engineering and the Lifecycle Digital Twin
+% Digital Engineering and the Lifecycle Digital Twin
 %
 % Placed in Part I: the information backbone is established before the ground
 % chapters, because every later chapter reads from and writes to it.
@@ -108,12 +108,13 @@ several decades and often by a century. Information held only in a proprietary
 format is therefore information with an expiry date, and the cost of that
 expiry falls on the operator rather than on the designer who chose the format.
 
-Open exchange schemas exist to prevent this. The IFC family provides the
-established route for building and infrastructure data, extended for linear
-underground assets through the tunnel-specific developments now maturing, with
+Open exchange schemas exist to prevent this. The Industry Foundation Classes
+(IFC) family provides the established route for building and infrastructure
+data, extended for linear underground assets by tunnel-specific schema
+developments, with
 alignment geometry and ground objects represented alongside structure.
-Information management standards in the ISO 19650~\citep{iso19650} series govern how that
-information is named, versioned, approved and handed over.
+Information management standards in the ISO 19650 series govern how that
+information is named, versioned, approved and handed over~\citep{iso19650}.
 
 Neither standard makes a model correct. What they do is make it legible to
 someone who did not build it, which is the condition for the model surviving
@@ -142,7 +143,9 @@ models are instantiated from the asset and ground models --- settlement,
 support interaction, lining response, excavation sequence --- rather than
 having their geometry rebuilt by hand for each study. Backward, observations
 from construction and monitoring update parameters, refine the ground
-interpretation and revise the design ahead of the face.
+interpretation and revise the design ahead of the face. The formal mechanism
+by which an observation revises a parameter is set out in
+Section~\ref{sec:bayesian-updating}.
 
 Both directions are necessary. Forward analysis alone produces a prediction
 nobody checks; backward updating alone produces a record nobody uses. The loop
@@ -205,8 +208,10 @@ answer:
  recommendation is produced.
 \end{description}
 
-Each level requires the one before it and adds a class of data the previous
-level did not need. A predictive twin built without a reflective layer is a
+Each level requires the one before it. The step to reflective adds a class of
+data the descriptive level did not need; the steps to predictive and
+prescriptive add models and decision criteria to data already being
+collected. A predictive twin built without a reflective layer is a
 simulation, not a twin: it forecasts from assumptions rather than from the
 asset's measured state.
 
@@ -279,7 +284,7 @@ new hole --- which is the only situation in which it will ever be used. The
 unit of splitting must therefore be the unit of future application: whole
 boreholes for a lithology classifier, whole drives or machines for a model
 built on tunnelling machine data, whole projects where the claim is that the
-model transfers. Splitting at the sample is the single commonest defect in
+model transfers. Splitting at the sample is a recurrent defect in
 published geotechnical machine learning, and it inflates reported accuracy
 substantially. Figure~\ref{fig:validation-split} shows the split made at the
 machine, on records where the answer for the withheld machine is known.
@@ -290,13 +295,17 @@ machine, on records where the answer for the withheld machine is known.
 \caption[Validation on a split at the unit of future application]{%
 Validation on a split at the unit of future application. A settlement model is
 trained on the records of seven tunnelling machines along an illustrative
-corridor and tested throughout on the eighth, which it never sees. The
+corridor and tested on the eighth, which it never sees, after each successive
+round of training, which the horizontal axis counts. The
 comparison is the same model trained only on the withheld machine's own limited
 records, and error is reported on that machine in both cases, so the curves
-measure transfer to a new drive rather than recall of a familiar one. Splitting
+are directly comparable: one measures transfer to a drive never seen, the
+other what the machine's own limited records achieve. A third
+line shows the transferred model after further calibration on the withheld
+machine's own records. Splitting
 these same records at the sample would put readings from every machine on both
 sides of the split, and would report an accuracy that no new drive would
-reproduce. Synthetic demonstrator data.}
+reproduce. Synthetic demonstrator data (Appendix~\ref{app:software}).}
 \label{fig:validation-split}
 \end{figure}
 
@@ -306,9 +315,11 @@ that governs the design is the rarest label in the training set, and a model
 that never predicts it can still be right nineteen times in twenty. Worse, the
 costs are asymmetric --- failing to predict weak ground is not the same error
 as predicting it where it is absent --- so a metric that treats the two alike
-is not measuring what the project cares about. Class-wise recall on the
-consequential classes, reported alongside the confusion matrix, states
-something a design reviewer can act on.
+is not measuring what the project cares about. Recall on a class, the
+proportion of the cases truly belonging to it that the model finds, reported
+for the consequential classes alongside the full table of predicted against
+actual class (the confusion matrix), states something a design reviewer can
+act on.
 
 Finally, the domain of validity must be stated as deliberately as it is for
 the closed-form solutions of Appendix~\ref{app:closed-form}. A model carries

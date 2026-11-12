@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-% Chapter 1 -- Challenges and Opportunities in Modern Practice
+% Challenges and Opportunities in Modern Practice
 %
 % Opening chapter of Part I. Case material is drawn from published
 % environmental statements, owner feasibility studies, market capacity
@@ -39,7 +39,8 @@ chapters that follow can be read as answers to a question already posed.
 
 Underground construction arrives in waves driven by urban growth, transport
 policy and, more recently, energy transition. Australia entered such a wave in
-the late 2010s: the 2021 Infrastructure Market Capacity report recorded 125
+the late 2010s: the 2021 Infrastructure Market Capacity
+report~\citep{ia2021marketcapacity} recorded 125
 major transport infrastructure projects, roughly 58\,\% of the national
 pipeline by value, with tunnelling volumes forecast to rise substantially over
 the following five years. Comparable expansions have occurred in the United
@@ -77,11 +78,13 @@ railways, utilities and people.
 
 This inverts the usual design hierarchy. Collapse is rarely the governing
 limit state; ground movement is. A tunnel that is entirely stable can still
-fail its design intent by settling a heritage facade beyond an acceptable
-crack width, or by twisting an operating rail track past its maintenance
+fail its design intent by imposing differential settlement that cracks a
+heritage facade beyond an acceptable width, or by twisting an operating rail track past its maintenance
 tolerance. Serviceability limits imposed by third-party assets routinely
 govern volume loss targets, face pressure control and the extent of ground
-treatment, at values far below anything that threatens the excavation itself.
+treatment (volume loss being the ground drawn into the excavation beyond the
+intended profile, as a proportion of the theoretical excavated volume;
+Chapter~\ref{ch:movement-monitoring}), at values far below anything that threatens the excavation itself.
 
 Groundwater compounds this. Drawdown from a drained excavation causes
 consolidation settlement over an area much wider than the tunnel's own
@@ -93,9 +96,11 @@ of what is above.
 \subsection{Deep infrastructure and mining}
 \label{sec:deep-setting}
 
-At depth the constraints reverse. There is usually nothing above worth
-protecting, and the governing problem becomes the ground's own response to
-stress relief. Hydropower waterways, pumped storage caverns, deep water
+At depth the constraints reverse. For deep civil works there is usually no
+sensitive third-party asset above, and the governing problem becomes the
+ground's own response to stress relief; in deep mining, by contrast,
+large-scale subsidence remains a surface constraint even at great depth.
+Hydropower waterways, pumped storage caverns, deep water
 transfer schemes and deep mines share behaviours that shallow works rarely
 encounter: squeezing in weak rock, spalling and strainburst in strong brittle
 rock, high-pressure groundwater inflow, and elevated rock temperature.
@@ -122,30 +127,35 @@ because the mechanism transfers, not because the application does.
 \label{sec:case-shallow}
 
 A shallow metro project in a weathered sedimentary sequence illustrates the
-first setting. The ground is a Silurian siltstone and sandstone sequence whose
-strength and weathering vary strongly with depth, as summarised in
-Table~\ref{tab:mf-units}.
+first setting. The ground is an interbedded siltstone and sandstone sequence
+whose strength and weathering vary strongly with depth, as summarised in
+Table~\ref{tab:shallow-metro-units}. The columns of the table are the intact
+uniaxial compressive strength $\sigma_{ci}$, the Hoek--Brown intact rock
+constant $m_i$, the intact Young's modulus $E_i$, Poisson's ratio $\nu$ and
+the Geological Strength Index GSI, all defined in
+Chapters~\ref{ch:rock-mechanics} and~\ref{ch:rock-mass-parameters}.
 
 \begin{table}[htbp]
+\caption{Representative units in a weathered sedimentary sequence beneath a
+shallow urban alignment, numbered in order of increasing weathering. Dashes
+mark the soil-like unit to which the Hoek--Brown criterion does not apply.}
+\label{tab:shallow-metro-units}
 \centering
-\footnotesize
+\small
 \begin{tabularx}{\textwidth}{l c c c c X c c}
 \toprule
-\textbf{Unit} & \boldmath{$\sigma_{ci}$} \textbf{(MPa)} & \boldmath{$m_i$} & \boldmath{$E_i$} \textbf{(GPa)} & \boldmath{$\nu$} & \textbf{Weathering} & \textbf{GSI} & \textbf{Depth (m)} \\
+\textbf{Unit} & $\sigma_{ci}$ \textbf{(MPa)} & $m_i$ & $E_i$ \textbf{(GPa)} & $\nu$ & \textbf{Weathering} & \textbf{GSI} & \textbf{Depth (m)} \\
 \midrule
-MF1 & 19 & 13 & 6.0 & 0.20 & Slightly weathered--fresh & 55 & Below 30 \\
-MF2 & 61 & 3 & 3.5 & 0.20 & Moderately weathered & 45 & 15--30 \\
-MF3 & 21 & 3 & 1.5 & 0.25 & Highly weathered & 35 & 5--15 \\
-MF4 & 1 & -- & 0.4 & 0.30 & Extremely weathered & -- & 0--5 \\
+1 & 19 & 13 & 6.0 & 0.20 & Slightly weathered--fresh & 55 & Below 30 \\
+2 & 61 & 3 & 3.5 & 0.20 & Moderately weathered & 45 & 15--30 \\
+3 & 21 & 3 & 1.5 & 0.25 & Highly weathered & 35 & 5--15 \\
+4 & 1 & -- & 0.4 & 0.30 & Extremely weathered & -- & 0--5 \\
 \bottomrule
 \end{tabularx}
-\caption{Representative units in a weathered sedimentary sequence beneath a
-shallow urban alignment.}
-\label{tab:mf-units}
 \end{table}
 
-\noindent\textbf{A caution on reading the table.}\enspace Unit MF2 has a
-higher intact compressive strength than MF1 despite being more weathered. That
+\noindent\textbf{A caution on reading the table.}\enspace Unit~2 has a
+higher intact compressive strength than Unit~1 despite being more weathered. That
 is not an error. Weathering grade and intact strength are inversely correlated
 only within a single lithology; where lithology changes within a formation, a
 more weathered but intrinsically stronger rock can out-test a fresher but
@@ -159,9 +169,9 @@ interaction with existing basements, utilities and operating rail tunnels;
 interaction with surface water and shallow groundwater; and settlement limits
 that bind long before stability does. Cost follows the same logic. On projects
 of this type, tunnels and stations account for roughly half the capital cost
-and land acquisition for a further significant fraction, so a design decision
-that avoids an acquisition or protects an existing asset can outweigh any
-saving available within the tunnel itself.
+and land acquisition for a further fraction, so a single avoided acquisition
+or protected asset can be worth more than the savings realistically available
+from refining the tunnel design itself.
 
 \subsection{A deep hydropower scheme}
 \label{sec:case-deep}
@@ -171,6 +181,8 @@ gives the scale of one such project: a waterway tunnel of roughly 27\,km and a
 power station complex some 850\,m below surface.
 
 \begin{table}[htbp]
+\caption{Scale of a deep pumped-storage scheme.}
+\label{tab:deep-case}
 \centering
 \small
 \begin{tabularx}{\textwidth}{X l}
@@ -183,8 +195,6 @@ Waterway tunnel length & approximately 27\,km \\
 Power station depth & approximately 850\,m below surface \\
 \bottomrule
 \end{tabularx}
-\caption{Scale of a deep pumped-storage scheme.}
-\label{tab:deep-case}
 \end{table}
 
 The challenges here are geological uncertainty over a long alignment, high
@@ -209,6 +219,8 @@ body of rock mechanics produces entirely different design problems depending
 on depth, stress and what occupies the surface.
 
 \begin{table}[htbp]
+\caption{Comparison of shallow and deep design settings.}
+\label{tab:shallow-deep}
 \centering
 \small
 \begin{tabularx}{\textwidth}{l X X}
@@ -224,8 +236,6 @@ Construction & Mechanised tunnelling and cut-and-cover & Mechanised and drill-an
 Governing concern & Ground movement and serviceability & Stability, support capacity, constructability \\
 \bottomrule
 \end{tabularx}
-\caption{Comparison of shallow and deep design settings.}
-\label{tab:shallow-deep}
 \end{table}
 
 A third dimension cuts across both. Geotechnical risk is not confined to
@@ -281,7 +291,9 @@ This changes what a design must demonstrate, and it makes inspectability and
 repairability design variables rather than afterthoughts. Access for
 inspection, replaceable elements, redundancy and sacrificial detailing at
 fault crossings are decisions taken during design that determine how quickly
-service returns.
+service returns. Resilience is developed alongside carbon in
+Chapter~\ref{ch:sustainability}, and the hazard case that most often governs
+it in Chapter~\ref{ch:seismic}.
 
 \section{Persistent challenges}
 \label{sec:persistent-challenges}
@@ -300,7 +312,7 @@ characterise it, direct investigation at the uncertainty that changes a
 decision, and design so that being wrong is survivable. That principle recurs:
 in the value-of-information argument of Chapter~\ref{ch:ground-modelling}, in
 the reliability methods of Chapter~\ref{ch:integrated-design}, and in the
-observational method of Chapter~\ref{ch:monitoring}.
+observational method of Chapter~\ref{ch:movement-monitoring}.
 
 \subsection{Interfaces and third parties}
 \label{sec:interfaces-challenge}
@@ -327,15 +339,15 @@ prices it as a contingency the owner pays whether or not the risk occurs.
 
 Baselining --- stating the ground conditions the contract assumes, in terms
 that can be tested against what is encountered --- exists to make the
-allocation explicit. Chapter~\ref{ch:delivery-assets} treats it in full.
+allocation explicit. Chapter~\ref{ch:delivery} treats it in full.
 
 \section{The lifecycle argument}
 \label{sec:lifecycle-argument}
 
 The three forces above are usually treated separately: a chapter on digital
 modelling, a chapter on carbon, a chapter on hazards. Handled that way they
-remain peripheral, because each competes with the mechanics for attention and
-none of them changes a calculation. They connect only when they are seen as
+remain peripheral, because each then competes with the mechanics for attention
+while appearing to change no calculation. They connect only when they are seen as
 decision criteria inside one lifecycle model.
 
 That chain runs as follows. Infrastructure need defines the service function.

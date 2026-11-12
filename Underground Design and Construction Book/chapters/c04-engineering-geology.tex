@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Chapter 4 -- Engineering Geology
+%  Engineering Geology
 %  Sources: Hoek & Brown (1980) Ch. 3; Brady & Brown (2006) Ch. 3;
 %  Knill (2003) on the ground model.
 %------------------------------------------------------------------------------
@@ -16,13 +16,10 @@ them without understanding what has been discarded will apply them outside
 their range. This chapter establishes the geological basis on which the
 parameters of Chapters~\ref{ch:rock-mechanics}
 and~\ref{ch:rock-mass-parameters} rest, and argues that the feature governing
-an underground project is more often geological than mechanical.
-
-This chapter establishes the geological basis for the parameters that follow.
-Its argument is that the governing feature of an underground project is
-usually a geological one --- a weathering profile, a fault zone, a bedding
-plane at an unhelpful orientation --- and that no amount of subsequent
-analytical refinement compensates for having failed to identify it.
+an underground project is more often geological than mechanical: a weathering
+profile, a fault zone or a bedding plane at an unhelpful orientation, which no
+amount of subsequent analytical refinement compensates for having failed to
+identify.
 
 \section{Ground materials and structure}
 \label{sec:ground-materials}
@@ -57,8 +54,10 @@ should be built, versioned and owned accordingly
 
 Rocks are usefully grouped by what they do in an excavation rather than by
 their origin alone. Igneous intrusives are typically strong, isotropic and
-jointed in regular sets, so their behaviour is structurally controlled and
-their difficulties concentrate at contacts and in weathered zones.
+jointed in regular sets, so at stress levels low relative to their intact
+strength their behaviour is structurally controlled, and their difficulties
+concentrate at contacts and in weathered zones; at high stress the same mass
+becomes stress-controlled (Chapter~\ref{ch:high-stress}).
 Sedimentary sequences are layered, and bedding introduces both anisotropy and
 a set of persistent, often clay-coated, discontinuities that frequently govern
 roof stability. Metamorphic rocks with strong foliation --- slates, schists,
@@ -68,7 +67,8 @@ decides the outcome.
 
 Weathering modifies all of them, and it does so with depth in a way that
 matters most for shallow works. A weathering profile grades from residual soil
-through completely, highly and moderately weathered rock to fresh rock, and
+through completely, highly, moderately and slightly weathered rock to fresh
+rock, and
 the transition is rarely uniform: it follows joints and faults downward,
 leaving corestones of fresh rock in a weathered matrix and producing a
 rockhead surface far more irregular than a borehole spacing of tens of metres
@@ -77,7 +77,8 @@ can resolve.
 Two errors follow from treating weathering grade as a proxy for strength. The
 first is assuming the correlation holds across a lithological change; where a
 formation contains both a weak and a strong member, a more weathered specimen
-of the strong member can out-test a fresher specimen of the weak one. The
+of the strong member can return a higher intact strength than a fresher
+specimen of the weak one. The
 second is assuming the profile is layered. An irregular rockhead means that a
 tunnel nominally in rock may meet a soil-filled trough over part of its
 length, and mixed-face conditions are among the most damaging surprises in
@@ -100,12 +101,13 @@ rough unfilled joint mobilises strength above its basic friction angle through
 the geometric effect of asperities, and that additional component reduces as
 normal stress rises and asperities are sheared through --- the bilinear description of
 \citet{patton1966multiple}, refined by \citet{barton1977shear} into a continuous relation in terms
-of joint roughness and wall strength. Two consequences carry into design.
+of joint roughness and wall strength (the relation is given with its
+constants in Appendix~\ref{app:constants}). Two consequences carry into design.
 Roughness is scale-dependent, so a value measured on a 100\,mm laboratory
 specimen overestimates the strength of a joint several metres across. And an
 infilling thicker than the asperity amplitude decouples the surfaces
 altogether: the strength becomes that of the infill, which may be a fraction
-of the rock-on-rock value.
+of the rock-on-rock value (Section~\ref{sec:discontinuities-and-soils}).
 
 Structure at alignment scale is dominated by faults. A fault is not a plane
 but a zone, with a core of gouge or breccia and a surrounding damage zone of
@@ -125,14 +127,16 @@ stresses that are high relative to the vertical stress, because horizontal
 strain was restrained while overburden was removed; this is the principal
 reason shallow rock excavations can meet horizontal-to-vertical stress ratios
 well above unity, treated quantitatively in
-Chapter~\ref{ch:in-situ-stress}. Overconsolidated clays similarly retain
+Chapter~\ref{ch:in-situ-stress}. Where the stress is high relative to the
+intact strength, core recovered from a borehole breaks into discs, and core
+discing is the first field indication of it. Overconsolidated clays similarly retain
 lateral stresses from a greater former overburden, with consequences for
 excavation support and for heave.
 
 Locked-in residual stress at grain and block scale is a smaller effect but
-explains observations that otherwise appear anomalous: core discing, time-
-dependent deformation of specimens after recovery, and stress measurements
-that scatter beyond their instrumental precision.
+explains observations that otherwise appear anomalous: time-dependent
+deformation of specimens after recovery, and stress measurements that scatter
+beyond their instrumental precision.
 
 Certain ground types are difficult enough to deserve identification during the
 geological study rather than discovery during construction. Karst carbonates
@@ -160,7 +164,7 @@ of meeting them at the face is not.
 The engineering output of the geological study is a hazard map along the
 alignment: where the ground changes, where structure is expected, where water
 is expected, and where the consequence of being wrong is highest. That map
-drives investigation targeting, and it should also drive alignment and depth
+drives investigation targeting (Chapter~\ref{ch:site-investigation}), and it should also drive alignment and depth
 selection, which are the cheapest available means of avoiding a hazard
 entirely.
 
@@ -170,23 +174,26 @@ located precisely. Some is \emph{interpretive}: the observations admit more
 than one geological explanation, and the alternatives have different
 engineering consequences. Some is \emph{parametric}: the unit and its geometry
 are agreed, but its properties are variable or poorly sampled. Investigation
-reduces the first two efficiently and the third only slowly, and the
-distinction determines what additional drilling can be expected to achieve.
+reduces the first two efficiently and the third only slowly, because one
+well-placed observation can locate a boundary or discriminate between two
+interpretations outright, whereas sampling scatter falls only as the square
+root of the number of specimens and never below the variability of the
+material itself. The distinction determines what additional drilling can be
+expected to achieve.
 
-Interpretive uncertainty deserves particular emphasis because it is the type
-most often suppressed. A geological section is drawn as one interpretation,
+Interpretive uncertainty is the type most often suppressed. A geological section is drawn as one interpretation,
 and once drawn it acquires an authority the data do not support. Where the
 observations genuinely admit two structural interpretations --- a fault or a
 facies change, a continuous or a discontinuous marker --- both should be
 carried forward, with their differing engineering consequences stated, until
 evidence distinguishes them.
 
-Finally, the geological model becomes a contractual object. A geotechnical
+Finally, the ground model becomes a contractual object. A geotechnical
 baseline report states the ground conditions the contract assumes, in terms
 that can be tested against what is encountered, and it necessarily
-simplifies the geological interpretation into baselined statements: this many
+simplifies the ground model into baselined statements: this many
 metres of each ground class, this range of water inflow, faults of this
 character. Writing those statements is an engineering geological task with
 commercial consequences, and it is treated in
-Chapter~\ref{ch:delivery-assets}. What matters here is that a baseline can
-only be as testable as the geological model behind it is explicit.
+Chapter~\ref{ch:delivery}. What matters here is that a baseline can
+only be as testable as the ground model behind it is explicit.

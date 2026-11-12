@@ -12,8 +12,8 @@ The three share a design consequence that runs against instinct. In each, the an
 \section{Squeezing and swelling ground}
 \label{sec:squeezing-swelling}
 
-\subsection{Difficult ground behaviour and squeezing}
-\label{sec:difficult-squeezing}
+\subsection{Squeezing mechanism and prediction}
+\label{sec:squeezing-prediction}
 
 Squeezing is time-dependent large deformation occurring where the rock mass
 strength is low relative to the in-situ stress. It is not a failure in the
@@ -21,27 +21,30 @@ sense of collapse: the ground closes on the excavation progressively, and it
 continues after the face has passed.
 
 Prediction is empirical and reasonably reliable. The controlling parameter is
-the ratio of rock mass strength to in-situ stress, and the strain chart of
+the ratio of rock mass strength to the mean in-situ stress at tunnel depth
+(Chapter~\ref{ch:in-situ-stress}), and the strain chart of
 \citet{hoekmarinos2000squeezing} relates that ratio to the percentage closure to be expected,
-distinguishing regimes from a few tenths of a per cent --- requiring no special
+in five classes running from below about one per cent --- requiring no special
 measures --- to more than ten per cent, where extreme squeezing problems arise
-and conventional support cannot succeed. Other empirical criteria based on
-overburden and rock mass quality give consistent indications.
+and conventional support cannot succeed; the relation and the class boundaries
+are set out in Chapter~\ref{ch:empirical-design}, together with the
+definition of rock mass strength on which the chart is calibrated.
 
 The value of the prediction is that it is available at design stage from
-quantities already derived in Chapter~\ref{ch:rock-mass-parameters}, and that
+quantities already in hand, the intact strength, $m_i$ and GSI, and that
 the strain magnitude points directly to the strategy required.
 
 Time dependence must be separated into two mechanisms that look alike in the
 data. Some convergence is simply face-advance deformation --- the
 three-dimensional stress redistribution captured by the longitudinal
-deformation profile --- and it would occur in a rate-independent material. The
+deformation profile (Section~\ref{sec:ldp-appendix}) --- and it would occur in
+a rate-independent material. The
 remainder is genuine creep, continuing at constant face position. Only the
 second requires a viscoplastic model, and attributing all observed
 time-dependent convergence to creep overstates the problem.
 
 \subsection{Support strategy and deformation allowance}
-\label{sec:strategy-swelling}
+\label{sec:squeezing-strategy}
 
 Three strategies exist. \emph{Resist} installs support stiff and strong enough
 to prevent significant convergence: viable only for mild squeezing, and it
@@ -49,7 +52,7 @@ becomes rapidly uneconomic because the required pressure rises steeply as
 convergence is suppressed. \emph{Yield} allows controlled convergence through
 sliding sets, deformation slots and yielding bolts, so that equilibrium is
 reached at a support pressure the system can carry
-(Chapter~\ref{ch:ccm}). \emph{Avoid} changes the alignment or depth to bypass
+(Chapter~\ref{ch:ccm}; the construction that compares a yielding system against a stiffer one is set out in Section~\ref{sec:seq-support-interaction} of Appendix~\ref{app:calculations}). \emph{Avoid} changes the alignment or depth to bypass
 the squeezing ground altogether, and where the squeezing zone is localised
 this is often the cheapest answer.
 
@@ -65,8 +68,8 @@ reprofiling is planned and repeated as a normal part of the cycle.
 
 Swelling is a different mechanism producing similar symptoms. Smectite-rich
 mudrocks swell on contact with water; anhydrite converts to gypsum with a
-large volume increase. Both generate pressure that continues for years and
-concentrate at the invert, where water collects. The distinction from
+large volume increase. Both generate pressure that continues for years and is
+concentrated at the invert, where water collects. The distinction from
 squeezing matters because the remedies differ: swelling responds to keeping
 water away from the rock, and where it cannot be prevented the choice is
 between resisting the pressure with a heavy invert or accommodating it with a
@@ -88,20 +91,24 @@ Conventional criteria predict this badly, and for an identifiable reason.
 Near a free surface, confinement is essentially zero, and in that condition
 cohesion is lost at small strain while friction requires larger strain to
 mobilise --- so the two are not available simultaneously. Criteria that add
-them overestimate near-boundary strength. Cohesion-weakening
-friction-strengthening formulations represent the sequence properly.
+them overestimate near-boundary strength. Formulations in which cohesion
+degrades and friction mobilises with accumulating strain reproduce that
+sequence, and so predict the lower strength near the boundary.
 
 The practical prediction is empirical and simple. \citet{martin1999spalling} found
-that the depth of the spalling notch scales linearly with the ratio of maximum
+that the depth of the spalling notch grows linearly with the ratio of maximum
 boundary stress to unconfined compressive strength, with spalling initiating
 at a ratio of roughly 0.4 --- far below the strength the rock exhibits in a
-laboratory test. That relation gives the reinforcement length required and is
-the design tool of choice for spalling ground.
+laboratory test. That relation is the basis for setting reinforcement length
+in spalling ground, within the limits stated with it in
+Section~\ref{sec:screening-brittle}: massive to moderately jointed strong
+rock in which failure is stress-driven, and not weak or closely jointed rock
+masses.
 
 \subsection{Energy and excavation stability}
 \label{sec:energy-stability}
 
-Excavation releases stored strain energy. Part is absorbed in deformation of
+Excavation releases stored strain energy (Chapter~\ref{ch:rock-mechanics}). Part is absorbed in deformation of
 the surrounding rock, part does work on the support, and the remainder ---
 excess energy --- is available to drive failure. At moderate depth it
 dissipates quietly; at high stress in brittle rock it need not.
@@ -127,15 +134,27 @@ Three burst types are distinguished by source. A \emph{strainburst} is a
 violent failure of the rock at the excavation boundary, driven by locally
 stored energy. A \emph{pillar burst} is failure of a highly stressed pillar. A
 \emph{fault-slip burst} originates on a structure remote from the excavation
-and reaches it as a seismic wave --- so the source may be tens of metres away
-and the damage occurs where the wave meets an unsupported or poorly supported
-opening.
+and reaches it as a seismic wave --- so the source may lie well outside the
+zone of influence of the opening, and the damage appears wherever the wave
+meets ground that is unsupported or poorly supported.
 
 Dynamic support design works in energy. The demand is the kinetic energy of
-ejected rock, estimated from the thickness of the failing slab and its
-ejection velocity. The capacity is the energy the support system absorbs
+ejected rock, which per unit area of excavation surface is
+\[
+E = \tfrac{1}{2}\,\rho\, t\, v^{2},
+\]
+for a slab of thickness $t$ and density $\rho$ ejected at velocity $v$; where
+the slab falls from the back, the work done by gravity over the support's
+displacement adds to it. A slab 0.3\,m thick of density
+2700\,kg/m\textsuperscript{3} ejected at 3\,m/s carries
+3.6\,kJ/m\textsuperscript{2}. The ejection velocity is assumed rather than
+measured, commonly at a few metres per second, and because it enters as its
+square it is the dominant uncertainty in the method. The capacity is the
+energy the support system absorbs
 before failing, which requires yielding elements: a stiff, high-capacity bolt
-absorbs almost nothing because it accommodates no displacement.
+absorbs almost nothing because it accommodates no displacement. Representative
+absorption capacities, rated in kilojoules rather than kilonewtons, are in
+Table~\ref{tab:support-props} of Appendix~\ref{app:constants}.
 
 System compatibility governs the outcome, and it is the design point most
 often missed. A bolt capable of absorbing energy over 200\,mm of displacement
@@ -146,9 +165,10 @@ the reinforcement is usually the weak link.
 
 Destressing --- blasting or hydraulically fracturing to move the stress
 concentration away from the boundary --- is used where the demand cannot be
-supported. Evidence for its effectiveness is mixed and the operational cost is
-significant, and it is best regarded as a supplement to a properly designed
-dynamic support system rather than a substitute for one.
+supported. Destressing relocates the stress concentration but does not reduce
+the energy stored in the surrounding rock, and its operational cost is
+significant, so it is a supplement to a properly designed dynamic support
+system and not a substitute for one.
 
 \section{Monitoring in high-stress and squeezing ground}
 \label{sec:high-stress-monitoring}
@@ -173,5 +193,7 @@ seismic activity are standard practice in deep mining.
 
 Both applications share a requirement: the interpretation must be available
 fast enough to act on. A monitoring system reporting weekly in ground that can
-deteriorate in a shift is recording history, and the response-time condition of
-Chapter~\ref{ch:monitoring} is not satisfied.
+deteriorate in a shift is recording history. The observational method requires
+the response time of the instruments and of their interpretation to be short
+in comparison with the rate at which the ground can change
+(Chapter~\ref{ch:monitoring}), and here it is not.

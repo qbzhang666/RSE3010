@@ -19,8 +19,6 @@ is to predict, set limits, measure, and act on the measurement. That sequence
 is the observational method, and third-party protection is its most demanding
 application.
 
-In urban tunnelling the design is usually governed by something the designer does not own. Buildings, railways, utilities and existing tunnels impose movement limits far below anything that threatens the excavation, and meeting them determines the excavation method, the face pressure, the extent of ground treatment and, frequently, the alignment itself.
-
 Prediction and monitoring are one subject rather than two. The chain runs from construction control to ground movement to structural strain to damage; every link is imperfectly known; and the only way to design against that uncertainty is to predict, set limits, measure, and act on the measurement. That is the observational method, and third-party protection is its most demanding application.
 
 \section{Predicting ground movement}
@@ -31,10 +29,10 @@ Prediction and monitoring are one subject rather than two. The chain runs from c
 
 Surface settlement above a tunnel is described by a Gaussian curve whose
 maximum lies above the axis and whose width is set by the trough width
-parameter and the depth. The area under the curve equals the volume loss ---
+parameter and the depth (Section~\ref{sec:gaussian-trough} gives the expressions and Section~\ref{sec:seq-settlement} the calculation sequence). The area under the curve equals the volume loss ---
 the ground that entered the tunnel and did not come out as intended
 excavation, expressed as a proportion of the theoretical excavated volume.
-Volume loss is a construction outcome, not a ground property: the same ground
+Volume loss is a construction outcome, not a ground property (Table~\ref{tab:volume-loss}): the same ground
 gives very different volume loss under different face pressure and grouting
 control.
 
@@ -43,8 +41,9 @@ Longitudinally, settlement develops as the face approaches and passes,
 following a cumulative probability form: some settlement occurs ahead of the
 face, roughly half is complete as the face passes beneath, and the remainder
 develops behind. A structure therefore experiences a settlement history, not a
-single value, and it is subjected to hogging as the face approaches and
-sagging after it passes --- a reversal that a static assessment does not
+single value. It is subjected to hogging as the face approaches, arching over
+the advancing edge of the trough, and to sagging after it passes, as the
+trough deepens beneath it --- a reversal that a static assessment does not
 capture.
 
 Subsurface movements matter for anything founded below the surface. The trough
@@ -60,15 +59,16 @@ occurs, and an assessment that considers settlement alone will miss it.
 
 Assessment is staged because the asset population is large and most of it is
 unaffected. The first stage screens on maximum settlement and slope, typically
-excluding buildings below roughly 10\,mm settlement and a slope of 1 in 500.
+excluding buildings predicted to settle less than roughly 10\,mm and to tilt
+less steeply than 1 in 500.
 The second stage assesses buildings that pass that screen against greenfield
 movements, treating the building as though it conformed to the ground
 movements with no stiffness of its own. The third stage examines the remainder
 in detail, accounting for the building's own stiffness, its foundation type,
 its condition and its orientation to the trough.
 
-The staging works because of the shape of the problem rather than merely to
-save effort. Figure~\ref{fig:settlement-screening} shows that shape along an
+The staging is not merely an economy; it works because of the shape of the
+problem. Figure~\ref{fig:settlement-screening} shows that shape along an
 illustrative corridor: settlement above 5\,mm is confined to a band a few tens
 of metres either side of the centreline, and better than nine buildings in ten
 in a three-thousand-building population never leave the first stage. The bands
@@ -95,7 +95,8 @@ The damage criterion itself is limiting tensile strain. The idealisation of
 \citet{burland1974settlement} treats the building as a deep beam undergoing both bending and shear, from
 which a maximum tensile strain is derived and compared against thresholds
 corresponding to damage categories --- negligible, very slight, slight,
-moderate, severe, very severe. The categories are defined by the ease of
+moderate, severe, very severe. The threshold strains are given in
+Appendix~\ref{app:constants}. The categories are defined by the ease of
 repair, which is what an owner cares about, rather than by structural capacity.
 
 \citet{boscardin1989building} extended this by combining bending strain with the
@@ -108,7 +109,8 @@ practice.
 Building stiffness is where the greenfield assumption is conservative. A real
 building does not conform to the ground; it resists, modifying the trough
 beneath itself and experiencing less deflection than the greenfield curve
-implies. Relative stiffness modification factors quantify this, and the
+implies. Relative stiffness modification factors~\citep{potts1997structures}
+quantify this, and the
 reduction can be substantial for a stiff building on a shallow trough.
 Applying them requires care about openings, since a facade with a high window
 ratio is far less stiff than its dimensions suggest, and about the building's
@@ -176,8 +178,11 @@ A different mechanism operates above voids. Where a cavity exists --- an
 abandoned mine working, a karst cavern, a poorly backfilled shaft --- the
 ground above it can migrate downward progressively, the void working upward as
 material falls into it. Because collapsed material bulks, the migration
-arrests once the bulked volume fills the void, and the height at which this
-occurs depends on the bulking factor and the void height. If the arrest height
+arrests once the bulked volume fills the void. Collapse of a thickness $h$ of
+roof bulks to fill a void of height $H_v$ when $(B-1)\,h = H_v$, where $B$ is
+the bulking factor, so that $h = H_v/(B-1)$. The result is acutely sensitive
+to a parameter that is itself poorly known: a 3\,m void arrests after about
+10\,m of migration at $B = 1.30$ and after about 20\,m at $B = 1.15$. If the arrest height
 is less than the cover, nothing appears at the surface; if it exceeds the
 cover, a sinkhole appears, often suddenly and long after the working was
 abandoned.
@@ -209,9 +214,9 @@ monitoring. Structural strengthening or underpinning of the building accepts
 the movement and makes the structure able to tolerate it.
 
 Compensation grouting deserves its reputation and its caveats. It is effective
-and it is expensive, requires access between the tunnel and the structure,
-demands real-time monitoring and a decision process able to act within hours,
-and cannot protect against a sudden loss. It should be planned as a system,
+and it is expensive. It requires access between the tunnel and the structure,
+real-time monitoring and a decision process able to act within hours, and it
+cannot protect against a sudden loss. It should be planned as a system,
 with the sleeve pipes installed and the response established before tunnelling
 approaches, not mobilised after settlement has appeared.
 
@@ -238,8 +243,9 @@ movement limits on adjacent assets are being respected. It provides a
 \emph{knowledge} for future projects.
 
 The observational method makes the first two into a design philosophy rather
-than a check. The formulation of \citet{peck1969observational}, later codified in
-Eurocode~7, sets four preconditions: the range of possible behaviour must be
+than a check. The method was set out by \citet{peck1969observational} and
+later codified in Eurocode~7, and its requirements can be compressed to four
+preconditions: the range of possible behaviour must be
 assessed and the acceptable limits established \emph{before} construction; a
 plan of monitoring capable of detecting departure from the predicted behaviour
 must be devised; the response time of the instruments and the analysis must be
@@ -297,7 +303,7 @@ suggest. Automated total stations are affected by atmospheric refraction,
 temperature gradients and instrument stability, and sub-millimetre precision
 is claimed more often than it is delivered. Since trigger levels are
 frequently set at a few millimetres, the measurement precision and the trigger
-threshold can be uncomfortably close, and the resolution is redundancy and
+threshold can be uncomfortably close, and the defence is redundancy and
 trend analysis rather than reliance on any single reading.
 
 Remote sensing extends coverage. Satellite radar interferometry measures
@@ -352,7 +358,7 @@ discipline has shifted from collecting data to filtering it.
 Array design should start from the design question rather than from the
 instrument catalogue. For each assumption the design depends on, the questions
 are what would indicate that it is wrong, what instrument would detect that,
-where must it be installed and how often must it be read. Instruments that
+where it must be installed and how often it must be read. Instruments that
 survive this test earn their place; those that do not are recording for its
 own sake.
 
@@ -386,8 +392,10 @@ Interpretation is where experience is required. Instrument drift, temperature
 effects, construction disturbance and simple malfunction all produce readings
 that resemble ground movement. Cross-checking between instruments of different
 type is the reliable defence: convergence and extensometer readings that
-disagree indicate an instrument problem, while agreement in both indicates
-ground movement.
+disagree indicate an instrument problem. Agreement removes independent
+malfunction but not a common cause, since temperature and movement of the
+datum act on both alike, so confidence in a trend calls for a third,
+physically independent observation.
 
 The quantity to watch is usually the rate rather than the magnitude.
 Displacement that grows and decelerates is a system finding equilibrium;
@@ -427,7 +435,7 @@ anyone's goodwill.
 \section{Remote sensing and as-built geometry}
 \label{sec:remote-sensing-geometry}
 
-The instruments of the preceding sections measure points. Laser scanning and
+The instruments of Section~\ref{sec:instrument-types} measure points. Laser scanning and
 photogrammetry measure surfaces, returning a dense record of the excavation as
 it actually is rather than at the small number of locations an array happens
 to occupy. That difference in kind changes what can be asked: not only how
@@ -482,7 +490,8 @@ charging rather than at the ground. Underbreak is an immediate construction
 problem, since the clearance envelope must be achieved.
 
 Applied sprayed concrete thickness follows from differencing the scan before
-and the scan after spraying. This is worth emphasising because thickness is
+and the scan after spraying, the verification route introduced with sprayed
+concrete in Chapter~\ref{ch:support}. This is worth emphasising because thickness is
 otherwise verified by depth pins at a handful of points, and the difference
 between specified and achieved thickness is a recurring durability problem
 (Chapter~\ref{ch:linings}). The same differencing gives the volume placed,

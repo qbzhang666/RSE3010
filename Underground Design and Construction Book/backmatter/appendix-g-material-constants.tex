@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Appendix G -- Typical Material Constants and Parameter Ranges
+%  Appendix E -- Typical Material Constants and Parameter Ranges
 %  Values compiled from the standard references (Hoek & Brown; Brady & Brown;
 %  Hoek, Kaiser & Bawden; Mair & Taylor). Every value must be verified against
 %  its source before use in print.
@@ -13,7 +13,8 @@ Every value in this appendix is a typical range drawn from published
 compilations. They are useful for sanity-checking a measured value, for
 preliminary study before site data exists, and for setting sensitivity bounds.
 They are not a substitute for project-specific testing, and a design relying
-on a table in a textbook should say so explicitly.
+on a published typical range rather than on test data should say so
+explicitly.
 
 \section{Intact rock and Hoek--Brown constants}
 \label{sec:intact-rock-and-hoek-brown-constants}
@@ -24,6 +25,10 @@ rock type routinely exceeds the difference between types, so the table
 identifies an implausible value rather than supplying a design one.
 
 \begin{table}[htbp]
+\caption{Indicative intact rock properties. Anisotropic rocks
+(schist, slate, shale) vary strongly with the angle between loading and
+fabric; the ranges given span that variation.}
+\label{tab:intact-props}
 \centering
 \small
 \begin{tabularx}{\textwidth}{l c c c X}
@@ -42,17 +47,15 @@ Schist             & 20--150  & 5--50  & 0.15--0.30 & 25--28 \\
 Slate              & 60--250  & 20--60 & 0.15--0.25 & 26--28 \\
 \bottomrule
 \end{tabularx}
-\caption{Indicative intact rock properties. Anisotropic rocks
-(schist, slate, shale) vary strongly with the angle between loading and
-fabric; the ranges given span that variation.}
-\label{tab:intact-props}
 \end{table}
 
 The modulus ratio $MR = \Ei/\sci$ is often more stable than either quantity
 alone, and where $\Ei$ has not been measured it may be estimated as
-$\Ei = MR\,\sci$. Typical values run from about 300 for weak mudrocks to
-around 500 for many sandstones and limestones, and 350 to 500 for crystalline
-rocks.
+$\Ei = MR\,\sci$. The ranges of Table~\ref{tab:intact-props}, taken end for
+end, imply ratios of roughly 200 to 400 for shale and mudstone, 230 to 250
+for sandstone, 280 to 670 for limestone, and 280 to 400 for granite and
+gneiss; published compilations by rock type give comparable
+figures~\citep{hoekdiederichs2006}.
 
 \paragraph{Hoek--Brown $\mi$ values.}
 The constant $\mi$ describes the curvature of the intact failure envelope and
@@ -60,6 +63,10 @@ is grouped by rock type and texture, as in Table~\ref{tab:mi}. Values are
 approximate and are conventionally quoted with an uncertainty of a few units.
 
 \begin{table}[htbp]
+\caption{Hoek--Brown constant $\mi$ for intact rock. Anisotropic rocks are
+quoted for loading normal to the fabric; values fall substantially for loading
+at an unfavourable angle.}
+\label{tab:mi}
 \centering
 \small
 \begin{tabularx}{\textwidth}{X c X c}
@@ -79,10 +86,6 @@ Phyllite           & 7  & Slate              & 7 \\
 Amphibolite        & 26 & Chalk              & 7 \\
 \bottomrule
 \end{tabularx}
-\caption{Hoek--Brown constant $\mi$ for intact rock. Anisotropic rocks are
-quoted for loading normal to the fabric; values fall substantially for loading
-at an unfavourable angle.}
-\label{tab:mi}
 \end{table}
 
 Interpolation for rocks not listed should be made by texture and mineralogy
@@ -98,6 +101,8 @@ condition, as in Table~\ref{tab:gsi}. It is deliberately a range rather than a
 number, and a $\GSI$ quoted to a single unit misrepresents the evidence.
 
 \begin{table}[htbp]
+\caption{Indicative $\GSI$ ranges by structure and surface condition. The five surface classes of Chapter~\ref{ch:classification} are collapsed to three, good spanning very good and good and poor spanning poor and very poor; a dash marks a combination that does not occur.}
+\label{tab:gsi}
 \centering
 \small
 \begin{tabularx}{\textwidth}{X c c c}
@@ -112,13 +117,14 @@ Disintegrated            & 30--45 & 25--40 & 15--30 \\
 Laminated, sheared       & --     & 15--30 & 10--20 \\
 \bottomrule
 \end{tabularx}
-\caption{Indicative $\GSI$ ranges by structure and surface condition.}
-\label{tab:gsi}
 \end{table}
 
 Where classification data exist, the correlations
-$\GSI \approx \RMR_{89} - 5$ (for $\RMR > 23$) and
-$\GSI \approx 9\ln Q' + 44$ provide a cross-check. They agree with chart
+$\GSI \approx \RMR'_{89} - 5$ (for $\RMR'_{89} > 23$) and
+$\GSI \approx 9\ln Q' + 44$ provide a cross-check. Here $\RMR'_{89}$ is the
+rating of Chapter~\ref{ch:classification} taken dry and without orientation
+adjustment, and $Q'$ is the modified quality index
+$(\RQD/J_n)(J_r/J_a)$, that is $Q$ with $J_w$ and SRF set to unity. They agree with chart
 estimation to within about five points in competent rock and diverge in poor
 ground, where the chart is preferred.
 
@@ -131,6 +137,8 @@ zone --- typically one to two metres for tunnels --- and to use $\Dfac = 0$
 beyond.
 
 \begin{table}[htbp]
+\caption{Disturbance factor by excavation method.}
+\label{tab:d-factor}
 \centering
 \small
 \begin{tabularx}{\textwidth}{X c}
@@ -146,19 +154,31 @@ Slope excavation, small-scale controlled blasting & 0.7 \\
 Slope excavation, production blasting & 1.0 \\
 \bottomrule
 \end{tabularx}
-\caption{Disturbance factor by excavation method.}
-\label{tab:d-factor}
 \end{table}
 
 \section{Discontinuities and soils}
 \label{sec:discontinuities-and-soils}
 
 \paragraph{Discontinuity strength.}
-Table~\ref{tab:joint} gives basic friction angles for clean, unweathered
-surfaces. Roughness adds to these through the joint roughness coefficient;
-weathering and infill subtract.
+Table~\ref{tab:joint} gives basic friction angles $\phi_b$ for clean,
+unweathered surfaces. For a rough unfilled surface the mobilised friction
+angle is
+\[
+\phi_b + \mathrm{JRC}\,\log_{10}\!\left(\frac{\mathrm{JCS}}{\sigma_n'}\right),
+\]
+in which JRC is the joint roughness coefficient, JCS the joint wall
+compressive strength and $\sigma_n'$ the effective normal
+stress~\citep{barton1977shear}. The roughness contribution is therefore not
+a constant: it falls as the normal stress rises and vanishes as $\sigma_n'$
+approaches JCS, which is the mechanism described in
+Chapter~\ref{ch:engineering-geology}. Weathering and infill reduce the
+angle further.
 
 \begin{table}[htbp]
+\caption{Basic friction angle $\phi_b$ for clean unweathered discontinuity
+surfaces. Residual friction angles for weathered surfaces are typically
+several degrees lower.}
+\label{tab:joint}
 \centering
 \small
 \begin{tabularx}{\textwidth}{X c X c}
@@ -172,10 +192,6 @@ Dolomite  & 27--35 & Slate     & 25--30 \\
 Gneiss    & 26--29 & Chalk     & 30--41 \\
 \bottomrule
 \end{tabularx}
-\caption{Basic friction angle $\phi_b$ for clean unweathered discontinuity
-surfaces. Residual friction angles for weathered surfaces are typically
-several degrees lower.}
-\label{tab:joint}
 \end{table}
 
 The joint roughness coefficient ranges from 0--2 for smooth planar surfaces to
@@ -193,6 +209,10 @@ Table~\ref{tab:soil-params} gives indicative ranges for soils commonly
 encountered in urban tunnelling.
 
 \begin{table}[htbp]
+\caption{Indicative drained soil parameters. Small-strain stiffness governing
+ground movement outside the yield zone is commonly three to five times the
+values tabulated.}
+\label{tab:soil-params}
 \centering
 \small
 \begin{tabularx}{\textwidth}{X c c c}
@@ -208,10 +228,6 @@ Stiff clay            & 20--28 & 5--30  & 20--60 \\
 Hard clay / residual  & 24--32 & 10--50 & 40--150 \\
 \bottomrule
 \end{tabularx}
-\caption{Indicative drained soil parameters. Small-strain stiffness governing
-ground movement outside the yield zone is commonly three to five times the
-values tabulated.}
-\label{tab:soil-params}
 \end{table}
 
 \section{Support elements and concrete}
@@ -222,6 +238,8 @@ Table~\ref{tab:support-props} gives representative capacities. Stiffness
 expressions for each system are in Appendix~\ref{app:closed-form}.
 
 \begin{table}[htbp]
+\caption{Representative support element capacities.}
+\label{tab:support-props}
 \centering
 \small
 \begin{tabularx}{\textwidth}{X c X}
@@ -239,8 +257,6 @@ Welded mesh                 & 20--40\,kN/m & Brittle failure at welds \\
 Chain-link mesh             & 30--60\,kN/m & Large deformation capacity \\
 \bottomrule
 \end{tabularx}
-\caption{Representative support element capacities.}
-\label{tab:support-props}
 \end{table}
 
 \paragraph{Concrete and shotcrete.}
@@ -270,6 +286,9 @@ construction control. Poor control, mixed face conditions or inadequate
 grouting can multiply these by a factor of two or more.
 
 \begin{table}[htbp]
+\caption{Indicative volume loss and trough width parameter. The trough width
+$i = K z_0$, where $z_0$ is the depth to tunnel axis.}
+\label{tab:volume-loss}
 \centering
 \small
 \begin{tabularx}{\textwidth}{X c c}
@@ -284,9 +303,6 @@ Sprayed concrete lining, weak rock   & 0.3--1.0 & 0.3--0.4 \\
 Open face, stiff clay                & 1.0--3.0 & 0.5 \\
 \bottomrule
 \end{tabularx}
-\caption{Indicative volume loss and trough width parameter. The trough width
-$i = K z_0$, where $z_0$ is the depth to tunnel axis.}
-\label{tab:volume-loss}
 \end{table}
 
 Damage category thresholds in terms of limiting tensile strain are

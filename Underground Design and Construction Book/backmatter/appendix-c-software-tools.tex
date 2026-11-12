@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Appendix C -- The companion open-access application
+%  Appendix A -- The companion open-access application
 %  The book is deliberately tool-neutral. No method in the main text depends on
 %  a particular program; this appendix describes the open-access scripts that
 %  accompany the book so that its calculations can be reproduced and varied.
@@ -12,12 +12,13 @@ No method in this book requires a particular program. Every calculation in the
 main text is stated so that it can be followed by hand, and the sequences of
 Appendix~\ref{app:calculations} exist for exactly that purpose. Software is a
 convenience, not a prerequisite, and a reader with a calculator and the
-expressions of Appendix~\ref{app:closed-form} can reproduce every numerical
-result printed here.
+expressions of Appendix~\ref{app:closed-form} can reproduce every closed-form
+result printed in the main text. The computed figures described in
+Section~\ref{sec:demonstrator-figures} are the one exception.
 
 That said, several of the calculations are tedious by hand and instructive when
-varied. \companionname\ therefore accompanies the book. It is a set of scripts
-and small interactive applications, released openly at
+varied. The book is therefore accompanied by \companionname. It is a set of small
+interactive applications, released openly at
 
 \begin{center}
 \companionlink
@@ -31,45 +32,66 @@ answer whether or not its assumptions apply to the problem in hand.
 \section{Contents and chapter mapping}
 \label{sec:companion-contents}
 
-The scripts are written in Python. Those whose names end in \code{\_app} or
-\code{\_streamlit} run as browser-based applications with interactive controls;
-the remainder run from the command line and print or plot their results. The
-dependencies are listed in \code{requirements.txt} in the repository root.
+The scripts are written in Python, and the dependencies are listed in
+\code{requirements.txt} in the repository root. All but one are interactive
+applications that run in a browser and are started with the command
+\code{streamlit run} followed by the script name; started as ordinary Python
+programs they produce nothing useful. The exception is
+\code{TBM\_Vibration.py}, which runs from the command line and writes its
+results to file. Table~\ref{tab:companion-scripts} lists the scripts that
+support this book and the chapters they serve.
 
-\begin{longtable}{ll}
+\begin{table}[htbp]
+\caption{Companion scripts and the chapters they support.}
+\label{tab:companion-scripts}
+\centering
+\small
+\begin{tabularx}{\textwidth}{l X}
 \toprule
-Script & Supports \\
+\textbf{Script} & \textbf{Supports} \\
 \midrule
-\endhead
-\code{Mohr-Coulomb.py} & Chapter~\ref{ch:rock-mechanics} \\
-\code{Hoek1998.py} & Chapters~\ref{ch:rock-mechanics}, \ref{ch:ccm} \\
-\code{Generalised Hoek-Brown.py} & Chapter~\ref{ch:rock-mass-parameters} \\
-\code{MC Parameters from HB.py} & Chapters~\ref{ch:rock-mechanics}, \ref{ch:rock-mass-parameters} \\
-\code{GRC.py} & Chapter~\ref{ch:ccm} \\
-\code{ccm\_ldp\_scc.py} & Chapter~\ref{ch:ccm} \\
-\code{CCM Tunnel.py} & Chapter~\ref{ch:ccm} \\
-\code{arc-beam.py} & Chapter~\ref{ch:ccm} \\
-\code{tbm\_settlement.py} & Chapter~\ref{ch:numerical-modelling} \\
-\code{settlement\_app.py} & Chapter~\ref{ch:numerical-modelling} \\
-\code{TBM\_Vibration.py} & Chapter~\ref{ch:numerical-modelling} \\
-\code{Retaining-Wall.py} & Chapter~\ref{ch:construction} \\
+\code{Mohr-Coulomb.py} & Chapters~\ref{ch:rock-mechanics} and \ref{ch:rock-mass-parameters} \\
+\code{Generalised Hoek-Brown.py} & Chapters~\ref{ch:rock-mechanics} and \ref{ch:rock-mass-parameters} \\
+\code{MC Parameters from HB.py} & Chapters~\ref{ch:in-situ-stress} and \ref{ch:rock-mass-parameters} \\
+\code{CCM Tunnel.py} & Chapters~\ref{ch:ground-behaviour}, \ref{ch:high-stress}, \ref{ch:ccm}, \ref{ch:support} and \ref{ch:integrated-design} \\
+\code{GRC.py}, \code{Hoek1998.py} & Chapter~\ref{ch:ccm}, ground reaction curve only \\
+\code{arc-beam.py} & Chapter~\ref{ch:linings} \\
+\code{settlement\_app.py} & Chapters~\ref{ch:numerical-modelling}, \ref{ch:tbm} and \ref{ch:movement-monitoring} \\
+\code{Retaining-Wall.py} & Chapters~\ref{ch:construction} and \ref{ch:openings} \\
+\code{TBM\_Vibration.py} & Chapters~\ref{ch:construction} and \ref{ch:movement-monitoring} \\
 \bottomrule
-\end{longtable}
+\end{tabularx}
+\end{table}
+
+Two points govern the use of the convergence--confinement application. The
+first is that it offers several ground reaction curve formulations, and they
+do not return the same displacement for the same input. The zero-dilation
+solution derived in Chapter~\ref{ch:ccm}, which the application lists under
+the name of Salen\c{c}on, reproduces the worked example of that chapter; the
+Duncan Fama formulation carries additional compressibility terms and returns
+a convergence about a third larger for the same case. Both are correct for
+their own assumptions, and a comparison between the book and the application
+is meaningful only when the same formulation is selected. The second is that
+the repository records, in its own documentation, the state of every script,
+including defects found and not yet corrected. A script listed there as
+uncorrected is to be treated as illustrative.
 
 \section{Structural analysis scripts}
 \label{sec:structural-scripts}
 
-\code{Stereonet and LEM.py} and \code{Kinematic Slope.py} contain the
-stereographic projection routines used in
-Chapter~\ref{ch:structural-analysis}. Although both were written for slope
-work, the projection, pole plotting, contouring and plane-intersection
-functions apply unchanged to underground wedge and block identification; only
-the kinematic failure tests at the end are slope-specific. The net
-constructions those routines automate are set out for hand working in
-Appendix~\ref{app:stereonet}, and the two should agree.
+The repository contains no application for underground block or wedge
+analysis. Stereographic projection is available in two scripts written for
+rock slope work, \code{SMR Slope.py} and \code{smr\_streamlit.py}, which plot
+poles and great circles and compute the intersection of two planes using an
+open stereonet library. Those operations are general and apply unchanged to
+the constructions of Chapter~\ref{ch:structural-analysis}; the kinematic tests
+that follow them in both scripts are specific to slopes and are not. The
+constructions themselves are set out for hand working in
+Appendix~\ref{app:stereonet}, and a plotted intersection from either script
+should agree with one obtained there.
 
-The remaining slope-specific scripts in the repository belong to companion
-slope-engineering material and have no application to the methods in this book.
+The remaining slope-stability scripts in the repository belong to companion
+teaching material and have no application to the methods in this book.
 
 \section{The demonstrator behind the data figures}
 \label{sec:demonstrator-figures}

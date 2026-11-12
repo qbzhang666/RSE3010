@@ -84,33 +84,43 @@
 
 % --- TikZ workflow diagram styles --------------------------------------------
 % Size and role are orthogonal: a node takes one size style and one role style,
-% for example [smallworkflowbox, wfstep]. The roles carry meaning, so the same
-% colour means the same thing in every diagram:
+% for example [smallworkflowbox, wfstep].
 %
-%   wfinput   neutral   what the sequence starts from
-%   wfstep    CMAIN     a computation
-%   wfcheck   CLOSS     a comparison against a threshold or an independent value
-%   wfadopt   CGOOD     the value that leaves the diagram and enters the design
-%   feedbackarrow CFAIL the path back when the check is not satisfied
+% The house palette carries two hues, and these diagrams carry four roles, so
+% role is encoded as STROKE HUE times FILL rather than by hue alone:
 %
-% Every diagram is also legible without colour: the steps are numbered, the
-% forward path is solid and the return path dashed. See palette.tex, rule 1.
+%   wfinput   grey stroke,      white fill   what the sequence starts from
+%   wfstep    malachite stroke, white fill   a computation
+%   wfadopt   malachite stroke, tint fill    the value that enters the design
+%   wfcheck   carmine stroke,   tint fill    a comparison against a threshold
+%   feedbackarrow  carmine dashed            the path back when the check fails
+%
+% Malachite and carmine are close in lightness, so in a greyscale print the
+% hues read alike and the FILL carries the distinction: an empty box is a step,
+% a tinted box is an outcome. Steps are also numbered and the return path is
+% dashed, so no diagram depends on colour alone. See palette.tex, rule 1.
+%
+% Figure text is set in Computer Modern per the house style. Mathematics inside
+% a TikZ node still takes the document's newtxmath, because the font is fixed
+% by the Springer class; that mixture is transitional and resolves as figures
+% are redrawn outside TikZ, where CM mathematics is native.
 \tikzset{
+  wffont/.style={font=\fontfamily{cmr}\selectfont},
   workflowbox/.style={
-    rectangle, rounded corners, draw=CINK, fill=CBOX,
+    rectangle, rounded corners, draw=QGREY, fill=white, wffont,
     thick, align=center, text width=2.8cm, minimum height=1.65cm, inner sep=4pt},
   smallworkflowbox/.style={
-    rectangle, rounded corners, draw=CINK, fill=CBOX,
+    rectangle, rounded corners, draw=QGREY, fill=white, wffont,
     thick, align=center, text width=2.65cm, minimum height=1.45cm, inner sep=3pt},
   tinyworkflowbox/.style={
-    rectangle, rounded corners, draw=CINK, fill=CBOX,
+    rectangle, rounded corners, draw=QGREY, fill=white, wffont,
     thick, align=center, text width=2.45cm, minimum height=1.45cm, inner sep=3pt},
-  wfinput/.style={draw=CINK,  fill=CBOX,   text=black},
-  wfstep/.style={ draw=CMAIN, fill=CWATER, text=black},
-  wfcheck/.style={draw=CLOSS, fill=CBAND,  text=black},
-  wfadopt/.style={draw=CGOOD, fill=CPASS,  text=black},
-  workflowarrow/.style={-{Latex[length=2mm]}, thick, draw=CINK},
-  feedbackarrow/.style={-{Latex[length=2mm]}, thick, dashed, draw=CFAIL}
+  wfinput/.style={draw=QGREY, fill=white, text=QINK},
+  wfstep/.style={ draw=QMAL,  fill=white, text=QINK},
+  wfadopt/.style={draw=QMAL,  fill=QMALT, text=QINK, very thick},
+  wfcheck/.style={draw=QCAR,  fill=QCART, text=QINK},
+  workflowarrow/.style={-{Latex[length=2mm]}, thick, draw=QINK},
+  feedbackarrow/.style={-{Latex[length=2mm]}, thick, dashed, draw=QCAR}
 }
 
 % --- Draft aids --------------------------------------------------------------
@@ -146,7 +156,7 @@
 \newcommand{\GSI}{\mathrm{GSI}}
 \newcommand{\RMR}{\mathrm{RMR}}
 \newcommand{\RQD}{\mathrm{RQD}}
-\newcommand{\Erm}{E_{rm}}                     % rock mass modulus
+\newcommand{\Erm}{E_{m}}                      % rock mass modulus
 \newcommand{\Ei}{E_i}                         % intact rock modulus
 \newcommand{\Dfac}{D}                         % disturbance factor
 

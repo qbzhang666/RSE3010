@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Appendix F -- Closed-Form Solutions and Design Charts
+%  Appendix D -- Closed-Form Solutions and Design Charts
 %  Sources: Kirsch (1898); Hoek & Brown (1980) appendices; Carranza-Torres &
 %  Fairhurst (2000); Muir Wood (1975); Duddeck & Erdmann (1985);
 %  Einstein & Schwartz (1979); Panet (1995).
@@ -36,9 +36,10 @@ interacts with the opening and the solutions overestimate confinement.
 \section{Circular and shaped openings}
 \label{sec:circular-and-shaped-openings}
 
-\subsection{Circular opening: the Kirsch solution~\citep{kirsch1898}}
+\subsection{Circular opening: the Kirsch solution}
 \label{sec:kirsch-appendix}
 
+The solution is that of \citet{kirsch1898}.
 For a circular opening of radius $a$ in a biaxial field with vertical stress
 $\pzero$ and horizontal stress $k\pzero$, the stresses at radius $r$ and angle
 $\theta$ measured from the horizontal axis are
@@ -72,7 +73,7 @@ Chapter~\ref{ch:ground-behaviour}.
 The radial displacement at the boundary of an unsupported opening in a
 hydrostatic field is
 \[
-u_a = \frac{\pzero\,a\,(1+\nu)}{E}.
+u_r = \frac{\pzero\,a\,(1+\nu)}{E}.
 \]
 
 \subsection{Boundary stress concentration by opening shape}
@@ -80,11 +81,15 @@ u_a = \frac{\pzero\,a\,(1+\nu)}{E}.
 
 Boundary stresses for non-circular openings are conveniently expressed as
 concentration factors applied to the field stress. Table~\ref{tab:shape-factors}
-gives crown and sidewall factors for common profiles in a hydrostatic field;
-for other $k$ the values must be obtained from the elliptical solution or
-numerically.
+gives crown and sidewall factors for circular and elliptical profiles in a
+hydrostatic field, from the expressions of Section~\ref{sec:elliptical}, and
+comparative indications for angular profiles; for other $k$ the values must
+be obtained from the elliptical solution or numerically.
 
 \begin{table}[htbp]
+\caption{Boundary stress concentration by profile, hydrostatic field.
+Corner values, not crown or sidewall values, govern angular profiles.}
+\label{tab:shape-factors}
 \centering
 \small
 \begin{tabularx}{\textwidth}{l c c X}
@@ -92,15 +97,12 @@ numerically.
 \textbf{Profile} & \textbf{Crown} & \textbf{Sidewall} & \textbf{Remarks} \\
 \midrule
 Circular & 2.0 & 2.0 & Uniform in a hydrostatic field \\
-Ovaloid, wide & higher & lower & Favours high $k$ \\
-Ovaloid, tall & lower & higher & Favours low $k$ \\
+Elliptical, wide ($W/H = 2$) & 1.0 & 4.0 & Crown $2H/W$, sidewall $2W/H$; suited to $k > 1$ \\
+Elliptical, tall ($W/H = 1/2$) & 4.0 & 1.0 & The same expressions; suited to $k < 1$ \\
 Horseshoe & moderate & higher & Sharp invert corners require radiusing \\
 Square, radiused corners & low & low & Corner concentration governs \\
 \bottomrule
 \end{tabularx}
-\caption{Boundary stress concentration by profile, hydrostatic field.
-Corner values, not crown or sidewall values, govern angular profiles.}
-\label{tab:shape-factors}
 \end{table}
 
 For angular profiles the governing value is at the corners, where the
@@ -116,9 +118,9 @@ parallel to the vertical, in a field with vertical stress $\pzero$ and
 horizontal $k\pzero$, the boundary stresses at the ends of the axes are
 
 \[
-\sigma_{\text{crown}} = \pzero\left(2\frac{W}{H} + 1 - k\right),
+\sigma_{\text{wall}} = \pzero\left(2\frac{W}{H} + 1 - k\right),
 \qquad
-\sigma_{\text{wall}} = \pzero\left(k\left(2\frac{H}{W} + 1\right) - 1\right).
+\sigma_{\text{crown}} = \pzero\left(k\left(2\frac{H}{W} + 1\right) - 1\right).
 \]
 
 Setting the two equal gives the \emph{harmonic hole} condition, at which the
@@ -146,28 +148,42 @@ and friction angle $\phi$, define
 \[
 k_\phi = \frac{1+\sin\phi}{1-\sin\phi},
 \qquad
-\sigma_{cm} = \frac{2c\cos\phi}{1-\sin\phi}.
+\sigma_{cm,MC} = \frac{2c\cos\phi}{1-\sin\phi}.
 \]
 
 Yielding begins when the support pressure falls below the critical value
 \[
-\pin^{\text{cr}} = \frac{2\pzero - \sigma_{cm}}{1 + k_\phi}.
+p_{cr} = \frac{2\pzero - \sigma_{cm,MC}}{1 + k_\phi}.
 \]
 
-For $\pin < \pin^{\text{cr}}$ the plastic zone extends to radius
+For $\pin < p_{cr}$ the plastic zone extends to radius
 \[
-r_p = a\left[\frac{2\pzero + \sigma_{cm}(k_\phi-1)^{-1}\,(k_\phi+1)}
-{(1+k_\phi)\left(\pin + \sigma_{cm}(k_\phi-1)^{-1}\right)}\right]^{\frac{1}{k_\phi-1}} .
+R_p = a\left[\frac{2\left(\pzero(k_\phi-1) + \sigma_{cm,MC}\right)}
+{(1+k_\phi)\left((k_\phi-1)\pin + \sigma_{cm,MC}\right)}\right]^{\frac{1}{k_\phi-1}} .
 \]
+
+\noindent\textbf{Which strength.}\enspace These two expressions take the
+unconfined compressive strength of a Mohr--Coulomb material, which is why it is
+written $\sigma_{cm,MC}$ here. The bare symbol $\scm$ is the Hoek--Brown rock
+mass strength, in the List of Symbols and in
+Appendix~\ref{app:calculations}, and the two are not interchangeable. In the
+worked example of Chapter~\ref{ch:ccm} --- $\sci = 72$\,MPa, $\GSI = 30$,
+$\mi = 7$, $\pzero = 16.9$\,MPa, with the Mohr--Coulomb fit taken to
+$\sigma_3 \approx \pzero$ --- they are about 5.3 and 1.2\,MPa, and substituting
+the Hoek--Brown value for the Mohr--Coulomb one inflates the plastic radius by
+about two and a half times and the wall convergence by about six. Both factors
+grow with $\pzero$ and neither is a property of strength alone. Where a
+sequence in Appendix~\ref{app:calculations} delivers a rock mass strength, $c$
+and $\phi$ are fitted first and $\sigma_{cm,MC}$ formed from them.
 
 \noindent\textbf{Use.}\enspace The critical pressure is the more useful of the
 two results, because it answers immediately whether the ground will yield at
-all. Where $\pin^{\text{cr}} \leq 0$ the opening is self-supporting in the
+all. Where $p_{cr} \leq 0$ the opening is self-supporting in the
 elastic sense, and the design problem is structural rather than one of ground
 pressure.
 
-Equivalent expressions for Hoek--Brown ground follow the Carranza-Torres and
-Fairhurst formulation, in which the same quantities are obtained through a
+Equivalent expressions for Hoek--Brown ground follow the formulation of
+\citet{carranza2000ccm}, in which the same quantities are obtained through a
 scaled stress transformation. They are algebraically longer and identical in
 structure and use.
 
@@ -177,29 +193,36 @@ structure and use.
 The ground reaction curve relates support pressure to wall convergence. In the
 elastic range,
 \[
-u = \frac{(\pzero - \pin)\,a\,(1+\nu)}{E},
+u_r = \frac{(\pzero - \pin)\,a\,(1+\nu)}{E},
 \]
 and beyond yield it is obtained from the plastic solution above, with the
-convergence increasing rapidly as $\pin$ falls.
+convergence increasing rapidly as $\pin$ falls. For a material that yields
+without volume change,
+\[
+u_r \approx u_r(p_{cr})\left(\frac{R_p}{a}\right)^{2} ,
+\]
+where $u_r(p_{cr})$ is the elastic convergence at the onset of yield; a
+dilatant flow rule increases it. This is the form used in
+Chapter~\ref{ch:ccm}.
 
-Support stiffness $K_s$ and maximum pressure $p_{s,\max}$ for the common
+Support stiffness $k_s$ and maximum pressure $p_{sm}$ for the common
 systems are as follows, with $a$ the tunnel radius throughout.
 
 \emph{Shotcrete or concrete ring} of thickness $t_c$, modulus $E_c$ and
 Poisson's ratio $\nu_c$, with unconfined strength $\sigma_{cc}$:
 \[
-K_s = \frac{E_c\left[a^2-(a-t_c)^2\right]}
+k_s = \frac{E_c\left[a^2-(a-t_c)^2\right]}
 {(1+\nu_c)\left[(1-2\nu_c)a^2+(a-t_c)^2\right]a},
 \qquad
-p_{s,\max} = \frac{\sigma_{cc}}{2}\left[1-\frac{(a-t_c)^2}{a^2}\right].
+p_{sm} = \frac{\sigma_{cc}}{2}\left[1-\frac{(a-t_c)^2}{a^2}\right].
 \]
 
 \emph{Steel sets} of cross-sectional area $A_s$, modulus $E_s$ and yield
 stress $\sigma_{ys}$, at longitudinal spacing $s$:
 \[
-K_s = \frac{E_s A_s}{s\,a^2},
+k_s = \frac{E_s A_s}{s\,a^2},
 \qquad
-p_{s,\max} = \frac{A_s \sigma_{ys}}{s\,a}.
+p_{sm} = \frac{A_s \sigma_{ys}}{s\,a}.
 \]
 Both must be reduced to allow for block seating; a poorly blocked set delivers
 a fraction of these values.
@@ -209,33 +232,35 @@ and modulus $E_b$, at spacing $s_c$ circumferentially and $s_l$
 longitudinally, with a load--deformation constant $Q$ for the anchor and
 plate:
 \[
-K_s = \frac{1}{s_c s_l}\left[\frac{4L}{\pi d_b^2 E_b} + Q\right]^{-1},
+k_s = \frac{1}{s_c s_l}\left[\frac{4L}{\pi d_b^2 E_b} + Q\right]^{-1},
 \qquad
-p_{s,\max} = \frac{T_{bf}}{s_c s_l},
+p_{sm} = \frac{T_{bf}}{s_c s_l},
 \]
 where $T_{bf}$ is the bolt capacity.
 
 For systems installed together, stiffnesses add:
-$K_{\text{total}} = \sum K_i$, and the combined capacity is reached when the
-first element attains its own $p_{s,\max}$ --- not the sum of the individual
+$k_{s,\text{total}} = \sum k_{s,i}$, and the combined capacity is reached when the
+first element attains its own $p_{sm}$ --- not the sum of the individual
 capacities.
 
 \subsection{Longitudinal deformation profile expressions}
 \label{sec:ldp-appendix}
 
-The longitudinal deformation profile gives the convergence at distance $x$
-behind the face as a fraction of the final convergence $u_{\max}$. Panet's
-widely used elastic fit is
+The longitudinal deformation profile gives the convergence at distance $X$
+behind the face as a fraction of the final convergence $u_{\max}$. The widely
+used elastic fit of \citet{panet1995ccm} is
 \[
-\frac{u(x)}{u_{\max}} = 0.25 + 0.75\left[1-\left(\frac{0.75}{0.75+x/a}\right)^{2}\right],
+\frac{u(X)}{u_{\max}} = 0.25 + 0.75\left[1-\left(\frac{0.75}{0.75+X/a}\right)^{2}\right],
 \]
-which gives about 25\,\% of the total convergence at the face and
-approximately 90\,\% at three radii behind it.
+which gives 25\,\% of the total convergence at the face, about 90\,\%
+within one and a third radii behind it and about 97\,\% at three radii.
 
-For elasto-plastic ground the profile is steeper and depends on the extent of
-the plastic zone; fits of the same form with the radius replaced by the
-plastic radius $r_p$ are used. The elastic fit under-predicts the convergence
-released before support installation in yielding ground, which is
+For elasto-plastic ground the profile depends on the extent of the plastic
+zone, and the profile of \citet{vlachopoulos2009ldp}, written in terms of
+$R_p/a$, is used (Section~\ref{sec:scc-and-ldp}). In yielding ground the
+profile is drawn out over a greater distance, and the elastic fit overstates
+the fraction of the convergence already released at a given distance behind
+the face. It therefore understates the load the support attracts, which is
 unconservative for support design.
 
 \noindent\textbf{Use.}\enspace The profile converts the distance behind the
@@ -263,9 +288,10 @@ independently. Closer, they interact, and the treatment is
 Chapter~\ref{ch:openings}.
 
 \paragraph{Lining solutions.}
-For a circular lining of area $A_l$, second moment $I_l$ and modulus $E_l$ in
-ground of modulus $E$ and Poisson's ratio $\nu$, define the compressibility
-and flexibility ratios
+For a circular lining of cross-sectional area $A_l$ and second moment $I_l$,
+both per unit length of tunnel, with modulus $E_l$ and Poisson's ratio
+$\nu_l$, in ground of modulus $E$ and Poisson's ratio $\nu$, define the
+dimensionless compressibility and flexibility ratios
 \[
 C = \frac{E\,a\,(1-\nu_l^2)}{E_l A_l (1-\nu^2)},
 \qquad
@@ -281,12 +307,14 @@ T = \tfrac{1}{2}\pzero a (1+k)\,\frac{1}{1+C^{*}}
 M = \tfrac{1}{2}\pzero a^2 (1-k)\, f_M(F,\nu),
 \]
 where $C^{*}$ and the coefficient functions $f_T$ and $f_M$ take the specific
-forms given by Muir Wood, Duddeck and Erdmann, or Einstein and Schwartz. The
+forms given by \citet{muirwood1975}, \citet{duddeck1985structural} or
+\citet{einstein1979simplified}. The
 formulations differ in detail and agree in behaviour.
 
-\noindent\textbf{What the ratios mean.}\enspace At high $F$ the lining is
-flexible relative to the ground: it conforms, and the moment tends to zero
-while the thrust approaches the full ground load. At low $F$ the lining
+\noindent\textbf{What the ratios mean.}\enspace The ratio $C$ governs how much
+of the ground load appears as thrust, and $F$ how much appears as moment. At
+high $F$ the lining is flexible relative to the ground: it conforms, and the
+moment tends to zero, the thrust being set by $C$. At low $F$ the lining
 resists, distorts less, and attracts large moments. Since a lining designed
 for thrust alone is far more efficient than one designed for moment, high $F$
 is generally the better design --- the result quoted in

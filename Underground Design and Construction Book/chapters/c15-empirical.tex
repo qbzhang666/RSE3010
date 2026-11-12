@@ -105,49 +105,94 @@ this stress level. Neither answer is dismissed; the mechanism is identified.
 The procedure for doing so systematically is set out in
 Chapter~\ref{ch:integrated-design}.
 
-\section{From characterisation uncertainty to support design}
-The empirical systems rest on parameters that carry inherent uncertainty (Chapter~\ref{ch:site-investigation}):
-\begin{itemize}
- \item \textbf{RQD} --- subject to orientation bias and core loss.
- \item \textbf{Joint spacing and condition} --- dependent on logging interpretation.
- \item \textbf{Groundwater} --- often inferred from limited measurements.
- \item \textbf{Stress adjustment (SRF)} --- reliant on estimates of in-situ stress.
-\end{itemize}
+\section{Screening the governing mechanism}
+\label{sec:mechanism-screening}
 
+Underground excavations fail in three principal modes, and the governing one
+has to be identified before support is selected.
+Chapter~\ref{ch:ground-behaviour} classified ground by mechanism and
+Chapter~\ref{ch:high-stress} treated the high-stress cases in detail. What
+follows reduces that treatment to the screening quantities available at
+preliminary stage.
 
-\noindent\textbf{Empirical $\neq$ Exact.}\enspace Because inputs carry uncertainty, support recommendations are also uncertain. Empirical design should be treated as a guide, not a prescription. Sensitivity analysis is essential.
+The first screen is the decision tree associated with
+\citet{martin1999spalling}. It splits the rock mass on GSI into weak, brittle
+and transitional, applies a different strength-to-stress test to each of the
+first two, and refers the third to detailed analysis. In weak and soft rock,
+with GSI below 30, the test is whether \(\sigma_{ci}/\sigma_v < 2\): if it
+is, stress-induced plastic yielding governs, and if not, gravity-induced
+movement of structurally defined blocks. In brittle and hard rock, with GSI
+above 40, the test is whether \(\sigma_1/\sigma_{ci} > 0.15\): if it is,
+stress-induced brittle spalling governs, and if not, structurally controlled
+block movement again. Between GSI 30 and 40 lies a transition in which mixed
+mechanisms are possible and neither test applies. Here \(\sigma_{ci}\) is the
+uniaxial compressive strength of the intact rock, \(\sigma_v\) the vertical
+in-situ stress and \(\sigma_1\) the major in-situ stress.
+Table~\ref{tab:decision-tree-cases} applies the tree to three cases, and the
+three subsections that follow take its branches in turn.
 
+\begin{table}[htbp]
+\caption{The decision tree applied to three cases.}
+\label{tab:decision-tree-cases}
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Case} & \textbf{GSI} & $\boldsymbol{\sigma_1/\sigma_{ci}}$ & $\boldsymbol{\sigma_{ci}/\sigma_v}$ & \textbf{Failure type} \\
+\midrule
+Hard rock mine & 55 & $0.27 > 0.15$ & -- & Stress-induced spalling \\
+Weak rock tunnel & 10 & -- & $17.9 > 2$ & Structurally controlled \\
+Transition zone & 35 & -- & -- & Neither test applies; detailed analysis \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\section{Failure Mechanisms}
-Underground excavations may fail in three principal modes. Correct identification of the governing mechanism is essential before selecting support.
+\subsection{Stress-induced brittle failure}
+\label{sec:screening-brittle}
 
-\paragraph{Stress-Induced Failure}
-This mode occurs in hard, brittle rock subjected to high stresses, leading to spalling, popping, or rockbursts. It is typical of deep excavations, at depths of several hundred metres and beyond.
+Stress-induced failure occurs in hard, brittle rock under high stress and
+takes the form of spalling, popping or rockburst. It is typical of deep
+excavations, at depths of several hundred metres and beyond
+(Section~\ref{sec:brittle-failure}).
 
-\textbf{Martin's Empirical Equation:}
+\paragraph{Depth of spalling.}
+The depth of brittle failure follows the empirical relation of
+\citet{martin1999spalling},
 \[
-\boxed{\frac{r}{a} = 0.5 + 1.25 \frac{\sigma_{\max}}{\mathrm{UCS}}}
+\frac{r}{a} = 0.5 + 1.25 \frac{\sigma_{\max}}{\mathrm{UCS}},
 \]
-where $r/a$ is the normalised spalling depth ($a$ = tunnel radius), and
+where $r$ is the radius to the outer limit of the spalled zone and $a$ the
+tunnel radius, so that the depth of spalling is $(r/a-1)\,a$ and spalling
+initiates at $r/a = 1$, that is at $\sigma_{\max}/\mathrm{UCS} = 0.4$. Here
 \[
 \sigma_{\max} = 3\sigma_1 - \sigma_3
 \]
-is the maximum tangential stress at the tunnel boundary (Kirsch solution~\citep{kirsch1898} for a circular opening).
+is the maximum tangential stress at the boundary of a circular opening, from
+the Kirsch solution~\citep{kirsch1898}. In this expression \(\sigma_1\) and
+\(\sigma_3\) are the principal stress components in the plane normal to the
+tunnel axis. The principal stresses of the in-situ field may be entered
+directly only where the axis is parallel to one of them.
 
+The relation applies only to brittle spalling in massive hard rock. It
+assumes a circular opening in an elastic stress field, and it is not to be
+used for weak, highly fractured or anisotropic rock masses.
 
-\noindent\textbf{Limitations of Martin's Equation.}\enspace This relation applies only to brittle spalling in massive hard rock. It assumes a circular opening in an elastic stress field and should not be used for weak, highly fractured, or anisotropic rock masses.
+\paragraph{Severity.}
+The crack initiation stress CI, typically 0.4 to 0.6 of the uniaxial
+compressive strength, gives a second measure. The ratio
+\(\sigma_{\max}/\mathrm{CI}\) indicates the severity of failure: below 1 the
+opening is stable, with no stress damage; between 1 and 1.5 minor spalling is
+expected; between 1.5 and 2 moderate overbreak; and above 2 serious
+overbreak. Table~\ref{tab:spalling-example} works both measures through for a
+strong rock under a major stress of 60~MPa. The two bounds on CI place the
+same opening in adjacent severity classes, which is a fair statement of the
+resolution of the method.
 
-
-\textbf{Crack Initiation Stress (CI):} Typically $0.4$--$0.6 \times \mathrm{UCS}$. The ratio $\sigma_{\max}/\mathrm{CI}$ indicates failure severity:
-\begin{itemize}
- \item $\sigma_{\max}/\mathrm{CI} < 1$: Stable (no stress damage)
- \item $1 < \sigma_{\max}/\mathrm{CI} < 1.5$: Minor spalling
- \item $1.5 < \sigma_{\max}/\mathrm{CI} < 2$: Moderate overbreak
- \item $\sigma_{\max}/\mathrm{CI} > 2$: Serious overbreak
-\end{itemize}
-
-\begin{table}[ht]
+\begin{table}[htbp]
+\caption{Illustrative calculation of spalling depth and severity.}
+\label{tab:spalling-example}
 \centering
+\small
 \begin{tabular}{lcl}
 \toprule
 \textbf{Parameter} & \textbf{Value} & \textbf{Notes} \\
@@ -162,67 +207,71 @@ $\sigma_{\max}/\mathrm{CI}$ & 1.89 (low), 1.26 (high) & Moderate to minor spalli
 $r/a$ & $0.5 + 1.25\times169/224 = 1.44$ & Spalling depth = 44\% of radius \\
 \bottomrule
 \end{tabular}
-\caption{Illustrative spalling calculation.}
 \end{table}
 
-\paragraph{Structurally Controlled Failure}
-This mode involves gravity-driven falls or sliding of blocks defined by intersecting joint sets. It occurs when the rock mass is blocky and the stress level is low relative to strength.
+\subsection{Structurally controlled failure}
+\label{sec:screening-structural}
 
+Structurally controlled failure is the gravity-driven fall or sliding of
+blocks defined by intersecting joint sets. It occurs where the rock mass is
+blocky and the stress is low relative to strength, and its analysis is the
+kinematic one of Chapter~\ref{ch:structural-analysis}.
 
-\noindent\textbf{Important Note.}\enspace RMR and Q-system are most reliable for preliminary empirical support design where behaviour is governed mainly by rock mass quality and structural conditions. Additional analysis is needed for severe brittle failure, high stress, or squeezing conditions. These methods are not reliable on their own for severe stress-induced spalling or dynamic rockburst conditions, which require supplementary analysis.
+This is the mode for which the empirical systems were built. RMR and Q are
+most reliable in preliminary support design where behaviour is governed
+mainly by rock mass quality and structure. Severe brittle failure, high
+stress and squeezing lie outside their case base and require the analysis of
+Chapter~\ref{ch:high-stress}; dynamic rockburst conditions in particular
+cannot be addressed by a classification rating alone.
 
+\subsection{Squeezing}
+\label{sec:screening-squeezing}
 
-\textbf{Decision tree \citep{martin1999spalling}:}
+Squeezing, the development of large deformation, occurs in weak rock masses
+of poor quality under high in-situ stress. It is common in fault zones and
+sheared rock and in tunnelling at great depth through weak strata
+(Section~\ref{sec:squeezing-swelling}).
 
-The decision tree classifies rock masses into two categories based on GSI, then differentiates failure mode using a strength-to-stress ratio:
-\begin{itemize}
- \item \textbf{Weak \& Soft Rocks (GSI $< 30$):} Test $\sigma_{ci}/\sigma_v < 2$?
- \begin{itemize}
- \item YES $\rightarrow$ Stress-induced plastic yielding
- \item NO $\rightarrow$ Gravity-induced structurally controlled block movement
- \end{itemize}
- \item \textbf{Brittle \& Hard Rocks (GSI $> 40$):} Test $\sigma_1/\sigma_{ci} > 0.15$?
- \begin{itemize}
- \item YES $\rightarrow$ Stress-induced brittle spalling
- \item NO $\rightarrow$ Gravity-induced structurally controlled block movement
- \end{itemize}
- \item \textbf{GSI 30--40:} Transition zone --- detailed analysis required (mixed mechanisms possible).
-\end{itemize}
-
-where $\sigma_{ci}$ is the UCS of intact rock, $\sigma_v$ is the vertical in-situ stress, and $\sigma_1$ is the major in-situ stress.
-
-\begin{table}[ht]
-\centering
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Case} & \textbf{GSI} & $\boldsymbol{\sigma_1/\sigma_{ci}}$ & $\boldsymbol{\sigma_{ci}/\sigma_v}$ & \textbf{Failure type} \\
-\midrule
-Hard rock mine & 55 & $0.27 > 0.15$ & -- & Stress-induced spalling \\
-Weak rock tunnel & 10 & -- & $17.9 > 2$ & Structurally controlled \\
-Transition zone & 35 & $0.27 > 0.15$ & $17.9 > 2$ & Mixed mechanisms \\
-\bottomrule
-\end{tabular}
-\caption{Decision tree application examples.}
-\end{table}
-
-\paragraph{Large Deformation / Squeezing}
-Squeezing occurs in weak, poor-quality rock masses under high in-situ stress. It is common in fault zones, sheared rock, or when tunnelling at great depth in weak strata.
-
-\textbf{Hoek--Marinos Strain Chart:}
+The strain relation of \citet{hoekmarinos2000squeezing} gives a first
+estimate of its severity,
 \[
-\boxed{\epsilon = 0.2\left(\frac{\sigma_{cm}}{p_0}\right)^{-2}}
+\varepsilon = 0.2\left(\frac{\sigma_{cm}}{p_0}\right)^{-2} ,
 \]
-where $\epsilon$ is the tunnel closure strain (\%), and
+where $\varepsilon$ is the closure strain of the unsupported tunnel in per
+cent, \(\sigma_{cm}\) is the strength of the rock mass and
 \[
 p_0 = \frac{\sigma_1+\sigma_2+\sigma_3}{3}
 \]
-is the hydrostatic stress. This expression is an approximate curve-fit, suitable for preliminary assessment only.
+is the mean in-situ stress. The rock mass strength in this relation is the
+one its authors defined,
+\[
+\sigma_{cm} = \left(0.0034\,m_i^{0.8}\right)\sigma_{ci}
+\left[1.029 + 0.025\,e^{-0.1 m_i}\right]^{\mathrm{GSI}} ,
+\]
+a strength averaged over the confinement around a tunnel. It exceeds the
+uniaxial value \(\sigma_{ci}\,s^{a_{HB}}\) of
+Chapter~\ref{ch:rock-mass-parameters}, by a factor of about three in poor
+rock, and because the strain varies as the inverse square of the strength,
+substituting the uniaxial value there overstates the strain roughly
+tenfold. The strain expression is an approximate curve fit, suitable for
+preliminary assessment only.
+Table~\ref{tab:squeezing-classification} gives the classes attached to the
+strain. With $\sigma_{cm} = 10$~MPa and $p_0 = 25$~MPa, for example,
+\[
+\frac{\sigma_{cm}}{p_0}=0.4 ,
+\qquad
+\varepsilon = 0.2(0.4)^{-2} = 1.25\% ,
+\]
+which corresponds to minor squeezing.
 
-\begin{table}[ht]
+\begin{table}[htbp]
+\caption{Squeezing classification, after \citet{hoekmarinos2000squeezing}.}
+\label{tab:squeezing-classification}
 \centering
+\small
 \begin{tabular}{ll}
 \toprule
-\textbf{Strain $\epsilon$} & \textbf{Classification (Hoek--Marinos, 2000)} \\
+\textbf{Strain $\varepsilon$} & \textbf{Classification} \\
 \midrule
 $<1\%$ & Few support problems \\
 $1$--$2.5\%$ & Minor squeezing \\
@@ -231,46 +280,35 @@ $5$--$10\%$ & Very severe squeezing \\
 $>10\%$ & Extreme squeezing \\
 \bottomrule
 \end{tabular}
-\caption{Squeezing classification, after \citet{hoekmarinos2000squeezing}.}
 \end{table}
-
-\textbf{Example:} With $\sigma_{cm} = 10$~MPa and $p_0 = 25$~MPa,
-\[
-\frac{\sigma_{cm}}{p_0}=0.4
-\]
-which gives
-\[
-\epsilon = 0.2(0.4)^{-2} = 1.25\%
-\]
-corresponding to minor squeezing.
 
 \section{Empirical support design}
 \label{sec:empirical-support-design}
 
-\paragraph{Empirical Support Design --- RMR System}
+Both classification systems lead to a support recommendation through a chart
+compiled from case histories. The charts themselves are in the sources
+cited; the tables of this section carry the quantities read from them.
 
-\paragraph{Unsupported Span and Stand-Up Time}
-The Bieniawski (1989) chart relates RMR to the maximum unsupported roof span and stand-up time. The chart has three zones:
-\begin{itemize}
- \item \textbf{Immediate collapse} (above upper bound)
- \item \textbf{Failure in time} (between bounds)
- \item \textbf{No support required} (below lower bound)
-\end{itemize}
+\subsection{The RMR system}
+\label{sec:rmr-support-design}
 
-\textbf{RMR Application Steps:}
-\begin{enumerate}
- \item Locate the RMR value on the chart.
- \item Intersect with the upper and lower bounds of the RMR curves.
- \item Determine the unsupported roof span:
- \begin{itemize}
- \item[(a)] \textbf{No support required} if the span is smaller than the lower bound value.
- \item[(b)] \textbf{Immediate collapse risk} if the span exceeds the upper bound value.
- \end{itemize}
- \item Read the maximum unsupported roof span and corresponding stand-up time.
-\end{enumerate}
+\paragraph{Unsupported span and stand-up time.}
+The chart of \citet{bieniawski1989rmr} relates RMR to the maximum
+unsupported roof span and to the stand-up time. Two bounding curves divide it
+into three zones. Below the lower bound the span requires no support, and
+above the upper bound it collapses immediately. Between the bounds the roof
+fails in time: it stands for a finite period that the chart returns, and the
+design question is whether the support cycle can be completed within that
+period. This intermediate zone is the condition of most excavations. The
+chart is entered at the RMR value, and the intersections with the two bounds
+give the maximum unsupported span and the corresponding stand-up time.
+Table~\ref{tab:rmr-span-standup} summarises the readings by class.
 
-\begin{table}[ht]
+\begin{table}[htbp]
+\caption{Approximate unsupported spans and stand-up times read from the chart of \citet{bieniawski1989rmr}. The values are indicative; a design reading is taken from the chart itself.}
+\label{tab:rmr-span-standup}
 \centering
+\small
 \begin{tabularx}{\textwidth}{l c X}
 \toprule
 \textbf{RMR} & \textbf{Approx.\ max span (m)} & \textbf{Approx.\ stand-up time} \\
@@ -282,17 +320,22 @@ The Bieniawski (1989) chart relates RMR to the maximum unsupported roof span and
 $<20$ (Class V) & $<2.5$ & Minutes (immediate collapse) \\
 \bottomrule
 \end{tabularx}
-\caption{Approximate unsupported spans and stand-up times from the Bieniawski (1989) chart. Values are indicative only; the original chart should be used for design reading.}
 \end{table}
 
-\paragraph{Adjusted RMR for Joint Orientation}
-The basic RMR must be corrected for the orientation of discontinuities relative to the structure:
+\paragraph{Adjustment for joint orientation.}
+The basic RMR is corrected for the orientation of the discontinuities
+relative to the structure by the amounts in
+Table~\ref{tab:rmr-orientation-adjustment},
 \[
-\mathrm{Adjusted\ RMR} = \mathrm{RMR} + \mathrm{Adjustment}
+\mathrm{Adjusted\ RMR} = \mathrm{RMR} + \mathrm{Adjustment} ,
 \]
+and the most unfavourable joint set governs.
 
-\begin{table}[ht]
+\begin{table}[htbp]
+\caption{RMR adjustment for joint orientation~\citep{bieniawski1989rmr}. The most unfavourable joint set governs.}
+\label{tab:rmr-orientation-adjustment}
 \centering
+\small
 \begin{tabular}{lccccc}
 \toprule
 \textbf{Condition} & \textbf{Very favourable} & \textbf{Favourable} & \textbf{Fair} & \textbf{Unfavourable} & \textbf{Very unfavourable} \\
@@ -301,17 +344,33 @@ Tunnels & 0 & $-2$ & $-5$ & $-10$ & $-12$ \\
 Foundations & 0 & $-2$ & $-7$ & $-15$ & $-25$ \\
 \bottomrule
 \end{tabular}
-\caption{RMR adjustment for joint orientation (Bieniawski, 1989). Use the most unfavourable joint set.}
 \end{table}
 
-\paragraph{Support Recommendations}
+\paragraph{Support recommendations.}
+Table~\ref{tab:rmr-support} gives the excavation method and support
+recommended for each class. The recommendations are written for a span of
+10~m. For a markedly different span the table indicates a class of support
+and not its quantities, and of those quantities only the bolt length is
+scaled. Two relations are in use for a span $B$ between 6 and 18~m,
+\[
+L = 0.125B + 2.25
+\qquad \text{or} \qquad
+L = 0.3B ,
+\]
+with \(L\) and \(B\) in metres. They agree near a span of 13~m and diverge
+towards the ends of the range, the first giving the longer bolt by two-thirds
+at 6~m and the second by a fifth at 18~m. Both are therefore computed and
+the longer adopted, unless the shorter can be justified against local
+experience.
 
-\begin{table}[ht]
+\begin{table}[htbp]
+\caption{RMR support recommendations for a 10~m span~\citep{bieniawski1989rmr}.}
+\label{tab:rmr-support}
 \centering
 \small
 \begin{tabularx}{\textwidth}{l l X}
 \toprule
-\textbf{RMR} & \textbf{Excavation method} & \textbf{Support (for 10~m span)} \\
+\textbf{RMR} & \textbf{Excavation method} & \textbf{Support} \\
 \midrule
 81--100 & Full face, 3~m advance & Generally no support, except spot bolting where needed \\
 61--80 & Full face, 1--1.5~m advance & Bolts 3~m @ 2.5~m in crown; 50~mm shotcrete in crown \\
@@ -320,25 +379,29 @@ Foundations & 0 & $-2$ & $-7$ & $-15$ & $-25$ \\
 $<20$ & Multiple drifts & Systematic bolts 5--6~m @ 1--1.5~m; 150--200~mm shotcrete; heavy ribs \\
 \bottomrule
 \end{tabularx}
-\caption{RMR support recommendations (Bieniawski, 1989).}
 \end{table}
 
-\textbf{Bolt length scaling} for span $B$ (6~m $< B < 18$~m):
+\subsection{The Q-system}
+\label{sec:q-support-design}
+
+\paragraph{Equivalent dimension.}
+The Q-system support chart~\citep{barton1974q,barton1994qsystem} is entered
+not with the physical span but with an equivalent dimension,
 \[
-L = 0.125B + 2.25
-\qquad \text{or} \qquad
-L = 0.3B
+D_e = \frac{\text{span or height}}{\text{ESR}} ,
 \]
+the span or wall height in metres divided by the excavation support ratio
+(ESR). The ratio encodes the consequence of failure
+(Table~\ref{tab:esr}). It is unity for a major tunnel and below unity where
+the opening is permanent and heavily used, so that a more important
+excavation presents a larger equivalent dimension and attracts heavier
+support.
 
-\paragraph{Empirical Support Design --- Q-System}
-
-\paragraph{Equivalent Dimension ($D_e$)}
-\[
-D_e = \frac{\text{span or height}}{\text{ESR}}
-\]
-
-\begin{table}[ht]
+\begin{table}[htbp]
+\caption{Values of the excavation support ratio (ESR).}
+\label{tab:esr}
 \centering
+\small
 \begin{tabularx}{\textwidth}{X c}
 \toprule
 \textbf{Excavation type} & \textbf{ESR} \\
@@ -351,26 +414,26 @@ Underground railway stations, sports facilities & 0.8 \\
 Very important caverns, long lifetime ($>100$~y) & 0.5 \\
 \bottomrule
 \end{tabularx}
-\caption{Excavation Support Ratio (ESR) values.}
 \end{table}
 
-\paragraph{Steps to Use the Q-Chart}
-\begin{enumerate}
- \item \textbf{Locate the Q-value:} Find the calculated $Q$ on the horizontal axis and draw a vertical line upward.
- \item \textbf{Calculate Equivalent Dimension:} On the left vertical axis, identify $D_e = \text{span}/\text{ESR}$ and draw a horizontal line until it intersects the Q-value line.
- \item \textbf{Determine support category and shotcrete thickness:} The intersection identifies a support category (1--9) and the corresponding recommended thickness of reinforced sprayed shotcrete.
- \item \textbf{Read bolt spacing:}
- \begin{itemize}
- \item Read upward for average bolt spacing with fibre-reinforced sprayed concrete.
- \item Read downward for bolt spacing without fibre reinforcement.
- \end{itemize}
- \item \textbf{Determine bolt length} (for ESR = 1): Project horizontally toward the right vertical axis to estimate bolt length.
-\end{enumerate}
+\paragraph{Reading the chart.}
+The chart plots $Q$ on the horizontal axis and $D_e$ on the left vertical
+axis. The intersection of the two fixes a support category, numbered 1 to 9
+(Table~\ref{tab:q-support-categories}), and with it the recommended thickness
+of fibre-reinforced sprayed concrete. From the same point the average bolt
+spacing is read upward for areas with fibre-reinforced sprayed concrete and
+downward for areas without it. The bolt length is read on the right vertical
+axis, which is drawn for an ESR of 1; for any other ESR the length is
+therefore read against the physical span or height and not against the
+equivalent dimension. In the heavier categories the sprayed concrete is
+supplemented by reinforced ribs of sprayed concrete (RRS), graded I and II in
+order of increasing section.
 
-\paragraph{Support Categories}
-
-\begin{table}[ht]
+\begin{table}[htbp]
+\caption{Simplified Q-system support categories. RRS denotes reinforced ribs of sprayed concrete.}
+\label{tab:q-support-categories}
 \centering
+\small
 \begin{tabular}{ll}
 \toprule
 \textbf{Category} & \textbf{Support description} \\
@@ -380,92 +443,110 @@ Very important caverns, long lifetime ($>100$~y) & 0.5 \\
 3 & Systematic bolting, fibre-reinforced shotcrete 5--6~cm \\
 4 & Fibre-reinforced shotcrete 6--9~cm + bolting \\
 5 & Fibre-reinforced shotcrete 9--12~cm + bolting \\
-6 & Shotcrete 12--15~cm + reinforced ribs + bolting \\
-7 & Shotcrete $>15$~cm + RRS II + bolting \\
+6 & Shotcrete 12--15~cm + RRS~I + bolting \\
+7 & Shotcrete $>15$~cm + RRS~II + bolting \\
 8 & Cast concrete lining \\
 9 & Special evaluation \\
 \bottomrule
 \end{tabular}
-\caption{Simplified Q-system support categories.}
 \end{table}
 
-\paragraph{Wall Support Adjustment}
-\begin{itemize}
- \item If $Q > 10$: $Q_{\text{wall}} = 5Q$
- \item If $0.1 < Q < 10$: $Q_{\text{wall}} = 2.5Q$
- \item If $Q < 0.1$: use the actual $Q$
-\end{itemize}
-The same chart is then used with
+\paragraph{Walls and the unsupported span.}
+Walls are designed on the same chart with an adjusted rating: $Q_{\text{wall}}
+= 5Q$ where $Q > 10$, $Q_{\text{wall}} = 2.5Q$ where $0.1 < Q < 10$, and the
+actual $Q$ where $Q < 0.1$. The chart is then entered with
 \[
-D_e = \frac{\text{wall height}}{\text{ESR}}
+D_e = \frac{\text{wall height}}{\text{ESR}} .
 \]
-
-\paragraph{Maximum Unsupported Span}
+The maximum unsupported span follows from the lower limit of the chart,
 \[
-\mathrm{Span}_{\max} = 2 \, \mathrm{ESR} \, Q^{0.4}
+\mathrm{Span}_{\max} = 2 \, \mathrm{ESR} \, Q^{0.4} ,
 \]
+in metres.
 
-\section{Case study and the influence of uncertainty}
+\subsection{A station cavern by both systems}
+\label{sec:station-cavern-example}
+
+A railway station cavern has a span of 16~m and a wall height of 6~m in rock
+of RMR = 50 and $Q = 5$. Two joint sets are present. The first strikes
+perpendicular to the cavern axis and dips at $30^\circ$; the second strikes
+parallel to the axis and dips at $70^\circ$.
+
+\paragraph{RMR design.}
+The first joint set, with the drive taken in the direction of dip, is
+favourable ($-2$), and the second is very unfavourable ($-12$). The worst
+case governs, so the adjusted RMR is $50 - 12 = 38$, which is Class~IV. The
+bolt length from the two relations is
+\[
+L = 0.125\times16 + 2.25 = 4.25~\text{m}
+\qquad \text{or} \qquad
+L = 0.3\times16 = 4.8~\text{m} ,
+\]
+and the longer is adopted. The design is therefore 4.8~m bolts at 1~m
+spacing with 100--150~mm of shotcrete and light ribs. Because the support
+table is written for a 10~m span, it supplies the class of support for this
+16~m opening and not its quantities, the bolt length excepted.
+
+\paragraph{Q-system design.}
+A station takes ESR = 0.8, so for the roof $D_e = 16/0.8 = 20$. The chart
+gives support category 5, fibre-reinforced shotcrete of 9--12~cm with
+bolting, at a bolt spacing of roughly 2.1~m. The bolt length, read against
+the physical span of 16~m because the ESR is not unity, is about 4~m. For the
+walls, $Q_{\text{wall}} = 2.5\times 5 = 12.5$ and $D_e = 6/0.8 = 7.5$, which
+gives category 3, systematic bolting with 5--6~cm of shotcrete.
+
+The maximum unsupported span for $Q = 5$ and ESR = 0.8 is
+$2(0.8)(5^{0.4}) = 3.0$~m, against a designed span of 16~m, and the RMR route
+gives 2.5--5~m for the adjusted Class~IV. The two systems agree,
+independently, that nothing in this cavern stands unsupported.
+
+\paragraph{The divergence between the two.}
+The RMR design (4.8~m bolts, 100--150~mm of shotcrete and light ribs) is more
+conservative than the Q-system design (4~m bolts and 9--12~cm of shotcrete).
+Part of the divergence is structural. The RMR route carries an explicit
+penalty of 12 points for the steeply dipping set striking parallel to the
+axis, whereas $Q$ has no orientation term, so the same adverse geometry is
+invisible to it. The Q recommendation is the lighter of the two by
+construction, and the effect of orientation has to be imposed on it
+separately. The remaining choice is a matter of engineering judgement, which
+weighs the uncertainty of the ratings, the possibility of mixed failure
+modes, the importance of the cavern (ESR = 0.8) and local experience.
+Empirical systems are guides and not prescriptions.
+
+\section{Calibration and the influence of uncertainty}
 \label{sec:case-study-and-the-influence-of-uncertainty}
 
-\paragraph{Case study: a railway station cavern}
-Span = 16~m, height = 6~m, RMR = 50, and $Q = 5$. Two joint sets are considered:
-\begin{enumerate}
- \item Strike perpendicular to tunnel axis, dip $30^\circ$
- \item Strike parallel to tunnel axis, dip $70^\circ$
-\end{enumerate}
+\paragraph{A shallow car park cavern in sandstone.}
+The underground car park at the Sydney Opera House shows both systems at
+their limits~\citep{pells2002developments}. RMR discriminated poorly,
+identifying only three classes. $Q$ ranged from 43 to 0.009 and so captured
+the variability better, yet it predicted lighter support than was actually
+installed. Empirical systems have to be calibrated to local conditions.
+Neither RMR nor Q is universally applicable, and the reliability of each
+depends on how closely the case histories behind it match the project in
+hand.
 
-\textbf{RMR design:}
-\begin{itemize}
- \item Joint set 1: favourable ($-2$)
- \item Joint set 2: very unfavourable ($-12$)
- \item Use worst case: adjusted RMR = $50 - 12 = 38$
- \item Bolt length:
- \[
- L = 0.125\times16 + 2.25 = 4.25~\text{m}
- \qquad \text{or} \qquad
- L = 0.3\times16 = 4.8~\text{m}
- \]
- \item Select 4.8~m bolts at 1~m spacing with 300~mm concrete lining (RMR Class IV)
-\end{itemize}
+\paragraph{Uncertainty of the inputs.}
+The empirical systems rest on parameters that carry inherent uncertainty
+(Chapter~\ref{ch:site-investigation}). RQD is subject to orientation bias
+and core loss. Joint spacing and joint condition depend on the
+interpretation made during logging. Groundwater is often inferred from
+limited measurements. The stress reduction factor (SRF) relies on an estimate
+of the in-situ stress. Because the inputs are uncertain, the support
+recommendation is uncertain also.
 
-\textbf{Q-system roof:}
-\begin{itemize}
- \item ESR = 0.8
- \item $D_e = 16/0.8 = 20$
- \item Support category 5: fibre-reinforced shotcrete 9--12~cm + bolting
- \item Bolt spacing $\approx 2.14$~m
- \item Bolt length $\approx 4$~m
-\end{itemize}
+\paragraph{Effect on the recommendation.}
+The effect depends on where the rating lies. If RMR = $55 \pm 5$, both
+bounds remain in Class~III (41--60) and the recommended support class does
+not change; the uncertainty surfaces instead in the quantity selected within
+the class. A rating near a class boundary behaves differently: at RMR =
+$42 \pm 5$ the lower bound crosses into Class~IV and the recommendation
+changes discontinuously. Likewise, if $Q = 5 \pm 2$, the lower bound
+($Q = 3$) may shift into a heavier support category, and small variations in
+joint logging, such as the interpretation of $J_r$, can affect the category.
 
-\textbf{Q-system walls:}
-\begin{itemize}
- \item $Q_{\text{wall}} = 2.5\times 5 = 12.5$
- \item $D_e = 6/0.8 = 7.5$
- \item Category 3: systematic bolting + shotcrete 5--6~cm
-\end{itemize}
-
-
-\noindent\textbf{Divergent Designs Require Judgment.}\enspace The RMR design (4.8~m bolts and 300~mm concrete lining) is more conservative than the Q-system design (4~m bolts and 9--12~cm shotcrete). The choice between these divergent recommendations requires engineering judgment, considering uncertainty, possible mixed failure modes, cavern importance (ESR = 0.8), and local experience. This divergence underscores that empirical systems are guides, not prescriptions.
-
-
-\paragraph{Sydney Opera House Car Park (Pells, 2002)}
-\begin{itemize}
- \item RMR provided poor discrimination (only three classes identified).
- \item Q gave a wider range (43 to 0.009), better capturing variability.
- \item However, Q predicted significantly lighter support than that actually employed.
-\end{itemize}
-
-
-\noindent\textbf{Calibrate to Local Experience.}\enspace Empirical systems must be calibrated to local conditions. Neither RMR nor Q is universally applicable---their reliability depends on how closely the original case histories match the current project.
-
-
-\paragraph{Influence of Input Uncertainty}
-
-\textbf{RMR example:} If RMR = $55 \pm 5$, both bounds fall within Class III (41--60), but support intensity varies across the range. At the lower bound (RMR = 50), the design approaches the Class III/IV boundary.
-
-\textbf{Q example:} If $Q = 5 \pm 2$, the lower bound ($Q = 3$) may shift into a heavier support category. Small variations in joint logging (e.g.\ interpretation of $J_r$) can affect the support category.
-
-
-\noindent\textbf{Sensitivity of the empirical result.}\enspace A useful check is to recompute the support recommendation with the $\RMR$ and $Q$ inputs perturbed by $\pm 10$\,per cent. The exercise identifies which support elements are governed by a rating that is itself poorly constrained, and therefore which additional observation would most reduce the uncertainty carried into the design.
-
+A useful check is to recompute the support recommendation with the RMR and
+$Q$ inputs perturbed by $\pm 10$\,per cent. The comparison identifies which
+support elements are governed by a rating that is itself poorly constrained,
+and therefore which additional observation would most reduce the uncertainty
+carried into the design.

@@ -9,8 +9,10 @@ assumptions that the analyst must supply and defend. This chapter treats the
 two applications that dominate underground practice: prediction of
 tunnelling-induced ground movement, and analysis of excavation and support
 response in rock. It then considers the methods that lie beyond continuum
-analysis, and closes with the verification and validation on which any
-reliance upon numerical output depends.
+analysis and the coupled formulations that some problems require, sets out
+the calibration and quality assurance on which any reliance upon numerical
+output depends, and closes with the surrogate models that make repeated
+evaluation affordable.
 
 \section{Ground movement and model set-up}
 \label{sec:ground-movement-and-model-set-up}
@@ -27,55 +29,60 @@ an explanation before its other outputs are believed.
 The transverse settlement trough above a single tunnel is well described by a
 Gaussian curve~\citep{peck1969deep},
 \[
-S_y = S_{\text{max}} \, \exp\!\left(-\frac{y^2}{2i^2}\right),
+S_y = S_{\max} \, \exp\!\left(-\frac{y^2}{2i^2}\right),
 \]
 in which $S_y$ is the settlement at transverse distance $y$ from the
-centreline, $S_{\text{max}}$ the settlement over the axis, and $i$ the distance
+centreline, $S_{\max}$ the settlement over the axis, and $i$ the distance
 from the centreline to the point of inflection. The trough width follows the
 depth to the tunnel axis, $z_0$, through
 \[
-i = k \, z_0 ,
+i = K \, z_0 ,
 \]
-with $k$ depending on the ground rather than on the tunnel. Table~\ref{tab:k_values}
+with $K$ depending on the ground rather than on the tunnel. Table~\ref{tab:k_values}
 gives the customary ranges.
 
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{Trough width parameter $K$, after \citet{peck1969deep} and \citet{mair1996settlement}.}
+\label{tab:k_values}
 \centering
+\small
 \begin{tabular}{lc}
 \toprule
-\textbf{Ground type} & \textbf{$k$} \\
+\textbf{Ground type} & \textbf{$K$} \\
 \midrule
-Stiff clay & 0.3--0.5 \\
 Soft clay & 0.5--0.7 \\
-Loose to medium sand & 0.4--0.6 \\
-Dense sand and granular soil & 0.25--0.4 \\
-Rock & $<0.25$ \\
+Stiff clay & 0.4--0.5 \\
+Granular soil (sand and gravel) & 0.25--0.45 \\
+Weak rock & 0.25--0.4 \\
 \bottomrule
 \end{tabular}
-\caption{Trough width parameter $k$, after Peck~\citep{peck1969deep}.}
-\label{tab:k_values}
 \end{table}
 
-The magnitude follows from volume loss. The volume of the trough per metre of
-tunnel, $V_s$, is expressed as a proportion $V_L$ of the excavated area,
+The magnitude follows from volume loss (Table~\ref{tab:vl_values}). The volume of the trough per metre of
+tunnel, $V_s$, is expressed as a percentage $V_L$ of the excavated area, with
+$D$ the excavated diameter, which for a shielded machine is the bored
+diameter and not the internal diameter of the finished lining,
 \[
 V_s = \frac{V_L}{100} \times \frac{\pi D^2}{4},
 \]
 and equating this to the integral of the Gaussian gives the maximum
 settlement,
 \[
-S_{\text{max}} = \frac{V_s}{i \sqrt{2\pi}} .
+S_{\max} = \frac{V_s}{i \sqrt{2\pi}} .
 \]
 
 \noindent\textbf{A note on units.}\enspace The factor of 100 belongs in the
 expression for $V_s$ and nowhere else. A volume loss quoted as 0.5\,per cent
-enters that expression as 0.005; $S_{\text{max}}$ then emerges in metres and is
+enters that expression as 0.005; $S_{\max}$ then emerges in metres and is
 converted to millimetres at the end. Applying the percentage twice, or not at
 all, is the commonest arithmetic error in this calculation and puts the answer
 out by two orders of magnitude, which at least makes it easy to detect.
 
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{Typical volume loss by excavation method.}
+\label{tab:vl_values}
 \centering
+\small
 \begin{tabular}{lc}
 \toprule
 \textbf{Excavation method} & \textbf{Typical $V_L$ (\%)} \\
@@ -85,8 +92,6 @@ Open-face TBM in rock & 0.5--2.0 \\
 Sprayed concrete lining in soft ground & 1.0--3.0 \\
 \bottomrule
 \end{tabular}
-\caption{Typical volume loss by excavation method.}
-\label{tab:vl_values}
 \end{table}
 
 Volume loss is not a single mechanism, and treating it as one obscures where
@@ -115,7 +120,12 @@ compressible surface unit and the stiffer material in which the tunnel sits.
 Table~\ref{tab:props} gives a two-unit idealisation of the kind used for a
 shallow urban alignment, with a granular soil over a weak sedimentary rock.
 
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{A two-unit ground idealisation for shallow tunnel analysis, with a
+Mohr--Coulomb constitutive model. Values of this order are typical of a
+weathered urban profile and are given to fix the worked examples that follow;
+project values come from the ground model.}
+\label{tab:props}
 \centering
 \small
 \begin{tabular}{l l c c c c c c c}
@@ -127,11 +137,6 @@ Upper & Granular soil, surface layer & 20 & 7 & 30 & 2 & 50 & 0.3 & 0.7 \\
 Lower & Weak sedimentary rock, host & 21 & 20 & 28 & 2 & 150 & 0.3 & 0.75 \\
 \bottomrule
 \end{tabular}
-\caption{A two-unit ground idealisation for shallow tunnel analysis, with a
-Mohr--Coulomb constitutive model. Values of this order are typical of a
-weathered urban profile and are given to fix the worked examples that follow;
-project values come from the ground model.}
-\label{tab:props}
 \end{table}
 
 Two aspects of the input deserve more care than they usually receive. The first
@@ -150,7 +155,7 @@ profile is simplified, by merging units or by adopting a single $K_0$, the
 simplification and its justification belong in the same place.
 
 The support is idealised in the same spirit. Table~\ref{tab:lining} gives
-properties for a sprayed concrete ring used to represent a bolted segmental
+properties for a continuous concrete ring used to represent a bolted segmental
 lining in two dimensions. The substitution is legitimate because a
 plane-strain analysis sees only axial and bending stiffness and a strength
 limit; it cannot see the joints, the bolts or the ring-build sequence, so the
@@ -160,7 +165,10 @@ and the reduction in effective bending stiffness that follows from it --- is
 the subject of Chapter~\ref{ch:linings}, and is the reason a two-dimensional
 lining analysis tends to overestimate moment.
 
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{Lining properties for a two-dimensional analysis, representing a
+segmental ring by an equivalent continuous section.}
+\label{tab:lining}
 \centering
 \small
 \begin{tabular}{l l l}
@@ -172,9 +180,6 @@ Concrete ring & Beam, elastic--plastic & $E = 40$~GPa, $\nu = 0.25$, $\gamma = 2
  & & $\sigma_{c,\text{res}} = 10$~MPa, $\sigma_{t,\text{res}} = 0$~MPa \\
 \bottomrule
 \end{tabular}
-\caption{Lining properties for a two-dimensional analysis, representing a
-segmental ring by an equivalent continuous section.}
-\label{tab:lining}
 \end{table}
 
 Where the tunnel straddles a contact between two units, the position of that
@@ -190,7 +195,10 @@ run through the whole design.
 \label{sec:worked-examples}
 
 \paragraph{Initial stress.}
-For a tunnel axis at $z_0 = 25$~m with the contact between the two units of
+The profile is taken as dry, so that total and effective stresses coincide
+and the stress ratio may be applied directly; with a water table above axis
+level the ratio applies to the effective stress and the pore pressure is
+added afterwards. For a tunnel axis at $z_0 = 25$~m with the contact between the two units of
 Table~\ref{tab:props} taken at 2.5~m depth, the total vertical stress at axis
 level is
 \[
@@ -209,41 +217,41 @@ only practical check that the field stress has been configured as intended.
 
 \paragraph{Settlement trough.}
 Consider a tunnel of diameter $D = 6$~m at axis depths of 5~m and 20~m, in
-ground taken first as stiff clay ($k = 0.5$) and then as rock ($k = 0.25$),
+ground taken first as stiff clay ($K = 0.5$) and then as rock ($K = 0.25$),
 with $V_L = 1$\,per cent throughout. The trough area is
 \[
 V_s = 0.01 \times \frac{\pi \times 6^2}{4} = 0.283\ \text{m}^2 ,
 \]
 and for the shallow tunnel in stiff clay, $i = 0.5 \times 5 = 2.5$~m, so
 \[
-S_{\text{max}} = \frac{0.283}{2.5 \sqrt{2\pi}} = 0.0451\ \text{m} = 45.1\ \text{mm} .
+S_{\max} = \frac{0.283}{2.5 \sqrt{2\pi}} = 0.0451\ \text{m} = 45.1\ \text{mm} .
 \]
 For the deep tunnel in rock, $i = 0.25 \times 20 = 5.0$~m and
-$S_{\text{max}} = 22.6$~mm. Table~\ref{tab:teaching_example} collects the four
+$S_{\max} = 22.6$~mm. Table~\ref{tab:teaching_example} collects the four
 combinations.
 
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{Settlement trough for $D = 6$~m and $V_L = 1$\,per cent. Doubling the
+axis depth halves $S_{\max}$ because $i$ doubles; assuming rock rather
+than clay doubles it because $i$ halves.}
+\label{tab:teaching_example}
 \centering
 \small
 \begin{tabular}{l l c c c}
 \toprule
-\textbf{Axis depth} & \textbf{Ground assumption} & $i$ (m) & $S_{\text{max}}$ (mm) & \textbf{Trough} \\
+\textbf{Axis depth} & \textbf{Ground assumption} & $i$ (m) & $S_{\max}$ (mm) & \textbf{Trough} \\
 \midrule
-5~m & Stiff clay ($k=0.5$) & 2.5 & 45.1 & Wider, shallower \\
-5~m & Rock ($k=0.25$) & 1.25 & 90.2 & Narrower, deeper \\
-20~m & Stiff clay ($k=0.5$) & 10.0 & 11.3 & Wide, very shallow \\
-20~m & Rock ($k=0.25$) & 5.0 & 22.6 & Narrower, shallower \\
+5~m & Stiff clay ($K=0.5$) & 2.5 & 45.1 & Wider, shallower \\
+5~m & Rock ($K=0.25$) & 1.25 & 90.2 & Narrower, deeper \\
+20~m & Stiff clay ($K=0.5$) & 10.0 & 11.3 & Wide, very shallow \\
+20~m & Rock ($K=0.25$) & 5.0 & 22.6 & Narrower, shallower \\
 \bottomrule
 \end{tabular}
-\caption{Settlement trough for $D = 6$~m and $V_L = 1$\,per cent. Doubling the
-axis depth halves $S_{\text{max}}$ because $i$ doubles; assuming rock rather
-than clay doubles it because $i$ halves.}
-\label{tab:teaching_example}
 \end{table}
 
 Two conclusions follow, and they are the reason the calculation is worth doing
 before any model is built. The trough width parameter, not the volume loss,
-dominates the shape: halving $k$ at constant $V_L$ doubles the peak settlement
+dominates the shape: halving $K$ at constant $V_L$ doubles the peak settlement
 and narrows the trough, which moves the damage assessment of
 Chapter~\ref{ch:settlement-damage} from a wide zone of small differential
 movement to a narrow zone of large. And the ground assumption is doing as much
@@ -326,7 +334,11 @@ against the Gaussian estimate of Section~\ref{sec:gaussian-trough} on common
 axes. Table~\ref{tab:comparison} sets out what the comparison can and cannot
 establish.
 
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{What a comparison between the empirical and numerical settlement
+estimates can establish. Horizontal and total displacements have no empirical
+counterpart.}
+\label{tab:comparison}
 \centering
 \small
 \begin{tabularx}{\textwidth}{l c c X}
@@ -334,17 +346,13 @@ establish.
 \textbf{Quantity} & \textbf{Empirical} & \textbf{Numerical} & \textbf{Comment} \\
 \midrule
 Maximum settlement & From $V_L$ and $i$ & Computed & Direct comparison \\
-Trough width & $i = k z_0$ & Measured from output & Shape comparison \\
+Trough width & $i = K z_0$ & Measured from output & Shape comparison \\
 Trough shape & Gaussian assumed & Computed & Overlay the two \\
 Horizontal displacement & Not predicted & Computed & Numerical only \\
-Governing assumption & $V_L$ and $k$ & Constitutive model and $K_0$ & Different failure modes \\
+Governing assumption & $V_L$ and $K$ & Constitutive model and $K_0$ & Different failure modes \\
 Principal limitation & Empirical, no stress & Mesh and boundary sensitivity & Both must be stated \\
 \bottomrule
 \end{tabularx}
-\caption{What a comparison between the empirical and numerical settlement
-estimates can establish. Horizontal and total displacements have no empirical
-counterpart.}
-\label{tab:comparison}
 \end{table}
 
 The two will not agree exactly, and forcing them to agree is not the object.
@@ -369,8 +377,8 @@ boundaries placed closer than this stiffen the response and suppress
 displacement, which flatters the answer. A shallow tunnel needs a wider domain
 than the rule suggests, because the settlement trough is wide relative to the
 depth and a boundary within the trough truncates it. The test is empirical:
-move the boundary outward and re-run, and if the result changes materially the
-boundary was too close.
+the boundary is moved outward and the analysis repeated, and a result that
+changes materially shows that the boundary was too close.
 
 \paragraph{Mesh.}
 A coarse mesh gives inaccurate displacements and structural forces; a uniformly
@@ -525,8 +533,8 @@ is either a complete answer or a well-posed brief for the model.
 Combined finite--discrete element methods allow intact material to fracture
 and the resulting fragments to interact, representing fracture initiation,
 propagation and coalescence rather than assuming a pre-existing network. They
-are the appropriate tool for spalling, blast damage and fragmentation, and
-they remain research-grade for routine design: computationally expensive, and
+are the natural tool for spalling, blast damage and fragmentation, but they
+remain research-grade rather than routine: computationally expensive, and
 dependent on fracture-energy parameters that few projects measure.
 
 \subsection{Three-dimensional and staged analysis}
@@ -609,7 +617,7 @@ against closed-form solutions for simplified cases, and equilibrium checks.
 The closed-form comparison is the most valuable and the most neglected. A
 model whose circular-tunnel case does not reproduce the Kirsch solution~\citep{kirsch1898} has an
 error that will not announce itself in the complex geometry it was built for,
-and running the check costs an hour.
+and running the check costs an hour (Section~\ref{sec:kirsch-appendix}).
 
 Validation requires evidence external to the model: comparison against
 monitoring, against case histories, or against an independent analysis by a
@@ -650,7 +658,7 @@ The first is which inputs to vary. A surrogate over twenty parameters requires
 an impractical number of runs; a surrogate over the three or four that the
 sensitivity analysis of Section~\ref{sec:sensitivity-and-project-risk}
 identifies as governing is affordable and usually sufficient. The screening
-step is not preparation for the real work, it is most of it.
+step is not preparation for the real work; it is most of it.
 
 The second is where to sample. Runs should span the input ranges rather than
 cluster near the central estimate, because the surrogate will be interrogated

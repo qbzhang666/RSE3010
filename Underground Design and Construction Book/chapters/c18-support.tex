@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Chapter 17 -- Support and Reinforcement
+%  Support and Reinforcement
 %  Sources: Hoek, Kaiser & Bawden (1995); Windsor & Thompson (1993);
 %  Thomas (2009) on sprayed concrete linings; ACI PRC-506; EN 14487.
 %------------------------------------------------------------------------------
@@ -18,10 +18,14 @@ are mechanically distinct and are analysed differently. The second is that
 what a support element contributes is set by its stiffness, its capacity and
 the convergence that had already occurred when it was installed --- the
 argument developed in Chapter~\ref{ch:ccm} and applied here to real hardware.
+The stiffness and capacity expressions for each element are collected in
+Section~\ref{sec:grc-scc-appendix}, representative properties in
+Appendix~\ref{app:constants}, and the sequence of the interaction
+calculation in Appendix~\ref{app:calculations}.
 The third is that installation quality determines as-built performance more
 often than design does. A correctly designed bolt that is not tensioned, or a
 shotcrete layer 40\,mm thinner than specified over half its area, has failed
-in a way no analysis anticipates.
+in a way that an analysis run on nominal dimensions does not capture.
 
 \section{Reinforcement principles and hardware}
 \label{sec:reinforcement-principles}
@@ -44,8 +48,9 @@ support: they are structures in their own right, carrying load that the ground
 has shed onto them.
 
 \emph{Retention} holds loose material in place between other elements. Mesh
-and straps do almost nothing for global stability and prevent the small
-falls-of-ground that account for most underground injuries.
+and straps do almost nothing for global stability but prevent the small
+falls of ground that account for most underground
+injuries~\citep{hoek1995support}.
 
 The distinction determines the analysis. Reinforcement is assessed through its
 effect on the rock mass --- higher effective confinement, a raised ground
@@ -59,7 +64,7 @@ injure people.
 \label{sec:bolt-types}
 
 Reinforcement systems are usefully classified by how load transfers from the
-rock to the element. \emph{Continuously mechanically coupled} systems --- fully
+rock to the element~\citep{windsor1993classification}. \emph{Continuously mechanically coupled} systems --- fully
 grouted rebar, resin-anchored bar --- transfer load along their whole length
 through a stiff grout or resin annulus. \emph{Continuously frictionally
 coupled} systems --- split sets, expandable friction bolts --- transfer through
@@ -74,14 +79,18 @@ one section. Discretely coupled elements develop load only through relative
 displacement between their anchor points, which makes them softer and reliant
 on the anchor remaining sound. Frictionally coupled elements are the softest
 and the most forgiving of large deformation, which is why they persist in
-squeezing and burst-prone ground despite modest capacity.
+squeezing and burst-prone ground despite modest capacity. Representative
+capacities for each family are in Table~\ref{tab:support-props} of
+Appendix~\ref{app:constants}.
 
 Load transfer along a grouted bolt is not uniform. Shear stress concentrates
 near the point of relative movement and decays along the bond, so only a
 limited embedment length is mobilised at any time. Past a critical shear
 stress the bond decouples progressively, and the load redistributes further
-along the bar. Two design consequences follow: embedment beyond the critical
-length adds no capacity in the short term, and grout quality along the whole
+along the bar. Two design consequences follow: additional embedment does not
+raise the load at which the bond first mobilises, but it provides the reserve
+into which load redistributes as the near-field bond decouples; and grout
+quality along the whole
 bond governs performance in a way a pull test at one location may not reveal.
 
 Self-drilling anchors deserve mention because they solve a construction
@@ -99,7 +108,7 @@ the other governs.
 
 For \emph{structurally controlled} failure the calculation is discrete. The
 block is identified by the methods of
-Chapter~\ref{ch:structural-analysis}, its weight and sliding mode established,
+Chapter~\ref{ch:structural-analysis}, its weight and sliding mode established (Section~\ref{sec:block-and-wedge-construction}),
 and the bolt force required to reach a target factor of safety follows from
 limit equilibrium. Bolt orientation matters: the optimum is generally inclined
 to the sliding direction rather than normal to the excavation surface, because
@@ -111,8 +120,8 @@ that standard equipment can install.
 For \emph{stress-induced} failure the calculation is continuum. Systematic
 bolting supplies a modest confining pressure at the boundary, and modest is
 enough: rock strength is strongly confinement-dependent near a free surface,
-so a few hundred kilopascals of confinement produces a disproportionate
-increase in strength. The bolting must extend beyond the computed yield zone
+so a few tens to about a hundred kilopascals of confinement produces a
+disproportionate increase in strength. The bolting must extend beyond the computed yield zone
 (Chapter~\ref{ch:ground-behaviour}) so that it is anchored in rock that has
 not failed, and its effect appears as a raised ground reaction curve rather
 than as a resisted block weight.
@@ -168,8 +177,8 @@ the weak link (Chapter~\ref{ch:high-stress}).
 
 Mesh is the least analysed and most frequently damaged element of a support
 system. Welded mesh is stiff and predictable but fails brittly at its welds;
-chain-link is far more ductile and can accommodate large deformation, which is
-why it persists in squeezing and burst-prone ground. What matters
+chain-link is far more ductile and can sustain large deformation without
+losing retention, which is what squeezing and burst-prone ground demand. What matters
 mechanically is the connection: mesh performs only as well as its attachment
 to the bolts, and the plate and its fixing are as much part of the system as
 the mesh sheet.
@@ -208,8 +217,10 @@ sample to inspect the grout column is the only direct check of encapsulation,
 and it is worth doing where the reinforcement is permanent.
 
 Acceptance criteria must be set against the design assumption rather than
-against the bar's yield capacity, which is usually irrelevant because bond
-governs first.
+against the bar's yield capacity alone. Bond governs wherever embedment,
+grout quality or the condition of the borehole limits load transfer, so the
+criterion is set against the lower of the design bond capacity and the bar
+capacity, with the governing mode identified for the ground in question.
 
 \section{Sprayed concrete}
 \label{sec:sprayed-concrete}
@@ -250,9 +261,9 @@ accelerators added at the nozzle.
 Accelerator choice has consequences beyond setting time. Alkali-free
 accelerators have displaced alkaline products for health reasons --- the older
 products caused severe burns --- and they also reduce the long-term strength
-loss that heavy accelerator dosage causes. That loss is typically 15 to 30 per
-cent relative to the unaccelerated mix, and it must be allowed for in the
-design strength rather than discovered in core testing.
+loss that heavy accelerator dosage causes~\citep{thomas2009scl}. That loss is
+typically 15 to 30 per cent relative to the unaccelerated mix, and it must be
+allowed for in the design strength rather than discovered in core testing.
 
 Fibre reinforcement has largely replaced mesh in sprayed linings, and the
 reason is constructability as much as structure: fixing mesh to an irregular
@@ -271,7 +282,9 @@ material measures the combination.
 Early-age strength, not 28-day strength, governs tunnelling. The excavation
 cycle cannot advance until the lining can carry load and cannot be worked
 beneath until it is safe, so the strength development curve over the first few
-hours determines the cycle time and therefore the programme.
+hours determines the cycle time and therefore the programme. Indicative
+strength and stiffness development over the first day is in
+Appendix~\ref{app:constants}.
 
 The early strength classes distinguish rapid-setting mixes for overhead work
 in poor ground from slower mixes acceptable in better conditions, and
@@ -281,19 +294,25 @@ decision to re-enter actually rests on.
 
 Structurally, a sprayed lining is a thin shell in which thrust dominates and
 moment is secondary. Capacity is therefore assessed on a thrust--moment
-interaction diagram rather than against a bending capacity alone, and the
+interaction diagram, the locus of the pairs of axial thrust and bending
+moment the section can carry, so that a thrust $N$ acting at an eccentricity
+$e$ plots at $M = Ne$ and must fall inside the envelope
+(Chapter~\ref{ch:linings}). It is not assessed against a bending capacity
+alone, and the
 governing case is often a modest thrust with an eccentricity caused by
 profile irregularity rather than the design thrust at the design thickness.
 
-Two time-dependent effects run in opposite directions and are frequently
-neglected. Stiffness rises as the concrete cures, so a lining installed
+Two time-dependent effects, whose histories run in opposite directions, are
+frequently neglected. Stiffness rises as the concrete cures, so a lining installed
 against a converging ground attracts load progressively rather than all at
 once. Creep relaxes that load, and at early ages the creep of young shotcrete
 is very large --- enough that the load computed from an elastic shell with
 mature stiffness may exceed the actual load by a factor of two. Ignoring both
-is not conservative in a consistent direction, which is why load estimated
-from measured convergence is more reliable than load computed from an assumed
-stiffness.
+overestimates the load on the lining, which is safe for its capacity check,
+while underestimating the convergence that the clearance envelope and any
+movement limit on adjacent assets must accommodate --- which is why load
+estimated from measured convergence is more reliable than load computed from
+an assumed stiffness.
 
 \section{Sprayed lining design and control}
 \label{sec:scl-design}

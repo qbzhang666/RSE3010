@@ -24,8 +24,9 @@ Underground structures perform well in earthquakes, and the reason is
 kinematic rather than structural. A building responds dynamically, amplifying
 ground motion through its own inertia; a tunnel is confined by ground on all
 sides, its mass small relative to the surrounding soil, so it moves with the
-ground rather than responding to it. Damage databases confirm this
-consistently: deep bored tunnels in competent rock come through strong shaking
+ground rather than responding to it. Compilations of earthquake damage to
+underground structures~\citep{hashash2001seismic} confirm this consistently:
+deep bored tunnels in competent rock come through strong shaking
 with little or no damage.
 
 The exceptions define the design problem. Damage concentrates where cover is
@@ -33,16 +34,20 @@ shallow, at portals, at junctions between structures of differing stiffness, in
 liquefiable ground, and above all where a fault ruptures through the
 alignment. Older tunnels with unreinforced masonry or brittle linings are more
 vulnerable than modern reinforced ones, and tunnels already deteriorated by
-water ingress and corrosion are more vulnerable again --- the interaction with
-condition that Chapter~\ref{ch:sustainability} identifies as a resilience
-issue.
+water ingress and corrosion are more vulnerable again --- the interaction
+between seismic vulnerability and asset condition that
+Chapter~\ref{ch:sustainability} identifies as a resilience issue.
 
 The essential distinction is between ground shaking and ground failure.
 Shaking imposes transient deformation as waves pass; the structure deforms,
 develops strain, and returns. Ground failure --- fault rupture, liquefaction,
 landsliding --- imposes permanent displacement that the structure must
 accommodate or fail. These require entirely different treatments, and
-combining them into a single seismic check confuses two unrelated problems.
+combining them into a single seismic check confuses two problems that have to
+be checked separately. They are coupled in one direction only: ground failure
+can remove the confinement on which the shaking argument depends, so a site
+exposed to both requires the shaking check to be repeated for the degraded
+condition.
 
 \subsection{Hazard and deformation demand}
 \label{sec:hazard-deformation}
@@ -53,10 +58,14 @@ operating earthquake, more frequent, after which the asset remains in service;
 and a maximum design earthquake, rare, after which life safety is assured and
 repairable damage is accepted. Intraplate regions of low to moderate
 seismicity present a particular framing problem, since the hazard is dominated
-by rare large events rather than by frequent moderate ones.
+by rare large events rather than by frequent moderate ones. The operating
+earthquake then becomes so small that it imposes no real check, the two-level
+framework reduces in practice to a single rare-event case, and because the
+design motion grows steeply with return period the result is unusually
+sensitive to the return period selected.
 
 The demand on the structure is deformation, not force. Three modes are
-distinguished. \emph{Axial} extension and compression occurs as a wave travels
+distinguished. \emph{Axial} extension and compression occur as a wave travels
 along the tunnel axis, straining the lining longitudinally.
 \emph{Longitudinal bending} occurs as the wave curves the alignment.
 \emph{Ovaling} of a circular section, or \emph{racking} of a rectangular one,
@@ -66,21 +75,33 @@ cross-section.
 Free-field deformation methods take the strain that would occur in the ground
 without the tunnel and impose it on the structure. The wave-passage approach of
 \citet{newmark1968problems} gives axial and curvature strain from the peak particle velocity and
-acceleration and an assumed wave speed and angle of incidence. The angle is
-unknown, so the design case takes the worst orientation, which is conservative
-and cheap.
+acceleration and an assumed wave speed and angle of incidence. For a shear
+wave of peak particle velocity $v_{\max}$ and propagation velocity $C_s$
+incident at an angle $\theta$ to the tunnel axis, the free-field axial
+strain is
+\[
+\varepsilon_a = \frac{v_{\max}}{C_s}\,\sin\theta\cos\theta ,
+\]
+which is greatest at $45^\circ$, where it equals $v_{\max}/(2C_s)$. The angle
+is unknown, so the design case takes that worst orientation, which is
+conservative and cheap: a particle velocity of 0.3~m/s in ground with
+$C_s = 1000$~m/s gives a strain of at most $1.5 \times 10^{-4}$. Imposing the
+free-field strain is appropriate where the lining is flexible relative to the
+ground and the ground is uniform over a wavelength. At stiffness transitions,
+portals and junctions it has to be replaced by an interaction analysis.
 
 \subsection{Simplified analysis methods}
 \label{sec:simplified-seismic}
 
-Ovaling and racking are handled by closed-form solutions whose central
+Ovaling and racking are handled by closed-form
+solutions~\citep{wang1993seismic,penzien2000seismically} whose central
 insight is a ratio. The \emph{flexibility ratio} compares the shear stiffness
 of the ground to the bending stiffness of the lining, and it determines
 whether the lining follows the ground or resists it. At high flexibility ratio
 the lining conforms and its distortion equals the free-field distortion, with
 small induced forces. At low flexibility ratio the lining resists, distorts
 less, and attracts large moments. The \emph{compressibility ratio} plays the
-same role for the axial mode.
+same role for the axial mode (Section~\ref{sec:charts-and-lining-solutions}).
 
 The design implication mirrors that of static lining design in
 Chapter~\ref{ch:linings}: a flexible lining is generally the better seismic
@@ -109,8 +130,13 @@ surface motion downward through the soil profile; errors here propagate
 directly. Boundary conditions must absorb outgoing waves rather than reflect
 them, since a reflecting boundary traps energy in the model and produces
 spurious amplification. Damping must represent energy dissipation without
-suppressing the response, and the numerical damping formulations in common use
-are frequency-dependent in ways that are easy to apply and hard to justify.
+suppressing the response. The formulation in most common use, Rayleigh
+damping, is proportional to mass and stiffness, so that the damping ratio it
+produces at circular frequency $\omega$ is $a_R/(2\omega) + b_R\,\omega/2$. It
+matches a target ratio at only two frequencies, falls below the target
+between them and rises above it outside them, and the two frequencies have
+therefore to be chosen to bracket the range that matters to the structure and
+stated with the result.
 
 An analysis that has not been checked against a simplified solution for a
 comparable case should not be relied on, for the reasons set out in
@@ -132,8 +158,9 @@ activity and slip rate --- a specialist input that must be obtained early,
 since it determines the alignment as much as the design.
 
 Liquefaction affects tunnels differently from buildings. A buoyant structure
-in liquefied soil floats: a shallow tunnel with a large void ratio relative to
-the surrounding soil can uplift substantially. Loss of lateral support during
+in liquefied soil floats: a shallow tunnel whose overall unit weight, structure
+and enclosed air together, is well below that of the liquefied soil can uplift
+substantially. Loss of lateral support during
 liquefaction also removes the confinement on which the flexible-lining
 argument depends. Mitigation is by ground improvement to prevent liquefaction,
 or by increasing the structure's weight, and the assessment must consider the
@@ -144,17 +171,18 @@ tunnel empty as well as in service.
 
 The bored tunnel is rarely the critical element. Portals combine a slope
 problem with a stiffness transition; station boxes are stiff rectangular
-structures that rack rather than ovale and attract far larger forces than a
-circular section; shafts impose a vertical stiffness discontinuity; and
+structures that rack rather than ovalise, and because a frame cannot shed
+shear distortion into a change of ring shape they attract substantially
+higher moments than a circular section in the same ground; shafts impose a vertical stiffness discontinuity; and
 junctions between structures of differing stiffness concentrate deformation at
 the interface. Seismic design effort should be directed at these rather than
 distributed uniformly along the alignment.
 
-Performance-based criteria make the objective explicit. Immediate occupancy
+Performance-based criteria make the objective explicit. An operational level
 requires the asset to remain in service after the event. Life safety requires
 that people can evacuate and that collapse does not occur, accepting damage
 and closure. Matching performance level to hazard level and to asset
-criticality --- immediate occupancy for the operating earthquake, life safety
+criticality --- operational for the operating earthquake, life safety
 for the maximum design earthquake --- is the standard framing, and it connects
 directly to the functionality-over-time treatment in
 Chapter~\ref{ch:sustainability}.

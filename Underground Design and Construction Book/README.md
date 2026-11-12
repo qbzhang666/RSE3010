@@ -1,6 +1,6 @@
 # Underground Design and Construction
 
-Springer book manuscript. **28 chapters in six parts**, 8 appendices, 322 pages, builds clean.
+Springer book manuscript. **28 chapters in six parts**, 6 appendices, 328 pages, builds clean.
 
 The manuscript is fully drafted: no outline or TODO markers remain anywhere, in either the chapters or the appendices.
 
@@ -10,7 +10,11 @@ Uses the official **SNmono** class with the same setup as `Tri-HB/Springer_Book/
 
 **No boxes.** The 121 framed asides inherited from the teaching notes were dissolved into running text: a meaningful title became a bold run-in lead-in, a generic label was dropped. `tcolorbox` is gone and the `graybox` class option is gone, so no passage of running text is shaded. Springer's own `important` and `backgroundinformation` environments remain available through `springer_book.sty` if ever wanted.
 
-**Colour in figures only.** `palette.tex` holds the shared figure palette, identical token for token to `RSE3241/Springer_Handbook/slide_palette_tikz.tex` and `Tri-HB/Springer_Book/figure_sources/palette.tex`, so a figure carries between the three projects without recolouring. Four stroke colours occupy a dark band, four fills a light band, and the two bands never overlap, so a line reads dark against any fill in greyscale as well as in colour. The values are not adjusted in one project alone: change them everywhere or nowhere.
+**Colour in figures only.** `palette.tex` holds the shared figure palette — malachite and carmine, the house style of `qz-figure-style`, adopted November 2026 — identical token for token to `RSE3241/Springer_Handbook/slide_palette_tikz.tex` and `Tri-HB/Springer_Book/figure_sources/palette.tex`, so a figure carries between the three projects without recolouring. Two hues only: malachite for what passes, is designed or is supported, carmine for what fails, falls below unity or raises an alert. Further series vary by shade of those two hues, by line style, marker or hatching, never by adding a hue; a reference or screening series is grey. The values are not adjusted in one project alone: change them everywhere or nowhere.
+
+This replaced a four-hue palette (red, teal, green, gold over four tinted fills) on two measurements. In greyscale its four fills collapsed to within about 4 L\* of one another, so a printed reader could not tell a computation box from an adopted-value box; and two of its four stroke-on-own-fill pairs measured 2.7:1 and 2.8:1, below the 3:1 floor for graphical objects that the palette itself claimed to honour. Every stroke now reads at least 6.2:1 on white and 5.3:1 on its own tint.
+
+Figures redrawn outside TikZ use `tools/qz_figure.py`, which carries the same tokens, the Computer Modern rc settings, the 90 mm and 190 mm print widths, the diverging and sequential colour maps, and a `greyscale_check()` helper.
 
 ## Build
 
@@ -27,7 +31,7 @@ Output lands in `build/main.pdf`. Clean with `latexmk -C -outdir=build main.tex`
 | Part | Chapters |
 | --- | --- |
 | I. Challenges, Opportunities and Digital Practice | Challenges and Opportunities in Modern Practice · Digital Engineering and the Lifecycle Digital Twin · Sustainability, Carbon and Resilience |
-| II. Site and Ground Characterisation | Engineering Geology · Site Investigation and Geophysics · Three-Dimensional Ground Modelling · Groundwater and Hydrogeology · In-Situ Stress · Discontinuities and Structural Analysis · Rock Mass Classification |
+| II. Site and Ground Characterisation | Engineering Geology · Site Investigation and Data Reliability · Three-Dimensional Ground Modelling · Groundwater and Hydrogeology · In-Situ Stress · Discontinuities and Structural Analysis · Rock Mass Classification |
 | III. Geomechanical Parameters and Ground Behaviour | Stress, Strain and Intact Rock Behaviour · Rock Mass Strength and Design Parameters · Ground Behaviour and Face Stability · Squeezing, Swelling and High-Stress Ground |
 | IV. Design and Analysis: From Preliminary to Detailed Design | Empirical Design Methods · Analytical Methods and Ground–Support Interaction · Numerical Modelling · Support and Reinforcement · Linings, Waterproofing and Durability · Seismic and Dynamic Design · Reliability, Optimisation and Integrated Design |
 | V. Construction | Excavation Methods and Design Philosophies · Mechanised Tunnelling · Shafts, Caverns and Multiple Openings · Ground Improvement, Pre-Support and Construction Hazards |
@@ -45,8 +49,8 @@ Part I establishes the criteria that now govern how projects are conceived. Part
 | `SNmono.cls`, `springer_book.sty`, `svind.ist` | Springer class and support files |
 | `frontmatter/` | Preface, how to use this book, notation and units, list of symbols |
 | `chapters/` | 28 chapter files, `c01`–`c28`, numbered in book order |
-| `backmatter/` | Appendices A–H; C describes the companion open-access application |
-| `references.bib` | Bibliography, 77 entries |
+| `backmatter/` | Appendices A–F; A describes the companion open-access application |
+| `references.bib` | Bibliography, 89 entries |
 | `figures/` | Chapter figures in `chNN/`, as PDF and SVG, plus a PNG preview |
 | `tools/` | `export_twin_figures.py`, the demonstrator figure export |
 | `CLASSICAL-CROSSCHECK.md` | Mapping against Hoek & Brown (1980) and Brady & Brown (2006) |
@@ -80,8 +84,9 @@ Enforced throughout; new material must respect them.
 - **At most 8 sections per chapter**, currently 2–6.
 - **Every section has exactly 0 or 3 subsections**, never 1 or 2. Finer divisions use run-in `\paragraph` headings, so numbering never reaches a third level.
 - **Chapter labels are semantic**, not numeric: `\label{ch:ccm}`, not `\label{ch:7}`, so references survive reordering.
-- **Figure colour is semantic, never decorative.** A workflow node takes one size style and one role style, `[smallworkflowbox, wfstep]`. The roles are `wfinput` (neutral, what the sequence starts from), `wfstep` (`CMAIN`, a computation), `wfcheck` (`CLOSS`, a comparison against a threshold), `wfadopt` (`CGOOD`, the value that enters the design) and `feedbackarrow` (`CFAIL`, the return path). The same colour therefore means the same thing in every diagram.
-- **No figure depends on colour alone.** Adjacent members of each palette band are only about 4 L\* apart, so they are close to indistinguishable in a greyscale print. Steps are numbered, the forward path is solid and the return path dashed. Check a new figure before committing it: `pdftocairo -png -gray -r 150 file.pdf out`.
+- **Figure colour is semantic, never decorative.** A workflow node takes one size style and one role style, `[smallworkflowbox, wfstep]`. Because the palette carries two hues and the diagrams carry four roles, role is encoded as stroke hue × fill: `wfinput` (grey stroke, white fill — what the sequence starts from), `wfstep` (malachite, white fill — a computation), `wfadopt` (malachite, tinted fill — the value that enters the design), `wfcheck` (carmine, tinted fill — a comparison against a threshold) and `feedbackarrow` (carmine dashed — the return path). An empty box is a step; a tinted box is an outcome.
+- **No figure depends on colour alone.** Malachite and carmine are only 7.7 L\* apart, so the hues read alike in greyscale by design and the fill carries the distinction. Steps are numbered, the forward path is solid and the return path dashed. Check a new figure before committing it: `pdftocairo -png -gray -r 150 file.pdf out`, or `qz_figure.greyscale_check()` for a redrawn one.
+- **Figure text is Computer Modern.** Set on TikZ nodes through the `wffont` style and native in `qz_figure.py`. Mathematics inside a TikZ node still takes the document's `newtxmath`, because the Springer class fixes the document font; that mixture is transitional and resolves as figures are redrawn outside TikZ.
 
 ## Referencing
 

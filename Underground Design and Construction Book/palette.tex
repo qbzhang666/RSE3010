@@ -1,80 +1,124 @@
 %==============================================================================
-%  SHARED FIGURE PALETTE
-%  Identical, token for token, to the palette used by the Hydropower slide set
-%  (RSE3241/Springer_Handbook/slide_palette_tikz.tex) and the Tri-HB Springer
-%  book (Tri-HB/Springer_Book/figure_sources/palette.tex), so that a figure
-%  carries between projects without recolouring. The values are not to be
-%  adjusted here: change them in every project or in none.
+%  SHARED FIGURE PALETTE -- malachite and carmine (石绿与胭脂)
 %
-%  The palette is built for a book read in colour on screen and printed in
-%  black and white. Greyscale keeps lightness and discards hue, so lightness
-%  carries the meaning and hue is confirmation. Strokes occupy a dark band and
-%  fills a light one, and the two never meet: a line therefore always reads
-%  dark against any fill, in colour, in greyscale, and under any colour-vision
-%  deficiency.
+%  The house style of qz-figure-style, adopted November 2026. Identical, token
+%  for token, to RSE3241/Springer_Handbook/slide_palette_tikz.tex and
+%  Tri-HB/Springer_Book/figure_sources/palette.tex, so a figure carries between
+%  projects without recolouring. The values are not to be adjusted here: change
+%  them in every project or in none.
 %
-%  Measured, relative to white:
-%    strokes  CFAIL 8.0%  CMAIN 16.0%  CGOOD 23.9%  CLOSS 28.1%  luminance
-%    fills    CWATER 62%  CPASS 72%    CSTOP 80%    CBAND 88%
-%    contrast CFAIL 8.08:1  CMAIN 5.01:1  CGOOD 3.64:1  CLOSS 3.17:1 on white
+%  WHY THIS REPLACED THE FOUR-HUE PALETTE
+%  The previous palette used four stroke hues (red, teal, green, gold) over
+%  four tinted fills. Two measurements retired it.
+%    1. In greyscale the four tinted fills collapsed to within about 4 L* of
+%       one another, so a reader of the printed book could not tell a
+%       computation box from an adopted-value box from a threshold box. The
+%       old file documented this and asked figures to compensate; in practice
+%       the colour scheme promised a distinction that print did not deliver.
+%    2. Two of the four stroke-on-its-own-fill pairs measured 2.7:1 and 2.8:1,
+%       below the 3:1 floor for graphical objects that the palette itself
+%       claimed to honour. The outline nearly vanished on its own box.
+%  Two hues plus greys avoid both faults: every stroke here is at least 6.2:1
+%  on white and at least 5.3:1 on its own tint.
+%
+%  HOW MEANING IS CARRIED
+%  Two categories only: malachite for good, passing, designed, supported;
+%  carmine for failing, below unity, in tension, alert. Further series vary by
+%  SHADE of those two hues, by line style, by marker or by hatching -- never
+%  by adding a hue. A reference or screening series is grey.
+%
+%  Measured on white:
+%    QMAL 6.2:1 (L* 40.9)   QCAR 8.3:1 (L* 33.2)   QCARD 11.0:1 (L* 25.3)
+%    QGREY 6.9:1 (L* 38.2)  QINK 17.4:1 (L* 9.3)
+%  Stroke on its own tint: QMAL/QMALT 5.3:1, QCAR/QCART 6.8:1.
 %
 %  THREE RULES
-%   1. Colour is never the only carrier of meaning. Adjacent members of each
-%      band are only about 4 L* apart -- CGOOD against CLOSS, and the three
-%      light fills against one another, are close to indistinguishable in a
-%      greyscale print. Pair colour with dash pattern, numbering or position
-%      so the figure survives a photocopy.
-%   2. CWATER is a fill, never a line: at 1.57:1 on white it fails the 3:1
-%      graphics-contrast floor, and it is the token that collapses into green
-%      under tritanopia.
+%   1. Malachite and carmine are only 7.7 L* apart, so they are close in
+%      greyscale by design: the hue names the category and something else
+%      names the member. Pair them with line style, numbering or position so
+%      the figure survives a photocopy. This is the one place the palette
+%      asks the figure for help, and it asks once rather than four times.
+%   2. The tints are fills, never lines. At 1.2:1 on white neither reads as a
+%      stroke.
 %   3. In TikZ a bare colour name after fill= overrides the fill. Write
-%      [fill=CBAND, draw=CLOSS], never [fill=CBAND, CLOSS].
+%      [fill=QCART, draw=QCAR], never [fill=QCART, QCAR].
 %
 %  Check every new figure in greyscale before committing it:
 %      pdftocairo -png -gray -r 150 figure.pdf out
 %==============================================================================
 
-% ---- strokes: lines, arrows, labels. All >= 3:1 on white. -------------------
-\definecolor{CFAIL}{HTML}{A50000}   %  8.0% grey, 8.08:1 -- failure, critical
-\definecolor{CMAIN}{HTML}{007D76}   % 16.0% grey, 5.01:1 -- principal series
-\definecolor{CGOOD}{HTML}{009C1C}   % 23.9% grey, 3.64:1 -- admissible, pass
-\definecolor{CLOSS}{HTML}{C18500}   % 28.1% grey, 3.17:1 -- threshold, limit
+% ---- the two hues -----------------------------------------------------------
+\definecolor{QMAL}{HTML}{2F6B57}    % malachite  -- good, pass, design, supported
+\definecolor{QCAR}{HTML}{8C2B3E}    % carmine    -- fail, below unity, alert
+\definecolor{QCARD}{HTML}{6E1F30}   % dark carmine -- the severe end, and
+                                    %   labels set on carmine areas
 
-% ---- fills: areas, bands, status boxes -------------------------------------
-\definecolor{CWATER}{HTML}{87DAF8}  % 62.1% grey -- cold / water / slow
-\definecolor{CPASS}{HTML}{B5E8CC}   % 71.9% grey -- admissible region
-\definecolor{CSTOP}{HTML}{F8E2E2}   % 79.8% grey -- excluded region
-\definecolor{CBAND}{HTML}{FFF1C5}   % 88.2% grey -- caution band
+% ---- tints: fills, bands, status areas. Never strokes. ----------------------
+\definecolor{QMALT}{HTML}{E6EFEC}   % light malachite tint
+\definecolor{QCART}{HTML}{F3E6E9}   % light carmine tint
 
-% ---- neutrals: structure that carries no category ---------------------------
-\definecolor{CINK}{gray}{0.22}      % axes, frames, primary label text
-\definecolor{CTEXT}{gray}{0.34}     % secondary annotation
-\definecolor{CRULE}{gray}{0.78}     % grid lines, light rules
-\definecolor{CBOX}{gray}{0.95}      % neutral panel fill
+% ---- neutrals ---------------------------------------------------------------
+\definecolor{QINK}{HTML}{1A1A1A}    % text, axes, primary labels
+\definecolor{QGREY}{HTML}{5A5A5A}   % secondary text, reference series
+\definecolor{QGREYM}{HTML}{8A8A8A}  % hatching, tertiary annotation
+\definecolor{QGREYL}{HTML}{C8C8C8}  % context: buildings, mesh, background
 
-% ---- rate ramp: ordered cold-to-warm scale, built from the tokens above -----
-\colorlet{rateslow}{CMAIN}
-\colorlet{rateslowlt}{CWATER}
-\colorlet{ratefastlt}{CSTOP}
-\colorlet{ratefast}{CFAIL}
+% ---- third accent, slides only, sparingly -----------------------------------
+\definecolor{QBLUE}{HTML}{006DAE}   % Monash blue. Not for manuscript figures.
 
-% ---- cross-project compatibility -------------------------------------------
+% ---- diverging scale, centred on the critical value -------------------------
+%  carmine -> carmine tint -> malachite tint -> malachite, for quantities with
+%  a meaningful centre: factor of safety about 1, stress sign, over and under
+%  prediction. In matplotlib build it with TwoSlopeNorm so the centre lands on
+%  the critical value rather than on the midpoint of the data.
+\colorlet{QDIVLOW}{QCAR}
+\colorlet{QDIVLOWLT}{QCART}
+\colorlet{QDIVHIGHLT}{QMALT}
+\colorlet{QDIVHIGH}{QMAL}
+
+% ---- legacy token names -----------------------------------------------------
+%  Figures written against the previous four-hue palette compile unchanged.
+%  The four stroke tokens collapse onto two hues, which is the point of the
+%  house system: "principal" and "pass" are one category, "threshold" and
+%  "failure" are one category separated by shade. Where a figure relied on
+%  CMAIN and CGOOD differing, or on CWATER and CPASS differing, the
+%  distinction must move to the fill or the line style -- see the workflow
+%  role styles in preamble.tex for the pattern.
+\colorlet{CMAIN}{QMAL}
+\colorlet{CGOOD}{QMAL}
+\colorlet{CLOSS}{QCAR}
+\colorlet{CFAIL}{QCARD}
+\colorlet{CWATER}{QMALT}
+\colorlet{CPASS}{QMALT}
+\colorlet{CSTOP}{QCART}
+\colorlet{CBAND}{QCART}
+\colorlet{CINK}{QINK}
+\colorlet{CTEXT}{QGREY}
+\colorlet{CRULE}{QGREYL}
+\colorlet{CBOX}{white}
+
+% ---- rate ramp, kept for figures that use it --------------------------------
+\colorlet{rateslow}{QMAL}
+\colorlet{rateslowlt}{QMALT}
+\colorlet{ratefastlt}{QCART}
+\colorlet{ratefast}{QCAR}
+
+% ---- cross-project compatibility --------------------------------------------
 %  Aliases used by figures written for the slide set and the Tri-HB book, so
-%  that source copied from either compiles here unchanged. New figures in this
-%  book use the tokens above directly.
-\colorlet{CDARK}{black}
-\colorlet{CGONE}{black!80}
-\colorlet{CGTWO}{black!50}
-\colorlet{CGTHREE}{black!12}
-\colorlet{CACC}{CMAIN!80!black}
-\colorlet{slate}{CINK}
-\colorlet{steel}{CMAIN}
-\colorlet{clay}{CFAIL}
-\colorlet{ochre}{CLOSS}
-\colorlet{textgrey}{CTEXT}
-\colorlet{rulegrey}{CRULE}
-\colorlet{boxgrey}{CBOX}
-\colorlet{zonelite}{CBOX}
-\colorlet{zonemid}{CRULE}
-\colorlet{zonedark}{CTEXT}
-\colorlet{teal}{CGOOD}
+%  that source copied from either compiles here unchanged.
+\colorlet{CDARK}{QINK}
+\colorlet{CGONE}{QINK!80}
+\colorlet{CGTWO}{QGREY}
+\colorlet{CGTHREE}{QGREYL}
+\colorlet{CACC}{QMAL!80!black}
+\colorlet{slate}{QINK}
+\colorlet{steel}{QMAL}
+\colorlet{clay}{QCAR}
+\colorlet{ochre}{QCARD}
+\colorlet{textgrey}{QGREY}
+\colorlet{rulegrey}{QGREYL}
+\colorlet{boxgrey}{QMALT}
+\colorlet{zonelite}{QMALT}
+\colorlet{zonemid}{QGREYL}
+\colorlet{zonedark}{QGREY}
+\colorlet{teal}{QMAL}

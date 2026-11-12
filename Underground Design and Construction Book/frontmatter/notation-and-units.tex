@@ -18,21 +18,29 @@ $\sigma_1 \geq \sigma_2 \geq \sigma_3$, so that $\sigma_1$ is the major and
 $\sigma_3$ the minor principal stress. In failure criteria the pair
 $(\sigma_1, \sigma_3)$ refers to the stresses acting on the element under
 consideration, not to the in-situ field. In-situ stresses are written
-$\sigma_v$ and $\sigma_h$, and the ratio $k = \sigma_h / \sigma_v$. Confusing
+$\sigma_v$ for the vertical component and $\sigma_H$ and $\sigma_h$ for the
+maximum and minimum horizontal components, with ratios
+$k_H = \sigma_H/\sigma_v$ and $k_h = \sigma_h/\sigma_v$; where a single
+horizontal stress is considered the ratio is $k = \sigma_h / \sigma_v$. Confusing
 the in-situ field with the criterion stresses is among the most common errors
 in parameter derivation, and Chapter~\ref{ch:rock-mechanics} treats it
 explicitly.
 
 \noindent\textbf{Effective stress.}\enspace A prime denotes an effective
-stress: $\sigma' = \sigma - u$, where $u$ is pore pressure. Rock mass
-parameters derived from the Hoek--Brown criterion are total-stress quantities
-unless stated otherwise, and combining them with effective-stress soil
-parameters in the same model requires care.
+stress: $\sigma' = \sigma - p_w$, where $p_w$ is the pore water pressure; the
+letter $u$ is reserved for displacement. Both terms are expressed in the same
+unit before subtraction: a pore pressure of \SI{600}{\kilo\pascal} is
+\SI{0.6}{\mega\pascal}. The Hoek--Brown criterion is written in terms of
+effective stresses~\citep{hoek2019hb}. In dry or freely draining rock the
+distinction disappears, and where pore pressure is represented in an
+analysis it is stated for each unit whether its parameters are applied to
+total or to effective stress.
 
 \noindent\textbf{Units.}\enspace SI units are used throughout. Stresses and
 strengths are in \si{\mega\pascal}; deformation moduli in \si{\giga\pascal};
 unit weight in \si{\kilo\newton\per\metre\cubed}; lengths in \si{\metre};
-displacements in \si{\milli\metre}. Groundwater pressures are given in
+displacements in \si{\milli\metre}; angles in degrees, planar features being
+given as dip and dip direction (Appendix~\ref{app:stereonet}). Groundwater pressures are given in
 \si{\kilo\pascal} or as an equivalent head in metres, with the datum stated.
 
 \noindent\textbf{Dimensional inconsistency in empirical correlations.}\enspace
@@ -49,5 +57,7 @@ obvious in the result.
 are reported to a precision consistent with their derivation. A rock mass
 strength derived from a $\GSI$ estimated to the nearest five points does not
 support three significant figures, and quoting it that way misrepresents the
-evidence. This applies with particular force to numerical output, which is
+evidence. With $\sci = \SI{50}{\mega\pascal}$, $\mi = 10$ and $\Dfac = 0$,
+moving $\GSI$ from 45 to 50 raises the rock mass strength $\scm$ from
+\SI{2.2}{\mega\pascal} to \SI{3.0}{\mega\pascal}, a third of the value. This applies with particular force to numerical output, which is
 returned to machine precision regardless of the quality of its input.

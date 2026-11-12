@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Chapter 22 -- Shafts, Caverns and Multiple Openings
+%  Shafts, Caverns and Multiple Openings
 %  Sources: Hoek & Brown (1980) Ch. 5; Brady & Brown (2006) Ch. 13;
 %  Hoek & Moy on large powerhouse caverns; Barton et al. on large-span caverns.
 %------------------------------------------------------------------------------
@@ -18,13 +18,6 @@ since shafts, caverns and junctions redistribute stress differently.
 Excavation sequence affects the outcome, because the stress path to the final
 geometry is not unique. And openings within one another's zone of influence
 interact, so that none can be designed in isolation.
-
-Three themes run through the chapter. Geometry matters more than in a tunnel,
-because a shaft, a cavern and a junction each redistribute stress in a
-different way. Sequence matters, because a large opening is not excavated in
-one operation and the stress path taken to the final geometry affects the
-outcome. And openings interact, so that the design of any one of them depends
-on what is nearby.
 
 \section{Shafts and vertical openings}
 \label{sec:shafts}
@@ -86,9 +79,15 @@ occurs where the overburden pressure outside the shaft exceeds the bearing
 capacity of the soil at the base; hydraulic uplift occurs where the water
 pressure beneath a low-permeability layer exceeds the weight of the remaining
 plug. Both are checked before excavation reaches the depth at which they
-apply, and both are remedied by the same measures: deeper cut-off, dewatering
-inside the shaft, or a base plug formed by jet grouting or freezing before
-excavation.
+apply, but they are not remedied by the same measures. Base heave is addressed
+by deeper wall embedment, by a structural base slab, or by improving the soil
+at founding level \citep{broms1967stability,davis1980stability}. Hydraulic
+uplift is addressed by reducing the head beneath the plug, by taking the
+cut-off into the aquitard, or by thickening the plug with jet grouting or
+freezing (Chapter~\ref{ch:ground-improvement}). Dewatering inside the shaft
+controls boiling at a granular base but does not reduce the head beneath a
+low-permeability plug, and water removed from the shaft is weight no longer
+resisting uplift.
 
 Where dewatering is unacceptable because of drawdown
 (Chapter~\ref{ch:hydrogeology}), a cut-off wall taken into an aquitard, or a
@@ -106,8 +105,8 @@ several metres diameter.
 \subsection{Portals}
 \label{sec:portals}
 
-A portal is simultaneously a slope problem and a tunnel problem, and it is the
-location where more tunnels have failed than anywhere along their length. The
+A portal is simultaneously a slope problem and a tunnel problem, and failures
+are disproportionately frequent there. The
 cover is minimal, the ground is weathered, the stress is low so that
 discontinuities are unclamped, and the first rounds are driven before any
 support system is fully established.
@@ -138,8 +137,9 @@ segments --- installed before the breakout is made.
 
 The ground at a junction is also more exposed. Two intersecting excavations
 create additional free surfaces, and blocks that neither drive would release
-on its own become removable at the intersection. Ground treatment before
-breakout is common for exactly this reason, and cross-passages in soft ground
+on its own become removable at the intersection (Section~\ref{sec:block-and-wedge-construction}). Ground treatment before
+breakout is common for exactly this reason (Chapter~\ref{ch:ground-improvement}),
+and cross-passages in soft ground
 are frequently constructed under ground freezing because no other method
 provides reliable support for a short opening between two completed tunnels.
 
@@ -184,21 +184,29 @@ and the probability of intersecting an adverse structure approaches certainty.
 
 Shape follows the stress field. Mushroom, horseshoe and elliptical profiles
 distribute boundary stress differently, and matching the profile to the stress
-ratio reduces the peak concentration and the tensile zones. Where the
-horizontal stress is high, a higher arch performs better; where it is low, a
-flatter profile avoids crown tension.
+ratio reduces the peak concentration and the tensile zones
+(Section~\ref{sec:elliptical}). The optimum is
+elongation along the major principal stress in the ratio of the stresses, so
+where the horizontal stress is high the profile should be wider than it is
+tall, and where it is low a taller profile both lowers the peak concentration
+and keeps the crown in compression.
 
 Orientation is the most valuable decision available and the most constrained.
-The long axis should lie parallel to the major horizontal stress to minimise
-boundary stress on the walls, and should avoid running parallel to a
-persistent discontinuity set to minimise wedge formation. These rarely
+The long axis should lie parallel to the major horizontal stress, so that the
+cross-section is loaded by the smaller of the two horizontal stresses and the
+peak boundary concentration, normally in the arch, is minimised
+(Section~\ref{sec:elliptical}); the penalty is that the walls are then less
+destressed than they would be with the major stress acting across the
+section. The axis should also avoid running parallel to a
+persistent discontinuity set to minimise wedge formation (Section~\ref{sec:construct-rotation}). These rarely
 coincide, and the resolution requires identifying which mechanism governs
 --- stress in strong sparsely jointed rock at depth, structure in jointed rock
 at moderate stress.
 
 Empirical span guidance through the $Q$-system and equivalent dimension
-extends to large caverns, with an excavation support ratio appropriate to a
-permanent civil structure. It should be used with the reservation that the
+extends to large caverns (Chapter~\ref{ch:empirical-design}), with an
+excavation support ratio appropriate to a permanent civil structure, between
+0.8 and 1.0 in Table~\ref{tab:esr}. It should be used with the reservation that the
 case base thins rapidly with increasing span, and a chart extrapolated beyond
 its data is an opinion rather than evidence.
 
@@ -247,7 +255,7 @@ Observational control is the norm for cavern excavation. Instrumentation
 installed from the top heading records crown displacement as benching
 proceeds, trigger levels are tied to excavation stages, and support is
 adjusted between lifts. This is the clearest routine application of the
-observational method, and it works because the sequence provides natural
+observational method (Chapter~\ref{ch:movement-monitoring}), and it works because the sequence provides natural
 decision points.
 
 \section{Interaction between openings}
@@ -258,17 +266,20 @@ decision points.
 
 An excavation disturbs the stress field over a region several diameters
 across, conventionally bounded where the disturbance falls below about five
-per cent of the field stress --- roughly two to three diameters from the
-boundary for a circular opening. Two excavations separated by more than that
+per cent of the field stress --- for a circular opening in a hydrostatic
+field, about one and three-quarter diameters clear of the boundary. Two excavations separated by more than that
 do not interact; closer, they do, and each must be analysed with the other
 present.
 
-Elastic superposition is admissible while both remain elastic. Once yield
-zones from adjacent openings overlap, superposition fails and the problem must
-be solved as a whole, numerically.
+Superposing the single-opening solutions is an approximation even in a wholly
+elastic medium, because each solution leaves tractions on the boundary of the
+other opening; it is acceptable while the separation keeps the zones of
+influence clear of one another. Once yield zones from adjacent openings
+overlap, superposition fails altogether and the problem must be solved as a
+whole, numerically.
 
 The disturbance is not uniformly adverse. An opening creates a destressed
-region --- a stress shadow --- in which a subsequent excavation experiences
+region --- a \emph{stress shadow} --- in which a subsequent excavation experiences
 lower stress than the far field. This can be exploited in sequencing, and it
 carries the corresponding penalty that reduced stress means reduced
 confinement, so a structurally controlled problem may be made worse by the
@@ -280,8 +291,8 @@ same shadow that relieves a stress-driven one.
 Where openings are separated by a pillar, the pillar carries the load that the
 openings no longer support. The tributary area method makes this explicit: the
 pillar carries the full overburden over the plan area attributed to it, so
-pillar stress rises with the extraction ratio and, at high extraction, rises
-very steeply. The method assumes uniform extraction over a wide area and rigid
+pillar stress rises as $1/(1-e)$ with the extraction ratio $e$ and, at high
+extraction, rises very steeply. The method assumes uniform extraction over a wide area and rigid
 abutments, and it overestimates stress in a small group of openings where the
 abutments carry a share.
 
@@ -289,7 +300,7 @@ Pillar strength is not the strength of the rock it is made from. It rises with
 the width-to-height ratio, because a squat pillar develops confinement in its
 core that a slender one cannot, and it falls with absolute size, because a
 larger volume is more likely to contain a through-going weakness. Empirical
-strength formulae capture both effects and are specific to the rock type and
+strength formulae~\citep{salamon1967pillar} capture both effects and are specific to the rock type and
 the case base from which they were derived.
 
 Factor of safety follows, with target values depending on duty and design

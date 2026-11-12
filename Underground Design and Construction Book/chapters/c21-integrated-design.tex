@@ -13,13 +13,8 @@ been tested against the range the ground actually presents, and the means of
 testing it are neither elaborate nor costly. Integration, moreover, is a
 process of decision rather than of averaging: where empirical, analytical and
 numerical results diverge, the task is to establish which mechanism governs.
-
-The argument has two halves. The first is that a design based on a single set
-of parameter values has not been checked against the range the ground actually
-presents, and that the tools for doing so are neither exotic nor expensive.
-The second is that integration is a decision process rather than an averaging
-process: where empirical, analytical and numerical methods diverge, the task
-is to identify which mechanism governs, not to split the difference.
+The chapter closes with the revision of a design as observations arrive
+during construction.
 
 \section{Uncertainty and characteristic values}
 \label{sec:uncertainty-and-characteristic-values}
@@ -86,8 +81,10 @@ describes the separation beyond which they become independent. It is the
 reason that averaging over a failure surface reduces variance: a sliding
 surface many correlation lengths long samples the full distribution, so the
 mobilised strength approaches the mean, whereas a short surface may lie
-entirely within one weak zone. Ignoring spatial averaging is conservative for
-large failure surfaces and unconservative for local mechanisms.
+entirely within one weak zone. Two opposite errors are possible. Neglecting
+the reduction in variance that averaging produces is conservative where the
+failure surface is many correlation lengths long. Applying that reduction to
+a local mechanism, which samples only one zone, is unconservative.
 
 \paragraph{Characteristic values.}
 Eurocode~7 defines the characteristic value as a cautious estimate of the
@@ -161,19 +158,22 @@ because it inherits every assumption in the input distributions.
 \paragraph{Methods in practice.}
 Four methods span the range of effort. First-order second-moment analysis
 propagates means and variances through a linearised performance function and
-is a spreadsheet calculation. The first-order reliability method locates the
+is a spreadsheet calculation. The first-order reliability method (FORM)
+locates the
 most probable failure point and handles nonlinearity and non-normal
 distributions properly. Point estimate methods evaluate the performance
 function at a small number of chosen parameter combinations and require no
 derivatives, which makes them well suited to problems whose evaluation is a
-numerical model. Monte Carlo simulation samples the distributions directly and
+numerical model. The number of evaluations grows as $2^n$ in the number of
+variables, however, so they are practical only while $n$ is small, and they
+return moments without locating the failure point. Monte Carlo simulation samples the distributions directly and
 is exact in the limit, at the cost of many evaluations.
 
 Proportionality is the guide. A support design whose performance function is
 an explicit expression justifies FORM or Monte Carlo. A design whose
 evaluation is a finite element run justifies a point estimate method or a
-surrogate model. Both are better than no uncertainty analysis, which is the
-current default.
+surrogate model. Either route is better than no uncertainty analysis, which
+is the current default.
 
 \subsection{Sensitivity and project risk}
 \label{sec:sensitivity-and-project-risk}
@@ -203,11 +203,11 @@ acceptance criteria, conventionally through an ALARP framing in which risk is
 reduced until further reduction is grossly disproportionate to the benefit.
 
 The insurance-driven codes of practice for tunnelling risk management make
-this a contractual requirement rather than good practice, and the full
-treatment is Chapter~\ref{ch:delivery-assets}.
+this a contractual requirement rather than merely good practice, and the
+full treatment is given in Chapter~\ref{ch:delivery}.
 
-\subsection{Worked example: uncertainty in a support design}
-\label{sec:reliability-worked-example}
+\subsection{Uncertainty in a support design}
+\label{sec:reliability-support-uncertainty}
 
 A representative calculation propagates uncertainty in $\GSI$, $\sci$ and
 $\mi$ through the Hoek--Brown derivation of
@@ -230,28 +230,51 @@ analysis at fixed parameters could.
 \section{Integrating methods and objectives}
 \label{sec:integrating-methods-and-objectives}
 
-\subsection{The Design Workflow}
+\subsection{The design workflow}
+\label{sec:design-workflow}
 
-The four stages of underground geotechnical design form a logical sequence. Each stage builds on the outputs of the previous one:
+Underground geotechnical design proceeds through four stages: site
+investigation, empirical design, analytical design and numerical modelling.
+They form a sequence of dependence and not a timetable. Site investigation
+supplies the parameters, empirical design a preliminary support class, and
+analytical design the convergence and the support pressure that the numerical
+stage then verifies, so that an error early in the chain propagates through
+everything after it. Two contrasting projects are carried through the
+sequence here: a shallow urban rail alignment in weathered ground, and a deep
+pumped-storage scheme in rock under high stress, whose main access tunnel is
+the worked example of Chapter~\ref{ch:ccm}.
 
-\[
-\text{Site Investigation} \xrightarrow{\text{params}} \text{Empirical} \xrightarrow{\text{support}} \text{Analytical} \xrightarrow{\text{CCM}} \text{Numerical}
-\]
+\paragraph{Stage 1: site investigation.}
+For the shallow urban alignment the sources are the published environmental
+statement and its geotechnical appendices, a desk study of the surface
+constraints and geological sections along the alignment
+(Chapter~\ref{ch:site-investigation}). The outputs are a two-layer ground
+model of a compressible surface unit over the host rock, parameter tables
+(Table~\ref{tab:shallow-alignment-params}), the groundwater conditions and
+the third-party assets within the zone of influence. For the deep scheme the
+sources are geological mapping, boreholes and laboratory testing of the
+intact sandstone and siltstone. The outputs are two rock mass conditions, a
+good one with RMR~=~58, $Q = 8$ and $\GSI = 60$ and a poor one with
+RMR~=~34, $Q = 1.5$ and $\GSI = 30$; the intact properties
+$\sci = 72$~MPa and $E_i = 26$~GPa; descriptions of the joint sets; and the
+derived rock mass parameters of Table~\ref{tab:deep-scheme-params}. The three
+indices of each condition are independent assessments and are not derived
+from one another. They do not satisfy the published correlations exactly,
+since $\mathrm{RMR} = 9\ln Q + 44$ would give 63 and 48, and each is used in
+the method calibrated to it.
 
-\paragraph{Stage 1: Site Investigation (Chapter~\ref{ch:site-investigation})}
+This stage has to settle whether the surface unit of the shallow alignment is
+thick enough to influence the response of the tunnel, and where its contact
+with the host rock lies relative to the crown. For the deep scheme it has to
+settle whether the good and poor domains can be separated along the
+alignment, and which of them governs the support. For both it has to
+establish how reliable the characteristic values are, given few boreholes and
+imperfect core recovery. The reliability of these outputs sets the
+confidence of every later stage.
 
-\textbf{Shallow urban alignment:} published environmental statements and their geotechnical technical appendices, desk study of the surface constraints, and geological cross-sections along the alignment. Outputs: a two-layer ground model of a compressible surface unit over the host rock, parameter tables (Table~\ref{tab:srl_params}), groundwater conditions, and the third-party assets within the zone of influence.
-
-\textbf{The deep pumped-storage scheme:} Geological mapping, borehole investigations, laboratory testing of intact sandstone/siltstone. Outputs: two rock mass conditions (Good: RMR\,=\,58, Q\,=\,8, GSI\,=\,60; Poor: RMR\,=\,34, Q\,=\,1.5, GSI\,=\,30), intact properties (UCS\,=\,72~MPa, $E_i$\,=\,26~GPa), joint set descriptions.
-
-\textbf{Key decisions:}
-\begin{itemize}[nosep]
- \item \textit{Shallow urban alignment:} is the surface unit thick enough along the alignment to influence tunnel response, and where does its contact with the host rock sit relative to the crown?
- \item \textit{The deep pumped-storage scheme:} Are the Good and Poor rock mass domains spatially separable along the alignment? Which domain governs support design?
- \item \textit{Both:} How reliable are the characteristic design values, given limited boreholes and core recovery issues?
-\end{itemize}
-
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{Representative parameters for a shallow urban rail alignment.}
+\label{tab:shallow-alignment-params}
 \centering
 \small
 \begin{tabular}{l l c c c c}
@@ -262,11 +285,11 @@ Upper & Compressible surface unit & 20 & 7 & 30 & 50 \\
 Lower & Host rock unit & 21 & 20 & 28 & 150 \\
 \bottomrule
 \end{tabular}
-\caption{Representative parameters for a shallow urban rail alignment.}
-\label{tab:srl_params}
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{Intact and derived rock mass parameters for the two domains of the deep scheme, from the derivation of Chapter~\ref{ch:ccm} (Table~\ref{tab:ccm-worked-example}). The intact constant $m_i = 7$ is the siltstone value, adopted there to reflect the weaker layers of the interbedded sequence.}
+\label{tab:deep-scheme-params}
 \centering
 \small
 \begin{tabular}{l c c}
@@ -275,57 +298,69 @@ Lower & Host rock unit & 21 & 20 & 28 & 150 \\
 \midrule
 RMR & 58 & 34 \\
 Q & 8 & 1.5 \\
-UCS, $\sigma_{ci}$ (MPa) & 72 & 72 \\
+Intact strength, $\sci$ (MPa) & 72 & 72 \\
 Intact modulus, $E_i$ (GPa) & 26 & 26 \\
-$m_i$ (assumed) & 17 & 17 \\
-$m_b$ (HB) & 4.1 & 1.4 \\
-$s$ (HB) & 0.012 & 0.0004 \\
-$a$ (HB) & 0.503 & 0.522 \\
-Rock mass strength, $\sigma_{cm}$ (MPa) & $\sim$12 & $\sim$2 \\
-Rock mass modulus, $E_m$ (GPa) & $\sim$13 & $\sim$2.6 \\
-MC equivalent $c'$ (MPa) & $\sim$3.0 & $\sim$0.6 \\
-MC equivalent $\phi'$ ($^\circ$) & $\sim$45 & $\sim$30 \\
+$m_i$ & 7 & 7 \\
+$m_b$ & 1.68 & 0.575 \\
+$s$ & 0.0117 & 0.000419 \\
+$a_{HB}$ & 0.503 & 0.522 \\
+Rock mass strength, $\sigma_{cm}$ (MPa) & 7.70 & 1.24 \\
+Rock mass modulus, $E_m$ (GPa) & 13.52 & 2.12 \\
+Equivalent Mohr--Coulomb $c'$ (MPa) & 2.85 & 1.72 \\
+Equivalent Mohr--Coulomb $\phi'$ ($^\circ$) & 31.5 & 23.8 \\
 \bottomrule
 \end{tabular}
-\caption{Intact and derived rock mass parameters for the two design domains. Values are indicative and should be recomputed from the Hoek--Brown fit of Chapter~\ref{ch:ccm}.}
-\label{tab:snowy_params}
 \end{table}
 
+\paragraph{Stage 2: empirical design.}
+On the shallow alignment the host rock falls within the ranges of RMR and GSI
+for which empirical support design is valid, for the running tunnels and for
+the station caverns alike (Chapter~\ref{ch:empirical-design}). The stand-up
+time of the tunnel is assessed from RMR, and support for the station
+excavations is designed with the Q-system. On the deep scheme the failure
+mode is identified first, with the decision tree and the spalling relation of
+\citet{martin1999spalling}. Stand-up time is then assessed from RMR for the
+main access tunnel, which has a span of 9.5~m, and Q-system support is
+designed for the machine hall, the transformer hall and the access tunnel in
+both rock conditions.
 
-\noindent\textbf{Link to later stages.}\enspace The shallow alignment parameters feed the numerical analysis of Chapter~\ref{ch:numerical-modelling}, and serve equally for empirical and analytical assessment of the station caverns. The deep scheme data feeds the empirical (Chapter~\ref{ch:ground-behaviour}) and analytical (Chapter~\ref{ch:ccm}) stages. Their reliability determines the confidence in all subsequent results---an error at Stage~1 propagates to every stage that follows.
+The stage has to settle which RMR class applies at the tunnel horizon of the
+shallow alignment and whether the stand-up time it implies accommodates the
+proposed advance rate; whether failure in the deep scheme is structurally
+controlled, stress-induced or both, and whether the empirical support covers
+both domains; and, for both projects, the preliminary support class to be
+carried into the later stages. RMR and Q were developed from case histories
+of jointed rock masses, and they are not reliable for severe stress-induced
+spalling, which may apply to the deep scheme at 650~m. The decision tree
+indicates where the empirical methods are appropriate and where analytical or
+numerical methods are needed.
 
+\paragraph{Stage 3: analytical design.}
+For the shallow alignment the Kirsch solution~\citep{kirsch1898} estimates
+the elastic stress concentrations around the tunnel. At a depth to axis
+$z_0$ of 5 to 25~m in the weathered host unit the stresses are low, and the
+response is likely to be elastic or mildly plastic. A simplified
+convergence--confinement analysis provides a cross-check on the numerical
+results (Chapter~\ref{ch:ccm}). For the deep scheme the Kirsch stresses are
+computed at depths from 100 to 700~m, which brackets the design depth. The
+rock mass parameters, $m_b$, $s$, $a_{HB}$, $\scm$, $\Erm$ and the
+Mohr--Coulomb $c'$ and $\phi'$, are derived for $\GSI = 60$ and $\GSI = 30$
+at 650~m, and the critical pressure, the plastic radius and the equilibrium
+with the lining follow (Table~\ref{tab:integrated-ccm-results}).
 
-\paragraph{Stage 2: Empirical Design (Chapter~\ref{ch:ground-behaviour})}
+The stage has to settle whether the response of the shallow tunnel is elastic
+or mildly plastic, and whether the simplified analysis agrees with the
+numerical model; what support capacity the deep tunnel requires, and whether
+its factor of safety is adequate in the poor domain; and, for both, where the
+analytical solution disagrees with the empirical expectation and why. The
+method gives a displacement and a factor of safety for a circular tunnel in a
+hydrostatic stress field. It cannot represent non-circular geometry, staged
+excavation or layered ground, and these limitations are the reason for the
+fourth stage.
 
-\textbf{Shallow urban alignment:} the host rock units fall in RMR and GSI ranges that permit empirical support design for both the running tunnels and the station caverns. RMR-based stand-up time can be assessed for the tunnel, and Q-system support can be designed for the underground station excavations.
-
-\textbf{The deep pumped-storage scheme:} Failure mode identification using the decision tree and spalling equation of \citet{martin1999spalling}, and the Kaiser design chart. RMR-based stand-up time for the main access tunnel (span 9.5~m). Q-system support for the machine hall, transformer hall, and main access tunnel under both good and poor rock conditions.
-
-\textbf{Key decisions:}
-\begin{itemize}[nosep]
- \item \textit{Shallow urban alignment:} Which RMR class applies at the tunnel horizon? Is the stand-up time sufficient for the proposed advance rate?
- \item \textit{The deep pumped-storage scheme:} Is failure structurally controlled, stress-induced, or a combination? Does empirical support cover both Good and Poor domains?
- \item \textit{Both:} What preliminary support class should be carried forward into the analytical/numerical stages?
-\end{itemize}
-
-
-\noindent\textbf{Empirical methods assume structurally controlled failure.}\enspace RMR and Q-system were developed from case histories of jointed rock masses. They are not reliable for severe stress-induced spalling (which may apply to the deep pumped-storage scheme at 650~m depth). The decision tree helps identify when empirical methods are appropriate and when analytical/numerical methods are needed.
-
-
-\paragraph{Stage 3: Analytical Design (Chapter~\ref{ch:ccm})}
-
-\textbf{Shallow urban alignment:} Kirsch solutions~\citep{kirsch1898} can estimate elastic stress concentrations around the tunnel. For the shallow tunnel ($z_0 = 5$--25~m in the weathered host unit), the low stress means the response is likely elastic or mildly plastic. A simplified CCM analysis provides a cross-check against the numerical modelling results.
-
-\textbf{The deep pumped-storage scheme:} Kirsch elastic stresses at various depths (100--600~m). Rock mass parameters ($m_b$, $s$, $a$, $\sigma_{cm}$, $E_m$, MC $c'$ and $\phi'$) for GSI\,=\,60 and GSI\,=\,30 at 650~m. Critical pressure, plastic zone radius, and the convergence--confinement equilibrium with the segmental lining.
-
-\textbf{Key decisions:}
-\begin{itemize}[nosep]
- \item \textit{Shallow urban alignment:} Is the analytical response elastic (no support driven by strength) or mildly plastic? Does CCM agree with numerical modelling?
- \item \textit{The deep pumped-storage scheme:} What is the required support capacity? Is the factor of safety adequate in the Poor rock domain?
- \item \textit{Both:} Where does the analytical solution disagree with empirical expectations, and why?
-\end{itemize}
-
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{Convergence--confinement results for the main access tunnel of the deep scheme at 650~m, from Chapter~\ref{ch:ccm} (Table~\ref{tab:ccm-worked-example}). A 30-point change in GSI changes $u_{\max}$ by a factor of about 13, which is why rock mass characterisation dominates the outcome.}
+\label{tab:integrated-ccm-results}
 \centering
 \small
 \begin{tabular}{l c c}
@@ -333,90 +368,176 @@ MC equivalent $\phi'$ ($^\circ$) & $\sim$45 & $\sim$30 \\
 \textbf{Parameter} & \textbf{GSI = 60} & \textbf{GSI = 30} \\
 \midrule
 Response & Plastic & Plastic \\
-$R_p/a$ & 1.23 & 1.84 \\
-$u_{\max}$ (mm) & 8.3 & 86.8 \\
-$u_{s0}$ at $L=3$~m (mm) & 7.0 & 63.6 \\
+$R_p/a$ & 1.44 & 2.35 \\
+$u_{\max}$ (mm) & 9.97 & 126.9 \\
+$u_{s0}$ at $L=3$~m (mm) & 6.2 & 62.0 \\
+$p_{eq}$ (MPa) & 1.47 & 2.27 \\
+Factor of safety, $p_{sm}/p_{eq}$ & 4.3 & 2.8 \\
 \bottomrule
 \end{tabular}
-\caption{CCM results for the deep pumped-storage scheme main access tunnel at 650~m. The order-of-magnitude difference in displacement between GSI\,=\,60 and GSI\,=\,30 illustrates why rock mass characterisation dominates the design outcome---a 30-point change in GSI changes $u_{\max}$ by a factor of $\sim$10.}
 \end{table}
 
+\paragraph{Stage 4: numerical modelling.}
+On the shallow alignment the empirical Gaussian
+trough~\citep{mair1996settlement} gives the surface settlement, with $V_L$
+between 0.5 and 1.5\,per cent, and two-dimensional finite element models are
+run for a shallow case ($z_0=5$~m) and a deep one ($z_0=25$~m) in the
+two-unit profile (Chapter~\ref{ch:numerical-modelling}). The outputs are
+settlement troughs, displacement contours and lining forces, with the
+computed and empirical troughs overlaid.
 
-\noindent\textbf{Analytical $\to$ Numerical.}\enspace The CCM provides displacement and FoS for a circular tunnel in hydrostatic stress. It cannot handle non-circular geometry, staged excavation, or layered ground. These limitations motivate numerical modelling.
+On the deep scheme the fourth stage is analytical verification and not
+continuum modelling: the ground reaction, support characteristic and
+longitudinal deformation curves are computed and the equilibrium point
+located, by hand or with \companionname\ (Appendix~\ref{app:software}). That
+is adequate because the main access tunnel is close to circular and
+machine-driven, the stress field is nearly hydrostatic at depth, and the
+governing question is support capacity and not ground--structure
+interaction. Two- or three-dimensional continuum analysis of the machine and
+transformer halls, which are non-circular and intersect one another, is the
+logical extension at detailed design.
 
+The stage has to settle whether the finite element model confirms the
+empirical settlement trough and whether the surface settlements meet the
+third-party damage criteria; whether the lining of the deep tunnel reaches
+equilibrium on a stable part of the ground reaction curve with an adequate
+factor of safety in both domains; and where the numerical results contradict
+the earlier stages, and which assumption the contradiction exposes.
 
-\paragraph{Stage 4: Numerical Modelling (Chapter~\ref{ch:numerical-modelling})}
+\paragraph{The same sequence, differently weighted.}
+Table~\ref{tab:workflow-stages} sets the two projects side by side. Both
+follow the same sequence, but the stage that governs differs, and the
+difference follows from the engineering problem and not from preference.
 
-\textbf{Shallow urban alignment:} the empirical Gaussian trough~\citep{mair1996settlement} for surface settlement, with $V_L$ between 0.5 and 1.5\,per cent. Two-dimensional finite element models for the shallow ($z_0=5$~m) and deep ($z_0=25$~m) cases in the two-unit profile. Outputs: settlement troughs, displacement contours and lining forces, with the computed and empirical troughs overlaid.
+\begin{table}[htbp]
+\caption{Two contrasting projects carried through the same design sequence. The stage that governs differs; the sequence does not.}
+\label{tab:workflow-stages}
+\centering
+\small
+\begin{tabularx}{\textwidth}{c l X X}
+\toprule
+\textbf{Stage} & \textbf{Activity} & \textbf{Shallow urban alignment} & \textbf{Deep pumped-storage scheme} \\
+\midrule
+1 & Site investigation & Published statements, desk study, two-unit parameters & Geological mapping; RMR, Q and GSI; intact properties \\
+2 & Empirical design & RMR and Q for station and running tunnel & Failure mode, RMR and Q for caverns and access tunnel \\
+3 & Analytical design & Kirsch, simplified convergence--confinement cross-check & Kirsch at depth, Hoek--Brown and Mohr--Coulomb parameters, convergence--confinement \\
+4 & Numerical & Empirical trough and finite element model & Analytical verification, continuum analysis as extension \\
+5 & Integration & \multicolumn{2}{c}{Workflow synthesis and review of the assumption chain} \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-\textbf{The deep pumped-storage scheme:} here the fourth stage is analytical verification rather than continuum modelling: the ground reaction, support characteristic and longitudinal deformation curves are computed and the equilibrium point located, by hand or with \companionname\ (Appendix~\ref{app:software}). That is adequate because the main access tunnel is close to circular and machine-driven, the stress field is nearly hydrostatic at depth, and the governing question is support capacity rather than ground--structure interaction. Two- or three-dimensional continuum analysis of the machine and transformer halls, which are non-circular and intersect one another, is the logical extension at detailed design.
+The shallow alignment is a tunnel in weathered rock and soil beneath a city.
+The governing concern is surface settlement and its effect on buildings,
+services and roads, so the critical question is how far the ground above the
+tunnel will move. The deciding tools are the empirical trough and the finite
+element model, and the first and fourth stages dominate. Empirical
+classification of the host rock units and analytical estimates of stress and
+displacement still apply, but they inform the design and do not govern it.
 
-\textbf{Key decisions:}
-\begin{itemize}[nosep]
- \item \textit{Shallow urban alignment:} Does FEM confirm the Mair-predicted settlement trough? Are surface settlements within third-party damage criteria?
- \item \textit{The deep pumped-storage scheme:} Does CCM confirm that the TBM lining sits on a stable portion of the GRC? Is the FoS adequate in both domains?
- \item \textit{Both:} Where do numerical results contradict earlier stages, and what does that tell us about our assumptions?
-\end{itemize}
+The deep scheme is a tunnel and cavern system in rock under high stress. The
+governing concern is the failure mode of the rock mass and the capacity of
+the support, so the critical question is whether the rock will fail around
+the opening and what support will hold it. The deciding tools are the
+failure-mode decision tree, RMR and Q support and the convergence--confinement
+method, and the second and third stages dominate. The project still begins
+from site investigation data, and the convergence--confinement analysis
+serves as its verification stage.
+
+The four stages apply to any underground project, whatever its depth, rock
+type or excavation method. A stage may be discharged analytically where its
+governing question does not require continuum analysis, as in the deep
+scheme, whose access tunnel is close to circular in a nearly hydrostatic
+field.
 
 \subsection{Complementarity and uncertainty}
 \label{sec:complementarity-and-uncertainty}
 
-\paragraph{How the Methods Complement Each Other}
+\paragraph{How the methods complement each other.}
+Each method answers a different question
+(Table~\ref{tab:method-selection}). Empirical classification sets a
+preliminary support class from case-history precedent. Closed-form analysis
+quantifies the ground--support interaction behind it. Continuum analysis
+admits the geometry, the layering and the construction sequence that neither
+of the others can represent. The three are used together and not as
+alternatives, and disagreement among them is informative, because it shows
+where an assumption has broken down.
 
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{The methods of the design sequence, with the purpose each serves and its limitation.}
+\label{tab:method-selection}
 \centering
 \small
 \begin{tabularx}{\textwidth}{l X X X}
 \toprule
-\textbf{Purpose} & \textbf{Best method} & \textbf{Why} & \textbf{Limitation} \\
+\textbf{Purpose} & \textbf{Method} & \textbf{Strength} & \textbf{Limitation} \\
 \midrule
-Concept development & Empirical (RMR, Q) & Quick, requires minimal data, gives preliminary support & Assumes structurally controlled failure; no stress-strain detail \\
-Identifying risks & Decision tree + SMR & Classifies failure mode; flags stress vs gravity vs squeezing & Qualitative; does not quantify FoS \\
-Deformation assessment & Analytical (CCM) or Mair & Gives displacement estimate and FoS; fast parametric studies & Circular geometry, hydrostatic stress, simplified ground \\
+Concept development & Empirical (RMR, Q) & Quick; requires minimal data; gives preliminary support & Assumes structurally controlled failure; no stress--strain detail \\
+Identifying risks & Failure-mode decision tree and spalling relation & Classifies failure mode; separates stress-induced, gravity-driven and squeezing behaviour & Qualitative; gives no factor of safety \\
+Deformation assessment & Convergence--confinement method or empirical trough & Gives a displacement estimate and a factor of safety; fast parametric studies & Circular geometry, hydrostatic stress, simplified ground \\
 Engineering decision & Numerical & Handles real geometry, layered ground, staged construction and lining forces & Requires validated parameters; mesh and boundary sensitivity; time-consuming \\
 \bottomrule
 \end{tabularx}
-\caption{Which method for which purpose.}
 \end{table}
 
+\paragraph{Worked example: resolving a disagreement.}
+The main access tunnel of the deep scheme in the poor rock domain
+illustrates the point. The Q-system, for $Q = 1.5$ and a span of 9.5~m,
+recommends systematic bolting with 50--90~mm of fibre-reinforced shotcrete.
+The convergence--confinement analysis gives $u_{\max} = 126.9$~mm, which is
+2.7 per cent of the radius, and $R_p/a = 2.35$
+(Table~\ref{tab:ccm-worked-example}): a large plastic zone and a strain in
+the range of severe squeezing (Table~\ref{tab:squeezing-classification}).
+Against that ground reaction curve a 90~mm shell of 35~MPa shotcrete
+installed 3~m behind the face has a capacity of 0.66~MPa, whereas elastic
+equilibrium would require about 1.7~MPa of it. The shell recommended by the
+chart would be loaded to two and a half times its capacity, while the 0.5~m
+concrete lining of Chapter~\ref{ch:ccm} reaches equilibrium with a factor of
+safety of 2.8.
 
-\noindent\textbf{No single method is sufficient.}\enspace Empirical methods give a starting point. Analytical methods provide a cross-check and quantify ground-support interaction. Numerical methods handle the real complexity. The three approaches should be used together, not as alternatives. Disagreement between methods is informative---it highlights where assumptions break down.
+The empirical recommendation is therefore unconservative for this ratio of
+stress to strength, because the case histories behind the Q-system contain
+little squeezing ground of this severity. Three responses follow. A stronger
+support class is adopted, such as yielding steel sets or thicker shotcrete
+with lattice girders. Convergence is allowed for through a flexible or
+yielding support philosophy. And the poor domain is designated a high-risk
+zone that requires face mapping and probe drilling during construction. None
+of the three methods supplies that conclusion alone; it comes from
+identifying which mechanism each has represented.
 
+\paragraph{Uncertainty through the workflow.}
+Uncertainty enters at every stage and propagates forward. In site
+investigation it arises from the orientation bias of RQD, core loss, the
+small number of boreholes and the spatial variability of GSI. In empirical
+classification it arises from the subjectivity of the joint condition rating
+and from the estimate of the stress reduction factor: a shift of one rating
+step in either, which is within the subjectivity of logging, can move $Q$ by
+a factor of two and change the support category. In the analytical
+parameters, a change of 10 points in GSI changes $\scm$ by about 40 per
+cent, and the fitting range affects $c'$ and $\phi'$. In numerical modelling
+it arises from mesh sensitivity, boundary effects, the choice of constitutive
+model, the assumed in-situ stress ratio and, in the empirical trough, the
+assumed volume loss.
 
-\paragraph{Worked Example: Resolving Method Disagreement}
+The shallow urban tunnel shows what these become on a particular project.
+The depth of the contact between the two units is inferred from adjacent
+boreholes and not measured at the tunnel. The host rock parameters
+($c'=20$~kPa, $\phi'=28^\circ$) are equivalent continuum values, and the rock
+mass is more variable than a single pair implies. The shallow case, with
+$z_0=5$~m and a tunnel diameter of 7.2~m, has an axis depth less than one
+diameter and lies at the limit of validity of the empirical trough. The groundwater
+conditions are simplified to a dry or a piezometric state, whereas the real
+conditions may involve transient pore pressures. And the in-situ stress
+ratio is assumed and not measured, although it strongly affects the
+horizontal stresses and the lining forces.
 
-Suppose at the deep pumped-storage scheme main access tunnel in the Poor rock domain:
-\begin{itemize}[nosep]
- \item \textbf{Empirical (Q-system):} Q\,=\,1.5, span 9.5~m $\to$ Category 5 support: systematic bolting + 50--90~mm fibre-reinforced shotcrete.
- \item \textbf{Analytical (CCM):} $u_{\max} = 86.8$~mm, $R_p/a = 1.84$, indicates a large plastic zone and significant squeezing potential. The Q-recommended support would likely be overstressed.
- \item \textbf{Numerical:} Support curve intersects GRC only after substantial convergence; lining safety factor marginal.
-\end{itemize}
-
-\noindent \textbf{Resolution.} The empirical recommendation is non-conservative for this stress/strength regime because the Q-system was calibrated against cases with lower squeezing. The engineer should: (i) adopt a stronger support class (e.g., yielding steel sets or thicker shotcrete with lattice girders), (ii) allow for convergence by using a flexible/yielding support philosophy, and (iii) flag the Poor rock domain as a high-risk zone requiring face mapping and probe drilling during construction. This is the judgement-driven synthesis that integrated design requires.
-
-\paragraph{Uncertainty Through the Workflow}
-
-Uncertainty enters at every stage and propagates forward:
-
-\begin{enumerate}
- \item \textbf{Site investigation} (Chapter~\ref{ch:site-investigation}): RQD orientation bias, core loss, limited boreholes, spatial variability of GSI.
- \item \textbf{Empirical classification} (Chapter~\ref{ch:ground-behaviour}): Subjectivity in joint condition rating, SRF estimation, RMR/Q input errors ($\pm$10\% changes support category).
- \item \textbf{Analytical parameters} (Chapter~\ref{ch:ccm}): GSI $\pm$10 points changes $\sigma_{cm}$ by $\sim$40\%. MC fitting range affects $c'$ and $\phi'$.
- \item \textbf{Numerical modelling} (Chapter~\ref{ch:numerical-modelling}): Mesh sensitivity, boundary effects, constitutive model choice, $K_0$ assumption, volume loss assumption in Mair method.
-\end{enumerate}
-
-
-\noindent\textbf{Project-specific uncertainties: a shallow urban tunnel.}\enspace \begin{itemize}[nosep]
- \item The depth of the contact between the two units is inferred from adjacent boreholes, not measured at the tunnel location.
- \item The host rock parameters ($c'=20$~kPa, $\phi'=28^\circ$) are equivalent continuum values; the rock mass itself is more variable than a single pair implies.
- \item The shallow case ($z_0=5$~m, $D=7.2$~m) is at the limit of the Mair method's validity ($z_0 < D$).
- \item Groundwater conditions were simplified (dry or piezometric) --- real conditions may involve transient pore pressures.
- \item $K_0$ was assumed, not measured; this significantly affects horizontal stresses and lining forces.
-\end{itemize}
-
-
-\noindent\textbf{Uncertainty as part of the recommendation.}\enspace An integrated design is incomplete unless it identifies the uncertainties that govern its conclusion, and these normally arise at several stages of the workflow rather than at one. For each, the design record should state how the recommendation would change if the assumption proved wrong, what additional data would reduce the uncertainty, and at what cost. Stated in that form, uncertainty ceases to be a qualification attached to the conclusion and becomes part of it.
-
+An integrated design is incomplete unless it identifies the uncertainties
+that govern its conclusion, and these normally arise at several stages of the
+workflow and not at one. For each, the design record states how the
+recommendation would change if the assumption proved wrong, what additional
+data would reduce the uncertainty, and at what cost. Stated in that form,
+uncertainty ceases to be a qualification attached to the conclusion and
+becomes part of it.
 
 \subsection{Carbon as a design objective}
 \label{sec:integrated-carbon}
@@ -476,42 +597,6 @@ that must appear in the specification.
 Within those limits the lever is genuine, and it is the example worth carrying
 from this chapter: the carbon reduction available from understanding the
 mechanics exceeds what is available from specifying a different concrete.
-
-\section{Workflow structure and project linkage}
-\label{sec:workflow-structure-and-project-linkage}
-
-\paragraph{Example Workflow Structure}
-
-An integrated design normally carries the structure below, adapted to the analysis actually performed. The stages are a sequence of dependence, not a timetable: each consumes what the previous produced, and an error early in the chain propagates through everything after it.
-
-\begin{table}[h!]
-\centering
-\small
-\begin{tabularx}{\textwidth}{c l X X}
-\toprule
-\textbf{Stage} & \textbf{Activity} & \textbf{Shallow urban alignment} & \textbf{Deep pumped-storage scheme} \\
-\midrule
-1 & Site investigation & Published statements, desk study, two-unit parameters & Geological mapping, RMR/Q/GSI, intact properties \\
-2 & Empirical design & RMR and Q for station and running tunnel & Failure mode, RMR and Q for caverns and access tunnel \\
-3 & Analytical design & Kirsch, simplified convergence--confinement cross-check & Kirsch at depth, Hoek--Brown and Mohr--Coulomb parameters, convergence--confinement \\
-4 & Numerical & Empirical trough and finite element model & Analytical verification, continuum analysis as extension \\
-5 & Integration & \multicolumn{2}{c}{Workflow synthesis and review of the assumption chain} \\
-\bottomrule
-\end{tabularx}
-\caption{Two contrasting projects carried through the same design sequence. The stage that governs differs; the sequence does not.}
-\end{table}
-
-\paragraph{Linking the Two Projects}
-
-Both projects follow the same four-stage design workflow, but they emphasise different aspects---and \textit{the emphasis follows from the engineering problem}, not from arbitrary choice:
-
-\textbf{A shallow urban alignment.} A shallow urban tunnel in weathered rock/soil. The governing engineering concern is surface settlement and its impact on existing buildings, services, and roads. Because the critical design question is \textit{how much will the ground above the tunnel move}, the decision-making tools are the Mair method and FEM ---i.e., Stage 1 (site investigation) and Stage 4 (numerical modelling) dominate. Empirical classification of the AF rock units and analytical stress/displacement estimates still apply, but they inform rather than govern the design.
-
-\textbf{The deep pumped-storage scheme.} A deep tunnel and cavern system in hard rock at high stress. The governing engineering concern is rock mass failure mode and support capacity. Because the critical design question is \textit{will the rock mass fail around the opening and what support will hold it}, the decision-making tools are the failure-mode decision tree, RMR/Q support, and the CCM---i.e., Stage 2 (empirical) and Stage 3 (analytical) dominate. The project still begins with site investigation data, and the convergence--confinement analysis serves as the verification stage.
-
-
-\noindent\textbf{Both projects demonstrate the complete workflow.}\enspace The key integration insight is that the same four-stage sequence applies to \textit{any} underground project, regardless of depth, rock type, or excavation method. Shallow tunnels in weak ground and deep caverns in hard rock both require site investigation $\to$ empirical classification $\to$ analytical assessment $\to$ numerical verification. The difference lies in which stage is most critical and which tools are most appropriate at each stage---and that difference is driven by the engineering question, not by preference.
-
 
 \section{Updating the design with observation}
 \label{sec:bayesian-updating}

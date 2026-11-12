@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Chapter 13 -- Ground Behaviour and Face Stability
+%  Ground Behaviour and Face Stability
 %  Sources: Brady & Brown (2006) Ch. 7-9; Hoek & Brown (1980) Ch. 7;
 %  Broms & Bennermark (1967); Davis et al. (1980); Anagnostou & Kovari (1996).
 %------------------------------------------------------------------------------
@@ -17,15 +17,9 @@ rather than by quality. The distinction is the older of the two ideas in
 underground engineering and remains the more useful: massive, stratified and
 blocky rock behave differently because different elements carry the load, and
 weak ground behaves differently again because the face becomes the governing
-problem.
-
-This chapter therefore organises ground by behaviour rather than by quality.
-The classification is the older of the two ideas in underground engineering
-and remains the more useful one: massive, stratified and blocky rock behave
-differently because different things carry the load, and weak and soft ground
-behaves differently again because the face itself becomes the problem.
-Establishing which applies is the decision that determines every subsequent
-step, and it is made from geology and stress rather than from a rating.
+problem. Establishing which applies is the decision that determines every
+subsequent step, and it is made from geology and stress rather than from a
+rating.
 
 \section{Ground type as the design frame}
 \label{sec:ground-type-frame}
@@ -33,7 +27,8 @@ step, and it is made from geology and stress rather than from a rating.
 \subsection{Behaviour classes}
 \label{sec:behaviour-classes}
 
-Six behaviour classes cover most underground ground, and each is diagnosed
+Six behaviour classes account for most ground encountered underground, and
+each is diagnosed
 from a combination of intact strength, discontinuity condition and stress
 level rather than from any single index.
 
@@ -72,11 +67,15 @@ apply, and boundary stress governs. Tangential stress concentrates at the
 excavation boundary by a factor that depends on shape and on the
 horizontal-to-vertical stress ratio $k$. For a circular opening in a
 hydrostatic field the tangential stress at the wall is twice the field stress;
-as $k$ departs from unity, stress concentrates where the boundary is
-perpendicular to the major principal stress and relaxes where it is parallel.
+as $k$ departs from unity, stress concentrates where the boundary runs
+parallel to the major principal stress and relaxes where it runs
+perpendicular to it: for a circular opening the wall values are
+$(3-k)\sv$ at the sidewall and $(3k-1)\sv$ at the crown
+(Section~\ref{sec:kirsch-appendix}).
 
 Where $k$ is low, the crown and invert of a circular opening can go into
-tension. Rock is weak in tension and jointed rock effectively has none, so a
+tension (Section~\ref{sec:kirsch-appendix}). Rock has little tensile strength
+and jointed rock effectively has none, so a
 computed tensile zone means the crown is destressed rather than that it
 carries tension: joints open, blocks lose clamping, and structurally
 controlled failure becomes possible in ground that the stress analysis
@@ -97,13 +96,14 @@ do not.
 Shape controls the boundary stress distribution. Elongating an opening in the
 direction of the major principal stress reduces the peak concentration; a
 shape whose axis ratio matches the stress ratio approaches uniform boundary
-stress and is the theoretical optimum. Sharp corners concentrate stress
+stress and is the theoretical optimum (Section~\ref{sec:elliptical}). Sharp corners concentrate stress
 severely, which is why square-profile openings are radiused, and flat roofs
 are avoided in high horizontal stress for the same reason.
 
-Size matters in two distinct ways. Increasing the span raises the tangential
-stress not at all in a homogeneous elastic field --- the concentration factor
-is dimensionless --- but it increases the volume of overstressed rock, the
+Size matters in two distinct ways. In an infinite homogeneous elastic field
+the concentration factor does not depend on span, so increasing the span does
+not raise the tangential stress, an independence that fails once the span
+becomes comparable with the cover. What the span does increase is the volume of overstressed rock, the
 weight of any block that forms, and the probability that an adverse structure
 is intersected at all. The last of these is often the dominant effect, and it
 is why experience from small openings extrapolates poorly to large ones.
@@ -117,7 +117,7 @@ resolution is to identify which mechanism governs: in high stress with sparse
 structure, stress wins; in moderate stress with strong persistent jointing,
 structure wins.
 
-\section{Massive, stratified and blocky rock}
+\section{Stratified and blocky rock}
 \label{sec:stratified-and-blocky}
 
 \subsection{Stratified rock and roof beams}
@@ -138,10 +138,11 @@ deterioration.
 A jointed or fractured roof bed cannot carry tension and does not act as an
 elastic beam. It acts instead as a linear arch --- the voussoir beam~\citep{beer1983voussoir} ---
 developing a compressive arch between abutments, with the thrust line rising
-towards the abutments and falling at midspan. Two failure modes follow:
-crushing where the compressive stress at the arch's contact zones exceeds the
-rock strength, and buckling or snap-through where the arch becomes too shallow
-to be stable. The solution is iterative, since the moment arm depends on the
+towards midspan, where contact is in the upper part of the bed, and falling
+towards the abutments, where it is in the lower part. Three failure modes
+follow: crushing where the compressive stress at those contact zones exceeds
+the rock strength, buckling or snap-through where the arch becomes too
+shallow to be stable, and shear or slip at the abutments. The solution is iterative, since the moment arm depends on the
 thrust and the thrust on the moment arm, and it yields a maximum stable span
 that falls sharply as bed thickness decreases.
 
@@ -159,19 +160,25 @@ choice must be deliberate.
 
 \emph{Suspension} hangs the immediate weak beds from a competent horizon
 above. It requires that such a horizon exists within reach and that the bolt
-can be anchored in it, and the bolt load is then simply the weight suspended.
+can be anchored in it, and the bolt load is then simply the weight suspended:
+a 1.5~m by 1.5~m pattern carrying 1.0~m of laminated rock of unit weight
+25~kN/m\textsuperscript{3} loads each bolt with 56~kN.
 \emph{Beam building} clamps several thin beds together so they act as one
 thick beam, exploiting the fact that beam stiffness rises with the cube of
-thickness; this requires pretension sufficient to develop friction across the
+thickness, so that four beds bolted into one beam are sixteen times as stiff
+as the same four acting separately; this requires pretension sufficient to develop friction across the
 bedding and closely spaced bolts. \emph{Clamping} increases normal stress
-across the bedding to prevent slip at the abutments, which is what fails a
-voussoir arch.
+across the bedding to prevent slip at the abutments, one of the three ways a
+voussoir arch fails.
 
 Selection follows from bed thickness and available anchorage. Where a
 competent horizon lies within bolt length, suspension is the most reliable and
 the easiest to verify. Where it does not, beam building is the only option,
 and its effectiveness depends entirely on pretension being achieved and
 maintained --- an installation quality question rather than a design one.
+Clamping governs where the mode of concern is slip at the abutments of a
+voussoir bed, and where no competent horizon lies within the length of a
+bolt, cable support extends the reach (Chapter~\ref{ch:openings}).
 
 \subsection{Blocky rock}
 \label{sec:blocky-rock}
@@ -192,7 +199,7 @@ And the factor of safety is highly sensitive to the friction angle assumed for
 a surface nobody has tested, which is the largest uncertainty in most such
 calculations.
 
-Key block theory offers a design economy. If the critical key block --- the
+Key block theory~\citep{goodman1985block} offers a design economy. If the critical key block --- the
 one whose removal permits others to follow --- is stabilised, the blocks it
 keys are secured with it. A systematic bolting pattern designed against the
 critical key block therefore covers a family of lesser blocks without each
@@ -218,8 +225,9 @@ handful, no individual block governs and the mass again behaves as a
 continuum, now weak and highly deformable. The transition is gradual and the
 practical criterion is the ratio of block size to opening dimension: where
 that ratio falls below roughly a tenth, equivalent continuum treatment with
-Hoek--Brown parameters is appropriate, and where it exceeds about a third,
-discrete analysis is required. Between them both should be run, and
+Hoek--Brown parameters (Chapter~\ref{ch:rock-mass-parameters}) is appropriate,
+and where it exceeds about a third, discrete analysis is required. The two
+values are indicative guides to the choice of analysis and not limits. Between them both should be run, and
 disagreement between them is information rather than an inconvenience.
 
 \subsection{Selecting the analysis route}
@@ -231,11 +239,15 @@ underground analysis is not a wrong calculation but a correct calculation of
 the wrong mechanism.
 
 Massive rock at moderate stress: elastic
-analysis and boundary stress checks. Massive rock at high stress: spalling
-prediction and depth-of-failure estimation. Stratified: beam and voussoir
-analysis. Blocky: structural analysis and limit equilibrium. Heavily
-fractured: equivalent continuum with empirical or numerical methods. Weak
-ground: face stability and deformation control. The rule is not a substitute
+analysis and boundary stress checks (Chapter~\ref{ch:ccm}). Massive rock at
+high stress: spalling prediction and depth-of-failure estimation
+(Chapter~\ref{ch:high-stress}). Stratified: beam and voussoir analysis
+(Section~\ref{sec:stratified-and-blocky}). Blocky: structural analysis and
+limit equilibrium (Chapter~\ref{ch:structural-analysis}). Heavily fractured:
+equivalent continuum with empirical or numerical methods
+(Chapters~\ref{ch:empirical-design} and~\ref{ch:numerical-modelling}). Weak
+ground: face stability and deformation control
+(Section~\ref{sec:weak-ground}). The rule is not a substitute
 for judgement, but a design that applies the wrong route has usually done so
 by habit rather than by decision.
 
@@ -262,7 +274,9 @@ hardest to analyse; conservatively, both bounds are checked.
 
 Stand-up time links behaviour to construction. It is the period an unsupported
 span remains stable, it falls sharply with span, and it is what determines
-whether cyclic excavation is feasible at all. Where stand-up time approaches
+whether cyclic excavation is feasible at all. Estimates follow from the RMR
+chart of span against stand-up time (Chapter~\ref{ch:empirical-design}),
+whose values are indicative only. Where stand-up time approaches
 the cycle time, the choice is to reduce the span through sequential
 excavation, to improve the ground, or to change to a method that supports the
 face continuously.
@@ -274,35 +288,49 @@ face continuously.
 \label{sec:face-stability-analysis}
 
 The oldest treatment expresses face stability through the stability ratio,
-comparing the total overburden and any surcharge against the undrained shear
-strength of the ground. The observation of \citet{broms1967stability} that instability
-occurs above a ratio of about six remains a useful screening test, and Davis
-and co-workers refined it into upper and lower bound plasticity solutions in
+which compares the total overburden and any surcharge against the undrained
+shear strength of the ground,
+\[
+N = \frac{\sigma_s + \gamma z - \sigma_T}{s_u} ,
+\]
+where $\sigma_s$ is the surface surcharge, $\gamma z$ the total overburden
+stress at the level of the tunnel axis, $\sigma_T$ the support pressure
+applied at the face and $s_u$ the undrained shear strength. The observation of
+\citet{broms1967stability} that instability occurs above a ratio of about six
+remains a useful screening test, and \citet{davis1980stability}
+refined it into upper and lower bound plasticity solutions in
 which the critical ratio depends on the cover-to-diameter ratio and on the
 length of unsupported heading.
 
 These solutions are for cohesive ground and total stress. Frictional ground
 requires a different construction, and the standard one is the wedge--silo
-model: a wedge of ground slides forward at the face, loaded from above by a
+model~\citep{anagnostou1996face}: a wedge of ground slides forward at the face, loaded from above by a
 prism whose weight is reduced by arching within it, calculated by Janssen's
-silo theory. The required support pressure follows from equilibrium of the
+silo theory~\citep{janssen1895versuche}. The required support pressure follows from equilibrium of the
 wedge.
 
 Two results from this model matter for design. The required support pressure
-is remarkably insensitive to cover once arching is established, so a deeper
-tunnel does not need proportionally more face pressure --- a result that
-surprises engineers reasoning from overburden. And it is highly sensitive to
+is insensitive to cover once the cover is sufficient for arching to develop,
+so a deeper tunnel does not need proportionally more face pressure --- a
+result that surprises engineers reasoning from overburden. At shallower cover
+the weight of the prism acts nearly in full, and the required pressure does
+rise with cover. And it is highly sensitive to
 cohesion: a small effective cohesion greatly reduces the required pressure,
 which is why an apparently modest ground improvement can transform face
 stability, and why assuming zero cohesion in a slightly cemented soil is
-severely conservative.
+severely conservative. The same sensitivity makes cohesion the parameter
+least safely assumed: a small cemented component is easily destroyed by
+disturbance and is rarely continuous along an alignment, so credit taken for
+it is supported by testing and by a check at zero cohesion.
 
 \subsection{Face support pressure}
 \label{sec:face-support-pressure}
 
 Closed-face machines apply pressure to the face, and the design task is to
 define the operating window. The lower bound is the pressure preventing
-collapse, from the analysis above, plus the water pressure at the face; the
+collapse, from the wedge--silo analysis above, whose equilibrium is
+formulated in full by \citet{anagnostou1996face}, plus the water pressure at
+the face; the
 upper bound is the pressure causing blow-out or heave, governed by the weight
 of overburden and reducing sharply as cover decreases. In shallow ground the
 window can be narrow, and in very shallow ground under a river or a soft
@@ -329,7 +357,9 @@ Machine selection is therefore a ground question before it is a plant question
 \label{sec:ground-loss}
 
 Volume loss is not a single quantity but the sum of three separable
-contributions. \emph{Face loss} arises from movement into the face when
+contributions~\citep{mair1996settlement}, which are the
+construction-controlled part of the sources decomposed in
+Chapter~\ref{ch:numerical-modelling}. \emph{Face loss} arises from movement into the face when
 support pressure is below the in-situ stress. \emph{Shield loss} arises over
 the length of the shield, from the overcut, from ploughing as the machine
 steers, and from any pitch or yaw. \emph{Tail loss} arises at the shield tail,
@@ -371,9 +401,10 @@ it either occupies the critical path or must be executed from the surface in
 advance.
 
 The judgement is therefore economic as much as technical. Continuous face
-support costs nothing extra once the machine is procured but constrains what
-ground the drive can pass through; ground treatment costs time and money at
-specific locations but removes the constraint. Long drives in mostly
+support carries a recurring cost in conditioning agents or slurry treatment
+and in advance rate, and constrains what ground the drive can pass through,
+but it is available along the whole drive; ground treatment costs time and
+money at specific locations and removes the constraint there. Long drives in mostly
 competent ground with a few difficult reaches favour treatment at those
 reaches; drives predominantly in weak ground favour a machine that supports
 the face throughout. The decision is taken at the same time as machine

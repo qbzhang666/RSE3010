@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Appendix H -- Worked Calculation Sequences
+%  Appendix F -- Worked Calculation Sequences
 %  Step-by-step procedures that can be followed by hand, so that software
 %  output can be verified independently.
 %------------------------------------------------------------------------------
@@ -10,8 +10,8 @@
 Each sequence below is set out as numbered steps, with the equation, the input
 required and the check to apply at that step. They are deliberately
 hand-workable: the point is to be able to verify what a program returns.
-Symbols follow the list of symbols; expressions referenced by number are in
-Appendix~\ref{app:closed-form} and typical values in
+Symbols follow the list of symbols; the underlying expressions are collected
+in Appendix~\ref{app:closed-form} and typical values in
 Appendix~\ref{app:constants}.
 
 \section{Deriving rock mass design parameters}
@@ -27,13 +27,13 @@ of interest. Supports Chapter~\ref{ch:rock-mass-parameters}.
   s = \exp\!\left(\frac{\GSI-100}{9-3\Dfac}\right),
   \]
   \[
-  a = \tfrac{1}{2} + \tfrac{1}{6}\left(e^{-\GSI/15}-e^{-20/3}\right).
+  a_{HB} = \tfrac{1}{2} + \tfrac{1}{6}\left(\exp(-\GSI/15)-\exp(-20/3)\right).
   \]
   \emph{Check:} for $\GSI = 100$ and $\Dfac = 0$ these return
-  $\mb = \mi$, $s = 1$, $a = 0.5$, recovering the intact criterion.
+  $\mb = \mi$, $s = 1$, $a_{HB} = 0.5$, recovering the intact criterion.
 
   \item Compute the rock mass uniaxial strength
-  $\scm = \sci\,s^{a}$, and the tensile strength
+  $\scm = \sci\,s^{a_{HB}}$, and the tensile strength
   $\sigma_{tm} = -s\sci/\mb$.
   \emph{Check:} $\scm$ should be a small fraction of $\sci$ for jointed rock
   --- typically a few per cent at $\GSI = 40$.
@@ -44,8 +44,9 @@ of interest. Supports Chapter~\ref{ch:rock-mass-parameters}.
   \Erm = \Ei\left[0.02 + \frac{1-\Dfac/2}
   {1+\exp\!\left((60+15\Dfac-\GSI)/11\right)}\right].
   \]
-  \emph{Check:} $\Erm/\Ei$ should fall between about 0.02 and 1, decreasing
-  with $\GSI$.
+  \emph{Check:} $\Erm/\Ei$ should fall between about 0.02 and 1, rising
+  with $\GSI$ and falling with $\Dfac$; at $\Dfac = 0$ the ratio is about
+  0.08 at $\GSI = 30$ and about 0.73 at $\GSI = 70$.
 
   \item Compare against at least one independent modulus estimate --- a
   $\GSI$--$\sci$ correlation, or an $\RMR$- or $Q$-based expression --- and
@@ -59,40 +60,42 @@ of interest. Supports Chapter~\ref{ch:rock-mass-parameters}.
   Hoek--Brown curve across that range and will diverge outside it.
 
   \item Record $\sci$, $\mi$, $\GSI$, $\Dfac$, the confining range and the
-  date on the derivation sheet of Appendix~\ref{app:templates}.
+  date against the derivation in the design report, so that a reviewer can
+  reconstruct the reasoning.
 \end{enumerate}
 
 \section{Rock--support interaction sequence}
 \label{sec:seq-support-interaction}
 
-Inputs: $\pzero$, $a$, rock mass parameters from the sequence above, support
+Inputs: $\pzero$, the opening radius $a$, rock mass parameters from the
+sequence above, support
 properties, and the intended installation distance behind the face. Supports
 Chapters~\ref{ch:ccm} and~\ref{ch:support}.
 
 \begin{enumerate}
-  \item Compute the critical support pressure $\pin^{\text{cr}}$. If
-  $\pin^{\text{cr}} \le 0$, the ground is elastic and the problem is
+  \item Compute the critical support pressure $p_{cr}$. If
+  $p_{cr} \le 0$, the ground is elastic and the problem is
   structural rather than one of ground pressure.
 
   \item Construct the ground reaction curve: compute wall convergence for a
   series of support pressures from $\pzero$ down to zero, elastic above
-  $\pin^{\text{cr}}$ and elasto-plastic below.
+  $p_{cr}$ and elasto-plastic below.
   \emph{Check:} the curve must pass through $(\pzero, 0)$ and fall
   monotonically.
 
   \item Compute the maximum convergence $u_{\max}$ at $\pin = 0$, and the
-  plastic radius $r_p$ at the anticipated equilibrium pressure.
-  \emph{Check:} $r_p/a$ above about 2 indicates a squeezing problem
+  plastic radius $R_p$ at the anticipated equilibrium pressure.
+  \emph{Check:} $R_p/a$ above about 2 indicates a squeezing problem
   (Chapter~\ref{ch:high-stress}).
 
   \item From the longitudinal deformation profile, compute the convergence
-  $u_0$ already released at the installation distance $x$.
-  \emph{Check:} $u_0/u_{\max}$ should be roughly 0.25 at the face and 0.7 to
+  $u_{s0}$ already released at the installation distance $X$.
+  \emph{Check:} $u_{s0}/u_{\max}$ should be roughly 0.25 at the face and 0.7 to
   0.9 at two to three radii behind it.
 
   \item Construct the support characteristic curve, using the stiffness and
   capacity expressions for the actual system, offset along the convergence
-  axis by $u_0$.
+  axis by $u_{s0}$.
 
   \item Where several elements act together, sum the stiffnesses of those
   installed at the same convergence and offset separately any installed
@@ -104,7 +107,7 @@ Chapters~\ref{ch:ccm} and~\ref{ch:support}.
   pressure $p_{\text{eq}}$ and the total convergence.
 
   \item Compute the factor of safety as
-  $FS = p_{s,\max}/p_{\text{eq}}$, and check the equilibrium convergence
+  $FS = p_{sm}/p_{\text{eq}}$, and check the equilibrium convergence
   against the clearance envelope and any third-party movement limit.
 
   \item If the margin is inadequate, test in turn: stiffer support, higher
@@ -144,8 +147,9 @@ constructions are in Appendix~\ref{app:stereonet}.
   contribution as zero unless it can be demonstrated.
 
   \item Compute the resisting force as
-  $\sum \left[(N-U)\tan\phi + cA\right]$ over the sliding planes, and the
-  factor of safety as resisting divided by driving force.
+  $\sum \left[(N-U)\tan\phi + cA\right]$ over the sliding planes, where $N$
+  is the normal force on a plane, $U$ the water force on it and $A$ its area,
+  and the factor of safety as resisting divided by driving force.
 
   \item If $FS$ is below target, compute the required bolt force
   $T$ from equilibrium at the target $FS$, and the optimum bolt
@@ -159,13 +163,14 @@ constructions are in Appendix~\ref{app:stereonet}.
 \section{Voussoir beam check for a laminated roof}
 \label{sec:seq-voussoir}
 
-Inputs: bed thickness $t$, span $L$, unit weight, and rock compressive
-strength. Supports Chapter~\ref{ch:ground-behaviour}.
+Inputs: bed thickness $t$, span $L$, unit weight, deformation modulus of the
+bed, and rock compressive strength. Supports Chapter~\ref{ch:ground-behaviour}.
 
 \begin{enumerate}
   \item Assume an initial moment arm, conventionally $z = 0.75\,t$.
   \item Compute the arch thrust from moment equilibrium of the beam under its
-  self-weight, $T = wL^2/(8z)$ per unit width.
+  self-weight, $T = wL^2/(8z)$ per unit width, where $w = \gamma t$ is the
+  self-weight of the bed per unit area.
   \item Compute the elastic shortening of the arch under that thrust and the
   resulting deflection, and update the moment arm.
   \item Iterate steps 2 and 3 until the moment arm converges.
@@ -173,8 +178,9 @@ strength. Supports Chapter~\ref{ch:ground-behaviour}.
   unstable.
   \item Check crushing: the compressive stress at the contact zones must not
   exceed the rock strength, allowing for the reduced contact area.
-  \item Check buckling: compare the converged geometry against the
-  snap-through limit.
+  \item Check buckling: compare the mid-span deflection at convergence with
+  the bed thickness, since a solution can converge while lying close to
+  snap-through and the convergence test alone gives no margin.
   \item Repeat for a range of spans to establish the maximum stable span, and
   compare against the actual span to determine the reinforcement required.
 \end{enumerate}
@@ -187,7 +193,8 @@ Chapter~\ref{ch:openings}.
 
 \begin{enumerate}
   \item Compute the extraction ratio and the tributary area pillar stress
-  $\sigma_p = \gamma z\,/(1-e)$ for a regular layout, where $e$ is the
+  $\sigma_p = \gamma z\,/(1-e)$ for a regular layout, where $\gamma$ is the
+  unit weight of the overburden, $z$ the depth to the pillar and $e$ the
   extraction ratio.
   \emph{Check:} tributary area overestimates stress for a small group of
   openings with stiff abutments.
@@ -220,12 +227,15 @@ dimensions and use. Supports Chapter~\ref{ch:empirical-design}.
   \item Compute $Q = (\RQD/J_n)(J_r/J_a)(J_w/\mathrm{SRF})$, recording the
   justification for each rating --- particularly SRF, which spans several
   orders of magnitude.
-  \item Compute the equivalent dimension $D_e = B/\mathrm{ESR}$, taking ESR
-  from the excavation's use and required design life.
+  \item Compute the equivalent dimension $D_e = B/\mathrm{ESR}$, where $B$ is
+  the span or the height of the excavation, whichever governs the surface
+  being designed, and ESR is the excavation support ratio, taken from the
+  excavation's use and required design life (Table~\ref{tab:esr}).
   \item Enter the $Q$ support chart with $D_e$ and $Q$ to obtain the support
   category, bolt length and spacing, and shotcrete thickness.
-  \item Obtain the maximum unsupported span and stand-up time from the
-  $\RMR$ chart, and apply the orientation adjustment for the tunnel case.
+  \item Apply the orientation adjustment for the tunnel case to the rating,
+  and then obtain the maximum unsupported span and stand-up time from the
+  $\RMR$ chart.
   \item For walls, apply the wall factor to $Q$ before entering the chart.
   \item Compare the two recommendations.
   \emph{Check:} substantial disagreement usually indicates an inconsistent
@@ -239,21 +249,29 @@ dimensions and use. Supports Chapter~\ref{ch:empirical-design}.
 \section{Settlement and damage assessment sequence}
 \label{sec:seq-settlement}
 
-Inputs: tunnel diameter and depth, volume loss, trough width parameter, and
-building geometry, foundation and condition. Supports
+Inputs: the tunnel diameter $D$, the depth to axis $z_0$, the volume loss
+$V_L$, the trough width parameter $K$, and building geometry, foundation and
+condition. Supports
 Chapter~\ref{ch:settlement-damage}.
 
 \begin{enumerate}
-  \item Compute the trough width $i = K z_0$ and the maximum settlement
-  $S_{\max} = V_L \pi D^2 / (4 i \sqrt{2\pi})$.
+  \item Compute the trough width $i = K z_0$, then the trough volume per
+  metre of tunnel $V_s = (V_L/100)\,\pi D^2/4$ with $V_L$ in per cent, and
+  only then the maximum settlement $S_{\max} = V_s / (i \sqrt{2\pi})$.
+  \emph{Check:} the factor of 100 belongs in $V_s$ and nowhere else, so a
+  volume loss of 0.5\,per cent enters as $V_L = 0.5$ and $V_L/100 = 0.005$.
+  $S_{\max}$ emerges in metres and is converted to millimetres before the
+  screening step below. For $D = 6$\,m at $z_0 = 20$\,m in stiff clay,
+  $V_L = 1$\,per cent gives $S_{\max}$ of order 11\,mm.
   \item Construct the transverse Gaussian trough and, where the building is
   near the face during construction, the longitudinal profile.
   \item Compute horizontal displacement and horizontal strain, tensile at the
   trough edge and compressive over the centre.
   \emph{Check:} omitting horizontal strain will understate damage, often by a
   full category.
-  \item Screen: exclude buildings below about 10\,mm settlement and a slope of
-  1 in 500.
+  \item Screen the building stock: exclude a building only where the
+  predicted settlement is below about 10\,mm and the predicted slope is below
+  1 in 500, both conditions being required.
   \item For the remainder, compute deflection ratio in sagging and hogging
   over the building length, treating the building as conforming to the
   greenfield trough.

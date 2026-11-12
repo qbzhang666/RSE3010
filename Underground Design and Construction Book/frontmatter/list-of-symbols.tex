@@ -4,9 +4,24 @@
 \markboth{List of Symbols}{List of Symbols}
 \label{ch:symbols}
 
-The symbols below are used consistently throughout the book. Where a chapter
-introduces a symbol local to one method, it is defined at first use in that
-chapter and does not appear here.
+The symbols below are those that appear in more than one chapter. A symbol
+local to a single method is defined at first use and does not appear here.
+
+Several letters carry more than one established meaning in the literature this
+book draws on, and the distinction is kept rather than suppressed. For the
+letter $k$: $k$ alone is the in-situ stress ratio, $k_\phi$ the Mohr--Coulomb
+coefficient, $k_s$ a support stiffness, and $K$ the trough width parameter of
+settlement analysis. For the letter $a$: $a$ is an opening radius and $a_{HB}$
+the Hoek--Brown exponent. The letter $s$ is a Hoek--Brown constant and also a
+steel-set spacing, $Q$ is the rock mass quality index and also an anchor
+load--deformation constant, and $K$ is additionally the elastic bulk modulus at
+its single use in Chapter~\ref{ch:rock-mechanics}. And for rock mass strength: $\scm$ is the
+Hoek--Brown value while $\sigma_{cm,MC}$ is the unconfined strength of a
+Mohr--Coulomb material --- in the worked example of
+Chapter~\ref{ch:ccm} the latter is about a third larger at $\GSI = 60$ and
+about four times larger at $\GSI = 30$. Where both readings of a letter occur
+in the same chapter the subscripted form is used, and in every case the
+expression states which quantity it takes.
 
 \begin{longtable}{ll>{\raggedright\arraybackslash}p{0.5\textwidth}}
 \toprule
@@ -14,28 +29,40 @@ Symbol & Unit & Description \\
 \midrule
 \endhead
 $\sci$ & \si{\mega\pascal} & Uniaxial compressive strength of intact rock \\
-$\scm$ & \si{\mega\pascal} & Rock mass strength \\
+$\scm$ & \si{\mega\pascal} & Rock mass uniaxial compressive strength in the Hoek--Brown sense: $\sci s^{a_{HB}}$, or the global rock mass strength where an expression requires it, as stated at each use \\
+$\sigma_{cm,MC}$ & \si{\mega\pascal} & Unconfined compressive strength of a Mohr--Coulomb material, $2c\cos\phi/(1-\sin\phi)$; not interchangeable with $\scm$ \\
 $\sone$, $\stwo$, $\sthree$ & \si{\mega\pascal} & Major, intermediate and minor principal stress \\
 $\sv$ & \si{\mega\pascal} & Vertical in-situ stress \\
 $\sh$ & \si{\mega\pascal} & Horizontal in-situ stress \\
 $k$ & --- & Ratio of horizontal to vertical in-situ stress \\
+$k_\phi$ & --- & Mohr--Coulomb coefficient, $(1+\sin\phi)/(1-\sin\phi)$ \\
 $\pzero$ & \si{\mega\pascal} & Far-field (hydrostatic) in-situ pressure \\
 $\pin$ & \si{\mega\pascal} & Internal support pressure \\
+$p_{cr}$ & \si{\mega\pascal} & Critical support pressure, below which a plastic zone forms \\
+$p_{sm}$ & \si{\mega\pascal} & Maximum pressure a support system can carry \\
+$k_s$ & \si{\mega\pascal\per\metre} & Support stiffness \\
+$a$ & \si{\metre} & Radius of a circular opening \\
+$R_p$ & \si{\metre} & Radius of the plastic zone \\
+$u_r$ & \si{\milli\metre} & Radial wall convergence; $u_{s0}$ at support installation, $u_{\max}$ unsupported \\
+$X$ & \si{\metre} & Distance from the face, positive behind it \\
 $\mi$ & --- & Hoek--Brown material constant for intact rock \\
 $\mb$ & --- & Hoek--Brown constant for the rock mass \\
-$s$, $a$ & --- & Hoek--Brown rock mass constants \\
+$s$, $a_{HB}$ & --- & Hoek--Brown rock mass constants \\
 $\GSI$ & --- & Geological Strength Index \\
-$\RMR$ & --- & Rock Mass Rating \\
+$\RMR$ & --- & Rock Mass Rating (the 1989 version unless stated otherwise) \\
 $Q$ & --- & NGI rock mass quality index \\
 $\RQD$ & \si{\percent} & Rock Quality Designation \\
-$\Dfac$ & --- & Disturbance factor \\
+$\Dfac$ & --- & Hoek--Brown disturbance factor, from 0 (undisturbed) to 1; the same letter is the excavation diameter in settlement analysis \\
 $\Ei$ & \si{\giga\pascal} & Deformation modulus of intact rock \\
-$\Erm$ & \si{\giga\pascal} & Deformation modulus of the rock mass \\
+$\Erm$ & \si{\giga\pascal} & Deformation modulus of the rock mass; some correlations return \si{\mega\pascal}, and each states its own unit \\
 $c$ & \si{\mega\pascal} & Cohesion \\
 $\phi$ & \si{\degree} & Friction angle \\
 $\nu$ & --- & Poisson's ratio \\
 $V_L$ & \si{\percent} & Volume loss \\
-$i$ & \si{\metre} & Distance to the point of inflexion of the settlement trough \\
-$S_{max}$ & \si{\milli\metre} & Maximum surface settlement \\
+$V_s$ & \si{\metre\squared\per\metre} & Volume of the settlement trough per metre of tunnel \\
+$i$ & \si{\metre} & Horizontal distance from the tunnel centreline to the point of inflection of the settlement trough, $i = K z_0$ \\
+$K$ & --- & Trough width parameter, $i = K z_0$ \\
+$z_0$ & \si{\metre} & Depth to the tunnel axis \\
+$S_{\max}$ & \si{\milli\metre} & Maximum surface settlement \\
 \bottomrule
 \end{longtable}

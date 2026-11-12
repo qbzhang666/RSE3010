@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Chapter 21 -- Mechanised Tunnelling
+%  Mechanised Tunnelling
 %  Sources: Maidl et al., Mechanised Shield Tunnelling and Hardrock TBMs;
 %  Rostami & Ozdemir (CSM model); Bruland (NTNU model); Barton (Q-TBM);
 %  DAUB recommendations for TBM selection.
@@ -16,13 +16,9 @@ specified and the ground subsequently encountered. This chapter therefore
 treats selection as a geotechnical decision before a plant decision, and then
 examines the interactions that govern performance: cutting tools against rock
 abrasivity, thrust and torque against ground reaction, face pressure against
-stability, and annulus grouting against ground movement.
-
-This chapter therefore treats machine selection as a geotechnical decision
-before a plant decision, and then works through the interactions that govern
-performance: cutting tools against rock abrasivity, thrust and torque against
-ground reaction, face pressure against stability, and grout against ground
-movement.
+stability, and annulus grouting against ground movement. It then treats the
+machine's own records as geotechnical data, and closes with the failure modes
+and the logistics that set the ceiling on advance.
 
 \section{Machine selection and configuration}
 \label{sec:machine-selection}
@@ -83,10 +79,14 @@ is slow, and a plant sized for the average will stop the machine at the peak.
 Support transfer differs fundamentally between them, and this is where slurry
 machines fail. Pressure reaches the soil skeleton through a filter cake formed
 as the slurry penetrates a short distance and its solids bridge the pore
-openings. In coarse or gap-graded ground the slurry penetrates instead of
-sealing, and the support pressure is dissipated into the ground rather than
-applied to the face. Coarser bentonite, additives and increased density extend
-the range; beyond it, the machine cannot support the face at all.
+openings. In very open or gap-graded gravel, where the pore openings are too
+large for the solids to bridge, the slurry penetrates instead of sealing, and
+the support pressure is dissipated into the ground rather than applied to the
+face. Coarser bentonite, additives and increased density extend the range;
+beyond it, the machine cannot support the face at all. The two machine types
+are thus complementary: fine-grained and well-graded soils favour earth
+pressure balance, clean sands and medium gravels favour slurry, and the
+envelopes overlap in silty sand, where either will work.
 
 \emph{Multi-mode} machines can be converted between modes, and alignments
 crossing several ground types increasingly justify them. Conversion is not
@@ -101,8 +101,12 @@ The cutterhead carries the tools, delivers thrust and torque to the face, and
 admits muck to the chamber. Its opening ratio expresses the trade at the heart
 of its design: a large opening ratio admits muck freely and gives poor face
 support, while a closed head supports well and risks clogging in cohesive
-ground. Rock machines therefore run open heads and closed-face machines run
-substantially closed ones.
+ground. Practice follows the ground rather than the machine family. Hard-rock heads
+are plate structures with a low opening ratio, because the face needs no
+support and the cutters do; soft-ground heads trade opening ratio against
+mechanical face support, with spoke heads at the high end for clean granular
+soil under slurry and panel heads at the low end, opened up again where
+sticky clay would otherwise clog them.
 
 Hard rock is cut by disc cutters, which indent the rock and propagate cracks
 between adjacent tracks so that chips spall out between them. Efficiency
@@ -124,13 +128,14 @@ regime and its own days of downtime.
 \subsection{Performance and installed power}
 \label{sec:performance-power}
 
-Two prediction models dominate. The Colorado School of Mines approach~\citep{rostami1993csm} is
+Three prediction approaches dominate. The Colorado School of Mines approach~\citep{rostami1993csm} is
 mechanistic: it estimates the forces on an individual disc cutter from rock
 properties and cutter geometry, sums them over the head, and returns thrust,
 torque and penetration per revolution. The Norwegian University of Science and
-Technology approach is empirical, built from an extensive case base and
-correlating penetration with rock drillability and fracturing indices. Barton's
-$Q_{TBM}$ extends rock mass classification to machine performance.
+Technology approach~\citep{bruland1998ntnu} is empirical, built from an extensive case base and
+correlating penetration with rock drillability and fracturing indices. The
+$Q_{TBM}$ index of \citet{barton2000tbm} extends rock mass classification to
+machine performance.
 
 All three predict \emph{penetration rate} --- advance while boring. None
 predicts \emph{advance rate}, which is what the programme needs, because
@@ -138,7 +143,10 @@ advance rate is penetration rate multiplied by utilisation, and utilisation is
 the fraction of time the machine is actually boring. Utilisation on a
 well-run drive in good ground may reach 40 to 50 per cent; in difficult ground
 it can fall below 20. The remainder is ring building, cutter changes,
-maintenance, logistics and stoppages.
+maintenance, logistics and stoppages. At a penetration rate of 3.0~m/h, a
+utilisation of 35 per cent gives 1.05~m/h, about 25~m a day, and one of 18
+per cent gives 0.54~m/h, about 13~m a day: the same machine in the same rock,
+and a factor of two in programme.
 
 This is why predicted advance rates are so often optimistic: the penetration
 prediction is reasonable and the utilisation assumption is not. Realistic
@@ -162,16 +170,18 @@ higher installed thrust and the ability to overbore.
 \label{sec:face-pressure-grouting}
 
 The operating pressure window follows directly from the analysis of
-Chapter~\ref{ch:ground-behaviour}: a lower bound from face collapse plus water
+Section~\ref{sec:face-support-pressure}: a lower bound from face collapse plus water
 pressure, an upper bound from blow-out and heave. Converting that window into
 machine operating parameters requires care about where in the profile the
 target is defined, since pressure varies over the face height with the density
-of the supporting medium.
+of the supporting medium: with a slurry of unit weight
+12~kN/m\textsuperscript{3} the applied pressure differs by about 120~kPa
+between the crown and the invert of a 10~m face.
 
 Control in real time is the operator's task and the designer's specification.
 Chamber pressure responds to advance rate and discharge rate together, and
 maintaining it through a ring-build stop --- when the machine is not advancing
-but the ground is still there --- is a common point of loss.
+but the face still requires support --- is a common point of loss.
 
 Annulus grouting closes the gap between the excavated bore and the segment
 ring, and it is the largest controllable component of volume loss. Simultaneous
@@ -180,9 +190,16 @@ gap before the ground can converge into it; secondary grouting through the
 segments is a repair rather than a method. Grout pressure must exceed the
 ground and water pressure enough to fill the annulus and stay below the
 fracture pressure, and the volume injected must be reconciled against the
-theoretical annular volume ring by ring. A persistent shortfall between
-theoretical and actual volume is the earliest reliable indicator of ground
-loss.
+theoretical annular volume ring by ring. For a 6.2\,m bore, a 6.0\,m segment
+extrados and a 1.5\,m ring the theoretical annulus is
+$(\pi/4)(6.2^2 - 6.0^2)(1.5) = 2.87$\,m\textsuperscript{3} per ring, against
+an excavated volume of 45.3\,m\textsuperscript{3}. A persistent shortfall
+between theoretical and actual volume is the earliest reliable indicator of
+ground loss, and it converts directly: 0.5\,m\textsuperscript{3} per ring
+is a volume loss of 1.1\,per cent. The shortfall that signifies ground loss
+is the one measured against the theoretical annulus, not against a specified
+over-fill allowance, and it is judged against the design $V_L$ and the
+settlement limits rather than on the grout record alone.
 
 \subsection{Guidance and interventions}
 \label{sec:guidance-interventions}
@@ -191,8 +208,8 @@ Guidance systems track the shield continuously against the design alignment
 and report deviation in position and attitude. Steering corrections are made
 by differential thrust across the jack groups, and on articulated machines by
 the articulation joint. Because correction is gradual, the build must
-anticipate: universal ring taper is used to steer the ring as well as to
-negotiate curves, and the build sequence is planned several rings ahead.
+anticipate: universal ring taper (Section~\ref{sec:segmental-ring}) is used to
+steer the ring as well as to negotiate curves, and the build sequence is planned several rings ahead.
 
 Roll, alignment drift and the accumulation of build tolerance all feed into
 the clearance envelope, and a drive that consumes its tolerance early has no
@@ -202,6 +219,8 @@ Interventions --- entering the excavation chamber for cutter changes,
 inspection or repairs --- are the principal safety risk in closed-face
 tunnelling. At low pressure, compressed air working is possible with medical
 supervision and decompression control. Above the limits of compressed air,
+which are of the order of 3 to 4~bar and are set by the regulation that
+applies,
 saturation techniques are used, with their own substantial regime. The
 alternative is to intervene under atmospheric conditions, which requires a
 stable face --- achievable by locating interventions where the ground is
@@ -209,8 +228,9 @@ competent, or by treating the ground from the surface in advance.
 
 Planning interventions is therefore an alignment-stage activity. Identifying
 in advance where the ground allows a safe atmospheric intervention, and
-scheduling cutter changes to those locations, is worth more than any amount of
-capability to intervene under pressure.
+scheduling cutter changes to those locations, is a better investment than
+additional hyperbaric capability, which remains necessary but is not to be
+relied on as the primary strategy.
 
 \section{Machine data and forward exploration}
 \label{sec:machine-data}
@@ -226,7 +246,23 @@ behaviour in real time, and calibration of performance prediction for the
 remainder of the drive. Specific energy --- the energy consumed per unit
 volume excavated --- is the most useful derived quantity, since it responds to
 rock strength and fracturing and can be tracked continuously against the ground
-model of Chapter~\ref{ch:ground-modelling}.
+model of Chapter~\ref{ch:ground-modelling}. Its rotary part, which dominates,
+is
+\[
+e_s = \frac{2\pi N T}{A\,u} ,
+\]
+with $N$ the rotation speed of the cutterhead, $T$ its torque, $A$ the face
+area and $u$ the penetration rate~\citep{teale1965specific}; the thrust
+contribution $F/A$ is a small addition, of the order of
+0.3~MJ/m\textsuperscript{3}. A 6~m head turning at 8~rev/min under a torque
+of 2000~kN\,m absorbs about 1700~kW and, advancing at 3~m/h, excavates
+85~m\textsuperscript{3}/h, so that $e_s \approx 71$~MJ/m\textsuperscript{3},
+about 20~kWh/m\textsuperscript{3}. The power in this expression is that
+delivered at the cutterhead and not the installed power of the machine, and
+summed over a drive it gives the excavation energy $E_{\mathrm{TBM}}$ of
+Section~\ref{sec:carbon-formula}. A sustained rise in specific energy at
+constant thrust indicates stronger or less fractured rock, or blunt tools,
+which have to be excluded first.
 
 The obstacles are practical. Data arrive at high rate in supplier-specific
 formats, require cleaning and ring-based aggregation to be usable, and are
@@ -259,7 +295,9 @@ a boring operation into a sequence of interventions.
 Each has a ground signature that investigation can find and a mitigation that
 must be specified before procurement: overcut and thrust for squeezing,
 conditioning and head design for clogging, tool selection and rock crushers
-for boulders, probing and grouting for karst.
+for boulders, probing and grouting for karst, abrasivity testing, tool
+selection and planned intervention locations for wear, and alignment,
+probing and a steering and thrust policy for mixed faces.
 
 Logistics constrain the drive as firmly as the geology. Launch requires a
 shaft or portal, a cradle, a reaction frame and a seal against the ground; the

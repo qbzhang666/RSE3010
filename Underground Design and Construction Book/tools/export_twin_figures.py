@@ -14,14 +14,15 @@ figure written here reports the point size its labels reach on the page, and one
 that falls below :data:`MIN_EFFECTIVE_PT` is skipped rather than shipped small.
 
 **Palette.** The demonstrator draws in Okabe-Ito, which is a sound screen
-palette and a different system from ``palette.tex``. This book's palette puts
-strokes in a dark band and fills in a light one so that lightness carries the
-meaning and hue only confirms it, which is what makes a figure survive a
-greyscale print. The panels are therefore recoloured against those tokens:
-series take the stroke band, the two colour scales are rebuilt from the ramp
-``palette.tex`` already defines for rates, and the damage categories become a
-monotone lightness ramp so that severity is ordered in greyscale as well as in
-colour. Check the result the way the README says to, on the PDF this writes::
+palette and a different system from ``palette.tex``. This book uses the house
+style of ``qz-figure-style``: two hues, malachite for what passes or is
+designed and carmine for what fails, with further series varying by shade,
+line style or grey rather than by a new hue. The panels are therefore
+recoloured against those tokens: series take the cycle below, the diverging
+rate scale is rebuilt asymmetrically so lightness still orders magnitude in
+greyscale, and the damage categories become a monotone white-to-carmine ramp
+so that severity is ordered in greyscale as well as in colour. Check the
+result the way the README says to, on the PDF this writes::
 
     pdftocairo -png -gray -r 150 figures/ch26/damage-map.pdf out
 
@@ -81,18 +82,18 @@ MIN_EFFECTIVE_PT = 7.5
 # --------------------------------------------------------------------------
 #: The tokens of ``palette.tex``, copied here and nowhere else in this file.
 #: They are not adjusted in one project alone: change them in every project or
-#: in none, as that file says.
-CFAIL = "#A50000"    #  8.0% grey -- failure, critical
-CMAIN = "#007D76"    # 16.0% grey -- principal series
-CGOOD = "#009C1C"    # 23.9% grey -- admissible, pass
-CLOSS = "#C18500"    # 28.1% grey -- threshold, limit
-CWATER = "#87DAF8"   # 62.1% grey -- cold / water / slow  (fill only)
-CPASS = "#B5E8CC"    # 71.9% grey -- admissible region
-CSTOP = "#F8E2E2"    # 79.8% grey -- excluded region
-CBAND = "#FFF1C5"    # 88.2% grey -- caution band
-CINK = "#383838"     # gray 0.22  -- axes, frames, primary label text
-CTEXT = "#575757"    # gray 0.34  -- secondary annotation
-CRULE = "#C7C7C7"    # gray 0.78  -- grid lines, light rules
+#: in none, as that file says. Malachite and carmine, the house style adopted
+#: November 2026; L* is given because lightness is what a greyscale print
+#: keeps.
+MAL = "#2F6B57"       # L* 40.9 -- malachite: good, pass, design, supported
+CAR = "#8C2B3E"       # L* 33.2 -- carmine: fail, below unity, alert
+CAR_DARK = "#6E1F30"  # L* 25.3 -- the severe end
+MAL_LIGHT = "#8FBCAC"  # L* 73.0 -- light malachite shade, for scale ends
+MAL_TINT = "#E6EFEC"  # L* 93.7 -- fills and bands
+CAR_TINT = "#F3E6E9"  # L* 92.4 -- fills and bands
+CINK = "#1A1A1A"      # L*  9.3 -- axes, frames, primary label text
+CTEXT = "#5A5A5A"     # L* 38.2 -- secondary annotation, reference series
+CRULE = "#C8C8C8"     # L* 80.6 -- grid lines, light rules, context
 
 #: The series order behind ``C0``..``C3``.
 #:
@@ -101,25 +102,28 @@ CRULE = "#C7C7C7"    # gray 0.78  -- grid lines, light rules
 #: distinct colours: ``C0`` is the principal series, and ``C3`` is what fails ---
 #: the siloed baseline the federated model is measured against, and the share of
 #: receptors at or above Slight damage.
-SERIES_CYCLE = (CMAIN, CLOSS, CGOOD, CFAIL, CINK, CWATER, CTEXT, CPASS)
+SERIES_CYCLE = (MAL, CTEXT, MAL_LIGHT, CAR, CINK, MAL_TINT, CRULE, CAR_DARK)
 
-#: The diverging rate scale of ``palette.tex`` (ratefast to rateslow), with
-#: white at the centre. Replaces ``RdBu``, and in the same direction: fast and
-#: negative at the red end, slow and positive at the cold end.
+#: The diverging rate scale, with white at the centre. Replaces ``RdBu``, and
+#: in the same direction: fast and negative at the carmine end, slow and
+#: positive at the malachite end.
 #:
-#: The cold end stops at ``CWATER`` rather than running on to ``CMAIN``, which
-#: is what a symmetric diverging scale would do and what would break the figure
-#: in greyscale: ``CFAIL`` is 8 per cent grey and ``CMAIN`` 16, so the two
-#: extremes of a symmetric ramp print as nearly the same dark tone and a
-#: photocopied figure cannot tell fast settlement from heave. Held to the fill
-#: band, the cold end lands at 62 per cent grey, and lightness then reads as it
-#: should: the darker the mark, the faster the ground is going down.
-RATE_RAMP = (CFAIL, CSTOP, "#FFFFFF", "#C5E9FB", CWATER)
+#: The house diverging map runs carmine to malachite symmetrically, and
+#: :data:`tools.qz_figure.DIVERGING` provides it for quantities read in
+#: colour. This figure needs the asymmetric form instead. Carmine is L* 33 and
+#: malachite L* 41, so a symmetric ramp prints its two extremes as nearly the
+#: same dark tone and a photocopied figure cannot tell fast settlement from
+#: heave. Stopping the malachite end at the light shade, L* 73, restores the
+#: reading that matters: the darker the mark, the faster the ground is going
+#: down. The sign is then carried by hue in colour and by position relative to
+#: white in greyscale.
+RATE_RAMP = (CAR_DARK, CAR, CAR_TINT, "#FFFFFF", MAL_TINT, MAL_LIGHT)
 
-#: The sequential scale, light to dark. Replaces ``YlOrRd``, and monotone in
-#: lightness (88 per cent grey to 28 to 8), so magnitude is ordered in a
+#: The sequential scale, light to dark. Replaces ``YlOrRd``. White to carmine,
+#: which is the house scale for damage and settlement magnitude, and monotone
+#: in lightness (L* 100 to 92 to 33 to 25) so severity is ordered in a
 #: greyscale print without reference to hue.
-MAGNITUDE_RAMP = (CBAND, CLOSS, CFAIL)
+MAGNITUDE_RAMP = ("#FFFFFF", CAR_TINT, CAR, CAR_DARK)
 
 
 def _locate_xtwin() -> Path:
@@ -208,13 +212,12 @@ def _apply_book_palette(plotting) -> None:
     mpl.axes.Axes.scatter = scatter
 
     # Five ordered damage categories, sampled off the magnitude ramp so that
-    # Negligible to Severe is a monotone lightness sequence, and so that Slight
-    # --- the category at which an assessment stops being a screening exercise
-    # --- lands on CLOSS, the threshold token. The sampling starts above zero
-    # because the foot of the ramp is 88 per cent grey, which is about three
-    # per cent ink and vanishes in print; the plotting helper already holds
-    # Negligible back with a smaller marker, so it does not also need to be
-    # invisible.
+    # Negligible to Severe is a monotone lightness sequence, and so that
+    # Slight, the category at which an assessment stops being a screening
+    # exercise, lands in the carmine half of the ramp. The sampling starts
+    # above zero because the foot of the ramp is white and vanishes in print;
+    # the plotting helper already holds Negligible back with a smaller marker,
+    # so it does not also need to be invisible.
     plotting.DAMAGE_COLORS = [
         mpl.colors.to_hex(magnitude(value))
         for value in (0.10, 0.34, 0.55, 0.80, 1.0)

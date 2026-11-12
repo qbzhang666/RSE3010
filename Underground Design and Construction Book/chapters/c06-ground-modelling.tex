@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Chapter 6 -- Three-Dimensional Ground Modelling
+%  Three-Dimensional Ground Modelling
 %------------------------------------------------------------------------------
 \chapter{Three-Dimensional Ground Modelling}
 \label{ch:ground-modelling}
@@ -11,10 +11,6 @@ stratigraphy and a stress state, numerical analysis requires geometry and
 material assignment, and construction control requires an expectation against
 which the exposed face can be compared. The model is therefore the principal
 engineering deliverable of an investigation rather than a by-product of it.
-What has changed in recent practice is the manner of its construction:
-sections interpolated by hand between boreholes have given way to implicit
-surfaces fitted to all available observations and updated as each new datum
-arrives.
 
 What has changed is how the model is built. Hand-drawn sections interpolated
 between boreholes have given way to implicit surfaces fitted to all available
@@ -53,21 +49,25 @@ smaller again. A seismic refraction line averages properties over tens of
 metres. A mapped exposure or tunnel face gives dense two-dimensional structural
 information over a plane but says nothing directly about the volume behind it.
 Machine data from a tunnel boring machine integrates the response of the full
-face over a ring advance.
+face over one advance of the machine, typically one to two metres
+(Chapter~\ref{ch:tbm}).
 
 Combining these without regard to support volume produces a model more precise
-than the data justifies. A point strength measurement and a geophysical
+than the data justify. A point strength measurement and a geophysical
 velocity are not competing estimates of the same quantity: the first is a
 sample of a specific piece of rock, the second an average that includes the
 fractures the first avoided. The usual reconciliation is to use the dense but
 indirect data to define geometry and the sparse but direct data to assign
 properties within it, which is a division of labour rather than a merge.
+Where a correlation can be established and tested against withheld data, the
+indirect record can carry properties as well as geometry
+(Section~\ref{sec:ml-ground-modelling}).
 
 Sampling bias compounds this. Boreholes are drilled where access permits and
 where trouble is expected, so a borehole population is rarely a random sample
 of the alignment. Corrections exist for orientation bias in discontinuity
-sampling (Chapter~\ref{ch:structural-analysis}); there is no comparable
-correction for having drilled only in the paddocks.
+sampling (Chapter~\ref{ch:structural-analysis}, Section~\ref{sec:statistical-treatment-of-orientation-data}); there is no comparable
+correction for having sampled only the ground that was easy to reach.
 
 \subsection{Model resolution and decision scale}
 \label{sec:model-resolution}
@@ -134,8 +134,8 @@ model delivered without them cannot be reviewed at all.
 \subsection{Faults, domains and discontinuity networks}
 \label{sec:dfn}
 
-Faults enter the model as explicit surfaces with a defined zone thickness,
-because their engineering effect --- weakness, deformability, permeability,
+Faults enter the model as discrete volumes, bounded by surfaces and carrying
+an assigned damage-zone thickness, because their engineering effect --- weakness, deformability, permeability,
 abrupt class change --- is distributed across the damage zone rather than
 concentrated on a plane. Modelling a fault as a zero-thickness surface makes
 it invisible to any subsequent volume-based calculation.
@@ -162,17 +162,23 @@ mapping or borehole data allow, narrows the gap but does not close it.
 \label{sec:geostatistics}
 
 Once geometry exists, properties must be distributed within it. Geostatistics
-begins by quantifying spatial correlation through the variogram: how rapidly
-the difference between two measurements grows with the distance between them,
-the range beyond which they become independent, and the nugget --- the
-variance that persists at zero separation, representing measurement error and
-variability at scales below the sample spacing.
+begins by quantifying spatial correlation through the variogram,
+\[
+\gamma(h) = \tfrac{1}{2}\,\mathrm{E}\!\left[\bigl(Z(x+h)-Z(x)\bigr)^{2}\right],
+\]
+which measures how rapidly the squared difference between two measurements
+of a property $Z$ grows, on average, with their separation $h$. Three
+quantities describe it: the sill it approaches, equal to the variance of the
+field; the range at which it reaches the sill, beyond which two measurements
+are effectively independent; and the nugget --- the apparent variance as the
+separation tends to zero, representing measurement error and variability at
+scales below the sample spacing.
 
 Kriging then estimates values at unsampled locations as a weighted average of
 the observations, with weights derived from the variogram. It is optimal in a
-least-squares sense, and it is smooth: the estimate at every point tends
-toward the mean, and the variance of the estimated field is lower than the
-variance of the real one.
+least-squares sense, and it is smooth: it honours the data at the observation
+points, but away from them the estimate reverts toward the mean, and the
+variance of the estimated field is lower than the variance of the real one.
 
 That smoothing is the reason estimation is often the wrong tool.
 Underground design is frequently governed by extremes --- the weakest zone,
@@ -183,6 +189,24 @@ between. No single realisation is the best estimate, but the ensemble
 describes the variability the design must tolerate. Where a design depends on
 variability rather than on the mean, simulation is the appropriate method and
 kriging is not.
+
+Both estimation and simulation assume that the statistics are stationary over
+the volume to which they are applied, that is, that one variogram describes
+it. Ground rarely obliges. A variogram fitted across a fault or a weathering
+front reports a range and a sill that belong to no part of the ground, and
+the realisations built on it are wrong everywhere. Geostatistics is therefore
+applied inside the domains of Section~\ref{sec:domain-assignment} and not
+across them, which is the same requirement that geological constraint
+imposes on the geometric interpolator.
+
+Both estimation and simulation assume the statistics are stationary over the
+volume in which they are applied --- that one variogram describes it. Ground
+rarely obliges. A variogram fitted across a fault or a weathering front
+reports a range and a sill belonging to no part of the ground, and the
+realisations built on it are wrong everywhere. Geostatistics is therefore
+applied inside the domains of Section~\ref{sec:domain-assignment} rather
+than across them, which is the same requirement that geological constraint
+imposes on the geometric interpolator.
 
 \subsection{Machine learning for property and lithology prediction}
 \label{sec:ml-ground-modelling}
@@ -238,7 +262,10 @@ Model uncertainty comes from four places: the density and spatial distribution
 of the data; ambiguity in the geological interpretation; the choice of
 interpolation method and its parameters; and the intrinsic complexity of the
 geology being modelled. These are not equally reducible. More drilling
-addresses the first and, sometimes, the second. Nothing addresses the fourth.
+addresses the first and, sometimes, the second. The third is reducible without
+any new data at all: an implicit model is cheap to rebuild, so the
+interpolator and its parameters can be varied deliberately and the spread of
+the results reported. Nothing addresses the fourth.
 
 The problem is that none of this is visible in the output. A model built from
 three boreholes and one built from three hundred render identically, in the
@@ -248,7 +275,11 @@ appearance and not the evidence, and the appearance is uniformly confident.
 \subsection{Representing and communicating uncertainty}
 \label{sec:uncertainty-representation}
 
-Several devices restore the missing information. Multiple realisations,
+Several devices restore the missing information. Geometry can be simulated
+as well as estimated, by perturbing the implicit scalar field within the
+tolerance its constraints allow or by categorical simulation of the unit
+indicator, and the realisations referred to here are the output of that
+step. Multiple realisations,
 displayed as an ensemble rather than as a single surface, show directly how
 much the boundary could move. Probability-of-lithology volumes report, for
 each location, the proportion of realisations assigning it to each unit ---
@@ -273,7 +304,9 @@ the best use of them. The value of an additional observation is the extent to
 which it changes a decision, and that is not distributed uniformly along an
 alignment.
 
-The reasoning is straightforward even when the formal calculation is not. An
+The reasoning is straightforward even when the formal calculation is not; the
+formal version, with prior, likelihood and posterior stated, is given in
+Section~\ref{sec:bayesian-updating}. An
 additional borehole is worth drilling where uncertainty is high \emph{and} the
 consequence of being wrong is high \emph{and} the result could plausibly
 change what is done. Uncertainty alone is insufficient: there is no value in
@@ -334,5 +367,6 @@ every surface and parameter recorded; export in an open format that will
 outlive the software (Chapter~\ref{ch:digital-twin}); and an explicit handover
 of the model as a deliverable in its own right, with a named recipient. The
 asset will be inspected, assessed and possibly modified for a century. The
-ground model is the only document that explains why it was built the way it
-was.
+ground model is the document that explains what the asset was built in, and
+without it neither the construction records nor the design reports can be
+read against the ground they describe.

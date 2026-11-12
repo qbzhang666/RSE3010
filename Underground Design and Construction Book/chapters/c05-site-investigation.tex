@@ -1,181 +1,144 @@
 % !TeX root = ../main.tex
 % Rebuilt from: ch05-site-investigation.tex
-\chapter{Site Investigation and Geophysics}
+\chapter{Site Investigation and Data Reliability}
 \label{ch:site-investigation}
 
 Site investigation converts a geological interpretation into the quantities
 that design consumes. Its product is not a set of boreholes but a
 characterisation of the ground and of the confidence attaching to it, and the
 second half of that statement is the one more often neglected. This chapter
-considers the principal investigation methods, the indices derived from them,
+considers the data an investigation returns, the indices derived from them,
 and the transformations by which those indices become design parameters. The
 emphasis throughout falls on the reliability of each transformation, since the
 uncertainty introduced at this stage propagates through every subsequent
-calculation and cannot be recovered later.
+calculation and cannot be recovered later. Geophysical surveys enter as one
+data source among several for the ground model, and are treated there
+(Section~\ref{sec:data-support}).
 
 \section{Investigation data and its reliability}
 \label{sec:investigation-data-and-its-reliability}
 
-\subsection{Project context and ground conditions}
-The Suburban Rail Loop (SRL) East project involves 26~km of twin rail tunnels from Cheltenham to Box Hill. The alignment passes through two fundamentally different geological sequences:
+\subsection{From observation to design parameter}
+\label{sec:observation-to-parameter}
 
-\begin{itemize}
- \item \textbf{South}: Tertiary Brighton Group sediments -- high permeability, good quality groundwater.
- \item \textbf{North}: a Silurian sedimentary formation --- low permeability, relatively poor quality groundwater.
-\end{itemize}
+A rock mass is not the same as intact rock. It consists of intact blocks
+separated by discontinuities such as joints, bedding planes, faults, shears
+and weathered zones, and its engineering behaviour is governed by the
+properties of the intact rock and by the characteristics of the
+discontinuities together. An investigation therefore has to describe both,
+and design has to combine them. The usual chain is
+\[
+\begin{aligned}
+&\text{Field observations} \rightarrow \text{Core logging}
+\rightarrow \text{RQD, RMR, Q, GSI} \\
+&\rightarrow \text{Strength and deformation parameters}
+\rightarrow \text{Design model}
+\end{aligned}
+\]
+in which RQD is the Rock Quality Designation of
+Section~\ref{sec:rock-quality-designation} and RMR, Q and GSI are the
+classification indices of Chapter~\ref{ch:classification}. Each
+transformation introduces uncertainty, an idea that becomes central in
+Chapters~\ref{ch:rock-mechanics} and~\ref{ch:rock-mass-parameters}.
 
-Geotechnical parameters adopted for numerical modelling (Chapter~\ref{ch:numerical-modelling}) are normally taken from the approved environmental statement and its technical appendices, or from the geotechnical baseline report where one exists. Parameters from those sources carry contractual weight, and a departure from them belongs in the design record with its reason.
+\paragraph{Scale effects.}
+The chain also crosses scales. A laboratory test on an intact specimen
+measures \(\sigma_{ci}\), the strength of rock without discontinuities. At
+the scale of a block in the field the rock mass includes joints, bedding
+planes and other discontinuities, which reduce its overall strength. At the
+scale of a tunnel, stress redistribution, excavation-induced damage and
+three-dimensional effects influence behaviour further. Laboratory parameters
+are therefore not directly applicable as design parameters: a design value
+must account for scale, for discontinuities and for excavation disturbance.
 
-\begin{table}[h!]
+\subsection{Ground conditions and reported parameters}
+\label{sec:reported-parameters}
+
+A shallow urban rail alignment some tens of kilometres long commonly crosses
+more than one geological sequence. The illustration used in this chapter
+passes through two: Tertiary sediments of high permeability carrying
+groundwater of good quality, and an older siltstone and sandstone
+sequence of low permeability carrying groundwater of relatively poor quality.
+
+Geotechnical parameters adopted for numerical modelling
+(Chapter~\ref{ch:numerical-modelling}) are normally taken from the approved
+environmental statement and its technical appendices, or from the
+geotechnical baseline report where one exists. Parameters from those sources
+carry contractual weight, and a departure from them belongs in the design
+record with its reason. Tables~\ref{tab:soil} and~\ref{tab:rock} show the
+form in which such parameters are reported for the soil and rock units of the
+illustrative profile. In both, \(\gamma\) is the unit weight, \(c'\) and
+\(\phi'\) the effective cohesion and friction angle, \(\psi\) the dilation
+angle, \(E'\) the drained modulus, \(E_{ur}\) the unload--reload modulus,
+\(\nu'\) the drained Poisson's ratio, \(K_0\) the at-rest earth pressure
+coefficient and \(\sigma_t\) the tensile cut-off.
+
+\begin{table}[htbp]
+\caption{Geotechnical parameters for the soil units of the illustrative profile, in the form of a project geotechnical appendix. Indicative ranges for comparison are in Table~\ref{tab:soil-params} of Appendix~\ref{app:constants}.}
+\label{tab:soil}
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
 \begin{tabularx}{\textwidth}{l l X c c c c c c c c}
 \toprule
-\textbf{Unit} & \textbf{Sub-unit} & \makecell{\textbf{Field}\\ \textbf{Consistency}} & \textbf{\(\gamma\)} & \textbf{\(c'\)} & \textbf{\(\phi'\)} & \textbf{\(\psi\)} & \textbf{\(E'\)} & \textbf{\(E_{ur}\)} & \textbf{\(\nu'\)} & \textbf{\(K_0\)} \\
+\textbf{Unit} & \textbf{Sub-unit} & \makecell{\textbf{Field}\\ \textbf{consistency}} & \textbf{\(\gamma\)} & \textbf{\(c'\)} & \textbf{\(\phi'\)} & \textbf{\(\psi\)} & \textbf{\(E'\)} & \textbf{\(E_{ur}\)} & \textbf{\(\nu'\)} & \textbf{\(K_0\)} \\
  & & & \textbf{(kN/m\textsuperscript{3})} & \textbf{(kPa)} & \textbf{(\textdegree)} & \textbf{(\textdegree)} & \textbf{(MPa)} & \textbf{(MPa)} & & \\
 \midrule
-Fill & Uncontrolled Fill & Variable & 18 & 2 & 28 & 0 & 10 & 30 & 0.3 & 0.5 \\
-\makecell{Brighton Group \\ (T\(_p\))} & \makecell{Cohesive \\ (fine grained)} & \makecell{Very Stiff \\ to Hard} & 20 & 7 & 30 & 2 & 50 & 120 & 0.3 & 0.7 \\
-AF & \makecell{Residual Soil \\ (above 110~m AHD)} & \makecell{Stiff to \\ Very Stiff} & 20 & 15 & 25 & 0 & 20 & 60 & 0.3 & 0.7 \\
-AF & \makecell{Residual Soil \\ (below 110~m AHD)} & Hard & 21 & 15 & 25 & 0 & 30 & 90 & 0.3 & 0.7 \\
+Fill & Uncontrolled fill & Variable & 18 & 2 & 28 & 0 & 10 & 30 & 0.3 & 0.5 \\
+\makecell{Tertiary \\ sediments} & \makecell{Cohesive \\ (fine grained)} & \makecell{Very stiff \\ to hard} & 20 & 7 & 30 & 2 & 50 & 120 & 0.3 & 0.7 \\
+\makecell{Sedimentary \\ sequence} & \makecell{Residual soil \\ (upper)} & \makecell{Stiff to \\ very stiff} & 20 & 15 & 25 & 0 & 20 & 60 & 0.3 & 0.7 \\
+\makecell{Sedimentary \\ sequence} & \makecell{Residual soil \\ (lower)} & Hard & 21 & 15 & 25 & 0 & 30 & 90 & 0.3 & 0.7 \\
 \bottomrule
 \end{tabularx}
-\caption{Geotechnical parameters for the soil units of a weathered urban profile, as they would be reported in a project geotechnical appendix.}
-\label{tab:soil}
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{Geotechnical parameters for the rock units of the same profile, for continuum analysis. Subunits W7--W2 denote decreasing weathering, the higher number being the more weathered. $E_{ur} \approx 3E'$ throughout.}
+\label{tab:rock}
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \begin{tabularx}{\textwidth}{l l c c c c c c c}
 \toprule
-\textbf{Unit} & \textbf{Sub-unit} & \textbf{\(\gamma\)} & \textbf{\(c'\)} & \textbf{\(\phi'\)} & \textbf{\(\psi\)} & \textbf{\(E_i\)} & \textbf{\(E_{ur}\)} & \textbf{\(\sigma_t\)} \\
- & & \textbf{(kN/m\textsuperscript{3})} & \textbf{(kPa)} & \textbf{(\textdegree)} & \textbf{(\textdegree)} & \textbf{(GPa)} & \textbf{(MPa)} & \textbf{(kPa)} \\
+\textbf{Unit} & \textbf{Sub-unit} & \textbf{\(\gamma\)} & \textbf{\(c'\)} & \textbf{\(\phi'\)} & \textbf{\(\psi\)} & \textbf{\(E'\)} & \textbf{\(E_{ur}\)} & \textbf{\(\sigma_t\)} \\
+ & & \textbf{(kN/m\textsuperscript{3})} & \textbf{(kPa)} & \textbf{(\textdegree)} & \textbf{(\textdegree)} & \textbf{(MPa)} & \textbf{(MPa)} & \textbf{(kPa)} \\
 \midrule
-\multirow{4}{*}{\makecell{Weathered sedimentary \\ formation}} & W7 & 21 & 20 & 28 & 2 & 0.15 & 450 & 2 \\
- & W6 & 21 & 30 & 30 & 1 & 0.30 & 900 & 3 \\
- & W4 & 23 & 60 & 38 & 10 & 0.75 & 2,200 & 6 \\
- & W2 & 25 & 120 & 42 & 22 & 1.10 & 3,200 & 12 \\
+\multirow{4}{*}{\makecell{Weathered sedimentary \\ sequence}} & W7 & 21 & 20 & 28 & 2 & 150 & 450 & 2 \\
+ & W6 & 21 & 30 & 30 & 1 & 300 & 900 & 3 \\
+ & W4 & 23 & 60 & 38 & 10 & 750 & 2,200 & 6 \\
+ & W2 & 25 & 120 & 42 & 22 & 1,100 & 3,200 & 12 \\
 \bottomrule
 \end{tabularx}
-\caption{Geotechnical parameters for the rock units of the same profile, for continuum analysis. Subunits W7--W2 denote decreasing weathering, the higher number being the more weathered. $E_{ur} \approx 3 E_i$ throughout.}
-\label{tab:rock}
 \end{table}
 
+The rock parameters of Table~\ref{tab:rock} are equivalent continuum
+parameters. They already incorporate the effect of joints at the scale of
+numerical modelling, so no additional joint weakening is applied when they
+are used in a continuum model. They are design parameters and not raw
+laboratory data, and they are equivalent Mohr--Coulomb parameters: the intact
+strength \(\sigma_{ci}\) that the Hoek--Brown criterion requires is a
+different quantity and is not to be read from this table.
 
-\noindent\textbf{Table 2 parameters are already upscaled.}\enspace The parameters in Table~2 are \textbf{equivalent continuum parameters} -- they already incorporate the effects of joints at the scale of numerical modelling. No additional joint weakening should be applied when they are used in a continuum model. These are design parameters, not raw laboratory data.
+\subsection{Borehole records and rock mass classes}
+\label{sec:borehole-records}
 
+\paragraph{Borehole records.}
+Table~\ref{tab:borehole} gives illustrative records from two boreholes on such
+an alignment. The two holes log the same units over the same depth intervals
+and return RQD values 27 points apart in the upper interval and 17 points
+apart in the lower, with joint conditions that range from rough and fresh to
+smooth and clay-coated. Neither hole misrepresents the ground. Together they
+show that a parameter assigned to a unit is a summary of a distribution, and
+that one hole samples that distribution once.
 
-\subsection{Rock Quality Designation}
-\label{sec:rock-quality-designation}
-
-\paragraph{Rock Quality Designation (RQD)}
-
-\paragraph{Definition (Refresher)}
-\[
-RQD = \frac{\sum \text{Length of sound core pieces} > 100\ \text{mm}}{\text{Length of core run}} \times 100\%
-\]
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{clc}
-\toprule
-\textbf{RQD (\%)} & \textbf{Description} & \textbf{Class} \\
-\midrule
-90--100 & Excellent & E \\
-75--90 & Good & D \\
-50--75 & Fair & C \\
-25--50 & Poor & B \\
-$<$25 & Very poor & A \\
-\bottomrule
-\end{tabular}
-\caption{Rock Quality Designation classification, after \citet{deere1964technical}.}
-\label{tab:rqd}
-\end{table}
-
-\paragraph{Interpretation and Limitations of RQD}
-
-
-\noindent\textbf{RQD is not a mechanical parameter.}\enspace RQD is a \textbf{geometric index} -- it quantifies the percentage of intact core pieces longer than 100~mm. It conveys \textbf{no information} about joint condition (roughness, weathering, infilling), orientation of joints relative to the excavation, shear strength of discontinuities, intact rock strength, or deformability of the rock mass. RQD serves as a proxy that feeds into classification systems, which in turn estimate mechanical parameters -- each step introduces additional assumptions and uncertainty.
-
-
-\paragraph{Limitations of RQD in Practice}
-\begin{itemize}
- \item \textbf{Orientation bias:} Vertical drilling may miss sub-vertical joints, leading to overestimation of RQD. Conversely, horizontal drilling may intersect more joints, yielding a lower RQD.
- \item \textbf{Core loss bias:} Lost core sections typically represent the weakest zones; ignoring them artificially inflates RQD.
- \item \textbf{Dependence on drill direction:} RQD varies with borehole orientation relative to joint sets.
- \item \textbf{Absence of joint condition information:} Smooth, weathered joints with clay infill yield the same RQD as rough, fresh, tight joints.
-\end{itemize}
-
-\paragraph{From RQD to Rock Mass Strength}
-The chain linking RQD to design parameters involves multiple transformations, each carrying its own assumptions and uncertainties:
-
-\[
-\text{Core} \rightarrow \text{RQD} \rightarrow \text{RMR} \rightarrow \text{GSI} \rightarrow m_b, s, a \rightarrow \sigma_1
-\]
-
-
-\noindent\textbf{Every link adds uncertainty.}\enspace The question is not whether these empirical correlations are valid, but rather how much uncertainty they introduce into the final design parameters. A 10-point error in GSI can change rock mass strength by over 40\%.
-
-
-\subsection{Parameter Derivation and Uncertainty}
-
-\paragraph{Sensitivity of Hoek-Brown Parameters to GSI}
-Relatively small changes in GSI can produce substantial variations in rock mass strength. Table~\ref{tab:sensitivity} illustrates this for a sandstone with $\sigma_{ci}=110$~MPa, $m_i=17$, $D=0$.
-
-\begin{table}[h!]
+\begin{table}[htbp]
+\caption{Illustrative borehole data for a shallow urban rail alignment. Borehole names and values are representative, not from actual logs.}
+\label{tab:borehole}
 \centering
 \small
 \begin{tabular}{lcccc}
 \toprule
-\textbf{GSI} & \textbf{\(m_b\)} & \textbf{\(s\)} & \textbf{\(a\)} & \textbf{\(\sigma_{cm}\) (MPa)} \\
-\midrule
-55 & 3.41 & 0.00674 & 0.504 & 8.85 \\
-50 & 2.85 & 0.00387 & 0.506 & 6.62 \\
-45 & 2.38 & 0.00222 & 0.508 & 4.93 \\
-\bottomrule
-\end{tabular}
-\caption{Sensitivity of rock mass strength to GSI ($\sigma_{ci}=110$~MPa, $m_i=17$, $D=0$).}
-\label{tab:sensitivity}
-\end{table}
-
-A reduction of only 10 points in GSI (from 55 to 45) results in a decrease of approximately \textbf{44\%} in uniaxial compressive strength. This nonlinear sensitivity underscores the critical importance of accurate GSI estimation.
-
-\paragraph{Scale Effects in Rock Mechanics}
-
-
-\noindent\textbf{Laboratory $\neq$ Design.}\enspace \textbf{Laboratory scale:} Tests on intact specimens ($\sigma_{ci}$) measure the strength of intact rock, excluding discontinuities.
-\textbf{Field block scale:} The rock mass includes joints, bedding planes, and other discontinuities, which reduce overall strength.
-\textbf{Tunnel scale:} Stress redistribution, excavation-induced damage, and 3D effects further influence behaviour.
-Laboratory parameters are not directly applicable as design parameters. Design values must account for scale effects, discontinuities, and excavation disturbance.
-
-
-\paragraph{Drill Orientation Bias: An Illustrative Example}
-\label{sec:orientation-bias}
-Vertical drilling through horizontally bedded rock may yield a high RQD (e.g., 85\%, Good), whereas an inclined borehole through the same rock mass intersecting sub-vertical joints might give a much lower RQD (e.g., 60\%, Fair). Both values are correct for their respective orientations, but neither alone fully characterises the rock mass.
-
-\paragraph{The Statistical Nature of RQD}
-RQD is not a single value but a spatial variable. Key considerations:
-\begin{itemize}
- \item \textbf{Mean vs characteristic value:} Design should employ characteristic values (commonly the 5th percentile or mean minus one standard deviation) rather than the arithmetic mean.
- \item \textbf{Spatial variability:} RQD can vary significantly along an alignment; a single borehole is insufficient.
- \item \textbf{Sampling density:} More boreholes reduce uncertainty but can never eliminate it.
-\end{itemize}
-
-\section{Borehole interpretation and data quality}
-\label{sec:borehole-interpretation-and-data-quality}
-
-\paragraph{Borehole data interpretation}
-Table~\ref{tab:borehole} presents illustrative borehole data from two locations along a shallow urban rail alignment.
-
-\begin{table}[h!]
-\centering
-\small
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Borehole} & \textbf{Depth (m)} & \textbf{RQD (\%)} & \textbf{Joint Condition} & \textbf{Unit} \\
+\textbf{Borehole} & \textbf{Depth (m)} & \textbf{RQD (\%)} & \textbf{Joint condition} & \textbf{Unit} \\
 \midrule
 BH01 & 0--10 & 72 & Slightly rough, weathered & W6/W7 \\
 BH01 & 10--20 & 85 & Rough, fresh & W4/W2 \\
@@ -183,92 +146,28 @@ BH02 & 0--10 & 45 & Smooth, clay coating & W6/W7 \\
 BH02 & 10--20 & 68 & Slightly rough, weathered & W4/W2 \\
 \bottomrule
 \end{tabular}
-\caption{Illustrative borehole data for a shallow urban rail alignment. Borehole names and values are representative, not from actual logs.}
-\label{tab:borehole}
 \end{table}
 
-\textbf{Self-study Task:}
-\begin{enumerate}
- \item Estimate GSI using the chart-based method (structure and joint surface condition) for each zone.
- \item Compare the estimated GSI with the values implied by the unit classifications in Table~\ref{tab:rock}.
- \item Comment on the reliability of these estimates. What sources of uncertainty or bias might affect the RQD values?
- \item On what basis should characteristic design values be selected from these data?
-\end{enumerate}
+\paragraph{Rock mass classes.}
+A siltstone and sandstone sequence of this kind is divided into subunits on
+intact strength, fracturing and weathering grade, as in the matrix of
+Table~\ref{tab:class-matrix}. Lower subunit numbers indicate less weathered
+rock of better quality. The matrix makes the subdivision reproducible, so
+that two engineers logging the same core assign the same subunit, and it
+makes plain that a subunit label carries a strength class and a GSI range and
+not a single value of either.
 
-\paragraph{Data Quality and Design Implications}
-
-
-\noindent\textbf{GSI overestimation impact.}\enspace If the GSI for W4 were overestimated by 10 points, rock mass strength $\sigma_{cm}$ would decrease by approximately 40\% (from the sensitivity analysis in Table~\ref{tab:sensitivity}). This would significantly affect predictions of tunnel stability and support requirements.
-
-
-Note that Table~\ref{tab:rock} provides equivalent Mohr-Coulomb parameters for continuum analysis, not the intact rock strength $\sigma_{ci}$ required for Hoek-Brown. This is a critical observation for design: the parameters are already upscaled for numerical modelling and incorporate the effects of joints.
-
-\textbf{What additional investigations would reduce uncertainty?} Consider oriented coring, additional boreholes, geophysical surveys, or in-situ stress measurements.
-
-\section{Modern techniques and engineering judgement}
-\label{sec:modern-techniques-and-engineering-judgement}
-
-\paragraph{Modern Investigation Techniques}
-\paragraph{Digital Core Logging}
-\begin{itemize}
- \item High-resolution core scanning and 3D reconstruction.
- \item AI-assisted fracture detection and orientation measurement.
- \item Automated RQD calculation with permanent digital record.
-\end{itemize}
-
-\paragraph{LiDAR and Photogrammetry in Tunnels}
-\begin{itemize}
- \item 3D laser scanning of exposed tunnel faces.
- \item Digital twin generation for comparison of predicted vs actual conditions.
- \item Supports real-time design adjustments.
-\end{itemize}
-
-\paragraph{Data Fusion}
-Modern geotechnical engineering integrates multiple data sources: core data, surface mapping, geophysics, monitoring data, and numerical back-analysis. As construction proceeds, monitoring data refine the ground model -- a precursor to the concept of digital twins.
-
-\paragraph{Engineering Judgment and Risk}
-
-\paragraph{Deterministic vs Probabilistic Design}
-\begin{itemize}
- \item \textbf{Deterministic:} Single ``best estimate'' values with factors of safety.
- \item \textbf{Probabilistic:} Parameter distributions, enabling reliability-based design.
- \item \textbf{Characteristic values} (Eurocode 7): Cautious estimates of the mean -- typically the 5th percentile for strength parameters.
-\end{itemize}
-
-
-\noindent\textbf{Factor of safety $\neq$ eliminating uncertainty.}\enspace A factor of safety does not eliminate uncertainty; it provides a margin against it. The true margin depends on how well the uncertainty is understood and quantified.
-
-
-\section{Investigation and classification in project delivery}
-
-\paragraph{Why Investigation Matters}
-A rock mass is not the same as intact rock. It consists of intact blocks separated by discontinuities such as joints, bedding planes, faults, shears, and weathered zones. Its engineering behaviour is governed by both intact rock properties and discontinuity characteristics.
-
-
-\noindent\textbf{Investigation-to-design chain.}\enspace A typical design chain is:
-\[
-\begin{aligned}
-&\text{Field observations} \rightarrow \text{Core logging}
-\rightarrow \text{RQD/RMR/Q/GSI} \\
-&\rightarrow \text{Strength and deformation parameters}
-\rightarrow \text{Design model}
-\end{aligned}
-\]
-Each transformation introduces uncertainty. This idea becomes central in Chapters~\ref{ch:rock-mechanics} to~\ref{ch:site-investigation}.
-
-
-\paragraph{A worked classification matrix}
-A siltstone--sandstone sequence of this kind divides into subunits on intact strength, fracturing and weathering grade. Lower subunit numbers indicate less weathered and better-quality rock.
-
-\begin{table}[H]
+\begin{table}[htbp]
+\caption{Example rock mass class definition matrix for a weathered sedimentary sequence.}
+\label{tab:class-matrix}
 \centering
-\footnotesize
+\small
 \begin{tabularx}{\textwidth}{l X X X X X X}
 \toprule
  & \multicolumn{6}{c}{\textbf{Intact strength class}} \\
 \cmidrule(lr){2-7}
 \textbf{GSI group} & \textbf{Soil} & \textbf{VL} & \textbf{L} & \textbf{M} & \textbf{H} & \textbf{VH} \\
- & $<0.6$ MPa & $<0.6$ MPa & $2$--$6$ MPa & $6$--$20$ MPa & $20$--$60$ MPa & $>60$ MPa \\
+ & $<0.6$ MPa & $0.6$--$2$ MPa & $2$--$6$ MPa & $6$--$20$ MPa & $20$--$60$ MPa & $>60$ MPa \\
 \midrule
 GSI1: 50--$>65$ & N/A & N/A & W6 & W4 & W1 & W1 \\
 GSI2: 40--$>55$ & N/A & N/A & W6 & W4 & W2 & W2 \\
@@ -277,8 +176,177 @@ GSI4: 20--$>35$ & N/A & N/A & W7 & W5 & W3 & N/A \\
 GSI5: 0--$>30$ & \multicolumn{6}{c}{Fault/shear zone} \\
 \bottomrule
 \end{tabularx}
-\caption{Example rock mass class definition matrix for a weathered sedimentary sequence.}
 \end{table}
+
+\paragraph{Reducing the uncertainty.}
+The means of reducing the uncertainty in such records are oriented coring,
+additional boreholes, geophysical surveys and in-situ stress measurement.
+Each adds cost, and each addresses a different gap: orientation, spatial
+coverage, continuity between holes and the stress field respectively.
+
+\section{Rock Quality Designation}
+\label{sec:rock-quality-designation}
+
+\subsection{Definition and classification}
+\label{sec:rqd-definition}
+
+The Rock Quality Designation~\citep{deere1964technical} is the proportion of
+a core run recovered as sound pieces at least 100~mm long,
+\[
+\RQD = \frac{\sum \text{(lengths of sound core pieces} \geq 100~\text{mm)}}
+{\text{length of core run}} \times 100 ,
+\]
+expressed as a percentage. The word \emph{sound} excludes soft and weathered
+core as well as short pieces. Table~\ref{tab:rqd} gives the descriptive
+classes attached to the index.
+
+\begin{table}[htbp]
+\caption{Rock Quality Designation classification, after \citet{deere1964technical}.}
+\label{tab:rqd}
+\centering
+\small
+\begin{tabular}{cl}
+\toprule
+\textbf{RQD (\%)} & \textbf{Description} \\
+\midrule
+90--100 & Excellent \\
+75--90 & Good \\
+50--75 & Fair \\
+25--50 & Poor \\
+$<$25 & Very poor \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+RQD is a geometric index and not a mechanical parameter. It quantifies the
+percentage of sound core in pieces longer than 100~mm, and it conveys no
+information about joint condition (roughness, weathering, infilling), about
+the orientation of joints relative to the excavation, about the shear
+strength of discontinuities, about intact rock strength or about the
+deformability of the rock mass. It serves as a proxy that feeds
+classification systems, which in turn estimate mechanical parameters, and
+each step introduces further assumptions and uncertainty.
+
+\subsection{Limitations and bias}
+\label{sec:orientation-bias}
+
+\paragraph{Sources of bias.}
+Three limitations affect RQD in practice. The first is orientation. Vertical
+drilling may miss sub-vertical joints and so overestimate RQD, whereas a
+horizontal hole in the same ground may intersect more joints and return a
+lower value. There is consequently no RQD free of orientation, only RQD
+measured along a direction relative to the joint sets. The second is core
+loss. Lost core typically represents the weakest zones, and ignoring it
+inflates the index. The third is the absence of joint condition: smooth,
+weathered joints with clay infill yield the same RQD as rough, fresh, tight
+ones.
+
+\paragraph{An illustration of orientation bias.}
+Vertical drilling through horizontally bedded rock may yield an RQD of, say,
+85 per cent, Good on the classification of Table~\ref{tab:rqd}, whereas an
+inclined borehole through the same rock mass that intersects sub-vertical
+joints might give 60 per cent, Fair. Both values are correct for their
+orientations, and neither alone characterises the rock mass.
+
+\paragraph{RQD as a spatial variable.}
+RQD is not a single value but a variable distributed in space. It can vary
+considerably along an alignment, so a single borehole is insufficient to
+characterise it, and although more boreholes reduce the uncertainty they can
+never eliminate it. Design accordingly employs characteristic values and not
+means, in the sense defined in
+Section~\ref{sec:modern-techniques-and-engineering-judgement}.
+
+\subsection{From RQD to rock mass strength}
+\label{sec:rqd-to-strength}
+
+The chain that links RQD to a design strength passes through several
+transformations, each with its own assumptions and uncertainties:
+\[
+\text{Core} \rightarrow \text{RQD} \rightarrow \text{RMR} \rightarrow \text{GSI} \rightarrow m_b, s, a_{HB} \rightarrow \sigma_1 .
+\]
+The question is not whether these empirical correlations are valid but how
+much uncertainty they introduce into the final design parameters.
+
+\paragraph{Sensitivity of Hoek--Brown parameters to GSI.}
+Relatively small changes in GSI produce substantial variations in rock mass
+strength. Table~\ref{tab:sensitivity} illustrates this for a sandstone with
+$\sigma_{ci}=110$~MPa, $m_i=17$ and $D=0$. Here
+\(\sigma_{cm} = \sigma_{ci}\,s^{a_{HB}}\) is the uniaxial compressive strength
+of the rock mass, \(m_i\) the intact material constant and \(D\) the
+disturbance factor; the relations that give \(m_b\), \(s\) and \(a_{HB}\) from
+GSI~\citep{hoek2019hb} are set out in Chapter~\ref{ch:rock-mass-parameters}.
+
+\begin{table}[htbp]
+\caption{Sensitivity of rock mass strength to GSI ($\sigma_{ci}=110$~MPa, $m_i=17$, $D=0$).}
+\label{tab:sensitivity}
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{GSI} & \textbf{\(m_b\)} & \textbf{\(s\)} & \textbf{\(a_{HB}\)} & \textbf{\(\sigma_{cm}\) (MPa)} \\
+\midrule
+55 & 3.41 & 0.00674 & 0.504 & 8.85 \\
+50 & 2.85 & 0.00387 & 0.506 & 6.62 \\
+45 & 2.38 & 0.00222 & 0.508 & 4.93 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A reduction of only 10 points in GSI, from 55 to 45, lowers the uniaxial
+compressive strength of the rock mass by approximately 44\%. Because
+\(\sigma_{cm}\) is proportional to \(\sigma_{ci}\) and does not involve
+\(m_b\), that percentage holds for any rock at the same GSI and \(D\); and
+because \(s\) falls exponentially with GSI, the sensitivity is strongly
+nonlinear. A 10-point error in GSI can thus change the rock mass strength by
+over 40\%.
+
+\paragraph{The consequence of overestimation.}
+The error is not symmetrical in its effect. If GSI were overestimated by 10
+points, as 55 where the ground is 45, the computed rock mass strength
+$\sigma_{cm}$ would be roughly 80\% higher than the true value, which is the
+inverse of the 44\% reduction in Table~\ref{tab:sensitivity}. Support designed
+on it would be unsafe and not merely uneconomic.
+
+\section{Modern techniques and engineering judgement}
+\label{sec:modern-techniques-and-engineering-judgement}
+
+\paragraph{Digital core logging.}
+High-resolution core scanning and three-dimensional reconstruction give a
+permanent digital record of the core, from which fractures can be detected
+and their orientations measured with machine assistance and RQD calculated
+automatically. Automated picking is dependable on open, clearly traced
+fractures in good core and much less so where breaks induced by drilling and
+handling must be told from natural ones, so it reduces the effort of logging
+without removing the need for a geologist's review.
+
+\paragraph{Laser scanning and photogrammetry.}
+Three-dimensional laser scanning and photogrammetry of exposed tunnel faces
+record the geometry of the face and of the discontinuity traces on it, and
+the record can be compared with the conditions the ground model predicted.
+The scan measures geometry and infers nothing about joint condition. The
+comparison supports a review of the design as each face is exposed; it does
+not of itself adjust the design.
+
+\paragraph{Data fusion.}
+Modern practice integrates several sources of data: core, surface mapping,
+geophysics, monitoring and numerical back-analysis. As construction proceeds,
+monitoring data refine the ground model, which is the precursor of the
+digital twin described in Chapter~\ref{ch:digital-twin}.
+
+\paragraph{Deterministic and probabilistic design.}
+A deterministic design adopts single best-estimate values with factors of
+safety. A probabilistic design describes parameters by distributions, which
+makes reliability-based design possible (Chapter~\ref{ch:integrated-design}).
+Between the two stands the characteristic value of Eurocode~7, a cautious
+estimate of the value governing the limit state. Where the limit state is
+governed by a large ground volume, averaging makes that a cautious estimate
+of the mean; where it is governed by a local feature, it approaches a low
+fractile of the point values. The 5th percentile is a convention for the
+second case and not a definition of the first.
+
+A factor of safety does not eliminate uncertainty. It provides a margin
+against it, and the true margin depends on how well the uncertainty is
+understood and quantified.
 
 \section{Measurement while drilling}
 \label{sec:mwd}
@@ -312,9 +380,22 @@ record a blunt bit rather than harder ground. The standard response is
 normalisation: parameters are combined into an index that removes the
 operator's and the machine's contribution, of which specific energy --- the
 work done per unit volume excavated --- is the most widely used and the most
-physically transparent. Specific energy rises with intact strength and falls
-where the rock is broken, and it can be computed from the logged quantities
-without additional instrumentation.
+physically transparent. For rotary drilling it is the sum of a thrust term
+and a rotary term~\citep{teale1965specific},
+\[
+e_s = \frac{F}{A} + \frac{2\pi N T}{A\,u} ,
+\]
+where $F$ is the feed force, $T$ the torque, $N$ the rotation speed in
+revolutions per unit time, $u$ the penetration rate and $A$ the
+cross-sectional area of the hole. Its unit is that of stress, since
+1~MJ/m\textsuperscript{3} equals 1~MPa. For a 76~mm hole advanced at
+0.6~m/min under a feed force of 20~kN, with a torque of 300~N\,m at
+120~rev/min, the thrust term is 4.4~MJ/m\textsuperscript{3} and the rotary
+term 83~MJ/m\textsuperscript{3}: the rotary term dominates, as it ordinarily
+does. Percussive drilling adds the energy of the blows, which the rig must
+log if the index is to be complete. Specific energy rises with intact
+strength and falls where the rock is broken, and it can be computed from the
+logged quantities without additional instrumentation.
 
 The practical requirements are prosaic and are where most attempts fail.
 Depth registration must be reliable, since a log misaligned by half a metre is
@@ -370,9 +451,11 @@ warnings, which materially improves the treatment of inrush and adverse ground
 described in Chapters~\ref{ch:hydrogeology} and~\ref{ch:ground-improvement}.
 The blast round itself reports the ground it was fired in, giving a dense
 record along the whole drive at no additional cost. And the resulting
-observations are exactly the kind the updating relation of
-Section~\ref{sec:updating-relation} consumes: numerous, cheap, imperfect, and
-directly related to a parameter the design depends on.
+observations are exactly the kind consumed by the Bayesian updating relation
+of Chapter~\ref{ch:integrated-design} (Section~\ref{sec:updating-relation}),
+which revises a prior estimate of a ground parameter as observations
+accumulate: numerous, cheap, imperfect, and directly related to a parameter
+the design depends on.
 
 The technique should be commissioned deliberately rather than hoped for. That
 means specifying the recording, the depth registration and the data format in

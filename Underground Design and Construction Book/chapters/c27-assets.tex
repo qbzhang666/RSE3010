@@ -2,9 +2,8 @@
 % Operation and asset management.
 \chapter{Operation and Asset Management}
 \label{ch:assets}
-\label{ch:delivery-assets}
 
-An operator inherits a structure whose behaviour depends on ground conditions recorded, if at all, in construction documents nobody has read since handover. The asset must then be inspected, assessed, repaired and eventually repurposed over a century, and how well that can be done is largely decided by what was written down at the end of construction.
+An operator inherits a structure whose behaviour depends on ground conditions recorded, if at all, in construction documents nobody has read since handover. The asset must then be inspected, assessed and repaired over a century, and eventually either repurposed or retired, and how well that can be done is largely decided by what was written down at the end of construction.
 
 \section{Condition, inspection and assessment}
 \label{sec:condition-inspection}
@@ -24,8 +23,10 @@ The consequence appears decades later, when an assessment must be made and
 nobody can establish what the structure was designed for. A handover package
 should therefore include the ground model
 (Chapter~\ref{ch:ground-modelling}), the as-built record against the baseline,
-the residual risks with their intended management, the monitoring baseline,
-and the maintenance assumptions the durability design relies on.
+the residual risks with their intended management, the monitoring baseline
+with its underlying data, the maintenance assumptions the durability design
+relies on, and a named party responsible for keeping the record current
+(Chapter~\ref{ch:delivery}).
 
 Deterioration proceeds by a small number of mechanisms. Water ingress is the
 common driver: it carries the chemistry that attacks concrete, delivers
@@ -48,8 +49,8 @@ and by observed deterioration rate rather than by convention.
 
 Access is the binding constraint. A rail tunnel can be inspected only during
 possessions; a road tunnel requires closures; a pressurised water tunnel must
-be dewatered, which may be possible only every several years and at
-substantial cost in lost service. Inspection technology has advanced largely
+be dewatered, which may be possible only every few years, and at a cost in
+lost service that can exceed the cost of the inspection itself. Inspection technology has advanced largely
 in response to this: mobile laser scanning and imaging systems that survey a
 whole tunnel at line speed convert a multi-shift manual inspection into a
 single pass.
@@ -57,18 +58,22 @@ single pass.
 Beyond visual survey, ground penetrating radar locates voids behind the lining
 and measures its thickness; impact echo and ultrasonic methods detect
 delamination; thermography reveals moisture and voids; and automated defect
-detection from imagery classifies cracking and spalling with a consistency
-manual inspection does not achieve.
+detection from imagery can classify cracking and spalling with a consistency
+manual inspection does not achieve, provided the classifier is validated at
+the unit of future application and reports its error by class
+(Section~\ref{sec:ml-validation}).
 
-Condition rating converts observation into a prioritisation. What matters is
-that the rating scale distinguishes defects that threaten structural capacity
-from those that threaten durability from those that are merely unsightly,
+Condition rating converts observation into a prioritisation. A usable scale
+separates three kinds of defect --- those that threaten structural capacity,
+those that threaten durability, and those that are merely unsightly ---
 because the three warrant entirely different responses and a single composite
 score conceals the distinction.
 
-Predictive maintenance is the direction of travel. Surface observation,
-internal inspection and physical modelling combined can forecast condition
-rather than record it, which moves intervention ahead of loss of function.
+Forecasting condition, rather than recording it, moves intervention ahead of
+loss of function, and surface observation, internal inspection and physical
+modelling combined make such forecasting possible. The forecast is only as
+good as its calibration against the deterioration actually observed on the
+asset.
 This depends on inspection data returning to the asset model of
 Chapter~\ref{ch:digital-twin} rather than accumulating in inspection reports,
 and it is the operational half of the lifecycle argument set out in
@@ -121,8 +126,8 @@ clearance envelope is usually the constraint that decides the method --- which
 is why the allowance for future relining belongs in the original internal
 diameter (Chapter~\ref{ch:linings}).
 
-Upgrading legacy tunnels to modern standards is a distinct problem. Nineteenth
-and twentieth century tunnels were built to clearances, fire standards and
+Upgrading legacy tunnels to modern standards is a distinct problem.
+Nineteenth- and twentieth-century tunnels were built to clearances, fire standards and
 egress provisions that no longer suffice, and bringing them into compliance
 within an immovable bore, often with heritage constraints, is among the more
 difficult problems in the field. The honest options are frequently to accept a
@@ -146,7 +151,11 @@ completed geometry.
 
 Whole-life cost management requires a deterioration model, a set of
 intervention options with costs and effects, and an optimisation over the
-remaining life. Frameworks such as the ISO 55000 series provide the structure.
+remaining life. Costs and benefits arising at different dates are made
+comparable by discounting over a stated horizon, and because the ranking of
+intervention options is sensitive to the discount rate, the rate is declared
+with the result. Frameworks such as the ISO 55000 series provide the
+structure.
 
 The persistent difficulty is not technical. Maintenance is funded from
 operating budgets and capital works from capital budgets, and the two are
@@ -155,7 +164,9 @@ becomes a capital problem. An asset whose durability design assumed drains
 flushed every five years, in an organisation that funds flushing every
 fifteen, has been designed against a maintenance regime that does not exist.
 Recording the maintenance assumption explicitly at handover is the designer's
-only defence.
+minimum defence. The stronger one is to reduce the dependence: cover, binder,
+crack control and drainage philosophy can be chosen so that durability
+survives the maintenance the owner will actually fund.
 
 \subsection{Decommissioning and repurposing}
 \label{sec:decommissioning}
