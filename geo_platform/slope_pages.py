@@ -25,10 +25,10 @@ DEFAULT_JOINTS = pd.DataFrame({
 DEFAULT_FACES = pd.DataFrame({"Face": ["S1"], "Dip (deg)": [60.0], "Dip direction (deg)": [170.0]})
 
 _LINESTYLES = ("-", "--", ":", "-.")
-_REF_ROMANA = 'Romana M (1985) New adjustment ratings for application of Bieniawski classification to slopes. In: Proceedings of the International Symposium on the Role of Rock Mechanics, Zacatecas, pp 49-53'
+_REF_ROMANA = 'Romana M (1985) New adjustment ratings for application of Bieniawski classification to slopes. In: Proceedings of the International Symposium on the Role of Rock Mechanics in Excavations for Mining and Civil Works, Zacatecas, Mexico. International Society for Rock Mechanics, pp 49-53'
 _REF_HOEK_BRAY = 'Hoek E, Bray JW (1981) Rock slope engineering, 3rd edn. Institution of Mining and Metallurgy, London'
-_REF_MARKLAND = 'Markland JT (1972) A useful technique for estimating the stability of rock slopes when the rigid wedge sliding type of failure is expected. Imperial College Rock Mechanics Research Report 19, London'
-_REF_GOODMAN_BRAY = 'Goodman RE, Bray JW (1976) Toppling of rock slopes. In: Proceedings of the Specialty Conference on Rock Engineering for Foundations and Slopes, Boulder, vol 2. ASCE, New York, pp 201-234'
+_REF_MARKLAND = 'Markland JT (1972) A useful technique for estimating the stability of rock slopes when the rigid wedge sliding type of failure is expected. Imperial College Rock Mechanics Research Report 19, London, 10 pp'
+_REF_GOODMAN_BRAY = 'Goodman RE, Bray JW (1976) Toppling of rock slopes. In: Proceedings of the Specialty Conference on Rock Engineering for Foundations and Slopes, Boulder, Colorado, vol 2. ASCE, pp 201-234'
 _REF_BISHOP = 'Bishop AW (1955) The use of the slip circle in the stability analysis of slopes. Géotechnique 5(1):7-17'
 
 

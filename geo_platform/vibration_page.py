@@ -49,9 +49,11 @@ _VIBRATION = [
      "beta = pi f eta / c, with eta the loss factor and c the wave speed."),
     ("dominant_frequency_hz", "Dominant frequency, f (Hz)", 1.0, 200.0, 1.0, "%.1f", None),
     ("crest_factor", "Crest factor, C = peak/RMS (-)", 1.0, 6.0, 0.1, "%.2f",
-     "1.41 for a sinusoid; larger for a more impulsive signal."),
+     "1.41 for a sinusoid; larger for a more impulsive signal. The estimated VDV holds only for "
+     "steady vibration with a crest factor below about 6; above that, integrate a measured record."),
     ("frequency_weighting", "Frequency weighting at f, W (-)", 0.01, 1.0, 0.05, "%.2f",
-     "Human-response weighting factor at the dominant frequency; 1.0 is unweighted and conservative."),
+     "Human-response weighting factor at the dominant frequency: W_b for vertical vibration "
+     "(most sensitive at 4-12.5 Hz), W_d for horizontal (1-2 Hz). 1.0 is unweighted and conservative."),
     ("vdv_period_h", "VDV assessment period, T_p (h)", 1.0, 24.0, 1.0, "%.1f",
      "16 h for the daytime criteria, 8 h for night-time."),
     ("gbn_ref_dba", "Reference noise level, L_ref (dBA)", 0.0, 100.0, 1.0, "%.1f",
@@ -67,8 +69,12 @@ _CRITERIA = [
     ("slope_limit_one_in", "Slope screen, 1 in (-)", 10.0, 10000.0, 50.0, "%.0f", None),
     ("ppv_ordinary_mm_s", "PPV, ordinary structure (mm/s)", 0.1, 100.0, 0.5, "%.2f", None),
     ("ppv_heritage_mm_s", "PPV, heritage structure (mm/s)", 0.1, 100.0, 0.5, "%.2f", None),
-    ("vdv_residential", "VDV, residential (m/s^1.75)", 0.01, 5.0, 0.05, "%.2f", None),
-    ("vdv_teaching", "VDV, teaching and office (m/s^1.75)", 0.01, 5.0, 0.05, "%.2f", None),
+    ("vdv_residential", "VDV, residential (m/s^1.75)", 0.01, 5.0, 0.05, "%.2f",
+     "BS 6472-1, 16 h day: adverse comment has a low probability at 0.2-0.4, is possible at 0.4-0.8 "
+     "and is probable at 0.8-1.6. The default 0.4 is the top of the low-probability band."),
+    ("vdv_teaching", "VDV, teaching and office (m/s^1.75)", 0.01, 5.0, 0.05, "%.2f",
+     "Offices take twice the residential values (0.4-0.8 low probability, 16 h day); the default 0.8 "
+     "is the top of that band. Teaching space is treated as office here, a judgement."),
     ("gbn_residential_dba", "Noise, residential (dBA)", 10.0, 80.0, 1.0, "%.1f", None),
     ("gbn_teaching_dba", "Noise, teaching and office (dBA)", 10.0, 80.0, 1.0, "%.1f", None),
     ("spec_L1_um_s", "Equipment class L1 (um/s)", 0.1, 500.0, 1.0, "%.2f", None),
@@ -95,7 +101,13 @@ _ASSUMPTIONS = [
     "VDV, noise and the equipment spectrum are floor quantities and include the floor "
     "amplification. VDV is the estimated value 1.4 a_rms t^1/4 with "
     "a_rms = W 2 pi f A PPV / C, accumulated over the boring seconds of the assessment period "
-    "with the day's average position; bores add as fourth powers.",
+    "with the day's average position; bores add as fourth powers. The estimated VDV of "
+    "BS 6472-1 applies to steady vibration with a crest factor below about 6; for impulsive or "
+    "intermittent vibration it underestimates, and the VDV must be integrated from a measured "
+    "acceleration record.",
+    "VDV criteria (BS 6472-1, 16 h day): the defaults are the upper end of the band in which adverse "
+    "comment has a low probability, 0.4 m/s^1.75 residential and 0.8 m/s^1.75 office (multiplying "
+    "factor 2); teaching space is treated as office.",
     "Ground-borne noise is an equivalent continuous level over the period and tracks the floor "
     "velocity dB for dB, so it attenuates by the same law as the vibration. The margin to the "
     "criterion is a level difference, shown as the amplitude ratio 10^(dL/20).",
