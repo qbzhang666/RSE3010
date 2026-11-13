@@ -1,8 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Underground Design and Construction
-%  Springer book manuscript using the official SNmono class, matching the
-%  setup of Dynamic_Testing_and_Engineering_Applications_of_Brittle_
-%  Geomaterials_Springer_v2.tex.
+%  Springer book manuscript using the official SNmono class, v6.00
+%  (2025-11-11), with the same class options, trim size, fonts and index
+%  style as the pumped hydro book (RSE3241/Springer_Handbook).
 %
 %  No boxes and no colour: material that would once have been boxed runs in
 %  the main text, so the page is plain body type throughout.
@@ -16,11 +16,28 @@
 %  Build:  latexmk -pdf -outdir=build main.tex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass[envcountchap]{SNmono}
+\documentclass[graybox,envcountchap,sectrefs]{SNmono}
+% Springer Regular Book: the class default text block is 117 x 191 mm, sized
+% for the 155 x 235 mm monograph trim set below. Set the LaTeX paper lengths
+% as well as the pdfTeX primitives: hyperref loads later with setpagesize
+% enabled and re-derives the primitives from \paperwidth, so setting the
+% primitives alone is silently undone.
+\setlength{\paperwidth}{155mm}
+\setlength{\paperheight}{235mm}
+% The class centres its 117 mm text block on A4/Letter (oddsidemargin = 63pt),
+% because Springer expects the submission PDF on office paper and imposes the
+% final trim itself. On the real 155 mm trim that setting runs the text off the
+% right edge, so recentre the block: side margins (155-117)/2 = 19 mm and text
+% top (235-191)/2 = 22 mm, both expressed relative to the 1 in origin.
+\setlength{\oddsidemargin}{-6.4mm}
+\setlength{\evensidemargin}{-6.4mm}
+\setlength{\topmargin}{-11.84mm}
+\pdfpagewidth=\paperwidth
+\pdfpageheight=\paperheight
 
 \input{preamble}
 
-\usepackage[backend=biber,style=authoryear,natbib=true,
+\usepackage[backend=biber,style=authoryear,natbib=true,refsection=chapter,
             maxcitenames=2,mincitenames=1,maxbibnames=99,
             uniquename=false,uniquelist=false,giveninits=true,
             date=year,isbn=false,url=false,eprint=false]{biblatex}
@@ -37,6 +54,24 @@
 }
 
 \addbibresource{references.bib}
+
+% References are set chapter by chapter, as a closing section of each chapter,
+% in the form the class gives its own thebibliography under the sectrefs
+% option: an unnumbered section with a running head and a contents entry.
+% \chapterreferences ends every chapter and appendix file. A chapter that
+% cites nothing prints nothing, and the warning biblatex would raise for the
+% empty list is suppressed for that call only.
+\defbibheading{chapterrefs}{%
+  \section*{\refname}\markright{\refname}%
+  \addcontentsline{toc}{section}{\refname}}
+\renewcommand*{\bibfont}{\small}
+\makeatletter
+\newcommand{\chapterreferences}{%
+  \begingroup
+  \let\blx@warn@bibempty\relax
+  \printbibliography[heading=chapterrefs]%
+  \endgroup}
+\makeatother
 
 \setlength{\emergencystretch}{2em}
 \setcounter{tocdepth}{1}
@@ -110,6 +145,5 @@
 \include{backmatter/appendix-h-calculation-sequences}
 
 \backmatter
-\printbibliography[heading=bibintoc,title={References}]
 
 \end{document}
