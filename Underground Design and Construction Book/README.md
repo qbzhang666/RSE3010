@@ -6,7 +6,7 @@ The manuscript is fully drafted: no outline or TODO markers remain anywhere, in 
 
 ## Format
 
-Uses the official Springer Nature **SNmono** class, v6.00 (2025-11-11), with the same setup as the pumped hydro book in `RSE3241/Springer_Handbook`: `\documentclass[graybox,envcountchap,sectrefs]{SNmono}`, the 155 × 235 mm trim with the 117 × 191 mm text block centred on it, and newtxtext/newtxmath. `SNmono.cls` and `svind.ist` are byte-identical to the copies in that book. References close each chapter as an unnumbered section, as in that book; here they are produced by biblatex with biber (`refsection=chapter`) from the single `references.bib`, and every chapter and appendix file ends with `\chapterreferences`, which prints nothing where a chapter cites nothing. `springer_book.sty` is this book's own semantic layer.
+Uses the official Springer Nature **SNmono** class, v6.00 (2025-11-11), with the same setup as the pumped hydro book in `RSE3241/Springer_Handbook`: `\documentclass[graybox,envcountchap,sectrefs]{SNmono}`, the 155 × 235 mm trim with the 117 × 191 mm text block centred on it, and newtxtext/newtxmath. `SNmono.cls` and `svind.ist` are byte-identical to the copies in that book. References close each chapter as an unnumbered section, as in that book; here they are produced by biblatex with biber (`refsection=chapter`) from the single `references.bib`, and every chapter and appendix file ends with `\chapterreferences`, which prints nothing where a chapter cites nothing. Entries and citations follow the Springer author--year (basic) style, set by `bibliography-style.tex`: `Hoek E, Diederichs MS (2006) Empirical estimation of rock mass modulus. Int J Rock Mech Min Sci 43(2):203--215`, cited as (Hoek and Diederichs 2006). `springer_book.sty` is this book's own semantic layer.
 
 A full-width figure is therefore 117 mm wide, not the 190 mm double-column width of the journal figure style.
 
@@ -52,7 +52,8 @@ Part I establishes the criteria that now govern how projects are conceived. Part
 | `frontmatter/` | Preface, how to use this book, notation and units, list of symbols |
 | `chapters/` | 28 chapter files, `c01`–`c28`, numbered in book order |
 | `backmatter/` | Appendices A–F; A describes the companion open-access application |
-| `references.bib` | Bibliography, 91 entries |
+| `references.bib` | Bibliography, 91 entries. Article titles in sentence case with proper nouns braced; German and French titles carry `langid`; each article has a `shortjournal` (ISO 4 abbreviation), which is what prints |
+| `bibliography-style.tex` | Springer author--year reference style on biblatex, loaded by `main.tex` |
 | `figures/` | Chapter figures in `chNN/`, as PDF and SVG, plus a PNG preview |
 | `tools/` | `export_twin_figures.py`, the demonstrator figure export |
 | `CLASSICAL-CROSSCHECK.md` | Mapping against Hoek & Brown (1980) and Brady & Brown (2006) |

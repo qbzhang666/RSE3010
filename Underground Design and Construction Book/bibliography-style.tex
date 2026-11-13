@@ -1,0 +1,173 @@
+%==============================================================================
+%  Springer Nature author--year reference style, set with biblatex.
+%
+%  Loaded by main.tex directly after biblatex. The entries follow the
+%  Springer basic (author--year) form:
+%
+%    Hoek E, Diederichs MS (2006) Empirical estimation of rock mass modulus.
+%      Int J Rock Mech Min Sci 43(2):203--215
+%    Brady BHG, Brown ET (2006) Rock mechanics for underground mining, 3rd edn.
+%      Springer, Dordrecht
+%    Terzaghi K (1946) Rock defects and loads on tunnel supports. In: Proctor RV,
+%      White TL (eds) Rock Tunneling with Steel Supports. Commercial Shearing
+%      and Stamping Co., Youngstown, Ohio, pp 17--99
+%
+%  and citations read (Hoek and Diederichs 2006) or Hoek et al. (2002).
+%
+%  Journal titles are printed in the ISO 4 abbreviation held in each entry's
+%  shortjournal field; references.bib keeps the full title as well. Titles of
+%  articles, chapters and books are set in sentence case, so proper nouns and
+%  acronyms in a title are braced in references.bib, and titles in German or
+%  French carry a langid so that they are left as written.
+%==============================================================================
+
+\RequirePackage{xpatch}
+
+% --- Journal title: the abbreviation where one is recorded ---------------------
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map[overwrite]{
+      \step[fieldsource=shortjournal, final]
+      \step[fieldset=journaltitle, origfieldval]
+    }
+  }
+}
+
+% --- Names: Hoek E, Diederichs MS -------------------------------------------
+% Surname first for every name, no comma before the initials, initials without
+% points (terseinits in the package options), and a comma between names in the
+% reference list. The text keeps "and" between two names.
+\DeclareNameAlias{sortname}{family-given}
+\DeclareNameAlias{default}{family-given}
+\renewcommand*{\revsdnamepunct}{}
+\DeclareDelimFormat[bib,biblist]{multinamedelim}{\addcomma\space}
+\DeclareDelimFormat[bib,biblist]{finalnamedelim}{\addcomma\space}
+\DeclareDelimFormat[bib,biblist]{andothersdelim}{\addspace}
+
+% --- Year directly after the names: Hoek E (1998) Title -----------------------
+\DeclareDelimFormat[bib,biblist]{nametitledelim}{\addspace}
+
+% --- Citations: (Hoek and Diederichs 2006), with no comma before the year -----
+% biblatex's natbib layer (natbib=true) sets a comma here; Springer has none.
+\DeclareDelimFormat{nameyeardelim}{\addspace}
+
+% --- Titles: plain type throughout; sentence case for the work itself ---------
+% biblatex passes every title-like field through the titlecase format, so the
+% case change is made there and confined to the title of the work; book,
+% proceedings and journal titles keep their capitals.
+\DeclareFieldFormat{titlecase}{%
+  \ifboolexpr{test {\ifcurrentfield{title}} or test {\ifcurrentfield{subtitle}}}
+    {\MakeSentenceCase*{#1}}
+    {#1}}
+\DeclareFieldFormat*{title}{#1}
+\DeclareFieldFormat*{booktitle}{#1}
+\DeclareFieldFormat*{maintitle}{#1}
+\DeclareFieldFormat{journaltitle}{#1}
+\DeclareFieldFormat{issuetitle}{#1}
+
+% --- Journal articles: no "In:", and volume(issue):pages ----------------------
+\renewbibmacro*{in:}{%
+  \ifentrytype{article}
+    {}
+    {\printtext{\bibstring{in}\intitlepunct}}}
+\DeclareFieldFormat[article]{number}{\mkbibparens{#1}}
+\DeclareFieldFormat[article]{pages}{#1}
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \printfield{number}%
+  \setunit{\bibeidpunct}%
+  \printfield{eid}}
+\renewbibmacro*{note+pages}{%
+  \printfield{note}%
+  \ifentrytype{article}
+    {\setunit{\addcolon}}
+    {\setunit{\bibpagespunct}}%
+  \printfield{pages}%
+  \newunit}
+
+% --- Publisher before place: Springer, Dordrecht ------------------------------
+\renewbibmacro*{publisher+location+date}{%
+  \printlist{publisher}%
+  \setunit*{\addcomma\space}%
+  \printlist{location}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}
+\renewbibmacro*{institution+location+date}{%
+  \printlist{institution}%
+  \setunit*{\addcomma\space}%
+  \printlist{location}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}
+\renewbibmacro*{organization+location+date}{%
+  \printlist{organization}%
+  \setunit*{\addcomma\space}%
+  \printlist{location}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}
+
+% --- Chapters and papers: In: Mair RJ, Taylor RN (eds) Book title -------------
+\newbibmacro*{springer:editors}{%
+  \ifnameundef{editor}
+    {}
+    {\printnames[family-given]{editor}%
+     \setunit{\addspace}%
+     \printtext[parens]{%
+       \ifnumgreater{\value{editor}}{1}
+         {\bibstring{editors}}
+         {\bibstring{editor}}}%
+     \setunit{\addspace}}}
+\xpatchbibdriver{incollection}
+  {\usebibmacro{maintitle+booktitle}}
+  {\usebibmacro{springer:editors}\usebibmacro{maintitle+booktitle}}
+  {}{\PackageWarning{bibliography-style}{incollection driver not patched}}
+\xpatchbibdriver{incollection}
+  {\usebibmacro{byeditor+others}}{}
+  {}{\PackageWarning{bibliography-style}{incollection editors not removed}}
+\xpatchbibdriver{inproceedings}
+  {\usebibmacro{maintitle+booktitle}}
+  {\usebibmacro{springer:editors}\usebibmacro{maintitle+booktitle}}
+  {}{\PackageWarning{bibliography-style}{inproceedings driver not patched}}
+\xpatchbibdriver{inproceedings}
+  {\usebibmacro{byeditor+others}}{}
+  {}{\PackageWarning{bibliography-style}{inproceedings editors not removed}}
+
+% --- Edition and volume after a comma: Title, 3rd edn; Book title, vol 4 ------
+\xpatchbibdriver{book}
+  {\printfield{edition}}
+  {\setunit{\addcomma\space}\printfield{edition}}
+  {}{\PackageWarning{bibliography-style}{book edition not patched}}
+\xpatchbibdriver{incollection}
+  {\printfield{volume}\printfield{part}}
+  {\setunit{\addcomma\space}\printfield{volume}\printfield{part}}
+  {}{\PackageWarning{bibliography-style}{incollection volume not patched}}
+\xpatchbibdriver{inproceedings}
+  {\printfield{volume}\printfield{part}}
+  {\setunit{\addcomma\space}\printfield{volume}\printfield{part}}
+  {}{\PackageWarning{bibliography-style}{inproceedings volume not patched}}
+
+% --- Theses: Dissertation, University ----------------------------------------
+\xpatchbibdriver{thesis}
+  {\printfield{type}\newunit}
+  {\printfield{type}\setunit{\addcomma\space}}
+  {}{\PackageWarning{bibliography-style}{thesis driver not patched}}
+
+% --- Reports and standards: no "Tech. rep." -----------------------------------
+\AtEveryBibitem{%
+  \ifentrytype{report}
+    {\iffieldequalstr{type}{techreport}{\clearfield{type}}{}}
+    {}}
+
+% --- Words and the end of an entry --------------------------------------------
+\DefineBibliographyStrings{english}{%
+  edition   = {edn},
+  page      = {p},
+  pages     = {pp},
+  volume    = {vol},
+  editor    = {ed},
+  editors   = {eds},
+  phdthesis = {Dissertation},
+}
+\renewcommand*{\finentrypunct}{}
