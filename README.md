@@ -15,7 +15,43 @@ whom before anything else.
   particular week of that unit. Those titles are deliberate and are not an
   error; a reader of the book can ignore them.
 
-## Running anything
+## The platform
+
+`rse3010_geo.py` gathers the corrected calculations into one Streamlit
+application, the RSE3010 Geotechnical Platform. It has one shared ground model,
+so the values set on the Ground model page are the ones the intact rock, rock
+mass and convergence–confinement pages use. Its presets reproduce the data sets
+and worked examples of the book. The pages are:
+
+- ground model, intact rock and rock mass strength and stiffness;
+- convergence–confinement, with ground reaction curve, longitudinal
+  deformation profile and support;
+- settlement above single and twin bores, and the segment and ring checks of
+  the lining;
+- construction vibration screening;
+- the RSE3010 rock slope tools: slope mass rating, kinematic analysis and limit
+  equilibrium;
+- an equation reference;
+- a design report: the inputs, equations, results, checks and figures of
+  every page opened in the session. The report is set in LaTeX, compiled to
+  PDF with pdflatex, and can also be downloaded as LaTeX source with its
+  figures. On Streamlit Community Cloud, `packages.txt` installs TeX Live.
+
+The calculations are in the `geo_platform` package. Every page is tested
+against the book's worked values in `tests/`.
+
+```bash
+python -m pip install -r requirements.txt
+streamlit run rse3010_geo.py
+python -m pytest tests -q
+```
+
+The platform is deployed on Streamlit Community Cloud from the `main` branch,
+with `rse3010_geo.py` as the main file and Python 3.12. The standalone scripts
+below are kept as they were used in teaching. Where the platform corrects one
+of them, the platform is the version to use.
+
+## Running a standalone script
 
 ```bash
 python -m pip install -r requirements.txt
@@ -98,15 +134,22 @@ against the book's 62.0 mm. Both are right for their own
 assumptions, and the 36 per cent gap is the compressibility terms, not an
 error. Select Salençon when reproducing the book.
 
-**Outstanding.** Further defects found in the same audit are not yet fixed:
+**Corrected in the platform, not in the standalone scripts.** The defects
+below are corrected in `rse3010_geo.py`. The standalone scripts still contain
+them:
 `ccm_ldp_scc.py` uses a rock-mass strength expression and a dimensionless group
 that appear in no published Hoek–Brown solution, and its ground reaction curve
 is discontinuous at the critical pressure; `arc-beam.py` uses the arc length as
 the beam span and applies straight simply-supported statics to a curved member,
 computing no hoop thrust; `tbm_settlement.py` and `TBM_Vibration.py` use a
 Gaussian rather than a cumulative-normal longitudinal profile, so settlement
-recovers to zero behind the face. Treat results from these as illustrative
-until they are corrected.
+recovers to zero behind the face. Treat results from these scripts as
+illustrative. The platform replaces them with the following:
+
+- the convergence–confinement page;
+- a curved-member segment check with hoop thrust;
+- a cumulative-normal longitudinal profile in both the settlement and
+  vibration pages.
 
 ## Third-party material
 
@@ -122,7 +165,9 @@ excluded from the licence below.
   checked against it.
 
 Both should be replaced by references to their sources before this repository
-is distributed more widely than a teaching cohort.
+is distributed more widely than a teaching cohort. Neither is used by the
+platform: its typical `m_i` values are taken from the book's own appendix
+table, and it has no retaining-wall page.
 
 ## Licence
 

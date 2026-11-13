@@ -11,3 +11,7 @@ ACRM-DBSD-RBHA-course-material/
 *.synctex.gz
 *.fdb_latexmk
 *.fls
+
+# Python bytecode
+__pycache__/
+*.pyc

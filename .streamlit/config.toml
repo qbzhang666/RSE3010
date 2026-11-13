@@ -1,0 +1,32 @@
+[theme]
+base = "light"
+primaryColor = "#2F6B57"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F4F6F5"
+textColor = "#1A1A1A"
+linkColor = "#2F6B57"
+redColor = "#8C2B3E"
+greenColor = "#2F6B57"
+blueColor = "#2F6B57"
+grayColor = "#5A5A5A"
+font = "sans-serif"
+headingFont = "serif"
+baseRadius = "medium"
+borderColor = "#C8C8C8"
+dataframeBorderColor = "#C8C8C8"
+showWidgetBorder = true
+showSidebarBorder = true
+chartCategoricalColors = ["#2F6B57", "#8C2B3E", "#5A5A5A", "#8A8A8A"]
+chartSequentialColors = ["#FFFFFF", "#E6EFEC", "#C9DDD5", "#A8C8BB", "#86B2A1", "#649C87", "#4A8670", "#3A7663", "#2F6B57", "#1F4A3C"]
+
+[global]
+# The platform re-writes the state of each page's widgets at the start of a run so
+# that values survive a visit to another page; some pages also give their widgets
+# a default value. That combination is intended, so the duplication notice is off.
+disableWidgetStateDuplicationWarning = true
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false

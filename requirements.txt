@@ -4,7 +4,13 @@
 # and numbers in the book.
 #
 # Install:  python -m pip install -r requirements.txt
-# Run:      streamlit run "CCM Tunnel.py"
+# Run:      streamlit run rse3010_geo.py      (the platform)
+#           streamlit run "CCM Tunnel.py"     (a standalone script)
+#
+# Streamlit Community Cloud installs this file for the platform. Deploy with
+# Python 3.12 and main file rse3010_geo.py. The platform needs only streamlit,
+# numpy, pandas, scipy, matplotlib and plotly; the rest serve the standalone
+# scripts.
 #
 # Every script except TBM_Vibration.py is a Streamlit application and must be
 # started with `streamlit run`, not `python`. TBM_Vibration.py is the one
