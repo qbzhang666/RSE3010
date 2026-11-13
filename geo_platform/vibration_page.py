@@ -101,7 +101,8 @@ _ASSUMPTIONS = [
     "VDV, noise and the equipment spectrum are floor quantities and include the floor "
     "amplification. VDV is the estimated value 1.4 a_rms t^1/4 with "
     "a_rms = W 2 pi f A PPV / C, accumulated over the boring seconds of the assessment period "
-    "with the day's average position; bores add as fourth powers. The estimated VDV of "
+    "with a^4 averaged over the positions in the worst window of length T_p ending in each day; "
+    "bores add as fourth powers. The estimated VDV of "
     "BS 6472-1 applies to steady vibration with a crest factor below about 6; for impulsive or "
     "intermittent vibration it underestimates, and the VDV must be integrated from a measured "
     "acceleration record.",
@@ -322,8 +323,8 @@ def _profile_figure(m: vib.VibrationInputs) -> None:
         fig, ax = plt.subplots(figsize=(6.0, 3.0))
         ax.plot(x / i, ndtr(x / i), color=style.MALACHITE, label="Cumulative normal (used)")
         ref = style.reference_style()
-        ax.plot(x / i, np.exp(-0.5 * (x / i) ** 2), color=ref["color"], linestyle=ref["linestyle"],
-                label="Gaussian in the face distance (source script)")
+        ax.plot(x / i, np.exp(-0.5 * (x / 35.0) ** 2), color=ref["color"], linestyle=ref["linestyle"],
+                label="Gaussian in the face distance, sigma = 35 m (source script)")
         ax.axvline(0.0, color=style.GREY_LIGHT, linewidth=0.8)
         ax.set_xlabel(style.axis_label("Face position past the point", r"(x_f - x)/i", "-", math=True))
         ax.set_ylabel(style.axis_label("Settlement ratio", r"S/S_{\max}", "-", math=True))
@@ -358,10 +359,11 @@ def _split_label(label: str) -> tuple[str, str]:
 
 
 VIBRATION_EQUATIONS = [
-    r"S=S_{max}\,e^{-y^2/2i^2}\left[\Phi\!\left(\frac{x_f-x}{i}\right)-\Phi\!\left(\frac{x_0-x}{i}\right)\right],"
-    r"\qquad i=Kz_0",
+    r"S=\sum_j S_{max}\,e^{-(y-y_j)^2/2i^2}\left[\Phi\!\left(\frac{x_{f,j}-x}{i}\right)"
+    r"-\Phi\!\left(\frac{x_0-x}{i}\right)\right],\qquad i=Kz_0",
     r"\mathrm{PPV}=\mathrm{PPV}_{ref}\left(\frac{d}{d_{ref}}\right)^{-n}e^{-\beta\,(d-d_{ref})}",
-    r"\mathrm{VDV}=1.4\,a_{rms}\,t^{1/4},\qquad a_{rms}=\frac{W\,2\pi f\,A\,\mathrm{PPV}}{C}",
+    r"\mathrm{VDV}=1.4\left(\overline{\textstyle\sum_j a_{rms,j}^4}\;t\right)^{1/4},\qquad "
+    r"a_{rms,j}=\frac{W\,2\pi f\,A\,\mathrm{PPV}_j}{C},\qquad t=3600\,T_p\,\delta",
     r"L=L_{ref}+20\log_{10}\frac{A\,\mathrm{PPV}}{\mathrm{PPV}_{ref}}+G_{room}+10\log_{10}\delta",
 ]
 
@@ -468,8 +470,9 @@ def render_vibration(ctx: dict) -> None:
         st.markdown(
             "Settlement along the drive follows the cumulative normal distribution "
             "(Attewell and Woodman 1982): "
-            r"$S = S_{\max}\,e^{-y^2/2i^2}\,\Phi\!\left((x_f - x)/i\right)$, "
-            "about half the final value as the face passes and the full value well behind it. "
+            r"$S = S_{\max}\,e^{-(y-y_j)^2/2i^2}\left[\Phi\!\left((x_f - x)/i\right) - \Phi\!\left((x_0 - x)/i\right)\right]$ "
+            "for each bore, with x_0 the launch chainage; about half the final value as the face passes and "
+            "the full value well behind it. "
             "The source script used a Gaussian in the face distance, so settlement recovered to zero "
             "once the face had passed; settlement is permanent, and that form is wrong.")
         _profile_figure(m)

@@ -651,8 +651,11 @@ def wedge_fos(plane_a: tuple[float, float], plane_b: tuple[float, float],
     Total normal reactions N_A, N_B balance the weight normal to the line of
     intersection; with water, U_A = gamma_w H / 6 * area_A (and likewise for B)
     is subtracted.  FoS = (c_A A_A + c_B A_B + N'_A tan phi_A + N'_B tan phi_B)
-    / (W sin psi_i).  If one normal reaction is negative, the wedge leaves that
-    plane and slides down the dip of the other plane alone.
+    / (W sin psi_i) when the wedge slides on both planes.  The mode is chosen from
+    the applied force, weight and water together: if it presses on one plane only
+    and the sliding direction on that plane leaves the other, the wedge slides on
+    that plane alone (N' = -A.n, driving force the in-plane part of A); if it pulls
+    away from both, the water lifts the wedge and FoS = 0.
     """
     geo = wedge_geometry(plane_a, plane_b, face, upper, H)
     if not geo["valid"]:
@@ -669,27 +672,41 @@ def wedge_fos(plane_a: tuple[float, float], plane_b: tuple[float, float],
     plunge = geo["plunge"]
     result = {"valid": True, "geometry": geo, "W": W, "NA": NA, "NB": NB, "UA": UA, "UB": UB,
               "area_a": geo["area_a"], "area_b": geo["area_b"], "plunge": plunge, "trend": geo["trend"]}
-    if NA >= 0.0 and NB >= 0.0:
-        NA_eff, NB_eff = max(0.0, NA - UA), max(0.0, NB - UB)
-        driving = W * math.sin(_rad(plunge))
-        resisting = c_a * geo["area_a"] + c_b * geo["area_b"] + NA_eff * tan_a + NB_eff * tan_b
-        mode = "Sliding on both planes along the line of intersection"
-    elif NA < 0.0 <= NB or (NA < 0.0 and NB < 0.0 and NB >= NA):
-        dip_b = plane_b[0]
-        NB_eff = max(0.0, W * math.cos(_rad(dip_b)) - UB)
-        NA_eff = 0.0
-        driving = W * math.sin(_rad(dip_b))
+    # The sliding mode follows from the applied force: the weight and the water forces on
+    # both planes, U acting along each plane's normal into the wedge (Rocscience SWedge
+    # theory manual, tetrahedral wedges; Hoek and Bray's comprehensive solution).
+    applied = -W * k + UA * nA + UB * nB
+
+    def in_plane(n: np.ndarray) -> np.ndarray:
+        v = applied - float(applied @ n) * n
+        norm = float(np.linalg.norm(v))
+        return v / norm if norm > 0 else v
+
+    sA, sB = in_plane(nA), in_plane(nB)
+    on_a, on_b = float(applied @ nA), float(applied @ nB)
+    if on_a > 0.0 and on_b > 0.0:
+        NA_eff = NB_eff = 0.0
+        driving, resisting = float(np.linalg.norm(applied)), 0.0
+        mode = "The water forces lift the wedge off both planes"
+    elif on_a <= 0.0 and float(sA @ nB) > 0.0:
+        NA_eff, NB_eff = -on_a, 0.0
+        driving = float(np.linalg.norm(applied - on_a * nA))
+        resisting = c_a * geo["area_a"] + NA_eff * tan_a
+        mode = "Contact lost on plane B: sliding on plane A alone"
+    elif on_b <= 0.0 and float(sB @ nA) > 0.0:
+        NA_eff, NB_eff = 0.0, -on_b
+        driving = float(np.linalg.norm(applied - on_b * nB))
         resisting = c_b * geo["area_b"] + NB_eff * tan_b
         mode = "Contact lost on plane A: sliding on plane B alone"
     else:
-        dip_a = plane_a[0]
-        NA_eff = max(0.0, W * math.cos(_rad(dip_a)) - UA)
-        NB_eff = 0.0
-        driving = W * math.sin(_rad(dip_a))
-        resisting = c_a * geo["area_a"] + NA_eff * tan_a
-        mode = "Contact lost on plane B: sliding on plane A alone"
-    result.update(NA_eff=NA_eff, NB_eff=NB_eff, driving=driving, resisting=resisting, mode=mode,
-                  FoS=resisting / driving if driving > 0 else math.inf)
+        # Both planes in contact: the water forces are normal to the line of intersection,
+        # so they reduce the normal reactions and leave the driving force W sin(psi_i).
+        NA_eff, NB_eff = NA - UA, NB - UB
+        driving = W * math.sin(_rad(plunge))
+        resisting = c_a * geo["area_a"] + c_b * geo["area_b"] + NA_eff * tan_a + NB_eff * tan_b
+        mode = "Sliding on both planes along the line of intersection"
+    fos = 0.0 if mode.startswith("The water") else (resisting / driving if driving > 0 else math.inf)
+    result.update(NA_eff=NA_eff, NB_eff=NB_eff, driving=driving, resisting=resisting, mode=mode, FoS=fos)
     return result
 
 

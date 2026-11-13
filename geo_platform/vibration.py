@@ -30,8 +30,9 @@ Vibration (Chapter 22)
     Floor RMS velocity v_rms,j = A_floor PPV_j / C (C the crest factor);
     weighted RMS acceleration a_j = W 2 pi f v_rms,j (m/s^2);
     estimated VDV over the assessment period T_p (BS 6472-1),
-    VDV = 1.4 [sum_j mean_day(a_j^4) T_p delta]^(1/4)   (m/s^1.75),
-    delta the active (boring) fraction of the time.
+    VDV = 1.4 [max_window mean(sum_j a_j^4) 3600 T_p delta]^(1/4)   (m/s^1.75),
+    the mean taken over the positions in a window of length T_p and the worst
+    window ending in each day kept; delta the active (boring) fraction of time.
     Ground-borne noise, an equivalent continuous A-weighted level over the
     period, tracks the velocity of the radiating room surfaces dB for dB:
     L_j = L_ref + 20 log10(A_floor PPV_j / PPV_ref) + G_room + 10 log10(delta),
@@ -99,7 +100,7 @@ STRUCTURE_CLASSES = ("Ordinary", "Heritage")
 EQUIPMENT_CLASSES = ("None", "L1", "L2", "L3")
 
 EVDV_FACTOR = 1.4          # BS 6472-1 estimated VDV, eVDV = 1.4 a_rms t^(1/4)
-FOOTPRINT_POINTS = 11      # samples along each footprint line
+FOOTPRINT_POINTS = 11      # least number of samples along each footprint line; more if L > 2.5 i
 
 QUANTITIES = ("settlement", "slope", "ppv", "vdv", "gbn", "spec")
 QUANTITY_LABELS = {
@@ -382,7 +383,16 @@ def _settlement_day(m: VibrationInputs, ra: dict, t_sub: np.ndarray, t_end: floa
         s, _, _ = settlement_bore(m, ra["x"], ra["y"], face_chainage(m, t_end, bore), yb[bore - 1])
         s_point = s_point + s
     times = np.append(t_sub, t_end)
-    u = np.linspace(-0.5, 0.5, FOOTPRINT_POINTS)[None, :] * ra["L"][:, None]          # (R, P)
+    # sample spacing no larger than i/4, so the largest settlement and slope are not missed
+    n_pts = max(FOOTPRINT_POINTS, int(math.ceil(4.0 * float(ra["L"].max(initial=0.0)) / m.trough_width_m)) + 1)
+    n_pts += 1 - n_pts % 2                                                              # odd: keep the centre
+    u = np.linspace(-0.5, 0.5, n_pts)[None, :] * ra["L"][:, None]                      # (R, P)
+    # and the exact positions of the peak settlement (bore axes) and the steepest slope
+    # (inflection points y_j +/- i) where they fall within the footprint
+    half = 0.5 * ra["L"][:, None]
+    exact = np.stack([yb[j] - ra["y"] + off for j in (0, 1)
+                      for off in (-m.trough_width_m, 0.0, m.trough_width_m)], axis=1)      # (R, 6)
+    u = np.concatenate([u, np.clip(exact, -half, half)], axis=1)
     x0 = ra["x"][:, None]
     y0 = ra["y"][:, None]
     n_rec = len(ra["x"])
@@ -436,18 +446,36 @@ def _vibration_day(m: VibrationInputs, ra: dict, t_sub: np.ndarray):
     with np.errstate(divide="ignore"):
         energy = 10.0 ** (level_b[0] / 10.0) + 10.0 ** (level_b[1] / 10.0)
         level_tot = np.where(energy > 0, 10.0 * np.log10(np.where(energy > 0, energy, 1.0)), np.nan)
-    mean_a4 = (a4_b[0] + a4_b[1]).mean(axis=0)                            # (R,)
-    vdv = EVDV_FACTOR * (mean_a4 * m.vdv_active_seconds) ** 0.25
+    a4 = a4_b[0] + a4_b[1]                                                 # (n, R); VDV is set in run_model
     with np.errstate(all="ignore"):
         level_peak = np.nanmax(np.where(np.isnan(level_tot), -np.inf, level_tot), axis=0)
     level_peak = np.where(np.isfinite(level_peak), level_peak, np.nan)
-    rms_overall = ppv_tot * ra["amp"][None, :] / m.crest_factor * 1000.0   # um/s, for a consistency check
+    # overall RMS velocity of both bores together, the bound on their combined band velocity (um/s)
+    rms_overall = np.sqrt(ppv_b[0] ** 2 + ppv_b[1] ** 2) * ra["amp"][None, :] / m.crest_factor * 1000.0
     spec_excess = (spec_tot > rms_overall + 1e-9).any(axis=0)
     return {
         "ppv_1": ppv_b[0].max(axis=0), "ppv_2": ppv_b[1].max(axis=0),
-        "ppv": ppv_tot.max(axis=0), "vdv": vdv, "gbn": level_peak,
+        "ppv": ppv_tot.max(axis=0), "a4": a4, "gbn": level_peak,
         "spec": spec_tot.max(axis=0), "spec_above_rms": spec_excess,
     }
+
+
+def _vdv_by_day(m: VibrationInputs, a4: np.ndarray, n_sub: int) -> np.ndarray:
+    """Estimated VDV of the worst assessment window ending in each day, shape (days, R).
+
+    ``a4`` holds the sum over the bores of a_rms^4 at every sub-step, shape (days n_sub, R).
+    A window of length T_p covers round(n_sub T_p / 24) sub-steps; time before the
+    first day contributes nothing. The mean of a^4 over the window is applied to the
+    boring seconds of the period, 3600 T_p delta.
+    """
+    width = max(1, int(round(n_sub * m.vdv_period_h / 24.0)))
+    padded = np.vstack([np.zeros((width, a4.shape[1])), a4])
+    csum = np.vstack([np.zeros((1, a4.shape[1])), np.cumsum(padded, axis=0)])
+    # window ending at sub-step k (0-based in a4) spans padded rows k+1 .. k+width
+    k = np.arange(a4.shape[0])
+    window_mean = (csum[k + width + 1] - csum[k + 1]) / width                  # (days n_sub, R)
+    worst = window_mean.reshape(-1, n_sub, a4.shape[1]).max(axis=1)              # (days, R)
+    return EVDV_FACTOR * (worst * m.vdv_active_seconds) ** 0.25
 
 
 def _status(ratio: float, near: float) -> str:
@@ -470,10 +498,12 @@ def run_model(inputs: VibrationInputs, receivers: list[Receiver]) -> tuple[pd.Da
     n_sub = int(m.substeps_per_day)
     days = np.arange(1, int(m.model_days) + 1)
     frames = []
+    a4_days = []
     for day in days:
         t_sub = day - 1 + (np.arange(n_sub) + 0.5) / n_sub
         s_point, s_max, rng, slope = _settlement_day(m, ra, t_sub, float(day))
         vib = _vibration_day(m, ra, t_sub)
+        a4_days.append(vib["a4"])
         frames.append(pd.DataFrame({
             "day": int(day),
             "receiver_id": [r.receiver_id for r in receivers],
@@ -488,7 +518,7 @@ def run_model(inputs: VibrationInputs, receivers: list[Receiver]) -> tuple[pd.Da
             "ppv_1_mm_s": vib["ppv_1"],
             "ppv_2_mm_s": vib["ppv_2"],
             "ppv_mm_s": vib["ppv"],
-            "vdv_m_s175": vib["vdv"],
+            "vdv_m_s175": np.nan,
             "gbn_dba": vib["gbn"],
             "spec_um_s": vib["spec"],
             "spec_above_overall_rms": vib["spec_above_rms"],
@@ -500,6 +530,7 @@ def run_model(inputs: VibrationInputs, receivers: list[Receiver]) -> tuple[pd.Da
             "spec_criterion_um_s": ra["crit_spec"],
         }))
     detail = pd.concat(frames, ignore_index=True)
+    detail["vdv_m_s175"] = _vdv_by_day(m, np.concatenate(a4_days, axis=0), n_sub).reshape(-1)
 
     ratios = _ratios(detail, prefix="")
     for q in QUANTITIES:

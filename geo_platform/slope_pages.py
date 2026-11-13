@@ -30,6 +30,10 @@ _REF_HOEK_BRAY = 'Hoek E, Bray JW (1981) Rock slope engineering, 3rd edn. Instit
 _REF_MARKLAND = 'Markland JT (1972) A useful technique for estimating the stability of rock slopes when the rigid wedge sliding type of failure is expected. Imperial College Rock Mechanics Research Report 19, London, 10 pp'
 _REF_GOODMAN_BRAY = 'Goodman RE, Bray JW (1976) Toppling of rock slopes. In: Proceedings of the Specialty Conference on Rock Engineering for Foundations and Slopes, Boulder, Colorado, vol 2. ASCE, pp 201-234'
 _REF_BISHOP = 'Bishop AW (1955) The use of the slip circle in the stability analysis of slopes. Géotechnique 5(1):7-17'
+_REF_ANBALAGAN = ("Anbalagan R (1992) Landslide hazard evaluation and zonation mapping in mountainous terrain. "
+                  "Eng Geol 32(4):269-277")
+_REF_HOCKING = ("Hocking G (1976) A method for distinguishing between single and double plane sliding of "
+                "tetrahedral wedges. Int J Rock Mech Min Sci Geomech Abstr 13(7):225-226")
 
 
 def _plane_rows(planes, kind: str) -> list:
@@ -193,7 +197,7 @@ def render_smr(ctx: dict | None = None) -> None:
         checks=[(f"Lowest SMR {critical['SMR']:.1f} on face {critical['Face']} ({critical['Mode'].lower()} "
                  f"{critical['Case']}) is above 40, class III or better.", bool(critical["SMR"] > 40.0))],
         tables=[("Slope mass rating of each case.", report.text_frame(smr_table, 2))],
-        assumptions=notes, references=[_REF_ROMANA]))
+        assumptions=notes, references=[_REF_ROMANA, _REF_ANBALAGAN]))
 
     modes = st.multiselect("Show modes", ["Planar", "Wedge", "Toppling"], default=["Planar", "Wedge", "Toppling"],
                            key="smr_modes")
@@ -499,7 +503,7 @@ def render_kinematic(ctx: dict | None = None) -> None:
         key="kinematic", title="Kinematic screening and planar sliding", chapters="Chapter 9; RSE3010 Weeks 11-12",
         purpose="Which mechanisms are kinematically possible on the face, and the factor of safety of a planar "
                 "slide with a tension crack, water and anchors.",
-        assumptions=notes, references=[_REF_MARKLAND, _REF_GOODMAN_BRAY, _REF_HOEK_BRAY])
+        assumptions=notes, references=[_REF_MARKLAND, _REF_HOCKING, _REF_GOODMAN_BRAY, _REF_HOEK_BRAY])
 
     st.subheader("1. Kinematic screening")
     c1, c2, c3, c4, c5, c6 = st.columns(6)
@@ -903,8 +907,11 @@ def _wedge_section(notes: list[str] | None = None) -> None:
                     "plunge of the line of intersection.  The wedge is the tetrahedron bounded by the two "
                     "planes, the face and the upper surface; this is Hoek and Bray's comprehensive solution "
                     "in vector form.  Fully saturated: water pressure zero on the outcrop edges and "
-                    "½γw H at mid-height of the line of intersection.  If a normal reaction is negative, the "
-                    "wedge lifts off that plane and slides down the dip of the other.")
+                    "½γw H at mid-height of the line of intersection.  The sliding mode is chosen from the "
+                    "applied force, weight and water together: if it presses on one plane only and the sliding "
+                    "direction on that plane leaves the other, the wedge slides on that plane alone, with "
+                    "N' = −A·n and the in-plane part of A as the driving force; if it pulls away from both "
+                    "planes, the water lifts the wedge (FoS = 0).")
 
 
 def _circular_section(notes: list[str] | None = None) -> None:
