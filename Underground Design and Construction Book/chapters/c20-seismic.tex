@@ -12,7 +12,10 @@ loaded in the sense that a lining is loaded by ground pressure. The
 consequence, developed through the chapter, is that increased strength and
 stiffness are frequently the wrong response, and that the governing parameter
 is the relative stiffness of structure and ground rather than the capacity of
-the structure alone.
+the structure alone. Blast vibration during construction, the other dynamic
+action a tunnel commonly imposes on its surroundings, is governed by control
+of the source rather than by imposed ground deformation, and is treated with
+the excavation methods in Section~\ref{sec:vibration-environment}.
 
 \section{Seismic demand and analysis}
 \label{sec:seismic-demand}
@@ -86,7 +89,9 @@ strain is
 \]
 which is greatest at $45^\circ$, where it equals $v_{\max}/(2C_s)$. The angle
 is unknown, so the design case takes that worst orientation, which is
-conservative and cheap: a particle velocity of 0.3~m/s in ground with
+conservative and costs little in analysis, since the envelope follows from a
+single closed-form evaluation over the range of incidence angles: a particle
+velocity of 0.3~m/s in ground with
 $C_s = 1000$~m/s gives a strain of at most $1.5 \times 10^{-4}$. Imposing the
 free-field strain is appropriate where the lining is flexible relative to the
 ground and the ground is uniform over a wavelength. At stiffness transitions,
@@ -145,7 +150,11 @@ stated with the result.
 
 An analysis that has not been checked against a simplified solution for a
 comparable case should not be relied on, for the reasons set out in
-Chapter~\ref{ch:numerical-modelling}.
+Chapter~\ref{ch:numerical-modelling}. Here the check has a specific purpose:
+running the model first on a reduced configuration for which the closed form
+holds, uniform ground and a circular section under free-field shear, tests
+the input motion, the absorbing boundaries and the damping before the
+irregular geometry that motivated the model is introduced.
 
 \subsection{Permanent ground displacement}
 \label{sec:permanent-displacement}

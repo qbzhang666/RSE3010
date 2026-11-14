@@ -103,6 +103,9 @@ discontinuities relative to the excavation, is applied afterwards for design
 applications and is treated with them in Chapter~\ref{ch:empirical-design}.
 Neither of these is the quantity from which GSI is estimated; that is a third
 form of the rating, defined in Section~\ref{sec:geological-strength-index}.
+Adjacent bands in the rating tables that follow share their limits; a value
+lying exactly on a shared limit is assigned to the band of which it is the
+lower limit, so that an RQD of 90\,\% rates 20.
 
 \paragraph{R1: strength of intact rock material}
 The first rating is read from the uniaxial compressive strength or, where that
@@ -118,7 +121,7 @@ between the two is to be expected.
 \label{tab:rmr_strength}
 \centering
 \small
-\begin{tabularx}{0.85\textwidth}{l l c}
+\begin{tabular}{l l c}
 \toprule
 \textbf{Point Load \(I_{s(50)}\) (MPa)} & \textbf{UCS (MPa)} & \textbf{Rating} \\
 \midrule
@@ -130,7 +133,7 @@ between the two is to be expected.
 -- & 1--5 & 1 \\
 -- & \(<1\) & 0 \\
 \bottomrule
-\end{tabularx}
+\end{tabular}
 \end{table}
 
 \paragraph{R2: Rock Quality Designation (RQD)}
@@ -245,7 +248,7 @@ condition (Table~\ref{tab:rmr_groundwater}).
 \label{tab:rmr_groundwater}
 \centering
 \small
-\begin{tabularx}{\textwidth}{l l l c}
+\begin{tabular}{l l l c}
 \toprule
 \textbf{Inflow per 10 m tunnel (L/min)} & \textbf{\(u/\sigma_1\)} & \textbf{General condition} & \textbf{Rating} \\
 \midrule
@@ -255,7 +258,7 @@ None & 0 & Completely dry & 15 \\
 25--125 & 0.2--0.5 & Dripping & 4 \\
 \(>125\) & \(>0.5\) & Flowing & 0 \\
 \bottomrule
-\end{tabularx}
+\end{tabular}
 \end{table}
 
 \paragraph{Rock mass classes based on RMR}
@@ -281,7 +284,7 @@ problem.
 61--80 & II & Good & 300--400 & 35--45\(^{\circ}\) \\
 41--60 & III & Fair & 200--300 & 25--35\(^{\circ}\) \\
 21--40 & IV & Poor & 100--200 & 15--25\(^{\circ}\) \\
-\(<20\) & V & Very poor & \(<100\) & \(<15^\circ\) \\
+\(<21\) & V & Very poor & \(<100\) & \(<15^\circ\) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -398,20 +401,22 @@ The joint water reduction factor is read from the inflow and the approximate
 water pressure (Table~\ref{tab:jw}).
 
 \begin{table}[htbp]
-\caption{Joint water reduction factor \(J_w\).}
+\caption{Joint water reduction factor \(J_w\). The approximate water
+pressures, given in the original as 1, 2.5 and 10~kgf/cm\(^2\), are converted
+at 1~kgf/cm\(^2\) = 0.098~MPa and rounded.}
 \label{tab:jw}
 \centering
 \small
 \begin{tabularx}{\textwidth}{c Y c c}
 \toprule
-\textbf{Code} & \textbf{Conditions} & \textbf{Pressure (kg/cm\(^2\))} & \textbf{\(J_w\)} \\
+\textbf{Code} & \textbf{Conditions} & \textbf{Pressure (MPa)} & \textbf{\(J_w\)} \\
 \midrule
-A & Dry excavations or minor inflow & \(<1\) & 1.0 \\
-B & Medium inflow, occasional outwash of joint fillings & 1--2.5 & 0.66 \\
-C & Jet inflow or high pressure in competent rock & 2.5--10 & 0.5 \\
-D & Large inflow or high pressure, considerable outwash & 2.5--10 & 0.33 \\
-E & Exceptionally high inflow, decaying with time & \(>10\) & 0.2--0.1 \\
-F & Exceptionally high inflow, continuing without decay & \(>10\) & 0.1--0.05 \\
+A & Dry excavations or minor inflow & \(<0.1\) & 1.0 \\
+B & Medium inflow, occasional outwash of joint fillings & 0.1--0.25 & 0.66 \\
+C & Jet inflow or high pressure in competent rock & 0.25--1.0 & 0.5 \\
+D & Large inflow or high pressure, considerable outwash & 0.25--1.0 & 0.33 \\
+E & Exceptionally high inflow, decaying with time & \(>1.0\) & 0.2--0.1 \\
+F & Exceptionally high inflow, continuing without decay & \(>1.0\) & 0.1--0.05 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -664,8 +669,8 @@ with the water table 10~m below surface the head is 70~m, so
 major principal stress, as the table defines it, and not to the vertical
 stress, which here is the minor one; where \(k\) departs from unity the
 difference changes the rating. For the $Q$-system, if the excavation does not
-drain the joints, 0.69~MPa is about 7~kg/cm\(^2\), in the 2.5--10~kg/cm\(^2\)
-band of categories~C and~D (\(J_w = 0.5\) or 0.33), the choice between them
+drain the joints, 0.69~MPa lies in the 0.25--1.0~MPa band of categories~C
+and~D (\(J_w = 0.5\) or 0.33), the choice between them
 resting on the inflow and outwash observed.
 
 The point load indices of the mudstone and the limestone fall one rating band

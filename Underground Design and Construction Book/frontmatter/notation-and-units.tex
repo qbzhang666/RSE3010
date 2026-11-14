@@ -1,5 +1,6 @@
 % !TeX root = ../main.tex
 \chapter*{Notation and Units}
+\phantomsection
 \addcontentsline{toc}{chapter}{Notation and Units}
 \markboth{Notation and Units}{Notation and Units}
 \label{ch:notation}
@@ -14,9 +15,9 @@ result is quoted from a structural source, the convention is stated
 explicitly.
 
 \noindent\textbf{Principal stresses.}\enspace Principal stresses are ordered
-$\sigma_1 \geq \sigma_2 \geq \sigma_3$, so that $\sigma_1$ is the major and
-$\sigma_3$ the minor principal stress. In failure criteria the pair
-$(\sigma_1, \sigma_3)$ refers to the stresses acting on the element under
+$\sone \geq \stwo \geq \sthree$, so that $\sone$ is the major, $\stwo$ the
+intermediate and $\sthree$ the minor principal stress. In failure criteria the
+pair $(\sone, \sthree)$ refers to the stresses acting on the element under
 consideration, not to the in-situ field. In-situ stresses are written
 $\sigma_v$ for the vertical component and $\sigma_H$ and $\sigma_h$ for the
 maximum and minimum horizontal components, with ratios
@@ -38,7 +39,10 @@ total or to effective stress.
 
 \noindent\textbf{Units.}\enspace SI units are used throughout. Stresses and
 strengths are in \si{\mega\pascal}; deformation moduli in \si{\giga\pascal};
-unit weight in \si{\kilo\newton\per\metre\cubed}; lengths in \si{\metre};
+unit weight $\gamma$ in \si{\kilo\newton\per\metre\cubed}, so that with depth
+below ground surface $z$ in \si{\metre} the vertical stress $\sv = \gamma z$
+is returned in \si{\kilo\pascal} and is converted to \si{\mega\pascal} before
+it enters a failure criterion; lengths in \si{\metre};
 displacements in \si{\milli\metre}; angles in degrees. Planar features are
 given as dip and dip direction; data recorded as strike and dip are converted
 before plotting, dip direction being strike plus \SI{90}{\degree} under the
@@ -50,7 +54,10 @@ right-hand rule, and all projections are lower-hemisphere
 Several widely used correlations are not dimensionally homogeneous and are
 therefore valid only in the units in which they were calibrated. Rock mass
 modulus expressions returning \si{\giga\pascal} from a $\GSI$ value and a
-$\sci$ in \si{\mega\pascal} are the common example. Wherever such an
+$\sci$ in \si{\mega\pascal} are the most common example
+(Chapter~\ref{ch:rock-mass-parameters}); the empirical in-situ stress ratio
+relations of Chapter~\ref{ch:in-situ-stress} are likewise dimensionally
+inhomogeneous. Wherever such an
 expression appears in this book, the required input units are stated with it.
 Substituting into these relations in unfamiliar units is a reliable way to
 produce an answer wrong by orders of magnitude, and the error is not always

@@ -260,6 +260,9 @@ movement to a narrow zone of large. And the ground assumption is doing as much
 work as the tunnelling assumption, so where the ground is genuinely
 intermediate --- weathered rock, a soil--rock interface near crown level ---
 both bounds should be carried forward rather than a single central value.
+The combinations multiply quickly once both ground bounds and a range of
+$V_L$ are carried, and the trough for any set of $D$, $z_0$, $K$ and $V_L$ is
+computed in \companionname\ (Appendix~\ref{app:software}).
 
 \paragraph{Where the Gaussian fails.}
 The Gaussian form is an empirical description drawn from case histories of
@@ -553,7 +556,11 @@ analysis elsewhere.
 Mesh management is the practical constraint. Element size must resolve the
 excavation and the yield zone while the domain extends far enough that
 boundaries do not influence the result --- conventionally three to five
-diameters. Graded meshes reconcile these, and the grading itself must be
+diameters. That relaxes the five-diameter minimum of
+Section~\ref{sec:model-extent-mesh}, and the reason is cost: the number of
+elements grows roughly with the cube of the domain dimension rather than with
+its square. The tighter domain makes the test of moving the boundary outward
+and repeating the analysis obligatory here rather than optional. Graded meshes reconcile these, and the grading itself must be
 checked by refinement.
 
 \paragraph{Simulating construction sequence.}

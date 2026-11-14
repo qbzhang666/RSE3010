@@ -146,7 +146,11 @@ constrained by the surrounding rock and cannot move regardless of its weight.
 The result is powerful because it depends only on orientation, not on
 strength, size or stress. It is decided by the discontinuity sets and the
 orientation of the free surface, and it is therefore available as soon as
-structural data exist, before any parameters have been assigned.
+structural data exist, before any parameters have been assigned. The test
+assumes a planar free surface. A curved profile is treated by applying it to
+the tangent plane at each location of interest, so the verdict varies around
+the profile: a block removable at the crown may be constrained at the
+springline, and the choice of tangent planes is part of the analysis.
 
 \subsection{Wedges in a tunnel}
 \label{sec:tunnel-wedges}

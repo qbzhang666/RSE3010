@@ -9,7 +9,8 @@
 \label{app:closed-form}
 
 A consolidated reference for the elastic and elasto-plastic solutions used
-across Chapters~\ref{ch:ccm}, \ref{ch:ground-behaviour} and~\ref{ch:openings},
+across Chapters~\ref{ch:ccm}, \ref{ch:ground-behaviour}, \ref{ch:openings}
+and~\ref{ch:linings},
 with their assumptions stated once so the main text need not repeat them.
 Compression is positive throughout.
 
@@ -130,11 +131,11 @@ minimised:
 \frac{W}{H} = k .
 \]
 
-The result is one of the more useful in underground design: the optimum
-opening is elongated in the direction of the major principal stress, in the
-ratio of the stresses. A cavern in a field with $k = 2$ is best made twice as
-wide as it is high, and the same cavern rotated through ninety degrees is the
-worst available shape.
+The optimum opening is therefore elongated in the direction of the major
+principal stress, in the ratio of the stresses. A cavern in a field with
+$k = 2$ is best made twice as wide as it is high, when crown and wall both
+carry $3\pzero$; the same cavern rotated through ninety degrees carries a
+crown stress of $9\pzero$, three times the optimum value.
 
 \section{Elasto-plastic and support solutions}
 \label{sec:elasto-plastic-and-support-solutions}
@@ -243,8 +244,13 @@ k_s = \frac{E_s A_s}{s\,a^2},
 \qquad
 p_{sm} = \frac{A_s \sigma_{ys}}{s\,a}.
 \]
-Both must be reduced to allow for block seating; a poorly blocked set delivers
-a fraction of these values.
+Both must be reduced to allow for block seating. The blocking between set and
+rock deforms in series with the set, so that the effective stiffness is
+$\left(1/k_{s,\text{set}} + 1/k_{s,\text{block}}\right)^{-1}$ and the softer
+element governs; a poorly seated set can therefore fall well below the
+computed values. No general factor applies, and the reduction must be
+estimated from the blocking detail --- the number, spacing and stiffness of
+the blocks.
 
 \emph{Mechanically or chemically anchored bolts and cables} (ungrouted) of free length $L_b$, diameter $d_b$
 and modulus $E_b$, at spacing $s_c$ circumferentially and $s_l$
@@ -291,6 +297,11 @@ unconservative for support design.
 face at which support is installed into the convergence already released,
 which is the offset applied to the support characteristic curve in the
 verification sequence of Appendix~\ref{app:calculations}.
+
+The plastic solution, the ground reaction curve and the combined support
+characteristic of this section are evaluated in \companionname\
+(Appendix~\ref{app:software}), which also returns the compressibility and
+flexibility ratios of Section~\ref{sec:charts-and-lining-solutions}.
 
 \section{Charts and lining solutions}
 \label{sec:charts-and-lining-solutions}
@@ -374,8 +385,10 @@ built for.
 They serve only as a check where the geometry is non-circular and the ground
 non-uniform, where construction is staged, or where openings interact. They
 should not be used at all at shallow cover below about two diameters, in
-strongly anisotropic rock, where the excavation is not remote from the face,
-or where the ground is time-dependent. In each of those cases the assumption
+strongly anisotropic rock, where the excavation is not remote from the face
+--- the longitudinal deformation profile of Section~\ref{sec:ldp-appendix}
+excepted, being an empirical fit to three-dimensional results for precisely
+that region --- or where the ground is time-dependent. In each of those cases the assumption
 violated is not a refinement but the basis of the derivation.
 
 \chapterreferences

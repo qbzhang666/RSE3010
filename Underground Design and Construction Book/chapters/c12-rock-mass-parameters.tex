@@ -45,14 +45,14 @@ m_b =
 m_i
 \exp
 \left(
-\frac{GSI-100}{28-14D}
+\frac{\GSI-100}{28-14D}
 \right) ,
 \]
 \[
 s =
 \exp
 \left(
-\frac{GSI-100}{9-3D}
+\frac{\GSI-100}{9-3D}
 \right) ,
 \]
 \[
@@ -61,12 +61,12 @@ a_{HB} =
 +
 \frac{1}{6}
 \left(
-e^{-GSI/15}
+e^{-\GSI/15}
 -
 e^{-20/3}
 \right) .
 \]
-For \(GSI = 100\) and \(D = 0\) these return \(m_b = m_i\), \(s = 1\) and
+For \(\GSI = 100\) and \(D = 0\) these return \(m_b = m_i\), \(s = 1\) and
 \(a_{HB} = 0.5\), so the criterion reduces to the intact one. That limit is
 the first check on any implementation of the three expressions.
 
@@ -114,7 +114,7 @@ parameters are derived.
 
 \node[smallworkflowbox, wfinput] (input)
 {\textbf{1. Inputs}\\
-\footnotesize \(\sigma_{ci},E_i,m_i,GSI,D\)};
+\footnotesize \(\sigma_{ci},E_i,m_i,\GSI,D\)};
 
 \node[smallworkflowbox, wfstep, right=of input] (hb)
 {\textbf{2. HB parameters}\\
@@ -280,7 +280,7 @@ E_i
 \left(
 0.02+
 \frac{1-D/2}
-{1+e^{(60+15D-GSI)/11}}
+{1+e^{(60+15D-\GSI)/11}}
 \right) .
 \]
 The result takes the unit in which \(E_i\) is entered.
@@ -292,11 +292,11 @@ E_m~(\text{GPa}) =
 100
 \left(
 \frac{1-D/2}
-{1+e^{(75+25D-GSI)/11}}
+{1+e^{(75+25D-\GSI)/11}}
 \right) ,
 \]
 or 100\,000 times the bracketed term in megapascals. The exponent
-\(75+25D-GSI\) belongs to this simplified form and \(60+15D-GSI\) to the
+\(75+25D-\GSI\) belongs to this simplified form and \(60+15D-\GSI\) to the
 generalised one, and the two are not interchangeable. Because the simplified
 form ignores the intact modulus it can substantially overestimate \(E_m\) for
 weak rocks of low intact stiffness, such as mudstone.
@@ -308,7 +308,7 @@ E_m~(\text{GPa}) =
 \left(1-\frac{D}{2}\right)
 \sqrt{\frac{\sigma_{ci}}{100}}
 \,
-10^{(GSI-10)/40}
+10^{(\GSI-10)/40}
 \qquad
 (\sigma_{ci} \leq 100~\text{MPa}) ,
 \]
@@ -316,7 +316,7 @@ with the square-root term omitted for stronger rock:
 \[
 E_m~(\text{GPa}) =
 \left(1-\frac{D}{2}\right)
-10^{(GSI-10)/40}
+10^{(\GSI-10)/40}
 \qquad
 (\sigma_{ci} > 100~\text{MPa}) .
 \]
@@ -328,14 +328,14 @@ alternative of estimating \(E_i\) from the modulus ratio,
 Older expressions take the modulus directly from a classification rating. For
 better-quality rock masses the linear estimate of Bieniawski is
 \[
-E_m~(\text{GPa}) = 2RMR - 100
+E_m~(\text{GPa}) = 2\RMR - 100
 \qquad
-(RMR > 50) ,
+(\RMR > 50) ,
 \]
 and that of Serafim and Pereira, which extends to poorer rock, is
 \[
 E_m~(\text{GPa}) =
-10^{(RMR-10)/40} .
+10^{(\RMR-10)/40} .
 \]
 A corresponding estimate from the $Q$-system uses the normalised value
 \(Q_c\),
@@ -436,7 +436,7 @@ each rock mass and not from a laboratory measurement.
 \label{tab:inputdata}
 \centering
 \scriptsize
-\begin{tabularx}{\textwidth}{l c c c c}
+\begin{tabular}{l c c c c}
 \toprule
 \textbf{Parameter} & \textbf{Granite} & \textbf{Sandstone} & \textbf{Mudstone} & \textbf{Limestone} \\
 \midrule
@@ -453,7 +453,7 @@ Depth \(z\) (m) & 780 & 450 & 100 & 80 \\
 \(\sigma_3^{IS}=\min(\sigma_v,\sigma_{h,k})\) (MPa) & 21.06 & 12.15 & 2.70 & 2.16 \\
 \(\sigma_{3,\mathrm{fit,max}}\) (MPa) & 67.39 & 21.87 & 2.70 & 4.32 \\
 \bottomrule
-\end{tabularx}
+\end{tabular}
 \end{table}
 
 \subsection{Worked example: the sandstone}
@@ -461,9 +461,9 @@ Depth \(z\) (m) & 780 & 450 & 100 & 80 \\
 
 The sandstone of Table~\ref{tab:inputdata} is carried through the whole
 derivation. Its classification in Chapter~\ref{ch:classification} gave a basic
-RMR of 60 with a groundwater rating of 7, hence \(RMR'_{89} = 68\) and
+RMR of 60 with a groundwater rating of 7, hence \(\RMR'_{89} = 68\) and
 \[
-GSI = 63,
+\GSI = 63,
 \qquad
 m_i=17,
 \qquad
@@ -506,8 +506,8 @@ rating-based moduli take no account of $D$.}
 \(E_m\), Hoek--Diederichs generalised (GPa) & 17.6 & 6.1 \\
 \(E_m\), Hoek--Diederichs simplified (GPa) & 25.1 & 3.1 \\
 \(E_m\), GSI and \(\sigma_{ci}\) expression (GPa) & 21.1 & 12.7 \\
-\(E_m\), Bieniawski, \(RMR = 60\) (GPa) & 20.0 & -- \\
-\(E_m\), Serafim--Pereira, \(RMR = 60\) (GPa) & 17.8 & -- \\
+\(E_m\), Bieniawski, \(\RMR = 60\) (GPa) & 20.0 & -- \\
+\(E_m\), Serafim--Pereira, \(\RMR = 60\) (GPa) & 17.8 & -- \\
 \bottomrule
 \end{tabular}
 \end{table}
