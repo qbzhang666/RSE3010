@@ -88,6 +88,127 @@ untestable, the parties fall back on argument about what a reasonable
 contractor should have anticipated, which is where underground disputes
 consume their reputation.
 
+\section{Approvals and performance requirements}
+\label{sec:approvals-performance}
+
+A major tunnel is approved before it is designed in detail, and the approval
+fixes the outcomes the design must deliver. The criteria a designer works to
+on settlement, vibration, ground-borne noise and groundwater are therefore
+set, in large part, by an environmental assessment conducted years earlier and
+written into the instruments that authorise the works. Reading those
+instruments correctly, and translating each requirement into a design
+quantity, is a design task rather than an administrative one.
+
+\subsection{How the requirements arise}
+\label{sec:requirements-arise}
+
+In Victoria a project likely to have significant effects is assessed through
+an Environment Effects Statement under the Environment Effects Act
+1978~\citep{vic1978eeact}. The Minister for Planning sets scoping
+requirements, the proponent prepares the statement with its technical studies,
+it is exhibited and usually examined by an inquiry, and the Minister then issues
+an assessment that the decision-makers must consider but that does not itself
+bind them~\citep{dtp2024ees}. The binding element is the environmental
+management framework that accompanies the approval. Its environmental
+performance requirements define the outcomes that must be achieved during the
+further design, construction and operation; they are given force through the
+planning scheme provisions that authorise the project and through the delivery
+contracts, and compliance is checked by independent
+audit~\citep{wda2017ees}. In New South Wales the equivalent instrument is the
+set of conditions attached to an approval of critical State significant
+infrastructure under the Environmental Planning and Assessment Act
+1979~\citep{nsw1979epa,nsw2020m4m5coa}.
+
+The two systems write their requirements differently, and the difference
+matters to the designer. A Victorian requirement for ground movement typically
+prescribes a process rather than a number: prepare a geotechnical model, use
+it to predict settlement and strain, survey the condition of buildings and
+utilities, agree acceptable criteria with each owner, monitor, and repair or
+compensate any damage~\citep{wda2017ees,dtp2022srlassessment}. The numerical
+criterion is then set during design, by the designer, and is part of what is
+reviewed. A New South Wales condition is more often numerical and is fixed in
+the approval itself. Vibration and ground-borne noise are numerical in both,
+expressed as targets referenced to the standards of
+Chapter~\ref{ch:construction}.
+
+\subsection{From requirement to design quantity}
+\label{sec:requirement-to-design}
+
+Table~\ref{tab:requirements-design} traces published requirements to the
+quantity each one constrains and to the method of this book that evaluates it.
+Three translations show the pattern.
+
+\emph{Settlement.} One published condition limits a sensitive building to a
+settlement of 20~mm, an angular distortion of 1 in 500 and a limiting tensile
+strain of 0.1~per~cent~\citep{nsw2020m4m5coa}. The Gaussian trough of
+Section~\ref{sec:gaussian-trough} converts the settlement limit into a limit on
+volume loss. For the example of that section --- a 6~m tunnel at 20~m depth
+with $K = 0.5$, so that $i = 10$~m --- a volume loss of 1~per~cent gives
+$S_{\max} = 11.3$~mm, and the limit of 20~mm therefore admits
+$V_L \leq 20/11.3 = 1.8$~per~cent. The steepest slope of that trough,
+$S_{\max} e^{-1/2}/i = 20 \times 0.607/10\,000 = 1.2 \times 10^{-3}$, or
+1 in 820, is inside the angular distortion limit, so settlement governs here,
+and the strain criterion is checked by the damage assessment of
+Section~\ref{sec:damage-assessment}. The volume loss in turn sets the face
+pressure and annulus grouting of Chapter~\ref{ch:tbm}, and the trigger levels of
+Section~\ref{sec:triggers-interpretation} are placed below the limit by the
+margin the prediction uncertainty requires.
+
+\emph{Groundwater.} The same approval limits the inflow to an operating tunnel
+to 1~L/s in any kilometre, not averaged over the drive~\citep{nsw2020m4m5coa},
+that is $10^{-6}$~m$^3$/s per metre. The steady inflow to a drained tunnel of
+Section~\ref{sec:inflow-prediction}, $q = 2\pi k_w H/\ln(2H/r_0)$, gives for a
+head of $H = 20$~m above a tunnel of radius $r_0 = 3$~m
+$q/k_w = 2\pi \times 20/\ln(13.3) = 48.5$~m, so that the condition is met
+without a membrane only where the rock mass permeability is below
+$10^{-6}/48.5 \approx 2 \times 10^{-8}$~m/s. Above that value the requirement
+decides the choice of Section~\ref{sec:drained-vs-tanked} in favour of a tanked
+lining or of systematic grouting, whatever the structural or carbon arguments.
+A Victorian requirement for the same quantity is an outcome --- minimise the
+change in groundwater level and the inflow~\citep{wda2017ees} --- and leaves
+the threshold to be argued in design.
+
+\emph{Vibration and ground-borne noise.} The Victorian targets of one published
+framework take human comfort from the vibration dose values of BS~6472-1,
+0.2 to 0.4~m/s$^{1.75}$ by day and 0.1 to 0.2~m/s$^{1.75}$ at night for a
+residence; structural damage from DIN~4150-3; blasting from AS~2187.2, at
+5~mm/s for 95~per~cent of blasts and 10~mm/s at most at a sensitive site; and
+ground-borne noise from an internal level of 40~dB(A) in the evening and
+35~dB(A) at night as $L_{\mathrm{Aeq},15\,\mathrm{min}}$~\citep{wda2017ees}.
+A New South Wales approval sets the same ground-borne noise
+levels~\citep{nsw2020m4m5coa}. Each is converted into a stand-off distance, a
+charge per delay or a restriction on night working by the relations of
+Section~\ref{sec:vibration-environment}.
+
+\begin{table}[htbp]
+\caption{Published performance requirements and the design quantities they
+constrain. The values are those of the instruments cited and apply to those
+projects; a new project takes its own.}
+\label{tab:requirements-design}
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.30\textwidth} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{0.22\textwidth}}
+\toprule
+\textbf{Requirement} & \textbf{Design quantity it constrains} & \textbf{Method} \\
+\midrule
+Settlement of a sensitive building $\leq 20$~mm, distortion $\leq$ 1 in 500, tensile strain $\leq 0.1$\,\% \citep{nsw2020m4m5coa} & Volume loss, hence face pressure and annulus grouting & Sections~\ref{sec:gaussian-trough} and~\ref{sec:damage-assessment} \\
+Settlement criteria agreed with each owner after condition survey \citep{wda2017ees} & The criterion itself, set and justified in design & Section~\ref{sec:damage-assessment} \\
+Operational inflow $\leq 1$~L/s in any kilometre \citep{nsw2020m4m5coa} & Drained or tanked lining; extent of grouting & Sections~\ref{sec:inflow-prediction} and~\ref{sec:drained-vs-tanked} \\
+Vibration dose value, residence, 0.2--0.4~m/s$^{1.75}$ by day \citep{wda2017ees} & Stand-off distance and machine operation & Section~\ref{sec:vibration-environment} \\
+Ground-borne noise $L_{\mathrm{Aeq},15\,\mathrm{min}}$ 40~dB(A) evening, 35~dB(A) night \citep{wda2017ees,nsw2020m4m5coa} & Night working; respite and mitigation & Section~\ref{sec:vibration-environment} \\
+Blast vibration 5~mm/s for 95\,\% of blasts, 10~mm/s maximum, sensitive site \citep{wda2017ees} & Charge per delay at each distance & Section~\ref{sec:vibration-environment} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Two cautions apply to every row. A requirement is a limit on the outcome, not
+a design value: the design must reach it with the prediction uncertainty of
+Chapter~\ref{ch:integrated-design} accounted for, which places the design
+target and the trigger levels below the requirement rather than at it. And a
+requirement belongs to the approval in which it was written; values from
+another project are evidence of what regulators have accepted, not criteria
+that transfer.
+
 \section{Contracts, cost and delivery}
 \label{sec:contracts-cost-delivery}
 

@@ -88,7 +88,9 @@ a local mechanism, which samples only one zone, is unconservative.
 
 \paragraph{Characteristic values.}
 Eurocode~7 defines the characteristic value as a cautious estimate of the
-value affecting the occurrence of the limit state. Every word of that
+value affecting the occurrence of the limit state; the second-generation code
+calls the same quantity the representative value of a ground
+property~\citep{en1997part1}. Every word of that
 definition is doing work. \emph{Cautious} means on the safe side of the mean,
 not the worst measurement. \emph{Affecting the occurrence of the limit state}
 means the value relevant to the mechanism --- which may be a local minimum for
@@ -114,24 +116,91 @@ Applying partial factors to underground works is awkward for a structural
 reason. In a building, load and resistance are independent --- the wind does
 not know the strength of the concrete. Underground, both derive from the same
 ground: factoring the strength down also reduces the load the ground can shed,
-and factoring the load up may change the mechanism. Eurocode~7's design
-approaches handle this by applying factors at different points, and the choice
-between them changes the answer. This is a genuine unresolved difficulty
+and factoring the load up may change the mechanism. Eurocode~7 handles this by
+allowing the factors to be applied at different points --- to the ground
+strength, to the resistance, or to the effects of the actions --- and the
+choice between them changes the answer. This is a genuine unresolved difficulty
 rather than a matter of preference, and it is one reason tunnelling has
 retained global factors of safety longer than other geotechnical disciplines.
 
 \paragraph{Codes and guidance.}
-No general design code covers tunnelling comprehensively. Geotechnical codes
-provide the ground-related framework; structural and bridge codes cover
-linings as concrete structures; and the specifically tunnelling guidance comes
-from industry bodies --- the international tunnelling associations and the
-national tunnelling societies --- which publish recommendations on segmental
-lining design, sprayed concrete, risk management and fire.
+No general design code covers tunnelling comprehensively. The Eurocodes do not
+treat underground structures as such, and the European Commission's review of
+the question proposed a dedicated working group rather than a clause in an
+existing part~\citep{jrc2022tunnels}. Geotechnical codes provide the
+ground-related framework; structural codes cover linings as concrete
+structures; and the specifically tunnelling guidance comes from industry
+bodies --- the international tunnelling association and the national
+tunnelling societies --- which publish recommendations on segmental lining
+design, sprayed concrete, risk management and fire.
+
+\paragraph{The second-generation geotechnical framework.}
+The second generation of Eurocode~7 is in three parts: general rules,
+ground properties, and geotechnical
+structures~\citep{en1997part1,en1997part2,en1997part3}. It is used with the
+revised basis of design~\citep{en1990part1}, and the first-generation parts are
+withdrawn by 30 March 2028. Three of its features bear directly on underground
+work. First, rock is treated on an equal footing with soil, and Part~3 has a
+clause on rock bolts and rock surface support, so the support elements of
+Chapter~\ref{ch:support} fall within it even though the tunnel as a whole does
+not. Second, the reliability measures --- the extent of investigation, the
+verification, supervision and monitoring --- are graded by a Geotechnical
+Category, set from the consequence class of the structure and a geotechnical
+complexity class that rises with the uncertainty and variability of the
+ground, its sensitivity to water and the degree of ground--structure
+interaction. A tunnel beneath a city, in variable ground below the water table,
+sits at the top of both scales. Third, the design proceeds from a ground model
+to a geotechnical design model, which the code requires to rest on a validated
+ground model; this is the distinction drawn in
+Chapter~\ref{ch:ground-modelling} between what the ground is believed to be and
+the idealisation that is analysed.
+
+The code admits four routes of verification, and each maps onto a part of this
+book. Verification by calculation, by partial factors or by a reliability
+method, is the route of the closed-form and numerical analyses of
+Chapters~\ref{ch:ccm} and~\ref{ch:numerical-modelling} and of the reliability
+methods of this chapter. Verification by prescriptive measures is the route
+the empirical systems of Chapter~\ref{ch:empirical-design} take, with the
+caution that their case base must match the project. Verification by testing
+covers the pull-out tests and trial panels of Chapter~\ref{ch:support}. The
+observational method, which the code retains, is the route of
+Chapter~\ref{ch:movement-monitoring} and of Section~\ref{sec:bayesian-updating}.
+The target reliability attached to each consequence class is a national
+choice.
+
+\paragraph{Linings, risk and specification.}
+A lining is a concrete structure and is designed to the concrete code in force:
+the second-generation EN~1992-1-1~\citep{en1992part1}, which now covers civil
+engineering structures in one part, the fib Model Code~\citep{fib2024mc2020},
+or a national code. Segmental linings follow the ITA
+guidelines~\citep{ita2019segmental} and sprayed concrete the
+EN~14487 series~\citep{en14487part1,en14487part2}. Risk management follows the
+code of practice for tunnel works, now in its third
+edition~\citep{itaimia2023risk}, within the general framework of
+ISO~31000~\citep{iso31000}, and reliability-based design the principles of
+ISO~2394~\citep{iso2394}. A construction specification written for tunnelling,
+such as the British Tunnelling Society's~\citep{bts2023spec}, supplies the
+workmanship and testing requirements the design codes leave open.
+
+\paragraph{Australian practice.}
+In Australia there is no national code for the geotechnical design of tunnels,
+and the gap is filled by the project technical requirements of the owner, which
+usually adopt the Eurocode and ITA documents by reference. The national
+standards that do apply set the frame around them: AS~1726 for site
+investigation~\citep{as1726}; AS/NZS~1170.0 for structural actions, with the
+importance levels and their annual probabilities of exceedance set by the
+National Construction Code~\citep{asnzs1170part0}; AS~1170.4 for earthquake
+actions~\citep{as1170part4}; AS~3600 for concrete linings~\citep{as3600};
+AS~4825 for tunnel fire safety~\citep{as4825}; AS~2187.2 for
+blasting~\citep{as2187part2}; and, for road tunnels, the Austroads guide to
+planning, design, operation and retrofit~\citep{austroads2024agrt}.
 
 The practical consequence is that a tunnel design is justified against a
 composite of documents, none of which was written for the whole problem.
 Stating which document governs which check is part of the design basis, and
 projects that omit it discover the ambiguity during approval.
+Appendix~\ref{app:codes} maps the methods of each chapter to the documents
+that govern them.
 
 \section{Reliability and code frameworks}
 \label{sec:reliability-and-code-frameworks}
