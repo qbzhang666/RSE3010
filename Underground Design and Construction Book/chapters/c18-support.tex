@@ -110,10 +110,14 @@ For \emph{structurally controlled} failure the calculation is discrete. The
 block is identified by the methods of
 Chapter~\ref{ch:structural-analysis}, its weight and sliding mode established (Section~\ref{sec:block-and-wedge-construction}),
 and the bolt force required to reach a target factor of safety follows from
-limit equilibrium. Bolt orientation matters: the optimum is generally inclined
-to the sliding direction rather than normal to the excavation surface, because
-an inclined bolt contributes both a direct restraining component and an
-increase in normal stress on the sliding plane. Bolts must be long enough to
+limit equilibrium. Bolt orientation matters: the optimum is set by the
+sliding plane rather than by the excavation surface, because an inclined bolt
+contributes both a direct restraining component and an increase in normal
+stress on the sliding plane. Limit equilibrium of the block makes the result
+explicit: for a factor of safety near unity the required bolt force is least
+when the bar is inclined at about the friction angle to the sliding plane,
+with its pull directed up the dip, and the optimum flattens towards the plane
+as the target factor of safety rises. Bolts must be long enough to
 anchor beyond the block, which for a large crown wedge can exceed the length
 that standard equipment can install.
 
@@ -167,9 +171,15 @@ joint, develops axial tension through the geometry of that deformation, and
 contributes dowel action --- direct shear resistance across the plane. The
 combination is complex, the bar frequently fails at the joint where bending
 and tension coincide, and the practical consequence is that a bolt oriented
-perpendicular to a shearing joint is poorly used. An inclination of roughly
-$20$ to $30$ degrees from the normal, in the direction that puts the bar into
-tension as the joint moves, is substantially more efficient.
+perpendicular to a shearing joint is poorly used. A bar inclined away from the
+joint normal, in the direction that puts it into tension as the joint moves,
+is substantially more efficient: shear tests on bolted joints show a higher
+peak shear resistance, reached at smaller displacement, than for a bar normal
+to the joint~\citep{spang1990action}. An inclination of roughly 20 to 30
+degrees from the joint normal is a common choice. This is a different problem
+from the rigid sliding block of Section~\ref{sec:design-mechanism}, where the
+bar acts through its axial force alone and the optimum is set by the friction
+angle.
 
 Cables extend reinforcement to lengths bolts cannot reach. Plain strand,
 bulbed strand and multi-strand anchors span the range from a few metres to
@@ -282,9 +292,14 @@ accelerators added at the nozzle.
 Accelerator choice has consequences beyond setting time. Alkali-free
 accelerators have displaced alkaline products for health reasons --- the older
 products caused severe burns --- and they also reduce the long-term strength
-loss that heavy accelerator dosage causes~\citep{thomas2009scl}. That loss is
-typically 15 to 30 per cent relative to the unaccelerated mix, and it must be
-allowed for in the design strength rather than discovered in core testing.
+loss that heavy accelerator dosage causes~\citep{thomas2009scl}. With the
+older alkaline accelerators at heavy dosage that loss is typically 15 to 30
+per cent relative to the unaccelerated mix; alkali-free products at normal
+dosage cause a smaller loss, but not a negligible one, and its size depends
+on the particular cement and accelerator. The design strength should
+therefore carry the loss measured in pre-construction trials with the
+products to be used, and, where no such data exist, the alkaline range as a
+bound --- allowed for in design rather than discovered in core testing.
 
 Fibre reinforcement has largely replaced mesh in sprayed linings, and the
 reason is constructability as much as structure: fixing mesh to an irregular
@@ -486,8 +501,11 @@ sprayed than in cast concrete.
 Fire performance requires explicit attention. Dense low-permeability concrete
 spalls explosively under rapid heating as pore water vaporises faster than it
 can escape, and the mixes used for durability are precisely the ones most
-vulnerable. Polypropylene micro-fibres, which melt and create escape paths,
-are the standard mitigation and must be specified for any lining with a fire
+vulnerable. Polypropylene micro-fibres --- a separate addition from the
+structural fibres of Section~\ref{sec:shotcrete-mix}, steel or
+macro-synthetic, dosed
+in addition to them rather than instead of them --- melt and create escape
+paths, and are the standard mitigation and must be specified for any lining with a fire
 requirement (Chapter~\ref{ch:linings}).
 
 Quality control is where sprayed concrete design most often fails. Thickness

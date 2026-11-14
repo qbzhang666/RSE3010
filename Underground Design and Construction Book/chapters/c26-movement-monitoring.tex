@@ -116,30 +116,46 @@ further. Synthetic demonstrator data (Appendix~\ref{app:software}).}
 \end{figure}
 
 The damage criterion itself is limiting tensile strain. The idealisation of
-\citet{burland1974settlement} treats the building as a deep beam undergoing both bending and shear, from
-which a maximum tensile strain is derived and compared against thresholds
+\citet{burland1974settlement} treats the building as a deep beam undergoing both bending and shear.
+The building is divided at the point of inflection of the trough into a
+hogging length and a sagging length, each is assessed separately, and the
+quantity each consumes is its deflection ratio --- the maximum relative
+deflection divided by that length. From it a maximum tensile strain is derived
+and compared against thresholds
 corresponding to damage categories --- negligible, very slight, slight,
 moderate, severe, very severe. The threshold strains are given in
-Appendix~\ref{app:constants}. The categories are defined by the ease of
+Appendix~\ref{app:constants}, and the full sequence in
+Section~\ref{sec:seq-settlement}. The categories are defined by the ease of
 repair, which is what an owner cares about, rather than by structural capacity.
 
-\citet{boscardin1989building} extended this by combining bending strain with the
+\citet{boscardin1989building} extended this by combining the distortion of the
+building with the
 horizontal strain from the ground movement field, producing an interaction
-chart in which the two are plotted against one another with damage category
-contours. The extension matters because horizontal strain shifts many
+chart with angular distortion on the horizontal axis, horizontal strain on the
+vertical, and damage category contours across it. The extension matters
+because horizontal strain shifts many
 buildings up a damage category, and this is the step most often omitted in
-practice.
+practice; the horizontal strain itself follows from the expression for
+$\varepsilon_h$ in Section~\ref{sec:movement-field}.
 
-Building stiffness is where the greenfield assumption is conservative. A real
+Building stiffness is where the greenfield assumption is conservative, for the
+deflection ratio and horizontal strain specifically. A real
 building does not conform to the ground; it resists, modifying the trough
 beneath itself and experiencing less deflection than the greenfield curve
-implies. Relative stiffness modification factors~\citep{potts1997structures}
-quantify this, and the
-reduction can be substantial for a stiff building on a shallow trough.
-Applying them requires care about openings, since a facade with a high window
+implies, at the price of carrying in its own structure the load that resistance
+requires. Relative stiffness modification factors~\citep{potts1997structures}
+quantify the reduction, and it
+can be substantial for a stiff building on a shallow trough. The factors were
+derived from plane-strain analyses of an elastic beam on the ground surface,
+with relative bending and axial stiffnesses as the inputs, and they are no
+better than the stiffness assumed. Applying them requires care about openings, since a facade with a high window
 ratio is far less stiff than its dimensions suggest, and about the building's
 orientation --- a building at an angle to the tunnel is subject to a more
-complex deformation than a two-dimensional assessment represents.
+complex deformation than a two-dimensional assessment represents. They are
+unsafe where the stiffness is assumed rather than demonstrated, as it often is
+for the buildings reaching the third stage, and for weak or poorly
+tied masonry, which redistributes movement through its joints rather than
+resisting it; such a building is assessed on greenfield movements.
 
 \subsection{Foundations and buried assets}
 \label{sec:foundations-buried}
@@ -266,7 +282,7 @@ movement limits on adjacent assets are being respected. It provides a
 \emph{contractual record} of conditions and behaviour. And it builds
 \emph{knowledge} for future projects.
 
-The observational method makes the first two into a design philosophy rather
+The observational method makes the first three into a design philosophy rather
 than a check. The method was set out by \citet{peck1969observational} and
 later codified in Eurocode~7, and its requirements can be compressed to four
 preconditions: the range of possible behaviour must be

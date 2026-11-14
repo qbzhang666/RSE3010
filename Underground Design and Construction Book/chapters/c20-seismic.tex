@@ -74,7 +74,9 @@ cross-section.
 
 Free-field deformation methods take the strain that would occur in the ground
 without the tunnel and impose it on the structure. The wave-passage approach of
-\citet{newmark1968problems} gives axial and curvature strain from the peak particle velocity and
+\citet{newmark1968problems} gives axial and curvature strain from the peak particle velocity
+(the measure of ground vibration also used for blasting,
+Section~\ref{sec:vibration-environment}) and peak particle
 acceleration and an assumed wave speed and angle of incidence. For a shear
 wave of peak particle velocity $v_{\max}$ and propagation velocity $C_s$
 incident at an angle $\theta$ to the tunnel axis, the free-field axial
@@ -88,7 +90,10 @@ conservative and cheap: a particle velocity of 0.3~m/s in ground with
 $C_s = 1000$~m/s gives a strain of at most $1.5 \times 10^{-4}$. Imposing the
 free-field strain is appropriate where the lining is flexible relative to the
 ground and the ground is uniform over a wavelength. At stiffness transitions,
-portals and junctions it has to be replaced by an interaction analysis.
+portals and junctions the assumption errs on the unconservative side, because
+the deformation concentrates at the interface rather than spreading with the
+free field, and it has to be replaced by an interaction analysis; these are
+the critical elements of Section~\ref{sec:seismic-structures-criteria}.
 
 \subsection{Simplified analysis methods}
 \label{sec:simplified-seismic}
@@ -153,8 +158,19 @@ lining with flexible joints that concentrate the deformation where it can be
 tolerated; using a ductile lining that deforms without collapse; and accepting
 damage in a defined length while ensuring it can be repaired.
 
-Estimating the displacement demand requires the geological assessment of fault
-activity and slip rate --- a specialist input that must be obtained early,
+Two quantities decide among these options: the expected displacement and the
+uncertainty in where the rupture will cross the alignment. Oversizing works
+only while the displacement remains small relative to the clearance
+provided, and the enlarged section has to span the whole width within which
+the rupture may cross. Articulation fails if the rupture falls between the
+designed joints, so it suits a narrow fault zone whose location is well
+constrained. A ductile lining provides deformation capacity rather than
+displacement capacity: it spreads a modest offset without collapse but cannot
+absorb a large one. Accepting and repairing damage is the option left where
+the displacement is large or its location poorly known.
+
+Both quantities come from the geological assessment of fault activity, slip
+rate and the location and width of the fault zone --- a specialist input that must be obtained early,
 since it determines the alignment as much as the design.
 
 Liquefaction affects tunnels differently from buildings. A buoyant structure

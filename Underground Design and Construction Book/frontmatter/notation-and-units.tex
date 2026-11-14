@@ -39,8 +39,11 @@ total or to effective stress.
 \noindent\textbf{Units.}\enspace SI units are used throughout. Stresses and
 strengths are in \si{\mega\pascal}; deformation moduli in \si{\giga\pascal};
 unit weight in \si{\kilo\newton\per\metre\cubed}; lengths in \si{\metre};
-displacements in \si{\milli\metre}; angles in degrees, planar features being
-given as dip and dip direction (Appendix~\ref{app:stereonet}). Groundwater pressures are given in
+displacements in \si{\milli\metre}; angles in degrees. Planar features are
+given as dip and dip direction; data recorded as strike and dip are converted
+before plotting, dip direction being strike plus \SI{90}{\degree} under the
+right-hand rule, and all projections are lower-hemisphere
+(Appendix~\ref{app:stereonet}). Groundwater pressures are given in
 \si{\kilo\pascal} or as an equivalent head in metres, with the datum stated.
 
 \noindent\textbf{Dimensional inconsistency in empirical correlations.}\enspace
@@ -59,5 +62,7 @@ strength derived from a $\GSI$ estimated to the nearest five points does not
 support three significant figures, and quoting it that way misrepresents the
 evidence. With $\sci = \SI{50}{\mega\pascal}$, $\mi = 10$ and $\Dfac = 0$,
 moving $\GSI$ from 45 to 50 raises the rock mass strength $\scm$ from
-\SI{2.2}{\mega\pascal} to \SI{3.0}{\mega\pascal}, a third of the value. This applies with particular force to numerical output, which is
+\SI{2.2}{\mega\pascal} to \SI{3.0}{\mega\pascal}, a third of the value, so
+the result supports one significant figure and is reported with the bracket
+stated rather than as a single number. This applies with particular force to numerical output, which is
 returned to machine precision regardless of the quality of its input.

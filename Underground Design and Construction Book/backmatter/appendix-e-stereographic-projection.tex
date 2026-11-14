@@ -235,6 +235,12 @@ cluster. Sets close to parallel with the sampling line remain
 under-represented after correction, and the only remedy is to sample in more
 than one direction.
 
+Contouring and Terzaghi weighting of a data set of a hundred or more poles are
+tedious by hand and are normally done by program. The stereonet pages of
+\companionname\ plot poles and great circles but neither contour nor weight
+them (Section~\ref{sec:structural-scripts}); the hand procedures above serve
+to check, on a small subset, any program that does.
+
 \section{Block and wedge construction}
 \label{sec:block-and-wedge-construction}
 
@@ -272,7 +278,9 @@ For a removable tetrahedral wedge formed by three planes in the crown:
         free fall.
   \item Construct the wedge in section, using the excavation span and the
         plane orientations, to obtain the apex height, the perpendicular
-        distance from the apex to the plane of the base triangle.
+        distance from the apex to the plane of the base triangle. Where the
+        excavation surface is inclined, this is not the vertical height read
+        off the section.
   \item Compute the base area from the excavation geometry and the trace
         lengths, the volume as one third of base area times apex height, and
         the weight as volume times unit weight.

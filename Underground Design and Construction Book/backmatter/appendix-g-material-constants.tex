@@ -113,7 +113,7 @@ number, and a $\GSI$ quoted to a single unit misrepresents the evidence.
 \small
 \begin{tabularx}{\textwidth}{X c c c}
 \toprule
-\textbf{Structure} & \textbf{Good surfaces} & \textbf{Fair} & \textbf{Poor} \\
+\textbf{Structure} & \textbf{Good} & \textbf{Fair} & \textbf{Poor} \\
 \midrule
 Intact or massive        & 80--90 & --     & --     \\
 Blocky                   & 65--80 & 55--70 & 40--55 \\
@@ -137,10 +137,14 @@ ground, where the chart is preferred.
 \paragraph{Disturbance factor.}
 Table~\ref{tab:d-factor} gives $\Dfac$ by excavation method. It applies to the
 damaged annulus only, not to the whole rock mass, and applying $\Dfac$
-throughout a numerical model is a common and severely conservative error. A
-practical rule is to apply it over a thickness comparable to the blast damage
-zone --- typically one to two metres for tunnels --- and to use $\Dfac = 0$
-beyond.
+throughout a numerical model is a common and severely conservative error. The
+thickness over which it applies depends on the excavation class. For blasted
+tunnels a practical rule is to apply it over a thickness comparable to the
+blast damage zone --- typically one to two metres --- and to use $\Dfac = 0$
+beyond. For the slope rows the damaged zone scales with the bench or slope
+height rather than being a fixed thickness. The value for mechanical
+excavation in squeezing ground represents strain-induced disturbance, which
+extends with the plastic zone rather than over a fixed annulus.
 
 \begin{table}[htbp]
 \caption{Disturbance factor by excavation method.}
@@ -212,26 +216,32 @@ $20^\circ$ for clay gouge, with little or no effective cohesion.
 
 \paragraph{Soils for tunnelling.}
 Table~\ref{tab:soil-params} gives indicative ranges for soils commonly
-encountered in urban tunnelling.
+encountered in urban tunnelling. The drained parameters apply to long-term
+conditions. Face stability in clay during excavation is a total-stress check
+on the undrained shear strength $s_u$, through the stability ratio of
+Section~\ref{sec:face-stability-analysis}.
 
 \begin{table}[htbp]
-\caption{Indicative drained soil parameters. Small-strain stiffness governing
+\caption{Indicative soil parameters: drained $\phi'$, $c'$ and $E'$, and
+undrained shear strength $s_u$ for clays. Small-strain stiffness governing
 ground movement outside the yield zone is commonly three to five times the
-values tabulated.}
+values of $E'$ tabulated. Soft clay is taken below about 40\,kPa and stiff
+clay above about 75\,kPa, firm clay lying between; the soft and stiff clay
+rows of Table~\ref{tab:volume-loss} are read with the same division.}
 \label{tab:soil-params}
 \centering
 \small
-\begin{tabularx}{\textwidth}{X c c c}
+\begin{tabularx}{\textwidth}{X c c c c}
 \toprule
 \textbf{Soil} & \boldmath{$\phi'$} \textbf{(\textdegree)} & \boldmath{$c'$}
-\textbf{(kPa)} & \boldmath{$E'$} \textbf{(MPa)} \\
+\textbf{(kPa)} & \boldmath{$E'$} \textbf{(MPa)} & \boldmath{$s_u$} \textbf{(kPa)} \\
 \midrule
-Loose sand            & 28--32 & 0      & 10--25 \\
-Dense sand            & 35--45 & 0      & 50--150 \\
-Gravel                & 35--45 & 0      & 60--200 \\
-Soft clay             & 18--25 & 0--10  & 2--10 \\
-Stiff clay            & 20--28 & 5--30  & 20--60 \\
-Hard clay / residual  & 24--32 & 10--50 & 40--150 \\
+Loose sand            & 28--32 & 0      & 10--25  & --- \\
+Dense sand            & 35--45 & 0      & 50--150 & --- \\
+Gravel                & 35--45 & 0      & 60--200 & --- \\
+Soft clay             & 18--25 & 0--10  & 2--10   & 20--40 \\
+Stiff clay            & 20--28 & 5--30  & 20--60  & 75--150 \\
+Hard clay / residual  & 24--32 & 10--50 & 40--150 & above 150 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -261,8 +271,8 @@ yield stresses of 275 to 355~MPa and cross-sectional areas of roughly 30 to
 \toprule
 \textbf{Element} & \textbf{Capacity} & \textbf{Remarks} \\
 \midrule
-Grouted rebar, 20\,mm       & 130--180\,kN & Bond usually governs before bar yield \\
-Grouted rebar, 25\,mm       & 200--280\,kN & \\
+Grouted rebar, 20\,mm       & 130--180\,kN & Bar yield load; see text \\
+Grouted rebar, 25\,mm       & 200--280\,kN & Bar yield load; see text \\
 Friction bolt (split set)   & 40--100\,kN  & Low capacity, high deformability \\
 Expandable friction bolt    & 100--200\,kN & \\
 Cable, single strand        & 200--260\,kN & \\
@@ -273,6 +283,13 @@ Chain-link mesh             & 30--60\,kN/m & Large deformation capacity \\
 \bottomrule
 \end{tabularx}
 \end{table}
+
+The rebar values are the yield loads of the bar itself, and they scale with bar
+area rather than perimeter. The capacity of an installed bar may be lower: it
+depends on the embedment length, the grout quality and the borehole condition,
+and where the embedment is short the bond governs before the bar yields. A
+bond capacity is meaningful only per metre of embedment and is not tabulated
+here.
 
 \paragraph{Concrete and shotcrete.}
 Sprayed concrete is normally specified at 30 to 45\,MPa at 28 days, with
@@ -323,7 +340,9 @@ Open face, stiff clay                & 1.0--3.0 & 0.5 \\
 
 Damage category thresholds in terms of limiting tensile strain are
 conventionally: negligible below 0.05\,\%; very slight 0.05--0.075\,\%; slight
-0.075--0.15\,\%; moderate 0.15--0.3\,\%; and severe above 0.3\,\%.
+0.075--0.15\,\%; moderate 0.15--0.3\,\%; and severe to very severe above 0.3\,\%, where the
+two highest categories are distinguished by the visible damage rather than by
+strain.
 
 \paragraph{Conversions.}
 $1\,\mathrm{MPa} = 10.2\,\mathrm{kgf/cm^2} = 145\,\mathrm{psi}$;

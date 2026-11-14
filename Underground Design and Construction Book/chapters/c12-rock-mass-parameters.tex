@@ -239,12 +239,22 @@ The criterion gives a tensile strength
 -\frac{s\,\sigma_{ci}}{m_b} ,
 \]
 negative under the compression-positive convention. An alternative estimate
-applies the Hoek--Martin tensile cut-off,
+adapts the Hoek--Martin relation of
+Section~\ref{sec:griffith-tensile-cutoff}, which \citet{hoekmartin2014fracture}
+published for intact rock in terms of \(\sigma_{ci}\), by substituting the
+rock mass strength \(\sigma_{cm}\) while retaining the intact constant
+\(m_i\),
 \[
 \sigma_{tm,HM}
 =
 -\frac{\sigma_{cm}}{8.62+0.7m_i} .
 \]
+This is a scaled analogue rather than the published relation, and it is an
+alternative estimate, not a truncation of the envelope: it would cut the
+envelope off only where it is less tensile than \(\sigma_{tm}\). For the
+sandstone of Section~\ref{sec:sandstone-worked-example} it is more tensile
+(\(-0.68\) against \(-0.40\)\,MPa), so it lies outside the envelope and is
+non-binding there.
 The two generally differ, and the difference is informative: where brittle
 tensile cracking is the mechanism of concern, the comparison shows whether the
 tensile strength implied by the criterion is credible or merely a consequence
@@ -387,8 +397,7 @@ c=\frac{A}{\cos\phi} .
 \]
 
 \noindent\textbf{Fitting the line.}\enspace $B$ and $A$ are the gradient and
-intercept of an ordinary least-squares fit and $R^2$ its coefficient of
-determination. Any spreadsheet or statistical package computes them, as does
+intercept of an ordinary least-squares fit. Any spreadsheet or statistical package computes them, as does
 \companionname\ (Appendix~\ref{app:software}). The fitting range matters more
 than the method: the resulting $c$ and $\phi$ describe the Hoek--Brown
 envelope only over the confining stresses used to fit them.

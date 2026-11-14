@@ -139,7 +139,7 @@ constructions are in Appendix~\ref{app:stereonet}.
   span should give roughly eight times the weight for similar geometry.
 
   \item Resolve $W$ into components along and normal to the sliding
-  direction, and compute the normal force on each sliding plane.
+  direction, and compute the normal force $N$ on each sliding plane.
 
   \item Add the clamping stress contribution where the block is confined,
   and subtract the water force $U$ on each plane where water pressure acts.
@@ -157,7 +157,10 @@ constructions are in Appendix~\ref{app:stereonet}.
   normal to the surface.
 
   \item Repeat with the orientation data sampled from their distributions to
-  obtain a distribution of $FS$ rather than a single value.
+  obtain a distribution of $FS$ rather than a single value. This step is the
+  exception to the hand route: it needs hundreds of repetitions of steps 1
+  to 6 and therefore a program, which \companionname\ does not provide
+  (Section~\ref{sec:structural-scripts}).
 \end{enumerate}
 
 \section{Voussoir beam check for a laminated roof}
@@ -295,7 +298,9 @@ Chapters~\ref{ch:ground-behaviour} and~\ref{ch:tbm}.
 
 \begin{enumerate}
   \item Compute the water pressure at the tunnel crown, axis and invert.
-  \item For cohesive ground, compute the stability ratio $N$ and compare
+  \item For cohesive ground, compute the stability ratio $N$ of
+  Section~\ref{sec:face-stability-analysis} --- not the normal force $N$ of
+  Section~\ref{sec:seq-wedge} --- from the undrained shear strength, and compare
   against the critical value for the cover-to-diameter ratio and heading
   length.
   \item For frictional ground, compute the required effective support pressure

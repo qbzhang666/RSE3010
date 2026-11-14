@@ -17,88 +17,94 @@ result printed in the main text. The computed figures described in
 Section~\ref{sec:demonstrator-figures} are the one exception.
 
 That said, several of the calculations are tedious by hand and instructive when
-varied. The book is therefore accompanied by \companionname. It is a set of small
-interactive applications, released openly at
+varied. The book is therefore accompanied by \companionname. It is a single
+interactive application that runs in a browser, released openly with its
+source at
 
 \begin{center}
 \companionlink
 \end{center}
 
-\noindent so that the worked examples can be reproduced, the parameters varied
-and the sensitivity of each result examined directly. They are provided for
-teaching and for checking. None of them contains judgement, and each returns an
-answer whether or not its assumptions apply to the problem in hand.
+\noindent and also available as a hosted application, so that the worked
+examples can be reproduced, the parameters varied and the sensitivity of each
+result examined directly. It is provided for teaching and for checking. It
+contains no judgement, and each page returns an answer whether or not its
+assumptions apply to the problem in hand; each page states those assumptions.
 
 \section{Contents and chapter mapping}
 \label{sec:companion-contents}
 
-The scripts are written in Python, and the dependencies are listed in
-\code{requirements.txt} in the repository root. All but one are interactive
-applications that run in a browser and are started with the command
-\code{streamlit run} followed by the script name; started as ordinary Python
-programs they produce nothing useful. The exception is
-\code{TBM\_Vibration.py}, which runs from the command line and writes its
-results to file. Table~\ref{tab:companion-scripts} lists the scripts that
-support this book and the chapters they serve.
+The application is written in Python, with its dependencies listed in
+\code{requirements.txt} in the repository root, and is started with the
+command \code{streamlit run rse3010\_geo.py}. Its pages share one ground model:
+the intact strength, Hoek--Brown constant, GSI, disturbance, depth, stress
+ratio and opening radius are set once and read by every design page, and the
+data sets and worked examples of this book are provided as presets, so that a
+change in GSI is carried through to the rock mass strength, the plastic zone
+and the support load. Table~\ref{tab:companion-scripts} lists the pages and
+the chapters they serve. A final page assembles the inputs, equations, results,
+checks and figures of every page opened into a report, set in \LaTeX\ and
+compiled to PDF.
 
 \begin{table}[htbp]
-\caption{Companion scripts and the chapters they support.}
+\caption{Pages of the companion application and the chapters they support.}
 \label{tab:companion-scripts}
 \centering
 \small
-\begin{tabularx}{\textwidth}{l X}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.45\textwidth} X}
 \toprule
-\textbf{Script} & \textbf{Supports} \\
+\textbf{Page} & \textbf{Supports} \\
 \midrule
-\code{Mohr-Coulomb.py} & Chapters~\ref{ch:rock-mechanics} and \ref{ch:rock-mass-parameters} \\
-\code{Generalised Hoek-Brown.py} & Chapters~\ref{ch:rock-mechanics} and \ref{ch:rock-mass-parameters} \\
-\code{MC Parameters from HB.py} & Chapters~\ref{ch:in-situ-stress} and \ref{ch:rock-mass-parameters} \\
-\code{CCM Tunnel.py} & Chapters~\ref{ch:ground-behaviour}, \ref{ch:high-stress}, \ref{ch:ccm}, \ref{ch:support} and \ref{ch:integrated-design} \\
-\code{GRC.py}, \code{Hoek1998.py} & Chapter~\ref{ch:ccm}, ground reaction curve only \\
-\code{arc-beam.py} & Chapter~\ref{ch:linings} \\
-\code{settlement\_app.py} & Chapters~\ref{ch:numerical-modelling}, \ref{ch:tbm} and \ref{ch:movement-monitoring} \\
-\code{Retaining-Wall.py} & Chapters~\ref{ch:construction} and \ref{ch:openings} \\
-\code{TBM\_Vibration.py} & Chapters~\ref{ch:construction} and \ref{ch:movement-monitoring} \\
+Ground model & Chapters~\ref{ch:in-situ-stress} and \ref{ch:classification} \\
+Intact rock strength & Chapter~\ref{ch:rock-mechanics} \\
+Rock mass parameters & Chapter~\ref{ch:rock-mass-parameters} \\
+Convergence--confinement & Chapters~\ref{ch:ground-behaviour}, \ref{ch:high-stress}, \ref{ch:ccm}, \ref{ch:support} and \ref{ch:integrated-design} \\
+Ground movement & Chapters~\ref{ch:numerical-modelling}, \ref{ch:tbm} and \ref{ch:movement-monitoring} \\
+Segmental lining & Chapter~\ref{ch:linings} \\
+Construction vibration & Chapters~\ref{ch:construction} and \ref{ch:movement-monitoring} \\
+Slope mass rating; kinematics and planar sliding; wedge and circular failure & Chapter~\ref{ch:structural-analysis}, as described in Section~\ref{sec:structural-scripts} \\
+Equations and references; design report & All of the above \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-Two points govern the use of the convergence--confinement application. The
-first is that it offers several ground reaction curve formulations, and they
-do not return the same displacement for the same input. The zero-dilation
-solution derived in Chapter~\ref{ch:ccm}, which the application lists under
-the name of Salen\c{c}on, reproduces the worked example of that chapter; the
-Duncan Fama formulation carries additional compressibility terms and returns
-a convergence about a third larger for the same case. Both are correct for
-their own assumptions, and a comparison between the book and the application
-is meaningful only when the same formulation is selected. The second is that
-the repository records, in its own documentation, the state of every script,
-including defects found and not yet corrected. A script listed there as
-uncorrected is to be treated as illustrative.
+Two points govern the use of the convergence--confinement page. The first is
+that it offers two ground reaction curve formulations, and they do not return
+the same displacement for the same input. The zero-dilation solution derived
+in Chapter~\ref{ch:ccm}, which the page lists under the name of
+Salen\c{c}on, reproduces the worked example of that chapter; the Duncan Fama
+formulation carries additional compressibility terms and returns a convergence
+about a third larger for the same case. Both are correct for their own
+assumptions, and a comparison between the book and the application is
+meaningful only when the same formulation is selected. The second is that the
+calculations behind every page are tested against the worked values of this
+book, and the repository keeps the earlier stand-alone teaching scripts beside
+the application; where the application corrects one of them, as its
+documentation records, the application is the version to use.
 
 \section{Structural analysis scripts}
 \label{sec:structural-scripts}
 
-The repository contains no application for underground block or wedge
-analysis. Stereographic projection is available in two scripts written for
-rock slope work, \code{SMR Slope.py} and \code{smr\_streamlit.py}, which plot
-poles and great circles and compute the intersection of two planes using an
-open stereonet library. Those operations are general and apply unchanged to
-the constructions of Chapter~\ref{ch:structural-analysis}; the kinematic tests
-that follow them in both scripts are specific to slopes and are not. The
-constructions themselves are set out for hand working in
-Appendix~\ref{app:stereonet}, and a plotted intersection from either script
-should agree with one obtained there.
-
-The remaining slope-stability scripts in the repository belong to companion
-teaching material and have no application to the methods in this book.
+The application contains no analysis of underground blocks or wedges in the
+roof or walls of an opening. Its rock slope pages plot poles and great circles
+on an equal-angle or equal-area net and compute the intersection of two
+planes; those operations are general and apply unchanged to the constructions
+of Chapter~\ref{ch:structural-analysis}, and a plotted intersection should
+agree with one obtained by hand in Appendix~\ref{app:stereonet}. The kinematic
+tests that follow them --- planar sliding, wedge sliding and flexural
+toppling --- are written for a slope face, and so apply to a portal face or a
+cut slope (Section~\ref{sec:mode-and-orientation}) but not to an underground
+roof. The same pages give the limit-equilibrium factor of safety of a planar
+slide with a tension crack, water and anchors, of a tetrahedral wedge dry and
+fully saturated, and of a circular slip; they neither contour pole
+concentrations nor compute a distribution of the factor of safety.
 
 \section{The demonstrator behind the data figures}
 \label{sec:demonstrator-figures}
 
-Seven figures in this book are not drawn but computed: two in
-Chapter~\ref{ch:digital-twin}, four in Chapter~\ref{ch:movement-monitoring} and
-one in Chapter~\ref{ch:delivery}. They come from a research demonstrator of a
+Five figures in this book are not drawn but computed --- two in
+Chapter~\ref{ch:digital-twin}, two in Chapter~\ref{ch:movement-monitoring} and
+one in Chapter~\ref{ch:delivery}, seven computed panels in all. They come from a research demonstrator of a
 twin-tunnel corridor, and their data is synthetic throughout --- a simulated
 alignment through simulated ground, a simulated population of three thousand
 buildings above it, and a simulated movement field before and during
@@ -106,8 +112,8 @@ construction. No project record appears in any of them.
 
 That is a deliberate choice rather than a limitation. Monitoring records of the
 kind these figures show are commercially and legally restricted almost
-everywhere, and a book that reproduced one could show it only in part and could
-not let a reader vary it. A synthetic corridor can be published whole. The
+everywhere, and a book that reproduced one could show it only in part. A
+synthetic corridor can be published whole. The
 consequence is that these figures illustrate the shape of a method and not the
 behaviour of any ground: no settlement, rate, error or proportion printed in
 them should be read as characteristic of a real machine, a real geology or a

@@ -49,10 +49,13 @@ extremes, bursting.
 The useful diagnostic is the ratio of rock mass strength to in-situ stress
 alongside the ratio of discontinuity spacing to opening dimension. The first
 distinguishes stress-driven from structurally controlled behaviour; the second
-distinguishes discrete from continuum treatment. Ground with a high strength
-ratio and widely spaced joints is massive; a high strength ratio with close
-spacing is blocky; a low strength ratio is squeezing or spalling according to
-whether the rock is weak or brittle.
+distinguishes discrete from continuum treatment. With a high strength ratio,
+sparse jointing gives massive rock; several persistent sets forming blocks
+that are not small relative to the opening give blocky rock; spacing small
+relative to the opening gives heavily fractured rock; and where bedding or
+lamination is the dominant structure the rock is stratified. A low strength
+ratio gives weak and soft ground where the intact material is weak, and
+high-stress ground where it is strong and brittle.
 
 Classes change along an alignment, and the transitions are where trouble
 concentrates. A drive that passes from blocky rock into a heavily fractured
@@ -74,7 +77,8 @@ $(3-k)\sv$ at the sidewall and $(3k-1)\sv$ at the crown
 (Section~\ref{sec:kirsch-appendix}).
 
 Where $k$ is low, the crown and invert of a circular opening can go into
-tension (Section~\ref{sec:kirsch-appendix}). Rock has little tensile strength
+tension: since the crown value is $(3k-1)\sv$, this happens once $k < 1/3$
+(Section~\ref{sec:kirsch-appendix}). Rock has little tensile strength
 and jointed rock effectively has none, so a
 computed tensile zone means the crown is destressed rather than that it
 carries tension: joints open, blocks lose clamping, and structurally
@@ -173,7 +177,7 @@ voussoir arch fails.
 
 Selection follows from bed thickness and available anchorage. Where a
 competent horizon lies within bolt length, suspension is the most reliable and
-the easiest to verify. Where it does not, beam building is the only option,
+the easiest to verify. Where it does not, bolts alone must build a beam,
 and its effectiveness depends entirely on pretension being achieved and
 maintained --- an installation quality question rather than a design one.
 Clamping governs where the mode of concern is slip at the abutments of a
@@ -194,7 +198,7 @@ clamping stress on the sliding planes resist; support makes up the deficit.
 Three points recur. Clamping stress is the largest resisting contribution in a
 confined crown and is nearly absent in a relaxed sidewall, so the same block
 geometry is far more critical on a wall than in a roof. Water pressure on the
-sliding planes reduces normal stress and can halve the available resistance.
+sliding planes reduces the effective normal stress and can halve the available resistance.
 And the factor of safety is highly sensitive to the friction angle assumed for
 a surface nobody has tested, which is the largest uncertainty in most such
 calculations.
@@ -254,9 +258,10 @@ by habit rather than by decision.
 \subsection{Soft ground behaviour}
 \label{sec:soft-ground-behaviour}
 
-Soft ground fails through the material, and the classical behaviour
-descriptions of the tunnelman's ground
-classification~\citep{heuer1974important} --- firm, ravelling, running, flowing, squeezing and swelling ---
+Soft ground fails through the material, and the behaviour descriptions of
+Terzaghi's tunnelman's ground classification~\citep{terzaghi1950geologic}, in
+the form restated by \citet{heuer1974important} --- firm, ravelling, running,
+flowing, squeezing and swelling ---
 remain the most useful vocabulary because each implies a different control
 measure. Firm ground stands unsupported long enough to install support;
 ravelling ground loosens progressively from the face; running ground flows
@@ -346,9 +351,12 @@ deposit it can close entirely --- which is a finding about the alignment, not
 about the machine.
 
 Pressure varies over the face height with the ground and slurry densities, so
-the specification must state where in the profile the target applies,
-conventionally at the crown or the axis, and both bounds must be satisfied at
-the crown and the invert simultaneously.
+the specification must state the single reference level at which the target
+applies, conventionally the crown or the axis. Because the pressure gradient
+of the chamber medium is lower than that of the ground and water pressure it
+opposes, the margin against blow-out is smallest at the crown and the margin
+against collapse smallest at the invert, so each bound is evaluated at the
+elevation where it governs.
 
 How pressure is transferred depends on the machine. A slurry shield transfers
 pressure through a filter cake at the face, and its formation requires the
@@ -385,11 +393,13 @@ Mixed-face conditions --- rock in the invert and soil in the crown, or the
 reverse --- are among the most damaging situations in mechanised tunnelling.
 The tools wear unevenly, the machine tends to steer towards the softer
 material, the softer horizon is over-excavated, and face pressure appropriate
-to one material is wrong for the other. Volume loss in mixed face routinely
-exceeds the design assumption by a wide margin. Since these conditions arise
-from an irregular rockhead (Chapter~\ref{ch:engineering-geology}), predicting
-where they occur is a matter of ground modelling and of borehole spacing
-adequate to resolve the rockhead surface, not of machine operation.
+to one material is wrong for the other. Volume loss in mixed-face conditions
+commonly exceeds the design assumption. Since these conditions arise wherever
+a strength contrast crosses the face --- most often an irregular rockhead
+(Chapter~\ref{ch:engineering-geology}), but also faults, weathering fronts,
+dykes and boulder horizons --- predicting where they occur is a matter of
+ground modelling and of investigation designed to resolve that contrast, not
+of machine operation.
 
 \section{Alternatives to face pressure}
 \label{sec:alternatives-face-pressure}

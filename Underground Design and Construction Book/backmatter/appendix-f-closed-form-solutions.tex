@@ -305,7 +305,14 @@ r \approx 4.5\,a ,
 \]
 that is, about two and a quarter diameters from the centre, or one and
 three-quarter diameters clear of the boundary. For non-hydrostatic fields the
-zone is elongated in the direction of the minor principal stress.
+shape depends on the stress to which the 5\,\% is referred. Referred to
+$\pzero$ on both axes, the zone is elongated modestly in the direction of the
+minor principal stress: at $k = 0.5$ the contour lies at about $4.0\,a$ along
+the horizontal axis and $3.7\,a$ along the vertical. Referred instead to the
+far-field tangential stress on each axis, $\pzero$ on the horizontal and
+$k\pzero$ on the vertical, it lies at about $4.0\,a$ and $5.4\,a$, elongated
+towards the major principal stress. The convention should therefore be stated
+with the result.
 
 Two openings whose zones of influence do not overlap may be analysed
 independently. Closer, they interact, and the treatment is
@@ -323,17 +330,24 @@ F = \frac{E\,a^3(1-\nu_l^2)}{E_l I_l (1-\nu^2)} .
 \]
 
 The thrust and moment then follow as coefficients of the field stress. For the
-full-slip condition,
+full-slip condition and a lining installed before the ground deforms, the
+solution of \citet{einstein1979simplified} is, with $\theta$ measured from the
+springline as in the Kirsch solution,
+\begin{align*}
+T(\theta) &= \tfrac{1}{2}\pzero a\left[(1+k)(1-a_0^{*})
+  + (1-k)(1-2a_2^{*})\cos 2\theta\right],\\
+M(\theta) &= \tfrac{1}{2}\pzero a^2 (1-k)(1-2a_2^{*})\cos 2\theta,
+\end{align*}
 \[
-T = \tfrac{1}{2}\pzero a (1+k)\,\frac{1}{1+C^{*}}
-  + \tfrac{1}{2}\pzero a (1-k)\,f_T(C,F,\nu),
+a_0^{*} = \frac{C F (1-\nu)}{C + F + C F (1-\nu)},
 \qquad
-M = \tfrac{1}{2}\pzero a^2 (1-k)\, f_M(F,\nu),
+a_2^{*} = \frac{(F+6)(1-\nu)}{2F(1-\nu) + 6(5-6\nu)},
 \]
-where $C^{*}$ and the coefficient functions $f_T$ and $f_M$ take the specific
-forms given by \citet{muirwood1975}, \citet{duddeck1985structural} or
-\citet{einstein1979simplified}. The
-formulations differ in detail and agree in behaviour.
+where the thrust $T$ is compressive, and the coefficients $a_0^{*}$ and
+$a_2^{*}$, which are not the radius $a$, are dimensionless. The moments at crown
+and springline are equal and opposite, the crown lining being in tension on its
+inner face when $k < 1$. The formulations of \citet{muirwood1975} and
+\citet{duddeck1985structural} differ in detail and agree in behaviour.
 
 \noindent\textbf{What the ratios mean.}\enspace The ratio $C$ governs how much
 of the ground load appears as thrust, and $F$ how much appears as moment. At

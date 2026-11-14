@@ -75,7 +75,7 @@ returns the process to the data rather than to the arithmetic.
 \draw[workflowarrow] (gsi) -- (check);
 
 \draw[feedbackarrow] (check.south) -- ++(0,-0.6) -| node[pos=0.25,below,font=\footnotesize]
-{revise if classifications are inconsistent} (data.south);
+{revise an input the data contradict, e.g.\ RQD against measured spacing} (data.south);
 
 \end{tikzpicture}
 }
@@ -261,9 +261,12 @@ None & 0 & Completely dry & 15 \\
 \paragraph{Rock mass classes based on RMR}
 The total places the rock mass in one of five classes
 (Table~\ref{tab:rmr_classes}). The cohesion and friction angle attached to
-each class are indicative values for the rock mass as a whole. They pre-date
-the parameter derivation of Chapter~\ref{ch:rock-mass-parameters} and are no
-substitute for it.
+each class are indicative values for the rock mass as a whole, obtained by
+back-analysis for broad classes at particular scales and confinements. They
+pre-date the parameter derivation of Chapter~\ref{ch:rock-mass-parameters} and
+are no substitute for it: design values of $c$ and $\phi$ are obtained there by
+fitting the Hoek--Brown envelope over the confining stress range of the
+problem.
 
 \begin{table}[htbp]
 \caption{Rock mass classes based on RMR.}
@@ -644,6 +647,25 @@ Stress ratio \(k\) & 3.2 & 1.8 & 1.0 & 2.0 \\
 \bottomrule
 \end{tabularx}
 \end{table}
+
+The groundwater entries are recorded in the language of the field and must be
+translated into the quantities the two systems use. ``Dry'' is the completely
+dry condition of Table~\ref{tab:rmr_groundwater} (\(R_5 = 15\)) and category~A
+of Table~\ref{tab:jw} (\(J_w = 1.0\)). ``Medium inflow'' is category~B
+(\(J_w = 0.66\)) but has no counterpart in the RMR table; for the sandstone it
+is read as the wet condition, 10--25~L/min per 10~m, giving \(R_5 = 7\). For
+the mudstone the observed dripping governs (\(R_5 = 4\)), with \(J_w = 0.66\)
+for the medium inflow. The limestone entry needs a conversion. At 80~m depth
+with the water table 10~m below surface the head is 70~m, so
+\(u = 70 \times 9.81 = 687\)~kPa, or 0.69~MPa, and with
+\(\sigma_1 = k\gamma z = 2.0 \times 0.027 \times 80 = 4.32\)~MPa
+(\(\gamma\) from Table~\ref{tab:intact_project_data}),
+\(u/\sigma_1 = 0.69/4.32 = 0.16\) and \(R_5 = 7\). Taking the vertical stress
+of 2.16~MPa instead gives 0.32 and \(R_5 = 4\), a difference worth recording
+where \(k\) departs from unity. For the $Q$-system, if the excavation does not
+drain the joints, 0.69~MPa is about 7~kg/cm\(^2\), in the 2.5--10~kg/cm\(^2\)
+band of categories~C and~D (\(J_w = 0.5\) or 0.33), the choice between them
+resting on the inflow and outwash observed.
 
 The point load indices of the mudstone and the limestone fall one rating band
 above their uniaxial compressive strengths. That is the disagreement

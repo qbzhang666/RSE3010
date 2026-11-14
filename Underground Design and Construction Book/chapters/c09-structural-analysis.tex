@@ -28,7 +28,8 @@ several differently oriented free surfaces simultaneously and a set that is
 harmless in the crown may be critical in a sidewall.
 
 This chapter establishes the technique and applies it underground. The
-slope-specific kinematic tests are not repeated; the step-by-step net
+slope kinematic tests are treated only so far as the underground and portal
+cases require (Section~\ref{sec:mode-and-orientation}); the step-by-step net
 constructions are collected in Appendix~\ref{app:stereonet}.
 
 \section{Projection and discontinuity data}
@@ -40,14 +41,18 @@ constructions are collected in Appendix~\ref{app:stereonet}.
 Stereographic projection represents three-dimensional orientations on a plane.
 A plane through the centre of a reference sphere intersects the lower
 hemisphere in a great circle; a line intersects it at a point. Projecting
-those from the zenith onto the equatorial plane gives the stereonet, on which
-a plane appears as a great circle and, equivalently, as a single point --- its
-pole, the projection of the normal.
+those from the zenith onto the equatorial plane gives the equal-angle net, on
+which a plane appears as a great circle and, equivalently, as a single point
+--- its pole, the projection of the normal. The equal-area net is not a
+projection from a point: its radius is rescaled so that equal solid angles on
+the sphere occupy equal areas on the plot.
 
-Two projections are in use. The equal-angle, or Wulff, net preserves angular
-relationships and is the correct choice for geometric construction:
+Two projections are therefore in use. The equal-angle, or Wulff, net preserves
+angular relationships and is the correct choice for geometric construction:
 intersections, true angles, rotations. The equal-area, or Schmidt, net
-preserves area and is the correct choice for statistical work, because
+preserves area and is the correct choice for statistical work. Because the
+equal-angle construction stretches area towards the perimeter, a uniform
+scatter of poles plots at a higher apparent density near the centre, so
 contouring pole density on an equal-angle net biases the result towards the
 centre. Using the wrong net for the purpose in hand is a common and quiet error.
 
@@ -172,13 +177,17 @@ planes.
 The failure mode follows from the geometry. If the line of intersection
 plunges more steeply than the friction angle (Table~\ref{tab:joint}) and daylights into the
 excavation, sliding occurs along it --- two-plane sliding on the wedge's
-bounding planes, the third acting as a release surface. If only one plane is
-favourably oriented, sliding occurs on that plane alone and the other two
+bounding planes, the third acting as a release surface. If only one plane
+dips more steeply than the friction angle, daylights in the free surface and
+has a dip direction close to that of the surface (within about $20^\circ$ is
+the usual limit), sliding occurs on that plane alone and the other two
 release. If no intersection daylights and the block is in the crown, the mode
 is free fall: the faces separate and no shear resistance is mobilised along
 them, so that only cohesion across the faces and any clamping stress still
 acting can delay detachment. Each mode mobilises a different resistance, and identifying it
-correctly is a precondition for the stability calculation.
+correctly is a precondition for the stability calculation. The two sliding
+tests, applied with a portal face or cut slope as the free surface, are the
+kinematic assessment of a portal.
 
 Excavation orientation is the design variable this chapter offers, and it is
 unusual in that it can remove a hazard rather than support it. Rotating the
@@ -198,20 +207,12 @@ rather than assumed.
 \label{sec:geometry-to-support}
 
 Once the wedge is identified and its mode established, the analysis becomes
-mechanical. The driving force is the component of weight along the sliding
-direction. The resisting forces are the shear strength mobilised on each
-sliding plane --- friction, any cohesion, and the contribution of clamping
-stress --- plus whatever the support provides. Water pressure on the sliding
-planes reduces the effective normal stress and therefore the friction, and a wedge that
-is stable dry may not be stable after a rainfall event or a change in the
-groundwater regime; the sensitivity to water pressure is one of the two
-dominant uncertainties in the calculation, the other being the friction angle
-assumed for a surface that has not been tested
-(Chapter~\ref{ch:ground-behaviour}).
-
-The required support force follows directly, along with its optimum
-orientation, which is generally inclined to the sliding direction rather than
-normal to the surface. The calculation sequence is set out in
+mechanical: weight drives; friction, cohesion and clamping stress on the
+sliding planes resist; and support makes up the deficit, its optimum
+orientation generally inclined to the sliding direction rather than normal to
+the surface. The limit-equilibrium treatment of an identified block,
+including the effect of water pressure on the sliding planes, is the subject
+of Section~\ref{sec:blocky-rock}; the calculation sequence is set out in
 Appendix~\ref{app:calculations}, and the design of the reinforcement itself in
 Chapter~\ref{ch:support}.
 
@@ -227,7 +228,7 @@ Chapter~\ref{ch:integrated-design}.
 \section{Software and digital workflows}
 \label{sec:structural-software}
 
-Block analysis software (Section~\ref{sec:structural-scripts}) performs these constructions reliably and quickly,
+Block analysis software performs these constructions reliably and quickly,
 and the productivity gain is real: identifying the critical wedge among all
 combinations of several sets on several free surfaces is tedious by hand and
 instantaneous by machine. The risk is equally real. The software will return a
@@ -235,7 +236,13 @@ factor of safety for a wedge that could not physically form, from
 discontinuity sets that were mis-assigned, at an orientation that reflects a
 convention error --- and it will return it with three decimal places. Every
 result should be checkable against a hand construction, which is why
-Appendix~\ref{app:stereonet} exists.
+Appendix~\ref{app:stereonet} exists. Pole and great-circle plotting and the
+intersection of two planes are implemented in \companionname\
+(Section~\ref{sec:structural-scripts}), whose output can be checked in the
+same way; it analyses wedges on a slope or portal face but not blocks in the
+roof and walls of an opening, so the sweep over free surfaces and excavation
+orientations underground is left to dedicated software or to the hand
+constructions.
 
 Data capture has changed more than analysis. Photogrammetry and terrestrial
 LiDAR extract discontinuity orientations from exposures and tunnel faces

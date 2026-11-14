@@ -329,9 +329,10 @@ change along its length.
 
 Its defining advantage is adaptability: the round length, the pattern, the
 charge and the support can all be varied from one cycle to the next as
-conditions change. Its defining cost is that progress depends on a repeated
-cycle of separate operations, each of which must be completed before the next
-begins.
+conditions change. Its defining cost is that drilling, charging, firing,
+ventilation clearance, scaling and support all take place at the same face,
+in turn, so the drilling equipment stands idle while each round is cleared
+and made safe.
 
 \paragraph{Anatomy of a round.}
 A blast round works by creating a free face and then progressively exploiting
@@ -345,8 +346,7 @@ pile forward for loading.
 
 Delay sequencing is what makes this work. Each hole must fire when the
 preceding one has created relief and before the burden has moved so far that
-confinement is lost, and electronic detonators have made that timing precise
-enough to control both fragmentation and vibration deliberately.
+confinement is lost.
 
 \subsection{Explosives and blast design}
 \label{sec:explosives-design}
@@ -367,8 +367,9 @@ extends the fractures and heaves the burden. Perimeter blasting works by
 reducing the first while retaining enough of the second.
 
 Initiation has moved from pyrotechnic delays to electronic detonators, whose
-timing is accurate to milliseconds rather than tens of milliseconds. That
-precision permits every hole to fire on its own delay, which reduces the
+timing scatter is under a millisecond, against several to tens of
+milliseconds for pyrotechnic delays. That precision makes the firing sequence a
+design quantity for fragmentation, and it permits every hole to fire on its own delay, which reduces the
 charge weight per delay --- the quantity that governs vibration --- without
 reducing the total charge.
 
@@ -454,13 +455,41 @@ fresh concrete in an adjacent drive.
 
 \paragraph{Damage criteria.}
 Limits depend on what is being protected and are far more stringent for
-disturbance than for damage. Structural damage to ordinary buildings requires
-velocities well above those that generate complaints, and the binding limit on
-an urban project is usually human response rather than structural capacity.
-Heritage structures, buried services, fresh concrete and sensitive equipment
-each carry their own limits, and fresh concrete is the one most often
-overlooked --- a limit that varies with the age of the pour and can constrain
-the sequence between adjacent headings.
+disturbance than for damage (Table~\ref{tab:vibration-limits}). Vibration is
+perceptible indoors at a few tenths of a millimetre per second and is likely
+to draw complaint at about 1~mm/s~\citep{bs5228part2}, whereas the threshold
+for cosmetic damage to a residential building is 5~mm/s at the foundation at
+low frequency~\citep{din4150part3}. The binding limit on an urban project is
+therefore usually human response rather than structural capacity. Damage
+thresholds rise with frequency, because a structure responds most to motion
+near its own natural frequencies, which for buildings are low, so a limit
+quoted without its frequency is incomplete. Heritage structures, buried
+services, fresh concrete and sensitive equipment each carry their own limits,
+and fresh concrete is the one most often overlooked --- a limit that is lowest
+from initial set to about a day after placing and rises as the concrete gains
+strength~\citep{hulshizer1984shock}, and that can constrain the sequence
+between adjacent headings.
+
+\begin{table}[htbp]
+\caption{Indicative peak particle velocity thresholds for blast vibration.
+Damage values are for short-term vibration at the foundation; the standard
+adopted for the project and its conditions take precedence.}
+\label{tab:vibration-limits}
+\centering
+\small
+\begin{tabularx}{\textwidth}{p{0.34\textwidth} X p{0.16\textwidth}}
+\toprule
+\textbf{Receiver and response} & \textbf{Indicative peak particle velocity} & \textbf{Source} \\
+\midrule
+Perception, residential & 0.14--0.3~mm/s & \citet{bs5228part2} \\
+Complaint likely without prior warning, residential & 1~mm/s & \citet{bs5228part2} \\
+Cosmetic damage, commercial and industrial buildings & 20~mm/s below 10~Hz, rising to 40--50~mm/s at 50--100~Hz & \citet{din4150part3} \\
+Cosmetic damage, residential buildings & 5~mm/s below 10~Hz, rising to 15--20~mm/s at 50--100~Hz & \citet{din4150part3} \\
+Heritage and other sensitive structures & 3~mm/s below 10~Hz, rising to 8--10~mm/s at 50--100~Hz & \citet{din4150part3} \\
+Fresh concrete & Lowest from initial set to about one day after placing, rising with strength gain; set for the project & \citet{hulshizer1984shock} \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 Distinguishing damage thresholds from disturbance thresholds explicitly, in
 the design and in communication with the community, avoids a common and

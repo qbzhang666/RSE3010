@@ -10,7 +10,8 @@ Empirical classification requires domains, analytical solutions require a
 stratigraphy and a stress state, numerical analysis requires geometry and
 material assignment, and construction control requires an expectation against
 which the exposed face can be compared. The model is therefore the principal
-engineering deliverable of an investigation rather than a by-product of it.
+engineering deliverable of an investigation rather than a by-product of
+it~\citep{knill2003ground}.
 
 What has changed is how the model is built. Hand-drawn sections interpolated
 between boreholes have given way to implicit surfaces fitted to all available
@@ -162,7 +163,9 @@ mapping or borehole data allow, narrows the gap but does not close it.
 \label{sec:geostatistics}
 
 Once geometry exists, properties must be distributed within it. Geostatistics
-begins by quantifying spatial correlation through the variogram,
+begins by quantifying spatial
+correlation~\citep{baecher2003reliability,phoon1999characterization} through
+the variogram,
 \[
 \gamma(h) = \tfrac{1}{2}\,\mathrm{E}\!\left[\bigl(Z(x+h)-Z(x)\bigr)^{2}\right],
 \]
@@ -204,7 +207,8 @@ imposes on the geometric interpolator.
 
 Supervised learning has found a genuine role where a property is expensive to
 measure and correlated with something cheap and abundant. Downhole geophysical
-logs, core photography and drilling parameters are all recorded continuously
+logs, core photography and drilling
+parameters~\citep{schunnesson1996rqd} are all recorded continuously
 or nearly so; lithology, weathering grade and strength are determined at
 intervals. Training a classifier on the logged intervals and applying it to
 the unlogged remainder converts sparse determinations into a continuous
@@ -280,7 +284,8 @@ answers the question a reviewer most often wants to ask.
 
 Simplest and most useful is a confidence classification along the alignment:
 high, moderate or low, with the criteria stated. It carries into the
-geotechnical baseline report, into investigation planning, and into the
+geotechnical baseline report~\citep{essex2007gbr}, into investigation
+planning, and into the
 construction-stage expectation of how closely the ground should match the
 prediction. Where the model says confidence is low and the ground is
 consistently as predicted, that is worth knowing; where confidence is high and
@@ -292,8 +297,8 @@ ground.
 
 Investigation budgets are finite, and uniform borehole spacing is almost never
 the best use of them. The value of an additional observation is the extent to
-which it changes a decision, and that is not distributed uniformly along an
-alignment.
+which it changes a decision~\citep{baecher2003reliability}, and that is not
+distributed uniformly along an alignment.
 
 The reasoning is straightforward even when the formal calculation is not; the
 formal version, with prior, likelihood and posterior stated, is given in
@@ -336,7 +341,8 @@ chainage, serves three purposes at once. It is the evidence base for baseline
 comparison and therefore for claims. It calibrates the model, showing whether
 the interpretation is biased in a consistent direction. And it supports
 revising the ground class expectation ahead of the face, which is the
-mechanism by which observational design actually operates.
+mechanism by which observational design actually
+operates~\citep{peck1969observational,nicholson1999observational}.
 
 The comparison is only meaningful if the prediction was recorded before the
 ground was seen. This sounds obvious and is routinely violated: a ground class
@@ -354,7 +360,7 @@ it lives in a proprietary model file that no one maintains and in a set of
 construction records that are archived rather than integrated.
 
 Preserving it requires three things: version control with the provenance of
-every surface and parameter recorded; export in an open format that will
+every surface and parameter recorded~\citep{iso19650}; export in an open format that will
 outlive the software (Chapter~\ref{ch:digital-twin}); and an explicit handover
 of the model as a deliverable in its own right, with a named recipient. The
 asset will be inspected, assessed and possibly modified for a century. The
