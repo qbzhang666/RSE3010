@@ -360,6 +360,11 @@ $R_p = 13.8$~m and a wall displacement of 97~mm, 1.6 per cent of the radius,
 which lies close to the large-strain Mohr--Coulomb result, as it should for
 the same criterion. The difference between the two columns is the effect of
 the constitutive model alone, and both are plausible bounds for design.
+Neither formulation is reproduced here: both are lengthy and are set out in
+full in the two sources, from which the values in this table and the next are
+evaluated. Without them the unsupported results can still be checked through
+the simplified expressions, as above, and the factors of safety through the
+support line, as below.
 
 \begin{table}[htbp]
 \caption{Plastic zone radius and convergence of the unsupported motorway tunnel predicted by two formulations of the ground reaction curve.}
@@ -380,9 +385,11 @@ Wall displacement as a percentage of radius (unsupported) & 4.99\% & 1.97\% \\
 Table~\ref{tab:support-timing} shows, for the Mohr--Coulomb formulation with
 the elastic--plastic longitudinal profile, how the outcome changes with the
 criterion by which the support is installed. The support is a pattern of rock
-bolts, the same in each case, so that the support characteristic curve is
-fixed and only its starting point moves. As installation becomes
-earlier, with $u_{s0}$ falling from 53.7~mm to 40~mm to 18~mm, the
+bolts, the same in each case, with maximum pressure $p_{sm} = 0.354$~MPa and
+stiffness $k_s = 29.5$~MPa/m, so that its elastic displacement capacity is
+$u_{sm} = p_{sm}/k_s = 0.354/29.5 = 12.0$~mm. The support characteristic
+curve is therefore fixed and only its starting point moves. As installation
+becomes earlier, with $u_{s0}$ falling from 53.7~mm to 40~mm to 18~mm, the
 convergence falls from 1.0 to 0.64 per cent and the factor of safety from
 1.93 to 0.82. Both trends are monotonic. Earlier engagement raises the load
 on the support, and a support that is adequate when installed 3~m behind the
@@ -392,8 +399,36 @@ in place of the elastic--plastic one, installation 3~m behind the face
 corresponds to $u_{s0} = 86$~mm instead of 53.7~mm, and the computed factor
 of safety rises from 1.93 to 5.15.
 
+\paragraph{Checking the factors of safety.}
+Where the two curves meet on the rising part of the support line,
+$p_{eq} = k_s(u_{eq} - u_{s0})$, and the factor of safety reduces to
+$\mathrm{FoS} = u_{sm}/(u_{eq} - u_{s0})$. For installation 3~m behind the
+face the analysis gives $u_{s0} = 53.67$~mm and $u_{eq} = 59.89$~mm, so that
+\[
+p_{eq} = 29.5 \times (59.89 - 53.67)\times 10^{-3} = 0.183~\text{MPa},
+\qquad
+\mathrm{FoS} = \frac{0.354}{0.183} = 1.93 .
+\]
+For installation at $u_{s0} = 40$~mm, $u_{eq} = 48.69$~mm gives
+$p_{eq} = 29.5 \times 8.69 \times 10^{-3} = 0.256$~MPa and
+$\mathrm{FoS} = 0.354/0.256 = 1.38$. With the elastic profile,
+$u_{eq} = 88.62$~mm and $u_{s0} = 86.30$~mm give
+$\mathrm{FoS} = 12.0/2.32 = 5.2$, which agrees with the 5.15 of the analysis
+to within the rounding of so small a displacement increment. Installation at
+a strain of 0.3 per cent differs in kind. The support line starting at
+$u_{s0} = 18.0$~mm reaches $p_{sm}$ at $18.0 + 12.0 = 30.0$~mm, before it
+meets the ground reaction curve, so the bolts yield and the system comes to
+rest on the plateau of the support curve at $u_{eq} = 38.3$~mm, where the
+ground reaction curve has fallen to $p_{sm}$. The factor of safety is then
+measured against the pressure at which the support line, extended beyond
+yield, would meet the ground reaction curve. That intersection lies at
+$u_r = 18.0 + 0.43/29.5 \times 10^{3} \approx 32.6$~mm, where the ground
+reaction curve carries about 0.43~MPa, and
+$\mathrm{FoS} = 0.354/0.43 = 0.82$. A value below unity in this sense
+identifies a support that has yielded before equilibrium was reached.
+
 \begin{table}[htbp]
-\caption{Influence of the timing of support installation on plastic zone radius, convergence and factor of safety for the motorway tunnel. The three criteria are installation at $L=3$~m behind the face, at a wall displacement $u_{s0}=40$~mm, and at a radial strain $\varepsilon=u_{s0}/a=0.3\%$.}
+\caption{Influence of the timing of support installation on plastic zone radius, convergence and factor of safety for the motorway tunnel. The three criteria are installation at $L=3$~m behind the face, at a wall displacement $u_{s0}=40$~mm, and at a radial strain $\varepsilon=u_{s0}/a=0.3\%$. The rock-bolt support, the same in all three, has $p_{sm}=0.354$~MPa and $k_s=29.5$~MPa/m.}
 \label{tab:support-timing}
 \centering
 \small
@@ -403,7 +438,8 @@ of safety rises from 1.93 to 5.15.
 \midrule
 Resulting $u_{s0}$ (mm) & 53.7 & 40.0 & 18.0 \\
 $R_p$ supported (m) & 10.0 & 9.2 & 8.28 \\
-Convergence (\%) & 1.0 & 0.8 & 0.64 \\
+$u_{eq}$ (mm) & 59.9 & 48.7 & 38.3 \\
+Convergence $u_{eq}/a$ (\%) & 1.0 & 0.8 & 0.64 \\
 FoS & 1.93 & 1.38 & 0.82 \\
 \bottomrule
 \end{tabular}

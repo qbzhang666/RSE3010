@@ -217,6 +217,25 @@ k_s = \frac{E_c\left[a^2-(a-t_c)^2\right]}
 p_{sm} = \frac{\sigma_{cc}}{2}\left[1-\frac{(a-t_c)^2}{a^2}\right].
 \]
 
+\emph{Segmental rings} are represented under the uniform convergence assumed
+here by the same expressions, with $t_c$ the segment thickness and $E_c$,
+$\nu_c$ and $\sigma_{cc}$ those of the segment concrete. Under axisymmetric
+load the radial joints carry hoop thrust in compression without rotating, so
+the stiffness is close to that of a continuous ring; the joints matter under
+non-uniform load, which is the province of the lining solutions of
+Section~\ref{sec:charts-and-lining-solutions} and of
+Chapter~\ref{ch:linings}. Two quantities differ from those of a cast ring.
+The capacity is governed at the radial joints, where the hoop thrust $\pin a$
+passes through a contact band of height $h_j$, less than $t_c$
+(Section~\ref{sec:joint-behaviour}), so that
+\[
+p_{sm} = \frac{\sigma_{cc}\,h_j}{a} ,
+\]
+the thin-ring form with $h_j$ in place of $t_c$. And the convergence $u_{s0}$
+at which the ring begins to carry load is fixed by the tail void and the
+effectiveness of the annulus grout, not read from the longitudinal
+deformation profile.
+
 \emph{Steel sets} of cross-sectional area $A_s$, modulus $E_s$ and yield
 stress $\sigma_{ys}$, at longitudinal spacing $s$:
 \[
@@ -227,16 +246,21 @@ p_{sm} = \frac{A_s \sigma_{ys}}{s\,a}.
 Both must be reduced to allow for block seating; a poorly blocked set delivers
 a fraction of these values.
 
-\emph{Grouted or mechanically anchored bolts} of length $L$, diameter $d_b$
+\emph{Mechanically or chemically anchored bolts and cables} (ungrouted) of free length $L_b$, diameter $d_b$
 and modulus $E_b$, at spacing $s_c$ circumferentially and $s_l$
 longitudinally, with a load--deformation constant $Q$ for the anchor and
 plate:
 \[
-k_s = \frac{1}{s_c s_l}\left[\frac{4L}{\pi d_b^2 E_b} + Q\right]^{-1},
+k_s = \frac{1}{s_c s_l}\left[\frac{4L_b}{\pi d_b^2 E_b} + Q\right]^{-1},
 \qquad
 p_{sm} = \frac{T_{bf}}{s_c s_l},
 \]
-where $T_{bf}$ is the bolt capacity.
+where $T_{bf}$ is the bolt capacity. The expression treats the bar as an elastic tie between anchor and plate; a fully grouted bar is not a tie but reinforcement of the rock mass, and for it the expression is only an approximation. The constant $Q$, in metres per
+meganewton, is read from the load--extension curve of a pull-out test on the
+anchor and plate assembly. It depends on the anchor type, the hole and the
+rock, no representative range is tabulated in Appendix~\ref{app:constants},
+and it is measured on site before the expression is used; representative
+values of $E_b$ and of the steel-set properties are given there.
 
 For systems installed together, stiffnesses add:
 $k_{s,\text{total}} = \sum k_{s,i}$, and the combined capacity is reached when the

@@ -121,10 +121,32 @@ For \emph{stress-induced} failure the calculation is continuum. Systematic
 bolting supplies a modest confining pressure at the boundary, and modest is
 enough: rock strength is strongly confinement-dependent near a free surface,
 so a few tens to about a hundred kilopascals of confinement produces a
-disproportionate increase in strength. The bolting must extend beyond the computed yield zone
+disproportionate increase in strength~\citep{hoek1995support}. The bolting must extend beyond the computed yield zone
 (Chapter~\ref{ch:ground-behaviour}) so that it is anchored in rock that has
 not failed, and its effect appears as a raised ground reaction curve rather
 than as a resisted block weight.
+
+The size of that pressure follows from the bolt pattern. Bolts of capacity
+$T_{bf}$ at spacings $s_c$ circumferentially and $s_l$ longitudinally, of
+free length $L_b$, bar diameter $d_b$ and modulus $E_b$, with an anchor and plate
+load--deformation constant $Q$ (in m/MN), act on the boundary of a tunnel of
+radius $a$ with a maximum pressure and a stiffness~\citep{hoekbrown1980underground,carranza2000ccm}
+\[
+p_{sm} = \frac{T_{bf}}{s_c\, s_l}, \qquad
+k_s = \frac{1}{s_c\, s_l}\left[\frac{4L_b}{\pi d_b^2 E_b} + Q\right]^{-1},
+\]
+the expressions of Section~\ref{sec:grc-scc-appendix}. A 25\,mm bar of
+200\,kN capacity (Table~\ref{tab:support-props}) on a 1.5\,m square pattern
+gives $p_{sm} = 0.2/(1.5 \times 1.5) \approx 0.09$\,MPa --- the hundred
+kilopascals of the previous paragraph, and some seventy times less than the
+6.3\,MPa of the concrete lining analysed in Chapter~\ref{ch:ccm}. Supplying
+the 2.3\,MPa at which that lining reached equilibrium in the poorer ground
+would need about 5\,MN per bolt on the same pattern. Bolts in squeezing or
+highly stressed ground therefore work through the rock mass they confine, not
+as a boundary pressure. The expressions are strictly those of a point-anchored
+bolt; applied to a fully grouted bolt they are the boundary-pressure
+approximation that Section~\ref{sec:reinforcement-vs-support} warns against,
+and serve only to place the pattern on the same axes as the other supports.
 
 Pattern bolting reconciles the two in practice. Length is set from the larger
 of the yield zone depth and the critical block dimension; spacing from the
@@ -286,7 +308,7 @@ strength and stiffness development over the first day is in
 Appendix~\ref{app:constants}.
 
 The early strength classes distinguish rapid-setting mixes for overhead work
-in poor ground from slower mixes acceptable in better conditions, and
+in poor ground from slower mixes acceptable in better conditions~\citep{thomas2009scl}, and
 compliance is verified in the tunnel by penetrometer at very early ages and
 stud driving thereafter. These are crude tests, and they are the ones the
 decision to re-enter actually rests on.
@@ -300,6 +322,21 @@ $e$ plots at $M = Ne$ and must fall inside the envelope
 alone, and the
 governing case is often a modest thrust with an eccentricity caused by
 profile irregularity rather than the design thrust at the design thickness.
+
+In the convergence--confinement analysis the same shell of thickness $t_c$
+enters through the thin-ring expressions of Section~\ref{sec:scc-and-ldp},
+\[
+p_{sm} = \frac{\sigma_{cc}\, t_c}{a}, \qquad
+k_s = \frac{E_c\, t_c}{(1-\nu_c^2)\,a^2},
+\]
+with $\sigma_{cc}$, $E_c$ and $\nu_c$ the unconfined strength, modulus and
+Poisson's ratio of the sprayed concrete. Both are linear in the thickness, so
+a layer 40\,mm under a nominal 200\,mm has lost a fifth of its capacity and
+of its stiffness wherever the deficit occurs. Both also use the strength and
+modulus at the age when the load arrives: with $E_c$ of roughly 10\,GPa at one
+day against 25 to 30\,GPa at 28 days (Appendix~\ref{app:constants}), a lining
+loaded on its first day has between a third and two-fifths of its mature
+stiffness.
 
 Two time-dependent effects, whose histories run in opposite directions, are
 frequently neglected. Stiffness rises as the concrete cures, so a lining installed
@@ -363,6 +400,64 @@ properties suggest, and its principal value is the first two functions. Heavy
 steel arches genuinely contribute capacity but are difficult to encase without
 voids behind the flanges, and those voids are both a durability defect and a
 loss of the composite action assumed.
+
+Treated as a support in its own right, a set of cross-sectional area $A_s$,
+modulus $E_s$ and yield stress $\sigma_{ys}$, at longitudinal spacing $s$,
+provides~\citep{hoekbrown1980underground,carranza2000ccm}
+\[
+p_{sm} = \frac{A_s\, \sigma_{ys}}{s\, a}, \qquad
+k_s = \frac{E_s A_s}{s\, a^2},
+\]
+both reduced in practice by imperfect blocking against the rock, so that a
+poorly blocked set delivers a fraction of these values
+(Section~\ref{sec:grc-scc-appendix}). Table~\ref{tab:support-element-scc}
+sets the elements of this chapter side by side for the tunnel of
+Chapter~\ref{ch:ccm}, each with its maximum elastic displacement
+$u_{sm} = p_{sm}/k_s$. Bolts and sets supply tenths of a megapascal, sprayed
+concrete about one, and a cast lining several, while all four reach their
+limits within a few millimetres of displacement after installation.
+
+\begin{table}[htbp]
+\caption{Support characteristic parameters of single elements for the tunnel
+of radius $a = 4.75$\,m in Chapter~\ref{ch:ccm}. Element properties are
+illustrative values within the ranges of Appendix~\ref{app:constants}; the bolt
+stiffness takes $Q = 0$ and is therefore an upper bound.}
+\label{tab:support-element-scc}
+\centering
+\small
+\begin{tabularx}{\textwidth}{X c c c}
+\toprule
+\textbf{Element and properties} & \boldmath{$p_{sm}$} \textbf{(MPa)} &
+\boldmath{$k_s$} \textbf{(MPa/m)} & \boldmath{$u_{sm}$} \textbf{(mm)} \\
+\midrule
+Bolts: $d_b = 25$\,mm, $L_b = 4$\,m, $T_{bf} = 200$\,kN, $E_b = 200$\,GPa,
+$s_c = s_l = 1.5$\,m & 0.089 & 10.9 & 8.1 \\
+Steel sets: $A_s = 50$\,cm\textsuperscript{2}, $\sigma_{ys} = 275$\,MPa,
+$E_s = 200$\,GPa, $s = 1.0$\,m & 0.29 & 44.3 & 6.5 \\
+Sprayed concrete: $t_c = 0.2$\,m, $\sigma_{cc} = 30$\,MPa, $E_c = 25$\,GPa,
+$\nu_c = 0.25$ & 1.26 & 236.4 & 5.3 \\
+Concrete lining of Chapter~\ref{ch:ccm}: $t_c = 0.5$\,m,
+$\sigma_{cc} = 60$\,MPa, $E_c = 40$\,GPa, $\nu_c = 0.25$ & 6.32 & 945.5 & 6.7 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Elements installed together act in parallel. Their stiffnesses add,
+$k_{s,\text{total}} = \sum k_{s,i}$, but the system reaches its capacity when
+the first element reaches its own $u_{sm}$, so that for elements installed at
+the same time
+\[
+p_{sm,\text{total}} = k_{s,\text{total}}\, \min_i u_{sm,i},
+\]
+which is less than the sum of the individual capacities. For 0.2\,m of
+sprayed concrete on sets at 1.0\,m, $k_{s,\text{total}} = 236.4 + 44.3 =
+280.7$\,MPa/m, the shotcrete governs at $u_{sm} = 5.3$\,mm, and
+$p_{sm,\text{total}} \approx 1.50$\,MPa against a sum of 1.55\,MPa. The loss is
+small here because the two elements reach their limits at similar
+displacements. It becomes large when a stiff, brittle element is paired with
+a soft, ductile one: the stiff element fails before the soft one has mobilised
+much of its capacity, which is the compatibility argument of
+Section~\ref{sec:shear-cables-dynamic} in static form.
 
 Substrate preparation determines whether the lining acts as a shell at all.
 Bond to the rock and between successive layers requires a clean surface free

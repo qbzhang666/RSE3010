@@ -300,9 +300,11 @@ round of training, which the horizontal axis counts. The
 comparison is the same model trained only on the withheld machine's own limited
 records, and error is reported on that machine in both cases, so the curves
 are directly comparable: one measures transfer to a drive never seen, the
-other what the machine's own limited records achieve. A third
-line shows the transferred model after further calibration on the withheld
-machine's own records. Splitting
+other what the machine's own limited records achieve. The third, dotted,
+line is the transferred model after further calibration on the withheld
+machine's own records; it is a single final result rather than a training
+history, drawn level at the error of 1.98~mm that the calibrated model reaches,
+below both curves at every round. Splitting
 these same records at the sample would put readings from every machine on both
 sides of the split, and would report an accuracy that no new drive would
 reproduce. Synthetic demonstrator data (Appendix~\ref{app:software}).}

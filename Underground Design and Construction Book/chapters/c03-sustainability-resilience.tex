@@ -107,8 +107,10 @@ stages in
 kilograms of carbon dioxide equivalent, $V_i$ is the quantity of material $i$
 in the unit in which its factors are declared (cubic metres of concrete,
 tonnes of steel), $GWP_{i,\mathrm{A1-A3}}$ and $GWP_{i,\mathrm{A4}}$ are its
-product-stage and transport factors per unit of that quantity, and
-$GWP_{\mathrm{A5}}$ is the construction-process term; $i$ is here a summation
+product-stage and transport factors in kilograms of carbon dioxide equivalent
+per unit of that quantity, so that any density conversion is carried in the
+factor and not in $V_i$, and $GWP_{\mathrm{A5}}$ is the construction-process
+term, also in kilograms of carbon dioxide equivalent; $i$ is here a summation
 index. For mechanised excavation the
 construction-stage term is dominated by machine energy, and is assembled by
 energy carrier:
@@ -117,8 +119,11 @@ GWP_{\mathrm{A5}} \;=\; \sum_j E_j\, EF_j ,
 \qquad E_{\mathrm{TBM}} = \sum_j E_j ,
 \]
 where $E_j$ is the energy drawn as carrier $j$ --- grid electricity and
-diesel in most drives --- and $EF_j$ is the emission factor of that carrier,
-including its upstream supply, in the unit in which $E_j$ is metered.
+diesel in most drives --- in kilowatt-hours, diesel being converted from the
+metered volume at its net calorific value, $EF_j$ is the emission factor of
+that carrier, including its upstream supply, in kilograms of carbon dioxide
+equivalent per kilowatt-hour, and $E_{\mathrm{TBM}}$ is the total energy
+drawn by the excavation in kilowatt-hours.
 
 \noindent\textbf{This is accounting logic, not a design equation.}\enspace
 Neither expression predicts anything. Their value is that they force every

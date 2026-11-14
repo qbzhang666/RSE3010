@@ -13,7 +13,7 @@ of equal rating may fail by quite different mechanisms, one by a block
 released from the crown and another by overstressing and spalling of the same
 crown, and the analysis, support and construction sequence appropriate to each
 have little in common. This chapter therefore organises ground by behaviour
-rather than by quality. The distinction is the older of the two ideas in
+rather than by quality. Classification by behaviour is the older of the two ideas in
 underground engineering and remains the more useful: massive, stratified and
 blocky rock behave differently because different elements carry the load, and
 weak ground behaves differently again because the face becomes the governing
@@ -289,17 +289,24 @@ face continuously.
 \label{sec:face-stability-analysis}
 
 The oldest treatment expresses face stability through the stability ratio,
-which compares the total overburden and any surcharge against the undrained
-shear strength of the ground,
+which compares the total overburden and any surcharge, less the support
+pressure applied at the face, against the undrained shear strength of the
+ground,
 \[
 N = \frac{\sigma_s + \gamma z - \sigma_T}{s_u} ,
 \]
 where $\sigma_s$ is the surface surcharge, $\gamma z$ the total overburden
-stress at the level of the tunnel axis, $\sigma_T$ the support pressure
-applied at the face and $s_u$ the undrained shear strength. The observation of
+stress at the level of the tunnel axis ($\gamma$ the bulk unit weight of the
+ground in kN/m\textsuperscript{3} and $z$ the depth of the axis in m),
+$\sigma_T$ the support pressure applied at the face and $s_u$ the undrained
+shear strength, the stresses all in kPa, so that $N$ is dimensionless. The observation of
 \citet{broms1967stability} that instability occurs above a ratio of about six
-remains a useful screening test, and \citet{davis1980stability}
-refined it into upper and lower bound plasticity solutions in
+remains a useful screening test. For an unsurcharged, unsupported face with
+$\gamma = 20$~kN/m\textsuperscript{3} at an axis depth of 15~m, the overburden
+stress is $20 \times 15 = 300$~kPa, and $N \le 6$ requires
+$s_u \ge 300/6 = 50$~kPa; softer ground needs face pressure or
+improvement. \citet{davis1980stability}
+refined the ratio into upper and lower bound plasticity solutions in
 which the critical ratio depends on the cover-to-diameter ratio and on the
 length of unsupported heading.
 

@@ -19,8 +19,6 @@ is to predict, set limits, measure, and act on the measurement. That sequence
 is the observational method, and third-party protection is its most demanding
 application.
 
-Prediction and monitoring are one subject rather than two. The chain runs from construction control to ground movement to structural strain to damage; every link is imperfectly known; and the only way to design against that uncertainty is to predict, set limits, measure, and act on the measurement. That is the observational method, and third-party protection is its most demanding application.
-
 \section{Predicting ground movement}
 \label{sec:predicting-movement}
 
@@ -28,8 +26,16 @@ Prediction and monitoring are one subject rather than two. The chain runs from c
 \label{sec:movement-field}
 
 Surface settlement above a tunnel is described by a Gaussian curve whose
-maximum lies above the axis and whose width is set by the trough width
-parameter and the depth (Section~\ref{sec:gaussian-trough} gives the expressions and Section~\ref{sec:seq-settlement} the calculation sequence). The area under the curve equals the volume loss ---
+maximum $S_{\max}$ lies above the axis and whose width $i$, the distance from
+the centreline to the point of inflection, is set by the trough width
+parameter $K$ and the depth to the axis $z_0$ through $i = K z_0$:
+\[
+S_y = S_{\max} \exp\!\left(-\frac{y^2}{2i^2}\right),
+\]
+with $S_y$ the settlement at transverse distance $y$ from the centreline.
+Section~\ref{sec:gaussian-trough} derives $S_{\max}$ from the volume loss and
+gives the customary values of $K$, and Section~\ref{sec:seq-settlement} sets
+out the calculation sequence. The area under the curve equals the volume loss ---
 the ground that entered the tunnel and did not come out as intended
 excavation, expressed as a proportion of the theoretical excavated volume.
 Volume loss is a construction outcome, not a ground property (Table~\ref{tab:volume-loss}): the same ground
@@ -48,11 +54,28 @@ capture.
 
 Subsurface movements matter for anything founded below the surface. The trough
 narrows and deepens with depth towards the tunnel, so a piled foundation may
-experience considerably more movement than the surface above it. Horizontal
-movement accompanies the vertical: ground moves towards the tunnel axis, giving
-horizontal strain that is compressive over the trough centre and tensile at
-its edges. The tensile zone at the trough edge is where most building damage
-occurs, and an assessment that considers settlement alone will miss it.
+experience considerably more movement than the surface above it. In clays the
+trough width at depth $z$ below the surface is approximately
+\[
+i = 0.175\, z_0 + 0.325\,(z_0 - z),
+\]
+which recovers $i = 0.5\,z_0$ at the surface~\citep{mair1993subsurface}. Taking
+the trough volume $V_s$ as unchanged with depth, as for undrained clay, the
+narrower trough gives a proportionally larger maximum,
+$S_{\max} = V_s/(i\sqrt{2\pi})$. Horizontal
+movement accompanies the vertical: if the displacement vectors are taken to
+point towards the tunnel axis, the horizontal displacement at transverse
+distance $y$ is $S_h = (y/z_0)\, S_y$, and differentiating it gives the
+horizontal strain~\citep{mair1996subsurface}
+\[
+\varepsilon_h = \frac{S_y}{z_0}\left(\frac{y^2}{i^2} - 1\right),
+\]
+taken positive in tension, with $S_y$ the settlement at $y$ from the
+Gaussian expression. The strain is compressive within the points of
+inflection, reaching $S_{\max}/z_0$ over the centreline, and tensile beyond
+them, reaching $2e^{-3/2}S_{\max}/z_0 \approx 0.45\,S_{\max}/z_0$ at
+$y = \sqrt{3}\,i$. The tensile zone at the trough edge is where most building
+damage occurs, and an assessment that considers settlement alone will miss it.
 
 \subsection{Building damage assessment}
 \label{sec:damage-assessment}
