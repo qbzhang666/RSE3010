@@ -1,11 +1,11 @@
 """Kinematic screening against the worked cases of the RSE3010 Week 11 lecture
 (Stereonet and Kinematic, 2026). Independent of tests/test_slopes.py.
 
-Two values read from the stereonet on the slides differ slightly from the exact
-geometry: the intersection of 60/090 and 60/130 is 58/110 (slide 69: 58/114),
-and that of 60/090 and 60/210 is 41/150 (slide 64: 42/150). Two planes of equal
+The intersections are checked against the exact geometry: two planes of equal
 dip intersect on the bisector of their dip directions, with
-tan(plunge) = tan(dip) cos(half the angle between the dip directions).
+tan(plunge) = tan(dip) cos(half the angle between the dip directions). The
+slides first gave 58/114 (slides 67-71) and 42/150 (slide 64), read from the
+stereonet; they were corrected to 58/110 and 41/150 in November 2026.
 """
 
 from __future__ import annotations
