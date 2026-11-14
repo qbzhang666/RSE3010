@@ -39,7 +39,7 @@ PRESETS: dict[str, Preset] = {p.label: p for p in (
            note="GSI 63 is the value the book derives from the RMR rating in Chapter 10."),
     Preset("Granite (Chapters 10-12)", "Chapters 10-12 data set", 265, 32, 80, 70, 0.0, 0.20, 27, 780, 3.2, 5.0,
            note="GSI 70 is illustrative: the book rates only the sandstone."),
-    Preset("Mudstone (Chapters 10-12)", "Chapters 10-12 data set", 27, 4, 0.76, 30, 0.0, 0.30, 27, 100, 1.0, 5.0,
+    Preset("Mudstone (Chapters 10-12)", "Chapters 10-12 data set", 27, 4, 7.6, 30, 0.0, 0.30, 27, 100, 1.0, 5.0,
            note="GSI 30 is illustrative: the book rates only the sandstone."),
     Preset("Limestone (Chapters 10-12)", "Chapters 10-12 data set", 85, 12, 20, 50, 0.0, 0.25, 27, 80, 2.0, 5.0,
            note="GSI 50 is illustrative: the book rates only the sandstone."),

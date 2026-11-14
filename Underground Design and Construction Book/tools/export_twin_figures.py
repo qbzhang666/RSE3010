@@ -279,7 +279,7 @@ BOOK_LABELS = (
     (r"^1:1 line\n\(no TBM impact\)$", "1:1 line\n(no construction effect)"),
     (r"^Pre-construction cumulative LOS \(mm\)$",
      "Movement before construction (mm)"),
-    (r"^During-construction LOS \(mm\)$", "Movement during construction (mm)"),
+    (r"^During-construction LOS \(mm\)$", "Cumulative movement at end of construction (mm)"),
     # The demonstrator bins the settlement it computes at 5, 10, 25 and 50 mm
     # and gives the bins Burland's damage-category names. The bins are a
     # reasonable first-stage screen; they are not a damage assessment, which
