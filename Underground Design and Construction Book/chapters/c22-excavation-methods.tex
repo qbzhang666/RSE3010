@@ -505,6 +505,51 @@ Distinguishing damage thresholds from disturbance thresholds explicitly, in
 the design and in communication with the community, avoids a common and
 avoidable dispute.
 
+\paragraph{Continuous vibration from machines and trains.}
+A tunnel boring machine, and later the trains running in the finished tunnel,
+generate vibration of a different character from a blast: continuous or
+repeated for hours, of moderate amplitude, with a dominant frequency of a few
+tens of hertz. Prediction then rests on a source level and an attenuation law
+rather than on a charge weight,
+\[
+v = v_{\mathrm{ref}} \left(\frac{d}{d_{\mathrm{ref}}}\right)^{-n}
+    e^{-\beta (d - d_{\mathrm{ref}})} ,
+\]
+in which $d$ is the slant distance from the source to the receiver, $v_{\mathrm{ref}}$
+the peak particle velocity at a reference distance $d_{\mathrm{ref}}$, $n$ the
+geometric spreading exponent (about 0.5 for surface waves and 1 for body waves
+from a point source) and $\beta = \pi f \eta / C_w$ the material damping
+coefficient for frequency $f$, loss factor $\eta$ and wave speed $C_w$. As with
+blasting, the constants are fitted to measurements from the early drive.
+
+Three receivers need criteria other than those of
+Table~\ref{tab:vibration-limits}. Human response to continuous or intermittent
+vibration depends on its duration as well as its amplitude, and is assessed by
+the vibration dose value of BS~6472-1~\citep{bs6472part1}. For steady vibration
+with a crest factor below about 6 it is estimated as
+\[
+\mathrm{VDV} = 1.4\, a_{w,\mathrm{rms}}\, t^{1/4}
+\quad \bigl(\mathrm{m/s^{1.75}}\bigr),
+\]
+with $a_{w,\mathrm{rms}}$ the frequency-weighted root-mean-square acceleration
+and $t$ the exposure time in seconds; over a 16~h day adverse comment in a
+residence is improbable below 0.2--0.4~m/s$^{1.75}$, and offices take twice
+these values. Vibration of floors and walls also re-radiates as ground-borne
+noise, a low rumble audible at levels far below the threshold of feeling; it
+is assessed as a sound level in the receiving room, tracks the floor velocity
+decibel for decibel, and in residences and performance spaces is often the
+binding criterion. Sensitive equipment --- microscopes, imaging and lithography
+tools --- carries the strictest limits of all, expressed as one-third-octave
+root-mean-square velocities on the generic vibration criterion curves, from
+\SI{50}{\micro\metre\per\second} for the least sensitive class down to a few
+micrometres per second~\citep{gordon1991generic}.
+
+For a passing machine these quantities and the settlement of
+Section~\ref{sec:movement-field} are screened together, receiver by receiver
+and day by day, in \companionname\ (Appendix~\ref{app:software}). Mitigation
+of vibration from trains in operation --- resilient track supports and
+floating slabs --- is a matter of track design and lies outside this book.
+
 \paragraph{Airblast, fumes and flyrock.}
 Airblast overpressure travels along the tunnel and out of the portal, and it
 is controlled by stemming, the inert plug that confines the charge in the
