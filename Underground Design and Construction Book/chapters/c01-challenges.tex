@@ -16,7 +16,7 @@ criteria a design must satisfy at the same time.
 
 Three forces account for most of the change. Decarbonisation has made embodied
 and operational carbon a design quantity rather than a reporting obligation.
-Digital delivery has made it possible --- and increasingly contractual --- to
+Digital delivery has made it possible, and increasingly contractual, to
 carry ground, structure, process and performance information in one model that
 survives from feasibility to operation. Resilience has shifted the design
 question from whether a structure survives a design event to how much service
@@ -64,14 +64,14 @@ contingency, construction methodology, monitoring requirements and the
 contractual allocation of ground risk. Figures date quickly, and those quoted
 here establish the shape of the problem rather than serving as design input;
 readers should compare them against current market capacity reporting for
-their own jurisdiction. What persists is the mechanism --- when demand outruns
+their own jurisdiction. What persists is the mechanism: when demand outruns
 capacity, ground risk migrates downstream.
 
 \subsection{Shallow infrastructure}
 \label{sec:shallow-setting}
 
-Shallow works --- metro and rail tunnels, road tunnels, station boxes, service
-and utility tunnels --- are defined less by the ground than by what sits above
+Shallow works (metro and rail tunnels, road tunnels, station boxes, service
+and utility tunnels) are defined less by the ground than by what sits above
 it. Cover is typically a small multiple of the excavated diameter, the ground
 is often weathered rock or soil, and the surface is occupied by buildings,
 railways, utilities and people.
@@ -91,7 +91,37 @@ consolidation settlement over an area much wider than the tunnel's own
 settlement trough, and it does so slowly enough that the cause is often
 disputed long after the works are complete. Shallow design is therefore
 dominated by three linked quantities: volume loss, drawdown, and the tolerance
-of what is above.
+of what is above (Figure~\ref{fig:chal-shallow-setting}). Seen in three
+dimensions, the trough is a narrow band along the alignment while the drawn-down
+water table reaches under the buildings on either side
+(Figure~\ref{fig:r3d-shallow-block}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch01/chal-shallow-setting}
+\caption{Schematic section through a shallow urban tunnel, 6.3~m in diameter
+with its axis at 20~m, in the units of Table~\ref{tab:shallow-metro-units}
+(numbered at right). Above: the Gaussian trough for 1\,\% volume loss and
+$K = 0.5$, 12~mm deep, against a schematic consolidation settlement from the
+drawdown shown dashed in the section, shallower but several times wider.}
+\label{fig:chal-shallow-setting}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{shallow_block}{%
+  \rlab[south]{0.45,0.62}{0.42,0.88}{Settlement trough}
+  \rlab[north]{0.62,0.42}{0.62,0.10}{Lowered water table}
+  \rlab[east]{0.355,0.37}{0.22,0.20}{Lining}
+}
+\caption{The setting of Figure~\ref{fig:chal-shallow-setting} as a street block
+with a quarter cut away: Units 4 to 1 in greys darkening with depth, the 6.3~m
+lining (malachite) at 20~m, and the water table drawn down towards the drained
+tunnel (translucent, schematic). The surface carries the trough for $i = 10$~m
+and $S_{\max} = 12.4$~mm (illustrative), exaggerated 300 times and tinted
+carmine by magnitude.}
+\label{fig:r3d-shallow-block}
+\end{figure}
 
 \subsection{Deep infrastructure and mining}
 \label{sec:deep-setting}
@@ -106,11 +136,23 @@ encounter: squeezing in weak rock, spalling and strainburst in strong brittle
 rock, high-pressure groundwater inflow, and elevated rock temperature.
 
 Access is the second defining constraint. A fault zone encountered twelve
-kilometres along a single-entry drive cannot be treated from the surface,
+kilometres along a single-entry drive (Figure~\ref{fig:chal-deep-setting})
+cannot be treated from the surface,
 cannot be bypassed cheaply, and stops the entire works while it is dealt with.
-This raises the value of forward investigation --- probe drilling, look-ahead
-geophysics --- to a level that would be unjustifiable in a shallow urban
+This raises the value of forward investigation (probe drilling, look-ahead
+geophysics) to a level that would be unjustifiable in a shallow urban
 drive.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch01/chal-deep-setting}
+\caption{Schematic long section of a deep pumped-storage waterway at the scale
+of Table~\ref{tab:deep-case}: a pressure shaft drops to a power station some
+850~m below surface, and the tailrace runs to the lower portal. The drive from
+that portal (carmine) meets a fault zone 12~km in, with no other access to the
+face. Topography illustrative; vertical scale exaggerated.}
+\label{fig:chal-deep-setting}
+\end{figure}
 
 Deep mining is included in this book for a specific reason. The mining
 industry meets extreme stress, energy release and large-scale subsidence
@@ -155,12 +197,24 @@ mark the soil-like unit to which the Hoek--Brown criterion does not apply.}
 \end{table}
 
 \noindent\textbf{A caution on reading the table.}\enspace Unit~2 has a
-higher intact compressive strength than Unit~1 despite being more weathered. That
+higher intact compressive strength than Unit~1 despite being more weathered
+(Figure~\ref{fig:chal-metro-units}). That
 is not an error. Weathering grade and intact strength are inversely correlated
 only within a single lithology; where lithology changes within a formation, a
 more weathered but intrinsically stronger rock can out-test a fresher but
 weaker one. Design parameters must be assigned by unit, not by weathering
 grade alone.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch01/chal-metro-units}
+\caption{The units of Table~\ref{tab:shallow-metro-units} with depth: intact
+strength and modulus (solid), rock mass strength $\sigma_{ci}s^a$ and the rock
+mass modulus of \citet{hoekdiederichs2006} for $D = 0$ (dashed), and GSI.
+Unit~2 out-tests the fresher Unit~1 as intact rock and as a rock mass
+(2.7 against 1.5~MPa), though not in stiffness. Unit~4 has intact values only.}
+\label{fig:chal-metro-units}
+\end{figure}
 
 The governing challenges follow from the setting rather than from the rock:
 geological structure in the form of faults, folds and dykes; mixed-face
@@ -207,7 +261,7 @@ consequence of an unexpected condition is measured in months rather than days.
 Schemes of this type are instructive precisely because their difficulties are
 geological rather than structural. Cost and programme outcomes on deep
 projects correlate more strongly with the quality of early ground
-characterisation than with any subsequent design decision --- which is an
+characterisation than with any subsequent design decision, which is an
 argument for investigation expenditure, not for design conservatism.
 
 \subsection{What the comparison establishes}
@@ -282,8 +336,8 @@ maturity that separate a static record from a working twin.
 \subsection{Resilience and service continuity}
 \label{sec:resilience-driver}
 
-Owners increasingly specify performance as functionality over time --- how
-much service is lost, and for how long --- rather than as component capacity
+Owners increasingly specify performance as functionality over time (how
+much service is lost, and for how long) rather than as component capacity
 alone. An asset that survives an earthquake but is closed for eight months has
 met a structural criterion and failed an operational one.
 
@@ -304,8 +358,18 @@ it in Chapter~\ref{ch:seismic}.
 A generous investigation programme samples a vanishing fraction of the ground
 that will be excavated. A borehole every hundred metres along a ten-metre
 diameter tunnel tests of the order of one part in $10^{5}$ of the volume at
-risk. No digital method removes this limitation; nothing in this book can tell
+risk (Figure~\ref{fig:chal-sampling-fraction}). No digital method removes this limitation; nothing in this book can tell
 with certainty what lies between the boreholes.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch01/chal-sampling-fraction}
+\caption{Fraction of the tunnel volume recovered as core, $f = d^2/(Ds)$, for
+vertical holes of core diameter $d = 100$~mm at spacing $s$ through a tunnel
+of diameter $D$. The circle is the case in the text: a 10~m tunnel drilled
+every 100~m yields one part in $10^5$.}
+\label{fig:chal-sampling-fraction}
+\end{figure}
 
 The useful ambition is therefore not to eliminate uncertainty but to
 characterise it, direct investigation at the uncertainty that changes a
@@ -337,8 +401,8 @@ origin of most underground disputes, and the mechanism is well documented: a
 contractor who cannot price an unquantified risk either declines to bid or
 prices it as a contingency the owner pays whether or not the risk occurs.
 
-Baselining --- stating the ground conditions the contract assumes, in terms
-that can be tested against what is encountered --- exists to make the
+Baselining (stating the ground conditions the contract assumes, in terms
+that can be tested against what is encountered) exists to make the
 allocation explicit. Chapter~\ref{ch:delivery} treats it in full.
 
 \section{The lifecycle argument}
@@ -350,7 +414,7 @@ remain peripheral, because each then competes with the mechanics for attention
 while appearing to change no calculation. They connect only when they are seen as
 decision criteria inside one lifecycle model.
 
-That chain runs as follows. Infrastructure need defines the service function.
+That chain runs as follows (Figure~\ref{fig:chal-lifecycle-loop}). Infrastructure need defines the service function.
 Ground and water conditions define the geo-risk. Both are represented in a
 geo-integrated model, from which the design is derived and against which
 carbon, safety, deformation and constructability are tested simultaneously.
@@ -358,14 +422,34 @@ Construction generates observations that update the model. Operation generates
 condition and performance data that update it again. Each cycle improves the
 basis for the next decision, and the model is what survives between cycles.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch01/chal-lifecycle-loop}
+\caption{The lifecycle chain as one loop. Need and geo-risk are represented in
+the geo-integrated model, from which the design is derived and tested against
+carbon, safety, deformation and constructability together. Observations from
+construction and condition data from operation return to the model.}
+\label{fig:chal-lifecycle-loop}
+\end{figure}
+
 \subsection{Where the leverage is}
 \label{sec:leverage}
 
-Decisions taken during feasibility --- alignment, depth, diameter,
-construction method --- determine most of the eventual carbon, cost and risk.
+Decisions taken during feasibility (alignment, depth, diameter,
+construction method) determine most of the eventual carbon, cost and risk.
 They are also taken when the ground is least well known, on the smallest
 budget, by the fewest people. Everything after reference design refines rather
-than transforms.
+than transforms (Figure~\ref{fig:chal-leverage}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch01/chal-leverage}
+\caption{Schematic of the leverage asymmetry. The influence of a decision on
+eventual carbon, cost and risk is greatest at feasibility (Feas.) and
+reference design (Ref.), when knowledge of the ground is least and change is
+cheapest. The curves are qualitative.}
+\label{fig:chal-leverage}
+\end{figure}
 
 This asymmetry is the practical argument for the emphasis of this book. It is
 why characterisation occupies an entire part, why three-dimensional ground

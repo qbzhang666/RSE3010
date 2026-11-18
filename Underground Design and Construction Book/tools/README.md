@@ -148,3 +148,18 @@ If the venv is gone, recreate it from the X-Twin repository, which owns these de
 py -3.13 -m venv $env:USERPROFILE\.venvs\srl-piml-313
 & "$env:USERPROFILE\.venvs\srl-piml-313\Scripts\python.exe" -m pip install -r "..\..\Digital-Twin\requirements.txt"
 ```
+
+# The other figures
+
+| What | Script | Output |
+| --- | --- | --- |
+| 2D figures, one script per group of chapters | `tools/figs/f1.py` ... `f9.py` (`python tools/figs/f4.py [filter]`) | `figures/chNN/<stem>.pdf/.png/.csv` |
+| Classic figures and the 3D scene data | `tools/classic_figures.py` | `figures/chNN/...`, `figures/render/scenes.json` |
+| 3D renders, one module per scene | `tools/render_classic_3d.py` with `tools/render3d/scene_*.py` | `figures/render/<scene>.png` |
+| Figure list | `python tools/figure_inventory.py` | `FIGURES.md` |
+
+The 3D previews in `figures/render/` are local CPU renders (1800x1200, 64 samples). The final stills (3600x2400, 1024 samples) and the turntables are rendered on the M3 H100s with `tools/m3_render/run_classic_renders.slurm` and `run_turntables.slurm`; the scene lists are `scenes.csv` and `turntables.csv` in the same folder. List the scenes with:
+
+```
+blender -b --factory-startup -P tools/render_classic_3d.py -- --list
+```

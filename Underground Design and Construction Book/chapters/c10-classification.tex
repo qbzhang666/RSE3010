@@ -105,7 +105,15 @@ Neither of these is the quantity from which GSI is estimated; that is a third
 form of the rating, defined in Section~\ref{sec:geological-strength-index}.
 Adjacent bands in the rating tables that follow share their limits; a value
 lying exactly on a shared limit is assigned to the band of which it is the
-lower limit, so that an RQD of 90\,\% rates 20.
+lower limit, so that an RQD of 90\,\% rates 20
+(Figure~\ref{fig:rmr-ratings}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch10/rmr-ratings}
+\caption{The four numerical RMR ratings as step functions of Tables~\ref{tab:rmr_strength} to~\ref{tab:rmr_groundwater}, with the four rocks of Table~\ref{tab:classification-input-data} where the input is known. $R_5 = 15$ applies only to $u/\sigma_1 = 0$; the limestone's 0.16 rates 7.}
+\label{fig:rmr-ratings}
+\end{figure}
 
 \paragraph{R1: strength of intact rock material}
 The first rating is read from the uniaxial compressive strength or, where that
@@ -194,7 +202,7 @@ The third rating is read from the spacing of the discontinuities
 \end{table}
 
 Where spacing has not been measured directly it may be estimated from RQD
-through the linear approximation of Priest and Hudson,
+through the linear approximation of \citet{priest1976discontinuity},
 \[
 RQD = 110.4 - 3.68\lambda
 \qquad
@@ -209,9 +217,16 @@ s = \frac{1}{11.52}=0.087~\text{m},
 \]
 which falls in the 0.06--0.2\,m band of Table~\ref{tab:rmr_spacing}. The
 approximation holds only for \(6 < \lambda < 16\), that is for RQD between
-about 51\,\% and 88\,\%. Outside that range, and in very poor rock in
-particular, it gives no more than a rough guide, and a spacing obtained from
-it carries that uncertainty into the rating.
+about 51\,\% and 88\,\% (Figure~\ref{fig:rqd-frequency}). Outside that range,
+and in very poor rock in particular, it gives no more than a rough guide, and
+a spacing obtained from it carries that uncertainty into the rating.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch10/rqd-frequency}
+\caption{RQD against discontinuity frequency: the exponential relation of Priest and Hudson for randomly spaced joints, and its linear approximation, valid over the shaded range $6 < \lambda < 16$. The point is the example RQD of 68\,\%, $\lambda = 11.5$~m$^{-1}$.}
+\label{fig:rqd-frequency}
+\end{figure}
 
 \paragraph{R4: condition of discontinuities}
 The fourth rating describes the surfaces themselves
@@ -301,12 +316,20 @@ Q =
 \times
 \frac{J_w}{SRF} ,
 \]
-each of which has a physical reading. The first, $RQD/J_n$, is a measure of
+each of which has a physical reading and its own range
+(Figure~\ref{fig:q-quotient-ranges}). The first, $RQD/J_n$, is a measure of
 block size. The second, $J_r/J_a$, is a measure of the shear strength between
 blocks. The third, $J_w/SRF$, describes the active stress, in which water
 pressure and the stress state both act. RQD enters as a percentage: an RQD of
 70\,\% is entered as 70, not 0.70, and the decimal form returns a $Q$ value
 one hundred times too small.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch10/q-quotient-ranges}
+\caption{Range of each quotient of the $Q$-system between the extreme entries of Tables~\ref{tab:jn} to~\ref{tab:srf}, with RQD from 10 to 100; the number is the span in orders of magnitude. $J_w/SRF$ spans the widest range, which is why the choice of SRF category dominates. Grey lines mark the class limits of Table~\ref{tab:q_quality}.}
+\label{fig:q-quotient-ranges}
+\end{figure}
 
 \paragraph{Joint set number \(J_n\)}
 The joint set number counts the sets present, with an allowance for random
@@ -563,7 +586,8 @@ again when pore pressure is introduced explicitly in the analysis for which
 the GSI is wanted.
 
 \paragraph{Other empirical correlations}
-Two further correlations estimate GSI from quantities already assessed,
+Two further correlations estimate GSI from quantities already assessed
+(Figure~\ref{fig:gsi-correlations}),
 \[
 GSI = 1.5J_{\text{cond89}} + \frac{RQD}{2}
 \]
@@ -579,6 +603,13 @@ where \(J_{\text{cond89}}\) is the RMR discontinuity condition rating \(R_4\).
 It is not the joint roughness number \(J_r\) of the $Q$-system, which appears
 in the second expression, and the similarity of the two symbols is a known
 source of error.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch10/gsi-correlations}
+\caption{GSI from the two correlations, for RQD of 25, 50, 75 and 100\,\%: from the RMR condition rating $J_{\mathrm{cond89}}$ (left) and from the $Q$-system quotient $J_r/J_a$ (right). The square is the sandstone of Table~\ref{tab:classification-input-data}, $J_{\mathrm{cond89}} = 20$ and RQD 68\,\%, giving 64 against 63 from $RMR'_{89}$.}
+\label{fig:gsi-correlations}
+\end{figure}
 
 \paragraph{Selecting a GSI value}
 Four estimates are therefore available: the chart value, the value from
@@ -658,7 +689,8 @@ translated into the quantities the two systems use. ``Dry'' is the completely
 dry condition of Table~\ref{tab:rmr_groundwater} (\(R_5 = 15\)) and category~A
 of Table~\ref{tab:jw} (\(J_w = 1.0\)). ``Medium inflow'' is category~B
 (\(J_w = 0.66\)) but has no counterpart in the RMR table; for the sandstone it
-is read as the wet condition, 10--25~L/min per 10~m, giving \(R_5 = 7\). For
+is read as the wet condition, 10--25~L/min per 10~m, giving \(R_5 = 7\) and a
+basic RMR of 60 (Figure~\ref{fig:rmr-sandstone}). For
 the mudstone the observed dripping governs (\(R_5 = 4\)), with \(J_w = 0.66\)
 for the medium inflow. The limestone entry needs a conversion. At 80~m depth
 with the water table 10~m below surface the head is 70~m, so
@@ -672,6 +704,13 @@ difference changes the rating. For the $Q$-system, if the excavation does not
 drain the joints, 0.69~MPa lies in the 0.25--1.0~MPa band of categories~C
 and~D (\(J_w = 0.5\) or 0.33), the choice between them
 resting on the inflow and outwash observed.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch10/rmr-sandstone}
+\caption{The five RMR ratings of the sandstone: $R_1 = 12$ ($\sigma_{ci} = 110$~MPa), $R_2 = 13$ (RQD 68\,\%), $R_3 = 8$ ($s = 0.087$~m), $R_4 = 20$ and $R_5 = 7$. Replacing $R_5$ by the dry value of 15 gives $RMR'_{89} = 68$ and GSI 63; the basic rating would give 55.}
+\label{fig:rmr-sandstone}
+\end{figure}
 
 The point load indices of the mudstone and the limestone fall one rating band
 above their uniaxial compressive strengths. That is the disagreement

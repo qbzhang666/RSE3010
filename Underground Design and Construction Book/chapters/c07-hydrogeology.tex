@@ -14,9 +14,9 @@ face, particularly in granular ground; and it loads the completed lining, in
 some cases for the whole service life. These require different analyses and
 different control measures, and a project that treats groundwater as a single
 topic tends to address whichever aspect is most familiar. This chapter
-separates them --- the third is taken up with face support in
+separates them (the third is taken up with face support in
 Section~\ref{sec:face-support}, where the water pressure at the face enters the
-required support pressure --- and then examines the decision that follows from them all:
+required support pressure) and then examines the decision that follows from them all:
 whether the finished structure drains or resists the full head. That decision
 is taken early, on hydrogeological grounds, and it constrains everything
 downstream.
@@ -53,7 +53,7 @@ explicitly before any inflow calculation is attempted.
 
 Permeability is measured over wildly different support volumes. A laboratory
 permeameter tests a specimen deliberately selected to be intact, and therefore
-measures matrix permeability --- frequently irrelevant in fractured rock. A
+measures matrix permeability, frequently irrelevant in fractured rock. A
 packer or Lugeon test in a borehole measures a few metres of rock around the
 hole, including whatever fractures it happens to intersect. The Lugeon unit
 converts to a hydraulic conductivity through the factor given in
@@ -75,8 +75,8 @@ ground drains during the time available. Low-permeability clays respond
 essentially undrained during construction and drain over subsequent years,
 so short-term face stability and long-term lining load are different
 calculations on the same section. Permeable ground drains as fast as it is
-loaded and only the drained case exists. The intermediate case --- partially
-drained, with the degree of drainage depending on advance rate --- is the most
+loaded and only the drained case exists. The intermediate case (partially
+drained, with the degree of drainage depending on advance rate) is the most
 awkward and the most common in weathered rock.
 
 \subsection{Inflow prediction}
@@ -94,17 +94,33 @@ q = \frac{2\pi k_w H}{\ln\left(2H/r_0\right)} ,
 where $q$ is the inflow per unit length of tunnel and $k_w$ the hydraulic
 conductivity of the ground.
 They are simple, transparent and dimensionally correct, and they are only as
-good as the permeability supplied to them. They also give the eventual
+good as the permeability supplied to them (Figure~\ref{fig:inflow-goodman}).
+They also give the eventual
 steady rate. The inflow on first intersecting a water-bearing feature is
 higher while storage drains, and pumping capacity has to be sized against
 that transient peak as well.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch07/inflow-goodman}
+\caption{Steady inflow per metre of tunnel from $q = 2\pi k_w H/\ln(2H/r_0)$ \citep{goodman1965inflow}; left $r_0 = 3$~m, right $k_w = 10^{-7}$~m/s, with $H$ the depth of the axis below the water table. Inflow follows $k_w$ over orders of magnitude but changes by about a third for a threefold change in radius. Top axis: $1~\mathrm{Lu} \approx 1.3\times10^{-7}$~m/s.}
+\label{fig:inflow-goodman}
+\end{figure}
 
 Two systematic corrections are needed in fractured rock. The first is for
 scale, as above. The second follows from the discrete nature of the flow: a
 solution assuming uniform permeability distributes the predicted inflow evenly
 along the drive, whereas the real inflow concentrates at fractures and faults.
 The total may be approximately right while the peak, which determines pumping
-capacity and whether the face can be worked, is badly wrong.
+capacity and whether the face can be worked, is badly wrong
+(Figure~\ref{fig:inflow-discrete}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch07/inflow-discrete}
+\caption{Inflow along a 500~m drive: equivalent continuum against 14 randomly placed features carrying 90 per cent of the same total (synthetic; $k_w = 10^{-7}$~m/s, $H = 50$~m, $r_0 = 3$~m). The totals agree at the end of the drive, but the largest feature delivers 80~L/min within a metre, some 150 times the uniform rate.}
+\label{fig:inflow-discrete}
+\end{figure}
 
 Realistic expectations matter here~\citep{heuer1995estimating}. Inflow
 predictions that fall within a factor of two or three of the outturn are
@@ -112,8 +128,8 @@ good; order-of-magnitude errors are
 common where the flow regime was misdiagnosed. Design should therefore be
 based on a range with a stated basis, and pumping and treatment capacity sized
 against the upper bound rather than the central estimate. Probabilistic
-treatment along the alignment --- combining the probability of intersecting a
-water-bearing feature with the inflow expected if one is met --- is more
+treatment along the alignment (combining the probability of intersecting a
+water-bearing feature with the inflow expected if one is met) is more
 informative than a single deterministic value.
 
 \section{Design consequences of groundwater}
@@ -122,7 +138,8 @@ informative than a single deterministic value.
 \subsection{Drained and tanked linings}
 \label{sec:drained-vs-tanked}
 
-This is the governing groundwater decision. A drained lining admits water to a
+This is the governing groundwater decision
+(Figure~\ref{fig:drained-tanked-lining}). A drained lining admits water to a
 drainage layer and conveys it to a sump, so the lining carries little or no
 water pressure and can be correspondingly thinner, an embodied-carbon saving
 that has to be set against the operational carbon of pumping over the design
@@ -132,8 +149,15 @@ drainage system that will scale with calcite and require access for flushing
 over the whole design life. A tanked lining resists the full hydrostatic head,
 which means a thicker and more heavily reinforced structure, an uplift check
 for shallow sections, and a watertightness requirement that the construction
-must actually achieve --- but the groundwater regime is left largely
+must actually achieve, but the groundwater regime is left largely
 undisturbed and the operator has nothing to pump.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch07/drained-tanked-lining}
+\caption{Drained and tanked linings (schematic). Left: a drainage layer (dashed ring) and sidewall drains relieve the water pressure on the lining and draw the water table down over the tunnel (dotted: original level). Right: a membrane keeps the water out, and the lining carries the full hydrostatic head, rising from crown to invert.}
+\label{fig:drained-tanked-lining}
+\end{figure}
 
 Neither is universally correct, and the choice cannot be made on structural
 grounds alone. It is decided by the environmental acceptability of drawdown,
@@ -155,14 +179,21 @@ recovered water table with the structure empty.
 
 Drawdown causes settlement by increasing effective stress in compressible
 strata, and it does so over an area governed by the aquifer's transmissivity
---- its permeability integrated over the saturated thickness --- together with
+(its permeability integrated over the saturated thickness) together with
 its storativity, the time elapsed and the position of any recharge boundary,
 rather than by the tunnel's dimensions. The resulting settlement trough may be
 an order of magnitude wider than the volume-loss trough of
-Chapter~\ref{ch:settlement-damage}, is slower to develop, and is frequently
+Chapter~\ref{ch:settlement-damage} (Figure~\ref{fig:drawdown-trough}), is slower to develop, and is frequently
 attributed to the tunnel long after construction has finished. Where
 compressible layers overlie a dewatered aquifer, this mechanism can dominate
 the total settlement.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch07/drawdown-trough}
+\caption{Normalised settlement troughs (schematic parameters): volume loss over a 20~m deep tunnel ($i = 0.5z_0$) against settlement taken proportional to drawdown from a drained tunnel, $\mathrm{erfc}\bigl(x/2\sqrt{Dt}\bigr)$ with $D = T/S = 2\times10^{-3}$~m\textsuperscript{2}/s. The drawdown trough is six times wider within a month and keeps widening for years.}
+\label{fig:drawdown-trough}
+\end{figure}
 
 The environmental consequences are what usually bind. Groundwater-dependent
 ecosystems, licensed bores, baseflow to watercourses and saline intrusion are

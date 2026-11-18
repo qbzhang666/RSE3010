@@ -1,0 +1,14 @@
+start_mm,length_mm,kind
+0,250,sound
+250,60,short
+310,40,short
+350,180,sound
+530,130,soft
+660,70,short
+730,30,short
+760,110,sound
+870,90,short
+960,120,loss
+1080,300,sound
+1380,45,short
+1425,75,short

@@ -21,7 +21,7 @@ and the rate at which that service is restored after disruption. Both are
 assessed against the functionality of the asset rather than the capacity of
 its components, and separating them encourages the mistaken view that
 sustainability concerns materials while resilience concerns hazards. They are
-better understood as two views of the same question --- what this asset costs
+better understood as two views of the same question: what this asset costs
 and delivers across its life.
 
 \section{Carbon sources and assessment}
@@ -30,16 +30,22 @@ and delivers across its life.
 \subsection{Where the carbon is}
 \label{sec:embodied-carbon}
 
-For a bored tunnel with a segmental lining, the concrete dominates. Cement
-clinker is the single largest contributor, followed by reinforcement steel,
-then annulus grout and secondary concrete, then the diesel and electricity
-consumed by excavation, ventilation, dewatering and spoil haulage. For a
+For a bored tunnel with a segmental lining, the concrete dominates
+(Figure~\ref{fig:sus-carbon-elements}). Cement
+clinker in the lining concrete is the single largest contributor. The order
+of the remaining terms depends on the drive: reinforcement steel, annulus
+grout and secondary concrete are set by the design, while the diesel and
+electricity consumed by excavation, ventilation, dewatering and spoil haulage
+depend on the length of the drive, the electricity grid and the disposal
+site. In the case of Figure~\ref{fig:sus-carbon-elements}, machine
+electricity from the grid exceeds the reinforcement, and spoil
+haulage exceeds the grout. For a
 sprayed concrete lined cavern the ranking shifts: shotcrete quantities are
 harder to control, rebound losses are real material, and the reinforcement
 fraction is usually lower.
 
-Two consequences follow. The first is that lining geometry --- diameter and
-thickness --- is a first-order carbon variable, because it multiplies the
+Two consequences follow. The first is that lining geometry (diameter and
+thickness) is a first-order carbon variable, because it multiplies the
 largest term directly. The second is that construction energy, often assumed
 to be a minor contribution, becomes significant on long deep drives where
 excavation, ventilation and cooling run continuously for years.
@@ -48,6 +54,17 @@ Spoil transport is the term most often underestimated. It scales with haulage
 distance and vehicle type, both of which are set by disposal siting decisions
 taken outside the engineering team, and it can rival the reinforcement
 contribution on a project with no local disposal option.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch03/sus-carbon-elements}
+\caption{Carbon per metre of a bored rail tunnel by element, modules A1 to A5:
+6.3~m internal diameter, 300~mm C50 segmental lining, machine on grid
+electricity, 60~km spoil round trip; data from the baseline assessment of
+\citet{chen2024carbonbaseline}. Lining concrete is the largest term; on this
+drive the machine's electricity exceeds the reinforcement.}
+\label{fig:sus-carbon-elements}
+\end{figure}
 
 \subsection{Life-cycle module boundaries}
 \label{sec:carbon-modules}
@@ -60,10 +77,21 @@ system boundary.
 
 Most published tunnel carbon figures are not comparable, and the reason is
 almost always boundary rather than method. A figure covering A1--A3 only will
-be materially lower than one covering A1--A5 for the same design, by a margin
+be materially lower than one covering A1--A5 for the same design
+(Figure~\ref{fig:sus-carbon-boundary}), by a margin
 that widens with haulage distance and drive length, and a
 whole-life figure including B and C may be higher again. Quoting a value
 without its modules is quoting a number without units.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch03/sus-carbon-boundary}
+\caption{The tunnel of Figure~\ref{fig:sus-carbon-elements} reported under
+three boundaries: 7.0~tCO$_2$e/m for A1--A3, 7.1 with transport and 10.6 with
+the construction process. The A1--A3 figure is a third lower than the A1--A5
+figure for an identical design.}
+\label{fig:sus-carbon-boundary}
+\end{figure}
 
 The practical rule is that a carbon assessment must state four things
 together: the quantities and their source; the carbon factors and their
@@ -75,8 +103,8 @@ defended.
 \label{sec:model-based-carbon}
 
 Quantities should come from the digital asset model of
-Chapter~\ref{ch:digital-twin} --- lining concrete, reinforcement, grout,
-backfill, fit-out, spoil --- rather than from a spreadsheet rebuilt at each
+Chapter~\ref{ch:digital-twin} (lining concrete, reinforcement, grout,
+backfill, fit-out, spoil) rather than from a spreadsheet rebuilt at each
 design stage. The reason is not efficiency but consistency: when the quantity
 model and the design model are the same object, a design change updates the
 carbon estimate automatically, and the estimate stays current long enough to
@@ -118,8 +146,8 @@ energy carrier:
 GWP_{\mathrm{A5}} \;=\; \sum_j E_j\, EF_j ,
 \qquad E_{\mathrm{TBM}} = \sum_j E_j ,
 \]
-where $E_j$ is the energy drawn as carrier $j$ --- grid electricity and
-diesel in most drives --- in kilowatt-hours, diesel being converted from the
+where $E_j$ is the energy drawn as carrier $j$ (grid electricity and
+diesel in most drives) in kilowatt-hours, diesel being converted from the
 metered volume at its net calorific value, $EF_j$ is the emission factor of
 that carrier, including its upstream supply, in kilograms of carbon dioxide
 equivalent per kilowatt-hour, and $E_{\mathrm{TBM}}$ is the total energy
@@ -129,9 +157,9 @@ drawn by the excavation in kilowatt-hours.
 Neither expression predicts anything. Their value is that they force every
 reported figure to be traceable to a quantity, a boundary, a factor and a
 stated modelling assumption. The excavation energy $E_{\mathrm{TBM}}$ in
-particular should be estimated from ground--machine interaction --- torque,
+particular should be estimated from ground--machine interaction (torque,
 thrust, penetration rate, rotation speed, diameter, depth, ground class and
-in-situ stress --- using the performance methods of
+in-situ stress) using the performance methods of
 Chapter~\ref{ch:tbm}, not assigned as a generic percentage of project
 emissions.
 
@@ -148,28 +176,51 @@ approximate order of leverage:
  \item support distance from the face, and the ground--support interaction it
  mobilises;
  \item excavation method and the disturbance it causes;
- \item machine performance --- thrust, torque, penetration rate --- and the
+ \item machine performance (thrust, torque, penetration rate) and the
  construction energy that follows;
  \item spoil removal distance and transport mode;
  \item restoration strategy and its timing during operation.
 \end{enumerate}
 
 The ordering carries the chapter's main design message. Early geometric
-decisions and construction control dominate the achievable reduction; material
+decisions and construction control dominate the achievable reduction
+(Figure~\ref{fig:sus-lining-carbon}); material
 substitution is a late lever with a bounded ceiling. A project that defers
 carbon to the specification stage has already spent most of its opportunity.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch03/sus-lining-carbon}
+\caption{Product-stage carbon of a segmental lining per metre for three ratios
+of internal diameter to thickness: ring area times 811~kgCO$_2$e/m$^3$ (C50 at
+598, plus 135~kg/m$^3$ of reinforcement at 1.58~kgCO$_2$e/kg). Carbon grows
+with the square of diameter; $D_i/t = 18$ costs 40\,\% more than 25. Circle:
+the tunnel of Figure~\ref{fig:sus-carbon-elements}.}
+\label{fig:sus-lining-carbon}
+\end{figure}
 
 The third item deserves particular attention because it is the point where
 carbon meets rock mechanics. Permitting more ground convergence before support
 is mobilised reduces the support pressure the lining must carry, and therefore
 its thickness and reinforcement. That is a carbon reduction obtained through
 the ground reaction curve of Chapter~\ref{ch:ccm} rather than through a
-material substitution --- available only within serviceability, construction
+material substitution. It is available only within serviceability, construction
 and risk limits, but real. The reduction holds only on the falling branch of
-the ground reaction curve. In squeezing or strain-softening ground, loosening
+the ground reaction curve (Figure~\ref{fig:sus-support-timing}). In squeezing or strain-softening ground, loosening
 beyond a critical convergence raises the pressure required, so that delaying
 support increases the demand on it, and the lever has to be checked against
 the curve for the ground in question.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch03/sus-support-timing}
+\caption{Schematic of the support-timing lever in strain-softening ground.
+The pressure required to hold the opening falls as more convergence is allowed
+before support, reaches a minimum at a critical convergence, and rises beyond
+it as the ground loosens. Delay saves lining, and carbon, only on the falling
+branch.}
+\label{fig:sus-support-timing}
+\end{figure}
 
 \subsection{Optimisation and trade-offs}
 \label{sec:carbon-optimisation}
@@ -208,8 +259,8 @@ cost and an A5 carbon term; treated as a resource it can substitute for
 quarried aggregate, fill and construction material. What limits reuse is
 rarely the rock: it is contamination, conditioning residues from closed-face
 excavation, and the regulatory classification of the material. Planning reuse
-early --- while the alignment, the excavation method and the disposal
-strategy are still open --- is what makes it achievable.
+early (while the alignment, the excavation method and the disposal
+strategy are still open) is what makes it achievable.
 
 \subsection{Operational energy and thermal use}
 \label{sec:operational-thermal}
@@ -271,8 +322,8 @@ an event, the residual functionality, the delay before restoration begins, the
 recovery trajectory, and the area under the curve over the recovery window.
 
 Defining the service function is the first and most neglected step. It must be
-expressed in terms the asset actually delivers --- traffic capacity, flow
-rate, safe occupancy, generating availability --- with a stated threshold
+expressed in terms the asset actually delivers (traffic capacity, flow
+rate, safe occupancy, generating availability), with a stated threshold
 below which the asset counts as out of service. Without that definition the
 remaining metrics have no scale.
 
@@ -289,9 +340,20 @@ comparing intervention options. The index is the ratio of the area under the
 functionality curve over the recovery window to the area that full service
 would have delivered over the same window. It runs from 0 to 1, a higher
 value being better, and it has to be quoted with its recovery window, on
-which it depends.
+which it depends (Figure~\ref{fig:sus-functionality}).
 
-The hazards themselves are treated in their own chapters --- seismic loading
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch03/sus-functionality}
+\caption{Two illustrative restorations after an event that leaves 35\,\% of
+service, and the resilience index $R$ for each against the recovery window
+$T$. A fast partial repair to 85\,\% scores higher over short windows; a
+slower full restoration overtakes it beyond about 370~days. Shaded: the
+service lost under the full restoration.}
+\label{fig:sus-functionality}
+\end{figure}
+
+The hazards themselves are treated in their own chapters: seismic loading
 in Chapter~\ref{ch:seismic}, squeezing in Chapter~\ref{ch:high-stress}, water inrush and gas in
 Chapter~\ref{ch:ground-improvement}, deterioration in
 Chapter~\ref{ch:assets}. What this framework adds is a common metric,
@@ -301,7 +363,7 @@ the same axis instead of being designed against independently.
 Deterioration and discrete events also interact. A deteriorated lining is more
 vulnerable to an earthquake, and an earthquake accelerates subsequent
 deterioration. Treating the two as independent understates lifetime risk, and
-the interaction is strongest exactly where the consequence is highest --- in
+the interaction is strongest exactly where the consequence is highest, in
 old assets carrying critical service.
 
 \subsection{Restoration and recoverability}
@@ -321,8 +383,8 @@ asset can be brought back. These are decisions taken during design, usually
 without an explicit resilience calculation to justify them, and they are among
 the clearest cases where a lifecycle criterion changes a detail.
 
-Uncertainty runs through the whole assessment --- in hazard intensity, damage
-state, detection delay and recovery rate --- and reporting a single resilience
+Uncertainty runs through the whole assessment (in hazard intensity, damage
+state, detection delay and recovery rate), and reporting a single resilience
 index without those bands overstates what the analysis establishes. The
 methods for handling it are those of
 Chapter~\ref{ch:integrated-design}. Finally, condition data and post-repair

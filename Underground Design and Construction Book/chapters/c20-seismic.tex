@@ -37,14 +37,14 @@ shallow, at portals, at junctions between structures of differing stiffness, in
 liquefiable ground, and above all where a fault ruptures through the
 alignment. Older tunnels with unreinforced masonry or brittle linings are more
 vulnerable than modern reinforced ones, and tunnels already deteriorated by
-water ingress and corrosion are more vulnerable again --- the interaction
+water ingress and corrosion are more vulnerable again: the interaction
 between seismic vulnerability and asset condition that
 Chapter~\ref{ch:sustainability} identifies as a resilience issue.
 
 The essential distinction is between ground shaking and ground failure.
 Shaking imposes transient deformation as waves pass; the structure deforms,
-develops strain, and returns. Ground failure --- fault rupture, liquefaction,
-landsliding --- imposes permanent displacement that the structure must
+develops strain, and returns. Ground failure (fault rupture, liquefaction,
+landsliding) imposes permanent displacement that the structure must
 accommodate or fail. These require entirely different treatments, and
 combining them into a single seismic check confuses two problems that have to
 be checked separately. They are coupled in one direction only: ground failure
@@ -68,12 +68,19 @@ design motion grows steeply with return period the result is unusually
 sensitive to the return period selected.
 
 The demand on the structure is deformation, not force. Three modes are
-distinguished. \emph{Axial} extension and compression occur as a wave travels
+distinguished (Figure~\ref{fig:seismic-modes}). \emph{Axial} extension and compression occur as a wave travels
 along the tunnel axis, straining the lining longitudinally.
 \emph{Longitudinal bending} occurs as the wave curves the alignment.
 \emph{Ovaling} of a circular section, or \emph{racking} of a rectangular one,
 occurs as a shear wave propagates perpendicular to the axis, distorting the
 cross-section.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch20/seismic-modes}
+\caption{Deformation imposed on a tunnel by seismic waves (schematic, exaggerated): axial extension and compression in plan, curvature of the alignment, ovaling of a circular section and racking of a rectangular one under shear. Dashed outlines are undeformed; arrows give the direction of wave travel or of shear.}
+\label{fig:seismic-modes}
+\end{figure}
 
 Free-field deformation methods take the strain that would occur in the ground
 without the tunnel and impose it on the structure. The wave-passage approach of
@@ -92,7 +99,8 @@ is unknown, so the design case takes that worst orientation, which is
 conservative and costs little in analysis, since the envelope follows from a
 single closed-form evaluation over the range of incidence angles: a particle
 velocity of 0.3~m/s in ground with
-$C_s = 1000$~m/s gives a strain of at most $1.5 \times 10^{-4}$. Imposing the
+$C_s = 1000$~m/s gives a strain of at most $1.5 \times 10^{-4}$
+(Figure~\ref{fig:free-field-strain}). Imposing the
 free-field strain is appropriate where the lining is flexible relative to the
 ground and the ground is uniform over a wavelength. At stiffness transitions,
 portals and junctions the assumption errs on the unconservative side, because
@@ -100,18 +108,34 @@ the deformation concentrates at the interface rather than spreading with the
 free field, and it has to be replaced by an interaction analysis; these are
 the critical elements of Section~\ref{sec:seismic-structures-criteria}.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch20/free-field-strain}
+\caption{Free-field axial strain from a shear wave after \citet{newmark1968problems}: against the angle of incidence for $v_{\max} = 0.3$~m/s, and at the worst angle, $v_{\max}/(2C_s)$, against particle velocity. The dot is the example of the text. The free-field shear strain that drives ovaling, $v_{\max}/C_s$, is twice this peak.}
+\label{fig:free-field-strain}
+\end{figure}
+
 \subsection{Simplified analysis methods}
 \label{sec:simplified-seismic}
 
 Ovaling and racking are handled by closed-form
 solutions~\citep{wang1993seismic,penzien2000seismically} whose central
-insight is a ratio. The \emph{flexibility ratio} compares the shear stiffness
+insight is a ratio (Figure~\ref{fig:ovaling-flexibility}). The \emph{flexibility ratio} compares the shear stiffness
 of the ground to the bending stiffness of the lining, and it determines
 whether the lining follows the ground or resists it. At high flexibility ratio
-the lining conforms and its distortion equals the free-field distortion, with
-small induced forces. At low flexibility ratio the lining resists, distorts
-less, and attracts large moments. The \emph{compressibility ratio} plays the
+the lining conforms: its distortion exceeds the free-field distortion and
+approaches that of an unlined opening, $4(1-\nu)$ times the free field, while
+the induced forces are small. The lining distorts as the free field only near
+a flexibility ratio of about 7 to 9. At low flexibility ratio the lining
+resists, distorts less, and attracts large moments. The \emph{compressibility ratio} plays the
 same role for the axial mode (Section~\ref{sec:charts-and-lining-solutions}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch20/ovaling-flexibility}
+\caption{Full-slip ovaling of a circular lining after \citet{wang1993seismic}, against the flexibility ratio $F$ of Appendix~\ref{app:closed-form} (Wang's ratio is $F(1-\nu)/6$). The lining distorts as the free field near $F \approx 7$ to 9, less when stiffer, and up to $4(1-\nu)$ times as much, the distortion of a cavity, when flexible; its moment, $K_1 E R^2 \gamma_{\max}/[6(1+\nu)]$, falls steadily with $F$.}
+\label{fig:ovaling-flexibility}
+\end{figure}
 
 The design implication mirrors that of static lining design in
 Chapter~\ref{ch:linings}: a flexible lining is generally the better seismic
@@ -130,8 +154,8 @@ condition differs between reinforcement design and section capacity.
 \subsection{Dynamic numerical analysis}
 \label{sec:dynamic-analysis}
 
-Where the simplified methods do not apply --- irregular geometry, strongly
-layered ground, soil-structure interaction at a portal or a station box ---
+Where the simplified methods do not apply (irregular geometry, strongly
+layered ground, soil-structure interaction at a portal or a station box),
 dynamic numerical analysis is required. Three inputs dominate the result and
 each deserves scrutiny.
 
@@ -143,10 +167,18 @@ spurious amplification. Damping must represent energy dissipation without
 suppressing the response. The formulation in most common use, Rayleigh
 damping, is proportional to mass and stiffness, so that the damping ratio it
 produces at circular frequency $\omega$ is $a_R/(2\omega) + b_R\,\omega/2$. It
-matches a target ratio at only two frequencies, falls below the target
+matches a target ratio at only two frequencies
+(Figure~\ref{fig:rayleigh-damping}), falls below the target
 between them and rises above it outside them, and the two frequencies have
 therefore to be chosen to bracket the range that matters to the structure and
 stated with the result.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch20/rayleigh-damping}
+\caption{Rayleigh damping set to a target of 5\,\% at 1 and 8~Hz (illustrative frequencies). The ratio falls to about 3\,\% between them and rises steeply outside them, through its mass part at low frequency and its stiffness part at high.}
+\label{fig:rayleigh-damping}
+\end{figure}
 
 An analysis that has not been checked against a simplified solution for a
 comparable case should not be relied on, for the reasons set out in
@@ -165,7 +197,8 @@ than protection. Options include oversizing the section through the fault zone
 so that the operating envelope survives the displacement; articulating the
 lining with flexible joints that concentrate the deformation where it can be
 tolerated; using a ductile lining that deforms without collapse; and accepting
-damage in a defined length while ensuring it can be repaired.
+damage in a defined length while ensuring it can be repaired
+(Figure~\ref{fig:fault-crossing}).
 
 Two quantities decide among these options: the expected displacement and the
 uncertainty in where the rupture will cross the alignment. Oversizing works
@@ -178,8 +211,15 @@ displacement capacity: it spreads a modest offset without collapse but cannot
 absorb a large one. Accepting and repairing damage is the option left where
 the displacement is large or its location poorly known.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch20/fault-crossing}
+\caption{Four ways of accommodating fault displacement, in long section across a fault zone (grey) with the rupture (line), schematic: an enlarged section within which the operating envelope (dashed) can be realigned; short rings with flexible joints; a ductile lining spreading the offset; and a defined length accepted as damaged and repaired.}
+\label{fig:fault-crossing}
+\end{figure}
+
 Both quantities come from the geological assessment of fault activity, slip
-rate and the location and width of the fault zone --- a specialist input that must be obtained early,
+rate and the location and width of the fault zone, a specialist input that must be obtained early,
 since it determines the alignment as much as the design.
 
 Liquefaction affects tunnels differently from buildings. A buoyant structure
@@ -207,8 +247,8 @@ Performance-based criteria make the objective explicit. An operational level
 requires the asset to remain in service after the event. Life safety requires
 that people can evacuate and that collapse does not occur, accepting damage
 and closure. Matching performance level to hazard level and to asset
-criticality --- operational for the operating earthquake, life safety
-for the maximum design earthquake --- is the standard framing, and it connects
+criticality (operational for the operating earthquake, life safety
+for the maximum design earthquake) is the standard framing, and it connects
 directly to the functionality-over-time treatment in
 Chapter~\ref{ch:sustainability}.
 

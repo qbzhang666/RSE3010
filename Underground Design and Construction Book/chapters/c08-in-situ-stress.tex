@@ -62,11 +62,19 @@ Erosional unloading deserves particular attention, because it explains the
 most consequential departure from the naive estimate. As overburden is
 removed, the vertical stress falls with it, while horizontal strain remains
 restrained and the horizontal stress falls more slowly. The result near
-surface is a horizontal stress that can be several times the vertical, the
+surface is a horizontal stress that can be several times the vertical
+(Figure~\ref{fig:erosion-unloading}), the
 reverse of what elastic confinement alone would predict. Shallow rock
 excavations in formerly deeply buried terrain therefore behave as though they
 were considerably deeper, and this is the usual explanation for spalling
 encountered where none was anticipated.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch08/erosion-unloading}
+\caption{Stress ratio after erosion of a thickness $\Delta z$ of overburden from ground with an initial $k = 1$, for a laterally restrained elastic layer with $\nu = 0.25$: the vertical stress falls by $\gamma\,\Delta z$ and the horizontal by only $\nu/(1-\nu)$ of that, so $k = 1 + (1 - \nu/(1-\nu))\,\Delta z/z$. Near surface $k$ reaches several times unity.}
+\label{fig:erosion-unloading}
+\end{figure}
 
 \subsection{Magnitude with depth}
 \label{sec:k-ratio}
@@ -98,9 +106,17 @@ k = 0.25 + 7 E_h \left( 0.001 + \frac{1}{z} \right),
 in which $E_h$ is the horizontal deformation modulus in \si{\giga\pascal} and
 $z$ the depth in metres. The expression reproduces the observed hyperbolic
 decay without empirical fitting and links $k$ to a measurable rock property,
-which is its principal advantage. It is dimensionally inhomogeneous, as the
+which is its principal advantage (Figure~\ref{fig:k-depth-envelope}). It is
+dimensionally inhomogeneous, as the
 statement of units indicates, and it applies to the modulus of the rock mass
 rather than of an intact specimen.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch08/k-depth-envelope}
+\caption{Stress ratio (left) and horizontal stress (right) with depth. Shaded: the envelope of \citet{hoekbrown1980underground}; broken curves: the relation of \citet{sheorey1994theory} for three moduli $E_h$; dotted: the confined elastic value for $\nu = 0.25$. Stresses for $\gamma = 27$~kN/m\textsuperscript{3}. At 1000~m the envelope still spans $k$ from 0.4 to 2.0.}
+\label{fig:k-depth-envelope}
+\end{figure}
 
 Both relations should be treated as first estimates. Where stress governs the
 design, in deep caverns in brittle rock or wherever spalling is anticipated,
@@ -116,7 +132,8 @@ determine, not merely in how they determine it.
 Overcoring can recover the complete stress tensor, in favourable cases from
 a single measurement. A
 small-diameter hole is instrumented, then overcored so that the surrounding
-annulus of rock relaxes, and the recovered strains are converted to stresses
+annulus of rock relaxes (Figure~\ref{fig:overcoring-schematic}), and the
+recovered strains are converted to stresses
 using elastic properties determined separately on the same core. The CSIRO
 hollow inclusion cell, the USBM deformation gauge and the doorstopper are the
 established variants; the hollow inclusion cell recovers all six components
@@ -128,10 +145,18 @@ this excludes precisely the highly stressed ground in which the measurement is
 most wanted. Depth is limited by the requirement for access to the collar of
 the measurement hole.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch08/overcoring-schematic}
+\caption{Overcoring (schematic). Left: a strain cell bonded in a pilot hole of about 38~mm diameter is overcored at about 150~mm, isolating a core around it. Right: strains at the cell gauges as the bit advances past the gauge plane, $x$ being the bit position and $D$ the overcore diameter; the recovered strains are the stable values once the bit is about one diameter beyond.}
+\label{fig:overcoring-schematic}
+\end{figure}
+
 Hydraulic fracturing pressurises an isolated borehole interval to the
 breakdown pressure, at which a tensile fracture initiates, and then records
 the shut-in pressure, at which the fracture closes, and the lower pressure at
-which it reopens on later cycles. The shut-in pressure equals the stress normal
+which it reopens on later cycles (Figure~\ref{fig:hydrofrac-record}). The
+shut-in pressure equals the stress normal
 to the fracture, which for a vertical fracture is the minimum horizontal
 stress, and this is the most reliable quantity the method produces. The
 maximum horizontal stress is inferred either from the breakdown pressure,
@@ -145,6 +170,13 @@ from major structure and unreliable elsewhere. Its advantages are depth
 capability and tolerance of poor rock. Hydraulic testing of pre-existing
 fractures relaxes the initiation assumption at the cost of requiring several
 fractures of suitably varied orientation.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch08/hydrofrac-record}
+\caption{Pressure record of a hydraulic fracturing test (schematic): breakdown $P_b$ on the first cycle, reopening $P_r$ where a later cycle leaves the first-cycle slope (broken line), and shut-in $P_s$ after pumping stops. Drawn for $\sh = 10$, $\sigma_H = 16$, $T = 5$ and $p_0 = 1$~MPa, with $P_s = \sh$, $P_b = 3\sh - \sigma_H + T - p_0$ and $P_r = P_b - T$~\citep{amadei1997stress}.}
+\label{fig:hydrofrac-record}
+\end{figure}
 
 Relief methods measure stress at an existing excavation surface. A flat jack
 is installed in a slot cut in the wall, the closure across the slot recorded,
@@ -171,11 +203,35 @@ the maximum horizontal stress. Orientation is recovered robustly by acoustic
 or optical televiewer logging, and the breakout width constrains magnitude
 through the Kirsch stress concentration~\citep{kirsch1898} and an assumed
 strength (Section~\ref{sec:kirsch-appendix}): for a given strength, a wider
-breakout implies a larger difference between the two horizontal stresses.
+breakout implies a larger difference between the two horizontal stresses
+(Figure~\ref{fig:borehole-breakout}).
 Drilling-induced tensile fractures form perpendicular to the breakouts and
-provide an independent check on orientation. Both can be obtained from
+provide an independent check on orientation
+(Figure~\ref{fig:r3d-breakout-block}). Both can be obtained from
 geotechnical boreholes at modest additional cost, and both remain
 systematically under-used.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch08/borehole-breakout}
+\caption{Borehole breakout. Left: breakouts form in the direction of $\sh$ and drilling-induced tensile fractures in the direction of $\sigma_H$ (schematic). Right: Kirsch stress at the wall, $\sigma_\theta = \sigma_H + \sh - 2(\sigma_H - \sh)\cos 2\theta$, for $\sh = 20$~MPa and no fluid pressure; for a wall strength $C_0 = 80$~MPa the breakout widens from $34^\circ$ to $73^\circ$ as $\sigma_H$ rises from 35 to 45~MPa.}
+\label{fig:borehole-breakout}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{breakout_block}{%
+  \rlab[west]{0.53,0.72}{0.72,0.90}{Breakout}
+  \rlab[east]{0.435,0.60}{0.28,0.86}{Tensile fracture}
+}
+\caption{A vertical borehole in a rock cube, a quarter cut away above a
+horizontal slice. Breakouts (carmine) are spalled notches centred on the $\sh$
+azimuth, $73^\circ$ wide for $\sigma_H = 45$, $\sh = 20$ and $C_0 = 80$~MPa
+(Figure~\ref{fig:borehole-breakout}); drilling-induced tensile fractures
+(malachite) are thin traces at the $\sigma_H$ azimuth. Notch and fracture
+depths, 0.45 and 0.35 of the radius, are schematic.}
+\label{fig:r3d-breakout-block}
+\end{figure}
 
 Core discing indicates high stress relative to strength. It is a qualitative
 indicator, but its onset along a borehole marks the depth below which
@@ -212,9 +268,17 @@ envelope and test against it. An upper-bound case with high horizontal stress
 governs spalling, stress-induced failure in the sidewalls and support demand
 in the crown. A lower-bound case with low horizontal stress governs tensile
 zones in the crown, structurally controlled failure and, in shallow works,
-uplift. Because different bounds govern different mechanisms, neither can be
+uplift (Figure~\ref{fig:stress-bracket-kirsch}). Because different bounds
+govern different mechanisms, neither can be
 described as conservative in general, and a design justified only at the mean
 has been checked against no mechanism at all.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch08/stress-bracket-kirsch}
+\caption{Kirsch boundary stress at the crown, $(3k-1)\sv$, and sidewall, $(3-k)\sv$, of a circular opening (Section~\ref{sec:kirsch-appendix}). Shaded: the range of $k$ admitted by the depth envelope at 1000~m, across which the crown stress varies 25-fold; below $k = 1/3$ the crown is in tension (tinted band).}
+\label{fig:stress-bracket-kirsch}
+\end{figure}
 
 Orientation carries its own consequence, and it is the one variable a designer
 can sometimes exploit. The relationship between the excavation axis and the

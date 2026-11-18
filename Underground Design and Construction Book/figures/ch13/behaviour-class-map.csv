@@ -1,0 +1,8 @@
+region,x0,x1,y0_schematic,y1_schematic,analysis_route
+"Heavily
+fractured",0.01,0.1,0.42,1,Equivalent continuum
+Transition,0.1,0.333333,0.42,1,Run both
+Blocky,0.333333,3,0.42,1,Limit equilibrium
+Massive,3,10,0.42,1,Boundary stress
+Weak and soft ground,0.01,0.333333,0,0.42,"Face stability, deformation"
+High-stress ground,0.333333,10,0,0.42,"Spalling depth, energy"

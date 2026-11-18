@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 %------------------------------------------------------------------------------
-%  Appendix C -- Stereographic Net Constructions
+%  Appendix E -- Stereographic Net Constructions
 %  Procedures only. The concepts and the underground application are in
 %  Chapter~\ref{ch:structural-analysis}.
 %------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ hemisphere projection and the dip/dip-direction convention.
 
 Two nets are used and they are not interchangeable. The \emph{equal-angle}
 (Wulff) net preserves angular relationships and is used for all geometric
-construction --- intersections, angles, rotations. The \emph{equal-area}
+construction: intersections, angles, rotations. The \emph{equal-area}
 (Schmidt) net preserves area and is used for pole density contouring and any
 statistical work. Using an equal-angle net for contouring concentrates
 apparent density towards the centre of the plot and will invent a set that
@@ -27,8 +27,8 @@ does not exist.
 \begin{enumerate}
   \item Fix the net to a board and place a sheet of tracing paper over it,
         pinned through the centre so that it rotates freely.
-  \item Trace the primitive circle --- the outer boundary of the net, on
-        which horizontal lines and the poles of vertical planes plot --- and
+  \item Trace the primitive circle (the outer boundary of the net, on
+        which horizontal lines and the poles of vertical planes plot) and
         mark north on the tracing paper. This
         index mark is the reference for every subsequent rotation, and all
         readings are taken with it returned to the top of the net.
@@ -38,8 +38,8 @@ does not exist.
 \end{enumerate}
 
 Convention errors are the commonest source of gross mistakes. Data recorded as
-strike and dip must be converted before plotting --- dip direction is strike
-plus $90^\circ$ under the right-hand rule --- and mixing the two produces
+strike and dip must be converted before plotting (dip direction is strike
+plus $90^\circ$ under the right-hand rule) and mixing the two produces
 planes rotated by a quarter turn.
 
 \section{Plotting planes, poles and lines}
@@ -71,7 +71,7 @@ to the wrong end of the diameter.
 \label{sec:construct-pole}
 
 The pole is the projection of the normal to the plane, and it is a single
-point --- which is why poles rather than great circles are used when many
+point, which is why poles rather than great circles are used when many
 planes must be plotted together.
 
 \begin{enumerate}
@@ -85,15 +85,23 @@ planes must be plotted together.
 
 Equivalently, the pole may be plotted directly by treating it as a line of
 plunge $90^\circ - \psi$ and trend $\alpha + 180^\circ$.
+Figure~\ref{fig:construct-plane-pole} shows both constructions.
 
 \noindent\textbf{Check.}\enspace The pole to a horizontal plane is at the
 centre of the net; the pole to a vertical plane lies on the primitive.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{appE/construct-plane-pole}
+\caption{Plotting the plane $60^\circ/130^\circ$ and its pole P on the equal-angle net. Left: the tracing turned until the dip direction mark $\alpha$ lies at east; $\psi$ is counted inward to the great circle and a further $90^\circ$ to the pole. Right: index returned to north; the great circle bulges towards the dip direction and P plots at plunge $30^\circ$, trend $310^\circ$.}
+\label{fig:construct-plane-pole}
+\end{figure}
+
 \subsection{Plotting a line from plunge and trend}
 \label{sec:construct-line}
 
-Given a line of plunge $\beta$ and trend $\theta$ --- a lineation, a borehole
-axis, or an intersection:
+Given a line of plunge $\beta$ and trend $\theta$ (a lineation, a borehole
+axis, or an intersection):
 
 \begin{enumerate}
   \item With the index at north, mark the trend $\theta$ on the primitive
@@ -116,7 +124,8 @@ index to north; the trend is the clockwise angle from the index to the mark.
 \subsection{Intersection of two planes}
 \label{sec:construct-intersection}
 
-This is the construction underlying every wedge analysis: the line of
+This is the construction underlying every wedge analysis
+(Figure~\ref{fig:construct-intersection}): the line of
 intersection is the direction along which a wedge formed by the two planes
 will slide.
 
@@ -134,6 +143,13 @@ will slide.
 \noindent\textbf{Check.}\enspace The intersection of two planes must lie on
 both great circles, and its plunge cannot exceed the dip of either plane. A
 plunge steeper than the flatter of the two dips indicates a plotting error.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{appE/construct-intersection}
+\caption{Intersection of the planes $60^\circ/090^\circ$ (solid) and $60^\circ/210^\circ$ (dash-dot). Left: the great circles cross at I. Right: the tracing turned $60^\circ$ anticlockwise brings I to the east--west diameter, where the plunge $\beta = 41^\circ$ is counted inward from the primitive; with the index returned to north the trend reads $150^\circ$.}
+\label{fig:construct-intersection}
+\end{figure}
 
 \subsection{Angle between two lines or two planes}
 \label{sec:construct-angles}
@@ -171,7 +187,8 @@ afterwards.
         circles are then the paths of rotation about it.
   \item Move every plotted point along its small circle, through the required
         angle, in the required sense. A point carried off the primitive
-        re-enters at the diametrically opposite point.
+        re-enters at the diametrically opposite point
+        (Figure~\ref{fig:construct-rotation}).
   \item Restore the tracing to its original position and read the rotated
         orientations.
 \end{enumerate}
@@ -181,6 +198,13 @@ turning the tracing about its pin. An inclined axis takes three stages: the
 data are first rotated about a horizontal axis to bring the inclined axis to
 the horizontal, the required rotation is applied as above, and the first
 rotation is reversed.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{appE/construct-rotation}
+\caption{Rotation of two poles through $40^\circ$ about the horizontal north--south axis, in the sense that raises the east side, along the small circles of the net. P1 (plunge $30^\circ$, trend $310^\circ$) moves to $54^\circ$, $341^\circ$. P2 ($20^\circ$, $080^\circ$) leaves the primitive and re-enters opposite, ending at $19^\circ$, $260^\circ$.}
+\label{fig:construct-rotation}
+\end{figure}
 
 \section{Statistical treatment of orientation data}
 \label{sec:statistical-treatment-of-orientation-data}
@@ -192,8 +216,8 @@ done on an equal-area net.
 \begin{enumerate}
   \item Plot all poles on the equal-area net.
   \item Overlay a counting grid. Using a counting circle of one per cent of
-        the net area --- that is, of radius one tenth of the net radius, or
-        10~mm on a net of 200~mm diameter (Section~\ref{sec:blank-nets}) ---
+        the net area, that is, of radius one tenth of the net radius, or
+        10~mm on a net of 200~mm diameter (Section~\ref{sec:blank-nets}),
         count the poles falling within the circle centred at
         each grid node. At a node on the primitive, part of the counting
         circle falls outside the net; count the poles in the paired circle
@@ -252,7 +276,7 @@ to check, on a small subset, any program that does.
 
 \begin{enumerate}
   \item Plot the great circles of the discontinuity sets bounding the block.
-        These divide the net into regions.
+        These divide the net into regions (Figure~\ref{fig:joint-pyramid}).
   \item Select the region corresponding to the block under consideration.
         This region is the joint pyramid: the set of directions in which the
         block is free to move as determined by its faces.
@@ -268,6 +292,13 @@ to check, on a small subset, any program that does.
 \noindent\textbf{Check.}\enspace Removability depends only on orientation. A
 block that fails the test cannot move, and no calculation of its weight is
 required.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{appE/joint-pyramid}
+\caption{Joint pyramids of the three sets of Figure~\ref{fig:crown-wedge-orientation} (solid, dash-dot, dashed, in that order), with the great circles continued beyond the primitive, where upward directions plot; grey is the excavation pyramid. Code digits give the side of each plane, 0 above and 1 below. Roof: only JP 111 lies wholly inside the primitive and is removable. Sidewall striking north--south, opening to the east: JP 010 is removable.}
+\label{fig:joint-pyramid}
+\end{figure}
 
 \paragraph{Wedge geometry from the projection.}
 For a removable tetrahedral wedge formed by three planes in the crown:
@@ -297,7 +328,22 @@ Appendix~\ref{app:calculations}.
 \label{sec:blank-nets}
 
 Equal-angle and equal-area nets for hand construction are drawn at two-degree
-intervals, and a diameter of about 200~mm gives a convenient scale for work
+intervals (Figures~\ref{fig:blank-wulff-net} and~\ref{fig:blank-schmidt-net}),
+and a diameter of about 200~mm gives a convenient scale for work
 with a protractor.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{appE/blank-wulff-net}
+\caption{Equal-angle (Wulff) net at $2^\circ$ intervals, with $10^\circ$ lines heavier. Enlarge to about 200~mm diameter for use.}
+\label{fig:blank-wulff-net}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{appE/blank-schmidt-net}
+\caption{Equal-area (Schmidt) net at $2^\circ$ intervals, with $10^\circ$ lines heavier. Enlarge to about 200~mm diameter for use.}
+\label{fig:blank-schmidt-net}
+\end{figure}
 
 \chapterreferences

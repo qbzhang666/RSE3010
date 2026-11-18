@@ -47,7 +47,8 @@ sufficient to induce failure at the boundary, producing spalling and, at
 extremes, bursting.
 
 The useful diagnostic is the ratio of rock mass strength to in-situ stress
-alongside the ratio of discontinuity spacing to opening dimension. The first
+alongside the ratio of discontinuity spacing to opening dimension
+(Figure~\ref{fig:behaviour-class-map}). The first
 distinguishes stress-driven from structurally controlled behaviour; the second
 distinguishes discrete from continuum treatment. With a high strength ratio,
 sparse jointing gives massive rock; several persistent sets forming blocks
@@ -56,6 +57,13 @@ relative to the opening gives heavily fractured rock; and where bedding or
 lamination is the dominant structure the rock is stratified. A low strength
 ratio gives weak and soft ground where the intact material is weak, and
 high-stress ground where it is strong and brittle.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch13/behaviour-class-map}
+\caption{Behaviour classes on the two diagnostic ratios, with the analysis route each implies (schematic). The block-size limits of 0.1 and 1/3 are those of Section~\ref{sec:sidewalls-fractured}; the other boundaries are indicative. Stratified rock is identified from the type of structure, not from these ratios.}
+\label{fig:behaviour-class-map}
+\end{figure}
 
 Classes change along an alignment, and the transitions are where trouble
 concentrates. A drive that passes from blocky rock into a heavily fractured
@@ -140,15 +148,23 @@ extensometer is therefore an early and reliable indicator of roof
 deterioration.
 
 A jointed or fractured roof bed cannot carry tension and does not act as an
-elastic beam. It acts instead as a linear arch --- the voussoir beam~\citep{beer1983voussoir} ---
+elastic beam. It acts instead as a linear arch (the voussoir beam~\citep{beer1983voussoir}),
 developing a compressive arch between abutments, with the thrust line rising
 towards midspan, where contact is in the upper part of the bed, and falling
-towards the abutments, where it is in the lower part. Three failure modes
+towards the abutments, where it is in the lower part
+(Figure~\ref{fig:voussoir-roof}). Three failure modes
 follow: crushing where the compressive stress at those contact zones exceeds
 the rock strength, buckling or snap-through where the arch becomes too
 shallow to be stable, and shear or slip at the abutments. The solution is iterative, since the moment arm depends on the
 thrust and the thrust on the moment arm, and it yields a maximum stable span
 that falls sharply as bed thickness decreases.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch13/voussoir-roof}
+\caption{Voussoir beam in a jointed roof bed of span $s$ and thickness $t$ (schematic, deflection exaggerated). The thrust line rises from the lower part of the bed at the abutments to the upper part at midspan, and compression concentrates in the contact zones, where crushing is checked.}
+\label{fig:voussoir-roof}
+\end{figure}
 
 Large-deflection behaviour distinguishes a roof that sags from one that fails.
 A voussoir beam can deflect substantially while remaining stable, and
@@ -166,7 +182,8 @@ choice must be deliberate.
 above. It requires that such a horizon exists within reach and that the bolt
 can be anchored in it, and the bolt load is then simply the weight suspended:
 a 1.5~m by 1.5~m pattern carrying 1.0~m of laminated rock of unit weight
-25~kN/m\textsuperscript{3} loads each bolt with 56~kN.
+25~kN/m\textsuperscript{3} loads each bolt with 56~kN
+(Figure~\ref{fig:roof-bolt-load}).
 \emph{Beam building} clamps several thin beds together so they act as one
 thick beam, exploiting the fact that beam stiffness rises with the cube of
 thickness, so that four beds bolted into one beam are sixteen times as stiff
@@ -175,11 +192,18 @@ bedding and closely spaced bolts. \emph{Clamping} increases normal stress
 across the bedding to prevent slip at the abutments, one of the three ways a
 voussoir arch fails.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch13/roof-bolt-load}
+\caption{Left: suspension load per bolt, $W = \gamma h s_b^2$, for suspended thickness $h$ on a square pattern of spacing $s_b$ ($\gamma = 25$~kN/m\textsuperscript{3}); the point is the 56~kN of the text and the band the yield load of a 20~mm rebar (Table~\ref{tab:support-props}). Right: stiffness of $n$ beds bolted into one beam relative to the same beds acting separately, $n^2$.}
+\label{fig:roof-bolt-load}
+\end{figure}
+
 Selection follows from bed thickness and available anchorage. Where a
 competent horizon lies within bolt length, suspension is the most reliable and
 the easiest to verify. Where it does not, bolts alone must build a beam,
 and its effectiveness depends entirely on pretension being achieved and
-maintained --- an installation quality question rather than a design one.
+maintained, an installation quality question rather than a design one.
 Clamping governs where the mode of concern is slip at the abutments of a
 voussoir bed, and where no competent horizon lies within the length of a
 bolt, cable support extends the reach (Chapter~\ref{ch:openings}).
@@ -203,8 +227,8 @@ And the factor of safety is highly sensitive to the friction angle assumed for
 a surface nobody has tested, which is the largest uncertainty in most such
 calculations.
 
-Key block theory~\citep{goodman1985block} offers a design economy. If the critical key block --- the
-one whose removal permits others to follow --- is stabilised, the blocks it
+Key block theory~\citep{goodman1985block} offers a design economy. If the critical key block, the
+one whose removal permits others to follow, is stabilised, the blocks it
 keys are secured with it. A systematic bolting pattern designed against the
 critical key block therefore covers a family of lesser blocks without each
 being analysed, which is what makes pattern bolting defensible rather than
@@ -260,8 +284,8 @@ by habit rather than by decision.
 
 Soft ground fails through the material, and the behaviour descriptions of
 Terzaghi's tunnelman's ground classification~\citep{terzaghi1950geologic}, in
-the form restated by \citet{heuer1974important} --- firm, ravelling, running,
-flowing, squeezing and swelling ---
+the form restated by \citet{heuer1974important} (firm, ravelling, running,
+flowing, squeezing and swelling)
 remain the most useful vocabulary because each implies a different control
 measure. Firm ground stands unsupported long enough to install support;
 ravelling ground loosens progressively from the face; running ground flows
@@ -274,8 +298,8 @@ low-permeability clay, excavation is effectively undrained in the short term
 and the total stress analysis applies to face stability; drainage over
 subsequent years transfers load to the lining, so the long-term case is a
 different calculation. In permeable ground the response is drained
-throughout. The intermediate case --- partial drainage at a rate comparable to
-the advance rate --- is common in weathered rock and silty soils and is the
+throughout. The intermediate case (partial drainage at a rate comparable to
+the advance rate) is common in weathered rock and silty soils and is the
 hardest to analyse; conservatively, both bounds are checked.
 
 Stand-up time links behaviour to construction. It is the period an unsupported
@@ -310,10 +334,17 @@ remains a useful screening test. For an unsurcharged, unsupported face with
 $\gamma = 20$~kN/m\textsuperscript{3} at an axis depth of 15~m, the overburden
 stress is $20 \times 15 = 300$~kPa, and $N \le 6$ requires
 $s_u \ge 300/6 = 50$~kPa; softer ground needs face pressure or
-improvement. \citet{davis1980stability}
+improvement (Figure~\ref{fig:stability-ratio-pressure}). \citet{davis1980stability}
 refined the ratio into upper and lower bound plasticity solutions in
 which the critical ratio depends on the cover-to-diameter ratio and on the
 length of unsupported heading.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch13/stability-ratio-pressure}
+\caption{Face pressure for a stability ratio of six, $\sigma_T = \gamma z - 6 s_u$, with $\gamma = 20$~kN/m\textsuperscript{3} and no surcharge. The point is the example of the text: at $z = 15$~m the face needs no pressure once $s_u \ge 50$~kPa.}
+\label{fig:stability-ratio-pressure}
+\end{figure}
 
 These solutions are for cohesive ground and total stress. Frictional ground
 requires a different construction, and the standard one is the wedge--silo
@@ -322,9 +353,10 @@ prism whose weight is reduced by arching within it, calculated by Janssen's
 silo theory~\citep{janssen1895versuche}. The required support pressure follows from equilibrium of the
 wedge.
 
-Two results from this model matter for design. The required support pressure
+Two results from this model matter for design
+(Figure~\ref{fig:wedge-silo}). The required support pressure
 is insensitive to cover once the cover is sufficient for arching to develop,
-so a deeper tunnel does not need proportionally more face pressure --- a
+so a deeper tunnel does not need proportionally more face pressure, a
 result that surprises engineers reasoning from overburden. At shallower cover
 the weight of the prism acts nearly in full, and the required pressure does
 rise with cover. And it is highly sensitive to
@@ -336,6 +368,13 @@ least safely assumed: a small cemented component is easily destroyed by
 disturbance and is rarely continuous along an alignment, so credit taken for
 it is supported by testing and by a check at zero cohesion.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch13/wedge-silo}
+\caption{Wedge--silo model~\citep{anagnostou1996face}. Left: the wedge at the face, loaded by a prism whose weight is reduced by shear on its sides (schematic). Right: required face pressure for a square face of side 10~m in dry ground ($\gamma = 20$~kN/m\textsuperscript{3}, $\phi' = 30^\circ$); it is constant once $C/D$ exceeds about one and falls sharply with cohesion.}
+\label{fig:wedge-silo}
+\end{figure}
+
 \subsection{Face support pressure}
 \label{sec:face-support-pressure}
 
@@ -346,17 +385,30 @@ formulated in full by \citet{anagnostou1996face}, plus the water pressure at
 the face; the
 upper bound is the pressure causing blow-out or heave, governed by the weight
 of overburden and reducing sharply as cover decreases. In shallow ground the
-window can be narrow, and in very shallow ground under a river or a soft
-deposit it can close entirely --- which is a finding about the alignment, not
+window can be narrow (Figure~\ref{fig:face-pressure-window}), and in very shallow ground under a river or a soft
+deposit it can close entirely, which is a finding about the alignment, not
 about the machine.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch13/face-pressure-window}
+\caption{Operating window at the crown of a 10~m face below a water table at the surface. Collapse: wedge--silo pressure in submerged ground ($\phi' = 30^\circ$, $c' = 0$), taken as uniform over the face, plus pore pressure. Blow-out: total overburden, $\gamma = 20$~kN/m\textsuperscript{3}. The window closes at a cover of about 1.6~m.}
+\label{fig:face-pressure-window}
+\end{figure}
 
 Pressure varies over the face height with the ground and slurry densities, so
 the specification must state the single reference level at which the target
-applies, conventionally the crown or the axis. Because the pressure gradient
-of the chamber medium is lower than that of the ground and water pressure it
-opposes, the margin against blow-out is smallest at the crown and the margin
-against collapse smallest at the invert, so each bound is evaluated at the
-elevation where it governs.
+applies, conventionally the crown or the axis. The pressure gradient of the
+chamber medium is lower than that of the overburden, so the margin against
+blow-out is smallest at the crown. Where the margin against collapse is
+smallest depends on how the required pressure is taken to vary. If the
+effective part is uniform over the face, as in the wedge--silo resultant of
+Figure~\ref{fig:face-pressure-window}, a slurry denser than water gains on the
+pore pressure with depth and the collapse margin is also smallest at the crown.
+If the effective part is taken to rise with depth as an earth pressure, the
+demand can rise faster than the chamber pressure and the collapse margin is
+smallest at the invert (Chapter~\ref{ch:tbm}). Each bound is therefore
+evaluated at the elevation where it governs.
 
 How pressure is transferred depends on the machine. A slurry shield transfers
 pressure through a filter cake at the face, and its formation requires the
@@ -389,15 +441,15 @@ measured volume loss above target is not actionable until it is attributed;
 attributed, it points directly at what must change. Tail loss is usually the
 largest contributor and the most controllable.
 
-Mixed-face conditions --- rock in the invert and soil in the crown, or the
-reverse --- are among the most damaging situations in mechanised tunnelling.
+Mixed-face conditions (rock in the invert and soil in the crown, or the
+reverse) are among the most damaging situations in mechanised tunnelling.
 The tools wear unevenly, the machine tends to steer towards the softer
 material, the softer horizon is over-excavated, and face pressure appropriate
 to one material is wrong for the other. Volume loss in mixed-face conditions
 commonly exceeds the design assumption. Since these conditions arise wherever
-a strength contrast crosses the face --- most often an irregular rockhead
-(Chapter~\ref{ch:engineering-geology}), but also faults, weathering fronts,
-dykes and boulder horizons --- predicting where they occur is a matter of
+a strength contrast crosses the face, most often an irregular rockhead
+(Chapter~\ref{ch:engineering-geology}) but also faults, weathering fronts,
+dykes and boulder horizons, predicting where they occur is a matter of
 ground modelling and of investigation designed to resolve that contrast, not
 of machine operation.
 

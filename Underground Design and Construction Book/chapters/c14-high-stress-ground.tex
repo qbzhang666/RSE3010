@@ -7,7 +7,7 @@
 
 Chapter~\ref{ch:ground-behaviour} classified ground by the mechanism that governs its response to excavation and treated the cases in which that response is immediate. This chapter takes the three behaviour classes whose response is not: ground that closes on the excavation over months, ground that expands on contact with water, and strong rock that fails violently when its stored energy is released.
 
-The three share a design consequence that runs against instinct. In each, the answer is rarely a stronger structure. A tunnel survives squeezing by yielding in a controlled way and survives a burst by absorbing energy, and stiffness in the support --- the usual response to a structural problem --- makes both worse.
+The three share a design consequence that runs against instinct. In each, the answer is rarely a stronger structure. A tunnel survives squeezing by yielding in a controlled way and survives a burst by absorbing energy, and stiffness in the support, the usual response to a structural problem, makes both worse.
 
 \section{Squeezing and swelling ground}
 \label{sec:squeezing-swelling}
@@ -24,8 +24,8 @@ Prediction is empirical and reasonably reliable. The controlling parameter is
 the ratio of rock mass strength to the mean in-situ stress at tunnel depth
 (Chapter~\ref{ch:in-situ-stress}), and the strain chart of
 \citet{hoekmarinos2000squeezing} relates that ratio to the percentage closure to be expected,
-in five classes running from below about one per cent --- requiring no special
-measures --- to more than ten per cent, where extreme squeezing problems arise
+in five classes running from below about one per cent (requiring no special
+measures) to more than ten per cent, where extreme squeezing problems arise
 and conventional support cannot succeed; the relation and the class boundaries
 are set out in Chapter~\ref{ch:empirical-design}, together with the
 definition of rock mass strength on which the chart is calibrated.
@@ -36,9 +36,9 @@ the strain magnitude points directly to the strategy required, through the
 class in which it falls (Section~\ref{sec:squeezing-strategy}).
 
 Time dependence must be separated into two mechanisms that look alike in the
-data. Some convergence is simply face-advance deformation --- the
+data. Some convergence is simply face-advance deformation, the
 three-dimensional stress redistribution captured by the longitudinal
-deformation profile (Section~\ref{sec:ldp-appendix}) --- and it would occur in
+deformation profile (Section~\ref{sec:ldp-appendix}), and it would occur in
 a rate-independent material. The
 remainder is genuine creep, continuing at constant face position. Only the
 second requires a viscoplastic model, a constitutive law in which strain
@@ -66,7 +66,7 @@ this is often the cheapest answer, above all in those two classes.
 
 Yielding requires the profile to be over-excavated. The finished profile must
 survive the convergence, so the excavated profile is enlarged by the
-anticipated closure plus a margin --- and getting that allowance wrong in
+anticipated closure plus a margin. Getting that allowance wrong in
 either direction is costly, since too little means reprofiling and too much
 means excavating and lining a larger tunnel than required. In extreme cases
 reprofiling is planned and repeated as a normal part of the cycle.
@@ -76,10 +76,18 @@ by the radius, with a margin for the scatter of the prediction. For the poor
 rock of the deep tunnel of Chapter~\ref{ch:ccm}, with a radius of 4.75~m,
 the mean prediction of 3.7 per cent gives 176~mm, and the 84th-percentile
 strain of 6.5 per cent obtained in
-Section~\ref{sec:reliability-support-uncertainty} gives about 310~mm. The
+Section~\ref{sec:reliability-support-uncertainty} gives about 310~mm
+(Figure~\ref{fig:squeezing-allowance}). The
 difference between the two is the measure of what the margin has to cover,
 and it spans a class boundary: the mean lies in the severe class and the
 84th percentile in the very severe one.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch14/squeezing-allowance}
+\caption{Closure strain against GSI for the poor rock of Chapter~\ref{ch:ccm} ($\sigma_{ci} = 72$~MPa, $m_i = 7$, $p_0 = 16.9$~MPa), with the radial allowance $\varepsilon a$ for $a = 4.75$~m on the right axis. The grey band is GSI $30 \pm 5$; the mean and 84th-percentile strains fall in the severe and very severe classes.}
+\label{fig:squeezing-allowance}
+\end{figure}
 
 The contractor, however, sets out and surveys a profile, not a radius. The
 radial allowance therefore has to be converted into an enlarged design
@@ -120,7 +128,7 @@ rather than by shear.
 Conventional criteria predict this badly, and for an identifiable reason.
 Near a free surface, confinement is essentially zero, and in that condition
 cohesion is lost at small strain while friction requires larger strain to
-mobilise --- so the two are not available simultaneously. Criteria that add
+mobilise, so the two are not available simultaneously. Criteria that add
 them overestimate near-boundary strength. Formulations in which cohesion
 degrades and friction mobilises with accumulating strain reproduce that
 sequence, and so predict the lower strength near the boundary.
@@ -128,19 +136,38 @@ sequence, and so predict the lower strength near the boundary.
 The practical prediction is empirical and simple. \citet{martin1999spalling} found
 that the depth of the spalling notch grows linearly with the ratio of maximum
 boundary stress to unconfined compressive strength, with spalling initiating
-at a ratio of roughly 0.4 --- far below the strength the rock exhibits in a
-laboratory test. That relation is the basis for setting reinforcement length
+at a ratio of roughly 0.4, far below the strength the rock exhibits in a
+laboratory test (Figure~\ref{fig:spalling-notch}). That relation is the basis for setting reinforcement length
 in spalling ground, within the limits stated with it in
 Section~\ref{sec:screening-brittle}: massive to moderately jointed strong
 rock in which failure is stress-driven, and not weak or closely jointed rock
-masses.
+masses. Along the tunnel the notches are a pair of V-shaped grooves parallel
+to the axis, on the sides of the opening normal to $\sigma_1$
+(Figure~\ref{fig:r3d-spalling-notch}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch14/spalling-notch}
+\caption{Spalling notch for the case of Table~\ref{tab:spalling-example} ($\sigma_1 = 60$~MPa, $\sigma_3 = 11$~MPa, UCS 224~MPa). Right: tangential stress on the boundary, above 0.4\,UCS within $39.5^\circ$ either side of the normal to $\sigma_1$. Left: the notch over that arc to the depth $r = 1.44a$ of the relation (notch shape schematic).}
+\label{fig:spalling-notch}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{spalling_notch}{%
+  \rlab[south]{0.33,0.70}{0.22,0.90}{Spalling notch}
+  \rlab[north]{0.40,0.33}{0.33,0.08}{Slabs}
+}
+\caption{The notches of Figure~\ref{fig:spalling-notch} along a tunnel three diameters long, a wedge cut away about the right springline. With $\sigma_1$ horizontal they form at crown and invert, to $r = 1.44a$ over $\pm 39.5^\circ$; the carmine skin marks the spalled flanks, and slabs lie in the invert notch. Radius and slabs illustrative; notch shape schematic.}
+\label{fig:r3d-spalling-notch}
+\end{figure}
 
 \subsection{Energy and excavation stability}
 \label{sec:energy-stability}
 
 Excavation releases stored strain energy (Chapter~\ref{ch:rock-mechanics}). Part is absorbed in deformation of
-the surrounding rock, part does work on the support, and the remainder ---
-excess energy --- is available to drive failure. At moderate depth it
+the surrounding rock, part does work on the support, and the remainder
+(excess energy) is available to drive failure. At moderate depth it
 dissipates quietly; at high stress in brittle rock it need not.
 
 The energy release rate, the stored strain energy released per unit area of
@@ -154,10 +181,17 @@ Whether failure is stable or violent depends on relative stiffness. If the
 surrounding rock mass is stiffer than the post-peak stiffness of the failing
 volume, load sheds gradually and failure is controlled. If it is softer, the
 surrounding rock unloads faster than the failing volume can shed strength, and
-the stored energy drives the failure dynamically. This is the same criterion
+the stored energy drives the failure dynamically (Figure~\ref{fig:burst-stiffness}). This is the same criterion
 that distinguishes a yielding pillar from a bursting one
 (Chapter~\ref{ch:openings}), and it explains why a stiff loading system is
 protective while a soft one is not.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch14/burst-stiffness}
+\caption{Stable and violent failure (schematic). The black curve is the response of the failing volume; the lines from the peak are the unloading of the surrounding rock. A surround stiffer than the post-peak slope sheds load gradually; a softer one releases the shaded excess energy into the failure.}
+\label{fig:burst-stiffness}
+\end{figure}
 
 \subsection{Rockburst and dynamic support}
 \label{sec:rockburst-support}
@@ -166,7 +200,7 @@ Three burst types are distinguished by source. A \emph{strainburst} is a
 violent failure of the rock at the excavation boundary, driven by locally
 stored energy. A \emph{pillar burst} is failure of a highly stressed pillar. A
 \emph{fault-slip burst} originates on a structure remote from the excavation
-and reaches it as a seismic wave --- so the source may lie well outside the
+and reaches it as a seismic wave, so the source may lie well outside the
 zone of influence of the opening, and the damage appears wherever the wave
 meets ground that is unsupported or poorly supported.
 
@@ -179,7 +213,7 @@ for a slab of thickness $t$ and density $\rho$ ejected at velocity $v$; where
 the slab falls from the back, the work done by gravity over the support's
 displacement adds to it. A slab 0.3\,m thick of density
 2700\,kg/m\textsuperscript{3} ejected at 3\,m/s carries
-3.6\,kJ/m\textsuperscript{2}. The ejection velocity is assumed rather than
+3.6\,kJ/m\textsuperscript{2} (Figure~\ref{fig:burst-energy}). The ejection velocity is assumed rather than
 measured, commonly at a few metres per second, and because it enters as its
 square it is the dominant uncertainty in the method. The capacity is the
 energy the support system absorbs
@@ -195,8 +229,15 @@ cracks and sheds at 20\,mm. Every element must be able to deform through the
 same displacement, and in burst-prone ground the retention system rather than
 the reinforcement is usually the weak link.
 
-Destressing --- blasting or hydraulically fracturing to move the stress
-concentration away from the boundary --- is used where the demand cannot be
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch14/burst-energy}
+\caption{Left: kinetic energy of an ejected slab, $E = \tfrac{1}{2}\rho t v^2$ with $\rho = 2700$~kg/m\textsuperscript{3}; the point is the example of the text, and the band the 20 to 50~kJ of a yielding bolt (Table~\ref{tab:support-props}) on an assumed 1~m pattern. Right: displacement capacities of the example of the text; the system is limited to the 20~mm of the shotcrete.}
+\label{fig:burst-energy}
+\end{figure}
+
+Destressing (blasting or hydraulically fracturing to move the stress
+concentration away from the boundary) is used where the demand cannot be
 supported. Destressing relocates the stress concentration but does not reduce
 the energy stored in the surrounding rock, and its operational cost is
 significant, so it is a supplement to a properly designed dynamic support

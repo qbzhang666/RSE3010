@@ -15,7 +15,7 @@ the later methods produce.
 
 They are also the least transferable. An empirical chart encodes the case
 history base from which it was built, and says nothing reliable about ground
-outside that base --- high stress, squeezing, very weak rock, unusual spans, or
+outside that base: high stress, squeezing, very weak rock, unusual spans, or
 excavation methods that did not exist when the chart was compiled. The
 analytical methods of Chapter~\ref{ch:ccm} and the numerical methods of
 Chapter~\ref{ch:numerical-modelling} exist to resolve what the charts cannot.
@@ -32,7 +32,7 @@ what data exist and what decision is being taken.
 Empirical methods suit concept and preliminary design. They need only the
 classification data already produced by characterisation, they can be applied
 to an entire alignment in a day, and they return the quantity a preliminary
-design actually needs --- an indication of support type and quantity, chainage
+design actually needs: an indication of support type and quantity, chainage
 by chainage. They are also the right tool for screening: identifying which
 reaches are routine and which require attention, so that later effort can be
 directed at the second group.
@@ -61,7 +61,7 @@ Each family returns something different, and confusion about what is being
 returned is the source of most misapplication.
 
 Empirical methods return a support class. They do not return a factor of
-safety, a convergence, or a load in the support --- and a $Q$-chart support
+safety, a convergence, or a load in the support. A $Q$-chart support
 recommendation carries no statement about how close to failure the excavation
 is. What it carries is the accumulated outcome of the case histories behind
 it: excavations of this quality and this dimension, supported in this way,
@@ -76,8 +76,8 @@ sequence, and it cannot represent the geometry of a real excavation: the
 circular opening in a hydrostatic field is an idealisation whose departure
 from reality must be judged separately.
 
-Numerical methods return a complete field solution --- stresses,
-displacements, yield zones everywhere --- and the completeness is what makes
+Numerical methods return a complete field solution (stresses,
+displacements, yield zones everywhere), and the completeness is what makes
 them dangerous. The solution is exact for the model, and its correspondence
 with the ground is set entirely by the parameters and constitutive assumptions
 supplied. A model reports the same three decimal places whether its modulus
@@ -99,8 +99,8 @@ A common pattern illustrates this. Empirical charts recommend light support;
 analytical calculation shows an ample margin; and a numerical model predicts a
 large yield zone. The reconciliation is often that the numerical model has
 been given a strength-reducing parameter set appropriate to the rock mass but
-applied at a scale where structure, not continuum yielding, actually governs
---- or, conversely, that the empirical chart's case base contains nothing at
+applied at a scale where structure, not continuum yielding, actually governs,
+or, conversely, that the empirical chart's case base contains nothing at
 this stress level. Neither answer is dismissed; the mechanism is identified.
 The procedure for doing so systematically is set out in
 Chapter~\ref{ch:integrated-design}.
@@ -127,9 +127,9 @@ block movement again. Between GSI 30 and 40 lies a transition in which mixed
 mechanisms are possible and neither test applies. Here \(\sigma_{ci}\) is the
 uniaxial compressive strength of the intact rock, \(\sigma_v\) the vertical
 in-situ stress and \(\sigma_1\) the major in-situ stress. These and the
-other stress measures of this section --- the in-plane components of the
+other stress measures of this section (the in-plane components of the
 Kirsch expression below and the mean stress \(p_0\) of
-Section~\ref{sec:screening-squeezing} --- are all components or invariants
+Section~\ref{sec:screening-squeezing}) are all components or invariants
 of the one in-situ stress field of Chapter~\ref{ch:in-situ-stress},
 evaluated at tunnel depth.
 Table~\ref{tab:decision-tree-cases} applies the tree to three cases, and the
@@ -188,7 +188,8 @@ compressive strength, gives a second measure. The ratio
 opening is stable, with no stress damage; between 1 and 1.5 minor spalling is
 expected; between 1.5 and 2 moderate overbreak; and above 2 serious
 overbreak. Table~\ref{tab:spalling-example} works both measures through for a
-strong rock under a major stress of 60~MPa. The two bounds on CI place the
+strong rock under a major stress of 60~MPa
+(Figure~\ref{fig:spalling-depth}). The two bounds on CI place the
 same opening in adjacent severity classes, which is a fair statement of the
 resolution of the method.
 
@@ -212,6 +213,13 @@ $r/a$ & $0.5 + 1.25\times169/224 = 1.44$ & Spalling depth = 44\% of radius \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch15/spalling-depth}
+\caption{Left: depth of spalling, $r/a = 0.5 + 1.25\,\sigma_{\max}/\mathrm{UCS}$, above the initiation ratio of 0.4~\citep{martin1999spalling}. Right: severity $\sigma_{\max}/\mathrm{CI}$ for the two bounds on CI. The points are the example of Table~\ref{tab:spalling-example}, at $\sigma_{\max}/\mathrm{UCS} = 0.75$.}
+\label{fig:spalling-depth}
+\end{figure}
 
 \subsection{Structurally controlled failure}
 \label{sec:screening-structural}
@@ -255,18 +263,25 @@ one its authors defined,
 a strength averaged over the confinement around a tunnel. It exceeds the
 uniaxial value \(\sigma_{ci}\,s^{a_{HB}}\) of
 Chapter~\ref{ch:rock-mass-parameters}, by a factor of about three in poor
-rock, and because the strain varies as the inverse square of the strength,
+rock (Figure~\ref{fig:rock-mass-strength-hm}), and because the strain varies as the inverse square of the strength,
 substituting the uniaxial value there overstates the strain roughly
 tenfold. The strain expression is an approximate curve fit, suitable for
 preliminary assessment only.
-Table~\ref{tab:squeezing-classification} gives the classes attached to the
-strain. With $\sigma_{cm} = 10$~MPa and $p_0 = 25$~MPa, for example,
+Table~\ref{tab:squeezing-classification} and Figure~\ref{fig:squeezing-strain}
+give the classes attached to the strain. With $\sigma_{cm} = 10$~MPa and $p_0 = 25$~MPa, for example,
 \[
 \frac{\sigma_{cm}}{p_0}=0.4 ,
 \qquad
 \varepsilon = 0.2(0.4)^{-2} = 1.25\% ,
 \]
 which corresponds to minor squeezing.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch15/rock-mass-strength-hm}
+\caption{Rock mass strength of \citet{hoekmarinos2000squeezing} against GSI. Left: $\sigma_{cm}/\sigma_{ci}$ for three values of $m_i$, with the uniaxial value $s^{a}$ for $m_i = 7$. Right: the ratio of the two. At GSI 30 and $m_i = 7$, the poor rock of Chapter~\ref{ch:ccm}, it is 3.2, so the uniaxial value would overstate the strain about tenfold.}
+\label{fig:rock-mass-strength-hm}
+\end{figure}
 
 \begin{table}[htbp]
 \caption{Squeezing classification, after \citet{hoekmarinos2000squeezing}.}
@@ -370,10 +385,17 @@ L = 0.125B + 2.25
 L = 0.3B ,
 \]
 with \(L\) and \(B\) in metres. They agree near a span of 13~m and diverge
-towards the ends of the range, the first giving the longer bolt by two-thirds
+towards the ends of the range (Figure~\ref{fig:bolt-length-span}), the first giving the longer bolt by two-thirds
 at 6~m and the second by a fifth at 18~m. Both are therefore computed and
 the longer adopted, unless the shorter can be justified against local
 experience.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch15/bolt-length-span}
+\caption{The two RMR bolt length relations over their range of span. They cross at $B = 12.9$~m, and the longer, shaded, is adopted. The points are the 16~m station cavern of Section~\ref{sec:station-cavern-example}.}
+\label{fig:bolt-length-span}
+\end{figure}
 
 \begin{table}[htbp]
 \caption{RMR support recommendations for a 10~m span~\citep{bieniawski1989rmr}.}
@@ -474,7 +496,14 @@ The maximum unsupported span follows from the lower limit of the chart,
 \[
 \mathrm{Span}_{\max} = 2 \, \mathrm{ESR} \, Q^{0.4} ,
 \]
-in metres.
+in metres (Figure~\ref{fig:q-span-wall}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch15/q-span-wall}
+\caption{Left: maximum unsupported span, $2\,\mathrm{ESR}\,Q^{0.4}$, for values of ESR from Table~\ref{tab:esr}; the point is the station cavern, 3.0~m at $Q = 5$ and ESR 0.8. Right: wall rating against $Q$, with the steps at $Q = 0.1$ and 10 that the rule implies; the dotted line is $Q_{\text{wall}} = Q$.}
+\label{fig:q-span-wall}
+\end{figure}
 
 \subsection{A station cavern by both systems}
 \label{sec:station-cavern-example}
@@ -514,7 +543,8 @@ independently, that nothing in this cavern stands unsupported.
 
 \paragraph{The divergence between the two.}
 The RMR design (4.8~m bolts, 100--150~mm of shotcrete and light ribs) is more
-conservative than the Q-system design (4~m bolts and 9--12~cm of shotcrete).
+conservative than the Q-system design (4~m bolts and 9--12~cm of shotcrete;
+Figure~\ref{fig:station-cavern-support}).
 Part of the divergence is structural. The RMR route carries an explicit
 penalty of 12 points for the steeply dipping set striking parallel to the
 axis, whereas $Q$ has no orientation term, so the same adverse geometry is
@@ -524,6 +554,13 @@ separately. The remaining choice is a matter of engineering judgement, which
 weighs the uncertainty of the ratings, the possibility of mixed failure
 modes, the importance of the cavern (ESR = 0.8) and local experience.
 Empirical systems are guides and not prescriptions.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch15/station-cavern-support}
+\caption{Roof support of the station cavern by the two systems, to scale on an assumed arched roof of 4~m rise (schematic): bolt length and spacing, and shotcrete thickness. The light ribs of the RMR design and the wall support are not drawn.}
+\label{fig:station-cavern-support}
+\end{figure}
 
 \section{Calibration and the influence of uncertainty}
 \label{sec:case-study-and-the-influence-of-uncertainty}
@@ -549,7 +586,8 @@ of the in-situ stress. Because the inputs are uncertain, the support
 recommendation is uncertain also.
 
 \paragraph{Effect on the recommendation.}
-The effect depends on where the rating lies. If RMR = $55 \pm 5$, both
+The effect depends on where the rating lies
+(Figure~\ref{fig:rating-uncertainty}). If RMR = $55 \pm 5$, both
 bounds remain in Class~III (41--60) and the recommended support class does
 not change; the uncertainty surfaces instead in the quantity selected within
 the class. A rating near a class boundary behaves differently: at RMR =
@@ -557,6 +595,13 @@ $42 \pm 5$ the lower bound crosses into Class~IV and the recommendation
 changes discontinuously. Likewise, if $Q = 5 \pm 2$, the lower bound
 ($Q = 3$) may shift into a heavier support category, and small variations in
 joint logging, such as the interpretation of $J_r$, can affect the category.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch15/rating-uncertainty}
+\caption{Ratings against class boundaries. Top: RMR $55 \pm 5$ stays in Class~III while $42 \pm 5$ crosses into Class~IV, and the orientation adjustment moves the station cavern from 50 to 38. Bottom: the range of $Q$ in the car park cavern~\citep{pells2002developments} spans seven quality classes, and $Q = 5 \pm 2$ spans two.}
+\label{fig:rating-uncertainty}
+\end{figure}
 
 A useful check is to recompute the support recommendation with the RMR and
 $Q$ inputs perturbed by $\pm 10$\,per cent. The comparison identifies which

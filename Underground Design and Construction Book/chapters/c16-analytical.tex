@@ -75,7 +75,7 @@ $\sigma_\theta = 18.9 \times (3 \times 0.5 - 1) = 9.45$~MPa, and for
 $k = 2.0$ it is $18.9 \times (3 \times 2 - 1) = 94.5$~MPa, both compressive.
 At the side walls the corresponding values are 47.3 and 18.9~MPa, so the
 highest boundary stress moves from the walls to the crown as $k$ passes
-through unity. The calculation assumes a homogeneous, intact elastic medium
+through unity (Figure~\ref{fig:kirsch-stress}). The calculation assumes a homogeneous, intact elastic medium
 and takes no account of joints, fractures or inelastic behaviour. An
 assessment of stability requires in addition a failure criterion and an
 appropriate rock mass strength.
@@ -134,7 +134,16 @@ radial and tangential stresses are
 These two expressions hold for the unsupported condition only. The supported
 case ($p_i > 0$) is handled through the general plastic radius above, and the
 full set of expressions is collected in
-Section~\ref{sec:elasto-plastic-appendix}.
+Section~\ref{sec:elasto-plastic-appendix}. Figure~\ref{fig:plastic-zone}
+plots both, with the plastic radius as a function of $p_i$, for the deep
+tunnel of Section~\ref{sec:ccm-worked-example-section}.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch16/plastic-zone}
+\caption{Elastic--plastic solution for the deep tunnel at 650~m. Left: radial and tangential stress around the unsupported tunnel, the tangential stress peaking at the plastic radius $R_p$ (dotted). Right: plastic radius against support pressure, reaching $a$ at $p_{cr}$; circles mark equilibrium with the 0.5~m lining, at $R_p = 1.27a$ and $1.68a$.}
+\label{fig:plastic-zone}
+\end{figure}
 
 \section{The convergence--confinement method}
 \label{sec:the-convergence-confinement-method}
@@ -284,7 +293,19 @@ from the branch behind the face, and
 u_{s0} = u^*\,u_{\max} ,
 \]
 where $u_{\max}$ is the displacement of the ground reaction curve at
-$p_i = 0$.
+$p_i = 0$ (Figure~\ref{fig:ldp-profiles}). The plastic zone grows behind the
+face as the displacement is released, and the lining installed at $L$ arrests
+it short of its unsupported extent (Figure~\ref{fig:r3d-plastic-zone}).
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{plastic_zone}{%
+  \rlab[east]{0.36,0.77}{0.18,0.86}{Plastic zone}
+  \rlab[east]{0.40,0.62}{0.18,0.72}{Lining}
+}
+\caption{Quarter cut-away of the deep tunnel at 650~m with GSI 30 ($a = 4.75$~m). The plastic zone (carmine) thickens behind the face in step with the displacement released along the deformation profile, to $R_p = 7.96$~m ($1.68a$) once the 0.5~m lining (malachite), installed 3~m behind the face, is in equilibrium; unsupported it would reach 11.17~m. Illustrative of the 2D solution, not a 3D analysis.}
+\label{fig:r3d-plastic-zone}
+\end{figure}
 
 \paragraph{Influence of installation timing.}
 Timing trades support load against total convergence, and the two move in
@@ -297,13 +318,21 @@ reduces the load transferred to it, but excessive convergence before
 installation may compromise the function of the tunnel or lead to instability
 before the support is in place. The installation distance is therefore
 chosen by repeating the analysis until the factor of safety is acceptable and
-the convergence remains within serviceability limits.
+the convergence remains within serviceability limits
+(Figure~\ref{fig:install-distance}).
 
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch16/ldp-profiles}
 \caption{Longitudinal deformation profiles for the deep tunnel at 650~m with GSI 30. The marker is the installation 3~m behind the face, where 49 per cent of the final displacement has occurred ($u_{s0} = 62.0$~mm of 126.9~mm).}
 \label{fig:ldp-profiles}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch16/install-distance}
+\caption{Factor of safety and equilibrium convergence of the deep tunnel at 650~m against the distance $L$ behind the face at which the 0.5~m lining is installed. Earlier installation lowers both; circles mark $L = 3$~m (FoS 4.3 and 2.8), and the band marks the usual targets of 1.5 to 2.0.}
+\label{fig:install-distance}
 \end{figure}
 
 \subsection{Equilibrium and factor of safety}
@@ -402,7 +431,8 @@ criterion by which the support is installed. The support is a pattern of rock
 bolts, the same in each case, with maximum pressure $p_{sm} = 0.354$~MPa and
 stiffness $k_s = 29.5$~MPa/m, so that its elastic displacement capacity is
 $u_{sm} = p_{sm}/k_s = 0.354/29.5 = 12.0$~mm. The support characteristic
-curve is therefore fixed and only its starting point moves. As installation
+curve is therefore fixed and only its starting point moves
+(Figure~\ref{fig:motorway-timing}). As installation
 becomes earlier, with $u_{s0}$ falling from 53.7~mm to 40~mm to 18~mm, the
 convergence falls from 1.0 to 0.64 per cent and the factor of safety from
 1.93 to 0.82. Both trends are monotonic. Earlier engagement raises the load
@@ -459,6 +489,13 @@ FoS & 1.93 & 1.38 & 0.82 \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch16/motorway-timing}
+\caption{The bolt support line of the motorway tunnel for the three criteria of Table~\ref{tab:support-timing} and for $L = 3$~m with the elastic profile, on the ground reaction curve of \citet{duncanfama1993} (dotted: the simplified curve of this chapter). Circles mark the equilibria of the analysis; the small circle is the notional intersection behind FoS 0.82.}
+\label{fig:motorway-timing}
+\end{figure}
+
 \subsection{A deep tunnel at 650 m}
 \label{sec:ccm-worked-example-section}
 
@@ -497,7 +534,7 @@ $u_r(p_{cr}) = (1+\nu)(p_0-p_{cr})a/E_m$. The longitudinal profile of
 \citet{vlachopoulos2009ldp} is evaluated behind the face at $X^* = L/a$ and
 $R^* = R_p/a$ to give $u_{s0} = u^*\, u_{\max}$. Finally the support
 properties, which do not depend on GSI, follow from the thin-ring
-expressions.
+expressions, and the two curves are drawn in Figure~\ref{fig:grc-scc}.
 
 \begin{table}[htbp]
 \caption{Convergence--confinement calculation for the deep tunnel at 650~m, with $m_i = 7$ and an illustrative concrete lining 0.5~m thick ($\sigma_{cc}=60$~MPa, $E_c=40$~GPa, $\nu_c=0.25$). The lining properties are independent of GSI.}
@@ -651,7 +688,7 @@ Read as a design tool rather than as a derivation, the ground reaction curve
 makes one statement: the ground sheds load as it converges. At zero
 convergence the required support pressure equals the in-situ stress; as the
 opening converges the required pressure falls, steeply at first and then more
-gradually, and in competent ground it reaches zero at a finite convergence ---
+gradually, and in competent ground it reaches zero at a finite convergence:
 the excavation is self-supporting.
 
 The support does not determine the load it carries. The intersection of the
@@ -670,7 +707,7 @@ follows from the elastic modulus, thickness and radius, and its capacity from
 the compressive strength of the annulus. Both change with time as the concrete
 cures. Steel sets are far softer than they appear, because their stiffness is
 governed by blocking and by the seating of the invert rather than by the
-section --- a well-blocked set at close spacing behaves quite differently from
+section: a well-blocked set at close spacing behaves quite differently from
 a poorly blocked one. Grouted bolts contribute stiffness through the composite
 action of bar, grout and rock, and their equivalent pressure depends on
 spacing. Segmental rings are stiff and installed at a defined convergence set
@@ -695,12 +732,20 @@ convergence prevailing when it is installed, so it carries load only from that
 point onward. Its contribution at equilibrium is therefore smaller than its
 nominal capacity suggests, and an element installed late may carry almost
 nothing. The correct construction offsets each element's characteristic curve
-along the convergence axis by the convergence already released.
+along the convergence axis by the convergence already released
+(Figure~\ref{fig:combined-support}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch16/combined-support}
+\caption{Shotcrete 0.2~m thick, steel sets at 1~m and grouted bolts on a 1~m grid at 4.75~m radius (illustrative values from Appendix~\ref{app:constants}). Installed together they reach 1.67~MPa when the shotcrete reaches its limit, not the 1.86~MPa sum of capacities; with the bolts and sets installed 2 and 4~mm later, only 1.42~MPa.}
+\label{fig:combined-support}
+\end{figure}
 
 \paragraph{Installation timing.}
 The longitudinal deformation profile converts distance behind the face into
-convergence already released. A significant fraction --- often a quarter to a
-third --- occurs ahead of the face, and a further large fraction within one
+convergence already released. A significant fraction, often a quarter to a
+third, occurs ahead of the face, and a further large fraction within one
 diameter behind it. Support installed two diameters behind the face may find
 that the ground has already shed most of the load it was going to shed.
 
@@ -709,7 +754,7 @@ excessive convergence and, in weak ground, loosening that permanently reduces
 the rock mass strength. Installing too early attracts high load into a
 support that must then carry it. The distance behind the face at which support
 is installed is therefore a design variable in its own right, and it is one of
-the few that the contractor controls directly --- which makes it a matter for
+the few that the contractor controls directly, which makes it a matter for
 the specification, not an assumption.
 
 \subsection{Stiffness and yielding}
@@ -719,7 +764,8 @@ the specification, not an assumption.
 A stiff support installed early develops pressure rapidly and therefore
 attracts a large load; a softer support at the same location reaches
 equilibrium at greater convergence and lower pressure. Where the ground
-reaction curve is steep, the difference is large.
+reaction curve is steep, the difference is large
+(Figure~\ref{fig:stiff-yielding}).
 
 The design objective is equilibrium at an acceptable convergence, not minimum
 convergence. Stiffening a support that is already adequate increases the load
@@ -738,6 +784,13 @@ pressure below capacity.
 This is deliberate and controlled deformation, not a failure to control it,
 and it requires the excavated profile to be oversized so the finished profile
 survives. Detail in Chapter~\ref{ch:high-stress}.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch16/stiff-yielding}
+\caption{Three supports installed at the same point, $u_{s0} = 62.0$~mm, on the ground reaction curve of the deep tunnel at GSI 30. The lining of Table~\ref{tab:ccm-worked-example} attracts 2.27~MPa; a ring a quarter as stiff ($E_c = 10$~GPa) attracts 1.93~MPa at 70~mm; a yielding support holding 1.0~MPa comes to rest at 91~mm.}
+\label{fig:stiff-yielding}
+\end{figure}
 
 \subsection{Pre-reinforcement and block support}
 \label{sec:pre-reinforcement-and-block-support}
@@ -771,7 +824,7 @@ Both checks are required, and the governing one is whichever demands more.
 
 \paragraph{Support classes.}
 Projects do not design support chainage by chainage. They define a small set
-of standard classes --- typically four to six --- each specifying bolt
+of standard classes (typically four to six), each specifying bolt
 pattern, shotcrete thickness, steel sets if any, and the excavation sequence
 that accompanies it, and map each class to a range of ground conditions.
 
@@ -787,8 +840,8 @@ Empirical, analytical and numerical designs will differ. The reconciliation is
 not to average them but to identify which mechanism each represents and which
 mechanism governs the case in hand. Where the empirical chart is inside its
 case base and the mechanism is the one it encodes, it carries real evidential
-weight. Where the ground is outside that base --- high stress, squeezing,
-unusual span --- the analytical or numerical result governs and the chart
+weight. Where the ground is outside that base (high stress, squeezing,
+unusual span), the analytical or numerical result governs and the chart
 should be treated as a sanity check rather than as a design. The systematic
 procedure is Chapter~\ref{ch:integrated-design}.
 
@@ -805,7 +858,7 @@ the face than the design assumed.
 
 Each of these invalidates a specific design assumption, and each is detectable.
 The verification regime should be constructed by asking, for each assumption
-the design relies on, what evidence will confirm it --- and the assumption
+the design relies on, what evidence will confirm it, and the assumption
 about installation distance deserves as much attention as the assumption about
 thickness, because it is equally influential and almost never recorded.
 
@@ -824,8 +877,8 @@ equilibrium is acceptable against the clearance envelope and against any
 third-party movement limits.
 
 If the margin is inadequate, the available responses are to stiffen the
-support, to increase its capacity, to install it earlier, or to let it yield
---- and the framework shows which of these will actually help. That is the
+support, to increase its capacity, to install it earlier, or to let it yield,
+and the framework shows which of these will actually help. That is the
 practical value of treating support as stiffness, capacity and timing rather
 than as a class number. The calculation sequence is set out step by step in
 Appendix~\ref{app:calculations}.

@@ -6,7 +6,7 @@
 The Kirsch solution~\citep{kirsch1898}, the convergence--confinement method and every finite
 element analysis in this book rest on the same small set of continuum
 relations. Setting them out once, at the start, avoids restating their
-assumptions at every later application --- and makes visible the fact that
+assumptions at every later application, and makes visible the fact that
 those assumptions are shared. A closed-form stress distribution and a
 sophisticated numerical model can be wrong for the same reason.
 
@@ -60,7 +60,7 @@ be resolved into principal components first.
 \paragraph{Invariants and the deviatoric split.}
 The principal values are properties of the stress state, not of the axes used
 to describe it, so combinations of the components that are independent of
-orientation --- the invariants --- carry physical meaning. The first is the
+orientation (the invariants) carry physical meaning. The first is the
 sum of the normal stresses, from which the mean stress
 $p = (\sone+\stwo+\sthree)/3$ follows.
 
@@ -114,7 +114,7 @@ The important limitation concerns the face. Near it the ground does displace
 longitudinally, so the plane strain assumption fails exactly where support is
 installed and where most of the convergence occurs. Two-dimensional analysis
 handles this through a stress relaxation factor that releases only part of the
-in-situ stress before support is activated --- a device, not a solution, and
+in-situ stress before support is activated: a device, not a solution, and
 the reason three-dimensional analysis is required for junctions, portals and
 sequenced excavations (Chapter~\ref{ch:numerical-modelling}).
 
@@ -177,8 +177,8 @@ intermediate principal stress.
 \paragraph{Anisotropy.}
 Bedded and foliated rocks are not isotropic. Their stiffness parallel to
 bedding differs from that perpendicular to it, sometimes by a factor of two or
-more, and the same holds for strength. Transverse isotropy --- one axis of
-rotational symmetry normal to the bedding --- describes this adequately and
+more, and the same holds for strength. Transverse isotropy (one axis of
+rotational symmetry normal to the bedding) describes this adequately and
 requires five independent elastic constants rather than two.
 
 The obstacle is measurement. Determining five constants requires specimens
@@ -207,8 +207,8 @@ its failure envelope even though the far-field stress is unchanged.
 
 \paragraph{Strain energy.}
 An elastically stressed rock mass stores energy, with density
-$U = \tfrac{1}{2}\sigma_{ij}\varepsilon_{ij}$. Excavation releases some of it
---- part absorbed in deformation and in work done on the support, the
+$U = \tfrac{1}{2}\sigma_{ij}\varepsilon_{ij}$. Excavation releases some of it:
+part absorbed in deformation and in work done on the support, the
 remainder available to drive fracture.
 
 At moderate depth the released energy dissipates quietly. At high stress in
@@ -234,17 +234,25 @@ For rock the distinction is practical rather than academic. An associated flow
 rule with a Mohr--Coulomb yield surface predicts dilation at an angle equal to
 the friction angle, typically 30 to 40 degrees, which grossly overstates the
 volume increase actually observed. Non-associated flow with a dilation angle
-well below the friction angle --- often a third of it, and approaching zero at
-high confinement --- is the realistic choice, and dilation angle is a required
+well below the friction angle (often a third of it, and approaching zero at
+high confinement) is the realistic choice, and dilation angle is a required
 input to most numerical models.
 
-Post-peak behaviour completes the picture. \emph{Perfectly plastic} response
+Post-peak behaviour completes the picture
+(Figure~\ref{fig:post-peak-behaviour}). \emph{Perfectly plastic} response
 maintains strength after yield; \emph{strain-softening} loses it
 progressively; \emph{brittle} response drops it abruptly. Rock mass quality
 largely determines which applies, with strong massive rock behaving brittly
 and weak jointed rock nearly plastically. The choice changes the extent of the
 computed yield zone substantially, and it is an assumption rather than a
 measurement.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch11/post-peak-behaviour}
+\caption{Schematic post-peak responses with the same pre-peak branch: perfectly plastic, strain-softening to a residual strength, and brittle, with an abrupt drop.}
+\label{fig:post-peak-behaviour}
+\end{figure}
 
 \paragraph{The Mohr circle.}
 Plotting normal against shear stress represents a two-dimensional stress state
@@ -259,7 +267,7 @@ returns the normal and shear stress acting on that joint directly, and
 comparison against its shear strength (Chapter~\ref{ch:engineering-geology})
 determines whether it will slip. Three-dimensional states plot as three
 circles, and the region between them contains the admissible stress
-combinations --- a reminder that $\stwo$, ignored by both Mohr--Coulomb and
+combinations, a reminder that $\stwo$, ignored by both Mohr--Coulomb and
 Hoek--Brown, is nonetheless present and does affect strength.
 
 \subsection{Families of failure criteria}
@@ -616,7 +624,7 @@ plane on which \(\sigma_1\) acts, at
 \]
 and therefore at \(45^\circ - \phi/2\) to the direction of \(\sigma_1\)
 itself. For \(\phi = 30^\circ\) the plane lies \(30^\circ\) from the
-\(\sigma_1\) direction.
+\(\sigma_1\) direction (Figure~\ref{fig:mohr-coulomb-plane}).
 
 \paragraph{Mohr circle representation.}
 A triaxial stress state plots as a Mohr circle of centre \(C\) and radius
@@ -629,6 +637,13 @@ R = \frac{\sigma_1-\sigma_3}{2} ,
 and failure occurs when the circle touches the envelope
 \(\tau = c + \sigma_n \tan\phi\). The same two quantities are used in
 Section~\ref{sec:hb-to-mc-intact} to fit the envelope to strength data.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch11/mohr-coulomb-plane}
+\caption{Schematic of the Mohr--Coulomb failure plane for $\phi = 30^\circ$: the plane in the specimen lies at $\theta = 45^\circ + \phi/2$ to the $\sigma_3$ direction, and the tangent point of the Mohr circle lies at $2\theta = 90^\circ + \phi$ from the $\sigma_1$ end.}
+\label{fig:mohr-coulomb-plane}
+\end{figure}
 
 \paragraph{Limitations.}
 The criterion is linear, and so does not capture the curvature of rock
@@ -780,10 +795,17 @@ which rearranges to
 \]
 For the marble of the preceding example the ratio is 14.9 and the tensile
 strength \(-8.4~\text{MPa}\), about three-fifths of the value the Hoek--Brown
-expression returns. The tensile strength of rock is very low in comparison
+expression returns (Figure~\ref{fig:griffith-hb-marble}). The tensile strength of rock is very low in comparison
 with its compressive strength, and this governs the interpretation of crack
 initiation, spalling and brittle failure around underground openings
 (Chapter~\ref{ch:high-stress}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch11/griffith-hb-marble}
+\caption{The marble example ($\sigma_{ci} = 125$~MPa, $m_i = 9$): Hoek--Brown envelope ending at $\sigma_t = -13.7$~MPa, the Hoek--Martin cut-off at $-8.4$~MPa, and the Griffith criterion for the same $\sigma_c$, which implies $|\sigma_t| = 15.6$~MPa. Open circle: $\sigma_1^f = 215$~MPa at $\sigma_3 = 20$~MPa.}
+\label{fig:griffith-hb-marble}
+\end{figure}
 
 \section{From criterion to design parameters}
 \label{sec:criteria-in-application}
@@ -1007,10 +1029,18 @@ two-stress comparison applies, with
 \(\sigma_1^{IS}=\max(\sigma_v,\sigma_{h,k})\),
 \(\sigma_3^{IS}=\min(\sigma_v,\sigma_{h,k})\) and the fitting limit
 \(\sigma_{3,\mathrm{fit,max}}=\max(\sigma_v,\sigma_{h,k})\).
-Table~\ref{tab:insitu_stress_fitting} gives the results. The horizontal
+Table~\ref{tab:insitu_stress_fitting} gives the results, and
+Figure~\ref{fig:insitu-stress-depth} plots them against depth. The horizontal
 stress is the major principal stress in the granite, the sandstone and the
 limestone, and the mudstone, with \(k = 1.0\), is the one case in which the
 minimum in-situ stress and the fitting limit coincide.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch11/insitu-stress-depth}
+\caption{In-situ stresses of the four rocks: $\sigma_v = \gamma z$ (open markers) and $\sigma_{h,k} = k\sigma_v$ (filled), for the deep granite and sandstone (left) and the shallow mudstone and limestone (right). The dotted line is the elastic lower bound $k = \nu/(1-\nu) = 0.33$.}
+\label{fig:insitu-stress-depth}
+\end{figure}
 
 \begin{table}[htbp]
 \caption{In-situ principal stresses of the four rocks and the upper fitting limit for the conversion to Mohr--Coulomb parameters. Stresses in MPa.}
@@ -1032,12 +1062,21 @@ Limestone & 2.16 & 2.0 & 4.32 & 4.32 & 2.16 & 4.32 \\
 
 \paragraph{Strength at in-situ confinement.}
 Table~\ref{tab:intact_strength_results} evaluates the intact Hoek--Brown
-criterion for each rock at its own \(\sigma_3^{IS}\). In every case the
+criterion for each rock at its own \(\sigma_3^{IS}\), and
+Figure~\ref{fig:hb-intact-four-rocks} compares capacity with demand on
+normalised axes. In every case the
 intact strength exceeds the major in-situ stress several times over, by a
 factor of about 8 in the granite and 9 in the sandstone. That margin belongs
 to the intact material. The strength that governs an excavation is that of
 the jointed rock mass, which Chapter~\ref{ch:rock-mass-parameters} derives
 from the same data and which is very much lower.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch11/hb-intact-four-rocks}
+\caption{Intact Hoek--Brown envelopes of the four rocks, normalised by $\sigma_{ci}$. At each rock's $\sigma_3^{IS}$ the filled marker is the capacity $\sigma_1^f$ and the open marker the demand $\sigma_1^{IS}$; the gap is the intact margin of Table~\ref{tab:intact_strength_results}.}
+\label{fig:hb-intact-four-rocks}
+\end{figure}
 
 \begin{table}[htbp]
 \caption{Intact strength of the four rocks at in-situ confinement, and
@@ -1059,12 +1098,20 @@ Limestone & 2.16 & 99.3 & 4.32 & \(-7.0\) & \(-5.0\) & \(-4.5\) \\
 \end{tabular}
 \end{table}
 
-The three estimates of tensile strength do not agree. For the sandstone all
+The three estimates of tensile strength do not agree
+(Figure~\ref{fig:tensile-four-rocks}). For the sandstone all
 three lie within about 20 per cent of one another. For the mudstone, with its
 low \(m_i\), the Hoek--Brown expression returns twice the measured value and
 the cut-off is the closer estimate, whereas for the granite both give less
 than half the laboratory magnitude. Where tensile failure matters, the measured
 value governs and the two expressions serve as checks on it.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch11/tensile-four-rocks}
+\caption{Tensile strength magnitude of the four rocks from the intact Hoek--Brown expression (criterion), the Hoek--Martin cut-off and laboratory tests, from Table~\ref{tab:intact_strength_results}.}
+\label{fig:tensile-four-rocks}
+\end{figure}
 
 \paragraph{Equivalent parameters for the sandstone.}
 The sandstone, with \(\sigma_{ci}=110~\text{MPa}\) and \(m_i=17\), is fitted
@@ -1092,7 +1139,8 @@ Hoek--Brown criterion over its fitting range.}
 \end{tabular}
 \end{table}
 
-Method 1 gives \(R = 15.50 + 0.7325\,C\), from which
+Method 1 gives \(R = 15.50 + 0.7325\,C\)
+(Figure~\ref{fig:mohr-fit-sandstone}), from which
 \(\phi = 47.1^\circ\) and \(c = 22.8~\text{MPa}\). Method 2 gives
 \(\sigma_1^f = 116.3 + 6.432\,\sigma_3\), from which \(\phi = 47.0^\circ\)
 and \(c = 22.9~\text{MPa}\). The two agree, as they should on the same
@@ -1101,6 +1149,13 @@ points. The intercept of the second line, 116.3~MPa, exceeds
 implies is \(-18.1~\text{MPa}\) against a measured \(-6.7~\text{MPa}\): a
 straight line cannot follow the curved envelope at both ends, and it departs
 furthest in tension.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch11/mohr-fit-sandstone}
+\caption{Method 1 for the intact sandstone: the six Mohr circles of Table~\ref{tab:sandstone_hb_data} with the fitted envelope $c = 22.8$~MPa, $\phi = 47.1^\circ$ (left), and the regression $R = 15.50 + 0.7325\,C$ from which it follows (right).}
+\label{fig:mohr-fit-sandstone}
+\end{figure}
 
 Fitting over the narrower range \(0 \leq \sigma_3 \leq 12.15~\text{MPa}\),
 the minimum in-situ stress, gives \(\phi = 49.3^\circ\) and

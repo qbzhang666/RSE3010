@@ -1,0 +1,12 @@
+case,x,y
+Removable,-1.6,0
+Removable,1.6,0
+Removable,0.2,1.9
+Tapered,-0.6,0
+Tapered,0.6,0
+Tapered,1.35,1.5
+Tapered,-1.25,1.5
+Infinite,-0.9,0
+Infinite,0.9,0
+Infinite,1.35,2.4
+Infinite,-0.45,2.4

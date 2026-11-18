@@ -1054,7 +1054,8 @@ def page_lining(gm: ground.GroundModel) -> None:
         f = ratios["F"]
         if f > 30:
             st.success("High flexibility ratio: the ring conforms to the ground, carries thrust with little moment, "
-                       "and its distortion approaches the free-field distortion (Chapter 19).")
+                       "and in seismic ovaling its distortion exceeds the free field, approaching that of an "
+                       "unlined opening, 4(1 - nu) times the free field (Chapter 20).")
         elif f > 5:
             st.info("Intermediate flexibility ratio: both thrust and moment matter; check the ring with a "
                     "closed-form or numerical interaction analysis.")

@@ -30,7 +30,7 @@ identify.
 Three distinct objects are routinely called the same thing. The
 \emph{geological model} is an interpretation of what the ground is and how it
 came to be: units, contacts, structures and their history. The \emph{ground
-model} attaches engineering meaning to that interpretation --- material
+model} attaches engineering meaning to that interpretation: material
 behaviour, parameters, groundwater, and the uncertainty in each. The
 \emph{design model} is the idealisation actually analysed, simplified to what
 the calculation can accommodate.
@@ -60,8 +60,8 @@ concentrate at contacts and in weathered zones; at high stress the same mass
 becomes stress-controlled (Chapter~\ref{ch:high-stress}).
 Sedimentary sequences are layered, and bedding introduces both anisotropy and
 a set of persistent, often clay-coated, discontinuities that frequently govern
-roof stability. Metamorphic rocks with strong foliation --- slates, schists,
-phyllites --- are the most awkward, combining marked strength anisotropy with
+roof stability. Metamorphic rocks with strong foliation (slates, schists,
+phyllites) are the most awkward, combining marked strength anisotropy with
 a pervasive weakness plane whose orientation relative to the excavation
 decides the outcome.
 
@@ -72,7 +72,7 @@ rock, and
 the transition is rarely uniform: it follows joints and faults downward,
 leaving corestones of fresh rock in a weathered matrix and producing a
 rockhead surface far more irregular than a borehole spacing of tens of metres
-can resolve.
+can resolve (Figure~\ref{fig:geo-weathering-profile}).
 
 Two errors follow from treating weathering grade as a proxy for strength. The
 first is assuming the correlation holds across a lithological change; where a
@@ -82,14 +82,42 @@ specimen of the weak one. The
 second is assuming the profile is layered. An irregular rockhead means that a
 tunnel nominally in rock may meet a soil-filled trough over part of its
 length, and mixed-face conditions are among the most damaging surprises in
-shallow tunnelling.
+shallow tunnelling (Figure~\ref{fig:r3d-weathering-block}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch04/geo-weathering-profile}
+\caption{Schematic weathering profile, grades VI (residual soil) to I (fresh)
+marked at right. Weathering descends along a fault (dashed), leaving
+corestones in grades IV and III. Boreholes 40~m apart all find rockhead (heavy
+line) above the 6~m tunnel, which meets soil-like ground over 18~m of its
+length (hatched). Vertical scale exaggerated.}
+\label{fig:geo-weathering-profile}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{weathering_block}{%
+  \rlab[south]{0.33,0.49}{0.08,0.86}{Mixed face}
+  \rlab[south]{0.465,0.63}{0.42,0.86}{Borehole}
+  \rlab[south]{0.70,0.47}{0.70,0.84}{Corestones}
+  \rlab[north]{0.375,0.30}{0.31,0.12}{Fault}
+  \rlab[north]{0.62,0.22}{0.62,0.06}{Fresh rock}
+}
+\caption{The profile of Figure~\ref{fig:geo-weathering-profile} at true scale,
+extended 30~m along strike (illustrative) and cut on the tunnel axis: grades VI
+to I from light to dark grey, the fault (carmine tint) carrying weathering down
+into a trough, and fresh corestones in grades IV and III. The three boreholes
+miss the trough; the lining is carmine over the 18~m where it meets soil-like ground.}
+\label{fig:r3d-weathering-block}
+\end{figure}
 
 \subsection{Discontinuities and structure}
 \label{sec:discontinuities}
 
 At excavation scale, the rock mass is mostly discontinuities. Their
-description is standardised --- orientation, spacing, persistence, roughness,
-aperture, infilling, seepage and the number of sets --- and each of these
+description is standardised (orientation, spacing, persistence, roughness,
+aperture, infilling, seepage and the number of sets), and each of these
 parameters feeds a specific downstream method. Orientation and set count
 determine block formation (Chapter~\ref{ch:structural-analysis}); spacing and
 persistence determine block size; roughness, aperture and infilling determine
@@ -99,24 +127,46 @@ systems (Chapter~\ref{ch:classification}).
 Discontinuity shear strength is where the description becomes mechanics. A
 rough unfilled joint mobilises strength above its basic friction angle through
 the geometric effect of asperities, and that additional component reduces as
-normal stress rises and asperities are sheared through --- the bilinear description of
+normal stress rises and asperities are sheared through: the bilinear description of
 \citet{patton1966multiple}, refined by \citet{barton1977shear} into a continuous relation in terms
 of joint roughness and wall strength (the relation is given with its
-constants in Appendix~\ref{app:constants}). Two consequences carry into design.
+constants in Appendix~\ref{app:constants}, and drawn in
+Figure~\ref{fig:geo-joint-shear}). Two consequences carry into design.
 Roughness is scale-dependent, so a value measured on a 100\,mm laboratory
 specimen overestimates the strength of a joint several metres across. And an
 infilling thicker than the asperity amplitude decouples the surfaces
 altogether: the strength becomes that of the infill, which may be a fraction
 of the rock-on-rock value (Section~\ref{sec:discontinuities-and-soils}).
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch04/geo-joint-shear}
+\caption{Left: shear strength of a rough unfilled joint, $\phi_b = 30^\circ$,
+JCS~=~60~MPa, from the Barton relation for three values of JRC, with the
+bilinear envelope for a $15^\circ$ asperity angle sheared through at
+1.5~MPa. Right: the roughness term for JRC~10 on a fresh wall and a weathered
+one at a quarter of the strength; it falls with normal stress and vanishes at JCS.}
+\label{fig:geo-joint-shear}
+\end{figure}
+
 Structure at alignment scale is dominated by faults. A fault is not a plane
 but a zone, with a core of gouge or breccia and a surrounding damage zone of
-elevated fracture density, and both are usually weaker and more permeable than
+elevated fracture density (Figure~\ref{fig:geo-fault-zone}), and both are usually weaker and more permeable than
 the host rock. Fault crossings therefore combine reduced strength, increased
 deformability, elevated inflow and abrupt change in ground class within a few
 metres of advance. They occupy a small fraction of most alignments and a large
 fraction of most risk registers, and locating them is among the highest-value
 objectives of an investigation.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch04/geo-fault-zone}
+\caption{Schematic of a fault crossed by a tunnel (plan, tunnel between the
+two lines), with fracture density, permeability and strength relative to the
+host rock. A 6~m core lies within a damage zone some 50~m across; properties
+change through the damage zone and step at the core. Values illustrative.}
+\label{fig:geo-fault-zone}
+\end{figure}
 
 \section{Stress history and problem ground}
 \label{sec:stress-history-problem-ground}
@@ -142,9 +192,9 @@ Certain ground types are difficult enough to deserve identification during the
 geological study rather than discovery during construction. Karst carbonates
 carry solution cavities and conduits that can be metres across, may be
 air-filled, water-filled or sediment-filled, and are essentially invisible
-between boreholes. Swelling ground --- smectite-rich mudrocks, and anhydrite
-converting to gypsum (a volume increase of roughly 60 per cent on
-hydration) --- generates invert heave
+between boreholes. Swelling ground (smectite-rich mudrocks, and anhydrite
+converting to gypsum with a volume increase of roughly 60 per cent on
+hydration) generates invert heave
 that continues for years and can lift a completed lining. Gas-bearing strata,
 particularly coal measures and organic-rich sediments, introduce methane and
 an explosion risk that changes the entire construction regime. Ultra-weak and
@@ -180,12 +230,23 @@ well-placed observation can locate a boundary or discriminate between two
 interpretations outright, whereas sampling scatter falls only as the square
 root of the number of specimens and never below the variability of the
 material itself. The distinction determines what additional drilling can be
-expected to achieve.
+expected to achieve (Figure~\ref{fig:geo-uncertainty}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch04/geo-uncertainty}
+\caption{Schematic of the three kinds of uncertainty against well-placed
+observations: positional halves with each hole that brackets a boundary,
+interpretive collapses at a discriminating observation (here the third), and
+parametric at an unsampled point, $\propto\sqrt{1 + 1/n}$, falls only towards
+the material's own scatter (dotted).}
+\label{fig:geo-uncertainty}
+\end{figure}
 
 Interpretive uncertainty is the type most often suppressed. A geological section is drawn as one interpretation,
 and once drawn it acquires an authority the data do not support. Where the
-observations genuinely admit two structural interpretations --- a fault or a
-facies change, a continuous or a discontinuous marker --- both should be
+observations genuinely admit two structural interpretations (a fault or a
+facies change, a continuous or a discontinuous marker), both should be
 carried forward, with their differing engineering consequences stated, until
 evidence distinguishes them.
 

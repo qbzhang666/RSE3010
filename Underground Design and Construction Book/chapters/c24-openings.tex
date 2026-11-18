@@ -38,7 +38,7 @@ the lining is built at the surface and sunk under its own weight as material is
 excavated from within. Raise boring drills a pilot hole downward and reams
 upward, which is efficient for ventilation and penstock shafts in rock but
 requires the bore to stand unsupported between pilot completion and reaming,
-and the pilot hole to be accurate over the full depth --- deviation that would
+and the pilot hole to be accurate over the full depth. Deviation that would
 be trivial in a borehole becomes a serious problem when it is reamed to
 several metres diameter. Shaft boring machines mechanise the full-face
 operation.
@@ -56,15 +56,22 @@ disproportionate to its volume.
 A vertical opening cuts the horizontal stress field, so the tangential stress
 around a shaft is governed by the two horizontal principal stresses rather
 than by the vertical stress. Where those differ, the stress concentrates on
-the shaft wall in the direction perpendicular to the major horizontal stress
---- and in the high near-surface horizontal stresses of
+the shaft wall in the direction perpendicular to the major horizontal stress,
+and in the high near-surface horizontal stresses of
 Chapter~\ref{ch:in-situ-stress}, a shallow shaft can be more highly stressed
 relative to strength than the deep tunnel it serves.
 
 This has a practical consequence that surprises people: spalling in a shaft is
 not confined to deep shafts, and its position around the circumference
-identifies the stress orientation, which makes a sinking shaft an inadvertent
+identifies the stress orientation (Figure~\ref{fig:shaft-stress}), which makes a sinking shaft an inadvertent
 stress measurement.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch24/shaft-stress}
+\caption{Plan of a shaft with $\sigma_h = 0.5\,\sigma_H$. The tangential stress on the wall, plotted outward from the boundary, peaks at $3\sigma_H - \sigma_h$ perpendicular to $\sigma_H$, where spalling (carmine) forms, and falls to $3\sigma_h - \sigma_H$ in line with it.}
+\label{fig:shaft-stress}
+\end{figure}
 
 A circular shaft lining works in hoop compression, which is an efficient load
 path and permits a thin lining even at substantial water pressure. Efficiency
@@ -82,7 +89,7 @@ occurs where the overburden pressure outside the shaft exceeds the bearing
 capacity of the soil at the base; hydraulic uplift occurs where the water
 pressure beneath a low-permeability layer exceeds the weight of the remaining
 plug. Both are checked before excavation reaches the depth at which they
-apply, but they are not remedied by the same measures. Base heave is addressed
+apply (Figure~\ref{fig:shaft-base-stability}), but they are not remedied by the same measures. Base heave is addressed
 by deeper wall embedment, by a structural base slab, or by improving the soil
 at founding level \citep{broms1967stability,davis1980stability}. Hydraulic
 uplift is addressed by reducing the head beneath the plug, by taking the
@@ -91,6 +98,13 @@ freezing (Chapter~\ref{ch:ground-improvement}). Dewatering inside the shaft
 controls boiling at a granular base but does not reduce the head beneath a
 low-permeability plug, and water removed from the shaft is weight no longer
 resisting uplift.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch24/shaft-base-stability}
+\caption{The two base checks of a soft-ground shaft (schematic). Base heave: the soil outside, loaded by its overburden $\gamma z$, fails beneath the wall toe into the base at excavated depth $H$. Hydraulic uplift: the head $h_w$ in the aquifer acts beneath a plug of thickness $t$ whose weight $W$ resists it.}
+\label{fig:shaft-base-stability}
+\end{figure}
 
 Where dewatering is unacceptable because of drawdown
 (Chapter~\ref{ch:hydrogeology}), a cut-off wall taken into an aquitard, or a
@@ -112,18 +126,25 @@ support system is fully established.
 The slope above and beside the portal must be stable before the tunnel is
 started, and it must remain stable while the tunnel is driven beneath it. That
 requires a kinematic assessment of the face and side slopes by the sliding
-tests of Section~\ref{sec:mode-and-orientation}, and it usually requires support --- soil
+tests of Section~\ref{sec:mode-and-orientation}, and it usually requires support: soil
 nailing, rock bolting, shotcrete facing, or a retaining structure.
 
 The first rounds are then driven under the lowest cover on the project.
 Pre-support is normal rather than exceptional: an \emph{umbrella arch} of
 grouted steel pipes installed from the portal face carries the crown ahead of
-excavation, with forepoling spiles as the lighter variant where the ground
+excavation (Figure~\ref{fig:portal-section}), with forepoling spiles as the lighter variant where the ground
 only ravels (Chapter~\ref{ch:ground-improvement}), and the tunnel advances
 beneath it in short rounds with immediate support.
 Where the ground is very poor the alternative is to build the first length as
 cut-and-cover and backfill over it, which converts a difficult tunnelling
 problem into a straightforward structural one.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch24/portal-section}
+\caption{Longitudinal section through a portal (schematic). The face slope is nailed before the first round, and the first rounds are driven in short lengths beneath overlapping stages of umbrella arch, under the lowest cover on the project and within the weathered zone.}
+\label{fig:portal-section}
+\end{figure}
 
 \subsection{Openings, junctions and cross-passages}
 \label{sec:junctions}
@@ -131,9 +152,9 @@ problem into a straightforward structural one.
 Forming an opening in a completed lining is a three-dimensional problem with
 no closed-form solution. Removing part of a ring interrupts the hoop
 compression that made it efficient, and load must redistribute around the
-opening into the adjacent rings. The opening therefore requires a frame ---
-additional reinforcement, a steel or concrete surround, or specially designed
-segments --- installed before the breakout is made.
+opening into the adjacent rings. The opening therefore requires a frame
+(additional reinforcement, a steel or concrete surround, or specially designed
+segments) installed before the breakout is made.
 
 The ground at a junction is also more exposed. Two intersecting excavations
 create additional free surfaces, and blocks that neither drive would release
@@ -151,8 +172,8 @@ must state explicitly.
 \label{sec:station-boxes}
 
 A station box is a deep braced excavation, and its design problem is wall
-deflection rather than collapse. Retaining wall selection --- diaphragm wall,
-secant pile, sheet pile --- follows from depth, water and the movement that
+deflection rather than collapse. Retaining wall selection (diaphragm wall,
+secant pile, sheet pile) follows from depth, water and the movement that
 adjacent assets will tolerate, and stiffer systems are chosen for movement
 control rather than for strength.
 
@@ -185,7 +206,7 @@ and the probability of intersecting an adverse structure approaches certainty.
 Shape follows the stress field. Mushroom, horseshoe and elliptical profiles
 distribute boundary stress differently, and matching the profile to the stress
 ratio reduces the peak concentration and the tensile zones
-(Section~\ref{sec:elliptical}). The optimum is
+(Section~\ref{sec:elliptical}; Figure~\ref{fig:elliptical-stress}). The optimum is
 elongation along the major principal stress in the ratio of the stresses, so
 where the horizontal stress is high the profile should be wider than it is
 tall, and where it is low a taller profile both lowers the peak concentration
@@ -206,8 +227,8 @@ peak boundary concentration, normally in the arch, is minimised
 destressed than they would be with the major stress acting across the
 section. The axis should also avoid running parallel to a
 persistent discontinuity set to minimise wedge formation (Section~\ref{sec:construct-rotation}). These rarely
-coincide, and the resolution requires identifying which mechanism governs
---- stress in strong sparsely jointed rock at depth, structure in jointed rock
+coincide, and the resolution requires identifying which mechanism governs:
+stress in strong sparsely jointed rock at depth, structure in jointed rock
 at moderate stress.
 
 Empirical span guidance through the $Q$-system and equivalent dimension
@@ -222,15 +243,35 @@ its data is an opinion rather than evidence.
 
 A large cavern is not excavated in one operation. The standard sequence takes
 a top heading first, installs the crown support from it, and then benches
-downward in lifts, extending the sidewall support as each lift is exposed.
+downward in lifts, extending the sidewall support as each lift is exposed
+(Figure~\ref{fig:cavern-sequence}).
 Very large caverns may require multiple drifts, sidewall galleries or a pilot
 tunnel through the crown.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch24/cavern-sequence}
+\caption{A cavern of span $B = 24$~m and wall height 36~m excavated as a top heading (1) and four benches (2 to 5) (schematic). Crown and wall support alternate grouted bolts (malachite) with long cables (carmine), each row installed from the lift that exposes it.}
+\label{fig:cavern-sequence}
+\end{figure}
+
 Sequencing serves two purposes. It limits the unsupported span at every stage,
 so that no stage exceeds the ground's capacity even though the final span
-does. And it provides progressive confirmation: the top heading exposes the
+does (Figure~\ref{fig:r3d-cavern-sequence}). And it provides progressive confirmation: the top heading exposes the
 crown rock and its behaviour before the full geometry is committed, so the
 design can be revised while revision is still cheap.
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{cavern_sequence}{%
+  \rlab[west]{0.62,0.60}{0.83,0.70}{Cables}
+  \rlab[west]{0.54,0.54}{0.83,0.52}{Bolts}
+  \rlab[east]{0.40,0.60}{0.22,0.72}{Crown heading}
+  \rlab[east]{0.40,0.33}{0.22,0.30}{Next bench}
+}
+\caption{The cavern of Figure~\ref{fig:cavern-sequence} part-way through benching, with the rock removed from one side of the near end (schematic). The top heading and benches 2 and 3 are out and bench 4 (translucent) is next; only the exposed lifts carry support, 14~m cables (carmine) alternating with 5~m bolts (malachite) in rings at an illustrative 3~m.}
+\label{fig:r3d-cavern-sequence}
+\end{figure}
 
 The sequence is part of the design and belongs in the specification. Stress
 redistributes at each stage, and the path to the final geometry affects both
@@ -243,7 +284,7 @@ inadvertently change the design.
 
 A cavern crown in bedded rock behaves as the voussoir arch of
 Chapter~\ref{ch:ground-behaviour}, and at cavern span the maximum stable span
-of an unreinforced bed is usually exceeded --- so the roof must be reinforced
+of an unreinforced bed is usually exceeded, so the roof must be reinforced
 into a thicker composite beam or suspended from competent rock above.
 
 Reinforcement at this scale means cables. Systematic bolting handles the
@@ -273,10 +314,17 @@ decision points.
 
 An excavation disturbs the stress field over a region several diameters
 across, conventionally bounded where the disturbance falls below about five
-per cent of the field stress --- for a circular opening in a hydrostatic
-field, about one and three-quarter diameters clear of the boundary. Two excavations separated by more than that
+per cent of the field stress: for a circular opening in a hydrostatic
+field, about one and three-quarter diameters clear of the boundary (Figure~\ref{fig:zone-of-influence}). Two excavations separated by more than that
 do not interact; closer, they do, and each must be analysed with the other
 present.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch24/zone-of-influence}
+\caption{Stress about a circular opening of radius $a$ and diameter $D$ in a hydrostatic field $p_0$, against clear distance $d$ from the boundary. Both components depart from $p_0$ by $p_0(a/r)^2$, which falls to 5~per~cent (grey band) at $d = 1.74\,D$.}
+\label{fig:zone-of-influence}
+\end{figure}
 
 Superposing the single-opening solutions is an approximation even in a wholly
 elastic medium, because each solution leaves tractions on the boundary of the
@@ -286,7 +334,7 @@ overlap, superposition fails altogether and the problem must be solved as a
 whole, numerically.
 
 The disturbance is not uniformly adverse. An opening creates a destressed
-region --- a \emph{stress shadow} --- in which a subsequent excavation experiences
+region, a \emph{stress shadow}, in which a subsequent excavation experiences
 lower stress than the far field. This can be exploited in sequencing, and it
 carries the corresponding penalty that reduced stress means reduced
 confinement, so a structurally controlled problem may be made worse by the
@@ -299,12 +347,19 @@ Where openings are separated by a pillar, the pillar carries the load that the
 openings no longer support. The tributary area method makes this explicit: the
 pillar carries the full overburden over the plan area attributed to it, so
 pillar stress rises as $1/(1-e)$ in the extraction ratio $e$, the proportion
-of the plan area excavated, and therefore very steeply once extraction is
+of the plan area excavated (Figure~\ref{fig:pillar-stress}), and therefore very steeply once extraction is
 high: pillar stress is twice the overburden stress at half extraction and
 five times it at 80 per cent. The calculation sequence is set out in
 Section~\ref{sec:seq-pillar} of Appendix~\ref{app:calculations}. The method assumes uniform extraction over a wide area and rigid
 abutments, and it overestimates stress in a small group of openings where the
 abutments carry a share.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch24/pillar-stress}
+\caption{Tributary area method. Left: square pillars of width $w$ separated by rooms of width $b$, each carrying the overburden on its dashed tributary area. Right: pillar stress against extraction ratio, twice the overburden stress at $e = 0.5$ and five times at 0.8; the square marks the layout drawn, $e = 0.61$.}
+\label{fig:pillar-stress}
+\end{figure}
 
 Pillar strength is not the strength of the rock it is made from. It rises with
 the width-to-height ratio, because a squat pillar develops confinement in its
@@ -336,7 +391,7 @@ well-documented mining failure mode.
 
 Foundation failure completes the set. A strong pillar bearing on a weak roof
 or floor can punch into it, and the system fails at a load well below the
-pillar's own strength --- a case where the pillar was never the weakest
+pillar's own strength: a case where the pillar was never the weakest
 element.
 
 In civil works these principles apply to the rock or soil pillar between twin
@@ -346,7 +401,7 @@ Minimum pillar width between twin tunnels is set by interaction rather than by
 strength: too narrow, and the second drive's yield zone overlaps the first's,
 increasing settlement and loading the first tunnel's lining. Construction
 sequence then matters, because the second drive imposes additional load and
-movement on a lining already built --- which is why twin-tunnel settlement is
+movement on a lining already built, which is why twin-tunnel settlement is
 not simply twice the single-tunnel value
 (Chapter~\ref{ch:settlement-damage}).
 

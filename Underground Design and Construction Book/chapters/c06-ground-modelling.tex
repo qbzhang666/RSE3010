@@ -30,7 +30,7 @@ than implied by the confidence of the draughtsman.
 Four objects are commonly conflated. The geological model interprets units,
 contacts and structures. The hydrogeological model adds aquifers, aquitards,
 heads and boundaries, and need not share the geological model's unit
-boundaries --- a single lithological unit may contain several flow domains,
+boundaries: a single lithological unit may contain several flow domains,
 and a permeable fault may connect units that are otherwise separated. The
 geotechnical ground model attaches material behaviour and design parameters.
 The analysis model is the idealisation actually meshed and solved.
@@ -79,13 +79,21 @@ metres and parameters by domain. Detailed design needs the geometry of
 individual features that govern a specific structure. Construction control
 needs metre-scale ground classification updated at the face. These are
 different requirements, and satisfying the finest everywhere is expensive and
-misleading.
+misleading. Figure~\ref{fig:support-scale} sets them against the support of
+the data.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch06/support-scale}
+\caption{Characteristic length represented by each data source against the resolution each decision requires; indicative ranges from Sections~\ref{sec:data-support} and~\ref{sec:model-resolution}. No source matches every decision, and point measurements are one to two orders of magnitude finer than any decision they inform.}
+\label{fig:support-scale}
+\end{figure}
 
 The misleading part matters more than the expense. A ground surface rendered
 to millimetre tolerance between boreholes two hundred metres apart is a
 statement about the interpolator, not about the ground, and it will be read as
 survey by anyone who did not build it. Resolution should be declared with the
-model, and where it varies along the alignment --- as it always does --- that
+model, and where it varies along the alignment, as it always does, that
 variation should be visible in the deliverable.
 
 \section{Building the geometry}
@@ -97,18 +105,26 @@ variation should be visible in the deliverable.
 Explicit modelling constructs surfaces from digitised sections and hand-drawn
 contacts: the geologist decides where the boundary runs and the software
 records it. Implicit modelling instead fits a scalar field to the observations
---- contact points, above-and-below constraints, structural orientation
-measurements --- and extracts the boundary as an isosurface of that field.
+(contact points, above-and-below constraints, structural orientation
+measurements) and extracts the boundary as an isosurface of that field.
 
 The practical difference is reproducibility and update cost. An implicit model
 is a function of its inputs, so adding a borehole regenerates the surface in
-minutes and the change is attributable to the new datum. An explicit model
+minutes and the change is attributable to the new datum
+(Figure~\ref{fig:implicit-scalar-field}). An explicit model
 embodies judgement that is not recorded anywhere except in the geologist's
 head, and updating it means redrawing.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch06/implicit-scalar-field}
+\caption{Implicit modelling of a contact (schematic section). A scalar field (grey isolines) is fitted to contact points, above-and-below constraints along each borehole and one dip measurement, and the contact is its zero isoline. A fifth borehole regenerates the surface; the change from the previous contact (dashed) is largest near the new datum.}
+\label{fig:implicit-scalar-field}
+\end{figure}
+
 The trade is control. An interpolator has no geological knowledge, and left
 unconstrained it will produce surfaces that are smooth, plausible-looking and
-geologically impossible --- units that pinch and reappear without cause,
+geologically impossible: units that pinch and reappear without cause,
 contacts that cross, folds with no consistent axis. Implicit modelling is
 therefore not an alternative to geological interpretation but a way of
 recording it: the geologist's contribution moves from drawing the surface to
@@ -122,7 +138,7 @@ be imposed so that units appear in sequence and an erosional surface truncates
 what lies beneath it. Fault displacement must be applied so that the modelled
 offset matches the observed sense and magnitude rather than being smeared into
 a gradual flexure. Fold geometry is best handled by supplying orientation data
---- measured dips, not just contact points --- so the interpolator reproduces
+(measured dips, not just contact points) so the interpolator reproduces
 limb dips instead of averaging across the hinge. Intrusive relationships must
 be declared, since an intrusion cross-cuts rather than conforms.
 
@@ -136,8 +152,8 @@ model delivered without them cannot be reviewed at all.
 \label{sec:dfn}
 
 Faults enter the model as discrete volumes, bounded by surfaces and carrying
-an assigned damage-zone thickness, because their engineering effect --- weakness, deformability, permeability,
-abrupt class change --- is distributed across the damage zone rather than
+an assigned damage-zone thickness, because their engineering effect (weakness, deformability, permeability,
+abrupt class change) is distributed across the damage zone rather than
 concentrated on a plane. Modelling a fault as a zero-thickness surface makes
 it invisible to any subsequent volume-based calculation.
 
@@ -146,7 +162,7 @@ too influential to omit. A discrete fracture network generates a synthetic
 population from the statistics established in
 Chapter~\ref{ch:structural-analysis}: orientation distributions by set,
 spacing or intensity, persistence, and termination rules. The result is not a
-map of the actual fractures --- it is one realisation of a population with the
+map of the actual fractures. It is one realisation of a population with the
 observed statistics.
 
 That distinction governs how such networks may be used. They are appropriate
@@ -171,27 +187,42 @@ the variogram,
 \]
 which measures how rapidly the squared difference between two measurements
 of a property $Z$ grows, on average, with their separation $h$. Three
-quantities describe it: the sill it approaches, equal to the variance of the
+quantities describe it (Figure~\ref{fig:variogram-model}): the sill it approaches, equal to the variance of the
 field; the range at which it reaches the sill, beyond which two measurements
-are effectively independent; and the nugget --- the apparent variance as the
+are effectively independent; and the nugget, the apparent variance as the
 separation tends to zero, representing measurement error and variability at
 scales below the sample spacing.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch06/variogram-model}
+\caption{Spherical and exponential variogram models with a nugget of 0.2 and a range of 100~m, normalised by the field variance $\sigma^2$ so that the sill is unity. The exponential model approaches the sill asymptotically and reaches about 95 per cent of it at the range.}
+\label{fig:variogram-model}
+\end{figure}
 
 Kriging then estimates values at unsampled locations as a weighted average of
 the observations, with weights derived from the variogram. It is optimal in a
 least-squares sense, and it is smooth: it honours the data at the observation
 points, but away from them the estimate reverts toward the mean, and the
-variance of the estimated field is lower than the variance of the real one.
+variance of the estimated field is lower than the variance of the real one
+(Figure~\ref{fig:kriging-simulation}).
 
 That smoothing is the reason estimation is often the wrong tool.
-Underground design is frequently governed by extremes --- the weakest zone,
-the most permeable path --- and a smoothed field has removed exactly those.
+Underground design is frequently governed by extremes (the weakest zone,
+the most permeable path), and a smoothed field has removed exactly those.
 Conditional simulation instead generates multiple realisations, each honouring
 the data at observation points and reproducing the observed variogram in
 between. No single realisation is the best estimate, but the ensemble
 describes the variability the design must tolerate. Where a design depends on
 variability rather than on the mean, simulation is the appropriate method and
 kriging is not.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch06/kriging-simulation}
+\caption{Kriging and conditional simulation of GSI along a 1~km alignment from six boreholes (synthetic field: spherical variogram, range 150~m, standard deviation 8). The kriged estimate reverts to the mean between holes and has about half the variability of the true field; each realisation honours the boreholes and reproduces that variability.}
+\label{fig:kriging-simulation}
+\end{figure}
 
 Both estimation and simulation assume that the statistics are stationary over
 the volume to which they are applied, that is, that one variogram describes
@@ -215,7 +246,7 @@ the unlogged remainder converts sparse determinations into a continuous
 profile.
 
 The technique works, with three conditions. Training data must span the
-classes to be predicted, and the classes are almost always imbalanced --- the
+classes to be predicted, and the classes are almost always imbalanced: the
 fault gouge that matters most is the rarest label in the set. Validation must
 be against withheld boreholes rather than withheld samples, because samples
 from the same borehole are not independent and a model validated against them
@@ -234,8 +265,8 @@ classification system calibrated on other people's logging.
 
 The populated model is divided into geotechnical domains: volumes within which
 behaviour is sufficiently uniform that one parameter set applies. Domain
-boundaries follow whichever control dominates --- lithology, weathering grade,
-structural intensity, alteration --- and they need not coincide with
+boundaries follow whichever control dominates (lithology, weathering grade,
+structural intensity, alteration), and they need not coincide with
 geological unit boundaries.
 
 The parameter derivation chain of
@@ -277,10 +308,18 @@ indicator, and the realisations referred to here are the output of that
 step. Multiple realisations,
 displayed as an ensemble rather than as a single surface, show directly how
 much the boundary could move. Probability-of-lithology volumes report, for
-each location, the proportion of realisations assigning it to each unit ---
-which makes the transition zones visible as zones rather than as lines.
+each location, the proportion of realisations assigning it to each unit,
+which makes the transition zones visible as zones rather than as lines
+(Figure~\ref{fig:contact-probability}).
 Distance-to-nearest-datum shading is cruder but immediately legible, and it
 answers the question a reviewer most often wants to ask.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch06/contact-probability}
+\caption{Probability of rock below a contact, from 200 conditional simulations of its elevation through five boreholes (synthetic; vertical scale exaggerated). Grey: six realisations; dashed: 5 and 95 per cent probability. Lower panel: standard deviation of the estimated contact, classed as high ($<1$~m), moderate or low ($>3$~m) confidence.}
+\label{fig:contact-probability}
+\end{figure}
 
 Simplest and most useful is a confidence classification along the alignment:
 high, moderate or low, with the criteria stated. It carries into the
@@ -326,8 +365,8 @@ and instrument readings during construction. The construction phase generates
 far more ground information than the investigation did, and it arrives
 progressively, at the face, in time to influence what is done next.
 
-Sequential updating in a Bayesian sense --- treating the existing model as a
-prior and the new observation as evidence --- is the appropriate formalism,
+Sequential updating in a Bayesian sense, treating the existing model as a
+prior and the new observation as evidence, is the appropriate formalism,
 and the informal version is universally practised even where the mathematics
 is not. What distinguishes a disciplined process is that updates are recorded,
 attributed and dated, so that a later reader can see how the interpretation

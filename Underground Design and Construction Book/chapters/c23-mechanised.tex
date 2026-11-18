@@ -28,13 +28,14 @@ and the logistics that set the ceiling on advance.
 \subsection{Machine families}
 \label{sec:machine-families}
 
-The families divide by how, and whether, the machine supports the ground.
+The families divide by how, and whether, the machine supports the ground
+(Figure~\ref{fig:tbm-families}).
 
 \emph{Open gripper} machines work in self-supporting rock. They brace against
 the tunnel walls to react thrust, leaving the crown accessible so that rock
 bolts, mesh and shotcrete can be installed close behind the head. They give
-the geotechnical engineer what no shielded machine does --- a visible tunnel
-wall --- and they cannot cope with ground that will not hold a grip pad.
+the geotechnical engineer what no shielded machine does, a visible tunnel
+wall, and they cannot cope with ground that will not hold a grip pad.
 
 \emph{Single shield} machines are enclosed, react thrust against the completed
 segmental ring, and support the perimeter as they advance. \emph{Double
@@ -44,11 +45,18 @@ retaining the ability to work in poor ground on the single-shield principle.
 The cost is length and mechanical complexity, and a long machine negotiates
 tight curves and squeezing ground poorly.
 
-\emph{Closed-face} machines --- earth pressure balance and slurry ---
+\emph{Closed-face} machines (earth pressure balance and slurry)
 pressurise the excavation chamber and support the face as well as the
 perimeter. They are required wherever the face will not stand, which in
 practice means most soft ground and most work below the water table in
 permeable material.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch23/tbm-families}
+\caption{The machine families in longitudinal section (schematic). An open gripper reacts thrust on the walls and leaves the rock exposed for bolting; a single shield reacts on the segmental ring; a double shield adds a gripper section and a telescopic joint; a closed-face machine, here earth pressure balance, also pressurises the chamber.}
+\label{fig:tbm-families}
+\end{figure}
 
 Selection follows the ground and water rather than preference: rock strength
 and abrasivity, discontinuity spacing, the grading and permeability of any
@@ -64,8 +72,8 @@ soil itself, held in the chamber as a plastic paste and discharged at a
 controlled rate through a screw conveyor. The screw is the pressure control:
 material passing along it loses pressure gradually, so a plug of conditioned
 soil maintains the differential between chamber and atmosphere. The
-requirement is a paste of the right consistency --- soft enough to flow,
-stiff and impermeable enough to form a plug --- and natural soils rarely
+requirement is a paste of the right consistency (soft enough to flow,
+stiff and impermeable enough to form a plug) and natural soils rarely
 supply it. Conditioning with foam, polymer or bentonite is therefore normal
 rather than exceptional, and the applicability envelope is defined by grading:
 clays and silts condition readily, uniform sands and gravels with difficulty
@@ -92,7 +100,7 @@ envelopes overlap in silty sand, where either will work.
 
 \emph{Multi-mode} machines can be converted between modes, and alignments
 crossing several ground types increasingly justify them. Conversion is not
-instantaneous --- it is a planned operation of days --- so the value lies in
+instantaneous: it is a planned operation of days, so the value lies in
 crossing a small number of long, well-identified domains rather than in
 responding to variability at the face.
 
@@ -118,8 +126,8 @@ efficiently at ratios of roughly 10 to 20, the optimum shifting with the
 brittleness of the rock. Soft ground is cut by
 drag picks and scrapers, which shear rather than indent.
 
-Wear governs cost and programme more than cutting does. Abrasivity indices ---
-the Cerchar index for rock, the LCPC index for soils --- correlate with wear
+Wear governs cost and programme more than cutting does. Abrasivity indices
+(the Cerchar index for rock, the LCPC index for soils) correlate with wear
 rate and should be measured during investigation, because they determine how
 often the machine must be stopped and the face entered. The Cerchar index is
 dimensionless and runs from below about 0.5 for very weakly abrasive rock to
@@ -145,7 +153,7 @@ correlating penetration with rock drillability and fracturing indices. The
 $Q_{TBM}$ index of \citet{barton2000tbm} extends rock mass classification to
 machine performance.
 
-All three predict \emph{penetration rate} --- advance while boring. None
+All three predict \emph{penetration rate}: advance while boring. None
 predicts \emph{advance rate}, which is what the programme needs, because
 advance rate is penetration rate multiplied by utilisation, and utilisation is
 the fraction of time the machine is actually boring. Utilisation on a
@@ -154,7 +162,14 @@ it can fall below 20 per cent. The remainder is ring building, cutter changes,
 maintenance, logistics and stoppages. At a penetration rate of 3.0~m/h, a
 utilisation of 35 per cent gives 1.05~m/h, about 25~m a day, and one of 18
 per cent gives 0.54~m/h, about 13~m a day: the same machine in the same rock,
-and a factor of two in programme.
+and a factor of two in programme (Figure~\ref{fig:advance-rate}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch23/advance-rate}
+\caption{Advance rate against utilisation for three penetration rates. The points are the 35 and 18~per cent cases at 3.0~m/h; the bands mark utilisation below 20~per cent (difficult ground) and of 40 to 50~per cent (a well-run drive in good ground).}
+\label{fig:advance-rate}
+\end{figure}
 
 This is why predicted advance rates are so often optimistic: the penetration
 prediction is reasonable and the utilisation assumption is not. Realistic
@@ -184,12 +199,20 @@ machine operating parameters requires care about where in the profile the
 target is defined, since pressure varies over the face height with the density
 of the supporting medium: with a slurry of unit weight
 12~kN/m\textsuperscript{3} the applied pressure differs by about 120~kPa
-between the crown and the invert of a 10~m face.
+between the crown and the invert of a 10~m face
+(Figure~\ref{fig:face-pressure-profile}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch23/face-pressure-profile}
+\caption{Pressure over a 10~m face with its crown 10~m deep and the water table at the surface (schematic). The collapse bound is drawn as pore pressure plus an effective earth pressure rising with depth, the blow-out bound as total overburden. A 12~kN/m\textsuperscript{3} slurry set to 175~kPa at the crown stays inside the window from crown to invert.}
+\label{fig:face-pressure-profile}
+\end{figure}
 
 Control in real time is the operator's task and the designer's specification.
 Chamber pressure responds to advance rate and discharge rate together, and
-maintaining it through a ring-build stop --- when the machine is not advancing
-but the face still requires support --- is a common point of loss.
+maintaining it through a ring-build stop (when the machine is not advancing
+but the face still requires support) is a common point of loss.
 
 Annulus grouting closes the gap between the excavated bore and the segment
 ring, and it is the largest controllable component of volume loss. Simultaneous
@@ -200,14 +223,37 @@ ground and water pressure enough to fill the annulus and stay below the
 fracture pressure, and the volume injected must be reconciled against the
 theoretical annular volume ring by ring. For a 6.2\,m bore, a 6.0\,m segment
 extrados and a 1.5\,m ring the theoretical annulus is
-$(\pi/4)(6.2^2 - 6.0^2)(1.5) = 2.87$\,m\textsuperscript{3} per ring, against
+$(\pi/4)(6.2^2 - 6.0^2)(1.5) = 2.87$\,m\textsuperscript{3} per ring
+(Figure~\ref{fig:annulus-grout}), against
 an excavated volume of 45.3\,m\textsuperscript{3}. A persistent shortfall
 between theoretical and actual volume is the earliest reliable indicator of
 ground loss, and it converts directly: 0.5\,m\textsuperscript{3} per ring
 is a volume loss of 1.1\,per cent. The shortfall that signifies ground loss
 is the one measured against the theoretical annulus, not against a specified
 over-fill allowance, and it is judged against the design $V_L$ and the
-settlement limits rather than on the grout record alone.
+settlement limits rather than on the grout record alone. A shortfall of
+0.5\,m\textsuperscript{3} is 17\,per cent of the annulus, drawn as an unfilled
+sector at the crown of the rings leaving the tail in
+Figure~\ref{fig:r3d-shield-tail}.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch23/annulus-grout}
+\caption{Annulus grouting. Left: the annulus between a 6.2~m bore and a 6.0~m segment extrados (schematic, annulus exaggerated), 2.87~m\textsuperscript{3} per 1.5~m ring. Right: volume loss implied by a persistent grout shortfall per ring; 0.5~m\textsuperscript{3} is 1.1~per cent (circle), and the band marks $V_L$ of 0.5 to 1.5~per cent.}
+\label{fig:annulus-grout}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{shield_tail}{%
+  \rlab[south]{0.30,0.78}{0.30,1.00}{Grout shortfall}
+  \rlab[west]{0.57,0.735}{0.84,0.88}{Tail seals}
+  \rlab[west]{0.73,0.50}{0.84,0.50}{Shield skin}
+  \rlab[north]{0.30,0.295}{0.30,0.12}{Grout}
+}
+\caption{Longitudinal half cut-away of a shield tail with the annulus of Figure~\ref{fig:annulus-grout}, its 0.1~m width drawn three times true. In the tail the skin (dark grey) and three rows of seals close the gap; behind it grout (malachite) fills the annulus except at the crown, where a 0.5~m\textsuperscript{3} shortfall per ring leaves 17~per cent of the 2.87~m\textsuperscript{3} empty (carmine). Skin and seals illustrative.}
+\label{fig:r3d-shield-tail}
+\end{figure}
 
 \subsection{Guidance and interventions}
 \label{sec:guidance-interventions}
@@ -223,8 +269,8 @@ Roll, alignment drift and the accumulation of build tolerance all feed into
 the clearance envelope, and a drive that consumes its tolerance early has no
 margin left for the difficult ground it has not yet reached.
 
-Interventions --- entering the excavation chamber for cutter changes,
-inspection or repairs --- are the principal safety risk in closed-face
+Interventions (entering the excavation chamber for cutter changes,
+inspection or repairs) are the principal safety risk in closed-face
 tunnelling. At low pressure, compressed air working is possible with medical
 supervision and decompression control, and the decompression time rises
 steeply with pressure. Above the limits of compressed air,
@@ -232,7 +278,7 @@ which are of the order of 3 to 4~bar and are set by the regulation that
 applies,
 saturation techniques are used, with their own substantial regime. The
 alternative is to intervene under atmospheric conditions, which requires a
-stable face --- achievable by locating interventions where the ground is
+stable face, achievable by locating interventions where the ground is
 competent, or by treating the ground from the surface in advance.
 
 Planning interventions is therefore an alignment-stage activity. Identifying
@@ -252,8 +298,8 @@ ground data most projects ever collect, and it is generated free.
 Interpreted as geotechnical information it supports three things: inference of
 ground conditions behind the face, detection of departure from expected
 behaviour in real time, and calibration of performance prediction for the
-remainder of the drive. Specific energy --- the energy consumed per unit
-volume excavated --- is the most useful derived quantity, since it responds to
+remainder of the drive. Specific energy, the energy consumed per unit
+volume excavated, is the most useful derived quantity, since it responds to
 rock strength and fracturing and can be tracked continuously against the ground
 model of Chapter~\ref{ch:ground-modelling}. Its rotary part, which dominates,
 is
@@ -268,16 +314,23 @@ contribution $F/A$ is a small addition, of the order of
 0.3~MJ/m\textsuperscript{3}. A 6~m head turning at 8~rev/min under a torque
 of 2000~kN\,m absorbs about 1700~kW and, advancing at 3~m/h, excavates
 85~m\textsuperscript{3}/h, so that $e_s \approx 71$~MJ/m\textsuperscript{3},
-about 20~kWh/m\textsuperscript{3}. The power in this expression is that
+about 20~kWh/m\textsuperscript{3} (Figure~\ref{fig:specific-energy}). The power in this expression is that
 delivered at the cutterhead and not the installed power of the machine.
 Multiplied by the excavated volume, specific energy gives the cutting energy
 of a drive; dividing that by the efficiency of the cutterhead drive and adding
-the loads of the shield and back-up --- thrust cylinders, conditioning or
-slurry pumping, grouting, ventilation and conveyors --- gives the excavation
+the loads of the shield and back-up (thrust cylinders, conditioning or
+slurry pumping, grouting, ventilation and conveyors) gives the excavation
 energy $E_{\mathrm{TBM}}$ of Section~\ref{sec:carbon-formula}, which is the
 energy drawn at the meter. A sustained rise in specific energy at
 constant thrust indicates stronger or less fractured rock, or blunt tools,
 which have to be excluded first.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch23/specific-energy}
+\caption{Rotary specific energy of a 6~m cutterhead at 8~rev/min against penetration rate, for three torques. The point is the worked case, 71~MJ/m\textsuperscript{3} at 3~m/h and 2000~kN\,m; at constant torque, halving the penetration rate doubles $e_s$.}
+\label{fig:specific-energy}
+\end{figure}
 
 The obstacles are practical. Data arrive at high rate in supplier-specific
 formats, require cleaning and ring-based aggregation to be usable, and are
@@ -290,8 +343,8 @@ that reports ground the machine has not yet reached. Probe drilling ahead of a
 shielded machine is slow and requires ports through the head, so it costs
 directly in advance rate. Seismic and electromagnetic look-ahead methods are
 faster and less definite. The decision to probe is a policy set from the
-geological model --- probing through reaches identified as at risk of water,
-fault or cavity --- rather than a response to something already observed,
+geological model (probing through reaches identified as at risk of water,
+fault or cavity) rather than a response to something already observed,
 because by the time a shielded machine observes a problem it is in it.
 
 \section{Risk and logistics}
@@ -320,8 +373,8 @@ shaft or portal, a cradle, a reaction frame and a seal against the ground; the
 launch seal is a routine source of water and ground loss. Muck removal, segment
 delivery, ventilation and power all run through a single tunnel behind the
 machine, and their capacity sets a ceiling on advance that no improvement in
-penetration rate can lift. The surface site --- for segment storage, slurry
-separation, spoil handling and reception --- is often the binding constraint in
+penetration rate can lift. The surface site (for segment storage, slurry
+separation, spoil handling and reception) is often the binding constraint in
 urban work, and it is fixed by land availability rather than by engineering.
 
 Reception is planned at the same time as launch. A machine arriving at a shaft

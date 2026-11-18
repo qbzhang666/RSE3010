@@ -49,7 +49,7 @@ design is fixed.
 \paragraph{Sources of uncertainty.}
 Four sources are worth separating because they respond differently to effort.
 \emph{Inherent spatial variability} is real variation in the ground and cannot
-be reduced --- only characterised. \emph{Measurement error} arises in testing
+be reduced, only characterised. \emph{Measurement error} arises in testing
 and can be reduced by better technique. \emph{Transformation uncertainty}
 arises when a measured quantity is converted to a design parameter through a
 correlation, and it is frequently the largest contributor: the scatter in a
@@ -78,7 +78,8 @@ have been filtered rather than that the ground is uniform.
 Spatial correlation matters as much as scatter. Measurements close together
 are more alike than measurements far apart, and the correlation length
 describes the separation beyond which they become independent. It is the
-reason that averaging over a failure surface reduces variance: a sliding
+reason that averaging over a failure surface reduces variance
+(Figure~\ref{fig:characteristic-averaging}): a sliding
 surface many correlation lengths long samples the full distribution, so the
 mobilised strength approaches the mean, whereas a short surface may lie
 entirely within one weak zone. Two opposite errors are possible. Neglecting
@@ -93,13 +94,20 @@ calls the same quantity the representative value of a ground
 property~\citep{en1997part1}. Every word of that
 definition is doing work. \emph{Cautious} means on the safe side of the mean,
 not the worst measurement. \emph{Affecting the occurrence of the limit state}
-means the value relevant to the mechanism --- which may be a local minimum for
+means the value relevant to the mechanism, which may be a local minimum for
 a small mechanism and a spatial average for a large one.
 
 It follows that there is no universal percentile. A five per cent fractile is
 a convention, not a definition, and applying it mechanically to a parameter
 governing a large averaging mechanism is over-conservative, while applying it
 to one governing a local mechanism may not be conservative at all.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch21/characteristic-averaging}
+\caption{Spatial averaging and the characteristic value, for a friction angle of mean $30^\circ$ and coefficient of variation 10~per cent (illustrative). Left: point values and their average over a surface ten correlation lengths $\lambda$ long; the 5~per cent fractiles (vertical lines) are $25.1^\circ$ and $27.9^\circ$. Right: the variance ratio $\Gamma^2$ for exponential correlation, after \citet{baecher2003reliability}.}
+\label{fig:characteristic-averaging}
+\end{figure}
 
 \subsection{Limit state design and codes}
 \label{sec:limit-state-design-and-codes}
@@ -113,12 +121,12 @@ urban tunnelling the serviceability states usually govern, and by a wide
 margin.
 
 Applying partial factors to underground works is awkward for a structural
-reason. In a building, load and resistance are independent --- the wind does
+reason. In a building, load and resistance are independent: the wind does
 not know the strength of the concrete. Underground, both derive from the same
 ground: factoring the strength down also reduces the load the ground can shed,
 and factoring the load up may change the mechanism. Eurocode~7 handles this by
-allowing the factors to be applied at different points --- to the ground
-strength, to the resistance, or to the effects of the actions --- and the
+allowing the factors to be applied at different points (to the ground
+strength, to the resistance, or to the effects of the actions), and the
 choice between them changes the answer. This is a genuine unresolved difficulty
 rather than a matter of preference, and it is one reason tunnelling has
 retained global factors of safety longer than other geotechnical disciplines.
@@ -130,8 +138,8 @@ the question proposed a dedicated working group rather than a clause in an
 existing part~\citep{jrc2022tunnels}. Geotechnical codes provide the
 ground-related framework; structural codes cover linings as concrete
 structures; and the specifically tunnelling guidance comes from industry
-bodies --- the international tunnelling association and the national
-tunnelling societies --- which publish recommendations on segmental lining
+bodies (the international tunnelling association and the national
+tunnelling societies), which publish recommendations on segmental lining
 design, sprayed concrete, risk management and fire.
 
 \paragraph{The second-generation geotechnical framework.}
@@ -143,9 +151,9 @@ withdrawn by 30 March 2028. Three of its features bear directly on underground
 work. First, rock is treated on an equal footing with soil, and Part~3 has a
 clause on rock bolts and rock surface support, so the support elements of
 Chapter~\ref{ch:support} fall within it even though the tunnel as a whole does
-not. Second, the reliability measures --- the extent of investigation, the
-verification, supervision and monitoring --- are graded by a Geotechnical
-Category, set from the consequence class of the structure and a geotechnical
+not. Second, the reliability measures (the extent of investigation, the
+verification, supervision and monitoring) are graded by a Geotechnical
+Category (Figure~\ref{fig:ec7-category-routes}), set from the consequence class of the structure and a geotechnical
 complexity class that rises with the uncertainty and variability of the
 ground, its sensitivity to water and the degree of ground--structure
 interaction. A tunnel beneath a city, in variable ground below the water table,
@@ -167,6 +175,13 @@ observational method, which the code retains, is the route of
 Chapter~\ref{ch:movement-monitoring} and of Section~\ref{sec:bayesian-updating}.
 The target reliability attached to each consequence class is a national
 choice.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch21/ec7-category-routes}
+\caption{The second-generation geotechnical framework (schematic). The Geotechnical Category rises with the consequence class and the geotechnical complexity class and grades the reliability measures; the off-diagonal cells (hatched) follow the code's table. A tunnel beneath a city sits in the top cell (carmine). Verification is by any of the four routes.}
+\label{fig:ec7-category-routes}
+\end{figure}
 
 \paragraph{Linings, risk and specification.}
 A lining is a concrete structure and is designed to the concrete code in force:
@@ -251,7 +266,7 @@ is the current default.
 Sensitivity analysis identifies which parameters govern the outcome, and it is
 the highest-value uncertainty calculation available because it is cheap and
 because it redirects effort. The characteristic result in rock engineering is
-that the outcome is dominated by one or two parameters --- very often $\GSI$,
+that the outcome is dominated by one or two parameters: very often $\GSI$,
 because rock mass strength depends on it exponentially and a ten-point change
 can alter strength by 40 per cent, as the sensitivity study in
 Chapter~\ref{ch:site-investigation} shows.
@@ -266,8 +281,8 @@ uncertainty analysis pays for itself.
 \paragraph{From calculation to risk register.}
 A computed probability becomes useful when it enters the project risk
 framework, which speaks in likelihood and consequence rather than in $\beta$.
-The translation requires the consequence to be assessed --- to life, to cost,
-to programme, to third parties --- and the combination judged against
+The translation requires the consequence to be assessed (to life, to cost,
+to programme, to third parties) and the combination judged against
 acceptance criteria, conventionally through an ALARP framing in which risk is
 reduced until further reduction is grossly disproportionate to the benefit.
 
@@ -321,7 +336,8 @@ $\GSI$ & $\sci$ (MPa) & $\mi$ & $\scm$ (MPa) & $\scm/p_0$ & Strain (\%) \\
 The eight ratios have a mean of 0.236 and a standard deviation of 0.062.
 Very severe squeezing, a strain above 5 per cent, corresponds to a ratio
 below 0.200, so the reliability index against it is
-$\beta = (0.236 - 0.200)/0.062 = 0.58$, a probability of about 0.28 if the
+$\beta = (0.236 - 0.200)/0.062 = 0.58$
+(Figure~\ref{fig:squeezing-uncertainty}), a probability of about 0.28 if the
 ratio is taken as normally distributed. Monte Carlo sampling of the same
 three distributions gives 0.31, and a probability of about 0.04 that the
 strain exceeds 10 per cent.
@@ -331,7 +347,7 @@ mean parameters places the ground in the severe class and implies a radial
 closure of $0.037 \times 4.75$~m, or 176~mm. The same calculation with the
 distributions propagated shows three chances in ten that the squeezing is
 very severe, and an 84th-percentile strain of 6.5 per cent, a closure of
-about 310~mm. The deterministic answer is not wrong --- it is incomplete,
+about 310~mm. The deterministic answer is not wrong. It is incomplete,
 because it says nothing about how much of the margin is consumed by not
 knowing the ground, and here that is the difference between one support
 strategy and another (Section~\ref{sec:squeezing-strategy}).
@@ -342,6 +358,13 @@ for $\sci$ and 0.018 for $\mi$, which are 59, 32 and 9 per cent of the
 variance. $\GSI$ comes first, as it almost always does. That result,
 obtained in an afternoon, justifies redirecting investigation effort in a
 way no amount of additional analysis at fixed parameters could.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch21/squeezing-uncertainty}
+\caption{Uncertainty in the squeezing assessment of the poor domain. Left: strength ratio from $2\times10^5$ Monte Carlo samples, the eight point estimates (ticks) and their normal fit; the dashed line is the very severe threshold of 0.200, $\beta\sigma$ below the mean, and the dotted line the extreme threshold of 0.141. Right: shares of the variance.}
+\label{fig:squeezing-uncertainty}
+\end{figure}
 
 \section{Integrating methods and objectives}
 \label{sec:integrating-methods-and-objectives}
@@ -609,7 +632,14 @@ installed 3~m behind the face has a capacity of 0.66~MPa, whereas elastic
 equilibrium would require about 1.7~MPa of it. The shell recommended by the
 chart would be loaded to two and a half times its capacity, while the 0.5~m
 concrete lining of Chapter~\ref{ch:ccm} reaches equilibrium with a factor of
-safety of 2.8.
+safety of 2.8 (Figure~\ref{fig:empirical-vs-ccm}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch21/empirical-vs-ccm}
+\caption{The Q-system shell and the concrete lining on the ground reaction curve of the poor domain, both installed 3~m behind the face. The 90~mm shotcrete shell ($E_c = 30$~GPa) yields at 0.66~MPa (square), short of the 1.66~MPa an unyielding shell would attract (carmine circle); the 0.5~m lining reaches equilibrium at 2.27~MPa.}
+\label{fig:empirical-vs-ccm}
+\end{figure}
 
 The empirical recommendation is therefore unconservative for this ratio of
 stress to strength, because the case histories behind the Q-system contain
@@ -668,7 +698,7 @@ through geometry, support timing and excavation method, and the only question
 is whether that influence is exercised deliberately or by default.
 
 Making it explicit changes the calculation in one respect. The conventional
-objectives are mostly constraints --- satisfied or not --- whereas carbon and
+objectives are mostly constraints (satisfied or not), whereas carbon and
 cost are quantities to be minimised. A design problem with several constraints
 and two competing objectives has a different structure from one with
 constraints alone, and it does not have a unique answer.
@@ -681,7 +711,7 @@ outside it are simply inferior and can be discarded; designs within it
 represent genuine trades that require a judgement rather than a calculation.
 
 Reporting the set rather than a single optimum is the honest outcome, because
-it exposes what the client is actually being asked to accept --- so much
+it exposes what the client is actually being asked to accept: so much
 carbon for so much reserve, so much cost for so much convergence. A single
 recommended design conceals the trade and, in practice, conceals the weighting
 the designer applied without saying so.
@@ -698,8 +728,16 @@ The clearest illustration that carbon and geotechnical performance are coupled
 rather than independent is the support timing decision. Permitting more ground
 convergence before support is mobilised moves the equilibrium point down the
 ground reaction curve, reducing the support pressure the lining must carry and
-therefore its thickness and reinforcement --- a material and carbon reduction
-obtained through mechanics rather than through substitution.
+therefore its thickness and reinforcement, a material and carbon reduction
+obtained through mechanics rather than through substitution
+(Figure~\ref{fig:controlled-deformation}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch21/controlled-deformation}
+\caption{Support timing as a design lever, for the main access tunnel in the poor domain. Left: thickness of the 60~MPa concrete ring that keeps the factor of safety of the design, 2.8 (circle), as the installation distance $L$ grows. Right: the resulting trade between concrete volume per metre, a proxy for embodied carbon, and wall displacement at equilibrium.}
+\label{fig:controlled-deformation}
+\end{figure}
 
 The limits are real and must be stated with the saving. Convergence consumes
 the clearance envelope, so the excavated profile must accommodate it.
@@ -734,8 +772,8 @@ Chapter~\ref{ch:digital-twin} carries out, and what the value-of-information arg
 \subsection{The updating relation}
 \label{sec:updating-relation}
 
-Let $\theta$ be a parameter of interest --- a rock mass modulus, a volume
-loss, a friction angle --- described before construction by a probability
+Let $\theta$ be a parameter of interest (a rock mass modulus, a volume
+loss, a friction angle) described before construction by a probability
 density $p(\theta)$ expressing what the investigation established. Let $z$ be
 an observation whose value depends on $\theta$ through a model with a known
 error, so that $p(z \mid \theta)$ states how probable that observation would
@@ -746,8 +784,8 @@ p(\theta \mid z) \;=\; \frac{p(z \mid \theta)\, p(\theta)}{p(z)} ,
 \]
 in which the denominator is a normalising constant and carries no information
 about $\theta$. The three terms have names worth keeping straight: the prior
-$p(\theta)$, the likelihood $p(z \mid \theta)$ --- read as a function of
-$\theta$ for the $z$ actually observed, not as a distribution over $z$ --- and
+$p(\theta)$, the likelihood $p(z \mid \theta)$ (read as a function of
+$\theta$ for the $z$ actually observed, not as a distribution over $z$) and
 the posterior $p(\theta \mid z)$.
 
 For the common case in which prior and measurement error are both normal, the
@@ -759,15 +797,23 @@ deviation $\sigma_z$, the posterior is normal with
 \qquad
 \frac{1}{\sigma_1^2} = \frac{1}{\sigma_0^2} + \frac{1}{\sigma_z^2} .
 \]
-Three properties follow directly and are worth more than the algebra. The
+Three properties follow directly and are worth more than the algebra
+(Figure~\ref{fig:bayesian-update}). The
 posterior mean is a weighted average of prediction and measurement, each
 weighted by the other's variance, so a precise measurement dominates a vague
 prior and a vague measurement barely moves a confident prior. Precisions add,
 so the posterior is always at least as sharp as either input: an observation
 cannot increase uncertainty about a parameter, though it can move the mean a
-long way. And the update is sequential --- yesterday's posterior is today's
-prior --- so a drive can be updated round by round without reprocessing its
+long way. And the update is sequential (yesterday's posterior is today's
+prior), so a drive can be updated round by round without reprocessing its
 history.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch21/bayesian-update}
+\caption{Normal updating of a rock mass modulus (illustrative values). Left: a prior of $2.12 \pm 0.60$~GPa and an observation of $1.50 \pm 0.40$~GPa give a posterior of $1.69 \pm 0.33$~GPa, sharper than either. Right: the posterior spread after $n$ observations of equal precision, $\sigma_n/\sigma_0 = (1 + n\sigma_0^2/\sigma_z^2)^{-1/2}$.}
+\label{fig:bayesian-update}
+\end{figure}
 
 The practical difficulty is rarely the arithmetic. It is that $\sigma_z$ must
 include the error of the model connecting $\theta$ to $z$, not merely the
@@ -795,8 +841,8 @@ does not identify. Convergence depends on stress, modulus and strength
 together, and a single convergence record cannot separate them: any of several
 combinations reproduces it, so an update attributing all of the discrepancy to
 modulus is arbitrary. The remedy is to update the identifiable combination, or
-to bring in a second independent observation --- plastic zone extent from
-extensometers, or spalling depth --- so that the joint likelihood
+to bring in a second independent observation (plastic zone extent from
+extensometers, or spalling depth) so that the joint likelihood
 discriminates.
 
 The second is the prior that will not move. A prior stated with unrealistically
@@ -836,7 +882,7 @@ Two consequences are worth stating because they are frequently resisted. The
 value depends on the decision, so the same borehole is worth different amounts
 to different designs, and an investigation cannot be optimised without knowing
 what will be done with it. And information about a parameter the design is
-insensitive to has no value whatever its geological interest --- which is the
+insensitive to has no value whatever its geological interest, which is the
 formal version of the argument made qualitatively in
 Chapter~\ref{ch:ground-modelling}, and the reason investigation targeting
 belongs to the designer rather than to the driller.

@@ -71,6 +71,26 @@
   \newcommand{\datafigure}[2][\textwidth]{\includegraphics[width=#1]{#2}}
 \fi
 
+% \renderfigure[<width>]{<scene>}{<labels>} -- a 3D render from figures/render/
+% with labels typeset over it, so no text is burnt into the raster and the
+% labels survive when a final render replaces the preview. Coordinates are
+% fractions of the image: (0,0) bottom left, (1,1) top right.
+%   \rlab[<anchor>]{<x,y of the point>}{<x,y of the text>}{<text>}  leader + label
+%   \rtxt[<anchor>]{<x,y>}{<text>}                                  label only
+\newcommand{\renderfigure}[3][0.9\textwidth]{%
+  \begin{tikzpicture}[font=\footnotesize]
+    \node[anchor=south west,inner sep=0] (img) at (0,0) {\includegraphics[width=#1]{render/#2}};
+    \begin{scope}[x={(img.south east)},y={(img.north west)}]
+      #3
+    \end{scope}
+  \end{tikzpicture}}
+\newcommand{\rlab}[4][west]{%
+  \draw[line width=0.3pt,black!80] (#2) -- (#3);
+  \fill[black!80] (#2) circle[radius=0.6pt];
+  \node[anchor=#1,inner sep=1.2pt,fill=white,fill opacity=0.85,text opacity=1,align=left] at (#3) {#4};}
+\newcommand{\rtxt}[3][center]{%
+  \node[anchor=#1,inner sep=1.2pt,fill=white,fill opacity=0.85,text opacity=1,align=center] at (#2) {#3};}
+
 % --- Table conventions -------------------------------------------------------
 \newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
 \renewcommand{\arraystretch}{1.15}

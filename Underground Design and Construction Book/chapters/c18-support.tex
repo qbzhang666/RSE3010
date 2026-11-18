@@ -16,7 +16,7 @@ between them.
 Three ideas organise the chapter. The first is that reinforcement and support
 are mechanically distinct and are analysed differently. The second is that
 what a support element contributes is set by its stiffness, its capacity and
-the convergence that had already occurred when it was installed --- the
+the convergence that had already occurred when it was installed, the
 argument developed in Chapter~\ref{ch:ccm} and applied here to real hardware.
 The stiffness and capacity expressions for each element are collected in
 Section~\ref{sec:grc-scc-appendix}, representative properties in
@@ -53,7 +53,7 @@ falls of ground that account for most underground
 injuries~\citep{hoek1995support}.
 
 The distinction determines the analysis. Reinforcement is assessed through its
-effect on the rock mass --- higher effective confinement, a raised ground
+effect on the rock mass: higher effective confinement, a raised ground
 reaction curve, a stabilised block. Support is assessed through its own
 structural capacity against the pressure it attracts. A design that treats
 grouted bolts as though they applied a boundary pressure has used the wrong
@@ -64,13 +64,13 @@ injure people.
 \label{sec:bolt-types}
 
 Reinforcement systems are usefully classified by how load transfers from the
-rock to the element~\citep{windsor1993classification}. \emph{Continuously mechanically coupled} systems --- fully
-grouted rebar, resin-anchored bar --- transfer load along their whole length
+rock to the element~\citep{windsor1993classification}. \emph{Continuously mechanically coupled} systems (fully
+grouted rebar, resin-anchored bar) transfer load along their whole length
 through a stiff grout or resin annulus. \emph{Continuously frictionally
-coupled} systems --- split sets, expandable friction bolts --- transfer through
+coupled} systems (split sets, expandable friction bolts) transfer through
 friction at the borehole wall along their length. \emph{Discretely mechanically
-coupled} systems --- mechanical expansion-shell anchors, and cables anchored
-only at their ends --- transfer at discrete points.
+coupled} systems (mechanical expansion-shell anchors, and cables anchored
+only at their ends) transfer at discrete points.
 
 The classification predicts behaviour. Continuously coupled elements develop
 load locally wherever the rock moves, which makes them stiff, effective across
@@ -83,7 +83,8 @@ squeezing and burst-prone ground despite modest capacity. Representative
 capacities for each family are in Table~\ref{tab:support-props} of
 Appendix~\ref{app:constants}.
 
-Load transfer along a grouted bolt is not uniform. Shear stress concentrates
+Load transfer along a grouted bolt is not uniform
+(Figure~\ref{fig:bolt-load-transfer}). Shear stress concentrates
 near the point of relative movement and decays along the bond, so only a
 limited embedment length is mobilised at any time. Past a critical shear
 stress the bond decouples progressively, and the load redistributes further
@@ -93,9 +94,16 @@ into which load redistributes as the near-field bond decouples; and grout
 quality along the whole
 bond governs performance in a way a pull test at one location may not reveal.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch18/bolt-load-transfer}
+\caption{Axial force along three reinforcement types crossing a joint that opens 1.2~m from the collar (schematic). The grouted bar mobilises its bond within a few decimetres of the joint, the friction bolt builds load gradually along its length, and the anchored bar carries a uniform force between plate and anchor.}
+\label{fig:bolt-load-transfer}
+\end{figure}
+
 Self-drilling anchors deserve mention because they solve a construction
-problem rather than a mechanical one. Where a borehole will not stay open ---
-in ravelling ground, in heavily fractured rock, in soil --- a hollow bar
+problem rather than a mechanical one. Where a borehole will not stay open
+(in ravelling ground, in heavily fractured rock, in soil), a hollow bar
 drilled and grouted in one operation is the only practical option, at some
 cost in steel efficiency.
 
@@ -114,7 +122,7 @@ limit equilibrium. Bolt orientation matters: the optimum is set by the
 sliding plane rather than by the excavation surface, because an inclined bolt
 contributes both a direct restraining component and an increase in normal
 stress on the sliding plane. Limit equilibrium of the block makes the result
-explicit: for a factor of safety near unity the required bolt force is least
+explicit (Figure~\ref{fig:bolt-inclination}): for a factor of safety near unity the required bolt force is least
 when the bar is inclined at about the friction angle to the sliding plane,
 with its pull directed up the dip, and the optimum flattens towards the plane
 as the target factor of safety rises. Bolts must be long enough to
@@ -148,7 +156,7 @@ k_s = \frac{1}{s_c\, s_l}\left[\frac{4L_b}{\pi d_b^2 E_b} + Q\right]^{-1},
 \]
 the expressions of Section~\ref{sec:grc-scc-appendix}. A 25\,mm bar of
 200\,kN capacity (Table~\ref{tab:support-props}) on a 1.5\,m square pattern
-gives $p_{sm} = 0.2/(1.5 \times 1.5) \approx 0.09$\,MPa --- the hundred
+gives $p_{sm} = 0.2/(1.5 \times 1.5) \approx 0.09$\,MPa, the hundred
 kilopascals of the previous paragraph, and some seventy times less than the
 6.3\,MPa of the concrete lining analysed in Chapter~\ref{ch:ccm}. Supplying
 the 2.3\,MPa at which that lining reached equilibrium in the poorer ground
@@ -175,7 +183,7 @@ that the chart's implicit mechanism is the one actually operating.
 A bolt crossing a discontinuity that shears is loaded in combined tension and
 shear, not tension alone. As the joint displaces, the bar bends near the
 joint, develops axial tension through the geometry of that deformation, and
-contributes dowel action --- direct shear resistance across the plane. The
+contributes dowel action: direct shear resistance across the plane. The
 combination is complex, the bar frequently fails at the joint where bending
 and tension coincide, and the practical consequence is that a bolt oriented
 perpendicular to a shearing joint is poorly used. A bar inclined away from the
@@ -193,7 +201,7 @@ Cables extend reinforcement to lengths bolts cannot reach. Plain strand,
 bulbed strand and multi-strand anchors span the range from a few metres to
 tens of metres, and pre-tensioning is used where the objective is to prevent
 displacement rather than to resist it after it occurs. Their role is in large
-spans --- cavern roofs and high sidewalls (Chapter~\ref{ch:openings}) --- where
+spans, cavern roofs and high sidewalls (Chapter~\ref{ch:openings}), where
 the blocks that can form are larger than any bolt can reach past. Because
 cables are usually discretely coupled, they are softer than grouted bolts, and
 a system combining both will load the bolts first.
@@ -234,9 +242,9 @@ the permanent works must survive a century in ground whose aggressivity is
 established from the groundwater chemistry of
 Chapter~\ref{ch:hydrogeology}. Galvanising, epoxy coating, full encapsulation
 and double corrosion protection form a hierarchy of increasing cost and
-reliability. The decision needs to be explicit, because the common default ---
-installing temporary-grade reinforcement and later declaring it permanent
-because it is still there --- is not a design.
+reliability. The decision needs to be explicit, because the common default
+(installing temporary-grade reinforcement and later declaring it permanent
+because it is still there) is not a design.
 
 \subsection{Testing and quality control}
 \label{sec:bolt-testing}
@@ -250,8 +258,8 @@ tested length is sound.
 A useful regime therefore combines proof loading of a defined proportion of
 installed bolts, destructive testing of a small number to establish the
 capacity actually achievable in that ground, grout quality verification
-through mix records and cube testing, and installation records for every bolt
---- location, orientation, length, grout batch, date. Overcoring a small
+through mix records and cube testing, and installation records for every bolt:
+location, orientation, length, grout batch, date. Overcoring a small
 sample to inspect the grout column is the only direct check of encapsulation,
 and it is worth doing where the reinforcement is permanent.
 
@@ -281,7 +289,7 @@ and much higher output. Dry-mix retains a role for small quantities,
 intermittent work and repairs, where the ability to stop and start without
 wasting a batch outweighs its disadvantages.
 
-Rebound is real material loss and a real cost --- and it is selective, since
+Rebound is real material loss and a real cost, and it is selective, since
 coarse aggregate rebounds preferentially and the material that stays on the
 wall is richer in fines and cement than the mix that left the pump. Rebound
 should be measured, not assumed, and mix design should account for the
@@ -298,8 +306,8 @@ plasticisers, hydration control admixtures that extend working life, and
 accelerators added at the nozzle.
 
 Accelerator choice has consequences beyond setting time. Alkali-free
-accelerators have displaced alkaline products for health reasons --- the older
-products caused severe burns --- and they also reduce the long-term strength
+accelerators have displaced alkaline products for health reasons (the older
+products caused severe burns), and they also reduce the long-term strength
 loss that heavy accelerator dosage causes~\citep{thomas2009scl}. With the
 older alkaline accelerators at heavy dosage that loss is typically 15 to 30
 per cent relative to the unaccelerated mix; alkali-free products at normal
@@ -307,7 +315,7 @@ dosage cause a smaller loss, but not a negligible one, and its size depends
 on the particular cement and accelerator. The design strength should
 therefore carry the loss measured in pre-construction trials with the
 products to be used, and, where no such data exist, the alkaline range as a
-bound --- allowed for in design rather than discovered in core testing.
+bound, allowed for in design rather than discovered in core testing.
 
 Fibre reinforcement has largely replaced mesh in sprayed linings, and the
 reason is constructability as much as structure: fixing mesh to an irregular
@@ -315,8 +323,8 @@ profile is slow, hazardous and produces shadowing behind the bars where the
 concrete does not compact. Steel fibres give higher residual strength and
 stiffness; macro-synthetic fibres are lighter, non-corroding and easier to
 handle, at lower residual capacity. What is specified is not a dosage but a
-performance --- residual flexural strength at defined crack openings, or
-energy absorption from a panel test --- because fibre performance depends on
+performance (residual flexural strength at defined crack openings, or
+energy absorption from a panel test) because fibre performance depends on
 dosage, orientation and distribution together, and only a test on sprayed
 material measures the combination.
 
@@ -338,13 +346,20 @@ decision to re-enter actually rests on.
 
 Structurally, a sprayed lining is a thin shell in which thrust dominates and
 moment is secondary. Capacity is therefore assessed on a thrust--moment
-interaction diagram, the locus of the pairs of axial thrust and bending
+interaction diagram (Figure~\ref{fig:shotcrete-interaction}), the locus of the pairs of axial thrust and bending
 moment the section can carry, so that a thrust $N$ acting at an eccentricity
 $e$ plots at $M = Ne$ and must fall inside the envelope
 (Chapter~\ref{ch:linings}). It is not assessed against a bending capacity
 alone, and the
 governing case is often a modest thrust with an eccentricity caused by
 profile irregularity rather than the design thrust at the design thickness.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch18/shotcrete-interaction}
+\caption{Thrust--moment envelopes of plain sprayed sections 200 and 160~mm thick with $\sigma_{cc} = 30$~MPa, from a uniform compressive block over $t_c - 2e$ with no tensile strength or partial factors. Dotted: $M = Ne$ for $e = 20$ and 50~mm. At 3~MN/m (dash-dot), the thrust of the 200~mm layer at equilibrium in the GSI~60 ground of Chapter~\ref{ch:ccm}, the full layer tolerates $e = 50$~mm and the thin one 30~mm.}
+\label{fig:shotcrete-interaction}
+\end{figure}
 
 In the convergence--confinement analysis the same shell of thickness $t_c$
 enters through the thin-ring expressions of Section~\ref{sec:scc-and-ldp},
@@ -359,17 +374,24 @@ of its stiffness wherever the deficit occurs. Both also use the strength and
 modulus at the age when the load arrives: with $E_c$ of roughly 10\,GPa at one
 day against 25 to 30\,GPa at 28 days (Appendix~\ref{app:constants}), a lining
 loaded on its first day has between a third and two-fifths of its mature
-stiffness.
+stiffness (Figure~\ref{fig:shotcrete-scc-age}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch18/shotcrete-scc-age}
+\caption{Support lines of sprayed concrete on $a = 4.75$~m: 200~mm at 28 days ($\sigma_{cc} = 30$~MPa, $E_c = 25$~GPa), the same layer 40~mm thin, and 200~mm loaded at one day ($\sigma_{cc} = 20$~MPa, $E_c = 10$~GPa, mid-range of Appendix~\ref{app:constants}). Thinning cuts capacity and stiffness alike by a fifth; loading at one day cuts capacity by a third and stiffness by three-fifths.}
+\label{fig:shotcrete-scc-age}
+\end{figure}
 
 Two time-dependent effects, whose histories run in opposite directions, are
 frequently neglected. Stiffness rises as the concrete cures, so a lining installed
 against a converging ground attracts load progressively rather than all at
 once. Creep relaxes that load, and at early ages the creep of young shotcrete
-is very large --- enough that the load computed from an elastic shell with
+is very large, enough that the load computed from an elastic shell with
 mature stiffness may exceed the actual load by a factor of two. Ignoring both
 overestimates the load on the lining, which is safe for its capacity check,
 while underestimating the convergence that the clearance envelope and any
-movement limit on adjacent assets must accommodate --- which is why load
+movement limit on adjacent assets must accommodate, which is why load
 estimated from measured convergence is more reliable than load computed from
 an assumed stiffness.
 
@@ -395,13 +417,20 @@ the verification obligation is the failure mode to avoid.
 
 Squeezing ground requires the lining to be allowed to deform. A stiff shell
 installed early in convergent ground attracts a load it cannot carry, and the
-result is systematic cracking and reprofiling. Deformation slots --- gaps in
-the shell fitted with yielding elements that shorten at controlled load ---
+result is systematic cracking and reprofiling. Deformation slots (gaps in
+the shell fitted with yielding elements that shorten at controlled load)
 let the lining converge while continuing to provide support pressure, so
 equilibrium is reached on the ground reaction curve at a pressure the lining
-can sustain. This is the clearest practical demonstration that support design
+can sustain (Figure~\ref{fig:yielding-support}). This is the clearest practical demonstration that support design
 is about equilibrium at an acceptable convergence, not about minimising
 convergence (Chapter~\ref{ch:ccm}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch18/yielding-support}
+\caption{The GSI~30 ground of Chapter~\ref{ch:ccm} with 200~mm of sprayed concrete installed at $u_{s0} = 62$~mm. As a stiff shell it reaches its 1.26~MPa capacity at 67~mm, where the ground still demands about 2~MPa (cross). With yielding elements, illustratively 0.5~MPa over 60~mm of radial shortening, equilibrium is reached on the plateau at 106~mm (circle).}
+\label{fig:yielding-support}
+\end{figure}
 
 Reinforced ribs of sprayed concrete offer an intermediate stiffness between
 plain shotcrete and steel sets: reinforcing bars laid circumferentially and
@@ -436,7 +465,7 @@ poorly blocked set delivers a fraction of these values
 (Section~\ref{sec:grc-scc-appendix}). Table~\ref{tab:support-element-scc}
 sets the elements of this chapter side by side for the tunnel of
 Chapter~\ref{ch:ccm}, each with its maximum elastic displacement
-$u_{sm} = p_{sm}/k_s$. Bolts and sets supply tenths of a megapascal, sprayed
+$u_{sm} = p_{sm}/k_s$ (Figure~\ref{fig:support-element-scc}). Bolts and sets supply tenths of a megapascal, sprayed
 concrete about one, and a cast lining several, while all four reach their
 limits within a few millimetres of displacement after installation.
 
@@ -480,20 +509,41 @@ small here because the two elements reach their limits at similar
 displacements. It becomes large when a stiff, brittle element is paired with
 a soft, ductile one: the stiff element fails before the soft one has mobilised
 much of its capacity, which is the compatibility argument of
-Section~\ref{sec:shear-cables-dynamic} in static form.
+Section~\ref{sec:shear-cables-dynamic} in static form. In the heading the
+bolts, sets and sprayed concrete of the table are installed round by round, behind
+an unsupported span at the face (Figure~\ref{fig:r3d-supported-heading}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch18/support-element-scc}
+\caption{Support lines from Table~\ref{tab:support-element-scc} against displacement after installation. Left: bolts, steel sets and 200~mm of sprayed concrete, each to its $u_{sm}$ (dots). Right: sprayed concrete on sets; together they are limited by the shotcrete at 5.3~mm and reach 1.50~MPa (circle), against the 1.55~MPa sum of the individual capacities (dotted).}
+\label{fig:support-element-scc}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{supported_heading}{%
+  \rlab[west]{0.545,0.80}{0.70,0.82}{Bolts}
+  \rlab[west]{0.58,0.58}{0.70,0.58}{Face}
+  \rlab[east]{0.255,0.42}{0.13,0.30}{Steel sets}
+  \rlab[north]{0.31,0.48}{0.15,0.12}{Sprayed concrete}
+}
+\caption{A heading of $a = 4.75$~m with the support of Table~\ref{tab:support-element-scc}, upper right quarter cut away: 200~mm of sprayed concrete (grey, malachite edges), steel sets at 1.0~m (dark grey) and 4~m bolts (malachite) on a staggered 1.5~m pattern, in the cut faces and as plates on the wall. The last set is not yet sprayed and the face stands unsupported over one 1.0~m round (floor and span illustrative).}
+\label{fig:r3d-supported-heading}
+\end{figure}
 
 Substrate preparation determines whether the lining acts as a shell at all.
 Bond to the rock and between successive layers requires a clean surface free
 of loose material, dust and standing water. Where bond fails, layers act
 independently and the effective thickness is that of one layer rather than
-their sum --- a reduction in bending capacity by a factor of several. Cold
+their sum, a reduction in bending capacity by a factor of several. Cold
 joints between layers sprayed hours or days apart are the most common
 location.
 
 Water inflow through the substrate is the most difficult condition. Water
 prevents bond, washes out cement paste locally and creates a permanent path.
-Local drainage --- pipes and fleece strips leading water to a collection point
---- must be installed before spraying, and accepting a wet spot and spraying
+Local drainage (pipes and fleece strips leading water to a collection point)
+must be installed before spraying, and accepting a wet spot and spraying
 over it produces a defect that reappears as a leak.
 
 \subsection{Durability and quality control}
@@ -509,10 +559,10 @@ sprayed than in cast concrete.
 Fire performance requires explicit attention. Dense low-permeability concrete
 spalls explosively under rapid heating as pore water vaporises faster than it
 can escape, and the mixes used for durability are precisely the ones most
-vulnerable. Polypropylene micro-fibres --- a separate addition from the
+vulnerable. Polypropylene micro-fibres (a separate addition from the
 structural fibres of Section~\ref{sec:shotcrete-mix}, steel or
 macro-synthetic, dosed
-in addition to them rather than instead of them --- melt and create escape
+in addition to them rather than instead of them) melt and create escape
 paths, and are the standard mitigation and must be specified for any lining with a fire
 requirement (Chapter~\ref{ch:linings}).
 

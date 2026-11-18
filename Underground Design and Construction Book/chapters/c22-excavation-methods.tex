@@ -168,7 +168,8 @@ checked before construction and updated from monitoring during it.
 The approach known as the analysis of controlled deformation in rocks and
 soils (ADECO-RS), sometimes called the New Italian Tunnelling Method, is
 based on analysing and controlling deformation ahead of the
-face~\citep{lunardi2008adeco}. Its central object is the advance core, the
+face~\citep{lunardi2008adeco}. Its central object is the advance core
+(Figure~\ref{fig:advance-core}), the
 volume of ground ahead of the tunnel face, approximately cylindrical and with
 a diameter similar to that of the tunnel. Two responses are of particular
 importance: extrusion, the deformation of the advance core into the
@@ -180,6 +181,13 @@ techniques such as jet grouting or mechanical pre-support channel the
 stresses around the face. The method classifies the deformation response as
 stable, stable in the short term or unstable, and selects pre-support and
 excavation measures accordingly.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch22/advance-core}
+\caption{The advance core in longitudinal section (schematic, deformations exaggerated). Extrusion of the face and preconvergence of the profile ahead of it precede the convergence behind the face; fibreglass face reinforcement stiffens the core.}
+\label{fig:advance-core}
+\end{figure}
 
 \paragraph{The two approaches compared.}
 \label{sec:natm-vs-adeco}
@@ -301,12 +309,20 @@ In the power station complex the question is the relationship between the
 shape of the cavern, its deformation and its failure. A machine hall has to
 accommodate large electromechanical equipment and the tunnels that serve it,
 but its shape must also manage the redistribution of stress and the demand on
-the support. Three shapes form the set of options: a mushroom-shaped cavern
+the support. Three shapes form the set of options
+(Figure~\ref{fig:cavern-shapes}): a mushroom-shaped cavern
 with a concrete arch; a conventional horseshoe-shaped cavern with vertical
 sidewalls; and an elliptical cavern proportioned for a more favourable stress
 distribution. The choice trades the thrust of the arch and the construction
 sequence against the height of the sidewalls and the ratio of horizontal to
 vertical in-situ stress (Chapter~\ref{ch:openings}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch22/cavern-shapes}
+\caption{The three machine-hall shapes, drawn to one scale (schematic): a mushroom-shaped cavern whose concrete arch rests on abutments wider than the walls, a horseshoe with vertical sidewalls, and an ellipse proportioned to the in-situ stress ratio.}
+\label{fig:cavern-shapes}
+\end{figure}
 
 Numerical modelling is required to evaluate deformation and failure in the
 concrete structures and in the surrounding rock mass, and large deformation
@@ -322,7 +338,7 @@ and not separate tasks.
 Mechanised excavation has displaced blasting from long uniform drives, and it
 has not displaced it from the work blasting does best. Drill and blast remains
 the economic choice for short drives where machine mobilisation cannot be
-amortised, for variable geometry --- caverns, junctions, niches, shafts ---
+amortised, for variable geometry (caverns, junctions, niches, shafts)
 where a machine's fixed profile is a liability, for very hard or abrasive rock
 where cutter costs become prohibitive, and wherever the excavation shape must
 change along its length.
@@ -336,7 +352,7 @@ and made safe.
 
 \paragraph{Anatomy of a round.}
 A blast round works by creating a free face and then progressively exploiting
-it. The \emph{cut} --- burn, wedge or fan --- opens a void into which the
+it (Figure~\ref{fig:blast-round}). The \emph{cut} (burn, wedge or fan) opens a void into which the
 remaining rock can expand, and it is the part of the round most likely to
 fail: if the cut does not pull, the round does not pull. \emph{Stoping} holes
 break rock towards the cut in delayed sequence, each firing to a face created
@@ -347,6 +363,13 @@ pile forward for loading.
 Delay sequencing is what makes this work. Each hole must fire when the
 preceding one has created relief and before the burden has moved so far that
 confinement is lost.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch22/blast-round}
+\caption{Holes of a round for a 6~m by 6~m face (schematic). A parallel cut around two empty relief holes opens the void; stoping holes break towards it, closely spaced contour holes define the profile, and lifters clear the invert.}
+\label{fig:blast-round}
+\end{figure}
 
 \subsection{Explosives and blast design}
 \label{sec:explosives-design}
@@ -370,7 +393,7 @@ Initiation has moved from pyrotechnic delays to electronic detonators, whose
 timing scatter is under a millisecond, against several to tens of
 milliseconds for pyrotechnic delays. That precision makes the firing sequence a
 design quantity for fragmentation, and it permits every hole to fire on its own delay, which reduces the
-charge weight per delay --- the quantity that governs vibration --- without
+charge weight per delay, the quantity that governs vibration, without
 reducing the total charge.
 
 \paragraph{Design parameters.}
@@ -413,7 +436,7 @@ programme those consume. Measuring it, by profile scanning against the design
 line, converts it from an accepted nuisance into a controllable quantity, and
 crews respond to being shown their own overbreak.
 
-Behind the profile lies the damage zone --- rock fractured by the blast but
+Behind the profile lies the damage zone: rock fractured by the blast but
 not removed. Its depth depends on charge concentration and perimeter practice,
 and it typically extends from a few tens of centimetres to more than a metre
 for poor practice. This zone is the physical meaning of the disturbance factor
@@ -425,7 +448,15 @@ Table~\ref{tab:Dfactor} puts uncontrolled production blasting at
 $\Dfac = 0.8$ and controlled blasting with a smooth profile at $\Dfac = 0.5$.
 A $\Dfac$ of 0.8 assumed at design stage is therefore an assumption about
 how the contractor will blast, and the increase in $m_b$ and $s$ between the
-two values is what good perimeter control is worth in rock mass strength.
+two values is what good perimeter control is worth in rock mass strength
+(Figure~\ref{fig:disturbance-strength}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch22/disturbance-strength}
+\caption{Rock mass strength $\sigma_{cm} = \sigma_{ci} s^{a_{HB}}$ and modulus (generalised relation of Hoek and Diederichs) against $\Dfac$ for the two domains of the deep scheme ($\sigma_{ci} = 72$~MPa, $m_i = 7$, $E_i = 26$~GPa). Controlled rather than production blasting ($\Dfac = 0.5$ against 0.8) raises the strength by 44 and 94~per cent.}
+\label{fig:disturbance-strength}
+\end{figure}
 
 \subsection{Vibration and environmental effects}
 \label{sec:vibration-environment}
@@ -450,12 +481,13 @@ sensitive receivers, is standard practice on urban projects.
 Scaled distance relations break down close to the charge, where the charge
 cannot be treated as a point. Near-field models that integrate the
 contribution along the charge length are used where the receiver is within a
-few charge lengths --- for a structure directly above a shallow tunnel, or for
+few charge lengths, for a structure directly above a shallow tunnel, or for
 fresh concrete in an adjacent drive.
 
 \paragraph{Damage criteria.}
 Limits depend on what is being protected and are far more stringent for
-disturbance than for damage (Table~\ref{tab:vibration-limits}). Vibration is
+disturbance than for damage (Table~\ref{tab:vibration-limits},
+Figure~\ref{fig:vibration-criteria}). Vibration is
 perceptible indoors at a few tenths of a millimetre per second and is likely
 to draw complaint at about 1~mm/s~\citep{bs5228part2}, whereas the threshold
 for cosmetic damage to a residential building is 5~mm/s at the foundation at
@@ -472,7 +504,7 @@ thresholds rise with frequency, because a structure responds most to motion
 near its own natural frequencies, which for buildings are low, so a limit
 quoted without its frequency is incomplete. Heritage structures, buried
 services, fresh concrete and sensitive equipment each carry their own limits,
-and fresh concrete is the one most often overlooked --- a limit that is lowest
+and fresh concrete is the one most often overlooked: a limit that is lowest
 from initial set to about a day after placing and rises as the concrete gains
 strength~\citep{hulshizer1984shock}, and that can constrain the sequence
 between adjacent headings.
@@ -505,6 +537,13 @@ Distinguishing damage thresholds from disturbance thresholds explicitly, in
 the design and in communication with the community, avoids a common and
 avoidable dispute.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch22/vibration-criteria}
+\caption{Peak particle velocity criteria against frequency, from Table~\ref{tab:vibration-limits}: the cosmetic damage values of DIN~4150-3 and the BS~7385-2 curve adopted by AS~2187.2, against the perception range and complaint level of BS~5228-2. Human response binds well below any damage threshold.}
+\label{fig:vibration-criteria}
+\end{figure}
+
 \paragraph{Continuous vibration from machines and trains.}
 A tunnel boring machine, and later the trains running in the finished tunnel,
 generate vibration of a different character from a blast: continuous or
@@ -520,7 +559,8 @@ the peak particle velocity at a reference distance $d_{\mathrm{ref}}$, $n$ the
 geometric spreading exponent (about 0.5 for surface waves and 1 for body waves
 from a point source) and $\beta = \pi f \eta / C_w$ the material damping
 coefficient for frequency $f$, loss factor $\eta$ and wave speed $C_w$. As with
-blasting, the constants are fitted to measurements from the early drive.
+blasting, the constants are fitted to measurements from the early drive
+(Figure~\ref{fig:continuous-vibration}).
 
 Three receivers need criteria other than those of
 Table~\ref{tab:vibration-limits}. Human response to continuous or intermittent
@@ -538,17 +578,24 @@ these values. Vibration of floors and walls also re-radiates as ground-borne
 noise, a low rumble audible at levels far below the threshold of feeling; it
 is assessed as a sound level in the receiving room, tracks the floor velocity
 decibel for decibel, and in residences and performance spaces is often the
-binding criterion. Sensitive equipment --- microscopes, imaging and lithography
-tools --- carries the strictest limits of all, expressed as one-third-octave
+binding criterion. Sensitive equipment (microscopes, imaging and lithography
+tools) carries the strictest limits of all, expressed as one-third-octave
 root-mean-square velocities on the generic vibration criterion curves, from
 \SI{50}{\micro\metre\per\second} for the least sensitive class down to a few
 micrometres per second~\citep{gordon1991generic}.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch22/continuous-vibration}
+\caption{Continuous vibration. Left: attenuation from a reference distance of 10~m for spreading exponents of 0.5 and 1, undamped and with $\beta = 0.012$~m$^{-1}$, a placeholder value of \companionname. Right: estimated vibration dose value against exposure for three values of $a = a_{w,\mathrm{rms}}$; the band is the residential range of 0.2 to 0.4~m/s$^{1.75}$ over a 16~h day.}
+\label{fig:continuous-vibration}
+\end{figure}
+
 For a passing machine these quantities and the settlement of
 Section~\ref{sec:movement-field} are screened together, receiver by receiver
 and day by day, in \companionname\ (Appendix~\ref{app:software}). Mitigation
-of vibration from trains in operation --- resilient track supports and
-floating slabs --- is a matter of track design and lies outside this book.
+of vibration from trains in operation (resilient track supports and
+floating slabs) is a matter of track design and lies outside this book.
 
 \paragraph{Airblast, fumes and flyrock.}
 Airblast overpressure travels along the tunnel and out of the portal, and it
@@ -575,8 +622,8 @@ operation dominates the sum.
 
 That element is rarely the blast. Support installation frequently governs in
 poor ground; ventilation clearance governs on long drives; mucking governs
-where haulage distance is long. Analysing where the time actually goes ---
-rather than assuming the answer --- is what distinguishes a realistic
+where haulage distance is long. Analysing where the time actually goes,
+rather than assuming the answer, is what distinguishes a realistic
 programme from an optimistic one, and realistic advance rates by ground class
 should come from comparable projects rather than from the sum of theoretical
 operation times.
@@ -589,7 +636,7 @@ community before each blast, and compliance reporting.
 
 Two practices reduce disputes more than any technical measure. Pre-condition
 surveys of nearby structures, carried out and documented before blasting
-begins, establish what damage already existed --- and without them, every
+begins, establish what damage already existed, and without them, every
 existing crack becomes a claim. And publishing monitored results against the
 agreed limits, rather than only reporting exceedances, builds the credibility
 that makes an occasional exceedance manageable.
@@ -615,8 +662,8 @@ serious accidents are repeatedly recorded.
 \label{sec:automated-drilling}
 
 A modern drilling jumbo, a multi-boom hydraulic drill rig, can be given the
-round as a digital drill plan ---
-collar positions, directions, depths --- and will position each boom and drill
+round as a digital drill plan
+(collar positions, directions, depths) and will position each boom and drill
 each hole to it, navigating from total station or laser reference. What the
 designer specifies as a blast pattern is then what is drilled, within a few
 centimetres, rather than what a tired operator approximates at the end of a
@@ -661,7 +708,7 @@ beginning, and the current development is automated ring build and automatic
 grouting of the annulus, both of which reduce the variability that feeds volume
 loss (Chapter~\ref{ch:tbm}). Loading and haulage are the furthest
 advanced in mining, where remote-operated and autonomous units run in
-production areas that people are not permitted to enter --- which is a support
+production areas that people are not permitted to enter, which is a support
 design decision as much as a productivity one, since it changes what
 standard of ground support the area requires.
 
@@ -689,7 +736,7 @@ drills it.
 
 Three further limits are worth recording. Automated positioning relies on
 survey control, and control that drifts produces a confidently misplaced
-round. Machine records verify what the machine did, not whether it worked ---
+round. Machine records verify what the machine did, not whether it worked:
 an installed bolt is not a functioning bolt, and pull testing remains
 necessary. And the skills required to recognise adverse ground are acquired at
 the face; a workforce that no longer goes there acquires them more slowly,

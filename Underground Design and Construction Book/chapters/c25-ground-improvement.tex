@@ -58,12 +58,19 @@ distribution is a specification written on hope.
 structure, and its effectiveness is governed by groutability, conventionally
 the ratio of the soil $D_{15}$ to the grout $D_{85}$, with permeation reliable
 above about 24 and not achievable below about
-11~\citep{kirschbell2013ground}. Sleeve pipes --- tubes à manchette --- allow
+11~\citep{kirschbell2013ground} (Figure~\ref{fig:groutability}). Sleeve pipes (tubes à manchette) allow
 repeated, controlled injection at selected horizons, which is what makes
 permeation grouting a controllable process rather than a single irreversible
 injection. Pressure
 and volume are both monitored, and pressure rising faster than volume suggests
 that the grout is fracturing the ground rather than permeating it.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch25/groutability}
+\caption{Groutability ratio $N = D_{15}/D_{85}$ of the soil $D_{15}$ to the grout $D_{85}$. Permeation is reliable below the solid line ($N > 24$) and not achievable above the dashed line ($N < 11$), and uncertain between them, after \citet{kirschbell2013ground}.}
+\label{fig:groutability}
+\end{figure}
 
 \emph{Rock grouting} ahead of the face serves inflow control rather than
 strength. A curtain of holes drilled outward from the face is grouted before
@@ -75,13 +82,20 @@ of tunnel that the lining and drainage are then designed to accept.
 
 \emph{Jet grouting} erodes the soil with a high-velocity fluid jet and mixes
 it with cement in place, forming columns whose diameter depends on soil type,
-energy and system --- single fluid, double fluid with an air shroud, or triple
-fluid with separate erosion and grouting~\citep{en12716}. It is powerful and imprecise: column
+energy and system: single fluid, double fluid with an air shroud, or triple
+fluid with separate erosion and grouting~\citep{en12716} (Figure~\ref{fig:jet-grouting}). It is powerful and imprecise: column
 diameter is predicted rather than controlled, and verification by coring is
 necessary where the column geometry matters. Two hazards recur. Spoil return
 must be maintained, because a blocked return pressurises the ground and causes
 uncontrolled heave. And jet grouting near an existing structure can damage it
 through exactly that mechanism.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch25/jet-grouting}
+\caption{Jet grouting systems (schematic). The rod is rotated and withdrawn while the jets erode and mix the soil, forming the column below the monitor, and spoil returns up the annulus. An air shroud extends the jet, and the triple system erodes with water above a separate grout jet, giving progressively larger columns.}
+\label{fig:jet-grouting}
+\end{figure}
 
 \subsection{Displacement and compensation grouting}
 \label{sec:displacement-compensation}
@@ -95,16 +109,24 @@ by which the process is controlled.
 
 \emph{Compensation grouting} is the specialised application that protects
 structures during tunnelling. Grout is injected from an array of sleeve pipes
-installed between the tunnel and the structure above, in response to
+installed between the tunnel and the structure above
+(Figure~\ref{fig:compensation-grouting}), in response to
 monitored settlement, so that ground loss is intercepted before it reaches the
 surface. It runs in three phases: conditioning to pre-stress the soil and
 establish the response, concurrent injection during tunnelling to compensate
 in real time, and corrective injection afterwards to recover residual
 settlement.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch25/compensation-grouting}
+\caption{Compensation grouting (schematic). Sleeve pipes installed from a shaft between the tunnel and the building inject grout in response to monitored settlement, so that the ground loss at the tunnel does not reach the foundation as the greenfield trough would.}
+\label{fig:compensation-grouting}
+\end{figure}
+
 It is an observational technique in the strict sense of
-Chapter~\ref{ch:monitoring} --- injection is driven
-by monitoring rather than by a predetermined schedule --- and it requires
+Chapter~\ref{ch:monitoring} (injection is driven
+by monitoring rather than by a predetermined schedule) and it requires
 real-time instrumentation, an established injection response, and a decision
 process able to act within hours. Its limits should be stated: it compensates
 settlement, it cannot reverse damage already done, it cannot protect against a
@@ -119,19 +141,39 @@ is not always available.
 
 \emph{Ground freezing} converts pore water to ice, producing a material with
 substantial strength and effectively zero permeability, and it works in ground
-where nothing else does --- fine saturated soils under high head. Brine
+where nothing else does: fine saturated soils under high head. Brine
 systems circulate refrigerant through freeze pipes and take weeks to form the
 wall; liquid nitrogen forms it in days at much higher operating cost, and is
 used for short durations or as a rescue measure.
 
 Three constraints govern. Flowing groundwater supplies heat by advection and
-can prevent closure of the freeze wall entirely; a seepage velocity above
-roughly 1\,m/day makes freezing difficult. Frost heave occurs in frost-susceptible
+can prevent closure of the freeze wall entirely (Figure~\ref{fig:freeze-wall}); a seepage velocity above
+roughly 1\,m/day makes freezing difficult, and the gap opens where the flow is,
+typically in the most permeable layer (Figure~\ref{fig:r3d-freeze-wall}). Frost heave occurs in frost-susceptible
 silts as ice lenses form, and thaw settlement follows when the ground is
 allowed to warm, so structures above must be assessed for both. And the freeze
 wall must be maintained until the permanent works can carry the load, which
 means continuous energy supply and monitoring by temperature sensors
 throughout the wall.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch25/freeze-wall}
+\caption{Plan of a ring of freeze pipes around an excavation (schematic). Frozen columns grow around each pipe until they merge into a closed wall. With seepage at velocity $v$ the upstream columns stay small and are displaced downstream, leaving a gap through which water enters.}
+\label{fig:freeze-wall}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{freeze_wall}{%
+  \rlab[south]{0.37,0.62}{0.14,0.92}{Frozen wall}
+  \rlab[south]{0.47,0.80}{0.55,0.96}{Freeze pipes}
+  \rlab[east]{0.40,0.42}{0.22,0.18}{Unclosed gap}
+  \rlab[west]{0.75,0.48}{0.80,0.22}{Permeable layer}
+}
+\caption{A freeze wall around a shaft, 16 pipes on a 3~m ring, with the front half of the ground cut away (schematic; depths illustrative). Columns grown from 0.45 to 1.05~m radius merge into a closed wall (malachite). In the permeable layer (light grey) seepage from the viewer's side holds the five upstream columns at 0.32 to 0.48~m, leaving an open window (carmine).}
+\label{fig:r3d-freeze-wall}
+\end{figure}
 
 \emph{Deep soil mixing} blends binder into soft soil in place, by auger or by
 cutter, producing columns or panels for cut-off walls and block treatment.
@@ -148,10 +190,11 @@ under protection rather than into unsupported ground.
 
 An \emph{umbrella arch} of steel pipes installed sub-horizontally around the
 crown ahead of the face, grouted in place, spans from the last supported
-section to the ground ahead. It is installed in overlapping stages, each
+section to the ground ahead. It is installed in overlapping stages
+(Figure~\ref{fig:presupport}), each
 extending several rounds beyond the face, and it is the standard measure for
 low-cover, weak-ground and portal work. \emph{Forepoling spiles} are the
-lighter version --- bars driven ahead of the crown --- suited to short-term
+lighter version (bars driven ahead of the crown) suited to short-term
 support of ravelling ground.
 
 \emph{Face reinforcement} by fibreglass dowels installed into the advance core
@@ -162,10 +205,30 @@ away. This is the core-control principle from the design philosophies of
 Chapter~\ref{ch:construction}, and its cost is the cycle time consumed by each
 installation campaign.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch25/presupport}
+\caption{Longitudinal section at the face (schematic). Each stage of umbrella arch is installed from the crown and overlaps the previous one ahead of the face; fibreglass dowels reinforce the advance core and are excavated away round by round.}
+\label{fig:presupport}
+\end{figure}
+
 The general point is that pre-support converts a face-stability problem into a
-structural one, and it occupies the critical path in doing so. That programme
+structural one (Figure~\ref{fig:r3d-umbrella-arch}), and it occupies the critical path in doing so. That programme
 cost is why pre-support is designed for the reaches that need it rather than
 applied continuously.
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{umbrella_arch}{%
+  \rlab[south]{0.30,0.63}{0.25,0.96}{Previous stage}
+  \rlab[south]{0.515,0.64}{0.49,0.96}{Overlap}
+  \rlab[south]{0.70,0.66}{0.72,0.96}{Current stage}
+  \rlab[north]{0.49,0.45}{0.45,0.10}{Face}
+  \rlab[north]{0.66,0.355}{0.72,0.12}{Face dowels}
+}
+\caption{Two stages of umbrella arch over the face, with half the tunnel and core cut away and the ground above the springline translucent (schematic). Each stage is 15~m of grouted pipe (malachite) inclined outward at 7~per~cent, and successive stages overlap by 4~m ahead of the face; fibreglass dowels (pale malachite) reinforce the grey core. Profile and spacings illustrative.}
+\label{fig:r3d-umbrella-arch}
+\end{figure}
 
 \subsection{Dewatering and verification}
 \label{sec:dewatering-verification}
@@ -198,7 +261,7 @@ carried out rather than because it worked.
 
 Hazard identification is a systematic pass along the alignment asking, for
 each reach, what could go wrong and what the consequence would be. It separates
-geotechnical hazards --- instability, inrush, squeezing --- from construction
+geotechnical hazards (instability, inrush, squeezing) from construction
 hazards such as fire and plant, and from occupational hazards such as
 atmosphere and confined space, because each is managed by a different
 mechanism.
@@ -229,7 +292,7 @@ advances.
 Cavities require detection rather than prediction. Surface and borehole
 geophysics can identify large voids; look-ahead seismic and electromagnetic
 methods from the face give shorter-range warning. All have limits, and none
-reliably detects a small water-filled cavity in advance --- which is why
+reliably detects a small water-filled cavity in advance, which is why
 karst alignments carry systematic probing rather than relying on detection.
 
 \subsection{Gas hazards}
@@ -268,7 +331,7 @@ determines how far a single-entry drive can extend before a second access is
 required.
 
 Heat enters the drive from the rock, at a rate set by the virgin rock
-temperature, which rises with depth, and from the plant --- a large machine dissipates most of its installed power as heat.
+temperature, which rises with depth, and from the plant: a large machine dissipates most of its installed power as heat.
 Beyond the capacity of ventilation to remove it, mechanical cooling is
 required, and its power demand is a significant construction-stage carbon term
 (Chapter~\ref{ch:sustainability}).
@@ -292,8 +355,8 @@ treatment and disposal requirements, and each can dominate the spoil logistics
 that Chapter~\ref{ch:sustainability} treats as a carbon term.
 
 Fire underground is exceptionally dangerous because escape is one-dimensional
-and smoke travels the same route. The fire load is largely plant --- hydraulic
-oil, tyres, cabling, conveyor belting --- and the controls are correspondingly
+and smoke travels the same route. The fire load is largely plant (hydraulic
+oil, tyres, cabling, conveyor belting) and the controls are correspondingly
 practical: limiting combustible materials, fire-resistant hydraulic fluids and
 belting, detection and suppression on plant, hot-work permits, and refuge
 chambers within a defined travel distance of the face. Self-rescuers are
@@ -310,7 +373,7 @@ well as by ventilation, and intermediate access shafts are provided for
 egress as much as for construction.
 
 Emergency planning is specific rather than generic. It requires a response
-plan for each credible scenario --- fire, inrush, collapse, gas, medical ---
+plan for each credible scenario (fire, inrush, collapse, gas, medical),
 communications that survive a power failure, rescue capability with the
 training and equipment to enter an irrespirable atmosphere, and rehearsal.
 Rehearsal is what distinguishes a plan from a document, and the recurring

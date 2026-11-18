@@ -1,0 +1,10 @@
+item,lo_m,hi_m,group
+Laboratory specimen,0.04,0.12,data
+Borehole core,0.05,0.1,data
+TBM advance,1,2,data
+Mapped face,5,15,data
+Seismic refraction,10,100,data
+Construction control,0.5,3,dec
+Detailed design,0.5,5,dec
+Reference design,2,10,dec
+Route selection,500,10000,dec

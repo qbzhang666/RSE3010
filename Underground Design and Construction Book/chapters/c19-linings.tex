@@ -38,17 +38,35 @@ for the design life and remain watertight.
 
 Geometry follows from erection rather than from statics. A ring is divided into
 segments small enough to handle and erect inside the shield, with a key segment
-inserted last. Universal rings, tapered on both faces, negotiate curves and
+inserted last (Figures~\ref{fig:ring-build} and~\ref{fig:r3d-ring-build}). Universal rings, tapered on both faces, negotiate curves and
 correct alignment drift by rotating the build position from ring to ring; the
 taper must be sufficient for the tightest design radius plus an allowance for
 correcting accumulated error. Segment count is a trade: more segments mean
 easier handling and more joints, and joints are where stiffness is lost and
 water enters~\citep{ita2019segmental}.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch19/ring-build}
+\caption{A ring of five $67.5^\circ$ segments and a $22.5^\circ$ key (K), and the developed view of four successive rings, each rotated at build so that no radial joint lies within $22.5^\circ$ of one in the neighbouring ring (schematic).}
+\label{fig:ring-build}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{ring_build}{%
+  \rlab[south]{0.27,0.80}{0.14,0.93}{Built rings}
+  \rlab[west]{0.66,0.78}{0.78,0.80}{Next ring}
+  \rlab[west]{0.53,0.43}{0.78,0.40}{Key}
+}
+\caption{Rings 1 to 3 of Figure~\ref{fig:ring-build} ($R = 3.4$~m, $t = 0.3$~m, $b = 1.5$~m). Rings 1 and 2 are built, their radial joints staggered by the rotation between builds; ring 3 is pulled radially apart into its five $67.5^\circ$ segments (malachite shades) and the $22.5^\circ$ key (carmine), which goes in last. Separations and joint widths schematic.}
+\label{fig:r3d-ring-build}
+\end{figure}
+
 Materials have shifted markedly. Conventionally reinforced concrete remains
 standard for large diameters and high loads. Steel fibre reinforced concrete
 has displaced it for many smaller rings, because the governing actions are
-often the transient ones --- demoulding, handling, storage, jack thrust ---
+often the transient ones (demoulding, handling, storage, jack thrust),
 which produce local rather than flexural demands that fibres address well, and
 because eliminating cage fabrication removes cost, congestion and a corrosion
 path. Hybrid arrangements use fibres for the general section and bars only
@@ -63,11 +81,19 @@ transient cases: demoulding at low concrete strength, handling and stacking,
 erection inside the shield, and thrust from the jacks bearing on the
 just-completed ring~\citep{ita2019segmental}. Grout pressure during annulus filling is a further
 transient case, and it acts on a ring that does not yet have any ground
-restraint.
+restraint. Figure~\ref{fig:segment-actions} gives the actions in a segment
+stacked or lifted on supports at its ends.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch19/segment-actions}
+\caption{Axial force, shear and moment in a segment on a pin and a roller at its ends under self-weight, a stacking or handling case: radius 3.4~m to the centroid, $67.5^\circ$, 1.5~m wide, 0.3~m thick, 25~kN/m\textsuperscript{3}. The crown moment of 20.6~kNm gives 0.92~MPa of tension at the intrados, to be set against the tensile strength at that age.}
+\label{fig:segment-actions}
+\end{figure}
 
 Ground loading itself requires a decision about arching. Full overburden
-pressure is conservative for the maximum-load case and, at depth, grossly so
---- the ground arches over the opening and carries most of its own weight.
+pressure is conservative for the maximum-load case and, at depth, grossly so:
+the ground arches over the opening and carries most of its own weight.
 Minimum ground load with full water pressure is a separate governing case, so
 the load schedule has to bracket both extremes and not maximise one. Terzaghi's arching
 reduction and its descendants estimate the reduced load, and the choice between
@@ -81,8 +107,8 @@ model.
 Water load must be taken at the recovered water table rather than the
 construction-period level (Chapter~\ref{ch:hydrogeology}), and for a tanked
 ring it acts inward as pressure and, in shallow ground, upward as buoyancy on
-an empty tunnel. Longer-term additions --- future surcharge, adjacent
-construction, seismic actions (Chapter~\ref{ch:seismic}) --- belong in the
+an empty tunnel. Longer-term additions (future surcharge, adjacent
+construction, seismic actions in Chapter~\ref{ch:seismic}) belong in the
 load schedule from the outset, because strengthening a ring after
 construction means building a secondary lining inside it, at the cost of the
 internal envelope.
@@ -100,7 +126,8 @@ its development by \citet{duddeck1985structural}, and the formulation of
 all express the result through two dimensionless ratios: a
 compressibility ratio comparing the ground's stiffness to the lining's axial
 stiffness, and a flexibility ratio comparing it to the lining's bending
-stiffness (Section~\ref{sec:charts-and-lining-solutions}). Those ratios carry
+stiffness (Section~\ref{sec:charts-and-lining-solutions},
+Figure~\ref{fig:lining-ratios}). Those ratios carry
 the central insight of lining design. When the
 lining is flexible relative to the ground it deforms with the ground and
 carries thrust with little moment; when it is stiff it resists the ground and
@@ -111,6 +138,13 @@ for its radius is governed by buckling and not by bending. Within those
 limits the flexible lining is the better structure, and the instinct to
 stiffen is usually wrong.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch19/lining-ratios}
+\caption{Full-slip coefficients of \citet{einstein1979simplified} (Appendix~\ref{app:closed-form}): the moment ratio against $F$, and the thrust ratio for $k = 1$ against $C$ for a flexible lining. Markers: the 0.5~m lining of Chapter~\ref{ch:ccm} in GSI~60 ground (circle, $F \approx 3400$, $C \approx 3.2$) and GSI~30 ground (square, $F \approx 540$, $C \approx 0.50$); both carry thrust with almost no moment.}
+\label{fig:lining-ratios}
+\end{figure}
+
 The interface assumption matters. Full-slip and no-slip solutions bracket the
 real condition, and moments differ substantially between them; a grouted
 annulus is closer to no-slip than designers often assume.
@@ -120,7 +154,7 @@ supported by radial springs representing the ground, usually acting in
 compression only so the ring can separate from the ground where it deflects
 inward. They accommodate non-uniform loading and joint stiffness that
 closed-form solutions cannot, at the cost of a strong sensitivity to the
-assumed spring stiffness --- which is the least reliable input.
+assumed spring stiffness, which is the least reliable input.
 
 \emph{Numerical models} embed the lining in a continuum
 (Chapter~\ref{ch:numerical-modelling}) and represent staged installation. They
@@ -145,7 +179,14 @@ thrust with limited rotational stiffness. The model of \citet{janssen1983gelenk}
 reduced-height section in contact, giving a rotational stiffness that decreases
 as the eccentricity of the thrust increases: as the joint opens on one side,
 the contact width reduces, stiffness falls, and moment sheds to adjacent
-sections.
+sections (Figure~\ref{fig:joint-stiffness}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch19/joint-stiffness}
+\caption{A radial joint carrying thrust $N$ through a contact band of height $h_j$ in a segment of thickness $t_c$ (schematic), and the rotational stiffness of the model of \citet{janssen1983gelenk} relative to its closed value $k_{\varphi 0} = E b h_j^2/12$: constant until the joint opens at $e = h_j/6$, then $13.5\,(e/h_j)(1 - 2e/h_j)^2$ times it.}
+\label{fig:joint-stiffness}
+\end{figure}
 
 That behaviour is beneficial globally and costly locally
 (Section~\ref{sec:local-effects-build}). A ring with articulating joints redistributes
@@ -177,8 +218,8 @@ EPDM profiles seal by compression, and their performance envelope is expressed
 as the water pressure sealed for a given combination of gap and offset between
 adjacent segments. Both gap and offset are build-quality outcomes. A gasket
 adequate for the design head at perfect build may leak at the same head with a
-few millimetres of offset, and hydrophilic gaskets --- which swell on wetting
---- are used where tolerances cannot be guaranteed, at the cost of requiring
+few millimetres of offset, and hydrophilic gaskets, which swell on wetting,
+are used where tolerances cannot be guaranteed, at the cost of requiring
 water to activate.
 
 The design consequence is that the watertightness specification and the build
@@ -207,8 +248,8 @@ Damage and repair complete the sequence. Cracking has diagnostic value:
 longitudinal cracks near a joint usually indicate bursting or eccentric
 thrust; radial cracks at mid-segment indicate flexure; corner spalling
 indicates lipping or point bearing. Acceptance criteria should be set against
-durability and watertightness rather than aesthetics, and repair --- injection,
-patching, local strengthening --- should address the cause. A ring repaired
+durability and watertightness rather than aesthetics, and repair (injection,
+patching, local strengthening) should address the cause. A ring repaired
 without correcting the build practice that damaged it will produce more
 damaged rings.
 
@@ -269,7 +310,7 @@ variation.
 \label{sec:drained-tanked-systems}
 
 The hydrogeological decision of Chapter~\ref{ch:hydrogeology} arrives here as a
-detailing problem. A \emph{drained} system provides a drainage layer behind the
+detailing problem (Figure~\ref{fig:drained-tanked}). A \emph{drained} system provides a drainage layer behind the
 lining and invert drains to convey water to a sump; the lining carries little
 water pressure, but the system requires permanent pumping and drains that must
 remain functional and accessible for the asset's life. A \emph{tanked} system
@@ -277,8 +318,15 @@ resists the full head with a continuous waterproofing barrier; there is nothing
 to pump, and the lining is heavier, must be checked for uplift when empty, and
 depends on a membrane that has to be installed correctly the first time.
 
-Partial systems --- drained invert with tanked arch, or drainage above a
-defined level --- are common compromises and require the transition to be
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch19/drained-tanked}
+\caption{Drained and tanked linings below a water table (schematic). The drained half leads water through a drainage layer to an invert drain and carries little water pressure; the tanked half resists the full head through a continuous membrane, the pressure rising with depth.}
+\label{fig:drained-tanked}
+\end{figure}
+
+Partial systems (drained invert with tanked arch, or drainage above a
+defined level) are common compromises and require the transition to be
 detailed explicitly, since that is where both systems are at their weakest.
 
 \section{Waterproofing and durability}
@@ -287,7 +335,7 @@ detailed explicitly, since that is where both systems are at their weakest.
 \subsection{Waterproofing systems and drainage}
 \label{sec:waterproofing-systems}
 
-Sheet membranes --- PVC or TPO, typically 2 to 3\,mm --- are the established
+Sheet membranes (PVC or TPO, typically 2 to 3\,mm) are the established
 tanking system, installed against a protective geotextile on a prepared
 substrate and welded at overlaps. Their reliability rests entirely on the
 welding, which is why double-track welds with a testable air channel between
@@ -312,8 +360,8 @@ Drainage systems fail by clogging, not by structural inadequacy. Groundwater
 carrying dissolved calcium precipitates calcite in the drains, and in some
 geologies the deposition rate is fast enough to block a drain within a few
 years. Sediment adds to it. A drainage system must therefore be designed for
-cleaning --- adequate diameter, rodding and flushing access at sensible
-intervals, and inspectable outlets --- and its maintenance requirement written
+cleaning (adequate diameter, rodding and flushing access at sensible
+intervals, and inspectable outlets) and its maintenance requirement written
 into the operating manual. A drain that cannot be cleaned is a temporary work
 with a permanent function.
 
@@ -335,10 +383,17 @@ calculation.
 
 Cover sets the time taken for the carbonation or chloride front to reach the
 reinforcement. Because penetration grows roughly with the square root of
-time, a shortfall in cover shortens that time more than in proportion, and
+time (Figure~\ref{fig:carbonation-cover}), a shortfall in cover shortens that time more than in proportion, and
 once the concrete is cast it cannot be made good. Cover is also the parameter
 most often compromised in construction. Its verification is a quality control matter that
 belongs in the same category as segment build tolerance.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch19/carbonation-cover}
+\caption{A carbonation or chloride front advancing as $x = K\sqrt{t}$, normalised by the nominal cover $c_{\mathrm{nom}}$ and the time $t_{\mathrm{nom}}$ the front takes to reach it. A cover 20\,\% short is reached in 64\,\% of the time, since the time scales with the square of the cover.}
+\label{fig:carbonation-cover}
+\end{figure}
 
 Cracking controls serviceability. Crack width limits follow from watertightness
 and from corrosion protection rather than from strength, and typical limits are
@@ -353,9 +408,9 @@ inject.
 \subsection{Fire resistance and design life}
 \label{sec:fire-design-life}
 
-Tunnel fires reach temperatures and heating rates far beyond building fires ---
-a heavy goods vehicle fire develops far more severely than the standard
-cellulosic curve --- and design fire curves such as the hydrocarbon curve and
+Tunnel fires reach temperatures and heating rates far beyond building fires
+(a heavy goods vehicle fire develops far more severely than the standard
+cellulosic curve), and design fire curves such as the hydrocarbon curve and
 the Rijkswaterstaat (RWS) curve reflect this.
 
 The governing mechanism is explosive spalling. Rapid heating vaporises pore
@@ -377,7 +432,7 @@ consequences that outlast the fire.
 
 Design life ties the chapter together. A hundred to a hundred and twenty years
 is now normal, and it is achieved through cover, binder selection, crack
-control, waterproofing and a maintenance regime --- not through strength. The
+control, waterproofing and a maintenance regime, not through strength. The
 maintenance assumption is part of the design: a lining whose durability
 depends on drains being flushed every five years has been designed on a promise
 about the operator's behaviour, and that promise should be recorded in the
@@ -393,7 +448,7 @@ drainage channels and services all follow, and each interfaces with the lining
 mechanically and geometrically.
 
 Three interface issues recur. Fixings into the lining penetrate the cover and,
-in a tanked structure, potentially the waterproofing --- so the fixing
+in a tanked structure, potentially the waterproofing, so the fixing
 philosophy must be established before the membrane is designed, and cast-in
 sockets are strongly preferable to post-drilled anchors. Secondary structures
 add load, and a track slab or a road pavement is a substantial one that must
@@ -405,7 +460,7 @@ a capability that Chapter~\ref{ch:assets} assumes it has.
 Fit-out is also where clearance envelopes bind. The internal diameter required
 is the sum of the operational envelope, the fit-out, the construction
 tolerances and an allowance for convergence and future relining (of the order
-quoted in Section~\ref{sec:repair-strengthening}) --- and since
+quoted in Section~\ref{sec:repair-strengthening}). Since
 diameter drives lining thickness, excavation volume, spoil and carbon
 (Chapter~\ref{ch:sustainability}), the fit-out layout is a first-order
 influence on the whole project rather than a detail settled late.

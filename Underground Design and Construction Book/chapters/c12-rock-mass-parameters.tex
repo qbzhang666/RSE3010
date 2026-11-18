@@ -94,12 +94,19 @@ Very poor blasting & Heavy damage, stress relaxation & 1.0 \\
 \end{table}
 
 Increasing \(D\) lowers \(m_b\) and \(s\) together, and with them the rock mass
-strength and modulus. Poor blasting can therefore raise the support demand
+strength and modulus (Figure~\ref{fig:hb-constants-gsi}). Poor blasting can therefore raise the support demand
 substantially in ground whose geology is unchanged. The factor describes a
 damaged zone of limited thickness, however, and applying it to the whole rock
 mass rather than to that zone understates strength everywhere beyond it; the
 extent of the zone is discussed with the excavation methods in
 Chapter~\ref{ch:construction}.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch12/hb-constants-gsi}
+\caption{Generalised Hoek--Brown constants against GSI. Left: $m_b/m_i$ and $s$ for $D = 0$ and 0.8. Right: rock mass strength ratio $\sigma_{cm}/\sigma_{ci} = s^{a_{HB}}$ for four disturbance factors. The dotted line marks GSI 63, the sandstone of the worked example.}
+\label{fig:hb-constants-gsi}
+\end{figure}
 
 \subsection{Calculation workflow and notation}
 \label{sec:calculation-workflow-and-notation}
@@ -254,7 +261,7 @@ alternative estimate, not a truncation of the envelope: it would cut the
 envelope off only where it is less tensile than \(\sigma_{tm}\). For the
 sandstone of Section~\ref{sec:sandstone-worked-example} it is more tensile
 (\(-0.68\) against \(-0.40\)\,MPa), so it lies outside the envelope and is
-non-binding there.
+non-binding there (Figure~\ref{fig:hb-disturbance-sandstone}).
 The two generally differ, and the difference is informative: where brittle
 tensile cracking is the mechanism of concern, the comparison shows whether the
 tensile strength implied by the criterion is credible or merely a consequence
@@ -273,7 +280,7 @@ agree, and each is an estimate rather than a material constant.
 Where the intact modulus has been measured, the generalised expression of
 \citet{hoekdiederichs2006} is the preferred estimate, because it is the only
 one that uses the measured \(E_i\) together with the adopted GSI and the
-disturbance factor:
+disturbance factor (Figure~\ref{fig:modulus-gsi}):
 \[
 E_m =
 E_i
@@ -487,9 +494,17 @@ Table~\ref{tab:modulus_comparison} gives the derived quantities for an
 undisturbed rock mass and for one damaged by poor blasting. For \(D = 0\) the
 rock mass strength \(\sigma_{cm}\) is 13.95\,MPa, about an eighth of the
 intact strength, and the strength at the in-situ confinement is 91\,MPa
-against a major in-situ stress of 21.87\,MPa. That margin is a far-field
+against a major in-situ stress of 21.87\,MPa
+(Figure~\ref{fig:hb-disturbance-sandstone}). That margin is a far-field
 comparison and takes no account of the stress concentration at an excavation
 boundary, which is the subject of Chapter~\ref{ch:ground-behaviour}.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch12/hb-disturbance-sandstone}
+\caption{Rock mass envelopes of the sandstone (GSI 63) for $D = 0$ and 0.8. Left: capacity at $\sigma_3^{IS} = 12.15$~MPa, 91.2 and 62.5~MPa, against the demand $\sigma_1^{IS} = 21.87$~MPa. Right: the tensile end, where $\sigma_{tm,HM}$ (open) lies outside the envelope's own $\sigma_{tm}$ (filled) for both values of $D$.}
+\label{fig:hb-disturbance-sandstone}
+\end{figure}
 
 \begin{table}[htbp]
 \caption{Derived parameters for the sandstone ($\sigma_{ci} = 110$\,MPa,
@@ -519,15 +534,8 @@ rating-based moduli take no account of $D$.}
 \end{tabular}
 \end{table}
 
-\begin{figure}[htbp]
-\centering
-\datafigure[\textwidth]{ch12/hb-envelope-sandstone}
-\caption{Hoek--Brown envelopes of the intact sandstone and of the rock mass at GSI 63, with the linear fit through six points over $0 \le \sigma_3 \le 21.9$~MPa.}
-\label{fig:hb-envelope-sandstone}
-\end{figure}
-
-
-The modulus estimates carry the lesson. For the undisturbed rock mass the five
+The modulus estimates carry the lesson
+(Figure~\ref{fig:modulus-estimates-sandstone}). For the undisturbed rock mass the five
 expressions span 17.6 to 25.1\,GPa, a spread of about 40\,per cent that a
 design can absorb. For the damaged rock mass the three expressions that admit
 a disturbance factor span 3.1 to 12.7\,GPa, a factor of four, and the
@@ -535,6 +543,13 @@ simplified expression that was the highest of the three at \(D = 0\) is now
 the lowest. The estimates do not merely scatter; they change order with the
 conditions, which is why the expression adopted is the one that uses the
 measured intact modulus and why the others are reported beside it.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch12/modulus-estimates-sandstone}
+\caption{The five modulus estimates of Table~\ref{tab:modulus_comparison} for the sandstone: Hoek and Diederichs generalised and simplified, the GSI and $\sigma_{ci}$ expression, and the RMR expressions of Bieniawski and of Serafim and Pereira. Disturbance moves the three that admit $D$ by different amounts and changes their order.}
+\label{fig:modulus-estimates-sandstone}
+\end{figure}
 
 \paragraph{Equivalent Mohr--Coulomb parameters}
 Table~\ref{tab:example} gives six points on the Hoek--Brown envelope for
@@ -567,7 +582,8 @@ Method 1 fits \(R = 3.85 + 0.673\,C\), giving
 \qquad
 c = \frac{3.85}{\cos 42.3^\circ} = 5.2~\text{MPa} .
 \]
-Method 2 fits \(\sigma_1^f = 25.1 + 4.98\,\sigma_3\), giving
+Method 2 fits \(\sigma_1^f = 25.1 + 4.98\,\sigma_3\)
+(Figure~\ref{fig:hb-envelope-sandstone}), giving
 \[
 \sin\phi=
 \frac{4.98-1}{4.98+1}
@@ -584,6 +600,13 @@ c=
 \]
 The two agree to within a degree and half a megapascal, as they should.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch12/hb-envelope-sandstone}
+\caption{Hoek--Brown envelopes of the intact sandstone and of the rock mass at GSI 63, with the linear fit through six points over $0 \le \sigma_3 \le 21.9$~MPa.}
+\label{fig:hb-envelope-sandstone}
+\end{figure}
+
 Two features of the result deserve attention. The intercept of the fitted
 line in Method 2, 25.1\,MPa, is nearly twice the true unconfined strength of
 13.95\,MPa in the first row of the table: a straight line forced through a
@@ -591,8 +614,16 @@ curved envelope overstates strength at low confinement, which is exactly
 where an excavation boundary sits. And the fitted pair belongs to the range.
 Refitting over the narrower range from zero to \(\sigma_3^{IS} = 12.15\)\,MPa
 gives \(\phi = 46.0^\circ\) and \(c = 4.3\)\,MPa, four degrees higher in
-friction and a quarter lower in cohesion for the same rock mass. Equivalent
+friction and a quarter lower in cohesion for the same rock mass
+(Figure~\ref{fig:fitting-range-sandstone}). Equivalent
 Mohr--Coulomb parameters are a linear approximation over a stated range of
 confinement, and they are not material constants.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch12/fitting-range-sandstone}
+\caption{Equivalent friction angle and cohesion of the sandstone against the upper fitting limit (Method 2, six points), intact and as a rock mass at GSI 63. The markers are the limits 12.15 and 21.87~MPa: a wider range lowers $\phi$ and raises $c$ in every case.}
+\label{fig:fitting-range-sandstone}
+\end{figure}
 
 \chapterreferences

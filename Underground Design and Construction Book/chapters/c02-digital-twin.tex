@@ -50,8 +50,19 @@ as the lining.
 The second departure is linearity. Underground assets are alignments, and
 their information is naturally indexed by chainage rather than by storey or
 grid line. Ground class, support class, monitoring section, quantities and
-as-built records are all functions of chainage, and a model that cannot
+as-built records are all functions of chainage (Figure~\ref{fig:dt-chainage}), and a model that cannot
 express that relationship forces every downstream user to rebuild it.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch02/dt-chainage}
+\caption{One model indexed by chainage (illustrative): geological unit, with a
+fault zone in carmine; ground class; support class, extended beyond each change
+in ground class; monitoring sections, densified through the fault; and lining
+carbon per metre relative to the lightest support. A change in any row is
+traceable to the others through the common coordinate.}
+\label{fig:dt-chainage}
+\end{figure}
 
 \subsection{What the model must contain}
 \label{sec:model-contents}
@@ -59,7 +70,7 @@ express that relationship forces every downstream user to rebuild it.
 A model that serves the whole lifecycle integrates, in one structure:
 
 \begin{itemize}
- \item infrastructure function and system interfaces --- what service the
+ \item infrastructure function and system interfaces: what service the
  asset provides and what it connects to;
  \item alignment, geometry, lining, support, shafts, stations and fit-out;
  \item borehole data, geological interpretation, hydrogeological units,
@@ -74,7 +85,7 @@ A model that serves the whole lifecycle integrates, in one structure:
 The first three establish what is being built and in what; the fourth records
 how; the fifth and sixth are what make carbon assessment and asset management
 possible without a separate data-gathering exercise. Omitting any one of them
-does not merely reduce functionality --- it breaks a link in the chain that
+does not merely reduce functionality. It breaks a link in the chain that
 carries a decision back to its evidence.
 
 \subsection{Level of detail as a decision variable}
@@ -91,7 +102,18 @@ That error is expensive twice over. It costs directly, in modelling effort
 that no decision requires, and indirectly, because a model detailed beyond its
 evidence base implies a precision the data cannot support. A ground surface
 drawn to millimetre tolerance between boreholes 200\,m apart is a statement
-about the interpolator, not about the ground.
+about the interpolator, not about the ground (Figure~\ref{fig:dt-interpolation}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch02/dt-interpolation}
+\caption{Depth to rock between boreholes 200~m apart (synthetic). A smooth and
+a linear interpolant both honour the boreholes exactly and agree closely, yet
+both miss the trough near 300~m. The 90\,\% band of the smooth interpolant
+collapses at each borehole and widens between them; even it excludes the
+trough, which no interpolation of these five holes can recover.}
+\label{fig:dt-interpolation}
+\end{figure}
 
 The practical discipline is to state, for each model, the decisions it exists
 to support and the tolerance those decisions require, and to resist enrichment
@@ -124,8 +146,8 @@ the transition from designer to contractor to operator.
 \label{sec:cde}
 
 A common data environment is the agreed single location for project
-information, with defined states --- work in progress, shared, published,
-archived --- and an audit trail of who changed what and when. Its engineering
+information, with defined states (work in progress, shared, published,
+archived) and an audit trail of who changed what and when. Its engineering
 significance is that it establishes which version of the ground model a
 calculation was based on, and therefore whether a later divergence between
 prediction and observation reflects a change in the ground, a change in the
@@ -138,14 +160,26 @@ was entitled to rely on it. Ambiguity here reappears later as a claim.
 \subsection{Forward prediction and backward updating}
 \label{sec:forward-backward}
 
-The loop that gives the model its value has two directions. Forward, analysis
-models are instantiated from the asset and ground models --- settlement,
-support interaction, lining response, excavation sequence --- rather than
+The loop that gives the model its value has two directions
+(Figure~\ref{fig:dt-update-loop}). Forward, analysis
+models are instantiated from the asset and ground models (settlement,
+support interaction, lining response, excavation sequence) rather than
 having their geometry rebuilt by hand for each study. Backward, observations
 from construction and monitoring update parameters, refine the ground
 interpretation and revise the design ahead of the face. The formal mechanism
 by which an observation revises a parameter is set out in
 Section~\ref{sec:bayesian-updating}.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch02/dt-update-loop}
+\caption{Forward prediction and backward updating. Analysis models are
+instantiated from the asset and ground model, and their predictions are
+compared with observation. An observation updates the model only after the
+movement already present before construction has been removed and the
+remainder attributed to the works (Figure~\ref{fig:movement-attribution}).}
+\label{fig:dt-update-loop}
+\end{figure}
 
 Both directions are necessary. Forward analysis alone produces a prediction
 nobody checks; backward updating alone produces a record nobody uses. The loop
@@ -155,8 +189,8 @@ behaves.
 
 Backward updating begins earlier than it appears to. An observation is not by
 itself evidence about the excavation, because ground moves for reasons that
-have nothing to do with the works --- groundwater abstraction, consolidation
-under existing load, seasonal shrink and swell --- and a reading that is not
+have nothing to do with the works (groundwater abstraction, consolidation
+under existing load, seasonal shrink and swell), and a reading that is not
 referred to what the ground was already doing attributes all of that movement
 to the tunnel. Establishing the pre-construction field is therefore part of the
 loop rather than preparation for it, and
@@ -212,19 +246,29 @@ answer:
  recommendation is produced.
 \end{description}
 
-Each level requires the one before it. The step to reflective adds a class of
+Each level requires the one before it (Figure~\ref{fig:dt-maturity}). The step to reflective adds a class of
 data the descriptive level did not need; the steps to predictive and
 prescriptive add models and decision criteria to data already being
 collected. A predictive twin built without a reflective layer is a
 simulation, not a twin: it forecasts from assumptions rather than from the
 asset's measured state.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch02/dt-maturity}
+\caption{The four levels of twin maturity, each answering one question and
+each standing on the level before it. The step to reflective adds measured
+data; the steps to predictive and prescriptive add forecasting models and
+decision criteria to data already being collected.}
+\label{fig:dt-maturity}
+\end{figure}
+
 \subsection{Analytics and machine learning}
 \label{sec:analytics}
 
 Mechanised tunnelling generates a continuous, high-resolution record of the
-machine's interaction with the ground --- thrust, torque, penetration rate,
-cutterhead rotation, face pressure, grout volumes --- logged ring by ring. That
+machine's interaction with the ground (thrust, torque, penetration rate,
+cutterhead rotation, face pressure, grout volumes), logged ring by ring. That
 record is a geotechnical measurement as well as an operational one, and it is
 usually the densest ground data a project ever collects.
 
@@ -238,8 +282,8 @@ Two cautions govern their use. The first is transferability: a model trained
 on one machine in one geological setting encodes both, and its performance on
 a different drive is an open question rather than an inherited property. The
 second is extrapolation. Statistical models are confident outside their
-training envelope, and it is precisely outside that envelope --- the fault
-zone, the mixed face, the unexpected boulder --- that a prediction matters
+training envelope, and it is precisely outside that envelope (the fault
+zone, the mixed face, the unexpected boulder) that a prediction matters
 most.
 
 \subsection{Governance and professional responsibility}
@@ -284,7 +328,7 @@ makes that harder than it is in most fields.
 Samples from one borehole are not independent of one another. A model trained
 on part of a hole and tested on the rest is being tested on material it has
 effectively already seen, and will report an accuracy it does not possess on a
-new hole --- which is the only situation in which it will ever be used. The
+new hole, which is the only situation in which it will ever be used. The
 unit of splitting must therefore be the unit of future application: whole
 boreholes for a lithology classifier, whole drives or machines for a model
 built on tunnelling machine data, whole projects where the claim is that the
@@ -319,8 +363,8 @@ The metric must match the decision. Overall accuracy is a poor choice where
 classes are imbalanced, and geotechnical classes always are: the fault gouge
 that governs the design is the rarest label in the training set, and a model
 that never predicts it can still be right nineteen times in twenty. Worse, the
-costs are asymmetric --- failing to predict weak ground is not the same error
-as predicting it where it is absent --- so a metric that treats the two alike
+costs are asymmetric (failing to predict weak ground is not the same error
+as predicting it where it is absent), so a metric that treats the two alike
 is not measuring what the project cares about. Recall on a class, the
 proportion of the cases truly belonging to it that the model finds, reported
 for the consequential classes alongside the full table of predicted against
@@ -349,7 +393,7 @@ current inputs no longer resemble the training data, predictions are
 extrapolations whatever their apparent confidence, and that comparison can be
 made continuously without waiting for ground truth. The second is realised
 error, wherever an observation eventually reveals what the prediction should
-have been --- the face that is mapped, the core that is logged, the
+have been: the face that is mapped, the core that is logged, the
 convergence that is measured. Predictions should be logged with their
 timestamps so this comparison remains possible; a prediction not recorded
 cannot be scored later.
@@ -372,7 +416,7 @@ analysis submitted without its boundary conditions.
 
 The training data and its provenance, including which projects, machines and
 formations it came from. The quantity actually predicted, distinguished from
-the quantity of interest where the two differ --- a model predicting logged
+the quantity of interest where the two differ: a model predicting logged
 weathering grade is not predicting strength. The validation protocol, stating
 the splitting unit. The performance on consequential classes rather than
 overall. The domain of validity and how the model behaves outside it. And the
@@ -399,9 +443,9 @@ between the two is what allows a reviewer to know which is which.
 
 The applications with a defensible basis today are document-side rather than
 engineering-side, and they are not trivial for that. Underground projects
-generate an enormous unstructured record --- factual reports, design
+generate an enormous unstructured record (factual reports, design
 statements, shift logs, instrumentation reviews, correspondence, decades of
-it --- and the practical difficulty has always been that the answer to a
+it), and the practical difficulty has always been that the answer to a
 present question usually exists somewhere in that record and cannot be found.
 Retrieval across a corpus, summarisation of what a document actually says
 about a specific reach, and consistency checking of a submission against a
@@ -415,7 +459,7 @@ proposed regularly and, at the time of writing, rest on demonstration rather
 than on a record of use in delivered projects. Two properties argue for
 caution beyond the general reservation about new methods. These models produce
 fluent output whether or not they have a basis for it, so the usual signal
-that something is wrong --- output that looks wrong --- is absent. And they do
+that something is wrong (output that looks wrong) is absent. And they do
 not reliably report their own uncertainty, which removes the property that
 makes the statistical methods of Section~\ref{sec:ml-assurance} governable at
 all: a validated classifier states how often it is wrong and on which classes,

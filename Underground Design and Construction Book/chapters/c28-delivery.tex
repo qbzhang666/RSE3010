@@ -21,7 +21,7 @@ Ground risk has three properties that distinguish it from most construction
 risk. It cannot be eliminated by investigation, only reduced and
 characterised. It is unevenly distributed along an alignment, concentrated at
 features that may not have been found. And the party best placed to manage it
-during construction --- the contractor --- is not always the party best placed
+during construction (the contractor) is not always the party best placed
 to have investigated it.
 
 The second of those properties has a consequence for how exposure is
@@ -82,11 +82,18 @@ guarantees it.
 
 Where the baseline is testable, the mechanism works as intended. The contractor prices the baselined
 conditions without contingency for the unknown, the client carries the risk of
-conditions being worse, and the comparison is made against a stated method
+conditions being worse (Figure~\ref{fig:baseline-mechanism}), and the comparison is made against a stated method
 rather than argued from first principles. Where the baseline is silent or
 untestable, the parties fall back on argument about what a reasonable
 contractor should have anticipated, which is where underground disputes
 consume their reputation.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch28/baseline-mechanism}
+\caption{A testable baseline at work, with illustrative values: the cumulative length of Class~V ground encountered along a drive against a baseline of 200~m. Ground up to the baseline is priced by the contractor; the excess is a changed condition.}
+\label{fig:baseline-mechanism}
+\end{figure}
 
 \section{Approvals and performance requirements}
 \label{sec:approvals-performance}
@@ -142,10 +149,10 @@ Three translations show the pattern.
 settlement of 20~mm, an angular distortion of 1 in 500 and a limiting tensile
 strain of 0.1~per~cent~\citep{nsw2020m4m5coa}. The Gaussian trough of
 Section~\ref{sec:gaussian-trough} converts the settlement limit into a limit on
-volume loss. For the example of that section --- a 6~m tunnel at 20~m depth
-with $K = 0.5$, so that $i = 10$~m --- a volume loss of 1~per~cent gives
+volume loss. For the example of that section (a 6~m tunnel at 20~m depth
+with $K = 0.5$, so that $i = 10$~m), a volume loss of 1~per~cent gives
 $S_{\max} = 11.3$~mm, and the limit of 20~mm therefore admits
-$V_L \leq 20/11.3 = 1.8$~per~cent. The steepest slope of that trough,
+$V_L \leq 20/11.3 = 1.8$~per~cent (Figure~\ref{fig:settlement-volume-loss}). The steepest slope of that trough,
 $S_{\max} e^{-1/2}/i = 20 \times 0.607/10\,000 = 1.2 \times 10^{-3}$, or
 1 in 820, is inside the angular distortion limit, so settlement governs here,
 and the strain criterion is checked by the damage assessment of
@@ -154,6 +161,13 @@ pressure and annulus grouting of Chapter~\ref{ch:tbm}, and the trigger levels of
 Section~\ref{sec:triggers-interpretation} are placed below the limit by the
 margin the prediction uncertainty requires.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch28/settlement-volume-loss}
+\caption{The settlement condition as a limit on volume loss, for a 6~m tunnel at 20~m depth with $K = 0.5$. Left: $S_{\max}$ reaches 20~mm at $V_L = 1.8$~per~cent. Right: the steepest slope there is $1.2 \times 10^{-3}$, inside 1 in 500, so settlement governs.}
+\label{fig:settlement-volume-loss}
+\end{figure}
+
 \emph{Groundwater.} The same approval limits the inflow to an operating tunnel
 to 1~L/s in any kilometre, not averaged over the drive~\citep{nsw2020m4m5coa},
 that is $10^{-6}$~m$^3$/s per metre. The steady inflow to a drained tunnel of
@@ -161,12 +175,19 @@ Section~\ref{sec:inflow-prediction}, $q = 2\pi k_w H/\ln(2H/r_0)$, gives for a
 head of $H = 20$~m above a tunnel of radius $r_0 = 3$~m
 $q/k_w = 2\pi \times 20/\ln(13.3) = 48.5$~m, so that the condition is met
 without a membrane only where the rock mass permeability is below
-$10^{-6}/48.5 \approx 2 \times 10^{-8}$~m/s. Above that value the requirement
+$10^{-6}/48.5 \approx 2 \times 10^{-8}$~m/s (Figure~\ref{fig:inflow-permeability}). Above that value the requirement
 decides the choice of Section~\ref{sec:drained-vs-tanked} in favour of a tanked
 lining or of systematic grouting, whatever the structural or carbon arguments.
-A Victorian requirement for the same quantity is an outcome --- minimise the
-change in groundwater level and the inflow~\citep{wda2017ees} --- and leaves
+A Victorian requirement for the same quantity is an outcome: minimise the
+change in groundwater level and the inflow~\citep{wda2017ees}. It leaves
 the threshold to be argued in design.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch28/inflow-permeability}
+\caption{Steady inflow per kilometre to a drained tunnel of radius 3~m against rock mass permeability, for heads $H$ above the axis. The condition of 1~L/s in any kilometre is met without a membrane below $k_w = 2 \times 10^{-8}$~m/s at $H = 20$~m.}
+\label{fig:inflow-permeability}
+\end{figure}
 
 \emph{Vibration and ground-borne noise.} The Victorian targets of one published
 framework take human comfort from the vibration dose values of BS~6472-1,
@@ -215,7 +236,7 @@ that transfer.
 Contract models differ mainly in where they place ground risk. Design-bid-build
 leaves the client with design risk and the contractor with construction risk,
 and the interface between them is where ground risk lands. Design and construct
-transfers more to the contractor, who prices the uncertainty --- and prices it
+transfers more to the contractor, who prices the uncertainty, and prices it
 high, or declines to bid, where it cannot be quantified. Early contractor
 involvement brings construction expertise into design, where it can influence
 the decisions that determine constructability. Alliance and other collaborative
@@ -231,16 +252,16 @@ and litigates later.
 
 Procurement determines how much of this is settled before the bid. Tender
 period investigation, reference designs, and a properly written baseline all
-reduce the uncertainty a bidder must price. Dispute avoidance mechanisms ---
-standing boards that follow the project and address issues as they arise ---
+reduce the uncertainty a bidder must price. Dispute avoidance mechanisms
+(standing boards that follow the project and address issues as they arise)
 resolve matters while the evidence is fresh and the relationship is intact, and
 their record is better than that of adjudication after the event.
 
 Cost and programme estimation for underground works must be probabilistic,
 because the distribution of outcomes is skewed: the best case is bounded by
 the theoretical cycle, and the worst case is not. Reference class forecasting
---- comparing against the outturn distribution of similar completed projects
-rather than building up from first principles --- outperforms bottom-up
+(comparing against the outturn distribution of similar completed projects
+rather than building up from first principles) outperforms bottom-up
 estimation where a reference class exists, because it captures the
 difficulties that bottom-up estimates omit by construction. Advance rates should come from
 comparable projects by ground class, with realistic utilisation
@@ -248,8 +269,15 @@ comparable projects by ground class, with realistic utilisation
 rather than as a percentage. The risk analysis yields a distribution of cost
 built from the register; its central value is the estimate, an upper
 percentile is the figure funded, and the difference between them is the risk
-allowance --- a quantity a percentage uplift cannot produce, because it is not
+allowance (Figure~\ref{fig:cost-distribution}), a quantity a percentage uplift cannot produce, because it is not
 derived from the risks it is meant to cover.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch28/cost-distribution}
+\caption{An illustrative outturn cost distribution, bounded below and skewed to the right. Left: the density, with the tail above P90 shaded. Right: the cumulative curve, on which the estimate is the P50, the funded figure the P90, and the risk allowance the difference.}
+\label{fig:cost-distribution}
+\end{figure}
 
 Safety in design
 obligations require that risk be designed out where practicable, which in
@@ -289,7 +317,7 @@ for settlement assessment and neither is adequate for asset management.
 Format: an open, documented exchange format, because a deliverable readable
 only by the licence that produced it is not a deliverable but a dependency.
 And fidelity: the level of detail and, more importantly, the level of
-information reliability --- which parts are measured, which interpreted, and
+information reliability: which parts are measured, which interpreted, and
 which assumed.
 
 That last point connects the model directly to the baseline. A ground model

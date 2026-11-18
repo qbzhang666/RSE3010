@@ -27,7 +27,7 @@ the opening crosses a boundary, and the solution then applies only to the
 weaker unit. \emph{Isotropy} fails in bedded and foliated rock, where the
 error is largest in the displacement field rather than the stresses.
 \emph{Elasticity} fails wherever the strength is exceeded, which is precisely
-where the answer matters --- hence the elasto-plastic solutions of
+where the answer matters, hence the elasto-plastic solutions of
 Section~\ref{sec:elasto-plastic-and-support-solutions}. \emph{Plane strain}
 fails within about one diameter of the face
 (Chapter~\ref{ch:rock-mechanics}). \emph{Infinite extent} fails at shallow
@@ -69,7 +69,7 @@ giving, at the sidewall ($\theta = 0$) and the crown
 Two results follow directly. In a hydrostatic field ($k=1$) the boundary
 stress is $2\pzero$ everywhere. And the crown goes into tension whenever
 $k < 1/3$, which is the origin of the destressed crown discussed in
-Chapter~\ref{ch:ground-behaviour}.
+Chapter~\ref{ch:ground-behaviour} (Figure~\ref{fig:kirsch-stress}).
 
 The radial displacement at the boundary of an unsupported opening in a
 hydrostatic field is
@@ -132,7 +132,8 @@ minimised:
 \]
 
 The optimum opening is therefore elongated in the direction of the major
-principal stress, in the ratio of the stresses. A cavern in a field with
+principal stress, in the ratio of the stresses
+(Figure~\ref{fig:elliptical-stress}). A cavern in a field with
 $k = 2$ is best made twice as wide as it is high, when crown and wall both
 carry $3\pzero$; the same cavern rotated through ninety degrees carries a
 crown stress of $9\pzero$, three times the optimum value.
@@ -168,9 +169,9 @@ unconfined compressive strength of a Mohr--Coulomb material, which is why it is
 written $\sigma_{cm,MC}$ here. The bare symbol $\scm$ is the Hoek--Brown rock
 mass strength, in the List of Symbols and in
 Appendix~\ref{app:calculations}, and the two are not interchangeable. In the
-worked example of Chapter~\ref{ch:ccm} --- $\sci = 72$\,MPa, $\GSI = 30$,
+worked example of Chapter~\ref{ch:ccm} ($\sci = 72$\,MPa, $\GSI = 30$,
 $\mi = 7$, $\pzero = 16.9$\,MPa, with the Mohr--Coulomb fit taken to
-$\sigma_3 \approx \pzero$ --- they are about 5.3 and 1.2\,MPa, and substituting
+$\sigma_3 \approx \pzero$) they are about 5.3 and 1.2\,MPa, and substituting
 the Hoek--Brown value for the Mohr--Coulomb one inflates the plastic radius by
 about two and a half times and the wall convergence by about six. Both factors
 grow with $\pzero$ and neither is a property of strength alone. Where a
@@ -249,7 +250,7 @@ rock deforms in series with the set, so that the effective stiffness is
 $\left(1/k_{s,\text{set}} + 1/k_{s,\text{block}}\right)^{-1}$ and the softer
 element governs; a poorly seated set can therefore fall well below the
 computed values. No general factor applies, and the reduction must be
-estimated from the blocking detail --- the number, spacing and stiffness of
+estimated from the blocking detail: the number, spacing and stiffness of
 the blocks.
 
 \emph{Mechanically or chemically anchored bolts and cables} (ungrouted) of free length $L_b$, diameter $d_b$
@@ -270,7 +271,7 @@ values of $E_b$ and of the steel-set properties are given there.
 
 For systems installed together, stiffnesses add:
 $k_{s,\text{total}} = \sum k_{s,i}$, and the combined capacity is reached when the
-first element attains its own $p_{sm}$ --- not the sum of the individual
+first element attains its own $p_{sm}$, not the sum of the individual
 capacities.
 
 \subsection{Longitudinal deformation profile expressions}
@@ -322,12 +323,19 @@ minor principal stress: at $k = 0.5$ the contour lies at about $4.0\,a$ along
 the horizontal axis and $3.7\,a$ along the vertical. Referred instead to the
 far-field tangential stress on each axis, $\pzero$ on the horizontal and
 $k\pzero$ on the vertical, it lies at about $4.0\,a$ and $5.4\,a$, elongated
-towards the major principal stress. The convention should therefore be stated
-with the result.
+towards the major principal stress (Figure~\ref{fig:influence-contours}). The
+convention should therefore be stated with the result.
 
 Two openings whose zones of influence do not overlap may be analysed
 independently. Closer, they interact, and the treatment is
 Chapter~\ref{ch:openings}.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{appF/influence-contours}
+\caption{Zone of influence of a circular opening: the contour at which the change in tangential stress falls to 5 per cent, for $k = 1$ and for $k = 0.5$ referred either to $\pzero$ or to the far-field tangential stress at the same angle. One quadrant is drawn.}
+\label{fig:influence-contours}
+\end{figure}
 
 \paragraph{Lining solutions.}
 For a circular lining of cross-sectional area $A_l$ and second moment $I_l$,
@@ -364,10 +372,18 @@ inner face when $k < 1$. The formulations of \citet{muirwood1975} and
 of the ground load appears as thrust, and $F$ how much appears as moment. At
 high $F$ the lining is flexible relative to the ground: it conforms, and the
 moment tends to zero, the thrust being set by $C$. At low $F$ the lining
-resists, distorts less, and attracts large moments. Since a lining designed
+resists, distorts less, and attracts large moments
+(Figure~\ref{fig:einstein-schwartz}). Since a lining designed
 for thrust alone is far more efficient than one designed for moment, high $F$
-is generally the better design --- the result quoted in
+is generally the better design, the result quoted in
 Chapter~\ref{ch:linings}.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{appF/einstein-schwartz}
+\caption{Thrust and moment coefficients of a full-slip lining from the expressions above, against flexibility ratio, for $\nu = 0.3$ and a solid lining with $t/a = 0.1$, so that $C = F/1200$. The moment has almost vanished by $F \approx 100$; the thrust falls as the lining becomes compressible relative to the ground.}
+\label{fig:einstein-schwartz}
+\end{figure}
 
 Full-slip and no-slip solutions bracket the real interface condition; the
 no-slip case gives higher thrust and lower moment, and both should be checked.
@@ -376,7 +392,7 @@ no-slip case gives higher thrust and lower moment, and both should be checked.
 \label{sec:closed-form-limits}
 
 These solutions remain the right tool for preliminary sizing, for
-understanding which variables govern, and --- most valuably --- as a check on
+understanding which variables govern, and, most valuably, as a check on
 numerical output. A numerical model of a circular opening in uniform ground
 that does not reproduce the Kirsch stresses to within a few per cent contains
 an error that will not announce itself in the complex geometry the model was
@@ -386,9 +402,9 @@ They serve only as a check where the geometry is non-circular and the ground
 non-uniform, where construction is staged, or where openings interact. They
 should not be used at all at shallow cover below about two diameters, in
 strongly anisotropic rock, where the excavation is not remote from the face
---- the longitudinal deformation profile of Section~\ref{sec:ldp-appendix}
+(the longitudinal deformation profile of Section~\ref{sec:ldp-appendix}
 excepted, being an empirical fit to three-dimensional results for precisely
-that region --- or where the ground is time-dependent. In each of those cases the assumption
+that region) or where the ground is time-dependent. In each of those cases the assumption
 violated is not a refinement but the basis of the derivation.
 
 \chapterreferences

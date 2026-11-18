@@ -25,7 +25,7 @@ application.
 \subsection{The ground movement field}
 \label{sec:movement-field}
 
-Surface settlement above a tunnel is described by a Gaussian curve whose
+Surface settlement above a tunnel is described by a Gaussian curve (Figure~\ref{fig:r3d-settlement-trough}) whose
 maximum $S_{\max}$ lies above the axis and whose width $i$, the distance from
 the centreline to the point of inflection, is set by the trough width
 parameter $K$ and the depth to the axis $z_0$ through $i = K z_0$:
@@ -35,21 +35,35 @@ S_y = S_{\max} \exp\!\left(-\frac{y^2}{2i^2}\right),
 with $S_y$ the settlement at transverse distance $y$ from the centreline.
 Section~\ref{sec:gaussian-trough} derives $S_{\max}$ from the volume loss and
 gives the customary values of $K$, and Section~\ref{sec:seq-settlement} sets
-out the calculation sequence. The area under the curve equals the volume loss ---
+out the calculation sequence. The area under the curve equals the volume loss:
 the ground that entered the tunnel and did not come out as intended
 excavation, expressed as a proportion of the theoretical excavated volume.
 Volume loss is a construction outcome, not a ground property (Table~\ref{tab:volume-loss}): the same ground
 gives very different volume loss under different face pressure and grouting
 control.
 
+\begin{figure}[htbp]
+\centering
+\renderfigure{settlement_trough}{%
+  \rtxt{0.31,0.80}{A, 0.6\,mm}
+  \rtxt{0.45,0.83}{B, 17.0\,mm}
+  \rtxt{0.585,0.77}{C, 19.8\,mm}
+  \rtxt{0.735,0.77}{D, 3.8\,mm}
+  \rlab[north]{0.37,0.24}{0.30,0.10}{Twin bores}
+}
+\caption{The transverse trough over twin 6~m bores at $z_0 = 20$~m and 15~m apart ($K = 0.5$), the second at 1.3~per~cent volume loss against 1.0 for the first (illustrative), settlement exaggerated 300 times (peak 19.8~mm). The two buildings predicted to settle more than 10~mm (17 and 20~mm) need assessment (carmine); the two at 0.6 and 3.8~mm are screened out (pale malachite).}
+\label{fig:r3d-settlement-trough}
+\end{figure}
+
 The transverse Gaussian is only one section through a three-dimensional field.
 Longitudinally, settlement develops as the face approaches and passes,
 following a cumulative probability form: some settlement occurs ahead of the
-face, roughly half is complete as the face passes beneath, and the remainder
+face, roughly half is complete as the face passes beneath
+(Figure~\ref{fig:settlement-development}), and the remainder
 develops behind. A structure therefore experiences a settlement history, not a
 single value. It is subjected to hogging as the face approaches, arching over
 the advancing edge of the trough, and to sagging after it passes, as the
-trough deepens beneath it --- a reversal that a static assessment does not
+trough deepens beneath it, a reversal that a static assessment does not
 capture.
 
 \begin{figure}[htbp]
@@ -69,7 +83,7 @@ i = 0.175\, z_0 + 0.325\,(z_0 - z),
 which recovers $i = 0.5\,z_0$ at the surface~\citep{mair1993subsurface}. Taking
 the trough volume $V_s$ as unchanged with depth, as for undrained clay, the
 narrower trough gives a proportionally larger maximum,
-$S_{\max} = V_s/(i\sqrt{2\pi})$. Horizontal
+$S_{\max} = V_s/(i\sqrt{2\pi})$ (Figure~\ref{fig:subsurface-trough}). Horizontal
 movement accompanies the vertical: if the displacement vectors are taken to
 point towards the tunnel axis, the horizontal displacement at transverse
 distance $y$ is $S_h = (y/z_0)\, S_y$, and differentiating it gives the
@@ -83,6 +97,13 @@ inflection, reaching $S_{\max}/z_0$ over the centreline, and tensile beyond
 them, reaching $2e^{-3/2}S_{\max}/z_0 \approx 0.45\,S_{\max}/z_0$ at
 $y = \sqrt{3}\,i$. The tensile zone at the trough edge is where most building
 damage occurs, and an assessment that considers settlement alone will miss it.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch26/subsurface-trough}
+\caption{Settlement troughs at depth $z$ above a 6~m tunnel with its axis at $z_0 = 20$~m and a volume loss of 1~per~cent, from the trough width at depth of \citet{mair1993subsurface} at constant volume. At 14~m depth the trough is about half as wide and nearly twice as deep as at the surface.}
+\label{fig:subsurface-trough}
+\end{figure}
 
 \subsection{Building damage assessment}
 \label{sec:damage-assessment}
@@ -115,9 +136,9 @@ is deliberately crude; the assessment that follows it is not.
 What the first stage screens. Above: predicted settlement band by position for
 three thousand buildings along an illustrative twin-tunnel corridor, plotted by
 chainage and by offset from the centreline. Below: the same population by band.
-The bands are magnitudes of predicted settlement and not damage categories ---
-they carry no building stiffness, no foundation type and no orientation to the
-trough --- and their only purpose is to decide which buildings are assessed
+The bands are magnitudes of predicted settlement and not damage categories
+(they carry no building stiffness, no foundation type and no orientation to the
+trough), and their only purpose is to decide which buildings are assessed
 further. Synthetic demonstrator data (Appendix~\ref{app:software}).}
 \label{fig:settlement-screening}
 \end{figure}
@@ -126,14 +147,32 @@ The damage criterion itself is limiting tensile strain. The idealisation of
 \citet{burland1974settlement} treats the building as a deep beam undergoing both bending and shear.
 The building is divided at the point of inflection of the trough into a
 hogging length and a sagging length, each is assessed separately, and the
-quantity each consumes is its deflection ratio --- the maximum relative
-deflection divided by that length. From it a maximum tensile strain is derived
+quantity each consumes is its deflection ratio, the maximum relative
+deflection divided by that length (Figure~\ref{fig:deflection-ratio}; Figure~\ref{fig:r3d-building-trough} in three dimensions). From it a maximum tensile strain is derived
 and compared against thresholds
-corresponding to damage categories --- negligible, very slight, slight,
+corresponding to damage categories: negligible, very slight, slight,
 moderate, severe, very severe. The threshold strains are given in
 Appendix~\ref{app:constants}, and the full sequence in
 Section~\ref{sec:seq-settlement}. The categories are defined by the ease of
 repair, which is what an owner cares about, rather than by structural capacity.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch26/deflection-ratio}
+\caption{A 30~m building on the greenfield trough of a 6~m tunnel at 20~m depth ($V_L = 1$~per~cent, $K = 0.5$), divided at the point of inflection. The relative deflections are $\Delta_{\mathrm{sag}} = 2.9$~mm over 16~m and $\Delta_{\mathrm{hog}} = 1.1$~mm over 14~m, deflection ratios of $1.8 \times 10^{-4}$ and $0.8 \times 10^{-4}$.}
+\label{fig:deflection-ratio}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{building_trough}{%
+  \rtxt{0.48,0.78}{Sagging}
+  \rtxt{0.62,0.79}{Hogging}
+  \rlab[north]{0.435,0.285}{0.43,0.10}{Tunnel}
+}
+\caption{The building of Figure~\ref{fig:deflection-ratio} on its greenfield trough ($z_0 = 20$~m, $D = 6$~m, $V_L = 1$~per~cent, $i = 10$~m), settlement exaggerated 300 times. The building follows the ground; split at the inflection point $y = i$, the 16~m within it sags (malachite) and the 14~m beyond it hogs (carmine). Building height and plan depth illustrative.}
+\label{fig:r3d-building-trough}
+\end{figure}
 
 \citet{boscardin1989building} extended this by combining the distortion of the
 building with the
@@ -141,9 +180,16 @@ horizontal strain from the ground movement field, producing an interaction
 chart with angular distortion on the horizontal axis, horizontal strain on the
 vertical, and damage category contours across it. The extension matters
 because horizontal strain shifts many
-buildings up a damage category, and this is the step most often omitted in
+buildings up a damage category (Figure~\ref{fig:damage-interaction}), and this is the step most often omitted in
 practice; the horizontal strain itself follows from the expression for
 $\varepsilon_h$ in Section~\ref{sec:movement-field}.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch26/damage-interaction}
+\caption{Damage category against deflection ratio and horizontal strain for a hogging length with $L/H = 1$ and $E/G = 2.6$, from the deep-beam relations of \citet{burland1974settlement} with horizontal strain superposed as \citet{boscardin1989building} proposed. Boundaries are the limiting tensile strains of Appendix~\ref{app:constants}.}
+\label{fig:damage-interaction}
+\end{figure}
 
 Building stiffness is where the greenfield assumption is conservative, for the
 deflection ratio and horizontal strain specifically. A real
@@ -157,7 +203,7 @@ derived from plane-strain analyses of an elastic beam on the ground surface,
 with relative bending and axial stiffnesses as the inputs, and they are no
 better than the stiffness assumed. Applying them requires care about openings, since a facade with a high window
 ratio is far less stiff than its dimensions suggest, and about the building's
-orientation --- a building at an angle to the tunnel is subject to a more
+orientation: a building at an angle to the tunnel is subject to a more
 complex deformation than a two-dimensional assessment represents. They are
 unsafe where the stiffness is assumed rather than demonstrated, as it often is
 for the buildings reaching the third stage, and for weak or poorly
@@ -206,7 +252,7 @@ all.
 Proximity criteria based on clear separation in diameters are a useful screen
 and no more. What governs is the movement imposed at the existing structure
 and its capacity to accommodate it, so the assessment needs the subsurface
-movement field and a structural assessment of the existing tunnel --- often
+movement field and a structural assessment of the existing tunnel, often
 the harder of the two, because the as-built details are unknown.
 
 Twin tunnels interact with each other. The second drive imposes additional
@@ -221,22 +267,30 @@ the mechanism.
 \subsection{Subsidence over voids and legacy workings}
 \label{sec:void-subsidence}
 
-A different mechanism operates above voids. Where a cavity exists --- an
-abandoned mine working, a karst cavern, a poorly backfilled shaft --- the
+A different mechanism operates above voids. Where a cavity exists (an
+abandoned mine working, a karst cavern, a poorly backfilled shaft), the
 ground above it can migrate downward progressively, the void working upward as
 material falls into it. Because collapsed material bulks, the migration
 arrests once the bulked volume fills the void. Collapse of a thickness $h$ of
 roof bulks to fill a void of height $H_v$ when $(B-1)\,h = H_v$, where $B$ is
 the bulking factor, so that $h = H_v/(B-1)$. The result is acutely sensitive
 to a parameter that is itself poorly known: a 3\,m void arrests after about
-10\,m of migration at $B = 1.30$ and after about 20\,m at $B = 1.15$. If the arrest height
+10\,m of migration at $B = 1.30$ and after about 20\,m at $B = 1.15$
+(Figure~\ref{fig:void-migration}). If the arrest height
 is less than the cover, nothing appears at the surface; if it exceeds the
 cover, a sinkhole appears, often suddenly and long after the working was
 abandoned.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch26/void-migration}
+\caption{Height of upward migration before the bulked collapse fills a void of height $H_v$, $h = H_v/(B-1)$. The circles mark the 3~m void of the text: about 10~m at $B = 1.30$ and 20~m at $B = 1.15$.}
+\label{fig:void-migration}
+\end{figure}
+
 The crown pillar between a working and the surface is therefore the quantity
 of interest, and its adequacy depends on the span of the void, the strength
-and bedding of the overlying rock, and time --- deterioration of a crown
+and bedding of the overlying rock, and time. Deterioration of a crown
 pillar continues for decades.
 
 Investigating legacy voids begins with records research, which is frequently
@@ -251,8 +305,8 @@ every void has been found.
 \label{sec:protection-monitoring}
 
 Where predicted damage is unacceptable, the responses fall in a clear order of
-preference. Reducing the ground movement at source --- better face pressure
-control, improved grouting, a different alignment or depth --- is the most
+preference. Reducing the ground movement at source (better face pressure
+control, improved grouting, a different alignment or depth) is the most
 effective and the cheapest, and it is frequently dismissed too early because
 the alignment is treated as fixed. Ground treatment between the tunnel and the
 structure (Chapter~\ref{ch:ground-improvement}) intercepts the movement.
@@ -273,7 +327,7 @@ agreements; trigger levels become commitments; and exceedance triggers
 obligations. The condition survey carried out before work begins is the single
 most valuable document in the process, because without it every pre-existing
 crack becomes a claim. It should be thorough, photographic, dated and agreed
-with the owner --- and it costs a fraction of what the disputes it prevents would cost.
+with the owner, and it costs a fraction of what the disputes it prevents would cost.
 \section{Instrumentation and observational design}
 \label{sec:instrumentation-observational}
 
@@ -305,20 +359,28 @@ monitoring regime with trigger levels but no pre-agreed, resourced contingency
 is not the observational method; it is an alarm with nothing behind it. The
 method can be applied from the outset, with the design based on the most
 probable conditions and contingency held for the unfavourable case, or as a
-recovery when behaviour departs from expectation --- but the recovery
+recovery when behaviour departs from expectation, but the recovery
 application is much weaker, because the preparation was not done.
 
 \subsection{Instrument types}
 \label{sec:instrument-types}
 
-\emph{Deformation} instruments are the backbone. Convergence arrays measure
+\emph{Deformation} instruments are the backbone
+(Figure~\ref{fig:instrument-section}). Convergence arrays measure
 the change in chord lengths across the excavation and are cheap, robust and
 directly meaningful. Borehole extensometers measure displacement at several
 depths into the rock, which distinguishes movement of the whole rock mass from
-loosening of the immediate skin --- a distinction convergence alone cannot
+loosening of the immediate skin, a distinction convergence alone cannot
 make. Inclinometers measure lateral profile in a borehole and are the standard
 instrument for retaining walls. Settlement cells and magnetic extensometers
 measure vertical movement at depth.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch26/instrument-section}
+\caption{A monitoring section across a tunnel beneath a building (schematic): levelling points on the surface, prisms and a tiltmeter on the building, a borehole extensometer above the crown, an inclinometer beside the tunnel, piezometers at two horizons, and convergence chords within the lining.}
+\label{fig:instrument-section}
+\end{figure}
 
 \emph{Load and stress} instruments are less reliable and should be specified
 with that in mind. Load cells on bolts and anchors measure a well-defined
@@ -326,14 +388,14 @@ quantity and work well. Pressure cells embedded in shotcrete or between lining
 and ground attempt to measure stress in a medium whose stiffness they alter by
 being present, and their absolute readings should be treated with caution;
 their trends are more trustworthy than their values. Strain gauges in a lining
-measure strain reliably and require an assumed modulus to become stress --- for
+measure strain reliably and require an assumed modulus to become stress. For
 young shotcrete, that modulus is changing as the reading is taken.
 
 \emph{Groundwater} instruments complete the set. Standpipe piezometers are
 simple and slow; vibrating wire piezometers respond quickly and can be
 installed in multiple horizons in one borehole. Response time depends on the
 permeability of the ground, and in low-permeability clay a standpipe may lag
-the true pressure by weeks --- long enough to give a comfortable reading during
+the true pressure by weeks, long enough to give a comfortable reading during
 exactly the period when the pressure is changing.
 
 \subsection{Surface and remote monitoring}
@@ -411,7 +473,7 @@ own sake.
 
 Three practical requirements follow. Monitoring sections should be spaced to
 capture variation along the drive, with additional sections at every feature
-of interest --- fault crossings, low cover, third-party assets, changes in
+of interest: fault crossings, low cover, third-party assets, changes in
 ground class. Instruments must be installed close enough to the face to
 capture the deformation that matters, which for convergence means within a
 fraction of a diameter, because deformation missed before installation is lost
@@ -424,7 +486,7 @@ and its readings are uninterpretable.
 
 Trigger levels convert measurements into decisions, and the conventional
 green--amber--red scheme works when the thresholds derive from the design
-prediction rather than from convenience. The amber level should correspond to
+prediction rather than from convenience (Figure~\ref{fig:trigger-levels}). The amber level should correspond to
 behaviour departing from prediction while remaining acceptable, prompting
 increased monitoring and review; the red level to behaviour approaching the
 limit of what the design can tolerate, prompting the contingency measure.
@@ -432,7 +494,7 @@ Setting them by rounding down a calculated capacity produces triggers that
 either fire constantly or never fire at all.
 
 Each level needs an owner, an escalation path and an action. Who is informed,
-who decides, within what time, and what happens --- specified in advance, not
+who decides, within what time, and what happens are specified in advance, not
 determined during the event.
 
 Interpretation is where experience is required. Instrument drift, temperature
@@ -451,6 +513,13 @@ not. A tunnel can accommodate large convergence safely if it is converging
 towards a limit, and a much smaller convergence at a steady rate is the more
 serious observation.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch26/trigger-levels}
+\caption{Trigger levels and rates, with illustrative values. Left: amber and red levels set between the predicted development of settlement and the limit, so that amber signals departure from prediction and red the approach to the limit. Right: a decelerating record is less serious than a smaller one growing at a steady rate.}
+\label{fig:trigger-levels}
+\end{figure}
+
 \subsection{Design updating and common failures}
 \label{sec:updating-failures}
 
@@ -463,7 +532,7 @@ against which the next section is compared updated.
 
 Back-analysis carries the non-uniqueness caveat already noted: several
 parameter combinations reproduce one measured quantity, so calibration should
-use several --- convergence, extensometer profile and support load together.
+use several: convergence, extensometer profile and support load together.
 
 The recurring failures are worth stating plainly, because they are failures of
 process rather than of instrumentation. Instruments installed too late to
@@ -509,7 +578,7 @@ consideration.
 
 Registration is where the accuracy is won or lost. A scan is measured in the
 instrument's own frame, and converting it to project coordinates requires
-control --- surveyed targets, or overlap with a previous scan, or both. The
+control: surveyed targets, or overlap with a previous scan, or both. The
 resulting registration error is systematic rather than random, it accumulates
 along a drive when scans are chained to one another rather than tied to
 control, and it is invisible in the point cloud itself, which looks equally
@@ -564,8 +633,8 @@ rather than points, and the comparison is contaminated by registration error
 between epochs. That error behaves like a rigid movement of the whole scan,
 which is precisely the signature that a genuine uniform convergence would
 also produce. Separating them requires stable reference surfaces inside the
-scanned volume --- a completed lining section, a rock face outside the zone of
-influence --- against which each epoch is registered.
+scanned volume (a completed lining section, a rock face outside the zone of
+influence), against which each epoch is registered.
 
 Within that constraint the method is powerful. It detects movement anywhere on
 the surface rather than at instrumented points, which is what allows an

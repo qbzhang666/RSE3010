@@ -313,7 +313,47 @@ def bolt_inclination():
     _save(fig, "ch18", "bolt-inclination", cols)
 
 
-ALL = {"kirsch": kirsch, "grc": grc, "ldp": ldp, "hb_envelope": hb_envelope, "em_gsi": em_gsi,
+# ---------------------------------------------------------------------------
+# Data for the three-dimensional renders (tools/render_classic_3d.py)
+# ---------------------------------------------------------------------------
+
+def scenes():
+    """Write the numbers the Blender scenes are built from, so the renders match the book."""
+    import json
+
+    g = ccm.Ground(16.9, 4.75, 0.22, 2.12, 23.8, 1.72)
+    res = ccm.analyse(g, [ccm.support_ring(4.75, 0.5, 60, 40, 0.25)])
+    rstar = res.rp0 / g.a
+    xs = np.linspace(-6 * g.a, 4 * g.a, 81)          # X > 0 behind the face
+    plastic = {"a": g.a, "rp_unsupported": res.rp0, "rp_supported": res.rp_eq, "lining_t": 0.5,
+               "install_X": res.install_distance, "u_max_mm": res.u_max,
+               "ldp_X": list(map(float, -xs)), "ldp_u": [float(ccm.ldp(-x / g.a, rstar)) for x in xs]}
+
+    D, z0, K, vl, spacing = 6.0, 20.0, 0.5, 1.0, 15.0
+    # the second bore through ground the first has disturbed: higher volume loss
+    bores = [settlement.Bore(-spacing / 2, z0, D, vl, K), settlement.Bore(spacing / 2, z0, D, 1.3 * vl, K)]
+    ys = np.linspace(-60, 60, 121)
+    s = settlement.transverse(bores, ys)
+    buildings = []
+    for name, y0, y1, depth in (("A", -50, -32, 14), ("B", -24, -6, 20), ("C", 2, 16, 12), ("D", 24, 44, 18)):
+        r = settlement.screen_building(bores, y0, y1)
+        buildings.append({"name": name, "y0": y0, "y1": y1, "depth": depth, "height": 9 + (depth % 7) * 2,
+                          "smax_mm": r["max_settlement_mm"], "slope": r["max_slope"],
+                          "assess": not r["excluded"]})
+    trough = {"D": D, "z0": z0, "K": K, "bores": [{"y": b.offset, "vl": b.vl_percent} for b in bores],
+              "y": list(map(float, ys)), "S_mm": list(map(float, s)), "buildings": buildings}
+
+    wedge = {"a": 3.0, "length": 12.0, "planes": [[55, 30], [55, 150]], "apex_height": 2.2,
+             "bolts": [[-0.9, 3.0], [0.0, 3.0], [0.9, 3.0], [-0.9, 6.0], [0.0, 6.0], [0.9, 6.0]]}
+
+    out = os.path.join(FIG, "render")
+    os.makedirs(out, exist_ok=True)
+    with open(os.path.join(out, "scenes.json"), "w", encoding="utf-8") as fh:
+        json.dump({"plastic_zone": plastic, "settlement_trough": trough, "crown_wedge": wedge}, fh, indent=1)
+    print("wrote render/scenes.json:", ", ".join(f"{b['name']} {b['smax_mm']:.1f} mm" for b in buildings))
+
+
+ALL = {"scenes": scenes, "kirsch": kirsch, "grc": grc, "ldp": ldp, "hb_envelope": hb_envelope, "em_gsi": em_gsi,
        "squeezing": squeezing, "trough": trough, "face": face, "elliptical": elliptical,
        "bolt_inclination": bolt_inclination}
 

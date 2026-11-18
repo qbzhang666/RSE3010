@@ -385,7 +385,10 @@ MANIFEST = (
 def export(output_root: Path, preview: bool = True) -> None:
     xtwin_root = _locate_xtwin()
     exporter = _load_exporter(xtwin_root)
-    from srl_piml import plotting as P
+    try:                                  # package renamed in the X-Twin repository
+        from x_twin_piml import plotting as P
+    except ImportError:
+        from srl_piml import plotting as P
 
     exporter._configure_vector_output()   # vector template, embedded fonts
     _apply_book_palette(P)                # then this book's colours over it

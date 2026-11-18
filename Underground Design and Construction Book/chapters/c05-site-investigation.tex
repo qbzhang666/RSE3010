@@ -124,12 +124,19 @@ different quantity and is not to be read from this table.
 
 \paragraph{Borehole records.}
 Table~\ref{tab:borehole} gives illustrative records from two boreholes on such
-an alignment. The two holes log the same units over the same depth intervals
+an alignment, plotted in Figure~\ref{fig:borehole-rqd-logs}. The two holes log the same units over the same depth intervals
 and return RQD values 27 points apart in the upper interval and 17 points
 apart in the lower, with joint conditions that range from rough and fresh to
 smooth and clay-coated. Neither hole misrepresents the ground. Together they
 show that a parameter assigned to a unit is a summary of a distribution, and
 that one hole samples that distribution once.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch05/borehole-rqd-logs}
+\caption{RQD logs of the two illustrative boreholes of Table~\ref{tab:borehole} against the classes of Table~\ref{tab:rqd}. The holes differ by 27 points in the upper interval and 17 in the lower, and BH02 falls one class below BH01 in both.}
+\label{fig:borehole-rqd-logs}
+\end{figure}
 
 \begin{table}[htbp]
 \caption{Illustrative borehole data for a shallow urban rail alignment. Borehole names and values are representative, not from actual logs.}
@@ -198,7 +205,15 @@ a core run recovered as sound pieces at least 100~mm long,
 \]
 expressed as a percentage. The word \emph{sound} excludes soft and weathered
 core as well as short pieces. Table~\ref{tab:rqd} gives the descriptive
-classes attached to the index.
+classes attached to the index, and Figure~\ref{fig:rqd-core-run} applies the
+definition to a single run.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch05/rqd-core-run}
+\caption{The RQD definition applied to a 1.5~m core run (schematic). Only the four sound pieces of at least 100~mm count, 840~mm in all, so $\RQD = 56$ per cent (Fair). The soft piece is excluded although longer than 100~mm, and the lost core stays in the run length; recovery is 92 per cent.}
+\label{fig:rqd-core-run}
+\end{figure}
 
 \begin{table}[htbp]
 \caption{Rock Quality Designation classification, after \citet{deere1964technical}.}
@@ -247,6 +262,32 @@ Vertical drilling through horizontally bedded rock may yield an RQD of, say,
 inclined borehole through the same rock mass that intersects sub-vertical
 joints might give 60 per cent, Fair. Both values are correct for their
 orientations, and neither alone characterises the rock mass.
+Figure~\ref{fig:rqd-orientation-bias} obtains both from one jointed rock mass,
+and Figure~\ref{fig:r3d-rqd-orientation} shows the two cores it would return.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch05/rqd-orientation-bias}
+\caption{Orientation bias in RQD (section schematic, spacing exaggerated). Bedding at 6.8 joints per metre and a sub-vertical set at 12 per metre: the vertical hole meets only the bedding ($\RQD = 85$ per cent), the hole at $60^\circ$ meets both (60 per cent). $\lambda$ sums each set's frequency times the cosine of its angle to the hole; $\RQD = 100\,e^{-0.1\lambda}(1+0.1\lambda)$ for randomly spaced joints \citep{priest1976discontinuity}.}
+\label{fig:rqd-orientation-bias}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\renderfigure{rqd_orientation}{%
+  \rlab[south]{0.70,0.87}{0.70,0.95}{Sub-vertical set}
+  \rlab[west]{0.80,0.50}{0.88,0.50}{Bedding}
+  \rlab[north]{0.25,0.25}{0.20,0.08}{Vertical hole}
+  \rlab[north]{0.78,0.37}{0.78,0.16}{Hole at $60^\circ$}
+}
+\caption{The rock mass of Figure~\ref{fig:rqd-orientation-bias}, half removed
+along the plane of two holes: bedding at a mean 0.147~m and a sub-vertical set
+at 0.083~m, both drawn at 2.5 times true spacing and varied at random
+(schematic). The vertical core (malachite) breaks only at the bedding, into a few
+long pieces; the core at $60^\circ$ (carmine) crosses both sets and breaks into
+many short ones.}
+\label{fig:r3d-rqd-orientation}
+\end{figure}
 
 \paragraph{RQD as a spatial variable.}
 RQD is not a single value but a variable distributed in space. It can vary
@@ -293,12 +334,20 @@ GSI~\citep{hoek2019hb} are set out in Chapter~\ref{ch:rock-mass-parameters}.
 \end{table}
 
 A reduction of only 10 points in GSI, from 55 to 45, lowers the uniaxial
-compressive strength of the rock mass by approximately 44\%. Because
+compressive strength of the rock mass by approximately 44\%
+(Figure~\ref{fig:gsi-strength-sensitivity}). Because
 \(\sigma_{cm}\) is proportional to \(\sigma_{ci}\) and does not involve
 \(m_b\), that percentage holds for any rock at the same GSI and \(D\); and
 because \(s\) falls exponentially with GSI, the sensitivity is strongly
 nonlinear. A 10-point error in GSI can thus change the rock mass strength by
 over 40\%.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch05/gsi-strength-sensitivity}
+\caption{Rock mass strength $\sigma_{cm} = \sigma_{ci}\,s^{a_{HB}}$ against GSI for the sandstone of Table~\ref{tab:sensitivity} ($\sigma_{ci} = 110$~MPa, $m_i = 17$), with the tabulated points. Every 10 points of GSI changes $\sigma_{cm}$ by a factor of about 1.8 at $D = 0$, whatever the starting GSI; disturbance lowers the curve further.}
+\label{fig:gsi-strength-sensitivity}
+\end{figure}
 
 \paragraph{The consequence of overestimation.}
 The error is not symmetrical in its effect. If GSI were overestimated by 10
@@ -378,8 +427,8 @@ None is interpretable raw. Penetration rate depends on the feed force applied
 and on bit wear as much as on the rock, so a rate falling through a shift may
 record a blunt bit rather than harder ground. The standard response is
 normalisation: parameters are combined into an index that removes the
-operator's and the machine's contribution, of which specific energy --- the
-work done per unit volume excavated --- is the most widely used and the most
+operator's and the machine's contribution, of which specific energy (the
+work done per unit volume excavated) is the most widely used and the most
 physically transparent. For rotary drilling it is the sum of a thrust term
 and a rotary term~\citep{teale1965specific},
 \[
@@ -392,16 +441,23 @@ cross-sectional area of the hole. Its unit is that of stress, since
 0.6~m/min under a feed force of 20~kN, with a torque of 300~N\,m at
 120~rev/min, the thrust term is 4.4~MJ/m\textsuperscript{3} and the rotary
 term 83~MJ/m\textsuperscript{3}: the rotary term dominates, as it ordinarily
-does. Percussive drilling adds the energy of the blows, which the rig must
+does (Figure~\ref{fig:mwd-specific-energy}). Percussive drilling adds the energy of the blows, which the rig must
 log if the index is to be complete. Specific energy rises with intact
 strength and falls where the rock is broken, and it can be computed from the
 logged quantities without additional instrumentation.
 
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch05/mwd-specific-energy}
+\caption{Specific energy of the worked interval (76~mm hole, $F = 20$~kN, $T = 300$~N\,m, $N = 120$~rev/min) against penetration rate, from the relation of \citet{teale1965specific}. The rotary term falls as $1/u$ and dominates throughout; the marker is the logged rate of 0.6~m/min, $e_s = 87$~MJ/m\textsuperscript{3}.}
+\label{fig:mwd-specific-energy}
+\end{figure}
+
 The practical requirements are prosaic and are where most attempts fail.
 Depth registration must be reliable, since a log misaligned by half a metre is
 worse than none. Bit changes must be recorded so that wear trends can be
-separated from ground trends. And control-system interventions --- automatic
-reductions in feed on entering broken ground --- must be logged, because
+separated from ground trends. And control-system interventions (automatic
+reductions in feed on entering broken ground) must be logged, because
 otherwise the machine's response to the ground is mistaken for the ground
 itself.
 
@@ -411,11 +467,19 @@ itself.
 Two classes of interpretation are established. The first is detection:
 locating features rather than quantifying properties. A void, an open joint, a
 clay-filled seam or a weathered zone produces a characteristic and abrupt
-signature --- a jump in penetration rate with a collapse in flush pressure is
-the classic indication of an open feature --- and detection is robust because
+signature. A jump in penetration rate with a collapse in flush pressure is
+the classic indication of an open feature (Figure~\ref{fig:mwd-open-feature}),
+and detection is robust because
 it relies on the change rather than on the absolute value. This is the
 application with the highest value and the lowest calibration burden, and it
 turns routine probe drilling from a procedural safeguard into a survey.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch05/mwd-open-feature}
+\caption{Idealised drilling log normalised by background values (schematic). A clay-filled seam (grey band) raises both rate and flush pressure as cuttings fail to clear; an open joint (carmine band) gives a jump in rate with a collapse in flush pressure; a weathered zone (light band) raises the rate gradually.}
+\label{fig:mwd-open-feature}
+\end{figure}
 
 The second is estimation: relating the normalised parameters to a
 classification quantity. Correlations to fracture frequency and $\RQD$ have
