@@ -402,14 +402,10 @@ computed from an assumed stiffness.
 \label{sec:scl-design-approach}
 
 The first decision is whether the sprayed lining is temporary, permanent, or
-part of a composite. A \emph{sacrificial} primary lining carries construction
-loads and is assumed to contribute nothing thereafter, with a secondary lining
-designed for the full long-term load. A \emph{composite} lining assumes the
-two act together, which requires the interface to transfer shear and the
-primary lining's long-term durability to be demonstrated. A \emph{single-shell}
-lining is the permanent structure in its own right.
-
-Each is defensible; the differences are in verification burden. Single-shell
+part of a composite. The three philosophies, a sacrificial primary lining
+within a double shell, a composite lining and a single shell, are defined in
+Section~\ref{sec:lining-philosophies}. For a sprayed lining the differences
+are in verification burden. Single-shell
 and composite designs are more economical and lower in carbon, and they
 require thickness control, durability evidence and quality records that a
 sacrificial lining does not. Choosing the economical option without accepting
@@ -428,7 +424,7 @@ convergence (Chapter~\ref{ch:ccm}).
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch18/yielding-support}
-\caption{The GSI~30 ground of Chapter~\ref{ch:ccm} with 200~mm of sprayed concrete installed at $u_{s0} = 62$~mm. As a stiff shell it reaches its 1.26~MPa capacity at 67~mm, where the ground still demands about 2~MPa (cross). With yielding elements, illustratively 0.5~MPa over 60~mm of radial shortening, equilibrium is reached on the plateau at 106~mm (circle).}
+\caption{The GSI~30 ground of Chapter~\ref{ch:ccm} with 200~mm of sprayed concrete installed at $u_{s0} = 62$~mm. As a stiff shell it reaches its 1.26~MPa capacity at 67~mm, where the ground still demands about 2~MPa (cross). With yielding elements, illustratively 0.5~MPa over 60~mm of radial shortening, equilibrium is reached on the plateau at 106~mm (circle). Once the elements close, at 124~mm, the shell stiffens again up to its capacity.}
 \label{fig:yielding-support}
 \end{figure}
 
@@ -462,7 +458,26 @@ k_s = \frac{E_s A_s}{s\, a^2},
 \]
 both reduced in practice by imperfect blocking against the rock, so that a
 poorly blocked set delivers a fraction of these values
-(Section~\ref{sec:grc-scc-appendix}). Table~\ref{tab:support-element-scc}
+(Section~\ref{sec:grc-scc-appendix}).
+
+Substrate preparation determines whether the lining acts as a shell.
+Bond to the rock and between successive layers requires a clean surface free
+of loose material, dust and standing water. Where bond fails, layers act
+independently and the effective thickness is that of one layer rather than
+their sum, a reduction in bending capacity by a factor of several. Cold
+joints between layers sprayed hours or days apart are the most common
+location.
+
+Water inflow through the substrate is the most difficult condition. Water
+prevents bond, washes out cement paste locally and creates a permanent path.
+Local drainage (pipes and fleece strips leading water to a collection point)
+must be installed before spraying; spraying over a wet spot produces
+a defect that reappears as a leak.
+
+\subsection{Combined support}
+\label{sec:combined-support}
+
+Table~\ref{tab:support-element-scc}
 sets the elements of this chapter side by side for the tunnel of
 Chapter~\ref{ch:ccm}, each with its maximum elastic displacement
 $u_{sm} = p_{sm}/k_s$ (Figure~\ref{fig:support-element-scc}). Bolts and sets supply tenths of a megapascal, sprayed
@@ -532,20 +547,6 @@ an unsupported span at the face (Figure~\ref{fig:r3d-supported-heading}).
 \label{fig:r3d-supported-heading}
 \end{figure}
 
-Substrate preparation determines whether the lining acts as a shell.
-Bond to the rock and between successive layers requires a clean surface free
-of loose material, dust and standing water. Where bond fails, layers act
-independently and the effective thickness is that of one layer rather than
-their sum, a reduction in bending capacity by a factor of several. Cold
-joints between layers sprayed hours or days apart are the most common
-location.
-
-Water inflow through the substrate is the most difficult condition. Water
-prevents bond, washes out cement paste locally and creates a permanent path.
-Local drainage (pipes and fleece strips leading water to a collection point)
-must be installed before spraying; spraying over a wet spot produces
-a defect that reappears as a leak.
-
 \subsection{Durability and quality control}
 \label{sec:scl-durability-qc}
 
@@ -556,14 +557,14 @@ projection onto an irregular surface. Cover to reinforcement, permeability and
 crack width are the controlling parameters, and all three are more variable in
 sprayed than in cast concrete.
 
-Fire performance requires explicit attention. Dense low-permeability concrete
-spalls explosively under rapid heating as pore water vaporises faster than it
-can escape, and the mixes used for durability are the ones most vulnerable. Polypropylene micro-fibres (a separate addition from the
-structural fibres of Section~\ref{sec:shotcrete-mix}, steel or
-macro-synthetic, dosed
-in addition to them rather than instead of them) melt and create escape
-paths. They are the standard mitigation and must be specified for any lining with a fire
-requirement (Chapter~\ref{ch:linings}).
+Fire performance requires explicit attention. The dense mixes used for
+durability are the ones most vulnerable to explosive spalling, and the
+mechanism and its mitigation with polypropylene micro-fibres are set out in
+Section~\ref{sec:fire-design-life}. In a sprayed lining the micro-fibres are
+a separate addition from the structural fibres of
+Section~\ref{sec:shotcrete-mix}, steel or macro-synthetic, dosed in addition
+to them rather than instead of them. They must be specified for any lining
+with a fire requirement.
 
 Quality control is where sprayed concrete design most often fails. Thickness
 is the critical variable and the hardest to control: the concrete is placed
@@ -577,5 +578,17 @@ Strength verification requires cores from sprayed panels or from the lining
 itself, not cubes cast from the pump. Material that has been through the
 nozzle differs from the batch that entered it, so a test on the batch does not
 represent the installed material.
+
+This chapter separated reinforcement, support and retention, and described
+each element by its capacity, its stiffness and the convergence already
+released when it is installed. Pattern bolts supply tenths of a megapascal at
+the boundary and act mainly through the rock mass they confine, while sprayed
+concrete supplies about one megapascal, with a capacity and stiffness that
+depend on its thickness and its age at loading. Elements installed together
+are limited by the first to reach its elastic limit. As-built thickness, bond
+and encapsulation decide whether the design values are achieved, which is why
+testing and records were treated alongside the mechanics.
+Chapter~\ref{ch:linings} takes up the permanent lining: segmental rings, cast
+in-situ linings, waterproofing, durability and fire.
 
 \chapterreferences

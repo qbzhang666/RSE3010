@@ -125,14 +125,17 @@ def bolt_load_transfer():
         ax0.add_patch(Rectangle((-0.06, y - 0.3), 0.06, 0.6, fc=qz.INK, ec="none"))   # plate
     for y, name in zip(ys, ("Grouted", "Friction", "Anchored")):
         ax0.text(L / 2 + 0.6, y + 0.2, name, ha="center", va="bottom", fontsize=8)
-    ax0.set_xlim(-0.3, L + 0.35)
-    ax0.set_ylim(-0.55, 2.65)
+    ax0.text(xj, -0.55, "Joint", ha="center", va="top", fontsize=8, color=qz.CAR)
+    ax0.text(-0.06, -0.55, "Plate", ha="center", va="top", fontsize=8)
+    ax0.set_xlim(-0.45, L + 0.35)
+    ax0.set_ylim(-0.95, 2.65)
     _blank(ax0)
 
     for t, col, ls, name in ((t_cmc, qz.MAL, "-", "Grouted"), (t_cfc, qz.CAR, "--", "Friction"),
                              (t_dmc, qz.GREY, "-.", "Anchored")):
         ax1.plot(x, t, color=col, ls=ls, lw=1.3, label=name)
     ax1.axvline(xj, color=qz.CAR, lw=0.6, ls=":")
+    ax1.text(xj - 0.06, 1.08, "Joint", ha="right", va="center", fontsize=8, color=qz.CAR)
     ax1.set_xlim(0, L)
     ax1.set_ylim(0, 1.15)
     qz.label(ax1, "Distance from the collar, $x$ (m)", "Axial force, $T/T_{\\max}$ (-)")
@@ -199,17 +202,19 @@ def shotcrete_interaction():
         ax.plot(n, m, color=col, ls=ls, lw=1.3, label=name)
         cols[f"N_h{h * 1000:.0f}_MN"] = n
         cols[f"M_h{h * 1000:.0f}_kNm"] = m
-    for e in (0.02, 0.05):
-        nn = np.linspace(0, 6.5, 50)
+    for e, n_end, (dx, dy) in ((0.02, 6.5, (-0.1, 10)), (0.05, 3.4, (0.1, 0))):
+        nn = np.linspace(0, n_end, 50)
         ax.plot(nn, nn * e * 1000, color=qz.GREY, lw=0.6, ls=":")
+        ax.text(n_end + dx, n_end * e * 1000 + dy, f"$e = {e * 1000:.0f}$ mm", fontsize=8, color=qz.GREY,
+                ha="left" if dx > 0 else "right", va="center" if dx > 0 else "bottom")
         cols[f"M_e{e * 1000:.0f}mm_kNm"] = nn * e * 1000
     # thrust from a uniform pressure of about 0.63 MPa (shotcrete alone, GSI 60 ground of Chapter 16)
     n_d = 0.63 * A_TUNNEL
     ax.axvline(n_d, color=qz.INK, lw=0.6, ls="-.")
     ax.set_xlim(0, 6.5)
-    ax.set_ylim(0, 175)
+    ax.set_ylim(0, 230)
     qz.label(ax, "Thrust, $N$ (MN/m)", "Moment, $M$ (kNm/m)")
-    ax.legend(loc="upper left")
+    ax.legend(loc="upper right", borderaxespad=0.3)
     fig.tight_layout()
     _save(fig, "ch18", "shotcrete-interaction", cols)
 
@@ -252,21 +257,24 @@ def yielding_support():
     u_y = us0 + p_y / ks * 1000
     u_eq = ccm.grc_displacement(g, p_y)
     u_close = u_y + slot
-    p_after = p_y + (140 - u_close) * ks / 1000
+    u_cap = u_close + (ps - p_y) / ks * 1000          # the closed shell reaches its own capacity
     print(f"  u_s0 {us0:.1f} mm; stiff shell limit at {u_stiff:.1f} mm where ground needs "
           f"{np.interp(u_stiff, u[ok], p[ok]):.2f} MPa; yielding eq at {u_eq:.1f} mm")
     fig, ax = qz.figure(W_FULL, 0.5 * W_FULL)
     ax.plot(u[ok], p[ok], color=qz.MAL, lw=1.4, label="Ground reaction, GSI 30")
     ax.plot([us0, u_stiff], [0, ps], color=qz.CAR, lw=1.3, ls="--", label="Stiff shell")
     ax.plot([u_stiff], [ps], "x", color=qz.CAR, ms=6, mew=1.4)
-    yu = np.array([us0, u_y, u_close, 140.0])
-    yp = np.array([0, p_y, p_y, min(p_after, 4.0)])
+    yu = np.array([us0, u_y, u_close, u_cap, 140.0])
+    yp = np.array([0, p_y, p_y, ps, ps])
     ax.plot(yu, yp, color=qz.INK, lw=1.3, label="Shell with yielding elements")
     ax.plot([u_eq], [p_y], "o", mfc="white", mec=qz.INK, ms=5, mew=1.0)
     ax.set_xlim(0, 140)
     ax.set_ylim(0, 4)
     qz.label(ax, "Wall displacement, $u_r$ (mm)", "Support pressure, $p_i$ (MPa)")
-    ax.legend(loc="upper right", bbox_to_anchor=(0.87, 1.0))
+    ax.annotate("Elements closed", xy=(u_close, p_y), xytext=(u_close - 1, 1.75), fontsize=8, ha="center",
+                va="bottom", arrowprops=dict(arrowstyle="-", color=qz.GREY, lw=0.5, shrinkA=1, shrinkB=3))
+    ax.text(us0 - 1.5, 0.08, "$u_{s0}$", fontsize=9, ha="right", va="bottom")
+    ax.legend(loc="upper right")
     fig.tight_layout()
     _save(fig, "ch18", "yielding-support", {"u_grc_mm": u[ok], "p_grc_MPa": p[ok], "u_yield_mm": yu,
                                             "p_yield_MPa": yp, "u_stiff_mm": np.array([us0, u_stiff]),
@@ -293,12 +301,12 @@ def ring_build():
     # left: section, key at the crown
     start = 90 + key_deg / 2
     edges = [90 - key_deg / 2, 90 + key_deg / 2]
-    ax0.add_patch(Wedge((0, 0), ro, 90 - key_deg / 2, 90 + key_deg / 2, width=t, fc=qz.MAL_TINT, ec=qz.MAL, lw=0.9))
+    ax0.add_patch(Wedge((0, 0), ro, 90 - key_deg / 2, 90 + key_deg / 2, width=t, fc=qz.CAR_TINT, ec=qz.CAR, lw=0.9))
     for i in range(5):
         a0 = start + i * seg_deg
         ax0.add_patch(Wedge((0, 0), ro, a0, a0 + seg_deg, width=t, fc="white", ec=qz.INK, lw=0.7))
         edges.append(a0)
-    ax0.text(0, ro + 0.12, "K", ha="center", va="bottom", fontsize=8, color=qz.MAL)
+    ax0.text(0, ro + 0.12, "K", ha="center", va="bottom", fontsize=8, color=qz.CAR)
     # dimension of one segment angle
     a0, a1 = start + seg_deg, start + 2 * seg_deg
     th = np.radians(np.linspace(a0, a1, 50))
@@ -325,14 +333,14 @@ def ring_build():
         k0, k1 = (rot - key_deg / 2) % 360, (rot + key_deg / 2) % 360
         spans = [(k0, k1)] if k0 < k1 else [(k0, 360), (0, k1)]
         for s0, s1 in spans:
-            ax1.add_patch(Rectangle((s0, y0), s1 - s0, b, fc=qz.MAL_TINT, ec="none"))
+            ax1.add_patch(Rectangle((s0, y0), s1 - s0, b, fc=qz.CAR_TINT, ec="none"))
         ax1.add_patch(Rectangle((0, y0), 360, b, fc="none", ec=qz.INK, lw=0.7))
         for j in joints:
-            ax1.plot([j, j], [y0, y0 + b], color=qz.MAL if j in (k0, k1) else qz.INK, lw=0.9)
+            ax1.plot([j, j], [y0, y0 + b], color=qz.CAR if j in (k0, k1) else qz.INK, lw=0.9)
             cols["ring"].append(i + 1)
             cols["joint_deg"].append(j)
         kc = (k0 + key_deg / 2) % 360
-        ax1.text(kc, y0 + b / 2, "K", ha="center", va="center", fontsize=8, color=qz.MAL)
+        ax1.text(kc, y0 + b / 2, "K", ha="center", va="center", fontsize=8, color=qz.CAR)
     ax1.set_xlim(0, 360)
     ax1.set_ylim(0, len(rots) * b)
     ax1.set_xticks([0, 90, 180, 270, 360])
@@ -400,8 +408,8 @@ def lining_ratios():
         rr = rings[gsi]
         _, a2s = _es_coeffs(rr["C"], rr["F"], 0.22)
         a0s, _ = _es_coeffs(rr["C"], rr["F"], 0.22)
-        a1.plot([rr["F"]], [1 - 2 * a2s], mk, mfc="white", mec=qz.INK, ms=4.5, mew=0.9)
-        a2.plot([rr["C"]], [1 - a0s], mk, mfc="white", mec=qz.INK, ms=4.5, mew=0.9)
+        a1.plot([rr["F"]], [1 - 2 * a2s], mk, mfc="white", mec=qz.INK, ms=4.5, mew=0.9, clip_on=False, zorder=5)
+        a2.plot([rr["C"]], [1 - a0s], mk, mfc="white", mec=qz.INK, ms=4.5, mew=0.9, clip_on=False, zorder=5)
         print(f"  GSI {gsi}: moment coeff {1 - 2 * a2s:.4f}, thrust coeff {1 - a0s:.3f}")
     a1.set_xscale("log")
     a1.set_xlim(0.1, 1e4)
@@ -441,6 +449,8 @@ def joint_stiffness():
         ax0.add_patch(Rectangle((x_in + side * 0.10 - (0.07 if side > 0 else 0), 0.82), 0.07, 0.09,
                                 fc=qz.GREY, ec="none"))
     ax0.add_patch(Rectangle((-gap / 2, rec), gap, hj, fc=qz.MAL, ec="none"))
+    ax0.text(0, 1.06, "Gasket", ha="center", va="bottom", fontsize=8, color=qz.GREY)
+    ax0.plot([0, 0], [0.93, 1.05], color=qz.GREY, lw=0.5)
     # dimension of the contact band
     xd = 0.35
     ax0.annotate("", xy=(xd, rec), xytext=(xd, rec + hj),
@@ -455,7 +465,7 @@ def joint_stiffness():
         _arrow(ax0, side * 1.45, rec + hj / 2 + e, side * 1.05, rec + hj / 2 + e, color=qz.CAR, lw=0.9)
     ax0.text(1.45, rec + hj / 2 + e + 0.08, "$N$", ha="right", va="bottom", fontsize=9, color=qz.CAR)
     ax0.set_xlim(-1.5, 1.5)
-    ax0.set_ylim(-0.12, 1.12)
+    ax0.set_ylim(-0.12, 1.3)
     _blank(ax0)
 
     m = np.linspace(0, 0.5, 400)
@@ -502,6 +512,13 @@ def drained_tanked():
     ax.plot([-1.8, 1.9], [z_w, z_w], color=qz.GREY, lw=0.7)
     ax.add_patch(Polygon([(1.45, z_w), (1.35, z_w + 0.13), (1.55, z_w + 0.13)], closed=True, fc="white",
                          ec=qz.GREY, lw=0.7))
+    def _lead(txt, xt, yt, ang, r, col, ha):
+        ax.annotate(txt, xy=(r * math.cos(math.radians(ang)), r * math.sin(math.radians(ang))), xytext=(xt, yt),
+                    fontsize=8, color=col, ha=ha, va="center",
+                    arrowprops=dict(arrowstyle="-", color=col, lw=0.5, shrinkA=1, shrinkB=1))
+    _lead("Drainage layer", -0.75, 1.62, 108, 1.2, qz.MAL, "right")
+    _lead("Invert drain", -1.0, -1.42, 250, 1.29, qz.MAL, "right")
+    _lead("Membrane", 0.95, 1.62, 72, 1.16, qz.CAR, "left")
     ax.text(-0.95, -1.75, "Drained", ha="center", va="top", fontsize=9)
     ax.text(0.95, -1.75, "Tanked", ha="center", va="top", fontsize=9)
     ax.set_xlim(-1.9, 2.0)
@@ -540,7 +557,7 @@ def carbonation_cover():
 
 def seismic_modes():
     """Axial, curvature, ovaling and racking deformation of a tunnel (schematic, exaggerated)."""
-    fig, axes = plt.subplots(1, 4, figsize=(W_FULL, 0.34 * W_FULL),
+    fig, axes = plt.subplots(1, 4, figsize=(W_FULL, 0.26 * W_FULL),
                              gridspec_kw={"width_ratios": [1.35, 1.35, 1, 1], "wspace": 0.12})
     # axial: plan of a tube whose ring lines bunch in compression and spread in extension
     ax = axes[0]
@@ -552,6 +569,7 @@ def seismic_modes():
     for xi in xr:
         ax.plot([xi, xi], [-0.35, 0.35], color=qz.MAL, lw=0.8)
     ax.plot(x, -0.75 + 0.18 * np.cos(2 * np.pi * x / 4), color=qz.CAR, lw=0.8)
+    ax.text(2.0, -1.0, "Axial strain", ha="center", va="top", fontsize=7, color=qz.CAR)
     _arrow(ax, 3.3, 0.6, 4.0, 0.6, color=qz.GREY, lw=0.8, ms=6)
     ax.set_xlim(-0.1, 4.1)
     ax.set_ylim(-1.1, 1.1)
@@ -590,10 +608,10 @@ def seismic_modes():
     ax.set_xlim(-1.05, 1.05)
     ax.set_ylim(-1.1, 1.1)
     _blank(ax)
-    fig.subplots_adjust(left=0.01, right=0.99, bottom=0.02, top=0.88)
+    fig.subplots_adjust(left=0.01, right=0.99, bottom=0.02, top=0.86)
     for ax, name in zip(axes, ("Axial", "Curvature", "Ovaling", "Racking")):
         box = ax.get_position()
-        fig.text((box.x0 + box.x1) / 2, 0.93, name, ha="center", va="bottom", fontsize=9)
+        fig.text((box.x0 + box.x1) / 2, 0.88, name, ha="center", va="bottom", fontsize=9)
     _save(fig, "ch20", "seismic-modes", {"ring_x": xr})
 
 
@@ -608,6 +626,8 @@ def free_field_strain():
         eps = v / cs * np.sin(np.radians(theta)) * np.cos(np.radians(theta))
         a1.plot(theta, eps * 1e4, color=col, ls=ls, lw=1.3, label=f"$C_s = {cs:.0f}$ m/s")
         cols[f"eps_Cs{cs:.0f}"] = eps
+        a1.text(45, eps.max() * 1e4 + 0.09, f"$C_s = {cs:.0f}$ m/s", ha="center", va="bottom", fontsize=8,
+                color=col)
     a1.plot([45], [v / 2000 * 1e4], "o", color=qz.MAL, ms=4)
     a1.set_xlim(0, 90)
     a1.set_xticks([0, 15, 30, 45, 60, 75, 90])

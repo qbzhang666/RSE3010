@@ -217,7 +217,7 @@ projects that omit it discover the ambiguity during approval.
 Appendix~\ref{app:codes} maps the methods of each chapter to the documents
 that govern them.
 
-\section{Reliability and code frameworks}
+\section{Reliability, sensitivity and risk}
 \label{sec:reliability-and-code-frameworks}
 
 \subsection{Reliability analysis}
@@ -300,7 +300,11 @@ unsupported tunnel, which the relation of
 Section~\ref{sec:screening-squeezing} gives from the ratio of rock mass
 strength to in-situ stress. At the mean values the rock mass strength is
 3.9~MPa, the ratio 0.23 and the strain 3.7 per cent, which is severe
-squeezing.
+squeezing. The strength in this relation is the confinement-averaged value
+defined with it in Section~\ref{sec:screening-squeezing}. It is larger than
+the uniaxial rock mass strength $\sci s^{a_{HB}}$ of 1.24~MPa listed for the
+same domain in Table~\ref{tab:deep-scheme-params}, and the two are different
+definitions and not different estimates.
 
 The three inputs are now given spreads: a standard deviation of 5 points on
 $\GSI$, a coefficient of variation of 15 per cent on $\sci$, that is
@@ -372,14 +376,17 @@ which further analysis at fixed parameters cannot do.
 \subsection{The design workflow}
 \label{sec:design-workflow}
 
-Underground geotechnical design proceeds through four stages: site
-investigation, empirical design, analytical design and numerical modelling.
+Underground geotechnical design proceeds through five stages: site
+investigation, empirical design, analytical design, numerical modelling and
+integration.
 They form a sequence of dependence and not a timetable. Site investigation
 supplies the parameters, empirical design a preliminary support class, and
 analytical design the convergence and the support pressure that the numerical
 stage then verifies, so that an error early in the chain propagates through
-everything after it. Two contrasting projects are carried through the
-sequence here: a shallow urban rail alignment in weathered ground, and a deep
+everything after it. The fifth stage, integration, compares the results of
+the other four and reviews the chain of assumptions behind them; it is the
+subject of Section~\ref{sec:complementarity-and-uncertainty}. Two contrasting
+projects are carried through the sequence here: a shallow urban rail alignment in weathered ground, and a deep
 pumped-storage scheme in rock under high stress, whose main access tunnel is
 the worked example of Chapter~\ref{ch:ccm}.
 
@@ -427,7 +434,7 @@ Lower & Host rock unit & 21 & 20 & 28 & 150 \\
 \end{table}
 
 \begin{table}[htbp]
-\caption{Intact and derived rock mass parameters for the two domains of the deep scheme, from the derivation of Chapter~\ref{ch:ccm} (Table~\ref{tab:ccm-worked-example}). The intact constant $m_i = 7$ is the siltstone value, adopted there to reflect the weaker layers of the interbedded sequence.}
+\caption{Intact and derived rock mass parameters for the two domains of the deep scheme, from the derivation of Chapter~\ref{ch:ccm} (Table~\ref{tab:ccm-worked-example}). The intact constant $m_i = 7$ is the siltstone value, adopted there to reflect the weaker layers of the interbedded sequence. The rock mass strength is the uniaxial value $\sigma_{ci} s^{a_{HB}}$.}
 \label{tab:deep-scheme-params}
 \centering
 \small
@@ -583,7 +590,7 @@ method, and the second and third stages dominate. The project still begins
 from site investigation data, and the convergence--confinement analysis
 is its verification stage.
 
-The four stages apply to any underground project, whatever its depth, rock
+The five stages apply to any underground project, whatever its depth, rock
 type or excavation method. A stage may be discharged analytically where its
 governing question does not require continuum analysis, as in the deep
 scheme, whose access tunnel is close to circular in a nearly hydrostatic
@@ -622,12 +629,16 @@ Engineering decision & Numerical & Handles real geometry, layered ground, staged
 \paragraph{Worked example: resolving a disagreement.}
 The main access tunnel of the deep scheme in the poor rock domain
 illustrates the point. The Q-system, for $Q = 1.5$ and a span of 9.5~m,
-recommends systematic bolting with 50--90~mm of fibre-reinforced shotcrete.
+recommends systematic bolting with 50--90~mm of fibre-reinforced sprayed concrete.
 The convergence--confinement analysis gives $u_{\max} = 126.9$~mm, which is
 2.7 per cent of the radius, and $R_p/a = 2.35$
 (Table~\ref{tab:ccm-worked-example}): a large plastic zone and a strain in
 the range of severe squeezing (Table~\ref{tab:squeezing-classification}).
-Against that ground reaction curve a 90~mm shell of 35~MPa shotcrete
+The screening relation gave 3.7 per cent for the same domain
+(Section~\ref{sec:reliability-support-uncertainty}). That figure comes from
+an empirical curve fit and this one from the elastoplastic solution, and both
+fall in the severe class.
+Against that ground reaction curve a 90~mm shell of 35~MPa sprayed concrete
 installed 3~m behind the face has a capacity of 0.66~MPa, whereas elastic
 equilibrium would require about 1.7~MPa of it. The shell recommended by the
 chart would be loaded to two and a half times its capacity, while the 0.5~m
@@ -637,14 +648,14 @@ safety of 2.8 (Figure~\ref{fig:empirical-vs-ccm}).
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch21/empirical-vs-ccm}
-\caption{The Q-system shell and the concrete lining on the ground reaction curve of the poor domain, both installed 3~m behind the face. The 90~mm shotcrete shell ($E_c = 30$~GPa) yields at 0.66~MPa (square), short of the 1.66~MPa an unyielding shell would attract (carmine circle); the 0.5~m lining reaches equilibrium at 2.27~MPa.}
+\caption{The Q-system shell and the concrete lining on the ground reaction curve of the poor domain, both installed 3~m behind the face. The 90~mm sprayed concrete shell ($E_c = 30$~GPa) yields at 0.66~MPa (square), short of the 1.66~MPa an unyielding shell would attract (carmine circle); the 0.5~m lining reaches equilibrium at 2.27~MPa.}
 \label{fig:empirical-vs-ccm}
 \end{figure}
 
 The empirical recommendation is therefore unconservative for this ratio of
 stress to strength, because the case histories behind the Q-system contain
 little squeezing ground of this severity. Three responses follow. A stronger
-support class is adopted, such as yielding steel sets or thicker shotcrete
+support class is adopted, such as yielding steel sets or thicker sprayed concrete
 with lattice girders. Convergence is allowed for through a flexible or
 yielding support philosophy. Finally, the poor domain is designated a high-risk
 zone that requires face mapping and probe drilling during construction. None
@@ -758,7 +769,7 @@ From the first round of excavation the project generates evidence about the
 parameters it assumed, and a design method that cannot use that
 evidence discards the most relevant data available to it.
 
-This section sets out the formal method. It is what the observational method of
+The formal method for using that evidence is set out below. It is what the observational method of
 Chapter~\ref{ch:movement-monitoring} performs informally, what the ground
 model of Chapter~\ref{ch:ground-modelling} requires in order to be kept
 current, what the backward updating of the digital model in

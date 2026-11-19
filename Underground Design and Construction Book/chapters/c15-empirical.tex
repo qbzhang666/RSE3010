@@ -1,7 +1,8 @@
 % !TeX root = ../main.tex
-% Empirical design. Opens Part III: the progression from preliminary design
-% by classification, through analytical checking, to detailed numerical
-% verification.
+% Empirical design. Opens the design and analysis part (the fourth part,
+% after Chapter 14 closes the part on parameters and ground behaviour): the
+% progression from preliminary design by classification, through analytical
+% checking, to detailed numerical verification.
 \chapter{Empirical Design Methods}
 \label{ch:empirical-design}
 
@@ -407,10 +408,10 @@ experience.
 \textbf{RMR} & \textbf{Excavation method} & \textbf{Support} \\
 \midrule
 81--100 & Full face, 3~m advance & Generally no support, except spot bolting where needed \\
-61--80 & Full face, 1--1.5~m advance & Bolts 3~m @ 2.5~m in crown; 50~mm shotcrete in crown \\
-41--60 & Top heading and bench & Systematic bolts 4~m @ 1.5--2~m; 50--100~mm shotcrete \\
-21--40 & Top heading and bench & Systematic bolts 4--5~m @ 1--1.5~m; 100--150~mm shotcrete; light ribs \\
-$<21$ & Multiple drifts & Systematic bolts 5--6~m @ 1--1.5~m; 150--200~mm shotcrete; heavy ribs \\
+61--80 & Full face, 1--1.5~m advance & Bolts 3~m @ 2.5~m in crown; 50~mm sprayed concrete in crown \\
+41--60 & Top heading and bench & Systematic bolts 4~m @ 1.5--2~m; 50--100~mm sprayed concrete \\
+21--40 & Top heading and bench & Systematic bolts 4--5~m @ 1--1.5~m; 100--150~mm sprayed concrete; light ribs \\
+$<21$ & Multiple drifts & Systematic bolts 5--6~m @ 1--1.5~m; 150--200~mm sprayed concrete; heavy ribs \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -474,11 +475,11 @@ order of increasing section.
 \midrule
 1 & Unsupported or spot bolting \\
 2 & Spot bolting \\
-3 & Systematic bolting, fibre-reinforced shotcrete 5--6~cm \\
-4 & Fibre-reinforced shotcrete 6--9~cm + bolting \\
-5 & Fibre-reinforced shotcrete 9--12~cm + bolting \\
-6 & Shotcrete 12--15~cm + RRS~I + bolting \\
-7 & Shotcrete $>15$~cm + RRS~II + bolting \\
+3 & Systematic bolting, fibre-reinforced sprayed concrete 5--6~cm \\
+4 & Fibre-reinforced sprayed concrete 6--9~cm + bolting \\
+5 & Fibre-reinforced sprayed concrete 9--12~cm + bolting \\
+6 & Sprayed concrete 12--15~cm + RRS~I + bolting \\
+7 & Sprayed concrete $>15$~cm + RRS~II + bolting \\
 8 & Cast concrete lining \\
 9 & Special evaluation \\
 \bottomrule
@@ -524,17 +525,17 @@ L = 0.125\times16 + 2.25 = 4.25~\text{m}
 L = 0.3\times16 = 4.8~\text{m} ,
 \]
 and the longer is adopted. The design is therefore 4.8~m bolts at 1~m
-spacing with 100--150~mm of shotcrete and light ribs. Because the support
+spacing with 100--150~mm of sprayed concrete and light ribs. Because the support
 table is written for a 10~m span, it supplies the class of support for this
 16~m opening and not its quantities, the bolt length excepted.
 
 \paragraph{Q-system design.}
 A station takes ESR = 0.8, so for the roof $D_e = 16/0.8 = 20$. The chart
-gives support category 5, fibre-reinforced shotcrete of 9--12~cm with
+gives support category 5, fibre-reinforced sprayed concrete of 9--12~cm with
 bolting, at a bolt spacing of roughly 2.1~m. The bolt length, read against
 the physical span of 16~m because the ESR is not unity, is about 4~m. For the
 walls, $Q_{\text{wall}} = 2.5\times 5 = 12.5$ and $D_e = 6/0.8 = 7.5$, which
-gives category 3, systematic bolting with 5--6~cm of shotcrete.
+gives category 3, systematic bolting with 5--6~cm of sprayed concrete.
 
 The maximum unsupported span for $Q = 5$ and ESR = 0.8 is
 $2(0.8)(5^{0.4}) = 3.0$~m, against a designed span of 16~m, and the RMR route
@@ -542,8 +543,8 @@ gives 2.5--5~m for the adjusted Class~IV. The two systems agree
 independently that the cavern cannot stand unsupported at this span.
 
 \paragraph{The divergence between the two.}
-The RMR design (4.8~m bolts, 100--150~mm of shotcrete and light ribs) is more
-conservative than the Q-system design (4~m bolts and 9--12~cm of shotcrete;
+The RMR design (4.8~m bolts, 100--150~mm of sprayed concrete and light ribs) is more
+conservative than the Q-system design (4~m bolts and 9--12~cm of sprayed concrete;
 Figure~\ref{fig:station-cavern-support}).
 Part of the divergence is structural. The RMR route carries an explicit
 penalty of 12 points for the steeply dipping set striking parallel to the
@@ -557,7 +558,7 @@ modes, the importance of the cavern (ESR = 0.8) and local experience.
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch15/station-cavern-support}
-\caption{Roof support of the station cavern by the two systems, to scale on an assumed arched roof of 4~m rise (schematic): bolt length and spacing, and shotcrete thickness. The light ribs of the RMR design and the wall support are not drawn.}
+\caption{Roof support of the station cavern by the two systems, to scale on an assumed arched roof of 4~m rise (schematic): bolt length and spacing, and sprayed concrete thickness. The light ribs of the RMR design and the wall support are not drawn.}
 \label{fig:station-cavern-support}
 \end{figure}
 

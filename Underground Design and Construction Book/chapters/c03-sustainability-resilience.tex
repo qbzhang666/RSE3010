@@ -34,13 +34,13 @@ For a bored tunnel with a segmental lining, the concrete dominates
 (Figure~\ref{fig:sus-carbon-elements}). Cement
 clinker in the lining concrete is the single largest contributor. The order
 of the remaining terms depends on the drive: reinforcement steel, annulus
-grout and secondary concrete are set by the design, while the diesel and
+grout and invert backfill are set by the design, while the diesel and
 electricity consumed by excavation, ventilation, dewatering and spoil haulage
 depend on the length of the drive, the electricity grid and the disposal
 site. In the case of Figure~\ref{fig:sus-carbon-elements}, machine
 electricity from the grid exceeds the reinforcement, and spoil
 haulage exceeds the grout. For a
-sprayed concrete lined cavern the ranking shifts: shotcrete quantities are
+sprayed concrete lined cavern the ranking shifts: sprayed concrete quantities are
 harder to control, rebound losses count as material used, and the reinforcement
 fraction is usually lower.
 
@@ -116,6 +116,44 @@ and supplementary cementitious material content, steel production route, and
 the geography of the supply and its electricity grid. Two projects using the
 same nominal concrete grade in different jurisdictions can differ by a
 substantial margin on the product term alone.
+Table~\ref{tab:sus-emission-factors} collects the inputs and factors quoted
+for the bored rail tunnel of Figures~\ref{fig:sus-carbon-elements},
+\ref{fig:sus-carbon-boundary} and~\ref{fig:sus-lining-carbon}, so that the
+three figures can be read against one declared set.
+
+\begin{table}[htbp]
+\caption{Inputs and emission factors behind
+Figures~\ref{fig:sus-carbon-elements}, \ref{fig:sus-carbon-boundary}
+and~\ref{fig:sus-lining-carbon}, for the bored rail tunnel of the baseline
+assessment of \citet{chen2024carbonbaseline}. The combined lining factor is
+the concrete factor plus the reinforcement content times its factor.}
+\label{tab:sus-emission-factors}
+\centering
+\small
+\begin{tabularx}{\textwidth}{X l l}
+\toprule
+\textbf{Item} & \textbf{Value} & \textbf{Unit} \\
+\midrule
+\multicolumn{3}{l}{\emph{Geometry and process inputs}} \\
+Internal diameter & 6.3 & m \\
+Segmental lining thickness & 300 & mm \\
+Lining concrete grade & C50 & -- \\
+Reinforcement content & 135 & kg/m$^3$ \\
+Spoil haulage, round trip & 60 & km \\
+Machine energy carrier & Grid electricity & -- \\
+\midrule
+\multicolumn{3}{l}{\emph{Product-stage factors (A1--A3)}} \\
+C50 lining concrete & 598 & kgCO$_2$e/m$^3$ \\
+Reinforcement steel & 1.58 & kgCO$_2$e/kg \\
+Reinforced lining, combined & 811 & kgCO$_2$e/m$^3$ \\
+\midrule
+\multicolumn{3}{l}{\emph{Resulting totals per metre of tunnel}} \\
+A1--A3 & 7.0 & tCO$_2$e/m \\
+A1--A4 & 7.1 & tCO$_2$e/m \\
+A1--A5 & 10.6 & tCO$_2$e/m \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \section{Carbon in design and construction}
 \label{sec:carbon-in-design}

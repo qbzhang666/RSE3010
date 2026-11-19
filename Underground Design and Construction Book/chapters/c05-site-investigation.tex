@@ -124,19 +124,12 @@ different quantity and is not to be read from this table.
 
 \paragraph{Borehole records.}
 Table~\ref{tab:borehole} gives illustrative records from two boreholes on such
-an alignment, plotted in Figure~\ref{fig:borehole-rqd-logs}. The two holes log the same units over the same depth intervals
+an alignment. The two holes log the same units over the same depth intervals
 and return RQD values 27 points apart in the upper interval and 17 points
 apart in the lower, with joint conditions that range from rough and fresh to
 smooth and clay-coated. Neither hole misrepresents the ground. Together they
 show that a parameter assigned to a unit is a summary of a distribution, and
 that one hole samples that distribution once.
-
-\begin{figure}[htbp]
-\centering
-\datafigure[0.62\textwidth]{ch05/borehole-rqd-logs}
-\caption{RQD logs of the two illustrative boreholes of Table~\ref{tab:borehole} against the classes of Table~\ref{tab:rqd}. The holes differ by 27 points in the upper interval and 17 in the lower, and BH02 falls one class below BH01 in both.}
-\label{fig:borehole-rqd-logs}
-\end{figure}
 
 \begin{table}[htbp]
 \caption{Illustrative borehole data for a shallow urban rail alignment. Borehole names and values are representative, not from actual logs.}
@@ -191,6 +184,25 @@ additional boreholes, geophysical surveys and in-situ stress measurement.
 Each adds cost, and each addresses a different gap: orientation, spatial
 coverage, continuity between holes and the stress field respectively.
 
+\subsection{Deterministic and probabilistic design}
+\label{sec:characteristic-value}
+
+The design has to take a value from each such distribution, and there are two
+ways of doing so.
+A deterministic design adopts single best-estimate values with factors of
+safety. A probabilistic design describes parameters by distributions, which
+makes reliability-based design possible (Chapter~\ref{ch:integrated-design}).
+Between the two stands the characteristic value of Eurocode~7, a cautious
+estimate of the value governing the limit state. Where the limit state is
+governed by a large ground volume, averaging makes that a cautious estimate
+of the mean; where it is governed by a local feature, it approaches a low
+fractile of the point values. The 5th percentile is a convention for the
+second case and not a definition of the first.
+
+A factor of safety does not eliminate uncertainty. It provides a margin
+against it, and the true margin depends on how well the uncertainty is
+understood and quantified.
+
 \section{Rock Quality Designation}
 \label{sec:rock-quality-designation}
 
@@ -232,6 +244,16 @@ $<$25 & Very poor \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+Figure~\ref{fig:borehole-rqd-logs} sets the two boreholes of
+Table~\ref{tab:borehole} against these classes.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch05/borehole-rqd-logs}
+\caption{RQD logs of the two illustrative boreholes of Table~\ref{tab:borehole} against the classes of Table~\ref{tab:rqd}. The holes differ by 27 points in the upper interval and 17 in the lower, and BH02 falls one class below BH01 in both.}
+\label{fig:borehole-rqd-logs}
+\end{figure}
 
 RQD is a geometric index and not a mechanical parameter. It quantifies the
 percentage of sound core in pieces longer than 100~mm, and it conveys no
@@ -295,7 +317,7 @@ considerably along an alignment, so a single borehole is insufficient to
 characterise it, and although more boreholes reduce the uncertainty they can
 never eliminate it. Design accordingly employs characteristic values rather than
 means, in the sense defined in
-Section~\ref{sec:modern-techniques-and-engineering-judgement}.
+Section~\ref{sec:characteristic-value}.
 
 \subsection{From RQD to rock mass strength}
 \label{sec:rqd-to-strength}
@@ -356,7 +378,7 @@ inverse of the 44 per cent reduction in Table~\ref{tab:sensitivity}. Support
 designed on that value would be unsafe, where an underestimate of the same
 size would be uneconomic.
 
-\section{Modern techniques and engineering judgement}
+\section{Digital logging, scanning and data fusion}
 \label{sec:modern-techniques-and-engineering-judgement}
 
 \paragraph{Digital core logging.}
@@ -381,21 +403,6 @@ Modern practice integrates several sources of data: core, surface mapping,
 geophysics, monitoring and numerical back-analysis. As construction proceeds,
 monitoring data refine the ground model, which is the precursor of the
 digital twin described in Chapter~\ref{ch:digital-twin}.
-
-\paragraph{Deterministic and probabilistic design.}
-A deterministic design adopts single best-estimate values with factors of
-safety. A probabilistic design describes parameters by distributions, which
-makes reliability-based design possible (Chapter~\ref{ch:integrated-design}).
-Between the two stands the characteristic value of Eurocode~7, a cautious
-estimate of the value governing the limit state. Where the limit state is
-governed by a large ground volume, averaging makes that a cautious estimate
-of the mean; where it is governed by a local feature, it approaches a low
-fractile of the point values. The 5th percentile is a convention for the
-second case and not a definition of the first.
-
-A factor of safety does not eliminate uncertainty. It provides a margin
-against it, and the true margin depends on how well the uncertainty is
-understood and quantified.
 
 \section{Measurement while drilling}
 \label{sec:mwd}
@@ -526,5 +533,19 @@ the contract, agreeing the calibration holes before the drive begins, and
 naming who interprets the output. A record logged in a proprietary format
 that nobody can read is of no use, which is the same failure of digital
 continuity described in Chapter~\ref{ch:assets}.
+
+\section{Summary}
+\label{sec:site-investigation-summary}
+
+This chapter followed investigation data from the borehole record to a design
+parameter. RQD is a geometric index measured along one direction, and each
+step from it to a rock mass strength adds uncertainty: a 10-point error in GSI
+changes the computed strength by a factor of about 1.8. A parameter assigned
+to a unit therefore summarises a distribution, and design takes a
+characteristic value from it. Digital logging, face scanning and measurement
+while drilling make the record denser, provided they are calibrated and the
+record reaches the ground model. Chapter~\ref{ch:ground-modelling} builds that
+model, and Chapters~\ref{ch:classification} and~\ref{ch:rock-mass-parameters}
+take up the classification indices and the derivation of rock mass parameters.
 
 \chapterreferences

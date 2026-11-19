@@ -99,7 +99,7 @@ def rqd_core_run():
             r.set_hatch_linewidth(0.4) if hasattr(r, "set_hatch_linewidth") else None
         ax.add_patch(r)
         if kind == "sound":
-            ax.text(x + L / 2, h / 2, f"{L}", ha="center", va="center", fontsize=8, color=qz.MAL)
+            ax.text(x + L / 2, h / 2, f"{L}", ha="center", va="center", fontsize=7, color=qz.MAL)
         xs.append(x)
         ls_.append(L)
         ks.append(kind)
@@ -168,7 +168,7 @@ def rqd_orientation():
           f"min {rqd[i_max]:.0f} % at {theta[i_max]:.0f} deg")
 
     fig = plt.figure(figsize=(W_FULL, 0.45 * W_FULL))
-    gs = fig.add_gridspec(1, 2, width_ratios=[0.8, 1.2], wspace=0.35)
+    gs = fig.add_gridspec(1, 2, width_ratios=[0.72, 1.2], wspace=0.6)
     a1 = fig.add_subplot(gs[0])
     a2 = fig.add_subplot(gs[1])
 
@@ -201,20 +201,23 @@ def rqd_orientation():
     a2.plot([0], [rqd[0]], "o", color=qz.MAL, ms=5)
     j60 = int(np.argmin(abs(theta - 60)))
     a2.plot([theta[j60]], [rqd[j60]], "s", color=qz.CAR, ms=5)
-    for lo, hi in ((50, 75), (90, 100)):
-        a2.axhspan(lo, hi, color="#F2F2F2", lw=0)
+    for lo, hi, name in ((50, 75, "Fair"), (75, 90, "Good"), (90, 100, "Excellent")):
+        if name != "Good":
+            a2.axhspan(lo, hi, color="#F2F2F2", lw=0)
+        a2.text(88, {"Fair": 53.5, "Good": 86.5, "Excellent": 95}[name], name, ha="right", va="center",
+                fontsize=7, color=qz.GREY)
     a2.set_xlim(0, 90)
     a2.set_xticks([0, 15, 30, 45, 60, 75, 90])
     a2.set_ylim(50, 100)
-    qz.label(a2, "Borehole inclination from vertical, $\\theta$ ($^\\circ$)", "Rock quality, RQD (%)")
+    qz.label(a2, "Borehole inclination from vertical, $\\theta$ ($^\\circ$)", "Rock Quality Designation,\nRQD (%)")
     a3 = a2.twinx()
     a3.plot(theta, lam, color=qz.GREY, lw=1.0, ls="--")
     a3.set_ylim(0, 25)
     a3.set_ylabel("Joint frequency, $\\lambda$ (1/m)", color=qz.GREY)
     a3.tick_params(axis="y", colors=qz.GREY)
     a2.tick_params(axis="y", right=False)
-    a2.text(88, 97, "RQD", ha="right", va="top", fontsize=8)
-    a2.text(88, 52, "$\\lambda$", ha="right", va="bottom", fontsize=9, color=qz.GREY)
+    a2.text(27, 62.5, "RQD", ha="center", va="center", fontsize=8)
+    a2.text(60, 80.8, "$\\lambda$", ha="center", va="center", fontsize=9, color=qz.GREY)
     fig.subplots_adjust(left=0.02, right=0.88, bottom=0.2, top=0.95)
     _save(fig, "ch05", "rqd-orientation-bias", {"theta_deg": theta, "lambda_per_m": lam, "RQD_pct": rqd})
 
@@ -240,7 +243,8 @@ def gsi_sensitivity():
     ax.text(43.5, (vals[0] + vals[2]) / 2, "$-44\\%$", ha="right", va="center", fontsize=8)
     ax.set_xlim(25, 80)
     ax.set_ylim(0, 30)
-    qz.label(ax, "Geological Strength Index, GSI (-)", "Mass strength, $\\sigma_{cm}$ (MPa)")
+    ax.set_xticks([30, 40, 50, 60, 70, 80])
+    qz.label(ax, "Geological Strength Index, GSI (-)", "Rock mass strength,\n$\\sigma_{cm}$ (MPa)")
     ax.legend(loc="upper left")
     fig.tight_layout()
     cols["table_GSI"] = pts
@@ -424,7 +428,7 @@ def variogram():
     fig, ax = qz.figure(W_HALF, 0.75 * W_HALF)
     ax.plot(h, sph, color=qz.MAL, lw=1.5, label="Spherical")
     ax.plot(h, expo, color=qz.CAR, lw=1.2, ls="--", label="Exponential")
-    ax.plot([0], [0], "o", color=qz.MAL, ms=3.5)
+    ax.plot([0], [0], "o", color=qz.MAL, ms=3.5, clip_on=False, zorder=6)
     ax.axhline(1.0, color=qz.GREY, lw=0.6, ls=":")
     ax.axvline(a, color=qz.GREY, lw=0.6, ls=":")
     ax.annotate("", xy=(4, 0), xytext=(4, c0), arrowprops=dict(arrowstyle="<->", color=qz.INK, lw=0.7))
@@ -492,13 +496,13 @@ def kriging_simulation():
         ax.plot(xo, zo, "o", mfc="white", mec=qz.INK, ms=4.5, mew=1.0, zorder=5, label="Boreholes")
         ax.set_ylim(20, 95)
         ax.set_yticks([20, 40, 60, 80])
-        ax.set_ylabel("GSI (-)")
     a1.legend(loc="upper left", ncol=2, handlelength=1.6, columnspacing=1.2)
     a2.legend(loc="upper left", ncol=3, handlelength=1.6, columnspacing=1.2)
     a1.text(0.99, 0.05, "Kriging", transform=a1.transAxes, ha="right", va="bottom", fontsize=8)
     a2.text(0.99, 0.05, "Conditional simulation", transform=a2.transAxes, ha="right", va="bottom", fontsize=8)
     a2.set_xlim(0, 1000)
     a2.set_xlabel("Chainage, $x$ (m)")
+    fig.supylabel("Geological Strength Index, GSI (-)", fontsize=10)
     fig.tight_layout(h_pad=0.4)
     _save(fig, "ch06", "kriging-simulation", {"x_m": x, "truth": truth, "kriged": mu, "kriging_sd": s,
                                               "sim1": sims[:, 0], "sim2": sims[:, 1], "sim3": sims[:, 2],
@@ -547,7 +551,7 @@ def contact_probability():
     a2.set_xlim(0, 1000)
     for yv, name, col in ((0.5, "High", qz.MAL), (2.0, "Moderate", qz.GREY), (4.5, "Low", qz.CAR)):
         a2.text(1.01, yv / 6, name, transform=a2.transAxes, ha="left", va="center", fontsize=8, color=col)
-    a2.set_ylabel("Std. dev., $s_z$ (m)")
+    a2.set_ylabel("Standard deviation,\n$s_z$ (m)")
     a2.set_xlabel("Chainage, $x$ (m)")
     fig.subplots_adjust(left=0.1, right=0.84, bottom=0.13, top=0.97)
     _save(fig, "ch06", "contact-probability", {"x_m": x, "kriged_contact_z_m": mu, "sd_m": s,
@@ -662,6 +666,14 @@ def drained_tanked():
                 ax.add_patch(FancyArrowPatch((xa, 1.5), (np.sign(xa) * (abs(xa) - 1.3), 0.7),
                                              arrowstyle="-|>", mutation_scale=7, color=qz.MAL, lw=0.8))
             ax.plot([-7.0], [hw - 3.8 * math.exp(-(7.0 / 4.5) ** 2) + 0.35], marker="v", color=qz.MAL, ms=6)
+            ax.text(8.8, hw + 0.25, "Original water table", ha="right", va="bottom", fontsize=8, color=qz.GREY)
+            ax.text(-8.8, 4.9, "Drawn-down\nwater table", ha="left", va="top", fontsize=8, color=qz.MAL)
+            a_ = math.radians(-145)
+            ax.plot([-5.0, (ro + 0.63) * math.cos(a_)], [-3.7, (ro + 0.63) * math.sin(a_)], color=qz.GREY, lw=0.5)
+            ax.text(-5.1, -3.8, "Drain", ha="right", va="center", fontsize=8)
+            a_ = math.radians(-62)
+            ax.plot([2.8, (ro + 0.25) * math.cos(a_)], [-4.6, (ro + 0.25) * math.sin(a_)], color=qz.GREY, lw=0.5)
+            ax.text(2.9, -4.75, "Drainage layer", ha="left", va="center", fontsize=8)
             rows["drained_wt_x_m"] = xw
             rows["drained_wt_z_m"] = zw
         else:
@@ -677,9 +689,13 @@ def drained_tanked():
                 ax.add_patch(FancyArrowPatch((p1 * math.cos(a_), p1 * math.sin(a_)),
                                              (p0 * math.cos(a_), p0 * math.sin(a_)),
                                              arrowstyle="-|>", mutation_scale=7, color=qz.CAR, lw=0.8))
-            tips = np.array([(ro + 0.2 + scale * hd) for hd in head])
-            ax.plot(np.r_[tips * np.cos(ang), tips[0]], np.r_[tips * np.sin(ang), tips[0] * np.sin(ang[0])],
-                    color=qz.CAR, lw=0.5, ls=":")
+            tips = ro + 0.2 + scale * (hw - (ro + 0.2) * np.sin(th))    # smooth envelope of the arrow tails
+            ax.plot(tips * np.cos(th), tips * np.sin(th), color=qz.CAR, lw=0.6)
+            ax.text(8.8, hw + 0.25, "Water table", ha="right", va="bottom", fontsize=8, color=qz.CAR)
+            a_ = math.radians(33.75)
+            ax.plot([5.3, (ro + 0.2) * math.cos(a_)], [3.7, (ro + 0.2) * math.sin(a_)], color=qz.GREY, lw=0.5)
+            ax.text(6.3, 4.2, "Membrane", ha="center", va="center", fontsize=8)
+            ax.text(5.2, -4.2, "Water\npressure", ha="left", va="top", fontsize=8, color=qz.CAR)
             rows["tanked_angle_deg"] = np.degrees(ang)
             rows["tanked_head_m"] = head
             rows["tanked_pressure_kPa"] = 9.81 * head

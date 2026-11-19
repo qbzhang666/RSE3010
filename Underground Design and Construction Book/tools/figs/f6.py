@@ -160,10 +160,16 @@ def install_distance():
         print(f"  GSI {gsi}: FoS at L=0 {fos[0]:.2f}, L=3 {r3.eq.fos:.2f}, L=12 {fos[-1]:.2f}; "
               f"strain {strain[0]:.2f} to {strain[-1]:.2f} %")
     a1.set_xlim(0, 12)
-    a1.set_ylim(0, 12)
+    a1.set_yscale("log")
+    a1.set_ylim(1, 50)
+    a1.set_yticks([1, 2, 5, 10, 20, 50])
+    a1.set_yticklabels(["1", "2", "5", "10", "20", "50"])
+    a1.minorticks_off()
+    a1.set_xticks([0, 3, 6, 9, 12])
     qz.label(a1, "Installation distance, $L$ (m)", "Factor of safety, FoS (-)")
     a1.legend(loc="upper left")
     a2.set_xlim(0, 12)
+    a2.set_xticks([0, 3, 6, 9, 12])
     a2.set_ylim(0, 2.5)
     qz.label(a2, "Installation distance, $L$ (m)", "Convergence, $u_{eq}/a$ (%)")
     a2.legend(loc="center right")
@@ -263,7 +269,7 @@ def combined_support():
         ax.set_xlim(0, 14)
         ax.set_ylim(0, 2.2)
         qz.label(ax, "Displacement, $u_r - u_{s0}$ (mm)")
-        ax.text(0.04, 0.95, "Together" if tag == "together" else "In sequence", transform=ax.transAxes,
+        ax.text(0.07, 0.95, "Together" if tag == "together" else "In sequence", transform=ax.transAxes,
                 ha="left", va="top")
         # direct labels at the right-hand end of each curve
         kw = dict(ha="right", fontsize=8, color=qz.GREY)
@@ -378,7 +384,7 @@ def volume_loss_sources():
         ax.fill_between(xg, sgn * r_def, sgn * R_ex, color=qz.CAR_TINT, lw=0, zorder=1)
         ax.plot(xg, sgn * r_def, color=qz.CAR, lw=0.9, zorder=2)
         behind = xg <= x_tail
-        ax.fill_between(xg[behind], sgn * R_li, sgn * r_def[behind], color=qz.MAL_TINT, lw=0, zorder=1)
+        ax.fill_between(xg[behind], sgn * R_li, sgn * r_def[behind], color=qz.MAL_SHADES[3], lw=0, zorder=1)
     # shield (tapered) and cutterhead
     ax.add_patch(patches.Polygon([[x_face - 0.45, R_sh0], [x_tail, R_sh1], [x_tail, -R_sh1],
                                   [x_face - 0.45, -R_sh0]], closed=True, fc=qz.GREY_LIGHT, ec=qz.INK,
@@ -413,6 +419,10 @@ def volume_loss_sources():
     # direction of advance
     ax.annotate("", xy=(8.5, -R_ex - 2.0), xytext=(4.0, -R_ex - 2.0),
                 arrowprops=dict(arrowstyle="-|>", color=qz.INK, lw=0.8, mutation_scale=8))
+    ax.text(3.6, -R_ex - 2.0, "Advance", ha="right", va="center", fontsize=8)
+    ax.annotate("Grout", xy=(-16.0, -R_li - 0.3), xytext=(-16.0, -R_ex - 2.0), ha="center", va="center",
+                fontsize=8, color=qz.MAL,
+                arrowprops=dict(arrowstyle="-", color=qz.MAL, lw=0.6, shrinkA=1, shrinkB=0))
     ax.set_xlim(x_end - 0.5, 9.5)
     ax.set_ylim(-R_ex - 3.0, surf + 0.6)
 
@@ -421,7 +431,7 @@ def volume_loss_sources():
     d = 0.22
     rr = R_li * (1 + d / R_li * np.cos(2 * th))                    # squat: wider at the springline
     rr2 = (R_li - t_li) * (1 + d / R_li * np.cos(2 * th))
-    bx.add_patch(patches.Circle((0, 0), R_li + 0.16, fc=qz.MAL_TINT, ec=qz.CAR, lw=0.9))
+    bx.add_patch(patches.Circle((0, 0), R_li + 0.16, fc=qz.MAL_SHADES[3], ec=qz.CAR, lw=0.9))
     bx.fill(rr * np.cos(th), rr * np.sin(th), fc="white", ec=qz.INK, lw=1.0)
     bx.fill(rr2 * np.cos(th), rr2 * np.sin(th), fc="white", ec=qz.INK, lw=1.0)
     bx.add_patch(patches.Circle((0, 0), R_li, fill=False, ec=qz.GREY, lw=0.6, ls=(0, (3, 2))))
@@ -506,7 +516,7 @@ def model_domain():
         ax.annotate("", xy=p1, xytext=p0, arrowprops=dict(arrowstyle="<|-|>", color=qz.INK, lw=0.6,
                                                           mutation_scale=6, shrinkA=0, shrinkB=0))
         mx, my = (p0[0] + p1[0]) / 2 + off[0], (p0[1] + p1[1]) / 2 + off[1]
-        ax.text(mx, my, text, ha="center", va="center", rotation=rot, fontsize=9,
+        ax.text(mx, my, text, ha="center", va="center", rotation=rot, fontsize=10,
                 bbox=dict(fc="white", ec="none", pad=0.6))
     dim((0, -depth + 9), (half_w, -depth + 9), "$\\geq 5D$", (0, 0))
     dim((-half_w + 9, -z0 - a), (-half_w + 9, -depth), "$\\geq 5D$", (0, 0), rot=90)
@@ -514,7 +524,7 @@ def model_domain():
     dim((half_w - 7, 0), (half_w - 7, -z0), "$z_0$", (0, 0))
     ax.plot([0.5, half_w - 6], [-z0] * 2, color=qz.GREY, lw=0.5, ls=":")
     ax.plot([0, 0], [-z0 - a - 0.5, -z0 + a + 0.5], color=qz.GREY, lw=0.4, ls="-.")
-    ax.text(0, -z0, "$D$", ha="center", va="center", fontsize=9)
+    ax.text(0, -z0, "$D$", ha="center", va="center", fontsize=10)
     t = math.radians(145)
     dim((a * math.cos(t), -z0 + a * math.sin(t)), ((a + 2 * D) * math.cos(t), -z0 + (a + 2 * D) * math.sin(t)),
         "$2D$", (0, 0))
@@ -599,6 +609,8 @@ def extent_mesh():
     a1.axvline(5, color=qz.GREY_LIGHT, lw=0.6)
     a1.set_xlim(1, 12)
     a1.set_ylim(0, 40)
+    a1.set_xticks([1, 3, 5, 7, 9, 11])
+    a1.text(11.8, 5.6, "5 %", ha="right", va="bottom", fontsize=8, color=qz.GREY)
     qz.label(a1, "Boundary distance, $R/D$ (-)", "Displacement error, $e_u$ (%)")
     a1.legend(loc="upper right")
 
@@ -618,6 +630,7 @@ def extent_mesh():
     a2.axhline(5, color=qz.GREY, lw=0.6, ls=":")
     a2.set_xlim(0.01, 0.6)
     a2.set_ylim(0.05, 100)
+    a2.text(0.0135, 5.6, "5 %", ha="left", va="bottom", fontsize=8, color=qz.GREY)
     qz.label(a2, "Element size, $h/a$ (-)", "Error, $e$ (%)")
     a2.legend(loc="upper left")
     cols.update({"h_over_a": hs, "u_error_pct": eu, "sigma_theta_error_pct": es})
@@ -753,8 +766,8 @@ def surrogate():
     for v in np.arange(1, n) / n:
         a1.axhline(v, color=qz.GREY_LIGHT, lw=0.4)
         a1.axvline(v, color=qz.GREY_LIGHT, lw=0.4)
-    a1.plot(oat[:, 0], oat[:, 1], "s", mfc="white", mec=qz.GREY, ms=4.5, mew=0.9, label="One at a time")
-    a1.plot(best[:, 0], best[:, 1], "o", color=qz.MAL, ms=4.5, label="Latin hypercube")
+    a1.plot(best[:, 0], best[:, 1], "o", color=qz.MAL, ms=4.5, label="Latin hypercube", zorder=4)
+    a1.plot(oat[:, 0], oat[:, 1], "s", mfc="none", mec=qz.INK, ms=5.5, mew=0.9, label="One at a time", zorder=5)
     a1.set_xlim(0, 1)
     a1.set_ylim(0, 1)
     a1.set_aspect("equal")
@@ -851,13 +864,13 @@ def einstein_schwartz():
     tw = 0.5 * ((1 + k) * (1 - a0) + (1 - k) * (1 - 2 * a2))     # springline, theta = 0
     tc = 0.5 * ((1 + k) * (1 - a0) - (1 - k) * (1 - 2 * a2))     # crown, theta = 90
     a1.semilogx(F, t1, color=qz.MAL, lw=1.4, label="$k = 1$")
-    a1.semilogx(F, tw, color=qz.CAR, lw=1.3, label="$k = 0.5$, springline")
     a1.semilogx(F, tc, color=qz.CAR, lw=1.3, ls="--", label="$k = 0.5$, crown")
+    a1.semilogx(F, tw, color=qz.CAR, lw=1.3, label="$k = 0.5$, springline")
     cols.update({"T_k1": t1, "T_k0.5_springline": tw, "T_k0.5_crown": tc})
     a1.set_xlim(1, 1e4)
     a1.set_ylim(0, 1.2)
     qz.label(a1, "Flexibility ratio, $F$ (-)", "Thrust, $T/(p_0 a)$ (-)")
-    a1.legend(loc="lower left")
+    a1.legend(loc="lower left", handlelength=1.6, borderaxespad=0.3)
     for kk, col, ls in ((0.25, qz.CAR_SHADES[0], "-"), (0.5, qz.CAR, "--"), (0.75, qz.CAR_SHADES[3], ":")):
         m = 0.5 * (1 - kk) * (1 - 2 * a2)
         ax2.semilogx(F, m, color=col, lw=1.3, ls=ls, label=f"$k = {kk:g}$")

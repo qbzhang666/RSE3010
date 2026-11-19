@@ -173,7 +173,7 @@ def k_depth():
     a1.plot(lo, z, color=qz.MAL, lw=1.0)
     a1.plot(hi, z, color=qz.MAL, lw=1.0, label="Envelope")
     cols = {"z_m": z, "k_lower_HB": lo, "k_upper_HB": hi}
-    for eh, ls, c in ((20, ":", qz.CAR_SHADES[3]), (50, "--", qz.CAR), (80, "-.", qz.CAR_SHADES[0])):
+    for eh, ls, c in ((20, "-", qz.CAR_SHADES[3]), (50, "--", qz.CAR), (80, "-.", qz.CAR_SHADES[0])):
         k = 0.25 + 7 * eh * (0.001 + 1 / z)
         a1.plot(k, z, color=c, ls=ls, lw=1.2, label=f"$E_h = {eh}$ GPa")
         cols[f"k_sheorey_Eh{eh}"] = k
@@ -188,10 +188,11 @@ def k_depth():
     a2.plot(lo * sv, z, color=qz.MAL, lw=1.0)
     a2.plot(hi * sv, z, color=qz.MAL, lw=1.0, label=r"$\sigma_h$, envelope")
     sh50 = (0.25 + 7 * 50 * (0.001 + 1 / z)) * sv
-    a2.plot(sh50, z, color=qz.CAR, ls="--", lw=1.2, label=r"$\sigma_h$, $E_h = 50$ GPa")
-    a2.plot(sv, z, color=qz.INK, lw=1.4, label=r"$\sigma_v = \gamma z$")
-    a2.set_xlim(0, 120)
-    a2.legend(loc="upper right")
+    a2.plot(sh50, z, color=qz.CAR, ls="--", lw=1.2, label=r"$\sigma_h$, 50 GPa")
+    a2.plot(sv, z, color=qz.INK, lw=1.4)
+    a2.text(61.5, 2650, r"$\sigma_v$", ha="center", va="center", fontsize=8)
+    a2.set_xlim(0, 100)
+    a2.legend(loc="upper right", handlelength=1.0, handletextpad=0.5, borderaxespad=0.3)
     qz.label(a2, r"Stress, $\sigma$ (MPa)")
     cols.update({"sigma_v_MPa": sv, "sigma_h_lower_MPa": lo * sv, "sigma_h_upper_MPa": hi * sv,
                  "sigma_h_sheorey50_MPa": sh50})
@@ -220,7 +221,7 @@ def erosion():
 
 def overcoring():
     """Schematic of overcoring: section along the hole, and strain recovery as the bit passes the gauges."""
-    fig = plt.figure(figsize=(W_FULL, 0.40 * W_FULL))
+    fig = plt.figure(figsize=(W_FULL, 0.47 * W_FULL))
     gs = fig.add_gridspec(1, 2, width_ratios=[1.35, 1.0], wspace=0.28)
     ax = fig.add_subplot(gs[0])
     ax.set_aspect("equal")
@@ -251,6 +252,13 @@ def overcoring():
     ax.text(470, r + 22, "Pilot hole", ha="center", va="bottom", fontsize=8)
     ax.annotate("", xy=(385, -R - 26), xytext=(385, -r - 2),
                 arrowprops=dict(arrowstyle="-", color=qz.INK, lw=0.5))
+    # diameters: overcore D across the core, pilot hole d
+    dim = dict(arrowstyle="<|-|>", color=qz.INK, lw=0.5, mutation_scale=5, shrinkA=0, shrinkB=0)
+    ax.annotate("", xy=(100, R), xytext=(100, -R), arrowprops=dim, zorder=6)
+    ax.text(110, -(R + r) / 2, "$D$", ha="left", va="center", fontsize=8, zorder=6)
+    ax.annotate("", xy=(500, r), xytext=(500, -r), arrowprops=dim, zorder=6)
+    ax.plot([500, 548], [-r - 4, -r - 30], color=qz.INK, lw=0.5)
+    ax.text(552, -r - 32, "$d$", ha="left", va="center", fontsize=8)
     ax.set_xlim(L0, L1)
     ax.set_ylim(-135, 135)
 
@@ -261,13 +269,14 @@ def overcoring():
     for amp, c, ls, name in ((1.0, qz.MAL, "-", "Circumferential"), (0.45, qz.MAL_SHADES[2], "--", "Inclined"),
                              (-0.25, qz.CAR, "-.", "Axial")):
         a2.plot(xi, amp * base, color=c, ls=ls, lw=1.2, label=name)
+        a2.text(1.93, amp + (0.05 if amp > 0 else -0.06), name, ha="right",
+                va="bottom" if amp > 0 else "top", fontsize=8)
         cols[f"strain_{name.lower()}"] = amp * base
     a2.axvline(0, color=qz.GREY, lw=0.6, ls=":")
     a2.axhline(0, color=qz.GREY_LIGHT, lw=0.6)
     a2.set_yticks([])
     a2.set_xlim(-1, 2)
-    a2.set_ylim(-0.45, 1.35)
-    a2.legend(loc="upper left", handlelength=1.8)
+    a2.set_ylim(-0.5, 1.3)
     qz.label(a2, "Bit position, $x/D$ (-)", r"Recovered strain, $\Delta\varepsilon$ (-)")
     fig.subplots_adjust(left=0.01, right=0.98, bottom=0.2, top=0.97)
     _save(fig, "ch08", "overcoring-schematic", cols)
@@ -376,6 +385,8 @@ def breakout():
                     arrowprops=dict(arrowstyle="-|>", color=qz.INK, lw=0.9, mutation_scale=8))
     a0.text(2.15, 0.22, r"$\sigma_H$", ha="center", va="bottom", fontsize=10)
     a0.text(0.2, 2.2, r"$\sigma_h$", ha="left", va="center", fontsize=10)
+    a0.text(1.08, -0.2, "Tensile\nfracture", ha="left", va="top", fontsize=8, color=qz.MAL_SHADES[0],
+            linespacing=1.0, zorder=6)
     a0.text(0, 1.62, "Breakout", ha="center", va="bottom", fontsize=8, color=qz.CAR_DARK, zorder=6)
     a0.set_xlim(-2.6, 2.6)
     a0.set_ylim(-2.6, 2.6)
@@ -396,7 +407,7 @@ def breakout():
     ax.set_xlim(0, 180)
     ax.set_xticks([0, 45, 90, 135, 180])
     ax.set_ylim(0, 130)
-    ax.legend(loc="upper left")
+    ax.legend(loc="lower center")
     qz.label(ax, r"Angle from $\sigma_H$, $\theta$ ($^\circ$)", r"Wall stress, $\sigma_\theta$ (MPa)")
     fig.subplots_adjust(left=0.01, right=0.98, bottom=0.2, top=0.97)
     _save(fig, "ch08", "borehole-breakout", cols)
@@ -492,7 +503,15 @@ def pole_contours():
     fig, ax = qz.figure(W_HALF, W_HALF)
     _net_frame(ax)
     levels = [2, 4, 6, 8, 12]
-    ax.contourf(X, Y, pct, levels=levels + [100], cmap=qz.SEQ_MAL, vmin=-2, vmax=13, zorder=1)
+    cs = ax.contourf(X, Y, pct, levels=levels + [100], cmap=qz.SEQ_MAL, vmin=-2, vmax=13, zorder=1)
+    # key to the contour bands, in the lower right corner outside the primitive
+    kx, ky, kh = 0.80, -1.11, 0.075
+    names = [f"{a}-{b}" for a, b in zip(levels[:-1], levels[1:])] + [f"$>${levels[-1]}"]
+    shown = [j for j, lv in enumerate(levels) if lv < np.nanmax(pct)]      # bands that occur
+    for j, (fc, nm) in enumerate(zip(cs.cmap(cs.norm(cs.cvalues))[shown], [names[k] for k in shown])):
+        ax.add_patch(Rectangle((kx, ky + j * kh), 0.085, kh, fc=fc, ec=qz.MAL_SHADES[0], lw=0.4, zorder=3))
+        ax.text(kx + 0.115, ky + (j + 0.5) * kh, nm, ha="left", va="center", fontsize=6.5)
+    ax.text(kx + 0.115, ky + (len(shown) + 0.55) * kh, "%", ha="left", va="center", fontsize=6.5)
     ax.contour(X, Y, pct, levels=levels, colors=[qz.MAL_SHADES[0]], linewidths=0.4, zorder=2)
     x, y = sl.project(tr, pl, net=EQ)
     ax.plot(x, y, "o", ms=1.8, mfc=qz.INK, mec="none", zorder=4)
@@ -510,7 +529,7 @@ def pole_contours():
 
 def terzaghi():
     """Terzaghi weight against the angle between plane and sampling line, with cut-offs."""
-    d = np.linspace(2, 90, 445)
+    d = np.linspace(0.2, 90, 450)
     w = 1 / np.sin(np.radians(d))
     fig, ax = qz.figure(W_HALF, 0.8 * W_HALF)
     ax.axvspan(0, 15, color=qz.CAR_TINT, lw=0)
@@ -649,8 +668,7 @@ def crown_wedge():
         a2.set_xticks([-10, 0, 10])
         a2.set_yticks([-5, 0, 5])
         a2.tick_params(labelsize=8)
-        a2.text(13.3, 5.9, rf"${trends[i]:.0f}^\circ$", ha="right", va="top", fontsize=8,
-                bbox=dict(fc="white", ec="none", pad=0.6))
+        a2.text(13.2, 4.4, rf"${trends[i]:.0f}^\circ$", ha="right", va="top", fontsize=8)
         if k == 1:
             a2.set_xlabel("Along axis (m)")
         a2.set_ylabel("Across (m)", fontsize=8)
@@ -707,7 +725,7 @@ def kinematic():
         pk = sl.planar_kinematics(d, a, fdip, fdd, phi)["Possible"]
         tk = sl.toppling_kinematics(d, a, fdip, fdd, phi)["Possible"]
         print(f"  {lab} {d}/{a}: pole {ptr:.0f}/{ppl:.0f}, planar {pk}, toppling {tk}")
-        a2.text(px + 0.09, py, lab, fontsize=8, ha="left", va="center", color=qz.MAL_SHADES[0], zorder=8)
+        a2.text(px + (0.27 if lab == "J1" else 0.09), py, lab, fontsize=8, ha="left", va="center", color=qz.MAL_SHADES[0], zorder=8)
         cols[f"{lab}_pole"] = [f"{ptr:.0f}/{ppl:.0f}"]
     a2.text(-0.82, 0.72, "Face", fontsize=8, ha="right", va="bottom")
     a2.set_title("Planar sliding", fontsize=10, pad=12)
@@ -768,7 +786,7 @@ def construct_intersection():
     _gc(a1, *p1, color=qz.MAL, lw=1.3)
     _gc(a1, *p2, color=qz.MAL, lw=1.3, ls="-.")
     ix, iy = _pt(a1, itr, ipl, marker="o", ms=5, mfc=qz.CAR, mec=qz.CAR)
-    a1.text(ix + 0.06, iy - 0.02, "I", ha="left", va="top", fontsize=9, color=qz.CAR_DARK, zorder=8)
+    a1.text(ix + 0.07, iy + 0.03, "I", ha="left", va="bottom", fontsize=9, color=qz.CAR_DARK, zorder=8)
     a1.set_title("Both planes plotted", fontsize=10, pad=12)
     _net_frame(a2, rot=rot)
     _gc(a2, *p1, rot=rot, color=qz.MAL, lw=1.3)
@@ -779,7 +797,7 @@ def construct_intersection():
     a2.plot([1.0], [0], "v", ms=6, color=qz.INK, zorder=8)
     a2.text((1 + ri) / 2, 0.06, rf"$\beta = {ipl:.0f}^\circ$", ha="center", va="bottom", fontsize=8,
             color=qz.CAR_DARK, zorder=8, bbox=dict(fc="white", ec="none", pad=0.4))
-    a2.text(ri - 0.04, -0.05, "I", ha="right", va="top", fontsize=9, color=qz.CAR_DARK, zorder=8)
+    a2.text(ri - 0.16, 0.0, "I", ha="center", va="center", fontsize=9, color=qz.CAR_DARK, zorder=8)
     a2.set_title("Rotated to read plunge", fontsize=10, pad=12)
     fig.subplots_adjust(left=0.01, right=0.99, bottom=0.01, top=0.93, wspace=0.08)
     print(f"  intersection {itr:.1f}/{ipl:.1f}, tracing rotated {rot:.0f} deg")
@@ -817,6 +835,11 @@ def construct_rotation():
             s = -seg if flip else seg
             x, y = sl.project(*_tp(s))
             ax.plot(x, y, color=qz.CAR, lw=1.4, zorder=5)
+            if len(x) > 6:
+                m = len(x) // 2
+                ax.annotate("", xy=(x[m + 2], y[m + 2]), xytext=(x[m - 2], y[m - 2]), zorder=6,
+                            arrowprops=dict(arrowstyle="-|>", color=qz.CAR, lw=0, mutation_scale=11,
+                                            shrinkA=0, shrinkB=0))
         end = path[-1] if path[-1][2] <= 0 else -path[-1]
         etr, epl = _tp(end)
         x0, y0 = _pt(ax, tr, pl, marker="o", ms=5, mfc="white", mec=qz.CAR, mew=1.1)
@@ -887,7 +910,10 @@ def joint_pyramid():
         if name == "Sidewall":
             ax.plot([0, 0], [-lim, lim], color=qz.INK, lw=1.0, zorder=5)
         ax.add_patch(Rectangle((x0, -lim), x1 - x0, 2 * lim, fill=False, ec=qz.GREY_LIGHT, lw=0.6, zorder=6))
-        ax.text(0, 1.07, "N", ha="center", va="bottom", fontsize=8, zorder=8)
+        if name == "Sidewall":
+            ax.text(-0.07, 1.07, "N", ha="right", va="bottom", fontsize=8, zorder=8)
+        else:
+            ax.text(0, 1.07, "N", ha="center", va="bottom", fontsize=8, zorder=8)
         ax.set_title(name, fontsize=10, pad=12)
     fig.subplots_adjust(left=0.01, right=0.99, bottom=0.01, top=0.93, wspace=0.06)
     _save(fig, "appE", "joint-pyramid", cols)

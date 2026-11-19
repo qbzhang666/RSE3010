@@ -33,7 +33,7 @@ The families divide by how, and whether, the machine supports the ground
 
 \emph{Open gripper} machines work in self-supporting rock. They brace against
 the tunnel walls to react thrust, leaving the crown accessible so that rock
-bolts, mesh and shotcrete can be installed close behind the head. Unlike any
+bolts, mesh and sprayed concrete (shotcrete) can be installed close behind the head. Unlike any
 shielded machine they leave the tunnel wall visible to the geotechnical
 engineer, but they cannot work in ground that will not hold a grip pad.
 
@@ -104,6 +104,27 @@ crossing several ground types increasingly justify them. Conversion is a
 planned operation of days, so the value lies in
 crossing a small number of long, well-identified domains rather than in
 responding to variability at the face.
+
+Table~\ref{tab:machine-selection} collects the selection of this section.
+
+\begin{table}[htbp]
+\caption{Machine families and the ground each suits. The envelopes of the two closed-face types overlap in silty sand, where either will work.}
+\label{tab:machine-selection}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{0.15\textwidth} Y Y Y@{}}
+\toprule
+\textbf{Machine} & \textbf{Thrust reaction and support} & \textbf{Ground it suits} & \textbf{Limit} \\
+\midrule
+Open gripper & Braces against the tunnel walls; bolts, mesh and sprayed concrete installed close behind the head & Self-supporting rock & Ground that will not hold a grip pad \\
+Single shield & Reacts on the completed segmental ring; supports the perimeter & Rock that will not hold a grip pad but whose face stands & Boring and ring building alternate \\
+Double shield & Grippers in good rock, the ring in poor ground; boring and ring building simultaneous & Good rock with reaches of poor ground & Length and mechanical complexity; tight curves and squeezing ground \\
+Earth pressure balance & Face supported by conditioned soil in the chamber, discharged through a screw conveyor & Fine-grained and well-graded soils; clays and silts condition readily & Uniform sands and gravels, which condition with difficulty or not at all \\
+Slurry & Face supported by pressurised bentonite suspension through a filter cake & Clean sands and medium gravels & Very open or gap-graded gravel, where no filter cake forms; the separation plant in fine soils \\
+Multi-mode & Converted between modes & Alignments crossing a small number of long, well-identified domains & Conversion takes days, so it cannot follow variability at the face \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{Cutterhead and cutting tools}
 \label{sec:cutterhead-tools}
@@ -253,7 +274,7 @@ Figure~\ref{fig:r3d-shield-tail}.
   \rlab[west]{0.73,0.50}{0.84,0.50}{Shield skin}
   \rlab[north]{0.30,0.295}{0.30,0.12}{Grout}
 }
-\caption{Longitudinal half cut-away of a shield tail with the annulus of Figure~\ref{fig:annulus-grout}, its 0.1~m width drawn three times true. In the tail the skin (dark grey) and three rows of seals close the gap; behind it grout (malachite) fills the annulus except at the crown, where a 0.5~m\textsuperscript{3} shortfall per ring leaves 17~per cent of the 2.87~m\textsuperscript{3} empty (carmine). Skin and seals illustrative.}
+\caption{Longitudinal half cut-away of a shield tail with the annulus of Figure~\ref{fig:annulus-grout}, its 0.1~m width drawn three times true. The skin (dark grey) and three rows of seals close the gap in the tail. Behind it grout (malachite) fills the annulus except at the crown, where a 0.5~m\textsuperscript{3} shortfall per ring leaves 17~per cent empty (carmine). Skin and seals illustrative.}
 \label{fig:r3d-shield-tail}
 \end{figure}
 
@@ -352,23 +373,31 @@ because a shielded machine detects a problem only after it has entered it.
 \section{Risk and logistics}
 \label{sec:tbm-risk-logistics}
 
-The characteristic failure modes are few and well documented. The first is
-shield jamming in squeezing ground, whose mechanism and mitigations are given in
-Section~\ref{sec:performance-power}. Cutterhead clogging occurs in sticky clay, where cohesive
-material packs the openings and torque rises until the head stalls. Boulders
-in soft ground damage tools and, in a closed-face machine, cannot be
-seen before they are struck. Mixed faces produce uneven wear, steering
-difficulty and over-excavation of the softer horizon
-(Chapter~\ref{ch:ground-behaviour}). Karst cavities cause sudden loss
-of face pressure and grout. Excessive wear in abrasive ground converts
-a boring operation into a sequence of interventions.
+The characteristic failure modes are few and well documented. Each has a
+ground signature that investigation can find and a mitigation that must be
+specified before procurement (Table~\ref{tab:tbm-failure-modes}). The
+mechanism of shield jamming and its mitigations are given in
+Section~\ref{sec:performance-power}, and mixed faces are treated in
+Chapter~\ref{ch:ground-behaviour}.
 
-Each has a ground signature that investigation can find and a mitigation that
-must be specified before procurement: overcut and thrust for squeezing,
-conditioning and head design for clogging, tool selection and rock crushers
-for boulders, probing and grouting for karst, abrasivity testing, tool
-selection and planned intervention locations for wear, and alignment,
-probing and a steering and thrust policy for mixed faces.
+\begin{table}[htbp]
+\caption{Characteristic failure modes of mechanised tunnelling, the ground signature of each, and the mitigation to be specified before procurement.}
+\label{tab:tbm-failure-modes}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{0.16\textwidth} >{\RaggedRight\arraybackslash}p{0.16\textwidth} Y Y@{}}
+\toprule
+\textbf{Failure mode} & \textbf{Ground signature} & \textbf{Effect on the machine} & \textbf{Mitigation} \\
+\midrule
+Shield jamming & Squeezing ground & Convergence closes onto the shield and friction rises beyond available thrust & Overcut and thrust \\
+Cutterhead clogging & Sticky clay & Cohesive material packs the openings and torque rises until the head stalls & Conditioning and head design \\
+Boulder damage & Boulders in soft ground & Tools are damaged; in a closed-face machine boulders cannot be seen before they are struck & Tool selection and rock crushers \\
+Mixed-face working & Mixed faces & Uneven wear, steering difficulty and over-excavation of the softer horizon & Alignment, probing, and a steering and thrust policy \\
+Loss into cavities & Karst cavities & Sudden loss of face pressure and grout & Probing and grouting \\
+Excessive wear & Abrasive ground & Boring becomes a sequence of interventions & Abrasivity testing, tool selection and planned intervention locations \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 Logistics constrain the drive as firmly as the geology. Launch requires a
 shaft or portal, a cradle, a reaction frame and a seal against the ground; the

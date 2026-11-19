@@ -39,7 +39,9 @@ depth to the tunnel axis, $z_0$, through
 i = K \, z_0 ,
 \]
 with $K$ depending on the ground rather than on the tunnel. Table~\ref{tab:k_values}
-gives the customary ranges.
+gives the customary ranges. The figure also plots the horizontal strain that
+follows from the same curve when the displacement vectors are taken to point
+towards the tunnel axis (Section~\ref{sec:movement-field}).
 
 \begin{table}[htbp]
 \caption{Trough width parameter $K$, after \citet{peck1969deep} and \citet{mair1996settlement}.}
@@ -115,7 +117,7 @@ which party controls each.
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch17/volume-loss-sources}
-\caption{Sources of volume loss in shielded tunnelling (schematic, gaps exaggerated): 1 face, 2 over-cutting along the shield, 3 tail void closing before the grout acts, 4 lining deflection (cross-section, right), 5 consolidation. The shaded band at the crown is ground lost into the cut profile; the dashed line is the settled surface.}
+\caption{Sources of volume loss in shielded tunnelling (schematic, gaps exaggerated): 1 face, 2 over-cutting along the shield, 3 tail void closing before the grout acts, 4 lining deflection (cross-section, right), 5 consolidation. The carmine band at the crown is ground lost into the cut profile and the malachite band is grout; the dashed line is the settled surface.}
 \label{fig:volume-loss-sources}
 \end{figure}
 
@@ -144,7 +146,7 @@ project values come from the ground model.}
 \small
 \begin{tabular}{l l c c c c c c c}
 \toprule
-\textbf{Unit} & \textbf{Description} & $\gamma$ & $c'$ & $\phi'$ & $\psi$ & $E_i$ & $\nu$ & $K_0$ \\
+\textbf{Unit} & \textbf{Description} & $\gamma$ & $c'$ & $\phi'$ & $\psi$ & $E$ & $\nu$ & $K_0$ \\
  & & (kN/m\textsuperscript{3}) & (kPa) & (\textdegree) & (\textdegree) & (MPa) & & \\
 \midrule
 Upper & Granular soil, surface layer & 20 & 7 & 30 & 2 & 50 & 0.3 & 0.7 \\
@@ -335,11 +337,17 @@ that have nothing to do with the tunnel, and the check costs one run. The
 second is the staging. A single-stage excavation with support installed
 simultaneously implies that the lining is in place before any ground movement
 occurs, which is never true and which transfers to the lining load that the
-ground would have shed. Stress relaxation before support activation, whether
-applied as a load-split factor or through a longitudinal deformation profile,
-is the two-dimensional representation of the three-dimensional face effect, and
-its value is a design decision rather than a default
-(Chapter~\ref{ch:ccm}).
+ground would have shed.
+
+Two-dimensional analysis handles this through a stress relaxation factor:
+only part of the in-situ stress is released before the support is activated,
+the remainder afterwards. The device works, but the answer depends directly on
+a factor that the analysis itself cannot determine. The factor is normally
+taken from a longitudinal deformation profile, that is, from an axisymmetric or
+three-dimensional solution, so the two-dimensional model is calibrated by
+the kind of analysis it was intended to replace.
+Whether it is applied as a load-split factor or through the profile directly,
+its value is a design decision rather than a default (Chapter~\ref{ch:ccm}).
 
 \paragraph{Constitutive choice.}
 Mohr--Coulomb is the usual first choice and is adequate for soils and for weak
@@ -371,8 +379,8 @@ establish.
 
 \begin{table}[htbp]
 \caption{What a comparison between the empirical and numerical settlement
-estimates can establish. Horizontal displacement has no empirical
-counterpart.}
+estimates can establish. The empirical horizontal displacement rests on the
+assumption that displacement vectors point towards the tunnel axis.}
 \label{tab:comparison}
 \centering
 \small
@@ -383,8 +391,8 @@ counterpart.}
 Maximum settlement & From $V_L$ and $i$ & Computed & Direct comparison \\
 Trough width & $i = K z_0$ & Measured from output & Shape comparison \\
 Trough shape & Gaussian assumed & Computed & Overlay the two \\
-Horizontal displacement & Not predicted & Computed & Numerical only \\
-Governing assumption & $V_L$ and $K$ & Constitutive model and $K_0$ & Different failure modes \\
+Horizontal displacement & From $S_y$ and $y/z_0$ & Computed & Empirical value assumes vectors towards the axis \\
+Governing assumption & $V_L$ and $K$ & Constitutive model and $K_0$ & Independent assumptions \\
 Principal limitation & Empirical, no stress & Mesh and boundary sensitivity & Both must be stated \\
 \bottomrule
 \end{tabularx}
@@ -464,22 +472,35 @@ holds remote from the face and not at it. Since most convergence occurs
 within about a diameter of the face, and support is installed there, the
 assumption fails where the design decision is made.
 
-Two-dimensional analysis handles this through a stress relaxation factor:
-only part of the in-situ stress is released before the support is activated,
-the remainder afterwards. The device works, but the answer depends directly on
-a factor that the analysis itself cannot determine. The factor is normally
-taken from a longitudinal deformation profile, that is, from an axisymmetric or
-three-dimensional solution, so the two-dimensional model is calibrated by
-the kind of analysis it was intended to replace.
-
-Problem classes where the device fails altogether are those without
-longitudinal uniformity: junctions and cross-passages, portals, staged cavern
-excavation, and any case where the ground changes over a distance comparable
-to the diameter.
+Two-dimensional analysis handles this through the stress relaxation factor of
+Section~\ref{sec:finite-element-modelling}, whose value the analysis itself
+cannot determine. The device fails altogether where there is no longitudinal
+uniformity, and those cases need the three-dimensional analysis of
+Section~\ref{sec:three-dimensional-staged}.
 
 \paragraph{Constitutive models beyond Mohr--Coulomb.}
 Mohr--Coulomb is the default because it needs two strength parameters and
-behaves predictably. Its limitations depend on the problem.
+behaves predictably. Its limitations depend on the problem, and
+Table~\ref{tab:constitutive-models} collects the alternatives with the
+problem each suits.
+
+\begin{table}[htbp]
+\caption{Constitutive models for continuum analysis, with the problem each suits and what it represents or requires.}
+\label{tab:constitutive-models}
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.24\textwidth} >{\raggedright\arraybackslash}p{0.24\textwidth} X}
+\toprule
+\textbf{Model} & \textbf{Suited to} & \textbf{Represents and requires} \\
+\midrule
+Mohr--Coulomb & Soils, and weak rock at low confinement; the usual first choice & Linear strength envelope and a single modulus. Strength needs only $c'$ and $\phi'$. \\
+Hoek--Brown & Jointed rock masses at depth & Curvature of the strength envelope with confinement. \\
+Hardening soil with small-strain stiffness & Urban settlement, where the trough shape governs & Fall of stiffness with strain. Needs stiffness parameters at several strain levels. \\
+Cohesion-weakening friction-strengthening & Brittle rock at high stress & Loss of cohesion at small strain, with friction mobilised at larger strain. Predicts the shallow spalling notch. \\
+Creep or viscoplastic & Squeezing ground & Convergence that continues for months after the face has passed. Needs time-dependent testing. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 For urban settlement work the deficiency is stiffness, not strength. Soil
 stiffness falls sharply with strain, and the small-strain stiffness governing
@@ -592,7 +613,9 @@ dependent on fracture-energy parameters that few projects measure.
 \paragraph{Three-dimensional modelling.}
 Three dimensions are required where geometry or sequence has no longitudinal
 uniformity: junctions and cross-passages, portals with sloping cover, cavern
-excavation in stages, twin tunnels at close spacing, and fault crossings.
+excavation in stages, twin tunnels at close spacing, fault crossings, and any
+other case where the ground changes over a distance comparable to the
+diameter.
 Three-dimensional analysis is also expensive, and only the part of the
 problem that needs it should be modelled in three dimensions, with
 two-dimensional analysis elsewhere.
@@ -612,12 +635,14 @@ Staged analysis reproduces the construction: excavate, relax, install support,
 advance. Results are sensitive to the sequence assumed, and particularly to
 when support is activated and with what stiffness.
 
-Two effects are commonly mishandled. First, shotcrete stiffness rises with curing, so
+Two effects are commonly mishandled. First, the stiffness of sprayed concrete rises with curing, so
 a lining modelled at mature stiffness from the moment of installation attracts
-more load than the real one; young shotcrete also creeps substantially, which
-relaxes load. Second, a segmental ring is installed at a defined convergence set
-by the tail gap and grouting, so its starting point on the convergence axis is
-a construction parameter rather than a modelling choice.
+more load than the real one; young sprayed concrete also creeps substantially, which
+relaxes load. Second, a segmental ring begins to act at the convergence set by
+the tail gap and grouting
+(Section~\ref{sec:support-as-stiffness-capacity-and-timing}), so its starting
+point on the convergence axis is a construction parameter rather than a
+modelling choice.
 
 \section{Coupled and multi-physics analysis}
 \label{sec:coupled-analysis}
@@ -792,5 +817,17 @@ from Appendix~\ref{app:calculations}, or a measured convergence), and its
 predictions compared. Agreement there is worth more than any goodness-of-fit
 statistic, because it tests the parent model and the fit together, where the statistic
 tests only the fit.
+
+\bigskip
+\noindent This chapter has set the empirical settlement estimate beside the
+numerical model and has used agreement between them as a check on the model.
+It has set out the decisions on extent, mesh, staging and constitutive model
+that determine whether a continuum analysis is sound, and the cases that need
+discontinuum, three-dimensional or coupled methods. Calibration and
+verification govern any use of the output, and the surrogate extends a
+verified model to reliability analysis, optimisation and the digital twin.
+Chapter~\ref{ch:support} turns from analysis to the support elements
+themselves, and Chapter~\ref{ch:integrated-design} reconciles the empirical,
+analytical and numerical routes.
 
 \chapterreferences

@@ -11,7 +11,13 @@ diagnostic: unlike an empirical chart, a closed-form solution states why a
 support system reaches equilibrium and at what convergence. This chapter
 develops the elastic and elasto-plastic solutions for a circular opening, the
 convergence--confinement method that follows from them, and the treatment of
-support as a problem of stiffness, capacity and installation timing.
+support as a problem of stiffness, capacity and installation timing. Two
+worked applications follow. The chapter then turns to two matters of practice
+on which the calculation depends. The first is the grouping of support into a
+small number of classes, with the reconciliation of empirical, analytical and
+numerical results. The second is the verification that the support as built
+matches the support as designed. Both are taken further in
+Chapters~\ref{ch:support} and~\ref{ch:integrated-design}.
 
 \section{Closed-form solutions}
 \label{sec:closed-form-solutions}
@@ -332,7 +338,7 @@ the convergence remains within serviceability limits
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch16/install-distance}
-\caption{Factor of safety and equilibrium convergence of the deep tunnel at 650~m against the distance $L$ behind the face at which the 0.5~m lining is installed. Earlier installation lowers both; circles mark $L = 3$~m (FoS 4.3 and 2.8), and the band marks the usual targets of 1.5 to 2.0.}
+\caption{Factor of safety and equilibrium convergence of the deep tunnel at 650~m against the distance $L$ behind the face at which the 0.5~m lining is installed. Earlier installation lowers both; circles mark $L = 3$~m (FoS 4.3 and 2.8), and the band marks the usual targets of 1.5 to 2.0. The factor of safety is on a logarithmic scale.}
 \label{fig:install-distance}
 \end{figure}
 
@@ -372,6 +378,169 @@ formulations and parametric studies over many cases. For the axisymmetric
 problem with a single lining treated here, a hand calculation gives the same
 answer, and producing one is the best available check on whatever the
 software returns.
+
+\section{Support as stiffness, capacity and timing}
+\label{sec:support-as-stiffness-capacity-and-timing}
+
+The convergence--confinement method treats the support as a single line on
+the diagram. This section sets out what that line stands for in a real
+support system, before the method is applied to two tunnels in
+Section~\ref{sec:applications-and-worked-examples}.
+
+\paragraph{Support, reinforcement and retention.}
+Three functions are often conflated. \emph{Support} applies pressure to
+the excavation boundary and resists convergence: sprayed concrete (shotcrete) shells, steel sets,
+concrete linings, segmental rings. \emph{Reinforcement} acts within the rock
+mass and improves its own capacity: grouted bolts, cables, dowels.
+\emph{Retention} holds loose material between the other elements: mesh,
+straps, plates. A complete system needs all three, and the
+convergence--confinement framework of this chapter strictly describes only the
+first. Reinforcement enters it indirectly, by raising the ground reaction
+curve rather than by supplying boundary pressure.
+
+\paragraph{Stiffness, capacity and timing.}
+An installed support system is characterised by three quantities. Its
+\emph{stiffness} determines how much pressure it develops per unit of further
+convergence. Its \emph{capacity} is the maximum pressure it can sustain before
+yielding or failing. Its \emph{installation timing} determines how much
+convergence has already occurred before it begins to act.
+
+Chart-based design selects a support class and specifies none of the three.
+An empirically selected support can therefore be inadequate in a way the chart
+cannot reveal, because the class may suit the ground quality and yet be wrong
+for the convergence that will have occurred by the time it is installed.
+
+\paragraph{The ground reaction curve as a design tool.}
+Read as a design tool, the ground reaction curve of
+Section~\ref{sec:ccm-components} states that the ground sheds load as it
+converges. In competent ground the required pressure reaches zero at a finite
+convergence, at which the excavation is self-supporting.
+
+The load carried by the support is set by the intersection of the two
+curves and not by the support alone. A support system therefore cannot be
+designed against a predetermined load, because the load is an outcome of the
+interaction.
+
+\paragraph{Support characteristic curves for real systems.}
+The support characteristic curve is the pressure a system develops as a
+function of convergence, and it must be derived from the actual system rather
+than assumed linear to an arbitrary capacity.
+
+A sprayed or cast concrete shell behaves as a thick cylinder: its stiffness
+follows from the elastic modulus, thickness and radius, and its capacity from
+the compressive strength of the annulus. Both change with time as the concrete
+cures. Steel sets are much softer than their section suggests, because their
+stiffness is governed by blocking and by the seating of the invert.
+A well-blocked set at close spacing behaves quite differently from
+a poorly blocked one. Grouted bolts contribute stiffness through the composite
+action of bar, grout and rock, and their equivalent pressure depends on
+spacing. Segmental rings are stiff and installed at a defined convergence set
+by the tail gap and the grouting.
+
+Expressions for each are collected in Appendix~\ref{app:closed-form}, and
+representative properties in Appendix~\ref{app:constants}.
+
+\subsection{Combined systems and installation timing}
+\label{sec:combined-systems-and-installation-timing}
+
+\paragraph{Combined and sequential support.}
+Where elements are installed together and deform together, their stiffnesses
+add in parallel and the combined capacity is reached when the first element
+reaches its own limit. The second point is often mishandled. The sum of the
+capacities of a sprayed concrete shell and a set of steel arches
+is never available, because the stiffer element reaches its capacity while the
+softer one is still lightly loaded.
+
+The shortfall is greater for elements installed in sequence. Each begins to act at the
+convergence prevailing when it is installed, so it carries load only from that
+point onward. Its contribution at equilibrium is therefore smaller than its
+nominal capacity suggests, and an element installed late may carry almost
+nothing. The correct construction offsets each element's characteristic curve
+along the convergence axis by the convergence already released
+(Figure~\ref{fig:combined-support}).
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch16/combined-support}
+\caption{Support characteristic curves of sprayed concrete 0.2~m thick, steel sets at 1~m and grouted bolts on a 1~m grid at 4.75~m radius (illustrative values from Appendix~\ref{app:constants}). Installed together they reach 1.67~MPa when the sprayed concrete reaches its limit, not the 1.86~MPa sum of capacities; with the bolts and sets installed 2 and 4~mm later, only 1.42~MPa.}
+\label{fig:combined-support}
+\end{figure}
+
+\paragraph{Installation timing.}
+The longitudinal deformation profile converts distance behind the face into
+convergence already released. A significant fraction, often a quarter to a
+third, occurs ahead of the face, and a further large fraction within one
+diameter behind it. Where support is installed two diameters behind the face, the
+ground may already have shed most of the load it will shed.
+
+The consequence runs in both directions, as Section~\ref{sec:scc-and-ldp}
+showed: late installation allows more convergence and loosening, and early
+installation attracts more load. The distance behind the face at which support
+is installed is therefore a design variable. It is one of
+the few that the contractor controls directly, and it should be fixed in
+the specification rather than assumed.
+
+\subsection{Stiffness and yielding}
+\label{sec:stiffness-and-yielding}
+
+\paragraph{Why stiffer is not always better.}
+A stiff support installed early develops pressure rapidly and therefore
+attracts a large load; a softer support at the same location reaches
+equilibrium at greater convergence and lower pressure. Where the ground
+reaction curve is steep, the difference is large
+(Figure~\ref{fig:stiff-yielding}, drawn for the deep tunnel of
+Section~\ref{sec:ccm-worked-example-section}).
+
+The design objective is equilibrium at an acceptable convergence, not minimum
+convergence. Stiffening a support that is already adequate increases the load
+it must carry without improving safety, and in squeezing ground it converts a
+serviceable design into an unserviceable one.
+
+\paragraph{Yielding support and controlled deformation.}
+Where the ground reaction curve does not fall to a pressure the support can
+carry within an acceptable convergence, the support is designed to
+deform. Sliding steel sets with friction joints, deformation slots fitted with
+compressible elements, and yielding bolts all maintain a roughly constant
+support pressure over a large convergence, so equilibrium is reached at a
+pressure below capacity.
+
+The deformation is deliberate and controlled,
+and it requires the excavated profile to be oversized so that the finished
+profile is preserved. Details are given in Chapter~\ref{ch:high-stress}.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch16/stiff-yielding}
+\caption{Three supports installed at the same point, $u_{s0} = 62.0$~mm, on the ground reaction curve of the deep tunnel at GSI 30. The lining of Table~\ref{tab:ccm-worked-example} attracts 2.27~MPa; a ring a quarter as stiff ($E_c = 10$~GPa) attracts 1.93~MPa at 70~mm; a yielding support holding 1.0~MPa comes to rest at 91~mm.}
+\label{fig:stiff-yielding}
+\end{figure}
+
+\subsection{Pre-reinforcement and block support}
+\label{sec:pre-reinforcement-and-block-support}
+
+\paragraph{Pre-reinforcement and pre-support.}
+Reinforcement installed before the ground is disturbed retains the rock mass
+in its undisturbed state; reinforcement installed afterwards can only hold
+what remains. Rock mass strength falls
+markedly once discontinuities have opened and blocks have loosened, and no
+subsequent reinforcement restores it.
+
+This is the argument for cable bolting ahead of a cavern excavation, for
+umbrella arches and forepoling ahead of a weak-ground heading, and for face
+dowels in the advance core. Each takes time in the programme, since it must be installed
+before the excavation reaches it, and each preserves ground conditions that
+would otherwise be lost.
+
+\paragraph{Support of blocks and wedges.}
+Block support is a separate calculation from stress-driven support and must
+not be combined with it. The blocks identified in
+Chapter~\ref{ch:ground-behaviour} are discrete bodies whose stability is
+assessed by limit equilibrium, and the required bolt force follows from their
+weight, sliding mode and available friction. A support system adequate against
+the ground reaction curve may be inadequate against a large crown
+wedge, because the two mechanisms load it in different ways.
+
+Both checks are required, and the one that demands more support governs.
 
 \section{Worked applications}
 \label{sec:applications-and-worked-examples}
@@ -433,7 +602,10 @@ bolts, the same in each case, with maximum pressure $p_{sm} = 0.354$~MPa and
 stiffness $k_s = 29.5$~MPa/m, so that its elastic displacement capacity is
 $u_{sm} = p_{sm}/k_s = 0.354/29.5 = 12.0$~mm. The support characteristic
 curve is therefore fixed and only its starting point moves
-(Figure~\ref{fig:motorway-timing}). As installation
+(Figure~\ref{fig:motorway-timing}). The figure draws the support lines on
+the closed-form Mohr--Coulomb curve of \citet{duncanfama1993}, which stands
+in for the large-strain formulation of the analysis, and marks the equilibria
+that the analysis reports. As installation
 becomes earlier, with $u_{s0}$ falling from 53.7~mm to 40~mm to 18~mm, the
 convergence falls from 1.0 to 0.64 per cent and the factor of safety from
 1.93 to 0.82. Both trends are monotonic. Earlier engagement raises the load
@@ -493,7 +665,7 @@ FoS & 1.93 & 1.38 & 0.82 \\
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch16/motorway-timing}
-\caption{The bolt support line of the motorway tunnel for the three criteria of Table~\ref{tab:support-timing} and for $L = 3$~m with the elastic profile, on the ground reaction curve of \citet{duncanfama1993} (dotted: the simplified curve of this chapter). Circles mark the equilibria of the analysis; the small circle is the notional intersection behind FoS 0.82.}
+\caption{Bolt support lines of the motorway tunnel for the three criteria of Table~\ref{tab:support-timing} and for $L = 3$~m with the elastic profile. The ground reaction curve is the closed-form one of \citet{duncanfama1993}, standing in for the large-strain formulation of the analysis (dotted: the simplified curve of this chapter). Circles mark the reported equilibria; the small circle is the notional intersection behind FoS 0.82.}
 \label{fig:motorway-timing}
 \end{figure}
 
@@ -584,13 +756,6 @@ $\mathrm{FoS} = p_{sm}/p_{eq}$ & 4.3 & 2.8 \\
 \label{fig:grc-scc}
 \end{figure}
 
-
-The result is sensitive to the choice of $m_i$. A lower value, siltstone in place of sandstone,
-reduces $m_b$ and with it the rock mass strength, and so enlarges the plastic
-zone and the convergence. Hoek--Brown parameters are sensitive to the
-lithology assumed, and in mixed ground the representative value has to be
-chosen deliberately.
-
 \paragraph{Solving the intersection.}
 The lining cannot be judged by comparing its elastic displacement capacity
 $u_{sm}$ with the convergence the unsupported tunnel still has to undergo,
@@ -610,6 +775,13 @@ factor of safety is
 The same analysis for GSI~=~60 gives $p_{eq} \approx 1.47$~MPa and a factor
 of safety of about 4.3. The lining is thus nominally adequate for both
 conditions in this idealised model.
+
+\paragraph{Sensitivity to lithology.}
+The result is sensitive to the choice of $m_i$. A lower value, siltstone in place of sandstone,
+reduces $m_b$ and with it the rock mass strength, and so enlarges the plastic
+zone and the convergence. Hoek--Brown parameters are sensitive to the
+lithology assumed, and in mixed ground the representative value has to be
+chosen deliberately.
 
 \subsection{Limits of the analytical result}
 \label{sec:ccm-limits}
@@ -658,173 +830,13 @@ FoS ($p_{sm}/p_{eq}$) & Capacity-to-demand ratio & Target values are project-spe
 \end{tabularx}
 \end{table}
 
-\section{Support as stiffness, capacity and timing}
-\label{sec:support-as-stiffness-capacity-and-timing}
-
-\paragraph{Support, reinforcement and retention.}
-Three functions are often conflated. \emph{Support} applies pressure to
-the excavation boundary and resists convergence: shotcrete shells, steel sets,
-concrete linings, segmental rings. \emph{Reinforcement} acts within the rock
-mass and improves its own capacity: grouted bolts, cables, dowels.
-\emph{Retention} holds loose material between the other elements: mesh,
-straps, plates. A complete system needs all three, and the
-convergence--confinement framework of this chapter strictly describes only the
-first. Reinforcement enters it indirectly, by raising the ground reaction
-curve rather than by supplying boundary pressure.
-
-\paragraph{Stiffness, capacity and timing.}
-An installed support system is characterised by three quantities. Its
-\emph{stiffness} determines how much pressure it develops per unit of further
-convergence. Its \emph{capacity} is the maximum pressure it can sustain before
-yielding or failing. Its \emph{installation timing} determines how much
-convergence has already occurred before it begins to act.
-
-Chart-based design selects a support class and specifies none of the three.
-An empirically selected support can therefore be inadequate in a way the chart
-cannot reveal, because the class may suit the ground quality and yet be wrong
-for the convergence that will have occurred by the time it is installed.
-
-\paragraph{The ground reaction curve as a design tool.}
-Read as a design tool, the ground reaction curve states that the ground
-sheds load as it converges. At zero
-convergence the required support pressure equals the in-situ stress. As the
-opening converges the required pressure falls, steeply at first and then more
-gradually, and in competent ground it reaches zero at a finite convergence,
-at which the excavation is self-supporting.
-
-The load carried by the support is set by the intersection of the two
-curves and not by the support alone. A support system therefore cannot be
-designed against a predetermined load, because the load is an outcome of the
-interaction.
-
-\paragraph{Support characteristic curves for real systems.}
-The support characteristic curve is the pressure a system develops as a
-function of convergence, and it must be derived from the actual system rather
-than assumed linear to an arbitrary capacity.
-
-A shotcrete or concrete shell behaves as a thick cylinder: its stiffness
-follows from the elastic modulus, thickness and radius, and its capacity from
-the compressive strength of the annulus. Both change with time as the concrete
-cures. Steel sets are much softer than their section suggests, because their
-stiffness is governed by blocking and by the seating of the invert.
-A well-blocked set at close spacing behaves quite differently from
-a poorly blocked one. Grouted bolts contribute stiffness through the composite
-action of bar, grout and rock, and their equivalent pressure depends on
-spacing. Segmental rings are stiff and installed at a defined convergence set
-by the tail gap and the grouting.
-
-Expressions for each are collected in Appendix~\ref{app:closed-form}, and
-representative properties in Appendix~\ref{app:constants}.
-
-\subsection{Combined systems and installation timing}
-\label{sec:combined-systems-and-installation-timing}
-
-\paragraph{Combined and sequential support.}
-Where elements are installed together and deform together, their stiffnesses
-add in parallel and the combined capacity is reached when the first element
-reaches its own limit. The second point is often mishandled. The sum of the
-capacities of a shotcrete shell and a set of steel arches
-is never available, because the stiffer element reaches its capacity while the
-softer one is still lightly loaded.
-
-The shortfall is greater for elements installed in sequence. Each begins to act at the
-convergence prevailing when it is installed, so it carries load only from that
-point onward. Its contribution at equilibrium is therefore smaller than its
-nominal capacity suggests, and an element installed late may carry almost
-nothing. The correct construction offsets each element's characteristic curve
-along the convergence axis by the convergence already released
-(Figure~\ref{fig:combined-support}).
-
-\begin{figure}[htbp]
-\centering
-\datafigure[\textwidth]{ch16/combined-support}
-\caption{Support characteristic curves of shotcrete 0.2~m thick, steel sets at 1~m and grouted bolts on a 1~m grid at 4.75~m radius (illustrative values from Appendix~\ref{app:constants}). Installed together they reach 1.67~MPa when the shotcrete reaches its limit, not the 1.86~MPa sum of capacities; with the bolts and sets installed 2 and 4~mm later, only 1.42~MPa.}
-\label{fig:combined-support}
-\end{figure}
-
-\paragraph{Installation timing.}
-The longitudinal deformation profile converts distance behind the face into
-convergence already released. A significant fraction, often a quarter to a
-third, occurs ahead of the face, and a further large fraction within one
-diameter behind it. Where support is installed two diameters behind the face, the
-ground may already have shed most of the load it will shed.
-
-The design consequence runs in both directions. Installing too late allows
-excessive convergence and, in weak ground, loosening that permanently reduces
-the rock mass strength. Installing too early attracts high load into a
-support that must then carry it. The distance behind the face at which support
-is installed is therefore a design variable. It is one of
-the few that the contractor controls directly, and it should be fixed in
-the specification rather than assumed.
-
-\subsection{Stiffness and yielding}
-\label{sec:stiffness-and-yielding}
-
-\paragraph{Why stiffer is not always better.}
-A stiff support installed early develops pressure rapidly and therefore
-attracts a large load; a softer support at the same location reaches
-equilibrium at greater convergence and lower pressure. Where the ground
-reaction curve is steep, the difference is large
-(Figure~\ref{fig:stiff-yielding}).
-
-The design objective is equilibrium at an acceptable convergence, not minimum
-convergence. Stiffening a support that is already adequate increases the load
-it must carry without improving safety, and in squeezing ground it converts a
-serviceable design into an unserviceable one.
-
-\paragraph{Yielding support and controlled deformation.}
-Where the ground reaction curve does not fall to a pressure the support can
-carry within an acceptable convergence, the support is designed to
-deform. Sliding steel sets with friction joints, deformation slots fitted with
-compressible elements, and yielding bolts all maintain a roughly constant
-support pressure over a large convergence, so equilibrium is reached at a
-pressure below capacity.
-
-The deformation is deliberate and controlled,
-and it requires the excavated profile to be oversized so that the finished
-profile is preserved. Details are given in Chapter~\ref{ch:high-stress}.
-
-\begin{figure}[htbp]
-\centering
-\datafigure[\textwidth]{ch16/stiff-yielding}
-\caption{Three supports installed at the same point, $u_{s0} = 62.0$~mm, on the ground reaction curve of the deep tunnel at GSI 30. The lining of Table~\ref{tab:ccm-worked-example} attracts 2.27~MPa; a ring a quarter as stiff ($E_c = 10$~GPa) attracts 1.93~MPa at 70~mm; a yielding support holding 1.0~MPa comes to rest at 91~mm.}
-\label{fig:stiff-yielding}
-\end{figure}
-
-\subsection{Pre-reinforcement and block support}
-\label{sec:pre-reinforcement-and-block-support}
-
-\paragraph{Pre-reinforcement and pre-support.}
-Reinforcement installed before the ground is disturbed retains the rock mass
-in its undisturbed state; reinforcement installed afterwards can only hold
-what remains. Rock mass strength falls
-markedly once discontinuities have opened and blocks have loosened, and no
-subsequent reinforcement restores it.
-
-This is the argument for cable bolting ahead of a cavern excavation, for
-umbrella arches and forepoling ahead of a weak-ground heading, and for face
-dowels in the advance core. Each takes time in the programme, since it must be installed
-before the excavation reaches it, and each preserves ground conditions that
-would otherwise be lost.
-
-\paragraph{Support of blocks and wedges.}
-Block support is a separate calculation from stress-driven support and must
-not be combined with it. The blocks identified in
-Chapter~\ref{ch:ground-behaviour} are discrete bodies whose stability is
-assessed by limit equilibrium, and the required bolt force follows from their
-weight, sliding mode and available friction. A support system adequate against
-the ground reaction curve may be inadequate against a large crown
-wedge, because the two mechanisms load it in different ways.
-
-Both checks are required, and the one that demands more support governs.
-
 \section{Support classes and reconciliation}
 \label{sec:support-classes-and-reconciliation}
 
 \paragraph{Support classes.}
 Support is not designed chainage by chainage. A project defines a small set
 of standard classes (typically four to six), each specifying bolt
-pattern, shotcrete thickness, steel sets if any, and the excavation sequence
+pattern, sprayed concrete thickness, steel sets if any, and the excavation sequence
 that accompanies it, and maps each class to a range of ground conditions.
 
 Keeping the number small is a construction and contractual requirement rather
@@ -850,7 +862,7 @@ procedure is given in Chapter~\ref{ch:integrated-design}.
 \paragraph{Installation quality and as-built performance.}
 Support that is designed correctly and installed poorly is the most common
 cause of underperformance, and the failure modes are consistent: grout voids
-in bolt holes, shotcrete below specified thickness, bolts installed untensioned
+in bolt holes, sprayed concrete below specified thickness, bolts installed untensioned
 where the design assumed pretension, steel sets inadequately blocked so that
 they carry a fraction of their capacity, and support installed further behind
 the face than the design assumed.

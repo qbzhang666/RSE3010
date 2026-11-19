@@ -208,15 +208,10 @@ Figure~\ref{fig:movement-attribution} shows the separation it makes possible.
 \caption[Separating construction movement from movement already present]{%
 Attribution as the first step of backward updating. Each mark is a building
 above an illustrative twin-tunnel corridor, placed by its cumulative satellite
-radar movement over the seven years before construction against its
-cumulative movement, from the same origin, at the end of the first year of
-construction, and shaded by the construction contribution. A building on the
-1:1 line has not moved during construction; one continuing its earlier trend
-lies within a few millimetres of the line, a year's movement at its
-pre-construction rate, and the departure beyond that is the part for which the
-works are answerable. Synthetic demonstrator data: the
-corridor, the buildings and the movement field are simulated rather than
-surveyed (Appendix~\ref{app:software}).}
+radar movement over the seven years before construction against its cumulative
+movement at the end of the first year of construction, and shaded by the
+construction contribution. A building on the 1:1 line has not moved during
+construction. Synthetic demonstrator data (Appendix~\ref{app:software}).}
 \label{fig:movement-attribution}
 \end{figure}
 
@@ -281,11 +276,10 @@ mapping and lining defect detection from imagery.
 
 Two cautions govern their use. The first is transferability: a model trained
 on one machine in one geological setting encodes both, and its performance on
-a different drive is an open question rather than an inherited property. The
-second is extrapolation. Statistical models return confident predictions outside their
-training envelope, and it is outside that envelope (the fault
-zone, the mixed face, the unexpected boulder) that a prediction matters
-most.
+a different drive has to be tested (Section~\ref{sec:ml-validation}). The
+second is extrapolation: a prediction outside the training envelope (the fault
+zone, the mixed face, the unexpected boulder) is returned with the same
+apparent confidence as one inside it (Section~\ref{sec:ml-drift}).
 
 \subsection{Governance and professional responsibility}
 \label{sec:data-governance}
@@ -342,21 +336,13 @@ machine, on records where the answer for the withheld machine is known.
 \centering
 \datafigure{ch02/twin-transfer}
 \caption[Validation on a split at the unit of future application]{%
-Validation on a split at the unit of future application. A settlement model is
-trained on the records of seven tunnelling machines along an illustrative
-corridor and tested on the eighth, which it never sees, after each successive
-round of training, which the horizontal axis counts. The
-comparison is the same model trained only on the withheld machine's own limited
-records, and error is reported on that machine in both cases, so the curves
-are directly comparable: one measures transfer to a drive never seen, the
-other what the machine's own limited records achieve. The third, dotted,
-line is the transferred model after further calibration on the withheld
-machine's own records; it is a single final result rather than a training
-history, drawn level at the error of 1.98~mm that the calibrated model reaches,
-below both curves at every round. Splitting
-these same records at the sample would put readings from every machine on both
-sides of the split, and would report an accuracy that no new drive would
-reproduce. Synthetic demonstrator data (Appendix~\ref{app:software}).}
+Validation on a split at the unit of future application. A settlement model
+trained on seven tunnelling machines along an illustrative corridor is tested
+on the eighth after each training round (solid). The dashed curve is the same
+model trained only on the withheld machine's limited records. The dotted line
+is the transferred model after calibration on those records, 3.28~mm, a single
+final result. Beyond the first few rounds the transferred model has the lower
+error. Synthetic demonstrator data (Appendix~\ref{app:software}).}
 \label{fig:validation-split}
 \end{figure}
 
@@ -426,10 +412,8 @@ its supplier.
 
 None of this makes a statistical prediction equivalent to a measurement.
 It makes the prediction reviewable, which is the
-condition for using it in a design. The rule stated in
-Section~\ref{sec:data-governance} still governs: the engineer must be able to
-explain why the prediction is reasonable independently of the tool that
-produced it.
+condition for using it in a design. The accountability rule of
+Section~\ref{sec:data-governance} still governs.
 
 \section{Generative methods and their present scope}
 \label{sec:generative-methods}
@@ -470,8 +454,8 @@ source that can be checked, attributable to a person who accepts it, and
 reproducible well enough that the basis of a past decision can be
 reconstructed. A generative tool that assists an engineer in finding and
 organising evidence satisfies those conditions. One that supplies
-a conclusion the engineer cannot independently justify does not, and
-improvement in the tool does not change that, because the requirement concerns the
-engineer's position rather than the tool's accuracy.
+a conclusion the engineer cannot independently justify does not
+(Section~\ref{sec:data-governance}), and improvement in the tool does not
+change that.
 
 \chapterreferences

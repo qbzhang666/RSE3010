@@ -47,8 +47,10 @@ sufficient to induce failure at the boundary, producing spalling and, at
 extremes, bursting.
 
 The diagnostic quantities are the ratio of rock mass strength to in-situ stress
-and the ratio of discontinuity spacing to opening dimension
-(Figure~\ref{fig:behaviour-class-map}). The first
+and the ratio of block size to opening span, $l_b/B$
+(Figure~\ref{fig:behaviour-class-map}). Here $l_b$ is the typical edge length
+of the blocks that the discontinuities form, which is set by their spacing,
+and $B$ is the span of the opening. The first
 distinguishes stress-driven from structurally controlled behaviour; the second
 distinguishes discrete from continuum treatment. With a high strength ratio,
 sparse jointing gives massive rock; several persistent sets forming blocks
@@ -61,7 +63,7 @@ high-stress ground where it is strong and brittle.
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch13/behaviour-class-map}
-\caption{Behaviour classes on the two diagnostic ratios, with the analysis route each implies (schematic). The block-size limits of 0.1 and 1/3 are those of Section~\ref{sec:sidewalls-fractured}; the other boundaries are indicative. Stratified rock is identified from the type of structure, not from these ratios.}
+\caption{Behaviour classes on the two diagnostic ratios, with the analysis route each implies (schematic). The block-size limits of 0.1 and 1/3 are those of Section~\ref{sec:sidewalls-fractured} and apply to the upper row; the other boundaries are indicative. At a low strength ratio the class is set by the intact material, weak or strong and brittle, and not by block size. Stratified rock is identified from the type of structure, not from these ratios.}
 \label{fig:behaviour-class-map}
 \end{figure}
 
@@ -233,7 +235,7 @@ keys are secured with it. A systematic bolting pattern designed against the
 critical key block therefore covers a family of lesser blocks without each
 being analysed, which is the technical justification for pattern bolting.
 
-\section{Fractured rock, analysis route and soft ground}
+\section{Fractured rock, soft ground and the analysis route}
 \label{sec:weak-ground}
 
 \subsection{Sidewalls and heavily fractured rock}
@@ -250,34 +252,14 @@ As discontinuity spacing falls relative to the opening, block-based analysis
 loses meaning. When an opening intersects hundreds of blocks rather than a
 handful, no individual block governs and the mass again behaves as a
 continuum, now weak and highly deformable. The transition is gradual and the
-practical criterion is the ratio of block size to opening dimension: where
+practical criterion is the ratio of block size to opening span, the $l_b/B$
+of Section~\ref{sec:behaviour-classes}: where
 that ratio falls below roughly a tenth, equivalent continuum treatment with
 Hoek--Brown parameters (Chapter~\ref{ch:rock-mass-parameters}) is appropriate,
 and where it exceeds about a third, discrete analysis is required. The two
 values are indicative guides to the choice of analysis and not limits. Between them both analyses should be run;
 disagreement usually means that the two represent different mechanisms
 (Section~\ref{sec:methods-together}).
-
-\subsection{Selecting the analysis route}
-\label{sec:analysis-route}
-
-The behaviour class determines the analysis. The mapping is stated
-explicitly here because the commonest error in
-underground analysis is a correct calculation of
-the wrong mechanism.
-
-Massive rock at moderate stress is analysed elastically, with
-boundary stress checks (Chapter~\ref{ch:ccm}). Massive rock at
-high stress requires spalling prediction and depth-of-failure estimation
-(Chapter~\ref{ch:high-stress}). Stratified rock is analysed as a beam or voussoir arch
-(Section~\ref{sec:stratified-and-blocky}), and blocky rock by structural analysis and
-limit equilibrium (Chapter~\ref{ch:structural-analysis}). Heavily fractured rock is treated as an
-equivalent continuum with empirical or numerical methods
-(Chapters~\ref{ch:empirical-design} and~\ref{ch:numerical-modelling}). Weak
-ground is analysed for face stability and deformation control
-(Sections~\ref{sec:soft-ground-behaviour} and~\ref{sec:face-support}). The mapping is not a substitute
-for judgement, but a design that applies the wrong route has usually done so
-by habit rather than by decision.
 
 \subsection{Soft ground behaviour}
 \label{sec:soft-ground-behaviour}
@@ -310,6 +292,27 @@ whose values are indicative only. Where stand-up time approaches
 the cycle time, the choice is to reduce the span through sequential
 excavation, to improve the ground, or to change to a method that supports the
 face continuously.
+
+\subsection{Selecting the analysis route}
+\label{sec:analysis-route}
+
+The behaviour class determines the analysis. The mapping is stated
+explicitly here because the commonest error in
+underground analysis is a correct calculation of
+the wrong mechanism.
+
+Massive rock at moderate stress is analysed elastically, with
+boundary stress checks (Chapter~\ref{ch:ccm}). Massive rock at
+high stress requires spalling prediction and depth-of-failure estimation
+(Chapter~\ref{ch:high-stress}). Stratified rock is analysed as a beam or voussoir arch
+(Section~\ref{sec:stratified-and-blocky}), and blocky rock by structural analysis and
+limit equilibrium (Chapter~\ref{ch:structural-analysis}). Heavily fractured rock is treated as an
+equivalent continuum with empirical or numerical methods
+(Chapters~\ref{ch:empirical-design} and~\ref{ch:numerical-modelling}). Weak
+ground is analysed for face stability and deformation control
+(Sections~\ref{sec:soft-ground-behaviour} and~\ref{sec:face-support}). The mapping is not a substitute
+for judgement, but a design that applies the wrong route has usually done so
+by habit rather than by decision.
 
 \section{Face support and ground loss}
 \label{sec:face-support}

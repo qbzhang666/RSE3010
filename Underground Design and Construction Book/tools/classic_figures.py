@@ -38,7 +38,11 @@ W_HALF = 0.62 * W_FULL
 
 def _save(fig, chapter: str, stem: str, columns: dict[str, np.ndarray]) -> None:
     out = os.path.join(FIG, chapter)
-    qz.save(fig, stem, out)
+    # Save the canvas itself, not a tight crop of it: the file is then exactly the
+    # printed width and the 10 pt and 8 pt type is not rescaled on the page.
+    fig.tight_layout(pad=0.25)
+    with plt.rc_context({"savefig.bbox": "standard"}):
+        qz.save(fig, stem, out)
     keys = list(columns)
     n = max(len(np.atleast_1d(columns[k])) for k in keys)
     with open(os.path.join(out, stem + ".csv"), "w", newline="", encoding="utf-8") as fh:
@@ -66,15 +70,14 @@ def kirsch():
     theta = np.linspace(0, 90, 181)
     cols = {"theta_deg": theta}
     for k, ls in ((0.5, "--"), (1.0, "-"), (2.0, ":")):
-        s = (1 + k) + 2 * (1 - k) * np.cos(np.radians(2 * theta))       # sigma_theta / sigma_v
+        s = (1 + k) + 2 * (1 - k) * np.cos(np.radians(2 * theta))       # sigma_theta / p
         a1.plot(theta, s, color=qz.MAL if k != 2.0 else qz.CAR, ls=ls, lw=1.3, label=f"$k = {k:g}$")
         cols[f"k{k:g}_boundary"] = s
-    a1.axhline(0, color=qz.GREY_LIGHT, lw=0.6)
     a1.set_xlim(0, 90)
     a1.set_xticks([0, 30, 60, 90])
-    qz.label(a1, "Angle from springline, $\\theta$ ($^\\circ$)", "Stress ratio, $\\sigma_\\theta/\\sigma_v$ (-)")
-    a1.set_ylim(-0.5, 6.5)
-    a1.legend(loc="upper left", ncol=3, handlelength=1.6, columnspacing=0.8)
+    qz.label(a1, "Angle from springline, $\\theta$ ($^\\circ$)", "Stress ratio, $\\sigma_\\theta/p$ (-)")
+    a1.set_ylim(0, 5.5)
+    a1.legend(loc="upper left")
 
     r = np.linspace(1, 5, 200)
     cols["r_over_a"] = r
@@ -87,7 +90,7 @@ def kirsch():
     a2.axhline(1, color=qz.GREY, lw=0.6, ls=":")
     a2.axhline(k, color=qz.GREY, lw=0.6, ls=":")
     a2.set_xlim(1, 5)
-    qz.label(a2, "Distance from centre, $r/a$ (-)", "Stress ratio, $\\sigma_\\theta/\\sigma_v$ (-)")
+    qz.label(a2, "Distance from centre, $r/a$ (-)", "Stress ratio, $\\sigma_\\theta/p$ (-)")
     a2.legend(loc="upper right")
     fig.tight_layout()
     _save(fig, "ch16", "kirsch-stress", cols)
@@ -108,11 +111,13 @@ def grc():
         ax.plot(u[ok], p[ok], color=qz.MAL, lw=1.4, label="Ground reaction")
         s = res.support
         umax = float(np.nanmax(u[ok]))
-        ux = [res.us0, res.us0 + s.usm, max(res.us0 + s.usm, umax) * 1.05]
+        xmax = max(res.us0 + s.usm, umax) * 1.05
+        ux = [res.us0, res.us0 + s.usm, xmax]
         ax.plot(ux, [0, s.psm, s.psm], color=qz.CAR, lw=1.3, ls="--", label="Support")
         ax.plot([res.eq.u_eq], [res.eq.p_eq], "o", mfc="white", mec=qz.INK, ms=5, mew=1.0)
         ax.axhline(g.p_cr, color=qz.GREY, lw=0.6, ls=":")
-        ax.set_xlim(0, umax * 1.05)
+        ax.text(0.44 * xmax, g.p_cr + 0.25, "$p_{cr}$", ha="left", va="bottom", fontsize=8, color=qz.GREY)
+        ax.set_xlim(0, xmax)
         ax.set_ylim(0, 17.5)
         ax.text(0.97, 0.95, f"GSI {gsi}", transform=ax.transAxes, ha="right", va="top")
         qz.label(ax, "Wall displacement, $u_r$ (mm)", "Support pressure, $p_i$ (MPa)")
@@ -120,7 +125,7 @@ def grc():
         cols[f"p_gsi{gsi}_MPa"] = p[ok]
         print(f"  GSI {gsi}: u_max {res.u_max:.1f} mm, u_s0 {res.us0:.1f} mm, p_eq {res.eq.p_eq:.2f} MPa, "
               f"FoS {res.eq.fos:.2f}")
-    axes[1].legend(loc="center right")
+    axes[0].legend(loc="upper right", bbox_to_anchor=(1.0, 0.86))
     fig.tight_layout()
     _save(fig, "ch16", "grc-scc", cols)
 
@@ -129,7 +134,7 @@ def ldp():
     g = ccm.Ground(16.9, 4.75, 0.22, 2.12, 23.8, 1.72)
     res = ccm.analyse(g, [ccm.support_ring(4.75, 0.5, 60, 40, 0.25)])
     rstar = res.rp0 / g.a
-    x = np.linspace(-2 * g.a, 8 * g.a, 400)
+    x = np.linspace(-10, 40, 501)
     fig, ax = qz.figure(W_FULL, 0.5 * W_FULL)
     cols = {"X_m": x}
     styles = {ccm.LDP_METHODS[0]: (qz.MAL, "-", "Vlachopoulos and Diederichs"),
@@ -140,8 +145,9 @@ def ldp():
         ax.plot(x, y, color=col, ls=ls, lw=1.3, label=name)
         cols[name.replace(" ", "_").replace(",", "")] = y
     ax.axvline(0, color=qz.INK, lw=0.6)
-    ax.plot([res.install_distance], [res.ustar], "o", color=qz.CAR, ms=4.5)
+    ax.plot([res.install_distance], [res.ustar], "o", mfc="white", mec=qz.INK, ms=5, mew=1.0, zorder=5)
     ax.set_xlim(x[0], x[-1])
+    ax.set_xticks([-10, 0, 10, 20, 30, 40])
     ax.set_ylim(0, 1.05)
     qz.label(ax, "Distance behind the face, $X$ (m)", "Displacement ratio, $u^*$ (-)")
     ax.legend(loc="lower right")
@@ -166,7 +172,7 @@ def hb_envelope():
     ax.plot(s3, mass, color=qz.MAL, lw=1.5, label="Rock mass, GSI 63")
     ax.plot(s3, m2.intercept + m2.slope * s3, color=qz.CAR, ls="--", lw=1.1,
             label=f"Linear fit, $\\phi = {m2.phi_deg:.1f}^\\circ$, $c = {m2.c:.1f}$ MPa")
-    ax.plot(pts3, pts1, "o", mfc="white", mec=qz.INK, ms=4, mew=0.8)
+    ax.plot(pts3, pts1, "o", mfc="white", mec=qz.INK, ms=4, mew=0.8, clip_on=False, zorder=5)
     ax.set_xlim(0, s3[-1])
     ax.set_ylim(0, 340)
     qz.label(ax, "Minor principal stress, $\\sigma_3$ (MPa)", "Major principal stress, $\\sigma_1$ (MPa)")
@@ -180,13 +186,18 @@ def em_gsi():
     gsi = np.linspace(10, 100, 181)
     fig, ax = qz.figure(W_HALF, 0.75 * W_HALF)
     cols = {"GSI": gsi}
-    for d, col, ls in ((0.0, qz.MAL, "-"), (0.5, qz.MAL_SHADES[3], "--"), (1.0, qz.CAR, ":")):
+    # the two cases of the chapter's worked example, and the table value between them
+    for d, col, ls, lw in ((0.0, qz.MAL, "-", 1.3), (0.5, qz.GREY, ":", 1.0), (0.8, qz.CAR, "--", 1.3)):
         r = np.array([rock.modulus_hd_generalised(1.0, g, d) for g in gsi])
-        ax.plot(gsi, r, color=col, ls=ls, lw=1.3, label=f"$D = {d:g}$")
+        ax.plot(gsi, r, color=col, ls=ls, lw=lw, label=f"$D = {d:g}$")
         cols[f"D{d:g}"] = r
+        if d != 0.5:
+            r63 = rock.modulus_hd_generalised(1.0, 63, d)
+            ax.plot([63], [r63], "o", mfc="white", mec=qz.INK, ms=4.5, mew=0.9, zorder=5)
+            print(f"  modulus: D {d:g}, GSI 63, Em/Ei {r63:.3f}")
     ax.set_xlim(10, 100)
     ax.set_ylim(0, 1.05)
-    qz.label(ax, "Geological Strength Index, GSI (-)", "Modulus ratio, $E_m/E_i$ (-)")
+    qz.label(ax, "Geological strength index, GSI (-)", "Modulus ratio, $E_m/E_i$ (-)")
     ax.legend(loc="upper left")
     fig.tight_layout()
     _save(fig, "ch12", "modulus-gsi", cols)
@@ -200,15 +211,18 @@ def squeezing():
     ratio = np.linspace(0.1, 1.0, 300)
     strain = 0.2 * ratio ** -2
     fig, ax = qz.figure(W_HALF, 0.8 * W_HALF)
-    bands = ((0, 1, "Few problems"), (1, 2.5, "Minor"), (2.5, 5, "Severe"), (5, 10, "Very severe"), (10, 25, "Extreme"))
-    for i, (lo, hi, name) in enumerate(bands):
-        ax.axhspan(lo, hi, color=qz.CAR_TINT if i >= 2 else qz.MAL_TINT, lw=0, zorder=0)
-        ax.text(0.98, math.sqrt(lo * hi) if lo else 0.7, name, ha="right", va="center",
-                fontsize=8, color=qz.GREY, transform=ax.get_yaxis_transform())
+    # banding as in ch14/squeezing-allowance: alternate bands lighter, so each boundary shows
+    bands = ((0, 1, "Few problems", 0.62), (1, 2.5, "Minor", 1.6), (2.5, 5, "Severe", 3.55),
+             (5, 10, "Very severe", 7.1), (10, 30, "Extreme", 15.5))
+    for i, (lo, hi, name, yc) in enumerate(bands):
+        ax.axhspan(lo, hi, color=qz.CAR_TINT if i >= 2 else qz.MAL_TINT, lw=0, zorder=0,
+                   alpha=1.0 if i % 2 == 0 else 0.55)
+        ax.text(0.97, yc, name, ha="right", va="center",
+                fontsize=7.5, color=qz.GREY, transform=ax.get_yaxis_transform())
     ax.plot(ratio, strain, color=qz.INK, lw=1.4)
     ax.set_yscale("log")
-    ax.set_yticks([0.5, 1, 2.5, 5, 10, 20])
-    ax.set_yticklabels(["0.5", "1", "2.5", "5", "10", "20"])
+    ax.set_yticks([0.2, 0.5, 1, 2.5, 5, 10, 20])
+    ax.set_yticklabels(["0.2", "0.5", "1", "2.5", "5", "10", "20"])
     ax.minorticks_off()
     ax.set_xlim(0.1, 1.0)
     ax.set_ylim(0.2, 25)
@@ -268,7 +282,7 @@ def elliptical():
     q = np.linspace(0.5, 4, 300)                # W/H
     fig, ax = qz.figure(W_FULL, 0.45 * W_FULL)
     cols = {"W_over_H": q}
-    for k, col in ((0.5, qz.MAL_SHADES[3]), (1.0, qz.MAL), (2.0, qz.CAR)):
+    for k, col in ((0.5, qz.GREY), (1.0, qz.MAL), (2.0, qz.CAR)):
         wall = 2 * q + 1 - k
         crown = k * (2 / q + 1) - 1
         ax.plot(q, wall, color=col, lw=1.3, label=f"Wall, $k = {k:g}$")
@@ -284,6 +298,7 @@ def elliptical():
     qz.label(ax, "Width to height ratio, $W/H$ (-)", "Boundary stress, $\\sigma/p_0$ (-)")
     ax.legend(loc="upper center", ncol=3)
     ax.set_ylim(-1.5, 14)
+    ax.set_yticks([0, 5, 10])
     fig.tight_layout()
     _save(fig, "ch24", "elliptical-stress", cols)
 

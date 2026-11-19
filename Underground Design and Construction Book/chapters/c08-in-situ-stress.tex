@@ -23,8 +23,9 @@ justified when the result remains uncertain.
 \label{sec:stress-components}
 
 The stress at a point in the ground is a second-order tensor with six
-independent components, and a complete determination requires all six. Four
-physical contributions combine to produce it.
+independent components, and a complete determination requires all six. Five
+physical processes combine to produce it: gravitational loading, tectonic
+stress, topography, residual stress and erosional unloading.
 
 Gravitational loading supplies the vertical component directly and, through
 lateral restraint, a horizontal component. For a laterally confined elastic
@@ -84,7 +85,11 @@ reliable component of the field. The approximation fails where topography is
 steep, beneath a valley or an overhang, and where a stiff unit bridges over a
 soft one.
 
-The horizontal stress is expressed through $k = \sh / \sv$. Compilations of
+The horizontal stress is in general not the same in all directions. The
+maximum horizontal stress is written $\sigma_H$ and the minimum $\sh$
+throughout. Where the two are not distinguished, a single horizontal stress is
+expressed through $k = \sh / \sv$; in the depth relations that follow it is
+the average of the two. Compilations of
 measurements show a characteristic pattern: $k$ is high and widely scattered
 near surface, commonly between 1 and 3 and occasionally higher, and both the
 value and its scatter fall with depth as the gravitational contribution comes
@@ -147,7 +152,7 @@ the measurement hole.
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch08/overcoring-schematic}
-\caption{Overcoring (schematic). Left: a strain cell bonded in a pilot hole of about 38~mm diameter is overcored at about 150~mm, isolating a core around it. Right: strains at the cell gauges as the bit advances past the gauge plane, $x$ being the bit position and $D$ the overcore diameter; the recovered strains are the stable values once the bit is about one diameter beyond.}
+\caption{Overcoring (schematic). Left: a strain cell bonded in a pilot hole of diameter $d$, about 38~mm, is overcored at diameter $D$, about 150~mm, isolating a core around it. Right: strains at the cell gauges as the bit advances past the gauge plane, $x$ being the bit position and $D$ the overcore diameter; the recovered strains are the stable values once the bit is about one diameter beyond.}
 \label{fig:overcoring-schematic}
 \end{figure}
 
@@ -157,8 +162,8 @@ the shut-in pressure, at which the fracture closes, and the lower pressure at
 which it reopens on later cycles (Figure~\ref{fig:hydrofrac-record}). The
 shut-in pressure equals the stress normal
 to the fracture, which for a vertical fracture is the minimum horizontal
-stress, and this is the most reliable quantity the method produces. The
-maximum horizontal stress is inferred either from the breakdown pressure,
+stress $\sh$, and this is the most reliable quantity the method produces. The
+maximum horizontal stress $\sigma_H$ is inferred either from the breakdown pressure,
 through a relation that requires the tensile strength and the pore pressure,
 both of which carry significant uncertainty, or from the reopening pressure,
 which removes the tensile strength from the relation at the cost of
@@ -197,8 +202,8 @@ single determination.
 
 Borehole breakout is the most valuable. Where the tangential stress at the
 borehole wall exceeds the rock strength, the wall spalls in the direction of
-the minimum horizontal stress, elongating the hole in a plane perpendicular to
-the maximum horizontal stress. Orientation is recovered reliably by acoustic
+the minimum horizontal stress $\sh$, elongating the hole in a plane perpendicular to
+the maximum horizontal stress $\sigma_H$. Orientation is recovered reliably by acoustic
 or optical televiewer logging, and the breakout width constrains magnitude
 through the Kirsch stress concentration~\citep{kirsch1898} and an assumed
 strength (Section~\ref{sec:kirsch-appendix}): for a given strength, a wider

@@ -89,6 +89,41 @@ not necessarily a mistake: RMR and $Q$ both penalise groundwater, for example,
 while GSI by construction does not. A sound classification explains why the
 values differ and then selects a defensible design value.
 
+\subsection{An illustrative data set}
+\label{sec:classification-design-data}
+
+Table~\ref{tab:classification-input-data} sets out the information the three
+systems require for four rock masses spanning the range of civil practice: a
+strong granite at depth under high horizontal stress, a sandstone and a
+mudstone at intermediate and shallow depth, and a limestone near surface. The
+same four are carried through the stress and strength calculations of
+Chapter~\ref{ch:rock-mechanics} and the parameter derivation of
+Chapter~\ref{ch:rock-mass-parameters}. The ratings are assigned from these
+entries as each system is introduced, and
+Section~\ref{sec:classification-field-record} translates the field
+descriptions into the quantities the rating tables use.
+
+\begin{table}[htbp]
+\caption{Rock mass information required by the three classification systems.}
+\label{tab:classification-input-data}
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{l Y Y Y Y}
+\toprule
+\textbf{Parameter} & \textbf{Granite} & \textbf{Sandstone} & \textbf{Mudstone} & \textbf{Limestone} \\
+\midrule
+\(\sigma_{ci}\) (MPa) & 265 & 110 & 27 & 85 \\
+\(I_{s(50)}\) (MPa) & 12.2 & 5.3 & 2.3 & 5.0 \\
+RQD (\%) & 70 & 68 & 38 & 52 \\
+Joint condition & Tight, closed, very rough, undulating, unweathered & Slightly rough, highly weathered, not separated & Slickensided and planar, aperture 1--2 mm & Smooth, undulating, slightly weathered, clay-filled, aperture 1--2 mm \\
+Joint sets / structure & Two joint sets from core observations & One sub-horizontal and one sub-vertical set & Poorly interlocked, heavily jointed, more than four sets & One joint set, spacing approximately 0.06 m \\
+Groundwater & Dry & Medium inflow expected & Dripping at outcrop; medium inflow expected & Groundwater table 10 m below surface \\
+Depth (m) & 780 & 450 & 100 & 80 \\
+Stress ratio \(k\) & 3.2 & 1.8 & 1.0 & 2.0 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \subsection{Rock Mass Rating (RMR) system}
 \label{sec:rmr-system}
 
@@ -294,13 +329,13 @@ problem.
 \small
 \begin{tabular}{c c l c c}
 \toprule
-\textbf{RMR} & \textbf{Class} & \textbf{Description} & \textbf{Cohesion (kPa)} & \textbf{Friction angle} \\
+\textbf{RMR} & \textbf{Class} & \textbf{Description} & \textbf{Cohesion (kPa)} & \textbf{Friction angle (\(^\circ\))} \\
 \midrule
-81--100 & I & Excellent & \(>400\) & \(>45^\circ\) \\
-61--80 & II & Good & 300--400 & 35--45\(^{\circ}\) \\
-41--60 & III & Fair & 200--300 & 25--35\(^{\circ}\) \\
-21--40 & IV & Poor & 100--200 & 15--25\(^{\circ}\) \\
-\(<21\) & V & Very poor & \(<100\) & \(<15^\circ\) \\
+81--100 & I & Excellent & \(>400\) & \(>45\) \\
+61--80 & II & Good & 300--400 & 35--45 \\
+41--60 & III & Fair & 200--300 & 25--35 \\
+21--40 & IV & Poor & 100--200 & 15--25 \\
+\(<21\) & V & Very poor & \(<100\) & \(<15\) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -394,28 +429,28 @@ during shear (Table~\ref{tab:ja}). The table is abridged from the original.
 \small
 \begin{tabularx}{\textwidth}{Y c c}
 \toprule
-\textbf{Description} & \textbf{Residual friction angle} & \textbf{\(J_a\)} \\
+\textbf{Description} & \textbf{Residual friction angle (\(^\circ\))} & \textbf{\(J_a\)} \\
 \midrule
 \multicolumn{3}{l}{\textbf{(a) Rock-wall contact, no mineral fillings, only coatings}} \\
 Tightly healed, hard, non-softening, impermeable filling & -- & 0.75 \\
-Unaltered joint walls, surface staining only & 25--35\(^{\circ}\) & 1 \\
-Slightly altered, non-softening mineral coating, sandy particles & 25--30\(^{\circ}\) & 2 \\
-Silty- or sandy-clay coatings, small clay fraction, non-softening & 20--25\(^{\circ}\) & 3 \\
-Softening or low-friction mineral coatings & 8--16\(^{\circ}\) & 4 \\
+Unaltered joint walls, surface staining only & 25--35 & 1 \\
+Slightly altered, non-softening mineral coating, sandy particles & 25--30 & 2 \\
+Silty- or sandy-clay coatings, small clay fraction, non-softening & 20--25 & 3 \\
+Softening or low-friction mineral coatings & 8--16 & 4 \\
 \midrule
 \multicolumn{3}{l}{\textbf{(b) Rock-wall contact before 10 cm shear, thin fillings}} \\
-Sandy particles, clay-free disintegrated rock & 25--30\(^{\circ}\) & 4 \\
-Strongly over-consolidated, non-softening clay fillings & 16--24\(^{\circ}\) & 6 \\
-Medium or low over-consolidation, softening clay fillings & 12--16\(^{\circ}\) & 8 \\
-Swelling clay fillings & 6--12\(^{\circ}\) & 8--12 \\
+Sandy particles, clay-free disintegrated rock & 25--30 & 4 \\
+Strongly over-consolidated, non-softening clay fillings & 16--24 & 6 \\
+Medium or low over-consolidation, softening clay fillings & 12--16 & 8 \\
+Swelling clay fillings & 6--12 & 8--12 \\
 \midrule
 \multicolumn{3}{l}{\textbf{(c) No rock-wall contact when sheared, thick fillings}} \\
-Zones of disintegrated or crushed rock, strongly over-consolidated & 16--24\(^{\circ}\) & 6 \\
-Zones of clay, medium or low over-consolidation & 12--16\(^{\circ}\) & 8 \\
-Zones of clay, swelling clay & 6--12\(^{\circ}\) & 8--12 \\
-Thick continuous zones of clay, strongly over-consolidated & 16--24\(^{\circ}\) & 10 \\
-Thick continuous zones of clay, medium to low over-consolidation & 12--16\(^{\circ}\) & 13 \\
-Thick continuous zones with swelling clay & 6--12\(^{\circ}\) & 13--20 \\
+Zones of disintegrated or crushed rock, strongly over-consolidated & 16--24 & 6 \\
+Zones of clay, medium or low over-consolidation & 12--16 & 8 \\
+Zones of clay, swelling clay & 6--12 & 8--12 \\
+Thick continuous zones of clay, strongly over-consolidated & 16--24 & 10 \\
+Thick continuous zones of clay, medium to low over-consolidation & 12--16 & 13 \\
+Thick continuous zones with swelling clay & 6--12 & 13--20 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -523,6 +558,48 @@ The resulting value places the rock mass on a logarithmic scale of quality
 \end{tabular}
 \end{table}
 
+\subsection{Ratings from the field record}
+\label{sec:classification-field-record}
+
+The groundwater entries of Table~\ref{tab:classification-input-data} are
+recorded in the language of the field and must be
+translated into the quantities the two systems use. ``Dry'' is the completely
+dry condition of Table~\ref{tab:rmr_groundwater} (\(R_5 = 15\)) and category~A
+of Table~\ref{tab:jw} (\(J_w = 1.0\)). ``Medium inflow'' is category~B
+(\(J_w = 0.66\)) but has no counterpart in the RMR table; for the sandstone it
+is read as the wet condition, 10--25~L/min per 10~m, giving \(R_5 = 7\) and a
+basic RMR of 60 (Figure~\ref{fig:rmr-sandstone}). For
+the mudstone the observed dripping governs (\(R_5 = 4\)), with \(J_w = 0.66\)
+for the medium inflow. The limestone entry needs a conversion. At 80~m depth
+with the water table 10~m below surface the head is 70~m, so
+\(u = 70 \times 9.81 = 687\)~kPa, or 0.69~MPa, and with
+\(\sigma_1 = k\gamma z = 2.0 \times 0.027 \times 80 = 4.32\)~MPa
+(\(\gamma\) from Table~\ref{tab:intact_project_data}),
+\(u/\sigma_1 = 0.69/4.32 = 0.16\) and \(R_5 = 7\). The ratio is taken to the
+major principal stress, as the table defines it, and not to the vertical
+stress, which here is the minor one; where \(k\) departs from unity the
+difference changes the rating. For the $Q$-system, if the excavation does not
+drain the joints, 0.69~MPa lies in the 0.25--1.0~MPa band of categories~C
+and~D (\(J_w = 0.5\) or 0.33), the choice between them
+resting on the inflow and outwash observed.
+
+\begin{figure}[htbp]
+\centering
+\datafigure[0.62\textwidth]{ch10/rmr-sandstone}
+\caption{The five RMR ratings of the sandstone: $R_1 = 12$ ($\sigma_{ci} = 110$~MPa), $R_2 = 13$ (RQD 68\,\%), $R_3 = 8$ ($s = 0.087$~m), $R_4 = 20$ and $R_5 = 7$. Replacing $R_5$ by the dry value of 15 gives $RMR'_{89} = 68$ and GSI 63; the basic rating would give 55.}
+\label{fig:rmr-sandstone}
+\end{figure}
+
+The point load indices of the mudstone and the limestone fall one rating band
+above their uniaxial compressive strengths. That is the disagreement
+anticipated in Section~\ref{sec:rmr-system}, and the uniaxial strength
+governs the rating.
+
+A summary of this kind cannot carry everything a rating depends on. Ratings
+assigned from tabulated descriptors are limited by what the descriptors omit, and
+the justification for each rating, with the calculation behind each derived
+value, belongs in the record alongside the result.
+
 \section{Geological Strength Index}
 \label{sec:geological-strength-index}
 
@@ -576,7 +653,7 @@ rating \(R_5\) actually assessed, by
 RMR'_{89} = RMR_{\text{basic}} - R_5 + 15 .
 \]
 For a basic RMR of 60 assessed with \(R_5 = 7\), the values of the sandstone
-in Section~\ref{sec:classification-design-data},
+in Section~\ref{sec:classification-field-record},
 \[
 RMR'_{89} = 60 - 7 + 15 = 68,
 \qquad
@@ -654,74 +731,11 @@ value within the supported range is adopted.
 \label{fig:gsi_selection}
 \end{figure}
 
-\section{An illustrative data set}
-\label{sec:classification-design-data}
-
-Table~\ref{tab:classification-input-data} sets out the information the three
-systems require for four rock masses spanning the range of civil practice: a
-strong granite at depth under high horizontal stress, a sandstone and a
-mudstone at intermediate and shallow depth, and a limestone near surface. The
-same four are carried through the stress and strength calculations of
-Chapter~\ref{ch:rock-mechanics} and the parameter derivation of
-Chapter~\ref{ch:rock-mass-parameters}.
-
-\begin{table}[htbp]
-\caption{Rock mass information required by the three classification systems.}
-\label{tab:classification-input-data}
-\centering
-\scriptsize
-\begin{tabularx}{\textwidth}{l Y Y Y Y}
-\toprule
-\textbf{Parameter} & \textbf{Granite} & \textbf{Sandstone} & \textbf{Mudstone} & \textbf{Limestone} \\
-\midrule
-\(\sigma_{ci}\) (MPa) & 265 & 110 & 27 & 85 \\
-\(I_{s(50)}\) (MPa) & 12.2 & 5.3 & 2.3 & 5.0 \\
-RQD (\%) & 70 & 68 & 38 & 52 \\
-Joint condition & Tight, closed, very rough, undulating, unweathered & Slightly rough, highly weathered, not separated & Slickensided and planar, aperture 1--2 mm & Smooth, undulating, slightly weathered, clay-filled, aperture 1--2 mm \\
-Joint sets / structure & Two joint sets from core observations & One sub-horizontal and one sub-vertical set & Poorly interlocked, heavily jointed, more than four sets & One joint set, spacing approximately 0.06 m \\
-Groundwater & Dry & Medium inflow expected & Dripping at outcrop; medium inflow expected & Groundwater table 10 m below surface \\
-Depth (m) & 780 & 450 & 100 & 80 \\
-Stress ratio \(k\) & 3.2 & 1.8 & 1.0 & 2.0 \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-The groundwater entries are recorded in the language of the field and must be
-translated into the quantities the two systems use. ``Dry'' is the completely
-dry condition of Table~\ref{tab:rmr_groundwater} (\(R_5 = 15\)) and category~A
-of Table~\ref{tab:jw} (\(J_w = 1.0\)). ``Medium inflow'' is category~B
-(\(J_w = 0.66\)) but has no counterpart in the RMR table; for the sandstone it
-is read as the wet condition, 10--25~L/min per 10~m, giving \(R_5 = 7\) and a
-basic RMR of 60 (Figure~\ref{fig:rmr-sandstone}). For
-the mudstone the observed dripping governs (\(R_5 = 4\)), with \(J_w = 0.66\)
-for the medium inflow. The limestone entry needs a conversion. At 80~m depth
-with the water table 10~m below surface the head is 70~m, so
-\(u = 70 \times 9.81 = 687\)~kPa, or 0.69~MPa, and with
-\(\sigma_1 = k\gamma z = 2.0 \times 0.027 \times 80 = 4.32\)~MPa
-(\(\gamma\) from Table~\ref{tab:intact_project_data}),
-\(u/\sigma_1 = 0.69/4.32 = 0.16\) and \(R_5 = 7\). The ratio is taken to the
-major principal stress, as the table defines it, and not to the vertical
-stress, which here is the minor one; where \(k\) departs from unity the
-difference changes the rating. For the $Q$-system, if the excavation does not
-drain the joints, 0.69~MPa lies in the 0.25--1.0~MPa band of categories~C
-and~D (\(J_w = 0.5\) or 0.33), the choice between them
-resting on the inflow and outwash observed.
-
-\begin{figure}[htbp]
-\centering
-\datafigure[0.62\textwidth]{ch10/rmr-sandstone}
-\caption{The five RMR ratings of the sandstone: $R_1 = 12$ ($\sigma_{ci} = 110$~MPa), $R_2 = 13$ (RQD 68\,\%), $R_3 = 8$ ($s = 0.087$~m), $R_4 = 20$ and $R_5 = 7$. Replacing $R_5$ by the dry value of 15 gives $RMR'_{89} = 68$ and GSI 63; the basic rating would give 55.}
-\label{fig:rmr-sandstone}
-\end{figure}
-
-The point load indices of the mudstone and the limestone fall one rating band
-above their uniaxial compressive strengths. That is the disagreement
-anticipated in Section~\ref{sec:rmr-system}, and the uniaxial strength
-governs the rating.
-
-A summary of this kind cannot carry everything a rating depends on. Ratings
-assigned from tabulated descriptors are limited by what the descriptors omit, and
-the justification for each rating, with the calculation behind each derived
-value, belongs in the record alongside the result.
+This chapter has set out the three systems, the data each requires and the
+reasons their values differ. RMR and $Q$ are carried into the empirical
+support methods of Chapter~\ref{ch:empirical-design}, where the conditions for
+comparing their recommendations are examined. GSI is carried into the
+parameter derivation of Chapter~\ref{ch:rock-mass-parameters}, which takes the
+four rock masses of Table~\ref{tab:classification-input-data} further.
 
 \chapterreferences

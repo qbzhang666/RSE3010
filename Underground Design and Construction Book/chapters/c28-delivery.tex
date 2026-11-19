@@ -233,7 +233,8 @@ that transfer.
 \section{Contracts, cost and delivery}
 \label{sec:contracts-cost-delivery}
 
-Contract models differ mainly in where they place ground risk. Design-bid-build
+Contract models differ mainly in where they place ground risk
+(Table~\ref{tab:contract-models}). Design-bid-build
 leaves the client with design risk and the contractor with construction risk,
 and the interface between them is where ground risk lands. Design and construct
 transfers more to the contractor, who prices the uncertainty and, where it
@@ -243,6 +244,23 @@ the decisions that determine constructability. Alliance and other collaborative
 models share risk explicitly and align commercial interests, at the cost of
 requiring a client organisation able to participate rather than only
 administer.
+
+\begin{table}[htbp]
+\caption{Contract models and the ground risk each allocates.}
+\label{tab:contract-models}
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.24\textwidth} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Contract model} & \textbf{Where ground risk sits} & \textbf{Consequence or condition} \\
+\midrule
+Design-bid-build & Client carries design risk and contractor carries construction risk & Ground risk lands at the interface between the two \\
+Design and construct & More is transferred to the contractor & The contractor prices the uncertainty and, where it cannot be quantified, prices it high or declines to bid \\
+Early contractor involvement & Addressed earlier, with construction expertise brought into design & Influences the decisions that determine constructability \\
+Alliance and other collaborative models & Shared explicitly, with commercial interests aligned & Requires a client organisation able to participate rather than only administer \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 No model eliminates ground risk; each decides who is paid to carry it. The
 failure mode common to all is transferring unquantifiable risk to a party
@@ -279,7 +297,9 @@ derived from the risks it is meant to cover.
 \label{fig:cost-distribution}
 \end{figure}
 
-Safety in design
+The risk register of Section~\ref{sec:nature-ground-risk} holds hazards to
+people alongside hazards to cost and programme, and both are treated most
+effectively in design. Safety in design
 obligations require that risk be designed out where practicable, which in
 underground work means alignment and method decisions taken with construction and
 maintenance safety as explicit criteria. The most effective safety measures
@@ -349,10 +369,12 @@ available, that its assumptions are stated, and that it has been prepared to
 the agreed standard. Contracts that attempt more than this are unlikely to be
 accepted by a party that has understood them.
 
-Handover should transfer four things, and the omission of the last is the
-usual failure: the model itself, in the agreed open format; the data behind
-it, so that it can be rebuilt rather than only opened; the record of what
-was assumed and by whom; and a named party responsible for keeping it current.
+The model is one part of the handover package listed in
+Section~\ref{sec:transition-deterioration}. For the model, the contract should
+require the agreed open format, the data behind it, so that it can be rebuilt
+rather than only opened, and the record of what was assumed and by whom. The
+item of the package most often omitted is the named party responsible for
+keeping the record current.
 Without that party the model is accurate on the day of handover and steadily less
 so thereafter
 (Chapter~\ref{ch:assets}).
@@ -387,5 +409,30 @@ not cover, to keep the version that supported each decision, and to avoid contra
 language implying that a model predicts conditions rather than represents an
 interpretation of them. These measures do not obstruct digital delivery, and
 they make it defensible.
+
+\section{The opening argument revisited}
+\label{sec:delivery-closing}
+
+Chapter~\ref{ch:challenges} began from the observation that ground uncertainty
+cannot be eliminated. The aim it set was to characterise the uncertainty, to
+direct investigation at the part that changes a decision, and to design so
+that an error in the ground model can be tolerated
+(Section~\ref{sec:uncertainty-challenge}). The instruments of this chapter are
+the commercial form of that aim. The register gives each hazard a location, a
+responsible party and a mitigation. The baseline states the conditions the
+price assumes in terms that can be tested. The performance requirements fix
+the outcomes that the design and its trigger levels must deliver, and the
+contract model decides which party is paid to carry what remains.
+
+The opening chapter also argued that information should pass through one model
+from feasibility to operation (Section~\ref{sec:lifecycle-argument}). Whether
+it does is decided by the contract. A model specified by purpose, format and
+fidelity, and handed over with its data, its assumptions and a named
+custodian, gives the operator the starting record that
+Chapter~\ref{ch:assets} requires.
+
+The mechanics of the preceding chapters determine how the ground and the
+structure behave. The arrangements of this chapter determine who holds that
+knowledge, who acts on it and who bears the cost when it proves incomplete.
 
 \chapterreferences

@@ -136,7 +136,7 @@ def shaft_stress():
     ax.text(-3.05, 1.05, r"$\sigma_H$", ha="center", va="bottom", fontsize=10)
     ax.text(1.0, 2.96, r"$\sigma_h$", ha="left", va="center", fontsize=10)
     ax.text(0.95, 2.05, r"$\sigma_\theta = 2.5\,\sigma_H$", ha="left", va="center", fontsize=FS)
-    ax.text(1.62, -0.38, r"$0.5\,\sigma_H$", ha="left", va="top", fontsize=FS)
+    _lead(ax, r"$\sigma_\theta = 0.5\,\sigma_H$", (1.25, -0.04), (1.55, -1.75), ha="left", va="top")
     _save(fig, "ch24", "shaft-stress",
           {"theta_deg_from_sigmaH": np.degrees(th), "sigma_theta_over_sigmaH": s})
 
@@ -162,6 +162,7 @@ def shaft_base_stability():
     ax.plot(-3.0 + R * np.cos(t), -9 + R * np.sin(t), color=qz.CAR, lw=1.1, ls="--")
     _arrow(ax, (-5.6, -4.5), (-5.6, -7.6), color=qz.CAR, lw=1.1)
     _arrow(ax, (-0.3, -11.6), (-0.3, -9.3), color=qz.CAR, lw=1.1)
+    ax.text(-0.3, -8.7, "Heave", ha="center", va="bottom", fontsize=FS, color=qz.CAR)
     for xx in (-7.6, -6.2, -4.8):
         _arrow(ax, (xx, 1.6), (xx, 0.15), lw=0.8)
     ax.text(-6.2, 1.75, r"$\gamma z$", ha="center", va="bottom", fontsize=FS)
@@ -182,6 +183,7 @@ def shaft_base_stability():
     ax.plot([6.6, 7.0, 7.4, 6.6], [-0.9, -1.5, -0.9, -0.9], color=qz.CAR, lw=0.7)
     for xx in (-1.8, 0, 1.8):
         _arrow(ax, (xx, -15.6), (xx, -13.2), color=qz.CAR, lw=1.1)
+    ax.text(2.4, -14.5, "Uplift", ha="left", va="center", fontsize=FS, color=qz.CAR)
     _arrow(ax, (0.9, -10.0), (0.9, -12.0), color=qz.MAL, lw=1.1)
     ax.text(1.2, -10.9, r"$W$", ha="left", va="center", fontsize=FS, color=qz.MAL)
     _dim(ax, (-1.4, -9), (-1.4, -13), r"$t$", off=(-0.35, 0), ha="right")
@@ -273,7 +275,7 @@ def cavern_sequence():
         for sgn in (1, -1):
             x0 = sgn * B / 2
             ax.plot([x0, x0 + sgn * L], [yy, yy], color=col, lw=0.9, zorder=2)
-    _lead(ax, "Cables", (8.0, 51.0), (13.0, 56.0))
+    _lead(ax, "Cables", (9.96, 50.4), (13.0, 56.0))
     tt = 0.12 * np.pi + 7 * (0.76 * np.pi / 8)
     bx, by = (B / 2) * math.cos(tt), Hw + rise * math.sin(tt)
     _lead(ax, "Bolts", (bx - 2.5, by + 2.5), (-17.0, 55.0), ha="right")
@@ -403,8 +405,8 @@ def jet_grouting():
         _arrow(ax, (s * 0.12, ym - 0.45), (s * 1.0, ym - 0.45), color=qz.MAL, lw=1.4, ms=6)
     _lead(axes[0], "Grout", (0.6, ym), (1.05, ym - 1.4), color=qz.MAL)
     _lead(axes[1], "Air", (1.2, ym + 0.29), (1.0, ym + 1.6), ha="left", va="bottom", color=qz.GREY)
-    _lead(axes[2], "Water", (1.5, ym + 0.45), (1.0, ym + 2.0), ha="left", va="bottom", color=qz.CAR)
-    _lead(axes[2], "Grout", (-0.8, ym - 0.45), (-1.1, ym - 1.6), ha="center", va="top", color=qz.MAL)
+    _lead(axes[2], "Water", (1.1, ym + 0.45), (0.8, ym + 2.0), ha="left", va="bottom", color=qz.CAR)
+    _lead(axes[2], "Grout", (-0.7, ym - 0.45), (-0.75, ym - 1.6), ha="center", va="top", color=qz.MAL)
     axes[0].text(0.45, -1.8, "Spoil", ha="left", va="center", fontsize=FS, color=qz.GREY)
     _save(fig, "ch25", "jet-grouting")
 
@@ -483,12 +485,13 @@ def presupport():
     ax.plot([0, 0], [0, H], color=qz.INK, lw=1.2)
     ax.plot([0, 31], [H, H], color=qz.GREY, lw=0.6, ls="--")
     ax.plot([0, 31], [0, 0], color=qz.GREY, lw=0.6, ls="--")
-    stages = ((-14.0, qz.GREY), (-3.0, qz.MAL))
+    # colours as in the render umbrella_arch: both stages malachite, dowels pale malachite
+    stages = ((-14.0, qz.MAL), (-3.0, qz.MAL))
     for xs, col in stages:
         xx = np.array([xs, xs + 15.0])
         ax.plot(xx, H + 0.15 + 0.1 * (xx - xs), color=col, lw=1.3)
     for yy in (1.5, 3.0, 4.5, 6.0, 7.5):
-        ax.plot([0, 15], [yy, yy], color=qz.CAR, lw=0.9)
+        ax.plot([0, 15], [yy, yy], color=qz.MAL_SHADES[3], lw=1.1)
     _dim(ax, (-3.0, H + 3.2), (1.0, H + 3.2), "", off=(0, 0))
     ax.text(-1.0, H + 3.5, "Overlap", ha="center", va="bottom", fontsize=FS)
     ax.plot([-3.0, -3.0], [H + 0.2, H + 3.2], color=qz.GREY, lw=0.4, ls=":")
@@ -553,7 +556,7 @@ def deflection_ratio():
         L = b - a
         out[name] = (dlt, L)
         if name == "sag":
-            ax.text(yk + 0.6, 0.5 * (sk + ck) - 0.5, r"$\Delta_{\mathrm{sag}}$", ha="left", va="center",
+            ax.text(yk - 0.5, 0.5 * (sk + ck) + 0.1, r"$\Delta_{\mathrm{sag}}$", ha="right", va="center",
                     fontsize=FS + 1, color=col)
         else:
             ax.annotate(r"$\Delta_{\mathrm{hog}}$", xy=(yk + 0.2, 0.5 * (sk + ck)), xytext=(yk + 2.5, -0.5),
@@ -599,10 +602,14 @@ def damage_interaction():
     ax.contour(EH, DL, et, levels=lv[1:-1], colors=[qz.INK], linewidths=0.6)
     ax.set_xlim(0, 3.2)
     ax.set_ylim(0, 3.4)
-    for x, y, t, c in ((0.05, 0.1, "Negligible", qz.INK), (0.04, 0.57, "Very slight", qz.INK),
-                       (0.3, 1.0, "Slight", qz.INK), (0.5, 2.15, "Moderate", "white"),
+    for x, y, t, c in ((0.07, 1.05, "Slight", qz.INK), (0.5, 2.15, "Moderate", "white"),
                        (2.35, 2.9, "Severe", "white")):
         ax.text(x, y, t, fontsize=FS - 1, color=c, ha="left", va="bottom")
+    # the two smallest zones are narrower than their names: label them by leader
+    for t, xy, xyt in (("Very slight", (0.3, 0.45), (1.45, 0.85)), ("Negligible", (0.15, 0.2), (1.75, 0.3))):
+        ax.annotate(t, xy=xy, xytext=xyt, ha="left", va="center", fontsize=FS - 1, color="white",
+                    arrowprops=dict(arrowstyle="-", color=qz.INK, lw=0.5, shrinkA=1, shrinkB=0))
+        ax.plot(*xy, "o", ms=1.8, color=qz.INK)
     qz.label(ax, r"Horizontal strain, $\varepsilon_h$ ($10^{-3}$)", r"Deflection ratio, $\Delta/L$ ($10^{-3}$)")
     fig.tight_layout()
     # boundaries for the CSV
@@ -731,7 +738,7 @@ def handover_record():
     _box(ax, (7.4, 2.6), 2.9, 2.3, "Handover\npackage", edge=qz.INK, fill=qz.MAL_TINT, fs=9)
     _box(ax, (7.4, 0.4), 2.9, 1.2, "Named\ncustodian", edge=qz.CAR, fill=qz.CAR_TINT, fs=FS)
     ax.plot([8.85, 8.85], [1.6, 2.6], color=qz.CAR, lw=0.9)
-    _arrow(ax, (10.3, 3.75), (11.75, 3.75), lw=0.9)
+    _arrow(ax, (10.3, 3.75), (11.55, 3.75), lw=0.9)
     # operator's cycle
     cx, cy, R = 15.55, 3.8, 2.4
     nodes = {"Record": 180, "Inspection": 90, "Forecast": 0, "Intervention": 270}
@@ -739,7 +746,7 @@ def handover_record():
     for t, ang in nodes.items():
         px, py = cx + R * math.cos(math.radians(ang)), cy + R * 1.15 * math.sin(math.radians(ang))
         pos[t] = (px, py)
-        _box(ax, (px - 1.3, py - 0.4), 2.6, 0.8, t, edge=qz.MAL)
+        _box(ax, (px - 1.55, py - 0.4), 3.1, 0.8, t, edge=qz.MAL)
     for a, b in (("Record", "Inspection"), ("Inspection", "Forecast"), ("Forecast", "Intervention"),
                  ("Intervention", "Record")):
         pa, pb = pos[a], pos[b]
@@ -763,7 +770,7 @@ def deterioration_inspection():
     fig, ax = qz.figure(W_FULL, 0.45 * W_FULL)
     ax.axhline(0.5, color=qz.GREY, lw=0.7, ls=":")
     ax.text(59, 0.52, "Intervention level", ha="right", va="bottom", fontsize=FS)
-    ax.plot(t, maintained, color=qz.MAL, lw=1.4, label="Planned maintenance")
+    ax.plot(t[:-1], maintained[:-1], color=qz.MAL, lw=1.4, label="Planned maintenance")
     keep = deferred >= 0.2
     ax.plot(t[keep], deferred[keep], color=qz.CAR, lw=1.4, ls="--", label="Deferred")
     for tg in np.arange(2, 59, 2):
@@ -811,7 +818,7 @@ def discounting():
         cols[f"DF_r{r * 100:g}"] = df
     a1.set_xlim(0, 100)
     a1.set_ylim(0, 1.02)
-    qz.label(a1, "Years ahead, $t$ (years)", "Discount factor (-)")
+    qz.label(a1, "Time ahead, $t$ (years)", "Factor, $(1+r)^{-t}$ (-)")
     a1.legend(loc="upper right")
 
     r = np.linspace(0, 0.08, 161)
@@ -881,6 +888,7 @@ def inflow_permeability():
     kc = 1e-6 / (2 * math.pi * 20 / math.log(40 / r0))
     ax.plot([kc], [1.0], "o", mfc="white", mec=qz.INK, ms=4.5, mew=0.9)
     ax.axvline(kc, color=qz.GREY, lw=0.6, ls=":")
+    ax.text(7e-6, 0.7, "1 L/s per km", ha="right", va="top", fontsize=FS, color=qz.CAR)
     ax.set_xscale("log")
     ax.set_yscale("log")
     ax.set_xlim(1e-10, 1e-5)

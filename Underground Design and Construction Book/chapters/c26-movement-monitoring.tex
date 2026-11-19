@@ -25,7 +25,7 @@ application.
 \subsection{The ground movement field}
 \label{sec:movement-field}
 
-Surface settlement above a tunnel is described by a Gaussian curve (Figure~\ref{fig:r3d-settlement-trough}) whose
+Surface settlement above a tunnel is described by a Gaussian curve whose
 maximum $S_{\max}$ lies above the axis and whose width $i$, the distance from
 the centreline to the point of inflection, is set by the trough width
 parameter $K$ and the depth to the axis $z_0$ through $i = K z_0$:
@@ -42,6 +42,11 @@ Volume loss is a construction outcome, not a ground property (Table~\ref{tab:vol
 gives very different volume loss under different face pressure and grouting
 control.
 
+Figure~\ref{fig:r3d-settlement-trough} shows the curve in use. The troughs of
+two bores are added, and four buildings on the combined trough are sorted by
+the first-stage screen of Section~\ref{sec:damage-assessment}. The interaction
+of twin bores is taken up in Section~\ref{sec:existing-tunnels-interaction}.
+
 \begin{figure}[htbp]
 \centering
 \renderfigure{settlement_trough}{%
@@ -51,7 +56,7 @@ control.
   \rtxt{0.735,0.77}{D, 3.8\,mm}
   \rlab[north]{0.37,0.24}{0.30,0.10}{Twin bores}
 }
-\caption{The transverse trough over twin 6~m bores at $z_0 = 20$~m and 15~m apart ($K = 0.5$), the second at 1.3~per~cent volume loss against 1.0 for the first (illustrative), settlement exaggerated 300 times (peak 19.8~mm). The two buildings predicted to settle more than 10~mm (17 and 20~mm) need assessment (carmine); the two at 0.6 and 3.8~mm are screened out (pale malachite).}
+\caption{The transverse trough over twin 6~m bores at $z_0 = 20$~m and 15~m apart ($K = 0.5$), the second at 1.3~per~cent volume loss against 1.0 for the first (illustrative), settlement exaggerated 300 times. Buildings B and C, predicted to settle more than 10~mm, need assessment (carmine); A and D are screened out (pale malachite).}
 \label{fig:r3d-settlement-trough}
 \end{figure}
 
@@ -121,8 +126,8 @@ its condition and its orientation to the trough.
 The staging works because significant movement is confined to a narrow band.
 Figure~\ref{fig:settlement-screening} shows this along an
 illustrative corridor: settlement above 5\,mm is confined to a band within
-about 15\,m of the centreline, and only 49 buildings in a population of three
-thousand, fewer than two in a hundred, exceed the 10\,mm settlement criterion
+about 15\,m of the centreline, and only 67 buildings in a population of three
+thousand, about two in a hundred, exceed the 10\,mm settlement criterion
 of the first stage. The bands
 in that figure are settlement magnitudes and not damage categories. The screen
 is deliberately crude, and the detail is reserved for the stages that follow.
@@ -176,10 +181,16 @@ repair, which is the owner's concern, rather than by structural capacity.
 
 \citet{boscardin1989building} extended this by combining the distortion of the
 building with the
-horizontal strain from the ground movement field, producing an interaction
-chart with angular distortion on the horizontal axis, horizontal strain on the
-vertical, and damage category contours across it. Horizontal strain shifts many
-buildings up a damage category (Figure~\ref{fig:damage-interaction}), and this is the step most often omitted.
+horizontal strain from the ground movement field. Their interaction chart
+plots angular distortion against horizontal strain, with the boundaries of the
+damage categories across it. The same superposition can be drawn in terms of
+deflection ratio, the quantity of the deep-beam idealisation, which is the form
+presented by \citet{mair1996subsurface} and used in
+Figure~\ref{fig:damage-interaction}: horizontal strain on the horizontal axis,
+deflection ratio on the vertical, and the category boundaries between them.
+The chart is drawn for one building geometry, and severe and very severe
+damage share its highest band. Horizontal strain shifts many
+buildings up a damage category, and this is the step most often omitted.
 The horizontal strain itself follows from the expression for
 $\varepsilon_h$ in Section~\ref{sec:movement-field}.
 
@@ -383,12 +394,12 @@ measure vertical movement at depth.
 
 \emph{Load and stress} instruments are less reliable and should be specified
 with that in mind. Load cells on bolts and anchors measure a well-defined
-quantity and work well. Pressure cells embedded in shotcrete or between lining
+quantity and work well. Pressure cells embedded in sprayed concrete or between lining
 and ground attempt to measure stress in a medium whose stiffness they alter by
 being present, and their absolute readings should be treated with caution;
 their trends are more trustworthy than their values. Strain gauges in a lining
 measure strain reliably and require an assumed modulus to become stress. For
-young shotcrete, that modulus is changing as the reading is taken.
+young sprayed concrete, that modulus is changing as the reading is taken.
 
 \emph{Groundwater} instruments complete the set. Standpipe piezometers are
 simple and slow; vibrating wire piezometers respond quickly and can be
@@ -418,8 +429,8 @@ Remote sensing extends coverage. Satellite radar interferometry measures
 wide-area settlement over time without any site installation and is
 particularly effective for drawdown settlement, which is too broad for a
 conventional array. Terrestrial laser scanning and photogrammetry measure
-profile and convergence over whole surfaces rather than at points, and are the
-practical route to measuring overbreak and shotcrete thickness. Ground
+whole surfaces rather than points, and
+Section~\ref{sec:remote-sensing-geometry} treats them. Ground
 penetrating radar locates voids behind a lining, and computer vision detects
 and classifies lining defects from imagery.
 
@@ -450,6 +461,109 @@ window assumed for each drive. Synthetic demonstrator data.}
 Each of these is a data stream into the model of
 Chapter~\ref{ch:digital-twin} rather than a standalone record, and their value
 lies in updating the model that the design decisions rest on.
+
+\section{Remote sensing and as-built geometry}
+\label{sec:remote-sensing-geometry}
+
+The instruments of Section~\ref{sec:instrument-types} measure points. Laser scanning and
+photogrammetry measure surfaces, returning a dense record of the excavation as
+built rather than values at the small number of locations an array
+occupies. A surface record shows how
+much a section has converged and also where the profile departs from the design,
+how much material was taken beyond it, and whether the lining is as thick as
+specified.
+
+The technique is now routine, and the data is frequently captured and then
+used for nothing beyond a visual record. The reason is usually that nobody
+decided in advance which engineering question the survey was to answer.
+
+\subsection{Acquisition and registration}
+\label{sec:point-cloud-acquisition}
+
+Two methods dominate. Terrestrial laser scanning measures range directly and
+performs well in the dark, wet, dusty conditions of a heading; it is fast, and
+accuracy at tunnel scale is typically a few millimetres. Photogrammetry
+recovers geometry from overlapping images and needs lighting and texture, but
+the equipment is cheap, it carries colour information useful for face mapping
+and defect recording, and it can be flown or hand-held. Mobile systems mounted
+on a vehicle or on the machine trade some accuracy for the ability to survey
+without stopping the works, which in an operating drive is often the decisive
+consideration.
+
+Registration governs the accuracy. A scan is measured in the
+instrument's own frame, and converting it to project coordinates requires
+control: surveyed targets, or overlap with a previous scan, or both. The
+resulting registration error is systematic rather than random, it accumulates
+along a drive when scans are chained to one another rather than tied to
+control, and it is invisible in the point cloud itself, which looks equally
+convincing whether correctly registered or not. A statement of accuracy that
+quotes the instrument's ranging precision without the registration error does
+not describe the accuracy of the survey.
+
+Adequacy is judged against the question the survey is to answer. Detecting overbreak of a few
+hundred millimetres tolerates registration error of ten; detecting convergence
+of two millimetres between epochs does not, and that case demands the
+discipline of Section~\ref{sec:change-detection}.
+
+\subsection{As-built against as-designed}
+\label{sec:as-built}
+
+Comparing the surveyed surface with the design profile produces several
+quantities at once, which is the technique's principal economy.
+
+Overbreak and underbreak are measured directly, over the whole surface rather
+than at the section a profile gauge happens to check. Overbreak is a cost and
+a carbon quantity through the volume of sprayed or cast concrete needed to fill
+it, and a quality indicator for the perimeter blasting practice of
+Chapter~\ref{ch:construction}: a systematic pattern points at the drilling and
+charging rather than at the ground. Underbreak is an immediate construction
+problem, since the clearance envelope must be achieved.
+
+Applied sprayed concrete thickness follows from differencing the scan before
+and the scan after spraying, the verification route introduced with sprayed
+concrete in Chapter~\ref{ch:support}. Thickness is
+otherwise verified by depth pins at a handful of points, and the difference
+between specified and achieved thickness is a recurring durability problem
+(Chapter~\ref{ch:linings}). The same differencing gives the volume placed,
+which reconciles against delivery records and exposes rebound losses that are
+otherwise estimated.
+
+Finally, the clearance envelope can be checked against the surveyed surface
+rather than against the design, which is the check that matters
+before fit-out. Where the structure is handed over with this record, the
+operator receives a dimensioned account of what was built, which is the
+starting point for the inspection regime of Chapter~\ref{ch:assets}.
+
+\subsection{Change detection over time}
+\label{sec:change-detection}
+
+Repeat surveys can measure movement, but the analysis is more demanding than
+the single-epoch case, and treating one as the other gives results that
+appear precise and are wrong.
+
+The difficulty is that a point in one cloud has no counterpart in the next:
+the surfaces are sampled independently, so differencing must compare surfaces
+rather than points, and the comparison is contaminated by registration error
+between epochs. That error behaves like a rigid movement of the whole scan,
+which is also the signature of a uniform convergence. Separating them requires stable reference surfaces inside the
+scanned volume (a completed lining section, a rock face outside the zone of
+influence), against which each epoch is registered.
+
+Within that constraint the method has three strengths. It detects movement anywhere on
+the surface rather than at instrumented points, which is what allows an
+unexpected mechanism to be seen at all; a conventional array measures only
+where somebody anticipated a problem. It suits slow processes with no fixed
+location, such as progressive deterioration or subsidence over legacy
+workings. It also produces a record that can be revisited when a question
+arises years later, which point measurements cannot.
+
+It does not replace instrumentation. Scanning is episodic where an array is
+continuous, and the observational method of
+Section~\ref{sec:purpose-observational} depends on a measurement
+frequency high enough for action to be taken before the situation develops.
+The sound arrangement
+uses both: continuous instrumentation at the sections identified as critical,
+and periodic scanning to confirm that no movement is developing away from them.
 
 \section{Interpretation and design updating}
 \label{sec:interpretation-updating}
@@ -548,107 +662,14 @@ observational method requires the designer to remain engaged through
 construction, and that engagement has to be secured by the contract rather
 than left to goodwill.
 
-\section{Remote sensing and as-built geometry}
-\label{sec:remote-sensing-geometry}
-
-The instruments of Section~\ref{sec:instrument-types} measure points. Laser scanning and
-photogrammetry measure surfaces, returning a dense record of the excavation as
-built rather than values at the small number of locations an array
-occupies. A surface record shows how
-much a section has converged and also where the profile departs from the design,
-how much material was taken beyond it, and whether the lining is as thick as
-specified.
-
-The technique is now routine, and the data is frequently captured and then
-used for nothing beyond a visual record. The reason is usually that nobody
-decided in advance which engineering question the survey was to answer.
-
-\subsection{Acquisition and registration}
-\label{sec:point-cloud-acquisition}
-
-Two methods dominate. Terrestrial laser scanning measures range directly and
-performs well in the dark, wet, dusty conditions of a heading; it is fast, and
-accuracy at tunnel scale is typically a few millimetres. Photogrammetry
-recovers geometry from overlapping images and needs lighting and texture, but
-the equipment is cheap, it carries colour information useful for face mapping
-and defect recording, and it can be flown or hand-held. Mobile systems mounted
-on a vehicle or on the machine trade some accuracy for the ability to survey
-without stopping the works, which in an operating drive is often the decisive
-consideration.
-
-Registration governs the accuracy. A scan is measured in the
-instrument's own frame, and converting it to project coordinates requires
-control: surveyed targets, or overlap with a previous scan, or both. The
-resulting registration error is systematic rather than random, it accumulates
-along a drive when scans are chained to one another rather than tied to
-control, and it is invisible in the point cloud itself, which looks equally
-convincing whether correctly registered or not. A statement of accuracy that
-quotes the instrument's ranging precision without the registration error does
-not describe the accuracy of the survey.
-
-Adequacy is judged against the question the survey is to answer. Detecting overbreak of a few
-hundred millimetres tolerates registration error of ten; detecting convergence
-of two millimetres between epochs does not, and that case demands the
-discipline of Section~\ref{sec:change-detection}.
-
-\subsection{As-built against as-designed}
-\label{sec:as-built}
-
-Comparing the surveyed surface with the design profile produces several
-quantities at once, which is the technique's principal economy.
-
-Overbreak and underbreak are measured directly, over the whole surface rather
-than at the section a profile gauge happens to check. Overbreak is a cost and
-a carbon quantity through the volume of shotcrete or concrete needed to fill
-it, and a quality indicator for the perimeter blasting practice of
-Chapter~\ref{ch:construction}: a systematic pattern points at the drilling and
-charging rather than at the ground. Underbreak is an immediate construction
-problem, since the clearance envelope must be achieved.
-
-Applied sprayed concrete thickness follows from differencing the scan before
-and the scan after spraying, the verification route introduced with sprayed
-concrete in Chapter~\ref{ch:support}. Thickness is
-otherwise verified by depth pins at a handful of points, and the difference
-between specified and achieved thickness is a recurring durability problem
-(Chapter~\ref{ch:linings}). The same differencing gives the volume placed,
-which reconciles against delivery records and exposes rebound losses that are
-otherwise estimated.
-
-Finally, the clearance envelope can be checked against the surveyed surface
-rather than against the design, which is the check that matters
-before fit-out. Where the structure is handed over with this record, the
-operator receives a dimensioned account of what was built, which is the
-starting point for the inspection regime of Chapter~\ref{ch:assets}.
-
-\subsection{Change detection over time}
-\label{sec:change-detection}
-
-Repeat surveys can measure movement, but the analysis is more demanding than
-the single-epoch case, and treating one as the other gives results that
-appear precise and are wrong.
-
-The difficulty is that a point in one cloud has no counterpart in the next:
-the surfaces are sampled independently, so differencing must compare surfaces
-rather than points, and the comparison is contaminated by registration error
-between epochs. That error behaves like a rigid movement of the whole scan,
-which is also the signature of a uniform convergence. Separating them requires stable reference surfaces inside the
-scanned volume (a completed lining section, a rock face outside the zone of
-influence), against which each epoch is registered.
-
-Within that constraint the method has three strengths. It detects movement anywhere on
-the surface rather than at instrumented points, which is what allows an
-unexpected mechanism to be seen at all; a conventional array measures only
-where somebody anticipated a problem. It suits slow processes with no fixed
-location, such as progressive deterioration or subsidence over legacy
-workings. It also produces a record that can be revisited when a question
-arises years later, which point measurements cannot.
-
-It does not replace instrumentation. Scanning is episodic where an array is
-continuous, and the observational method of
-Section~\ref{sec:purpose-observational} depends on a measurement
-frequency high enough for action to be taken before the situation develops.
-The sound arrangement
-uses both: continuous instrumentation at the sections identified as critical,
-and periodic scanning to confirm that no movement is developing away from them.
+This chapter has treated prediction and monitoring as one sequence. Ground
+movement is predicted from the volume loss, the assets within its reach are
+screened and assessed against limiting tensile strain, and the limits that
+result become trigger levels with owners and prepared responses. Instruments
+and surveys then test the prediction, and the measurements return to the model
+that produced it. The same record is the baseline from which the operator
+inspects the structure, which Chapter~\ref{ch:assets} takes up. The engagement
+of the designer through construction is a matter for the contract, and
+Chapter~\ref{ch:delivery} treats it.
 
 \chapterreferences

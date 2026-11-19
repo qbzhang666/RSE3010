@@ -21,19 +21,27 @@ gain is that the model can be rebuilt cheaply
 enough to be kept current, and that its uncertainty can be quantified rather
 than implied by the confidence of the draughtsman.
 
+This chapter sets out how such a model is built and kept current. It first
+distinguishes the models a project carries and the data that support them. It
+then treats the construction of the geometry, the division into domains and
+the assignment of properties, and the description of uncertainty. It closes
+with the updating of the model through investigation and construction and its
+handover as a project record.
+
 \section{From data to ground model}
 \label{sec:data-to-ground-model}
 
 \subsection{Model types and their purposes}
 \label{sec:model-types}
 
-Four objects are commonly conflated. The geological model interprets units,
+Four objects are commonly conflated: the three distinguished in
+Section~\ref{sec:ground-model} and a hydrogeological model. The geological model interprets units,
 contacts and structures. The hydrogeological model adds aquifers, aquitards,
 heads and boundaries, and need not share the geological model's unit
 boundaries: a single lithological unit may contain several flow domains,
 and a permeable fault may connect units that are otherwise separated. The
-geotechnical ground model attaches material behaviour and design parameters.
-The analysis model is the idealisation actually meshed and solved.
+ground model attaches material behaviour and design parameters.
+The design model is the idealisation actually meshed and solved.
 
 Each has a different tolerance. A geological model that misplaces a contact by
 five metres may be adequate for route selection and useless for
@@ -175,10 +183,28 @@ mapping or borehole data allow, narrows the gap but does not close it.
 \section{Populating the model}
 \label{sec:populating-model}
 
+\subsection{Assigning parameters and domains}
+\label{sec:domain-assignment}
+
+Before properties are distributed, the model is divided into geotechnical domains: volumes within which
+behaviour is sufficiently uniform that one parameter set applies. Domain
+boundaries follow whichever control dominates (lithology, weathering grade,
+structural intensity, alteration), and they need not coincide with
+geological unit boundaries.
+
+The parameter derivation chain of
+Chapter~\ref{ch:rock-mass-parameters} should be carried out inside the model
+rather than in a separate spreadsheet, for traceability. When
+$\sci$, $\mi$, $\GSI$ and $\Dfac$ are attributes of a domain, the derived
+$\mb$, $s$, $a$ and $\Erm$ update automatically when the domain is revised,
+and the value used in an analysis can be traced to the observations behind it.
+When the derivation lives in a spreadsheet, the two diverge within weeks and
+nobody can say which is current.
+
 \subsection{Geostatistical estimation and simulation}
 \label{sec:geostatistics}
 
-Once geometry exists, properties must be distributed within it. Geostatistics
+Once geometry and domains exist, properties must be distributed within them. Geostatistics
 begins by quantifying spatial
 correlation~\citep{baecher2003reliability,phoon1999characterization} through
 the variogram,
@@ -220,7 +246,7 @@ kriging is not.
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch06/kriging-simulation}
-\caption{Kriging and conditional simulation of GSI along a 1~km alignment from six boreholes (synthetic field: spherical variogram, range 150~m, standard deviation 8). The kriged estimate reverts to the mean between holes and has about half the variability of the true field; each realisation honours the boreholes and reproduces that variability.}
+\caption{Kriging and conditional simulation of GSI along a 1~km alignment from six boreholes (synthetic field: spherical variogram, range 150~m, standard deviation 8). The kriged estimate reverts to the mean between holes and has about half the variability of the true field; each realisation honours the boreholes and reproduces that variability. The band is the kriged estimate $\pm 2$ kriging standard deviations.}
 \label{fig:kriging-simulation}
 \end{figure}
 
@@ -259,24 +285,6 @@ tedious, subjective and slow, and consistency between loggers is poor. Image
 analysis is repeatable, which is not the same as being correct, but
 repeatability is valuable when the output feeds a
 classification system calibrated on other people's logging.
-
-\subsection{Assigning parameters and domains}
-\label{sec:domain-assignment}
-
-The populated model is divided into geotechnical domains: volumes within which
-behaviour is sufficiently uniform that one parameter set applies. Domain
-boundaries follow whichever control dominates (lithology, weathering grade,
-structural intensity, alteration), and they need not coincide with
-geological unit boundaries.
-
-The parameter derivation chain of
-Chapter~\ref{ch:rock-mass-parameters} should be carried out inside the model
-rather than in a separate spreadsheet, for traceability. When
-$\sci$, $\mi$, $\GSI$ and $\Dfac$ are attributes of a domain, the derived
-$\mb$, $s$, $a$ and $\Erm$ update automatically when the domain is revised,
-and the value used in an analysis can be traced to the observations behind it.
-When the derivation lives in a spreadsheet, the two diverge within weeks and
-nobody can say which is current.
 
 \section{Uncertainty}
 \label{sec:model-uncertainty}

@@ -95,9 +95,13 @@ def characteristic_value():
         a1.axvline(f, color=col, lw=0.7, ls=ls)
     a1.axvline(mu, color=qz.GREY, lw=0.6, ls=":")
     a1.set_xlim(18, 48)
-    a1.set_ylim(0, 0.36)
+    a1.set_ylim(0, 0.40)
     qz.label(a1, "Friction angle, $\\phi'$ ($^\\circ$)", "Density, $p$ (1/$^\\circ$)")
-    a1.legend(loc="upper right", handlelength=1.8)
+    # direct labels: a legend would sit on the peak
+    a1.text(32.6, 0.215, "Averaged", ha="left", va="center", fontsize=8)
+    a1.text(35.0, 0.085, "Point value", ha="left", va="center", fontsize=8)
+    a1.text(f_pt - 0.5, 0.39, "5 % fractiles", rotation=90, ha="right", va="top", fontsize=8)
+    a1.text(mu + 0.5, 0.39, "Mean", rotation=90, ha="left", va="top", fontsize=8, color=qz.GREY)
 
     g2 = gamma2(lam)
     a2.semilogx(lam, g2, color=qz.MAL, lw=1.4)
@@ -200,7 +204,7 @@ def squeezing_uncertainty():
     a1.annotate("", xy=(0.200, 8.0), xytext=(mu, 8.0),
                 arrowprops=dict(arrowstyle="<->", color=qz.INK, lw=0.7, mutation_scale=6,
                                 shrinkA=0, shrinkB=0))
-    a1.text(0.5 * (0.2 + mu), 8.25, "$\\beta\\sigma$", ha="center", va="bottom", fontsize=9)
+    a1.text(mu + 0.008, 8.0, "$\\beta\\sigma$", ha="left", va="center", fontsize=9)
     a1.set_xlim(0.05, 0.50)
     a1.set_ylim(0, 10)
     qz.label(a1, "Strength ratio, $\\sigma_{cm}/p_0$ (-)", "Density, $p$ (-)")
@@ -233,7 +237,7 @@ POOR = dict(p0=16.9, a=4.75, nu=0.22, em_gpa=2.12, phi_deg=23.8, c=1.72)
 
 
 def empirical_vs_ccm():
-    """Q-system shotcrete shell against the 0.5 m lining on the poor-domain ground reaction curve."""
+    """Q-system sprayed concrete shell against the 0.5 m lining on the poor-domain ground reaction curve."""
     g = ccm.Ground(**POOR)
     lining = ccm.support_ring(4.75, 0.5, 60, 40, 0.25)
     shell = ccm.support_ring(4.75, 0.09, 35, 30, 0.2)
@@ -252,7 +256,7 @@ def empirical_vs_ccm():
     ax.plot([us0, us0 + lining.usm, 145], [0, lining.psm, lining.psm], color=qz.MAL, lw=1.3,
             label="Lining, 0.5 m")
     ax.plot([us0, us0 + shell.usm, 145], [0, shell.psm, shell.psm], color=qz.CAR, lw=1.3, ls="--",
-            label="Shotcrete shell, 90 mm")
+            label="Sprayed concrete shell, 90 mm")
     ax.plot([us0 + shell.usm, us0 + p_el / shell.ks * 1000.0], [shell.psm, p_el], color=qz.CAR, lw=0.8, ls=":")
     ax.plot([r_l.eq.u_eq], [r_l.eq.p_eq], "o", mfc="white", mec=qz.MAL, ms=5, mew=1.1)
     ax.plot([us0 + p_el / shell.ks * 1000.0], [p_el], "o", mfc="white", mec=qz.CAR, ms=5, mew=1.1)
@@ -360,7 +364,7 @@ def advance_core():
     conv = 0.6 + 0.9 * (1 - np.exp(xb / 6.0))           # exaggerated, schematic
     # preconvergence ahead of the face
     xa = np.linspace(0, 12, 100)
-    pre = 0.6 * np.exp(-xa / 3.0)
+    pre = 0.6 * np.exp(-xa / 5.0)
     for sgn in (1, -1):
         ax.fill_between(xb, sgn * (R - conv), sgn * (R + 0.9), color=qz.GREY_LIGHT, lw=0)   # lining
         ax.plot(xb, sgn * (R - conv), color=qz.INK, lw=0.9)
@@ -369,7 +373,7 @@ def advance_core():
     # advance core
     ax.add_patch(mp.Rectangle((0, -R), 9.0, 2 * R, fc=qz.MAL_TINT, ec=qz.MAL, lw=0.9, ls="-"))
     # face reinforcement
-    for yy in np.linspace(-3.8, 3.8, 7):
+    for yy in np.linspace(-3.75, 3.75, 6):         # even count: the label sits between two bars
         ax.plot([0.0, 12.0], [yy, yy], color=qz.MAL, lw=0.6)
     # face, bulged by extrusion
     yf = np.linspace(-R + 0.25, R - 0.25, 100)
@@ -379,14 +383,13 @@ def advance_core():
         ax.annotate("", xy=(-2.6, yy), xytext=(-0.3, yy),
                     arrowprops=dict(arrowstyle="-|>", color=qz.CAR, lw=0.8, mutation_scale=7))
     # labels
-    ax.text(4.5, 0.0, "Advance core", ha="center", va="center", fontsize=9,
-            bbox=dict(fc=qz.MAL_TINT, ec="none", pad=0.6))
+    ax.text(4.5, 0.0, "Advance core", ha="center", va="center", fontsize=9)
     ax.text(-4.2, 0.0, "Extrusion", ha="right", va="center", fontsize=9)
-    ax.annotate("Preconvergence", xy=(1.5, R - 0.45), xytext=(10.0, 7.3), fontsize=9, ha="left", va="center",
-                arrowprops=dict(arrowstyle="-", color=qz.INK, lw=0.5))
+    ax.annotate("Preconvergence", xy=(4.0, R - 0.6 * math.exp(-0.8)), xytext=(10.0, 7.3), fontsize=9,
+                ha="left", va="center", arrowprops=dict(arrowstyle="-", color=qz.INK, lw=0.5))
     ax.annotate("Convergence", xy=(-16, R - 1.4), xytext=(-21, 7.3), fontsize=9, ha="center", va="center",
                 arrowprops=dict(arrowstyle="-", color=qz.INK, lw=0.5))
-    ax.annotate("Face reinforcement", xy=(10.6, -2.53), xytext=(13.0, -8.1), fontsize=9, ha="center",
+    ax.annotate("Face reinforcement", xy=(10.6, -2.25), xytext=(13.0, -8.1), fontsize=9, ha="center",
                 va="center", arrowprops=dict(arrowstyle="-", color=qz.INK, lw=0.5))
     ax.annotate("Lining", xy=(-11, -R - 0.45), xytext=(-11, -8.1), fontsize=9, ha="center", va="center",
                 arrowprops=dict(arrowstyle="-", color=qz.INK, lw=0.5))
@@ -464,8 +467,8 @@ def blast_round():
         cy += [yy, yy]
     holes["Contour"] = (np.array(cx), np.array(cy))
     # lifters along the floor, about 0.9 m apart
-    lx = np.linspace(-(W / 2 - off), W / 2 - off, 8)
-    holes["Lifter"] = (lx, np.full_like(lx, 0.2))
+    lx = np.linspace(-(W / 2 - 0.3), W / 2 - 0.3, 8)        # clear of the outline at drawn size
+    holes["Lifter"] = (lx, np.full_like(lx, 0.3))
     # cut: parallel burn cut centred at (0.3, 1.8)
     ccx, ccy = 0.3, 1.8
     holes["Relief (empty)"] = (np.array([ccx - 0.09, ccx + 0.09]), np.array([ccy, ccy]))
@@ -488,6 +491,13 @@ def blast_round():
             sx.append(xx)
             sy.append(yy)
     holes["Stoping"] = (np.array(sx), np.array(sy))
+    # delays: the cut squares fire outwards on 1 to 3, the stoping holes ring by ring towards the
+    # opened cut, then the contour on its own delay (smooth blasting) and the lifters last
+    s_delay = np.array([4 + int((math.hypot(x - ccx, y - ccy) - 1.35) // 0.85) for x, y in zip(sx, sy)])
+    d_last = int(s_delay.max())
+    legend = {"Cut": "Cut, 1 to 3", "Relief (empty)": "Relief (empty)",
+              "Stoping": f"Stoping, 4 to {d_last}", "Contour": f"Contour, {d_last + 1}",
+              "Lifter": f"Lifter, {d_last + 2}"}
 
     fig = plt.figure(figsize=(W_HALF, 0.645 * W_HALF))
     ax = fig.add_axes([0.0, 0.0, 1.0, 1.0])
@@ -503,10 +513,14 @@ def blast_round():
     cols = {}
     for name in ("Cut", "Relief (empty)", "Stoping", "Contour", "Lifter"):
         x, y = holes[name]
-        ax.plot(x, y, ls="none", label=name, **style[name])
+        ax.plot(x, y, ls="none", label=legend[name], **style[name])
         cols[f"{name}_x"] = x
         cols[f"{name}_y"] = y
-    ax.legend(loc="upper right", bbox_to_anchor=(1.0, 0.98), handletextpad=0.2, borderaxespad=0.2)
+    for x, y, n in zip(sx, sy, s_delay):
+        ax.text(x, y + 0.13, str(n), ha="center", va="bottom", fontsize=6.5)
+    cols["Stoping_delay"] = s_delay
+    ax.legend(loc="upper right", bbox_to_anchor=(1.0, 0.98), handletextpad=0.2, borderaxespad=0.2,
+              title="Holes and delay", title_fontsize=8, alignment="left")
     # scale bar
     ax.plot([4.0, 5.0], [0.0, 0.0], color=qz.INK, lw=1.0)
     ax.text(4.5, 0.12, "1 m", ha="center", va="bottom", fontsize=8)
@@ -522,8 +536,11 @@ def disturbance_strength():
     for gsi, col, ls in ((60, qz.MAL, "-"), (30, qz.CAR, "--")):
         scm = np.array([rock.rock_mass_ucs(72, rock.hb_constants(gsi, 7, x)) for x in d])
         em = np.array([rock.modulus_hd_generalised(26, gsi, x) for x in d])
-        a1.plot(d, scm, color=col, ls=ls, lw=1.4, label=f"GSI {gsi}")
-        a2.plot(d, em, color=col, ls=ls, lw=1.4, label=f"GSI {gsi}")
+        a1.plot(d, scm, color=col, ls=ls, lw=1.4)
+        a2.plot(d, em, color=col, ls=ls, lw=1.4)
+        for ax_, yv, top in ((a1, scm, 9.0), (a2, em, 16.0)):
+            ax_.text(0.20, np.interp(0.20, d, yv) + 0.035 * top, f"GSI {gsi}", ha="left", va="bottom",
+                     fontsize=8)
         cols[f"scm_gsi{gsi}"] = scm
         cols[f"Em_gsi{gsi}"] = em
         s5, s8 = np.interp(0.5, d, scm), np.interp(0.8, d, scm)
@@ -531,14 +548,15 @@ def disturbance_strength():
         print(f"  GSI {gsi}: scm D0 {scm[0]:.2f}, D0.5 {s5:.2f}, D0.8 {s8:.2f} MPa (+{(s5 / s8 - 1) * 100:.0f}%); "
               f"Em D0 {em[0]:.2f}, D0.5 {e5:.2f}, D0.8 {e8:.2f} GPa (+{(e5 / e8 - 1) * 100:.0f}%)")
     for ax in (a1, a2):
-        for x in (0.5, 0.8):
+        for x, name in ((0.5, "Controlled"), (0.8, "Production")):
             ax.axvline(x, color=qz.GREY, lw=0.6, ls=":")
+            ax.text(x + 0.015, 0.975, name, rotation=90, ha="left", va="top", fontsize=8, color=qz.GREY,
+                    transform=ax.get_xaxis_transform())
         ax.set_xlim(0, 1)
     a1.set_ylim(0, 9)
     a2.set_ylim(0, 16)
     qz.label(a1, "Disturbance factor, $D$ (-)", "Strength, $\\sigma_{cm}$ (MPa)")
     qz.label(a2, "Disturbance factor, $D$ (-)", "Modulus, $E_m$ (GPa)")
-    a1.legend(loc="upper right")
     fig.tight_layout()
     _save(fig, "ch22", "disturbance-strength", cols)
 
@@ -726,6 +744,8 @@ def tbm_families():
     axes[2].annotate("Telescopic joint", xy=(-5.5, R - 0.2), xytext=(-5.5, 4.15), arrowprops=dict(arrowstyle="-", lw=0.5), **lbl)
     axes[3].annotate("Pressurised chamber", xy=(-1.0, 1.5), xytext=(-5.5, 4.15), arrowprops=dict(arrowstyle="-", lw=0.5), **lbl)
     axes[3].annotate("Screw conveyor", xy=(-8.5, 0.43), xytext=(-13.5, 1.5), arrowprops=dict(arrowstyle="-", lw=0.5), **lbl)
+    axes[0].annotate("Sprayed concrete", xy=(-16.5, -R + 0.2), xytext=(-16.5, -1.7),
+                     arrowprops=dict(arrowstyle="-", lw=0.5), **lbl)
     axes[0].annotate("Cutterhead", xy=(0.0, R - 0.4), xytext=(1.9, 4.2), arrowprops=dict(arrowstyle="-", lw=0.5), **lbl)
     fig.subplots_adjust(left=0.0, right=1.0, top=1.0, bottom=0.0, hspace=0.06)
     _save(fig, "ch23", "tbm-families")
@@ -844,6 +864,8 @@ def annulus_grout():
     a2.plot(rings, vl, color=qz.CAR, lw=1.4)
     a2.plot([0.5], [0.5 / v_exc * 100], "o", mfc="white", mec=qz.INK, ms=4.5, mew=0.9, zorder=5)
     a2.axvline(v_ann, color=qz.GREY, lw=0.6, ls=":")
+    a2.text(v_ann - 0.05, 1.8, "Annulus volume", rotation=90, ha="right", va="bottom", fontsize=8,
+            color=qz.GREY)
     a2.set_xlim(0, 3.0)
     a2.set_ylim(0, 7.0)
     qz.label(a2, "Grout shortfall (m$^3$/ring)", "Volume loss, $V_L$ (%)")

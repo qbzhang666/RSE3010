@@ -118,7 +118,7 @@ def metro_units():
                 color=qz.GREY)
         for k, v in zip(cols, (unit, top, base, sci, scm, ei, erm, gsi if gsi else np.nan)):
             cols[k].append(v)
-    a1.text(25, 10.0, "Intact", fontsize=FS, color=qz.MAL, va="center")
+    a1.text(17, 10.0, "Intact", fontsize=FS, color=qz.MAL, va="center", ha="right")
     a1.text(3.3, 22.5, "Rock\nmass", fontsize=FS, color=qz.CAR, va="center")
     a1.set_xscale("log")
     a1.set_xlim(0.2, 200)
@@ -144,7 +144,7 @@ def shallow_setting():
     s_t = settlement.transverse([bore], y)
     s_dd = 6.0 * np.exp(-y ** 2 / (2 * 45.0 ** 2))          # schematic drawdown consolidation
     a1.plot(y, s_t, color=qz.CAR, lw=1.3, label="Tunnel trough")
-    a1.plot(y, s_dd, color=qz.MAL, lw=1.3, ls="--", label="Drawdown")
+    a1.plot(y, s_dd, color=qz.MAL, lw=1.3, ls="--", label="Drawdown settlement")
     a1.set_ylim(15, 0)
     a1.set_xlim(-90, 90)
     a1.legend(loc="lower right", handlelength=2.0)
@@ -156,7 +156,8 @@ def shallow_setting():
              (30, 40, "#CFE0DA", "1")]
     for top, base, fc, lab in bands:
         a2.add_patch(Rectangle((-90, -base), 180, base - top, fc=fc, ec="none", zorder=0))
-        a2.text(87, {"4": -4.2, "1": -33.0}.get(lab, -(top + base) / 2), lab, ha="right", va="center", fontsize=FS, color=qz.GREY)
+        a2.text(92, {"1": -33.0}.get(lab, -(top + base) / 2), lab, ha="left", va="center",
+                fontsize=FS, color=qz.GREY, clip_on=False)
     a2.axhline(0, color=qz.INK, lw=0.8)
     for xb, wb, hb in ((-70, 14, 12), (-40, 16, 18), (28, 18, 22), (60, 12, 9)):
         a2.add_patch(Rectangle((xb, 0), wb, hb, fc=qz.GREY_LIGHT, ec=qz.GREY, lw=0.5))
@@ -201,19 +202,23 @@ def deep_setting():
     xf = 27.0 - 12.0
     zf = float(np.interp(xf, [xs, 27.0], [zs, 360]))
     slope = 0.70 / 1700.0                                # km of offset per m of rise
-    xt0, xt1 = xf + 0.25 + 0.0, xf + 0.75
-    zt0 = float(np.interp(xt0 + slope * 1300, x, surf))
-    zt1 = float(np.interp(xt1 + slope * 1300, x, surf))
-    ax.add_patch(Polygon([[xf - 0.45, -100], [xf + 0.05, -100],
-                          [xf + 0.05 + slope * (zt1 + 100), zt1],
-                          [xf - 0.45 + slope * (zt0 + 100), zt0]],
+    xb1 = xf - slope * (zf + 100)                        # base of the portal-side face: it
+    xb0 = xb1 - 0.5                                      # passes through (xf, zf) on the drive
+
+    def _top(xb):
+        z = 1200.0
+        for _ in range(30):                              # where the face meets the surface
+            z = float(np.interp(xb + slope * (z + 100), x, surf))
+        return [xb + slope * (z + 100), z]
+
+    ax.add_patch(Polygon([[xb0, -100], [xb1, -100], _top(xb1), _top(xb0)],
                          fc=qz.CAR_TINT, ec=qz.CAR, lw=0.6, zorder=1))
-    ax.plot([xf + 0.9, 27.0], [zf + 6, 366], color=qz.CAR, lw=2.2, solid_capstyle="butt")
+    ax.plot([xf, 27.0], [zf, 360], color=qz.CAR, lw=2.2, solid_capstyle="butt", zorder=3)
     ax.text(xf + 0.95, zf + 130, "Drive", fontsize=FS, color=qz.CAR)
     ax.text(xf + 0.9, 900, "Fault zone", fontsize=FS, color=qz.CAR, ha="left")
-    ax.annotate("", xy=(xf + 0.9, zf - 120), xytext=(27.0, zf - 120),
-                arrowprops=dict(arrowstyle="<->", color=qz.GREY, lw=0.6))
-    ax.text(0.5 * (xf + 27.9), zf - 190, "12 km", fontsize=FS, color=qz.GREY, ha="center", va="top")
+    ax.annotate("", xy=(xf, zf - 130), xytext=(27.0, zf - 130),
+                arrowprops=dict(arrowstyle="<->", color=qz.GREY, lw=0.6, shrinkA=0, shrinkB=0))
+    ax.text(0.5 * (xf + 27.0), zf - 200, "12 km", fontsize=FS, color=qz.GREY, ha="center", va="top")
     ax.set_xlim(0, 28)
     ax.set_ylim(-100, 1700)
     qz.label(ax, "Distance along waterway, $x$ (km)", "Elevation (m)")
@@ -253,19 +258,20 @@ def lifecycle_loop():
     need = (1.1, 3.9)
     risk = (1.1, 1.1)
     model = (4.2, 2.5)
-    design = (7.4, 3.9)
+    design = (7.4, 3.8)
+    dh = 1.45
     constr = (8.9, 1.1)
     oper = (5.9, 1.1)
     _box(ax, *need, bw, bh, "Infrastructure\nneed")
     _box(ax, *risk, bw, bh, "Geo-risk\nground, water")
     _box(ax, *model, 2.2, 1.2, "Geo-integrated\nmodel", ec=qz.MAL, fc=qz.MAL_TINT, lw=1.2)
-    _box(ax, *design, 2.3, 1.15, "Design\ncarbon, safety,\ndeformation, build")
+    _box(ax, *design, 2.3, dh, "Design\ncarbon, safety,\ndeformation,\nconstructability")
     _box(ax, *constr, 1.75, bh, "Construction")
     _box(ax, *oper, 1.75, bh, "Operation")
     _arrow(ax, (need[0] + bw / 2, need[1] - 0.2), (model[0] - 1.1, model[1] + 0.35))
     _arrow(ax, (risk[0] + bw / 2, risk[1] + 0.2), (model[0] - 1.1, model[1] - 0.35))
     _arrow(ax, (model[0] + 1.1, model[1] + 0.4), (design[0] - 1.15, design[1] - 0.2), color=qz.MAL)
-    _arrow(ax, (design[0] + 0.6, design[1] - 0.575), (constr[0], constr[1] + bh / 2), color=qz.MAL)
+    _arrow(ax, (design[0] + 0.6, design[1] - dh / 2), (constr[0], constr[1] + bh / 2), color=qz.MAL)
     _arrow(ax, (constr[0] - 0.875, constr[1]), (oper[0] + 0.875, oper[1]), color=qz.MAL)
     _arrow(ax, (constr[0] - 0.55, constr[1] + bh / 2), (model[0] + 0.85, model[1] - 0.6),
            color=qz.CAR, ls="--", rad=0.25)
@@ -325,6 +331,11 @@ def dt_chainage():
         u = unit_id[i]
         a1.add_patch(Rectangle((x0, 3.1), x1 - x0, 0.8, fc=shade[u],
                                ec=qz.CAR if u == 9 else qz.GREY, lw=0.5))
+        if u == 9:
+            a1.text(0.5 * (x0 + x1), 4.0, "Fault", ha="center", va="bottom", fontsize=FS,
+                    color=qz.CAR)
+        else:
+            a1.text(0.5 * (x0 + x1), 3.5, str(u), ha="center", va="center", fontsize=FS)
     for i in range(len(gc)):
         x0, x1 = gc_edges[i], gc_edges[i + 1]
         a1.add_patch(Rectangle((x0, 2.1), x1 - x0, 0.8, fc=sc_shade[gc[i]], ec=qz.GREY, lw=0.5))
@@ -339,7 +350,7 @@ def dt_chainage():
                 color="white" if gc[i] == 4 else qz.INK)
     mon = np.concatenate([np.arange(25, 600, 100), np.arange(600, 800, 25), np.arange(825, 1200, 100)])
     a1.plot(mon, np.full_like(mon, 0.5, dtype=float), "v", ms=4, mfc=qz.CAR, mec=qz.CAR)
-    a1.set_ylim(0, 4.0)
+    a1.set_ylim(0, 4.55)
     a1.set_yticks(list(rows.values()))
     a1.set_yticklabels(list(rows.keys()), fontsize=8)
     a1.tick_params(axis="y", length=0)
@@ -390,7 +401,7 @@ def dt_interpolation():
     ax.plot(xs, np.interp(xs, xb, yb), color=qz.GREY, lw=0.9, ls="--", label="Linear")
     ax.plot(xs, true, color=qz.CAR, lw=1.0, ls=":", label="Actual")
     for xi, yi in zip(xb, yb):
-        ax.plot([xi, xi], [0, 30], color=qz.INK, lw=0.6)
+        ax.plot([xi, xi], [0, yi + 5.0], color=qz.INK, lw=0.6)   # hole stopped 5 m into rock
         ax.plot([xi], [yi], "o", mfc="white", mec=qz.INK, ms=4, mew=0.9, zorder=4)
     ax.set_xlim(-25, 825)
     ax.set_ylim(32, 0)
@@ -550,7 +561,7 @@ def sus_lining_carbon():
     di = np.linspace(5, 16, 200)
     per_m3 = ECF_C50 + REBAR_KG_M3 * ECF_STEEL
     cols = {"Di_m": di}
-    for r, ls, col in ((18, "-", qz.CAR), (23, "--", qz.MAL), (25, ":", qz.MAL)):
+    for r, ls, col in ((18, "--", qz.CAR), (23, "-", qz.MAL), (25, ":", qz.INK)):
         t = di / r
         area = math.pi / 4 * ((di + 2 * t) ** 2 - di ** 2)
         g = area * per_m3 / 1000
@@ -558,7 +569,8 @@ def sus_lining_carbon():
         cols[f"GWP_t_per_m_Di_t_{r}"] = g
     d0, t0 = 6.3, 0.3
     g0 = math.pi / 4 * ((d0 + 2 * t0) ** 2 - d0 ** 2) * per_m3 / 1000
-    ax.plot([d0], [g0], "o", mfc="white", mec=qz.INK, ms=5, mew=1.0)
+    ax.plot([d0], [g0], "o", mfc="white", mec=qz.INK, ms=5, mew=1.0, zorder=4)
+    ax.text(d0 + 0.45, 3.0, f"$D_i/t$ = {d0 / t0:.0f}", fontsize=FS, color=qz.GREY, va="center")
     ax.set_xlim(5, 16)
     ax.set_ylim(0, 40)
     ax.legend(loc="upper left")
@@ -662,7 +674,8 @@ def geo_weathering():
     wav = 1.0 * np.sin(x / 9) + 0.7 * np.sin(x / 5 + 2)
     depth_base = {g: d + wav * (0.25 + 0.12 * (6 - g)) + deepen[g] * trough
                   for g, d in base.items()}
-    fills = {6: "#FFFFFF", 5: "#F2F2F2", 4: "#E3E3E3", 3: qz.MAL_TINT, 2: "#CFE0DA", 1: "#8FBCAC"}
+    # the greys of render/weathering_block (scene_weathering_block.GRADE_GREY)
+    fills = {6: "#E8E8E6", 5: "#D2D2D0", 4: "#BBBBB9", 3: "#A2A2A0", 2: "#8A8A88", 1: "#6E6E6C"}
     ax.fill_between(x, 0, bottom, color=fills[1], lw=0)
     for g in (2, 3, 4, 5, 6):
         ax.fill_between(x, 0, depth_base[g], color=fills[g], lw=0)
@@ -670,7 +683,7 @@ def geo_weathering():
         ax.plot(x, depth_base[g], color=qz.GREY, lw=0.4)
     ax.plot(x, depth_base[4], color=qz.INK, lw=1.1)        # rockhead: base of grade IV
     ax.axhline(0, color=qz.INK, lw=0.8)
-    ax.plot([xf + 12, xf - 9], [-0.5, bottom], color=qz.CAR, lw=0.9, ls="--")
+    ax.plot([xf + 12, xf - 9], [-0.5, bottom], color=qz.CAR, lw=1.1, ls="--", zorder=4)
     # corestones in grades III to V, away from the fault
     rng = np.random.default_rng(11)
     for _ in range(60):
@@ -681,19 +694,23 @@ def geo_weathering():
         zc = rng.uniform(lo + 1.0, hi - 0.8)
         ax.add_patch(plt.matplotlib.patches.Ellipse(
             (xc, zc), rng.uniform(1.4, 2.8), rng.uniform(0.8, 1.4), angle=rng.uniform(-20, 20),
-            fc="#CFE0DA", ec=qz.GREY, lw=0.4))
+            fc=fills[2], ec=qz.INK, lw=0.4))
     # boreholes 40 m apart, all of which miss the trough
     for xb in (20, 60, 100):
         ax.plot([xb, xb], [-0.8, 30], color=qz.INK, lw=1.4, solid_capstyle="butt")
     # tunnel, 6 m diameter, axis at 21 m
     zt, r = 21.0, 3.0
-    ax.plot([0, L], [zt - r, zt - r], color=qz.CAR, lw=1.0)
-    ax.plot([0, L], [zt + r, zt + r], color=qz.CAR, lw=1.0)
+    # lining malachite, carmine over the mixed face, as in render/weathering_block
     rh = depth_base[4]
     xm = x[rh > zt - r]
+    ax.add_patch(Rectangle((0, zt - r), L, 2 * r, fc="white", ec="none", zorder=1.5))
+    for zz in (zt - r, zt + r):
+        ax.plot([0, L], [zz, zz], color=qz.MAL, lw=1.3, zorder=3)
     if xm.size:
-        ax.add_patch(Rectangle((xm.min(), zt - r), xm.max() - xm.min(), 2 * r, fc="none",
-                               ec=qz.CAR, hatch="////", lw=0.0))
+        ax.add_patch(Rectangle((xm.min(), zt - r), xm.max() - xm.min(), 2 * r, fc=qz.CAR_TINT,
+                               ec=qz.CAR, hatch="////", lw=0.0, zorder=1.6))
+        for zz in (zt - r, zt + r):
+            ax.plot([xm.min(), xm.max()], [zz, zz], color=qz.CAR, lw=1.3, zorder=3.1)
     labels = {6: "VI", 5: "V", 4: "IV", 3: "III", 2: "II"}
     for g in (6, 5, 4, 3, 2):
         top = depth_base[g + 1][-1] if g < 6 else 0.0
@@ -731,11 +748,11 @@ def geo_joint_shear():
     taut = snt * math.tan(math.radians(phib + i_deg))
     tp = np.where(sn <= snt, sn * math.tan(math.radians(phib + i_deg)),
                   taut + (sn - snt) * math.tan(math.radians(phib)))
-    a1.plot(sn, tp, color=qz.INK, lw=0.9, ls=(0, (1, 1.5)), label="Bilinear")
+    a1.plot(sn, tp, color=qz.INK, lw=0.8, ls="-", label="Bilinear")
     cols["tau_bilinear_MPa"] = tp
     a1.set_xlim(0, 4)
-    a1.set_ylim(0, 7)
-    a1.legend(loc="upper left", handlelength=1.8)
+    a1.set_ylim(0, 6)
+    a1.legend(loc="upper left", handlelength=1.8, labelspacing=0.3, borderaxespad=0.3)
     qz.label(a1, "Normal stress, $\\sigma_n'$ (MPa)", "Shear strength, $\\tau$ (MPa)")
     s2 = np.logspace(-2, 2, 400)
     cols2 = {"sigma_n_log_MPa": s2}
@@ -769,20 +786,23 @@ def geo_fault_zone():
     rng = np.random.default_rng(3)
     for _ in range(140):
         xc = rng.normal(0, dmg / 2.2)
-        if abs(xc) < core or abs(xc) > 58:
-            continue
         yc = rng.uniform(1, 19)
         L = rng.uniform(1.5, 4.0)
         th = math.radians(rng.choice([60, 120]) + rng.normal(0, 8))
+        hx, hy = abs(L / 2 * math.cos(th)), L / 2 * math.sin(th)
+        if abs(xc) - hx < core + 0.3 or abs(xc) + hx > dmg - 0.3 or yc - hy < 0.3 or yc + hy > 19.7:
+            continue                                   # traces lie wholly in the damage zone
         a1.plot([xc - L / 2 * math.cos(th), xc + L / 2 * math.cos(th)],
                 [yc - L / 2 * math.sin(th), yc + L / 2 * math.sin(th)], color=qz.GREY, lw=0.5)
     a1.add_patch(Rectangle((-60, 8), 120, 4, fc="none", ec=qz.INK, lw=0.9))
     a1.set_ylim(0, 20)
     a1.set_yticks([])
-    a1.tick_params(labelbottom=False, left=False, right=False)
+    a1.tick_params(labelbottom=False, left=False, right=False, top=False, bottom=False)
     a1.text(0, 21, "Core", ha="center", va="bottom", fontsize=FS, color=qz.CAR)
-    a1.text(-dmg, 21, "Damage zone", ha="left", va="bottom", fontsize=FS, color=qz.MAL)
-    a1.text(dmg, 21, "Damage zone", ha="right", va="bottom", fontsize=FS, color=qz.MAL)
+    a1.text(-0.5 * (core + dmg) - 1, 21, "Damage zone", ha="center", va="bottom", fontsize=FS,
+            color=qz.MAL)
+    a1.text(0.5 * (core + dmg) + 1, 21, "Damage zone", ha="center", va="bottom", fontsize=FS,
+            color=qz.MAL)
     a1.text(-45, 21, "Host rock", ha="center", va="bottom", fontsize=FS, color=qz.GREY)
     a1.text(45, 21, "Host rock", ha="center", va="bottom", fontsize=FS, color=qz.GREY)
     # profiles, normalised to the host rock
@@ -815,7 +835,7 @@ def geo_uncertainty():
     interpretive = np.where(n < 3, 1.0, 0.08)
     sig = 1.0
     parametric = np.sqrt(sig ** 2 + sig ** 2 / np.maximum(n, 1)) / math.sqrt(2)
-    parametric[0] = 1.0
+    parametric[0] = np.nan                                 # undefined with no specimen
     ax.plot(n, positional, "-o", color=qz.MAL, ms=3.5, lw=1.2, label="Positional")
     ax.step(n, interpretive, where="post", color=qz.CAR, lw=1.3, ls="--", label="Interpretive")
     ax.plot(n, parametric, "-s", color=qz.INK, ms=3.0, lw=1.1, label="Parametric")

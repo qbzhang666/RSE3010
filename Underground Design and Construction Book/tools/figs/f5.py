@@ -84,8 +84,6 @@ def behaviour_map():
         (0.1, 1 / 3, ysplit, 1.0, "white", "Transition", "Run both"),
         (1 / 3, 3.0, ysplit, 1.0, qz.MAL_TINT, "Blocky", "Limit\nequilibrium"),
         (3.0, xmax, ysplit, 1.0, "white", "Massive", "Boundary\nstress"),
-        (xmin, 1 / 3, 0.0, ysplit, qz.CAR_TINT, "Weak and soft ground", "Face stability,\ndeformation"),
-        (1 / 3, xmax, 0.0, ysplit, "white", "High-stress ground", "Spalling depth,\nenergy"),
     ]
     for x0, x1, y0, y1, fc, name, route in regions:
         ax.add_patch(Rectangle((x0, y0), x1 - x0, y1 - y0, facecolor=fc, edgecolor="none", zorder=0))
@@ -93,8 +91,22 @@ def behaviour_map():
         ax.text(xc, y0 + 0.62 * (y1 - y0), name, ha="center", va="center", fontsize=9)
         ax.text(xc, y0 + 0.28 * (y1 - y0), route, ha="center", va="center", fontsize=7.5,
                 color=qz.GREY, style="italic")
+    # lower row: one band at any block size; the two classes in it are told apart by the
+    # strength of the intact material (Section 13.1.1), not by a value on the horizontal axis
+    ax.add_patch(Rectangle((xmin, 0.0), xmax - xmin, ysplit, facecolor=qz.CAR_TINT, edgecolor="none", zorder=0))
+    low = [
+        (xmin, xmax, 0.0, ysplit, "Weak and soft ground", "Intact material weak", "Face stability, deformation"),
+        (xmin, xmax, 0.0, ysplit, "High-stress ground", "Intact material strong, brittle", "Spalling depth, energy"),
+    ]
+    for xc, (_, _, _, _, name, cond, route) in zip((10 ** -1.25, 10 ** 0.25), low):
+        ax.text(xc, 0.315, name, ha="center", va="center", fontsize=9)
+        ax.text(xc, 0.205, cond, ha="center", va="center", fontsize=7.5, color=qz.CAR_DARK)
+        ax.text(xc, 0.095, route, ha="center", va="center", fontsize=7.5, color=qz.GREY, style="italic")
+    ax.text(10 ** -0.5, 0.205, "or", ha="center", va="center", fontsize=7.5, color=qz.GREY)
+    regions += [(x0, x1, y0, y1, qz.CAR_TINT, f"{name} ({cond.lower()})", route)
+                for x0, x1, y0, y1, name, cond, route in low]
     ax.plot([0.1, 0.1], [ysplit, 1.0], color=qz.INK, lw=0.7, ls="--")
-    ax.axvline(1 / 3, color=qz.INK, lw=0.7, ls="--")
+    ax.plot([1 / 3, 1 / 3], [ysplit, 1.0], color=qz.INK, lw=0.7, ls="--")
     ax.plot([3.0, 3.0], [ysplit, 1.0], color=qz.GREY, lw=0.6, ls=":")
     ax.axhline(ysplit, color=qz.INK, lw=0.7)
     ax.set_xscale("log")
@@ -173,19 +185,20 @@ def roof_bolting():
     sp = np.linspace(1.0, 2.5, 151)
     cols = {"spacing_m": sp}
     a1.axhspan(130, 180, color=qz.GREY_LIGHT, alpha=0.6, lw=0, zorder=0)
-    a1.text(1.03, 155, "20 mm rebar yield", fontsize=8, color=qz.GREY, va="center")
+    a1.text(1.03, 155, "Rebar yield", fontsize=8, color=qz.GREY, va="center")
     for th, col, ls in ((0.5, qz.MAL_SHADES[3], ":"), (1.0, qz.MAL, "-"), (1.5, qz.MAL_SHADES[0], "--"),
                         (2.0, qz.CAR, "-.")):
         load = gamma * th * sp ** 2
         a1.plot(sp, load, color=col, ls=ls, lw=1.3, label=f"$h = {th:g}$ m")
         cols[f"load_h{th:g}_kN"] = load
     a1.plot([1.5], [gamma * 1.0 * 1.5 ** 2], "o", mfc="white", mec=qz.INK, ms=5, mew=1.0, zorder=5)
-    a1.annotate("56 kN", (1.5, 56.25), xytext=(1.62, 30), fontsize=8,
+    a1.annotate("56 kN", (1.5, 56.25), xytext=(1.64, 12), fontsize=8, ha="left", va="center",
                 arrowprops=dict(arrowstyle="-", color=qz.GREY, lw=0.6))
     a1.set_xlim(1.0, 2.5)
     a1.set_ylim(0, 440)
     qz.label(a1, "Bolt spacing, $s_b$ (m)", "Bolt load, $W$ (kN)")
-    a1.legend(loc="upper left", ncol=2, handlelength=1.5, columnspacing=0.6)
+    a1.legend(loc="upper left", ncol=2, handlelength=1.5, columnspacing=0.6, handletextpad=0.4,
+              borderaxespad=0.3, borderpad=0.2)
 
     nb = np.arange(1, 6)
     ratio = nb.astype(float) ** 2            # (n t)^3 / (n t^3)
@@ -283,7 +296,6 @@ def wedge_silo_fig():
     a1.annotate("Wedge", (-0.12, 0.45 * D), xytext=(-0.75, 0.2 * D), fontsize=8, color=qz.CAR, ha="center",
                 va="center", arrowprops=dict(arrowstyle="-", color=qz.CAR, lw=0.6))
     a1.text(0.42, 0.5 * D, "$\\sigma_T$", ha="left", va="center", fontsize=9, zorder=4)
-    a1.text(-L + 0.2, D - 0.04, "$\\omega$", fontsize=9, ha="left", va="top")
     _dim(a1, (-1.15, D), (-1.15, D + C), "$C$", offset=(-0.17, 0))
     _dim(a1, (-1.15, 0), (-1.15, D), "$D$", offset=(-0.17, 0))
     a1.set_xlim(-1.5, L + 0.95)
@@ -427,7 +439,7 @@ def squeezing_allowance():
     e30 = float(0.2 * (sigma_cm_hm(sci, mi, 30) / p0) ** -2)
     ax.plot([30], [e30], "o", mfc="white", mec=qz.INK, ms=5, mew=1.0, zorder=5)
     ax.axhline(6.5, color=qz.CAR, lw=0.9, ls="--")
-    ax.text(16, 6.5 * 1.06, "84th percentile, 6.5%", fontsize=8, color=qz.CAR, va="bottom")
+    ax.text(16, 6.5 * 1.10, "84th percentile, 6.5%", fontsize=8, color=qz.CAR, va="bottom")
     ax.text(16, e30 * 1.06, "Mean, 3.7%", fontsize=8, color=qz.INK, va="bottom")
     ax.axhline(e30, color=qz.INK, lw=0.5, ls=":", xmax=(30 - 15) / 35)
     ax.set_yscale("log")
@@ -473,7 +485,7 @@ def burst_stiffness():
         ax.plot(dd, 1 - k * (dd - 1), color=col, ls=ls, lw=1.3, label=name)
     dd = np.linspace(1, 1 + 1 / 0.8, 120)
     ax.fill_between(dd, np.clip(1 - lam * (dd - 1), 0, None), 1 - 0.8 * (dd - 1), color=qz.CAR_TINT, lw=0)
-    ax.text(1.62, 0.2, "Excess\nenergy", fontsize=8, color=qz.CAR_DARK, ha="center", va="center")
+    ax.text(1.79, 0.13, "Excess\nenergy", fontsize=7.5, linespacing=1.0, color=qz.CAR_DARK, ha="center", va="center")
     ax.set_xlim(0, 2.3)
     ax.set_ylim(0, 1.15)
     ax.set_xticks([0, 1, 2])
@@ -493,17 +505,17 @@ def burst_energy():
     v = np.linspace(0, 6, 121)
     fig, (a1, a2) = qz.figure(W_FULL, 0.47 * W_FULL, ncols=2, gridspec_kw={"width_ratios": [1.3, 1]})
     a1.axhspan(20, 50, color=qz.GREY_LIGHT, alpha=0.6, lw=0, zorder=0)
-    a1.text(0.15, 21.5, "Yielding bolts, 1 m pattern", fontsize=8, color=qz.GREY, va="bottom")
+    a1.text(0.15, 21.5, "Yielding bolts", fontsize=8, color=qz.GREY, va="bottom")
     cols = {"v_m_s": v}
     for t, col, ls in ((0.3, qz.MAL, "-"), (0.6, qz.MAL_SHADES[0], "--"), (1.0, qz.CAR, "-.")):
         e = 0.5 * rho * t * v ** 2 / 1000
         a1.plot(v, e, color=col, ls=ls, lw=1.3, label=f"$t = {t:g}$ m")
         cols[f"E_t{t:g}_kJ_m2"] = e
     a1.plot([3], [0.5 * rho * 0.3 * 9 / 1000], "o", mfc="white", mec=qz.INK, ms=5, mew=1.0, zorder=5)
-    a1.annotate("3.6 kJ/m$^2$", (3, 3.645), xytext=(4.35, 1.0), fontsize=8, va="bottom",
+    a1.annotate("3.6 kJ/m$^2$", (3, 3.645), xytext=(1.45, 14), fontsize=8, va="center", ha="center",
                 arrowprops=dict(arrowstyle="-", color=qz.GREY, lw=0.6))
     a1.set_xlim(0, 6)
-    a1.set_ylim(0, 72)
+    a1.set_ylim(0, 85)
     qz.label(a1, "Ejection velocity, $v$ (m/s)", "Kinetic energy, $E$ (kJ/m$^2$)")
     a1.legend(loc="upper left")
 
@@ -547,7 +559,7 @@ def spalling_depth():
     for i, (lo, hi, name) in enumerate(bands):
         a2.axhspan(lo, hi, color=qz.MAL_TINT if i == 0 else qz.CAR_TINT, alpha=1.0 if i % 2 == 0 else 0.55,
                    lw=0, zorder=0)
-        a2.text(0.94, (lo + min(hi, 3.0)) / 2, name, ha="right", va="center", fontsize=7.5, color=qz.GREY,
+        a2.text(0.04, {0: 0.13, 1: 1.3, 1.5: 1.75, 2: 2.5}[lo], name, ha="left", va="center", fontsize=7.5, color=qz.GREY,
                 transform=a2.get_yaxis_transform())
     cols = {"smax_over_UCS": ratio, "r_over_a": ra}
     for f, col, ls in ((0.4, qz.CAR, "--"), (0.6, qz.MAL, "-")):
@@ -558,7 +570,7 @@ def spalling_depth():
     a2.set_xlim(0.2, 1.2)
     a2.set_ylim(0, 3.0)
     qz.label(a2, "Stress ratio, $\\sigma_{\\max}/\\mathrm{UCS}$ (-)", "Severity, $\\sigma_{\\max}/\\mathrm{CI}$ (-)")
-    a2.legend(loc="upper left")
+    a2.legend(loc="lower right")
     fig.tight_layout()
     _save(fig, "ch15", "spalling-depth", cols)
 
@@ -584,14 +596,14 @@ def rock_mass_strength():
     a1.set_yscale("log")
     a1.set_xlim(10, 80)
     a1.set_ylim(1e-3, 1)
-    qz.label(a1, "Strength index, GSI (-)", "Strength ratio, $\\sigma_{cm}/\\sigma_{ci}$ (-)")
+    qz.label(a1, "GSI (-)", "Strength ratio, $\\sigma_{cm}/\\sigma_{ci}$ (-)")
     a1.legend(loc="lower right")
     r30 = float(sigma_cm_hm(72, 7, 30) / rock.rock_mass_ucs(72, rock.hb_constants(30, 7)))
     a2.plot([30], [r30], "o", mfc="white", mec=qz.INK, ms=5, mew=1.0, zorder=5)
     a2.set_xlim(10, 80)
     a2.set_ylim(0, None)
     a2.set_ylim(0, a2.get_ylim()[1] * 1.05)
-    qz.label(a2, "Strength index, GSI (-)", "Ratio to uniaxial value (-)")
+    qz.label(a2, "GSI (-)", "Ratio to uniaxial value (-)")
     a2.legend(loc="upper right")
     fig.tight_layout()
     print(f"  rock mass strength ratio at GSI 30, mi 7: {r30:.2f}")
@@ -641,12 +653,12 @@ def q_span_wall():
     a1.set_xscale("log")
     a1.set_yscale("log")
     a1.set_xlim(1e-3, 1e3)
-    a1.set_ylim(0.003, 100)
+    a1.set_ylim(0.001, 100)
     a1.set_xticks([1e-3, 1e-1, 1e1, 1e3])
-    a1.set_yticks([0.01, 0.1, 1, 10, 100])
-    a1.set_yticklabels(["0.01", "0.1", "1", "10", "100"])
-    qz.label(a1, "Rock mass quality, $Q$ (-)", "Unsupported span (m)")
-    a1.legend(loc="lower right", fontsize=7.5, handlelength=1.8)
+    a1.set_yticks([0.001, 0.01, 0.1, 1, 10, 100])
+    a1.set_yticklabels(["0.001", "0.01", "0.1", "1", "10", "100"])
+    qz.label(a1, "Rock mass quality, $Q$ (-)", "Span, $\\mathrm{Span}_{\\max}$ (m)")
+    a1.legend(loc="lower right", fontsize=7.5, handlelength=1.8, labelspacing=0.2, borderaxespad=0.3)
 
     qw = np.where(q > 10, 5 * q, np.where(q > 0.1, 2.5 * q, q))
     for seg in (q <= 0.1, (q > 0.1) & (q <= 10), q > 10):
@@ -734,7 +746,7 @@ def rating_uncertainty():
     for y, m, e, lab, col in rows:
         a1.errorbar([m], [y], xerr=[[e], [e]], fmt="o", color=col, mfc="white", ms=5, mew=1.0, capsize=3, lw=1.1)
         a1.text(m + e + 2, y, lab, va="center", fontsize=8)
-    _arrow(a1, (50, 0), (39, 0), color=qz.CAR, lw=1.0, ms=7)
+    _arrow(a1, (50, 0), (38, 0), color=qz.CAR, lw=1.0, ms=7)
     a1.plot([50], [0], "o", color=qz.GREY, ms=4)
     a1.text(52, 0, "Station, 50 adjusted to 38", va="center", fontsize=8)
     a1.set_xlim(0, 100)

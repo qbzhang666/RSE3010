@@ -132,7 +132,12 @@ def rmr_ratings():
     cols.update(R2_edges=x, R2=y)
     for name, d in ROCKS.items():
         st = STYLE[name]
-        a2.plot(d["rqd"], _rate(d["rqd"], R2_EDGES, R2_RAT), st["marker"], color=st["color"],
+        r2 = _rate(d["rqd"], R2_EDGES, R2_RAT)
+        # RQD 68 and 70 share a band: the two markers are drawn off the line on stems.
+        dy = {"Granite": 3.2, "Sandstone": -3.2}.get(name, 0.0)
+        if dy:
+            a2.plot([d["rqd"], d["rqd"]], [r2, r2 + dy], color=st["color"], lw=0.8, zorder=3)
+        a2.plot(d["rqd"], r2 + dy, st["marker"], color=st["color"],
                 mfc="white", mew=1.1, ms=5.5, zorder=4)
     qz.label(a2, "RQD (%)", "Rating, $R_2$ (-)")
 
@@ -242,6 +247,10 @@ def gsi_correlations():
     a1.set_xticks([0, 10, 20, 30])
     qz.label(a1, "Condition rating, $J_{\\mathrm{cond89}}$ (-)", "GSI (-)")
     for rqd in (25, 50, 75, 100):
+        a1.text(1.0, 1.5 * 1.0 + rqd / 2 + 2.0, f"RQD = {rqd}", fontsize=8, color=qz.GREY,
+                ha="left", va="bottom", rotation=math.degrees(math.atan(1.5)),
+                rotation_mode="anchor", transform_rotates_text=True)
+    for rqd in (25, 50, 75, 100):
         a2.text(0.032, 52 * 0.032 / 1.032 + rqd / 2 + 1.5, f"{rqd}", fontsize=8, color=qz.GREY,
                 ha="left", va="bottom")
     a2.set_xscale("log")
@@ -271,7 +280,8 @@ def rmr_sandstone():
             left += v
         ax.barh(yy, r5, left=left, height=0.55, color=qz.CAR if r5 < 15 else qz.CAR_SHADES[3],
                 edgecolor="white", lw=0.6)
-        ax.text(left + r5 / 2, yy, "$R_5$", ha="center", va="center", fontsize=8, color="white")
+        ax.text(left + r5 / 2, yy, "$R_5$", ha="center", va="center", fontsize=8 if r5 > 10 else 7,
+                color="white")
         total = left + r5
         ax.text(total + 1.5, yy, f"{total}, GSI {total - 5}", va="center", ha="left", fontsize=8)
     ax.set_yticks([1, 0])
@@ -298,9 +308,11 @@ def insitu_stress_depth():
         z = np.linspace(0, zmax, 50)
         sv = 0.027 * z
         generic = ax is a2
-        ax.plot(sv, z, color=qz.INK, lw=1.3, label="$\\sigma_v = \\gamma z$" if generic else None)
-        ax.plot(0.33 * sv, z, color=qz.GREY, lw=1.0, ls=(0, (1, 1.5)),
-                label="$k = 0.33$" if generic else None)
+        ax.plot(sv, z, color=qz.INK, lw=1.3)
+        ax.plot(0.33 * sv, z, color=qz.GREY, lw=1.0, ls=(0, (1, 1.5)))
+        h_gen = [Line2D([], [], color=qz.INK, lw=1.3, label="$\\sigma_v = \\gamma z$"),
+                 Line2D([], [], color=qz.GREY, lw=1.0, ls=(0, (1, 1.5)), label="$k = 0.33$")]
+        h_rock = []
         for name in names:
             d, st = ROCKS[name], STYLE[name]
             ins = rock.insitu_stresses(d["z"], d["k"])
@@ -308,8 +320,10 @@ def insitu_stress_depth():
                 ax.plot(d["k"] * sv, z, color=st["color"], ls=st["ls"], lw=1.0)
             ax.plot([ins.sigma_v, ins.sigma_h], [d["z"], d["z"]], color=st["color"], lw=0.8)
             ax.plot(ins.sigma_v, d["z"], st["marker"], color=st["color"], mfc="white", mew=1.1, ms=5)
-            ax.plot(ins.sigma_h, d["z"], st["marker"], color=st["color"], ms=5,
-                    label=f"{name}, $k = {d['k']:g}$")
+            ax.plot(ins.sigma_h, d["z"], st["marker"], color=st["color"], ms=5)
+            h_rock.append(Line2D([], [], color=st["color"], lw=1.0, marker=st["marker"], ms=5,
+                                 ls=st["ls"] if d["k"] != 1.0 else "none",
+                                 label=f"{name}, $k = {d['k']:g}$"))
             cols[f"{name}_z"] = [d["z"]]
             cols[f"{name}_sv"] = [ins.sigma_v]
             cols[f"{name}_sh"] = [ins.sigma_h]
@@ -318,7 +332,13 @@ def insitu_stress_depth():
             ax.set_xticks([0, 3, 6, 9, 12])
         ax.set_ylim(zmax, 0)
         qz.label(ax, "Stress, $\\sigma$ (MPa)", "Depth, $z$ (m)")
-        ax.legend(loc="upper right", handlelength=1.8, labelspacing=0.25)
+        kw = dict(handlelength=2.0, labelspacing=0.25, borderpad=0.2, borderaxespad=0.4)
+        if generic:
+            ax.legend(handles=h_rock + h_gen, loc="upper right", **kw)
+        else:
+            # two blocks, each set against the right edge, clear of the granite line
+            ax.add_artist(ax.legend(handles=h_rock, loc="upper right", **kw))
+            ax.legend(handles=h_gen, loc="upper right", bbox_to_anchor=(1.0, 0.78), **kw)
     fig.tight_layout(w_pad=1.2)
     _save(fig, "ch11", "insitu-stress-depth", cols)
 
@@ -458,11 +478,14 @@ def tensile_four_rocks():
         hb = abs(rock.hb_intact_tension(d["sci"], d["mi"]))
         hm = abs(rock.hoek_martin_tension(d["sci"], d["mi"]))
         lab = abs(d["st_lab"])
-        ax.plot([min(hb, hm, lab), max(hb, hm, lab)], [yy, yy], color=qz.GREY_LIGHT, lw=1.0, zorder=1)
-        ax.plot(hb, yy, "o", color=qz.MAL, ms=5, zorder=3, label="Criterion" if i == 0 else None)
-        ax.plot(hm, yy, "s", color=qz.MAL, mfc="white", mew=1.1, ms=5, zorder=3,
-                label="Cut-off" if i == 0 else None)
-        ax.plot(lab, yy, "D", color=qz.CAR, ms=5, zorder=3, label="Laboratory" if i == 0 else None)
+        # the three estimates sit on their own lines within the row, so none hides another
+        dy = 0.22
+        if i:
+            ax.axhline(yy + 0.5, color=qz.GREY_LIGHT, lw=0.4, zorder=0)
+        ax.plot(hb, yy + dy, "o", color=qz.MAL, ms=4.5, zorder=3, label="Hoek-Brown" if i == 0 else None)
+        ax.plot(hm, yy, "s", color=qz.MAL, mfc="white", mew=1.1, ms=4.5, zorder=3,
+                label="Hoek-Martin" if i == 0 else None)
+        ax.plot(lab, yy - dy, "D", color=qz.CAR, ms=4.5, zorder=3, label="Laboratory" if i == 0 else None)
         cols["HB"].append(-hb)
         cols["HM"].append(-hm)
         cols["lab"].append(-lab)
@@ -472,7 +495,8 @@ def tensile_four_rocks():
     ax.set_ylim(-0.6, len(names) - 0.4)
     ax.set_xlim(0, 20)
     qz.label(ax, "Tensile strength, $|\\sigma_t|$ (MPa)")
-    ax.legend(loc="center right", handletextpad=0.3, labelspacing=0.25)
+    ax.legend(loc="lower right", handletextpad=0.3, labelspacing=0.25, borderaxespad=0.6,
+              frameon=True, facecolor="white", edgecolor="none", framealpha=1.0)
     fig.tight_layout()
     _save(fig, "ch11", "tensile-four-rocks", cols)
 
@@ -488,11 +512,11 @@ def griffith_hb_marble():
     gr = s3g + 4 * T + 4 * np.sqrt(T * (T + s3g))
     fig, ax = qz.figure(W_FULL, 0.58 * W_FULL)
     ax.axvline(0, color=qz.GREY_LIGHT, lw=0.6, zorder=0)
-    ax.plot(s3, hb, color=qz.MAL, lw=1.5, label="Criterion, $m_i = 9$")
+    ax.plot(s3, hb, color=qz.MAL, lw=1.5, label="Hoek-Brown, $m_i = 9$")
     ax.plot(s3g, gr, color=qz.GREY, lw=1.2, ls="--", label="Griffith, $\\sigma_c = 8|\\sigma_t|$")
     ax.plot([-T, -T], [0, 3 * T], color=qz.GREY, lw=1.2, ls="--")
     ax.plot(st_hb, 0, "o", color=qz.MAL, ms=5, zorder=4, clip_on=False)
-    ax.plot(st_hm, 0, "s", color=qz.CAR, ms=5, zorder=4, clip_on=False, label="Cut-off")
+    ax.plot(st_hm, 0, "s", color=qz.CAR, ms=5, zorder=4, clip_on=False, label="Hoek-Martin cut-off")
     ax.plot(20, float(rock.hb_sigma1(20, sci, mi)), "o", color=qz.MAL, mfc="white", mew=1.1, ms=5, zorder=4)
     ax.set_xlim(-20, 40)
     ax.set_ylim(0, 300)
@@ -548,8 +572,8 @@ def hb_constants_gsi():
         hb = [rock.hb_constants(g, 1.0, d) for g in gsi]
         mb = np.array([h.mb for h in hb])
         s = np.array([h.s for h in hb])
-        a1.plot(gsi, mb, color=col, lw=1.3, label=f"$m_b/m_i$, $D = {d:g}$")
-        a1.plot(gsi, s, color=col, lw=1.3, ls="--", label=f"$s$, $D = {d:g}$")
+        a1.plot(gsi, mb, color=col, lw=1.3, label=f"$D = {d:g}$")
+        a1.plot(gsi, s, color=col, lw=1.3, ls="--")
         cols[f"mb_over_mi_D{d:g}"] = mb
         cols[f"s_D{d:g}"] = s
     a1.set_yscale("log")
@@ -558,7 +582,9 @@ def hb_constants_gsi():
     a1.minorticks_off()
     a1.set_xlim(10, 100)
     qz.label(a1, "GSI (-)", "Rock mass constant (-)")
-    a1.legend(loc="lower right", labelspacing=0.25, handlelength=2.0)
+    a1.text(13, 0.11, "$m_b/m_i$", fontsize=9, ha="left", va="bottom")
+    a1.text(13, 2.2e-4, "$s$", fontsize=9, ha="left", va="bottom")
+    a1.legend(loc="lower right", labelspacing=0.25, handlelength=1.6)
     for d, col, ls in ((0.0, qz.MAL_SHADES[0], "-"), (0.5, qz.MAL_SHADES[2], "--"),
                        (0.8, qz.CAR, "-."), (1.0, qz.CAR_SHADES[3], ":")):
         r = np.array([rock.rock_mass_ucs(1.0, rock.hb_constants(g, 1.0, d)) for g in gsi])
@@ -568,7 +594,7 @@ def hb_constants_gsi():
     a2.set_ylim(1e-3, 1.5)
     a2.set_xlim(10, 100)
     qz.label(a2, "GSI (-)", "Strength ratio, $\\sigma_{cm}/\\sigma_{ci}$ (-)")
-    a2.legend(loc="lower right", labelspacing=0.25)
+    a2.legend(loc="upper left", labelspacing=0.25)
     for ax in (a1, a2):
         ax.axvline(63, color=qz.GREY, lw=0.6, ls=":")
     fig.tight_layout(w_pad=1.2)
@@ -578,9 +604,9 @@ def hb_constants_gsi():
 def hb_disturbance_sandstone():
     sci, mi, gsi = 110.0, 17, 63
     ins = rock.insitu_stresses(450, 1.8)
-    fig, (a1, a2) = qz.figure(W_FULL, 0.47 * W_FULL, ncols=2)
+    fig, (a1, a2) = qz.figure(W_FULL, 0.52 * W_FULL, ncols=2)
     cols = {}
-    for d, col, ls, mk in ((0.0, qz.MAL, "-", "o"), (0.8, qz.CAR, "--", "s")):
+    for d, col, ls, mk in ((0.0, qz.MAL, "-", "o"), (0.8, qz.CAR, "--", "o")):
         hb = rock.hb_constants(gsi, mi, d)
         st = rock.rock_mass_tension(sci, hb)
         sthm = rock.rock_mass_tension_hm(sci, hb, mi)
@@ -602,12 +628,14 @@ def hb_disturbance_sandstone():
             label="$\\sigma_1^{IS}$")
     a1.set_xlim(0, 25)
     a1.set_ylim(0, 160)
-    qz.label(a1, "Minor stress, $\\sigma_3$ (MPa)", "Major stress, $\\sigma_1$ (MPa)")
     a1.legend(loc="upper left")
     a2.axvline(0, color=qz.GREY_LIGHT, lw=0.6, zorder=0)
     a2.set_xlim(-0.8, 0.8)
     a2.set_ylim(0, 25)
-    qz.label(a2, "Minor stress, $\\sigma_3$ (MPa)", "Major stress, $\\sigma_1$ (MPa)")
+    for ax in (a1, a2):
+        # the full names do not fit a half-width panel on one line
+        qz.label(ax, "Minor principal stress,\n$\\sigma_3$ (MPa)",
+                 "Major principal stress,\n$\\sigma_1$ (MPa)")
     handles = [Line2D([], [], color=qz.GREY, ls="none", marker="o", ms=4.5, label="$\\sigma_{tm}$"),
                Line2D([], [], color=qz.GREY, ls="none", marker="o", mfc="white", ms=4.5,
                       label="$\\sigma_{tm,HM}$")]
@@ -620,11 +648,11 @@ def hb_disturbance_sandstone():
 def modulus_estimates_sandstone():
     sci, ei, gsi, rmr = 110.0, 30.0, 63, 60
     rows = [
-        ("Generalised, from $E_i$", lambda d: rock.modulus_hd_generalised(ei, gsi, d), True),
-        ("Simplified", lambda d: rock.modulus_hd_simplified(gsi, d), True),
-        ("From $\\sigma_{ci}$ and GSI", lambda d: rock.modulus_hoek_2002(sci, gsi, d), True),
-        ("From RMR, linear", lambda d: rock.modulus_bieniawski(rmr), False),
-        ("From RMR, power", lambda d: rock.modulus_serafim_pereira(rmr), False),
+        ("Hoek-Diederichs generalised", lambda d: rock.modulus_hd_generalised(ei, gsi, d), True),
+        ("Hoek-Diederichs simplified", lambda d: rock.modulus_hd_simplified(gsi, d), True),
+        ("GSI and $\\sigma_{ci}$ expression", lambda d: rock.modulus_hoek_2002(sci, gsi, d), True),
+        ("Bieniawski, RMR", lambda d: rock.modulus_bieniawski(rmr), False),
+        ("Serafim-Pereira, RMR", lambda d: rock.modulus_serafim_pereira(rmr), False),
     ]
     fig, ax = qz.figure(W_FULL, 0.42 * W_FULL)
     cols = {"relation": [r[0] for r in rows], "D0": [], "D0.8": []}
@@ -677,7 +705,7 @@ def fitting_range_sandstone():
         for m in (12.15, 21.87):
             ax.axvline(m, color=qz.GREY_LIGHT, lw=0.6, zorder=0)
         ax.set_xlim(0, 40)
-    a1.set_ylim(25, 70)
+    a1.set_ylim(25, 75)
     qz.label(a1, "Fitting limit, $\\sigma_{3,\\mathrm{fit,max}}$ (MPa)", "Friction angle, $\\phi$ ($^\\circ$)")
     a1.legend(loc="upper right", labelspacing=0.25, handlelength=2.0)
     a2.set_yscale("log")

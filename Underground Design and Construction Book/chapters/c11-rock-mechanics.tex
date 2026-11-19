@@ -5,7 +5,7 @@
 
 The Kirsch solution~\citep{kirsch1898}, the convergence--confinement method and every finite
 element analysis in this book rest on the same small set of continuum
-relations. Setting them out once, at the start, avoids restating their
+relations. Setting them out once, at the start of this part, avoids restating their
 assumptions at every later application and shows that
 those assumptions are shared. A closed-form stress distribution and a
 numerical model can therefore be wrong for the same reason.
@@ -95,32 +95,6 @@ ground reaction curve of Chapter~\ref{ch:ccm}. Any candidate stress
 distribution around an opening must satisfy it, which gives a simple check
 on a numerical result.
 
-\subsection{Dimensional idealisation}
-\label{sec:plane-idealisations}
-
-\paragraph{Plane strain, plane stress and axisymmetry.}
-Three-dimensional analysis is rarely necessary and often unaffordable, and
-three idealisations make most underground problems tractable.
-
-\emph{Plane strain} assumes no strain along one axis. A long tunnel remote
-from the face satisfies this well, since the ground cannot displace
-longitudinally, and it is the standard idealisation for tunnel cross-sections.
-\emph{Plane stress} assumes no stress on one pair of faces and applies to thin
-plates; it is rare underground. \emph{Axisymmetry} exploits rotational
-symmetry about an axis and suits a circular tunnel in a hydrostatic field, or
-a shaft.
-
-The main limitation concerns the face. Near it the ground does displace
-longitudinally, so the plane strain assumption fails where support is
-installed and where most of the convergence occurs. Two-dimensional analysis
-handles this through a stress relaxation factor that releases only part of the
-in-situ stress before support is activated. The factor is an approximation,
-and three-dimensional analysis is required for junctions, portals and
-sequenced excavations (Chapter~\ref{ch:numerical-modelling}).
-
-\section{Constitutive behaviour}
-\label{sec:constitutive-behaviour}
-
 \subsection{Strain and compatibility}
 \label{sec:strain-and-compatibility}
 
@@ -151,6 +125,32 @@ compatibility and the boundary conditions simultaneously. In numerical
 analysis compatibility is enforced automatically by the displacement
 formulation, which is one reason finite element methods handle complex
 geometry so readily.
+
+\subsection{Dimensional idealisation}
+\label{sec:plane-idealisations}
+
+\paragraph{Plane strain, plane stress and axisymmetry.}
+Three-dimensional analysis is rarely necessary and often unaffordable, and
+three idealisations make most underground problems tractable.
+
+\emph{Plane strain} assumes no strain along one axis. A long tunnel remote
+from the face satisfies this well, since the ground cannot displace
+longitudinally, and it is the standard idealisation for tunnel cross-sections.
+\emph{Plane stress} assumes no stress on one pair of faces and applies to thin
+plates; it is rare underground. \emph{Axisymmetry} exploits rotational
+symmetry about an axis and suits a circular tunnel in a hydrostatic field, or
+a shaft.
+
+The main limitation concerns the face. Near it the ground does displace
+longitudinally, so the plane strain assumption fails where support is
+installed and where most of the convergence occurs. Two-dimensional analysis
+handles this through a stress relaxation factor that releases only part of the
+in-situ stress before support is activated. The factor is an approximation,
+and three-dimensional analysis is required for junctions, portals and
+sequenced excavations (Chapter~\ref{ch:numerical-modelling}).
+
+\section{Elastic behaviour and circular openings}
+\label{sec:constitutive-behaviour}
 
 \subsection{Constitutive relations}
 \label{sec:constitutive-relations}
@@ -195,7 +195,7 @@ it misplaces both the stiffness and the failure plane.
 \paragraph{Cylindrical coordinates.}
 Circular openings are naturally described in $r$--$\theta$ coordinates, in
 which stress has radial, tangential and shear components and the equilibrium
-equation takes the reduced form given above. Two features of the solution
+equation takes the reduced form of Section~\ref{sec:equilibrium}. Two features of the solution
 recur throughout the book.
 
 The tangential stress $\sigma_\theta$ at the boundary is the governing
@@ -826,15 +826,8 @@ before excavation, obtained by ranking \(\sigma_v\), \(\sigma_H\) and
 \sigma_3^{IS} = \min(\sigma_v,\sigma_H,\sigma_h) .
 \]
 They are the stress demand imposed by the ground. In the Hoek--Brown
-criterion,
-\[
-\sigma_1^f =
-\sigma_3 + \sigma_{ci}
-\left(
-m_i\frac{\sigma_3}{\sigma_{ci}} + 1
-\right)^{1/2} ,
-\]
-\(\sigma_3\) is the confining stress applied to the specimen or the rock
+criterion of Section~\ref{sec:hoek-brown-intact}, \(\sigma_3\) is the
+confining stress applied to the specimen or the rock
 mass and \(\sigma_1^f\) the major principal stress at failure. These describe
 the strength capacity of the material and are not the in-situ stresses. In
 general
@@ -918,8 +911,7 @@ relevant to the project.
 
 Because the Hoek--Brown envelope is nonlinear, equivalent Mohr--Coulomb
 parameters \(c\) and \(\phi\) are obtained by fitting a straight line to
-Hoek--Brown data over a selected stress range. They are not unique: they
-depend on the range, which is why the limit
+Hoek--Brown data over a selected stress range. The limit
 \(\sigma_{3,\mathrm{fit,max}}\) of the preceding section is fixed before any
 fitting is done.
 
@@ -953,10 +945,7 @@ c = \frac{A}{\cos\phi} .
 The gradient $B$ and the intercept $A$ are those of an ordinary
 least-squares fit, available in any
 spreadsheet or statistical package and implemented in \companionname\
-(Appendix~\ref{app:software}). The range matters more than the tool.
-The fit must be made over the confining stresses the problem spans,
-because the equivalent cohesion and friction angle are properties of that
-range and not of the rock alone.
+(Appendix~\ref{app:software}).
 
 \paragraph{Method 2: linear regression in \(\sigma_1^f\)--\(\sigma_3\) space.}
 The same data may be fitted directly as
@@ -1108,7 +1097,7 @@ value governs and the two expressions serve as checks on it.
 \begin{figure}[htbp]
 \centering
 \datafigure[0.62\textwidth]{ch11/tensile-four-rocks}
-\caption{Tensile strength magnitude of the four rocks from the intact Hoek--Brown expression (criterion), the Hoek--Martin cut-off and laboratory tests, from Table~\ref{tab:intact_strength_results}.}
+\caption{Tensile strength magnitude of the four rocks from the intact Hoek--Brown expression, the Hoek--Martin cut-off and laboratory tests, from Table~\ref{tab:intact_strength_results}.}
 \label{fig:tensile-four-rocks}
 \end{figure}
 
