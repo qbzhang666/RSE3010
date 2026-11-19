@@ -6,9 +6,9 @@
 The Kirsch solution~\citep{kirsch1898}, the convergence--confinement method and every finite
 element analysis in this book rest on the same small set of continuum
 relations. Setting them out once, at the start, avoids restating their
-assumptions at every later application, and makes visible the fact that
+assumptions at every later application and shows that
 those assumptions are shared. A closed-form stress distribution and a
-sophisticated numerical model can be wrong for the same reason.
+numerical model can therefore be wrong for the same reason.
 
 The chapter then turns from the relations that govern stress to the
 criteria that limit it. It sets out the Mohr--Coulomb, Hoek--Brown and
@@ -42,7 +42,7 @@ Moment equilibrium of an infinitesimal element requires
 $\tau_{ij} = \tau_{ji}$, so only six components are independent.
 
 Compression is taken as positive throughout, following rock mechanics
-practice. This is the opposite of the structural convention and is the single
+practice. This is the opposite of the structural convention and is the
 most common source of sign errors where the two disciplines meet.
 
 \paragraph{Principal stresses.}
@@ -52,7 +52,7 @@ stresses, obtained as the eigenvalues of $\sigma_{ij}$, with the principal
 directions as its eigenvectors. They are ordered
 $\sone \geq \stwo \geq \sthree$.
 
-Principal stresses matter because rock strength is expressed in terms of them.
+Rock strength is expressed in terms of the principal stresses.
 Every failure criterion in this chapter is written as a relationship between
 $\sone$ and $\sthree$, and applying one therefore requires the stress state to
 be resolved into principal components first.
@@ -66,13 +66,13 @@ $p = (\sone+\stwo+\sthree)/3$ follows.
 
 Separating the mean from the remainder gives the hydrostatic and deviatoric
 parts. The hydrostatic part changes volume; the deviatoric part changes shape
-and drives shear failure. The split is fundamental to rock behaviour because
+and drives shear failure. The split is central to rock behaviour because
 rock strength depends on both: the deviatoric stress causes failure and the
 mean stress determines the resistance available. That dependence on confining
 pressure distinguishes rock from metals, whose yield is essentially
-pressure-independent, and it is why rock criteria rise with confinement in
-$\sone$--$\sthree$ space, whether as a straight line (Mohr--Coulomb) or as a
-curve (Hoek--Brown), rather than as the unit-slope line that
+pressure-independent. It is also why rock criteria in
+$\sone$--$\sthree$ space, whether a straight line (Mohr--Coulomb) or a
+curve (Hoek--Brown), rise more steeply than the unit-slope line that
 pressure-independent yield would give.
 
 \subsection{Equilibrium}
@@ -92,8 +92,8 @@ body force and assuming axial symmetry, radial equilibrium reduces to
 which is the starting point for both the Kirsch solution
 (Section~\ref{sec:kirsch-appendix}) and the elasto-plastic
 ground reaction curve of Chapter~\ref{ch:ccm}. Any candidate stress
-distribution around an opening must satisfy it; a numerical result that does
-not has failed a check that costs nothing to make.
+distribution around an opening must satisfy it, which gives a simple check
+on a numerical result.
 
 \subsection{Dimensional idealisation}
 \label{sec:plane-idealisations}
@@ -110,12 +110,12 @@ plates; it is rare underground. \emph{Axisymmetry} exploits rotational
 symmetry about an axis and suits a circular tunnel in a hydrostatic field, or
 a shaft.
 
-The important limitation concerns the face. Near it the ground does displace
-longitudinally, so the plane strain assumption fails exactly where support is
+The main limitation concerns the face. Near it the ground does displace
+longitudinally, so the plane strain assumption fails where support is
 installed and where most of the convergence occurs. Two-dimensional analysis
 handles this through a stress relaxation factor that releases only part of the
-in-situ stress before support is activated: a device, not a solution, and
-the reason three-dimensional analysis is required for junctions, portals and
+in-situ stress before support is activated. The factor is an approximation,
+and three-dimensional analysis is required for junctions, portals and
 sequenced excavations (Chapter~\ref{ch:numerical-modelling}).
 
 \section{Constitutive behaviour}
@@ -134,7 +134,7 @@ infinitesimal strain tensor is
 symmetric like the stress tensor and, like it, decomposable into volumetric
 and deviatoric parts.
 
-One notational trap recurs. Engineering shear strain $\gamma_{ij}$ is twice
+Engineering shear strain $\gamma_{ij}$ is twice
 the tensor shear strain $\varepsilon_{ij}$. Both appear in the literature,
 frequently without statement, and confusing them introduces a factor of two
 into the shear modulus.
@@ -145,8 +145,8 @@ cannot be independent. The compatibility conditions express that constraint: a
 strain field satisfying them corresponds to a continuous displacement field,
 and one that does not implies gaps or overlaps in the material.
 
-For closed-form solutions this is a working requirement rather than a formal
-nicety, because a solution is constructed by satisfying equilibrium,
+For closed-form solutions this is a working requirement,
+because a solution is constructed by satisfying equilibrium,
 compatibility and the boundary conditions simultaneously. In numerical
 analysis compatibility is enforced automatically by the displacement
 formulation, which is one reason finite element methods handle complex
@@ -186,8 +186,8 @@ cored at several orientations to the fabric, which multiplies the testing
 programme and demands core that survives being taken at unfavourable angles.
 Anisotropy is therefore frequently acknowledged in the geological description
 and ignored in the analysis. Where the fabric is strong and unfavourably
-oriented relative to the excavation, that omission is not conservative: it
-misplaces both the stiffness and the failure plane.
+oriented relative to the excavation, that omission is unconservative, because
+it misplaces both the stiffness and the failure plane.
 
 \subsection{Formulations for circular openings}
 \label{sec:formulations-for-circular-openings}
@@ -198,8 +198,8 @@ which stress has radial, tangential and shear components and the equilibrium
 equation takes the reduced form given above. Two features of the solution
 recur throughout the book.
 
-The tangential stress $\sigma_\theta$ at the boundary is the quantity that
-governs. It concentrates there, and where it exceeds the rock strength,
+The tangential stress $\sigma_\theta$ at the boundary is the governing
+quantity. It concentrates there, and where it exceeds the rock strength,
 spalling follows. The radial stress $\sigma_r$ falls to the support pressure
 at the boundary and to zero if the opening is unsupported, which is why
 excavation reduces confinement and drives the rock towards a weaker part of
@@ -207,15 +207,15 @@ its failure envelope even though the far-field stress is unchanged.
 
 \paragraph{Strain energy.}
 An elastically stressed rock mass stores energy, with density
-$U = \tfrac{1}{2}\sigma_{ij}\varepsilon_{ij}$. Excavation releases some of it:
-part absorbed in deformation and in work done on the support, the
-remainder available to drive fracture.
+$U = \tfrac{1}{2}\sigma_{ij}\varepsilon_{ij}$. Excavation releases some of it.
+Part is absorbed in deformation and in work done on the support, and the
+remainder is available to drive fracture.
 
-At moderate depth the released energy dissipates quietly. At high stress in
-brittle rock it need not: where the release exceeds what the rock and support
+At moderate depth the released energy dissipates without violence. At high
+stress in brittle rock, where the release exceeds what the rock and support
 can absorb, failure becomes violent. This is the basis of the energy treatment
-of rockburst in Chapter~\ref{ch:high-stress}, and it is the reason depth changes
-not only the magnitude of the design problem but its character.
+of rockburst in Chapter~\ref{ch:high-stress}, and it is why depth changes
+the character of the design problem as well as its magnitude.
 
 \section{Failure theory and criteria}
 \label{sec:failure-theory-and-criteria}
@@ -224,21 +224,21 @@ not only the magnitude of the design problem but its character.
 \label{sec:inelastic-behaviour-and-graphical-methods}
 
 \paragraph{Yield, flow and dilation.}
-Beyond the elastic limit, further vocabulary is needed. The \emph{yield
+Beyond the elastic limit, further terms are needed. The \emph{yield
 surface} bounds the elastic region in stress space; the failure criteria in
 this chapter are yield surfaces. The \emph{plastic potential} governs the
 direction of plastic straining. Where the two coincide the flow rule is
 \emph{associated}; where they do not it is \emph{non-associated}.
 
-For rock the distinction is practical rather than academic. An associated flow
+For rock the distinction has practical consequences. An associated flow
 rule with a Mohr--Coulomb yield surface predicts dilation at an angle equal to
-the friction angle, typically 30 to 40 degrees, which grossly overstates the
-volume increase actually observed. Non-associated flow with a dilation angle
+the friction angle, typically 30 to 40 degrees, which greatly overstates the
+volume increase observed. Non-associated flow with a dilation angle
 well below the friction angle (often a third of it, and approaching zero at
 high confinement) is the realistic choice, and dilation angle is a required
 input to most numerical models.
 
-Post-peak behaviour completes the picture
+The post-peak response takes one of three forms
 (Figure~\ref{fig:post-peak-behaviour}). \emph{Perfectly plastic} response
 maintains strength after yield; \emph{strain-softening} loses it
 progressively; \emph{brittle} response drops it abruptly. Rock mass quality
@@ -261,14 +261,14 @@ the stress on a plane of corresponding orientation. Failure occurs where the
 circle touches the strength envelope, and the tangent point identifies the
 plane on which it occurs.
 
-For underground work the construction earns its place through discontinuities.
+For underground work the construction is most useful for discontinuities.
 Given the stress state and a joint of known orientation, the Mohr circle
 returns the normal and shear stress acting on that joint directly, and
 comparison against its shear strength (Chapter~\ref{ch:engineering-geology})
 determines whether it will slip. Three-dimensional states plot as three
 circles, and the region between them contains the admissible stress
-combinations, a reminder that $\stwo$, ignored by both Mohr--Coulomb and
-Hoek--Brown, is nonetheless present and does affect strength.
+combinations. The intermediate principal stress $\stwo$, ignored by both
+Mohr--Coulomb and Hoek--Brown, is present and does affect strength.
 
 \subsection{Families of failure criteria}
 \label{sec:material-failure-theory}
@@ -284,7 +284,7 @@ hand. Three families are distinguished by what they take failure to be.
 Phenomenological criteria define failure as the attainment of a critical
 stress condition, without reference to the mechanism that produces it.
 Table~\ref{tab:phenomenological_criteria} lists those in common use. Two of
-them carry almost all of rock engineering practice. The Hoek--Brown criterion
+them account for almost all of rock engineering practice. The Hoek--Brown criterion
 represents the curved, confinement-dependent strength of rock, and the
 Mohr--Coulomb criterion supplies the cohesion and friction angle in which
 strength enters most design calculations and many numerical models. The usual
@@ -332,8 +332,8 @@ The criterion should follow from the engineering problem and not from
 convenience. Table~\ref{tab:criterion_selection} sets out the considerations:
 the material, the scale, the level of confinement, the expected mechanism, the
 data available, the form the analysis accepts and the purpose of the
-calculation. To adopt Mohr--Coulomb because it is simple justifies nothing. To
-adopt it because the analysis requires a linear strength envelope over the
+calculation. Simplicity alone does not justify adopting Mohr--Coulomb.
+Adopting it because the analysis requires a linear strength envelope over the
 confinement range of the project, with parameters derived from Hoek--Brown
 over that range, is a statement that can be examined and defended.
 
@@ -649,11 +649,10 @@ Section~\ref{sec:hb-to-mc-intact} to fit the envelope to strength data.
 The criterion is linear, and so does not capture the curvature of rock
 strength across different levels of confinement. Extended into tension it
 often overestimates the tensile strength. It takes no explicit account of the
-intermediate principal stress \(\sigma_2\). And the parameters it provides are
+intermediate principal stress \(\sigma_2\). Finally, the parameters it provides are
 equivalent values that hold only over the stress range from which they were
-derived. Mohr--Coulomb is convenient, but it is not a universal material law,
-and it is best treated as a design approximation that depends on the stress
-range.
+derived. Mohr--Coulomb is therefore best treated as a design approximation
+that depends on the stress range.
 
 \subsection{The Hoek--Brown criterion}
 \label{sec:hoek-brown-intact}
@@ -884,9 +883,9 @@ two-stress description. The minimum in-situ principal stress is still
 \[
 \sigma_3^{IS}=\min(\sigma_v,\sigma_{h,k}) ,
 \]
-and the two coincide only where \(\sigma_v=\sigma_{h,k}\). The first is a
-stress state in the ground. The second is a modelling choice made for curve
-fitting.
+and the two coincide only where \(\sigma_v=\sigma_{h,k}\). The minimum
+principal stress is a stress state in the ground, whereas the fitting limit
+is a modelling choice made for curve fitting.
 
 Fitting to \(\sigma_3^{IS}\) instead is possible, but it gives a narrower
 range. A narrower range usually gives a higher \(\phi\) and a lower \(c\),
@@ -954,8 +953,8 @@ c = \frac{A}{\cos\phi} .
 The gradient $B$ and the intercept $A$ are those of an ordinary
 least-squares fit, available in any
 spreadsheet or statistical package and implemented in \companionname\
-(Appendix~\ref{app:software}). What matters is not the tool but the range:
-the fit must be made over the confining stresses the problem actually spans,
+(Appendix~\ref{app:software}). The range matters more than the tool.
+The fit must be made over the confining stresses the problem spans,
 because the equivalent cohesion and friction angle are properties of that
 range and not of the rock alone.
 
@@ -976,7 +975,7 @@ c =
 \]
 The two methods give similar results when the same stress range and data
 points are used. A large difference usually indicates an arithmetic or unit
-error and not a genuine feature of the data.
+error and not a feature of the data.
 
 \subsection{Intact strength of four rocks}
 \label{sec:design-data-and-stress-calculation}
@@ -1069,7 +1068,7 @@ intact strength exceeds the major in-situ stress several times over, by a
 factor of about 8 in the granite and 9 in the sandstone. That margin belongs
 to the intact material. The strength that governs an excavation is that of
 the jointed rock mass, which Chapter~\ref{ch:rock-mass-parameters} derives
-from the same data and which is very much lower.
+from the same data and which is much lower.
 
 \begin{figure}[htbp]
 \centering

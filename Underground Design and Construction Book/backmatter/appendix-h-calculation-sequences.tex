@@ -8,9 +8,9 @@
 \label{app:calculations}
 
 Each sequence below is set out as numbered steps, with the equation, the input
-required and the check to apply at that step. They are deliberately
-hand-workable: the point is to be able to verify what a program returns.
-Symbols follow the list of symbols; the underlying expressions are collected
+required and the check to apply at that step. They can be worked by
+hand, so that what a program returns can be verified.
+Symbols follow the List of Symbols; the underlying expressions are collected
 in Appendix~\ref{app:closed-form} and typical values in
 Appendix~\ref{app:constants}.
 
@@ -53,7 +53,7 @@ of interest. Supports Chapter~\ref{ch:rock-mass-parameters}.
   record which value is adopted and why.
 
   \item Fit equivalent Mohr--Coulomb parameters over the confining stress
-  range that the problem actually spans, taking
+  range that the problem spans, taking
   $\sigma_{3\max}$ from the tunnel depth and geometry rather than from a
   default.
   \emph{Check:} the fitted envelope should lie within a few per cent of the
@@ -90,8 +90,9 @@ Chapters~\ref{ch:ccm} and~\ref{ch:support}.
 
   \item From the longitudinal deformation profile, compute the convergence
   $u_{s0}$ already released at the installation distance $X$.
-  \emph{Check:} $u_{s0}/u_{\max}$ should be roughly 0.25 at the face and 0.7 to
-  0.9 at two to three radii behind it.
+  \emph{Check:} $u_{s0}/u_{\max}$ should be roughly 0.25 at the face and, two
+  to three radii behind it, 0.8 to 0.9 where the plastic zone reaches about two
+  radii and about 0.95 in elastic ground.
 
   \item Construct the support characteristic curve, using the stiffness and
   capacity expressions for the actual system, offset along the convergence
@@ -289,7 +290,7 @@ Chapter~\ref{ch:settlement-damage}.
   \item Where two drives are involved, apply to the second drive the
   modification factor for its increased volume loss through ground already
   disturbed by the first (Section~\ref{sec:existing-tunnels-interaction}), then
-  superpose the two troughs. Do not simply double the single-tunnel result.
+  superpose the two troughs. Do not double the single-tunnel result.
 \end{enumerate}
 
 \section{Face support pressure sequence}

@@ -34,7 +34,7 @@ later~\citep{hoek1995support}. The earlier schemes were written to select
 support. The last was written to feed a failure criterion, and the difference
 in purpose explains most of the differences in what each system counts.
 
-A classification is not a calculation alone. Each system reduces to arithmetic
+Each system reduces to arithmetic
 once its ratings are assigned, but the ratings themselves are geological
 judgements, and a reported RMR, $Q$ or GSI value is incomplete without the
 justification for each rating behind it.
@@ -79,7 +79,7 @@ returns the process to the data rather than to the arithmetic.
 
 \end{tikzpicture}
 }
-\caption{Recommended rock mass classification workflow.}
+\caption{Classification workflow. The data are collected once and the three systems are evaluated from them in turn; an inconsistency found at the comparison returns the process to the data.}
 \label{fig:classification_workflow}
 \end{figure}
 
@@ -209,7 +209,8 @@ RQD = 110.4 - 3.68\lambda
 (6 < \lambda < 16) ,
 \]
 where \(\lambda\) is the discontinuity frequency in joints per metre, the mean
-spacing being \(s = 1/\lambda\). An RQD of 68\,\% gives
+spacing being \(s = 1/\lambda\). An RQD of 68\,\%, that of the sandstone in
+Section~\ref{sec:classification-design-data}, gives
 \[
 \lambda = \frac{110.4 - 68}{3.68} = 11.52~\text{joints/m},
 \qquad
@@ -224,7 +225,7 @@ a spacing obtained from it carries that uncertainty into the rating.
 \begin{figure}[htbp]
 \centering
 \datafigure[0.62\textwidth]{ch10/rqd-frequency}
-\caption{RQD against discontinuity frequency: the exponential relation of Priest and Hudson for randomly spaced joints, and its linear approximation, valid over the shaded range $6 < \lambda < 16$. The point is the example RQD of 68\,\%, $\lambda = 11.5$~m$^{-1}$.}
+\caption{RQD against discontinuity frequency: the exponential relation of \citet{priest1976discontinuity} for randomly spaced joints, and its linear approximation, valid over the shaded range $6 < \lambda < 16$. The point is the example RQD of 68\,\%, $\lambda = 11.5$~m$^{-1}$.}
 \label{fig:rqd-frequency}
 \end{figure}
 
@@ -233,7 +234,7 @@ The fourth rating describes the surfaces themselves
 (Table~\ref{tab:rmr_condition}). Field descriptions seldom match a single row.
 Where a description mixes features, the rating adopted is the one that best
 represents the likely engineering behaviour, with the reason recorded; the
-most favourable reading of a mixed description is not a defensible default.
+most favourable reading of a mixed description should not be adopted by default.
 
 \begin{table}[htbp]
 \caption{RMR rating for discontinuity condition.}
@@ -387,7 +388,7 @@ contact, in three groups according to whether the walls remain in contact
 during shear (Table~\ref{tab:ja}). The table is abridged from the original.
 
 \begin{table}[htbp]
-\caption{Joint alteration number \(J_a\).}
+\caption{Joint alteration number \(J_a\) (abridged).}
 \label{tab:ja}
 \centering
 \small
@@ -451,7 +452,7 @@ squeezing and swelling (Table~\ref{tab:srf}), and it is among the most
 judgement-sensitive parts of the system.
 
 \begin{table}[htbp]
-\caption{Stress Reduction Factor (SRF).}
+\caption{Stress reduction factor SRF.}
 \label{tab:srf}
 \centering
 \small
@@ -485,7 +486,7 @@ Heavy swelling & 10--15 \\
 \end{tabularx}
 \end{table}
 
-The choice of category matters more than the value read within it. Category
+The choice of category has more effect than the value read within it. Category
 (a) applies wherever the excavation intersects weakness zones, heavily jointed
 zones or poorly interlocked rock, whatever the stress level. Category (b)
 applies when the rock mass is competent and the ratio
@@ -501,13 +502,13 @@ The resulting value places the rock mass on a logarithmic scale of quality
 (Table~\ref{tab:q_quality}).
 
 \begin{table}[htbp]
-\caption{Rock mass quality based on Q-value.}
+\caption{Rock mass quality based on the \(Q\) value.}
 \label{tab:q_quality}
 \centering
 \small
 \begin{tabular}{c l}
 \toprule
-\textbf{Q-value} & \textbf{Rock mass quality} \\
+\textbf{\(Q\) value} & \textbf{Rock mass quality} \\
 \midrule
 \(>400\) & Exceptionally good \\
 100--400 & Extremely good \\
@@ -525,7 +526,7 @@ The resulting value places the rock mass on a logarithmic scale of quality
 \section{Geological Strength Index}
 \label{sec:geological-strength-index}
 
-The Geological Strength Index describes two things only: the structure of the
+The Geological Strength Index describes only the structure of the
 rock mass and the condition of its discontinuity surfaces. It is the input
 through which geology enters the generalised Hoek--Brown
 criterion~\citep{hoek2019hb} of Chapter~\ref{ch:rock-mass-parameters}, and for
@@ -555,7 +556,7 @@ fillings.
 \paragraph{Chart-based GSI estimation}
 The two descriptions are combined on the GSI chart, reproduced numerically as
 Table~\ref{tab:gsi} of Appendix~\ref{app:constants}, to give a range rather
-than a number. The range is the result. A single GSI value reported without
+than a number. A single GSI value reported without
 its descriptive basis cannot be checked, and a record of the form ``blocky to
 very blocky, with slightly rough but highly weathered surfaces, giving a GSI
 range from which a representative value is adopted'' is the minimum that
@@ -574,7 +575,8 @@ rating \(R_5\) actually assessed, by
 \[
 RMR'_{89} = RMR_{\text{basic}} - R_5 + 15 .
 \]
-For a basic RMR of 60 assessed with \(R_5 = 7\),
+For a basic RMR of 60 assessed with \(R_5 = 7\), the values of the sandstone
+in Section~\ref{sec:classification-design-data},
 \[
 RMR'_{89} = 60 - 7 + 15 = 68,
 \qquad
@@ -617,7 +619,7 @@ Four estimates are therefore available: the chart value, the value from
 Figure~\ref{fig:gsi_selection} shows how they are reconciled. The chart-based
 value is the primary one, because it is the direct geological judgement the
 index was defined to record, and the correlations serve as checks on it. Where
-the estimates differ significantly, the difference is itself information about
+the estimates differ significantly, the difference is information about
 the rock mass or about the logging, and it is explained before a cautious
 value within the supported range is adopted.
 
@@ -648,7 +650,7 @@ value within the supported range is adopted.
 
 \end{tikzpicture}
 }
-\caption{Workflow for selecting a defensible GSI value.}
+\caption{Selection of a GSI value. The chart estimate is compared with the empirical estimates, and differences are explained before a design value or range is adopted.}
 \label{fig:gsi_selection}
 \end{figure}
 
@@ -718,7 +720,7 @@ anticipated in Section~\ref{sec:rmr-system}, and the uniaxial strength
 governs the rating.
 
 A summary of this kind cannot carry everything a rating depends on. Ratings
-assigned from tabulated descriptors inherit whatever the descriptors omit, and
+assigned from tabulated descriptors are limited by what the descriptors omit, and
 the justification for each rating, with the calculation behind each derived
 value, belongs in the record alongside the result.
 

@@ -10,13 +10,12 @@
 
 No method in this book requires a particular program. Every calculation in the
 main text is stated so that it can be followed by hand, and the sequences of
-Appendix~\ref{app:calculations} exist for exactly that purpose. Software is a
-convenience, not a prerequisite, and a reader with a calculator and the
+Appendix~\ref{app:calculations} exist for that purpose. A reader with a calculator and the
 expressions of Appendix~\ref{app:closed-form} can reproduce every closed-form
 result printed in the main text. The computed figures described in
 Section~\ref{sec:demonstrator-figures} are the one exception.
 
-That said, several of the calculations are tedious by hand and instructive when
+Several of the calculations are nonetheless tedious by hand and instructive when
 varied. The book is therefore accompanied by \companionname. It is a single
 interactive application that runs in a browser, released openly with its
 source at
@@ -110,25 +109,26 @@ alignment through simulated ground, a simulated population of three thousand
 buildings above it, and a simulated movement field before and during
 construction. No project record appears in any of them.
 
-That is a deliberate choice rather than a limitation. Monitoring records of the
+The data is synthetic by choice. Monitoring records of the
 kind these figures show are commercially and legally restricted almost
 everywhere, and a book that reproduced one could show it only in part. A
 synthetic corridor can be published whole. The
 consequence is that these figures illustrate the shape of a method and not the
 behaviour of any ground: no settlement, rate, error or proportion printed in
-them should be read as characteristic of a real machine, a real geology or a
-real building stock. Where a chapter needs a value a reader might use, it is
+them should be read as characteristic of an actual machine, geology or
+building stock. Where a chapter needs a value a reader might use, it is
 given in the text and sourced there.
 
-Two cautions attach to reading them. The demonstrator is seeded, so the figures
-are stable between runs and the numbers quoted in the captions match what the
-export produces; a change to the demonstrator changes the figures, and the
+Two cautions apply to reading them. The first is that the demonstrator is
+seeded, so the figures are stable between runs and the numbers quoted in the
+captions match what the export produces. A change to the demonstrator changes
+the figures, and the
 export script that writes them (\code{tools/export\_twin\_figures.py} in the
 book's own repository) reports the model error on every run so that such a
-change is visible rather than silent. The second caution is that the settlement
+change is visible. The second caution is that the settlement
 bands of Figure~\ref{fig:settlement-screening} are screening magnitudes and
-not damage categories in the sense of Section~\ref{sec:damage-assessment},
-with the force its caption gives them and no more.
+not damage categories in the sense of Section~\ref{sec:damage-assessment};
+they carry only the force its caption gives them.
 
 \section{Relationship to commercial software}
 \label{sec:commercial-software}
@@ -144,7 +144,7 @@ for any input, including inputs outside the range in which its formulation is
 valid; the check on that is the reader's, and it is easier to make when the
 underlying expression is known. The second is that a result which cannot be
 reproduced by an independent route has not been verified. Running a hand
-calculation from Appendix~\ref{app:calculations}, or one of the scripts above,
+calculation from Appendix~\ref{app:calculations}, or one of the pages above,
 against a package result is the cheapest verification available, and
 disagreement between the two is informative whichever turns out to be wrong.
 

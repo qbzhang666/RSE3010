@@ -4,9 +4,9 @@
 \label{ch:site-investigation}
 
 Site investigation converts a geological interpretation into the quantities
-that design consumes. Its product is not a set of boreholes but a
+that design consumes. Its product is a
 characterisation of the ground and of the confidence attaching to it, and the
-second half of that statement is the one more often neglected. This chapter
+confidence is the part more often neglected. This chapter
 considers the data an investigation returns, the indices derived from them,
 and the transformations by which those indices become design parameters. The
 emphasis throughout falls on the reliability of each transformation, since the
@@ -21,7 +21,7 @@ data source among several for the ground model, and are treated there
 \subsection{From observation to design parameter}
 \label{sec:observation-to-parameter}
 
-A rock mass is not the same as intact rock. It consists of intact blocks
+A rock mass consists of intact blocks
 separated by discontinuities such as joints, bedding planes, faults, shears
 and weathered zones, and its engineering behaviour is governed by the
 properties of the intact rock and by the characteristics of the
@@ -161,8 +161,8 @@ intact strength, fracturing and weathering grade, as in the matrix of
 Table~\ref{tab:class-matrix}. Lower subunit numbers indicate less weathered
 rock of better quality. The matrix makes the subdivision reproducible, so
 that two engineers logging the same core assign the same subunit, and it
-makes plain that a subunit label carries a strength class and a GSI range and
-not a single value of either.
+shows that a subunit label carries a strength class and a GSI range rather
+than a single value of either.
 
 \begin{table}[htbp]
 \caption{Example rock mass class definition matrix for a weathered sedimentary sequence.}
@@ -238,7 +238,7 @@ percentage of sound core in pieces longer than 100~mm, and it conveys no
 information about joint condition (roughness, weathering, infilling), about
 the orientation of joints relative to the excavation, about the shear
 strength of discontinuities, about intact rock strength or about the
-deformability of the rock mass. It serves as a proxy that feeds
+deformability of the rock mass. It is a proxy that feeds
 classification systems, which in turn estimate mechanical parameters, and
 each step introduces further assumptions and uncertainty.
 
@@ -246,11 +246,11 @@ each step introduces further assumptions and uncertainty.
 \label{sec:orientation-bias}
 
 \paragraph{Sources of bias.}
-Three limitations affect RQD in practice. The first is orientation. Vertical
+Three limitations affect RQD. The first is orientation. Vertical
 drilling may miss sub-vertical joints and so overestimate RQD, whereas a
 horizontal hole in the same ground may intersect more joints and return a
-lower value. There is consequently no RQD free of orientation, only RQD
-measured along a direction relative to the joint sets. The second is core
+lower value. RQD is consequently always a value
+measured along a particular direction relative to the joint sets. The second is core
 loss. Lost core typically represents the weakest zones, and ignoring it
 inflates the index. The third is the absence of joint condition: smooth,
 weathered joints with clay infill yield the same RQD as rough, fresh, tight
@@ -268,7 +268,7 @@ and Figure~\ref{fig:r3d-rqd-orientation} shows the two cores it would return.
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch05/rqd-orientation-bias}
-\caption{Orientation bias in RQD (section schematic, spacing exaggerated). Bedding at 6.8 joints per metre and a sub-vertical set at 12 per metre: the vertical hole meets only the bedding ($\RQD = 85$ per cent), the hole at $60^\circ$ meets both (60 per cent). $\lambda$ sums each set's frequency times the cosine of its angle to the hole; $\RQD = 100\,e^{-0.1\lambda}(1+0.1\lambda)$ for randomly spaced joints \citep{priest1976discontinuity}.}
+\caption{Orientation bias in RQD (section schematic, spacing exaggerated). Bedding at 6.8 joints per metre and a sub-vertical set at 12 per metre: the vertical hole meets only the bedding ($\RQD = 85$ per cent), the hole at $60^\circ$ meets both (60 per cent). $\lambda$ sums each set's frequency times the cosine of the angle between the hole and the set normal; $\RQD = 100\,e^{-0.1\lambda}(1+0.1\lambda)$ for randomly spaced joints \citep{priest1976discontinuity}.}
 \label{fig:rqd-orientation-bias}
 \end{figure}
 
@@ -290,10 +290,10 @@ many short ones.}
 \end{figure}
 
 \paragraph{RQD as a spatial variable.}
-RQD is not a single value but a variable distributed in space. It can vary
+RQD is a spatially distributed variable. It can vary
 considerably along an alignment, so a single borehole is insufficient to
 characterise it, and although more boreholes reduce the uncertainty they can
-never eliminate it. Design accordingly employs characteristic values and not
+never eliminate it. Design accordingly employs characteristic values rather than
 means, in the sense defined in
 Section~\ref{sec:modern-techniques-and-engineering-judgement}.
 
@@ -305,8 +305,8 @@ transformations, each with its own assumptions and uncertainties:
 \[
 \text{Core} \rightarrow \text{RQD} \rightarrow \text{RMR} \rightarrow \text{GSI} \rightarrow m_b, s, a_{HB} \rightarrow \sigma_1 .
 \]
-The question is not whether these empirical correlations are valid but how
-much uncertainty they introduce into the final design parameters.
+The concern here is how much uncertainty these empirical correlations
+introduce into the final design parameters.
 
 \paragraph{Sensitivity of Hoek--Brown parameters to GSI.}
 Relatively small changes in GSI produce substantial variations in rock mass
@@ -333,14 +333,13 @@ GSI~\citep{hoek2019hb} are set out in Chapter~\ref{ch:rock-mass-parameters}.
 \end{tabular}
 \end{table}
 
-A reduction of only 10 points in GSI, from 55 to 45, lowers the uniaxial
-compressive strength of the rock mass by approximately 44\%
+A reduction of 10 points in GSI, from 55 to 45, lowers the uniaxial
+compressive strength of the rock mass by approximately 44 per cent
 (Figure~\ref{fig:gsi-strength-sensitivity}). Because
 \(\sigma_{cm}\) is proportional to \(\sigma_{ci}\) and does not involve
 \(m_b\), that percentage holds for any rock at the same GSI and \(D\); and
 because \(s\) falls exponentially with GSI, the sensitivity is strongly
-nonlinear. A 10-point error in GSI can thus change the rock mass strength by
-over 40\%.
+nonlinear.
 
 \begin{figure}[htbp]
 \centering
@@ -350,11 +349,12 @@ over 40\%.
 \end{figure}
 
 \paragraph{The consequence of overestimation.}
-The error is not symmetrical in its effect. If GSI were overestimated by 10
+The two directions of error differ in consequence. If GSI were overestimated by 10
 points, as 55 where the ground is 45, the computed rock mass strength
-$\sigma_{cm}$ would be roughly 80\% higher than the true value, which is the
-inverse of the 44\% reduction in Table~\ref{tab:sensitivity}. Support designed
-on it would be unsafe and not merely uneconomic.
+$\sigma_{cm}$ would be roughly 80 per cent higher than the true value, which is the
+inverse of the 44 per cent reduction in Table~\ref{tab:sensitivity}. Support
+designed on that value would be unsafe, where an underestimate of the same
+size would be uneconomic.
 
 \section{Modern techniques and engineering judgement}
 \label{sec:modern-techniques-and-engineering-judgement}
@@ -405,8 +405,7 @@ most projects the record is discarded. Site investigation boreholes are few
 and expensive; probe holes ahead of the face, blast holes, bolt holes and
 grout holes are numerous and drilled anyway. A modern rig logs penetration
 rate, rotation pressure, feed force, torque and flush pressure against depth
-for every one of them, and that record is a ground measurement whether or not
-anyone treats it as one.
+for every one of them, and that record is a ground measurement.
 
 The argument for using it is the same one made for tunnelling machine data in
 Chapter~\ref{ch:digital-twin}, and it applies with more force here because it
@@ -423,7 +422,7 @@ operator or the control system. Flush pressure responds to the condition of
 the hole, rising where cuttings are not clearing and falling sharply where the
 bit enters an open feature.
 
-None is interpretable raw. Penetration rate depends on the feed force applied
+None can be interpreted without processing. Penetration rate depends on the feed force applied
 and on bit wear as much as on the rock, so a rate falling through a shift may
 record a blunt bit rather than harder ground. The standard response is
 normalisation: parameters are combined into an index that removes the
@@ -453,11 +452,11 @@ logged quantities without additional instrumentation.
 \label{fig:mwd-specific-energy}
 \end{figure}
 
-The practical requirements are prosaic and are where most attempts fail.
+Most attempts fail on the practical requirements.
 Depth registration must be reliable, since a log misaligned by half a metre is
 worse than none. Bit changes must be recorded so that wear trends can be
-separated from ground trends. And control-system interventions (automatic
-reductions in feed on entering broken ground) must be logged, because
+separated from ground trends. Control-system interventions (automatic
+reductions in feed on entering broken ground) must also be logged, because
 otherwise the machine's response to the ground is mistaken for the ground
 itself.
 
@@ -469,7 +468,7 @@ locating features rather than quantifying properties. A void, an open joint, a
 clay-filled seam or a weathered zone produces a characteristic and abrupt
 signature. A jump in penetration rate with a collapse in flush pressure is
 the classic indication of an open feature (Figure~\ref{fig:mwd-open-feature}),
-and detection is robust because
+and detection is reliable because
 it relies on the change rather than on the absolute value. This is the
 application with the highest value and the lowest calibration burden, and it
 turns routine probe drilling from a procedural safeguard into a survey.
@@ -485,8 +484,8 @@ The second is estimation: relating the normalised parameters to a
 classification quantity. Correlations to fracture frequency and $\RQD$ have
 been demonstrated repeatedly~\citep{schunnesson1996rqd}, and correlations to
 $Q$ and to intact strength are used in practice, particularly in Scandinavian
-tunnelling where the technique is most developed. These are genuine
-correlations and they are also site-specific: a relation calibrated on one
+tunnelling where the technique is most developed. The correlations
+are site-specific: a relation calibrated on one
 formation with one rig does not transfer unchanged, and the calibration
 requires holes that are both logged conventionally and drilled with recording
 active.
@@ -495,7 +494,7 @@ The limitations should be stated as clearly as the capabilities. The
 measurement is confined to the volume the bit passes through, so it says
 nothing about orientation and cannot replace an oriented core or a televiewer
 survey. It responds to the composite of strength, fracturing and weathering
-without separating them. And the correlation degrades in exactly the ground
+without separating them. The correlation also degrades in the ground
 where it is most wanted, because broken ground drills erratically for reasons
 that include hole instability as well as rock condition.
 
@@ -514,18 +513,18 @@ become a continuous forward characterisation rather than a set of individual
 warnings, which materially improves the treatment of inrush and adverse ground
 described in Chapters~\ref{ch:hydrogeology} and~\ref{ch:ground-improvement}.
 The blast round itself reports the ground it was fired in, giving a dense
-record along the whole drive at no additional cost. And the resulting
-observations are exactly the kind consumed by the Bayesian updating relation
+record along the whole drive at no additional cost. The resulting
+observations are also of the kind used by the Bayesian updating relation
 of Chapter~\ref{ch:integrated-design} (Section~\ref{sec:updating-relation}),
 which revises a prior estimate of a ground parameter as observations
 accumulate: numerous, cheap, imperfect, and directly related to a parameter
 the design depends on.
 
-The technique should be commissioned deliberately rather than hoped for. That
+The technique has to be commissioned deliberately. That
 means specifying the recording, the depth registration and the data format in
 the contract, agreeing the calibration holes before the drive begins, and
-naming who interprets the output. A rig that logs to a proprietary format
-nobody can read has produced nothing, which is the same failure of digital
+naming who interprets the output. A record logged in a proprietary format
+that nobody can read is of no use, which is the same failure of digital
 continuity described in Chapter~\ref{ch:assets}.
 
 \chapterreferences

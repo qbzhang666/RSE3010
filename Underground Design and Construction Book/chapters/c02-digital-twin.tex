@@ -9,8 +9,8 @@
 \label{ch:digital-twin}
 
 Information management has become a defining feature of underground practice,
-and the object at its centre is not the geometric model of the structure but a
-combined representation of structure and ground. Such a model carries strata
+and the object at its centre is a combined representation of structure and
+ground rather than a geometric model of the structure alone. Such a model carries strata
 and inferred boundaries, hydrogeological units, design parameters and their
 uncertainty, construction sequence and support timing, quantities and carbon
 factors, and monitoring and inspection records. Its purpose is to allow
@@ -18,11 +18,11 @@ design, construction, carbon accounting, risk management and operation to draw
 on a single description of the project rather than on separate and divergent
 ones.
 
-This chapter comes before the ground chapters deliberately. The
+This chapter comes before the ground chapters because the
 characterisation, design, construction and operation chapters that follow all
-read from and write to this model, and the discipline of keeping one current
+read from and write to this model. Keeping one current
 model is what makes the lifecycle argument of Chapter~\ref{ch:challenges}
-operational rather than aspirational. The subject here is information flow and
+workable. The subject here is information flow and
 decision traceability, not software.
 
 \section{The geo-integrated asset model}
@@ -41,8 +41,8 @@ between sparse observations, its properties are inferred through correlation
 chains, and its uncertainty is irreducible.
 
 A model that represents only the structure therefore omits the governing
-variable. Worse, it invites the fiction that the ground is the empty space
-around the tunnel rather than the material the design is about. The
+variable, and it encourages the ground to be treated as the space
+around the tunnel rather than as the material being designed in. The
 distinguishing feature of a useful underground model is that geology,
 hydrogeology and their uncertainty are modelled objects with the same standing
 as the lining.
@@ -85,7 +85,7 @@ A model that serves the whole lifecycle integrates, in one structure:
 The first three establish what is being built and in what; the fourth records
 how; the fifth and sixth are what make carbon assessment and asset management
 possible without a separate data-gathering exercise. Omitting any one of them
-does not merely reduce functionality. It breaks a link in the chain that
+breaks a link in the chain that
 carries a decision back to its evidence.
 
 \subsection{Level of detail as a decision variable}
@@ -98,11 +98,11 @@ ground classification; operation needs asset registers and condition records.
 These are different models of the same asset, and the common error is to build
 all of them at the finest available resolution.
 
-That error is expensive twice over. It costs directly, in modelling effort
+That error has two costs: directly, in modelling effort
 that no decision requires, and indirectly, because a model detailed beyond its
 evidence base implies a precision the data cannot support. A ground surface
-drawn to millimetre tolerance between boreholes 200\,m apart is a statement
-about the interpolator, not about the ground (Figure~\ref{fig:dt-interpolation}).
+drawn to millimetre tolerance between boreholes 200\,m apart describes
+the interpolator rather than the ground (Figure~\ref{fig:dt-interpolation}).
 
 \begin{figure}[htbp]
 \centering
@@ -116,7 +116,7 @@ trough, which no interpolation of these five holes can recover.}
 \end{figure}
 
 The practical discipline is to state, for each model, the decisions it exists
-to support and the tolerance those decisions require, and to resist enrichment
+to support and the tolerance those decisions require, and to add no detail
 that serves neither.
 
 \section{Standards, environments and the analysis loop}
@@ -127,8 +127,8 @@ that serves neither.
 
 An underground asset outlives the software used to design it, usually by
 several decades and often by a century. Information held only in a proprietary
-format is therefore information with an expiry date, and the cost of that
-expiry falls on the operator rather than on the designer who chose the format.
+format is therefore liable to become unreadable within the life of the asset,
+and the cost falls on the operator rather than on the designer who chose the format.
 
 Open exchange schemas exist to prevent this. The Industry Foundation Classes
 (IFC) family provides the established route for building and infrastructure
@@ -138,7 +138,7 @@ alignment geometry and ground objects represented alongside structure.
 Information management standards in the ISO 19650 series govern how that
 information is named, versioned, approved and handed over~\citep{iso19650}.
 
-Neither standard makes a model correct. What they do is make it legible to
+Neither standard makes a model correct. They make it legible to
 someone who did not build it, which is the condition for the model surviving
 the transition from designer to contractor to operator.
 
@@ -155,7 +155,8 @@ model, or an error.
 
 The contractual significance is equal. Where model information forms part of
 the contract, the status of a given version determines whether a contractor
-was entitled to rely on it. Ambiguity here reappears later as a claim.
+was entitled to rely on it. Ambiguity about that status later becomes the
+subject of a claim.
 
 \subsection{Forward prediction and backward updating}
 \label{sec:forward-backward}
@@ -184,14 +185,19 @@ remainder attributed to the works (Figure~\ref{fig:movement-attribution}).}
 Both directions are necessary. Forward analysis alone produces a prediction
 nobody checks; backward updating alone produces a record nobody uses. The loop
 must also stay active after construction, because the operational phase
-generates the longest and most complete record of how the asset actually
+generates the longest and most complete record of how the asset
 behaves.
 
-Backward updating begins earlier than it appears to. An observation is not by
-itself evidence about the excavation, because ground moves for reasons that
-have nothing to do with the works (groundwater abstraction, consolidation
-under existing load, seasonal shrink and swell), and a reading that is not
-referred to what the ground was already doing attributes all of that movement
+Keeping the loop active is an organisational problem more than a technical one. It
+requires that someone owns the model, that updating it is a scheduled activity
+rather than a voluntary one, and that the design team remains engaged long
+enough to receive the evidence that tests its assumptions.
+
+Backward updating begins before construction. An observation is not by
+itself evidence about the excavation, because ground moves for reasons
+unrelated to the works (groundwater abstraction, consolidation
+under existing load, seasonal shrink and swell). A reading that is not
+referred to the movement already under way attributes all of that movement
 to the tunnel. Establishing the pre-construction field is therefore part of the
 loop rather than preparation for it, and
 Figure~\ref{fig:movement-attribution} shows the separation it makes possible.
@@ -214,11 +220,6 @@ surveyed (Appendix~\ref{app:software}).}
 \label{fig:movement-attribution}
 \end{figure}
 
-Keeping it active is an organisational problem more than a technical one. It
-requires that someone owns the model, that updating it is a scheduled activity
-rather than an act of goodwill, and that the design team remains engaged long
-enough to receive the evidence that tests its assumptions.
-
 \section{Digital twins}
 \label{sec:digital-twins}
 
@@ -236,7 +237,7 @@ answer:
  This level is a record; it does not change unless someone changes it.
  \item[Reflective] \emph{What is happening now?} Monitoring, machine data,
  inspection and condition observations are ingested to validate the model
- and diagnose the current state. The model now has a present tense.
+ and diagnose the current state.
  \item[Predictive] \emph{What will happen next?} Physical, statistical,
  machine-learning and surrogate models (Section~\ref{sec:surrogate-models})
  forecast settlement, convergence,
@@ -249,15 +250,15 @@ answer:
 Each level requires the one before it (Figure~\ref{fig:dt-maturity}). The step to reflective adds a class of
 data the descriptive level did not need; the steps to predictive and
 prescriptive add models and decision criteria to data already being
-collected. A predictive twin built without a reflective layer is a
-simulation, not a twin: it forecasts from assumptions rather than from the
-asset's measured state.
+collected. A predictive model built without a reflective layer is a
+simulation rather than a twin, because it forecasts from assumptions and not
+from the asset's measured state.
 
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch02/dt-maturity}
-\caption{The four levels of twin maturity, each answering one question and
-each standing on the level before it. The step to reflective adds measured
+\caption{The four levels of twin maturity, each defined by one question and
+each requiring the level before it. The step to reflective adds measured
 data; the steps to predictive and prescriptive add forecasting models and
 decision criteria to data already being collected.}
 \label{fig:dt-maturity}
@@ -281,8 +282,8 @@ mapping and lining defect detection from imagery.
 Two cautions govern their use. The first is transferability: a model trained
 on one machine in one geological setting encodes both, and its performance on
 a different drive is an open question rather than an inherited property. The
-second is extrapolation. Statistical models are confident outside their
-training envelope, and it is precisely outside that envelope (the fault
+second is extrapolation. Statistical models return confident predictions outside their
+training envelope, and it is outside that envelope (the fault
 zone, the mixed face, the unexpected boulder) that a prediction matters
 most.
 
@@ -298,7 +299,7 @@ This bears directly on emerging methods. Digital twins, machine-learning
 prediction and prescriptive maintenance are presented in this book as
 forward-looking capabilities, and they should be presented that way in design
 documentation until supported by mature project evidence. Separating
-established practice from developing method is not conservatism; it is what
+established practice from developing method
 allows a reviewer to know which parts of a submission rest on a case base and
 which rest on a model.
 
@@ -309,26 +310,26 @@ has not yet completed the design.
 \section{Assurance of data-driven methods}
 \label{sec:ml-assurance}
 
-The preceding section states where accountability sits. This one states what
-has to be done to discharge it, because a statistical model informing a
+Section~\ref{sec:data-governance} states where accountability sits; this
+section states what has to be done to discharge it. A statistical model informing a
 support class needs an assurance regime as specific as the one
-Chapter~\ref{ch:numerical-modelling} sets out for a numerical model, and it
-cannot borrow that one. Verification against an analytical solution, mesh
-convergence and equilibrium checks have no counterpart here. What replaces
-them is a discipline about data, and it is unfamiliar enough in geotechnical
-practice to be worth stating explicitly.
+Chapter~\ref{ch:numerical-modelling} sets out for a numerical model, but it
+cannot use the same one: verification against an analytical solution, mesh
+convergence and equilibrium checks have no counterpart here. They are replaced
+by a discipline about data, which is unfamiliar enough in geotechnical
+practice to be set out explicitly.
 
 \subsection{What validation means}
 \label{sec:ml-validation}
 
 Validation means demonstrating performance on data the model has not seen.
-The difficulty lies entirely in what counts as unseen, and geotechnical data
+The difficulty lies in what counts as unseen, and geotechnical data
 makes that harder than it is in most fields.
 
 Samples from one borehole are not independent of one another. A model trained
-on part of a hole and tested on the rest is being tested on material it has
-effectively already seen, and will report an accuracy it does not possess on a
-new hole, which is the only situation in which it will ever be used. The
+on part of a hole and tested on the rest is tested on material it has
+effectively already seen. It will report an accuracy that it does not achieve on a
+new hole, which is the only situation in which it will be used. The
 unit of splitting must therefore be the unit of future application: whole
 boreholes for a lithology classifier, whole drives or machines for a model
 built on tunnelling machine data, whole projects where the claim is that the
@@ -362,10 +363,10 @@ reproduce. Synthetic demonstrator data (Appendix~\ref{app:software}).}
 The metric must match the decision. Overall accuracy is a poor choice where
 classes are imbalanced, and geotechnical classes always are: the fault gouge
 that governs the design is the rarest label in the training set, and a model
-that never predicts it can still be right nineteen times in twenty. Worse, the
-costs are asymmetric (failing to predict weak ground is not the same error
+that never predicts it can still be right nineteen times in twenty. The
+costs are also asymmetric (failing to predict weak ground is not the same error
 as predicting it where it is absent), so a metric that treats the two alike
-is not measuring what the project cares about. Recall on a class, the
+does not measure what matters to the project. Recall on a class, the
 proportion of the cases truly belonging to it that the model finds, reported
 for the consequential classes alongside the full table of predicted against
 actual class (the confusion matrix), states something a design reviewer can
@@ -374,18 +375,18 @@ act on.
 Finally, the domain of validity must be stated as deliberately as it is for
 the closed-form solutions of Appendix~\ref{app:closed-form}. A model carries
 the geology, the equipment and the practices of the data it was trained on.
-Its performance elsewhere is an open question rather than an inherited
-property, and the honest form of a submission records the training envelope so
+Its performance elsewhere is unknown until it is tested,
+and a submission should record the training envelope so
 that a reviewer can see when a prediction lies outside it.
 
 \subsection{Drift and the operating model}
 \label{sec:ml-drift}
 
-A model embedded in a twin is not a deliverable that is checked once. Its
-inputs move: the machine wears, the operators change, the ground changes, the
-instruments are replaced or recalibrated. Performance decays quietly, and
-because the model continues to return confident predictions throughout, decay
-is invisible unless it is measured.
+A model embedded in a twin cannot be checked once and then left. Its
+inputs shift: the machine wears, the operators change, the ground changes, the
+instruments are replaced or recalibrated. Performance decays, and
+because the model continues to return confident predictions, the decay
+is not seen unless it is measured.
 
 Monitoring the model is therefore a separate activity from monitoring the
 asset. Two things are watched. The first is the input distribution: when
@@ -400,8 +401,8 @@ cannot be scored later.
 
 Retraining then needs a trigger and a procedure, both agreed in advance:
 what degradation prompts it, who authorises it, and how the retrained model is
-validated before it replaces the one in service. Silent retraining is the
-worst arrangement available, because the model that produced a past decision
+validated before it replaces the one in service. Unrecorded retraining is the
+worst arrangement, because the model that produced a past decision
 can no longer be reconstructed, and a decision whose basis cannot be
 reconstructed cannot be defended.
 
@@ -414,65 +415,63 @@ have to be true for it to be wrong. In this context that resolves to six
 items, and their absence should be treated as it would be for a numerical
 analysis submitted without its boundary conditions.
 
-The training data and its provenance, including which projects, machines and
-formations it came from. The quantity actually predicted, distinguished from
-the quantity of interest where the two differ: a model predicting logged
-weathering grade is not predicting strength. The validation protocol, stating
-the splitting unit. The performance on consequential classes rather than
-overall. The domain of validity and how the model behaves outside it. And the
-named individual who accepts the result, which is never the model and never
+The six items are: the training data and its provenance, including which projects,
+machines and formations it came from; the quantity predicted, distinguished from
+the quantity of interest where the two differ (a model predicting logged
+weathering grade is not predicting strength); the validation protocol, stating
+the splitting unit; the performance on consequential classes rather than
+overall; the domain of validity and how the model behaves outside it; and the
+named individual who accepts the result, who cannot be the model or
 its supplier.
 
-None of this makes a statistical prediction equivalent to a measurement, and
-it is not intended to. It makes the prediction reviewable, which is the
-condition for using it in a design at all. The rule stated in
-Section~\ref{sec:data-governance} still governs: an engineer who cannot
-explain why a prediction is reasonable, independently of the tool that
-produced it, has not yet completed the design.
+None of this makes a statistical prediction equivalent to a measurement.
+It makes the prediction reviewable, which is the
+condition for using it in a design. The rule stated in
+Section~\ref{sec:data-governance} still governs: the engineer must be able to
+explain why the prediction is reasonable independently of the tool that
+produced it.
 
 \section{Generative methods and their present scope}
 \label{sec:generative-methods}
 
-Generative language models arrived in general professional use faster than any
-tool this book describes, and a monograph that ignored them would be evasive
-while one that speculated about them would be obsolete before it was bound.
-The position taken here is deliberately narrow, and follows the rule already
+Generative language models have entered general professional use faster than any
+other tool this book describes, and they change quickly enough that detailed
+comment would soon be out of date.
+The position taken here is therefore narrow, and follows the rule
 stated in Section~\ref{sec:data-governance}: emerging methods are presented as
-developing capability until a project evidence base exists, and the separation
-between the two is what allows a reviewer to know which is which.
+developing capability until a project evidence base exists.
 
-The applications with a defensible basis today are document-side rather than
-engineering-side, and they are not trivial for that. Underground projects
-generate an enormous unstructured record (factual reports, design
-statements, shift logs, instrumentation reviews, correspondence, decades of
-it), and the practical difficulty has always been that the answer to a
+The applications with a defensible basis today are on the document side rather
+than the engineering side, and they are still of practical value. Underground projects
+generate a very large unstructured record over decades (factual reports, design
+statements, shift logs, instrumentation reviews, correspondence),
+and the practical difficulty has always been that the answer to a
 present question usually exists somewhere in that record and cannot be found.
-Retrieval across a corpus, summarisation of what a document actually says
+Retrieval across a corpus, summarisation of what a document says
 about a specific reach, and consistency checking of a submission against a
-specification are tasks of that kind. They are useful precisely because the
+specification are tasks of that kind. They are useful because the
 output is checkable: the source document either says what was reported or it
 does not, and the engineer verifies it in the ordinary way.
 
-The engineering-side claims are a different matter. Predicting ground
+The claims on the engineering side are less well supported. Predicting ground
 behaviour, selecting support, or generating design from a description are
 proposed regularly and, at the time of writing, rest on demonstration rather
 than on a record of use in delivered projects. Two properties argue for
 caution beyond the general reservation about new methods. These models produce
 fluent output whether or not they have a basis for it, so the usual signal
-that something is wrong (output that looks wrong) is absent. And they do
+that something is wrong (output that looks wrong) is absent. They also do
 not reliably report their own uncertainty, which removes the property that
-makes the statistical methods of Section~\ref{sec:ml-assurance} governable at
-all: a validated classifier states how often it is wrong and on which classes,
+makes the statistical methods of Section~\ref{sec:ml-assurance}
+governable: a validated classifier states how often it is wrong and on which classes,
 and that is the basis on which a reviewer accepts it.
 
-The governing requirement is therefore unchanged and is worth restating in
-this specific context. Any output used in a design must be traceable to a
+The governing requirement is therefore unchanged. Any output used in a design must be traceable to a
 source that can be checked, attributable to a person who accepts it, and
 reproducible well enough that the basis of a past decision can be
 reconstructed. A generative tool that assists an engineer in finding and
-organising evidence satisfies those conditions comfortably. One that supplies
-a conclusion the engineer cannot independently justify does not, and no rate
-of improvement in the tool changes that, because the requirement is about the
+organising evidence satisfies those conditions. One that supplies
+a conclusion the engineer cannot independently justify does not, and
+improvement in the tool does not change that, because the requirement concerns the
 engineer's position rather than the tool's accuracy.
 
 \chapterreferences

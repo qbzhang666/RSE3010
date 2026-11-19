@@ -5,9 +5,9 @@
 \chapter{Squeezing, Swelling and High-Stress Ground}
 \label{ch:high-stress}
 
-Chapter~\ref{ch:ground-behaviour} classified ground by the mechanism that governs its response to excavation and treated the cases in which that response is immediate. This chapter takes the three behaviour classes whose response is not: ground that closes on the excavation over months, ground that expands on contact with water, and strong rock that fails violently when its stored energy is released.
+Chapter~\ref{ch:ground-behaviour} classified ground by the mechanism that governs its response to excavation and treated the cases in which that response is immediate. This chapter takes three behaviours that need separate treatment: ground that closes on the excavation over months, ground that expands on contact with water, and strong rock that fails violently when its stored energy is released.
 
-The three share a design consequence that runs against instinct. In each, the answer is rarely a stronger structure. A tunnel survives squeezing by yielding in a controlled way and survives a burst by absorbing energy, and stiffness in the support, the usual response to a structural problem, makes both worse.
+Squeezing and bursting share a design consequence: a stronger structure is rarely the answer. A tunnel survives squeezing by yielding in a controlled way and survives a burst by absorbing energy. Stiffness in the support, the usual response to a structural problem, makes both worse. Swelling differs, because the choice there lies between resisting the pressure and allowing the strain.
 
 \section{Squeezing and swelling ground}
 \label{sec:squeezing-swelling}
@@ -16,44 +16,44 @@ The three share a design consequence that runs against instinct. In each, the an
 \label{sec:squeezing-prediction}
 
 Squeezing is time-dependent large deformation occurring where the rock mass
-strength is low relative to the in-situ stress. It is not a failure in the
-sense of collapse: the ground closes on the excavation progressively, and it
+strength is low relative to the in-situ stress. The ground does not collapse; it
+closes on the excavation progressively, and the closure
 continues after the face has passed.
 
 Prediction is empirical and reasonably reliable. The controlling parameter is
 the ratio of rock mass strength to the mean in-situ stress at tunnel depth
-(Chapter~\ref{ch:in-situ-stress}), and the strain chart of
+(Chapter~\ref{ch:in-situ-stress}). The strain chart of
 \citet{hoekmarinos2000squeezing} relates that ratio to the percentage closure to be expected,
-in five classes running from below about one per cent (requiring no special
-measures) to more than ten per cent, where extreme squeezing problems arise
-and conventional support cannot succeed; the relation and the class boundaries
+in five classes. These run from below about one per cent, requiring no special
+measures, to more than ten per cent, where extreme squeezing problems arise
+and conventional support cannot succeed. The relation and the class boundaries
 are set out in Chapter~\ref{ch:empirical-design}, together with the
 definition of rock mass strength on which the chart is calibrated.
 
-The value of the prediction is that it is available at design stage from
-quantities already in hand, the intact strength, $m_i$ and GSI, and that
-the strain magnitude points directly to the strategy required, through the
-class in which it falls (Section~\ref{sec:squeezing-strategy}).
+The prediction is available at design stage from
+quantities already in hand (the intact strength, $m_i$ and GSI), and
+the class in which the predicted strain falls indicates the strategy
+required (Section~\ref{sec:squeezing-strategy}).
 
 Time dependence must be separated into two mechanisms that look alike in the
-data. Some convergence is simply face-advance deformation, the
+data. Some convergence is face-advance deformation, the
 three-dimensional stress redistribution captured by the longitudinal
 deformation profile (Section~\ref{sec:ldp-appendix}), and it would occur in
 a rate-independent material. The
-remainder is genuine creep, continuing at constant face position. Only the
+remainder is creep, continuing at constant face position. Only the
 second requires a viscoplastic model, a constitutive law in which strain
 continues to accumulate with time under constant stress once a yield condition
-is exceeded (Section~\ref{sec:scope-limits-numerical}), and attributing all observed
+is exceeded (Section~\ref{sec:scope-limits-numerical}). Attributing all observed
 time-dependent convergence to creep overstates the problem.
 
 \subsection{Support strategy and deformation allowance}
 \label{sec:squeezing-strategy}
 
 Three strategies exist. \emph{Resist} installs support stiff and strong enough
-to prevent significant convergence: viable only for mild squeezing, which in
-practice means the minor squeezing class of
+to prevent significant convergence. It is viable only for mild squeezing, that
+is the minor squeezing class of
 Table~\ref{tab:squeezing-classification} in Chapter~\ref{ch:empirical-design},
-and it becomes rapidly uneconomic because the required pressure rises steeply as
+and it rapidly becomes uneconomic because the required pressure rises steeply as
 convergence is suppressed. \emph{Yield} allows controlled convergence through
 sliding sets, deformation slots and yielding bolts, so that equilibrium is
 reached at a support pressure the system can carry
@@ -78,7 +78,7 @@ the mean prediction of 3.7 per cent gives 176~mm, and the 84th-percentile
 strain of 6.5 per cent obtained in
 Section~\ref{sec:reliability-support-uncertainty} gives about 310~mm
 (Figure~\ref{fig:squeezing-allowance}). The
-difference between the two is the measure of what the margin has to cover,
+difference between the two is what the margin has to cover,
 and it spans a class boundary: the mean lies in the severe class and the
 84th percentile in the very severe one.
 
@@ -125,15 +125,15 @@ progressively deepening a characteristic notch where the tangential stress is
 highest. The process is driven by extensile cracking parallel to the boundary
 rather than by shear.
 
-Conventional criteria predict this badly, and for an identifiable reason.
-Near a free surface, confinement is essentially zero, and in that condition
+Conventional criteria predict this poorly.
+Near a free surface, confinement is close to zero, and in that condition
 cohesion is lost at small strain while friction requires larger strain to
 mobilise, so the two are not available simultaneously. Criteria that add
 them overestimate near-boundary strength. Formulations in which cohesion
 degrades and friction mobilises with accumulating strain reproduce that
 sequence, and so predict the lower strength near the boundary.
 
-The practical prediction is empirical and simple. \citet{martin1999spalling} found
+The practical prediction is empirical. \citet{martin1999spalling} found
 that the depth of the spalling notch grows linearly with the ratio of maximum
 boundary stress to unconfined compressive strength, with spalling initiating
 at a ratio of roughly 0.4, far below the strength the rock exhibits in a
@@ -148,7 +148,7 @@ to the axis, on the sides of the opening normal to $\sigma_1$
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch14/spalling-notch}
-\caption{Spalling notch for the case of Table~\ref{tab:spalling-example} ($\sigma_1 = 60$~MPa, $\sigma_3 = 11$~MPa, UCS 224~MPa). Right: tangential stress on the boundary, above 0.4\,UCS within $39.5^\circ$ either side of the normal to $\sigma_1$. Left: the notch over that arc to the depth $r = 1.44a$ of the relation (notch shape schematic).}
+\caption{Spalling notch for the case of Table~\ref{tab:spalling-example} ($\sigma_1 = 60$~MPa, $\sigma_3 = 11$~MPa, UCS 224~MPa). Left: the notch, drawn to the depth $r = 1.44a$ of the relation over the arc where the tangential stress exceeds 0.4\,UCS (notch shape schematic). Right: tangential stress on the boundary, above 0.4\,UCS within $39.5^\circ$ either side of the normal to $\sigma_1$.}
 \label{fig:spalling-notch}
 \end{figure}
 
@@ -158,7 +158,7 @@ to the axis, on the sides of the opening normal to $\sigma_1$
   \rlab[south]{0.33,0.70}{0.22,0.90}{Spalling notch}
   \rlab[north]{0.40,0.33}{0.33,0.08}{Slabs}
 }
-\caption{The notches of Figure~\ref{fig:spalling-notch} along a tunnel three diameters long, a wedge cut away about the right springline. With $\sigma_1$ horizontal they form at crown and invert, to $r = 1.44a$ over $\pm 39.5^\circ$; the carmine skin marks the spalled flanks, and slabs lie in the invert notch. Radius and slabs illustrative; notch shape schematic.}
+\caption{The notches of Figure~\ref{fig:spalling-notch} along a tunnel three diameters long, with a wedge cut away about the right springline. With $\sigma_1$ horizontal they form at crown and invert, to $r = 1.44a$ over $\pm 39.5^\circ$. The carmine skin marks the spalled flanks, and slabs lie in the invert notch (radius and slabs illustrative; notch shape schematic).}
 \label{fig:r3d-spalling-notch}
 \end{figure}
 
@@ -168,7 +168,7 @@ to the axis, on the sides of the opening normal to $\sigma_1$
 Excavation releases stored strain energy (Chapter~\ref{ch:rock-mechanics}). Part is absorbed in deformation of
 the surrounding rock, part does work on the support, and the remainder
 (excess energy) is available to drive failure. At moderate depth it
-dissipates quietly; at high stress in brittle rock it need not.
+dissipates without violence; at high stress in brittle rock it may not.
 
 The energy release rate, the stored strain energy released per unit area of
 excavation created and usually quoted in megajoules per square metre, serves
@@ -204,7 +204,7 @@ and reaches it as a seismic wave, so the source may lie well outside the
 zone of influence of the opening, and the damage appears wherever the wave
 meets ground that is unsupported or poorly supported.
 
-Dynamic support design works in energy. The demand is the kinetic energy of
+Dynamic support is designed in terms of energy. The demand is the kinetic energy of
 ejected rock, which per unit area of excavation surface is
 \[
 E = \tfrac{1}{2}\,\rho\, t\, v^{2},
@@ -264,11 +264,11 @@ visible damage. The data support decisions about sequencing, destressing and
 re-entry times after blasting, and re-entry protocols based on the decay of
 seismic activity are standard practice in deep mining.
 
-Both applications share a requirement: the interpretation must be available
-fast enough to act on. A monitoring system reporting weekly in ground that can
-deteriorate in a shift is recording history. The observational method requires
+Both applications require the interpretation to be available
+quickly enough to act on. The observational method requires
 the response time of the instruments and of their interpretation to be short
 in comparison with the rate at which the ground can change
-(Chapter~\ref{ch:monitoring}), and here it is not.
+(Chapter~\ref{ch:monitoring}). A monitoring system that reports weekly in
+ground that can deteriorate within a shift does not meet that requirement.
 
 \chapterreferences

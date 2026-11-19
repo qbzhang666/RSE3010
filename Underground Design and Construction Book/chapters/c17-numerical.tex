@@ -20,11 +20,11 @@ evaluation affordable.
 \subsection{The Gaussian settlement trough}
 \label{sec:gaussian-trough}
 
-Surface settlement above a tunnel is predicted twice in most projects: once
-empirically, before any model exists, and once numerically, when one does. The
-empirical estimate is not superseded by the numerical one. It is the check
-against which the model is judged, and a model that cannot reproduce it needs
-an explanation before its other outputs are believed.
+Surface settlement above a tunnel is predicted twice in most projects, first
+empirically, before any model exists, and then numerically. The numerical
+estimate does not supersede the empirical one, which remains the check
+against which the model is judged. A model that cannot reproduce it needs
+an explanation before its other outputs are relied upon.
 
 The transverse settlement trough above a single tunnel is well described by a
 Gaussian curve~\citep{peck1969deep} (Figure~\ref{fig:gaussian-trough}),
@@ -58,6 +58,13 @@ Weak rock & 0.25--0.4 \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[htbp]
+\centering
+\datafigure[\textwidth]{ch17/gaussian-trough}
+\caption{Settlement trough and horizontal strain above a 6~m tunnel at 20~m depth, $K = 0.5$ and $V_L = 1$ per cent. Dotted lines mark the points of inflection at $\pm i$; the strain is compressive between them and tensile outside.}
+\label{fig:gaussian-trough}
+\end{figure}
+
 The magnitude follows from volume loss (Table~\ref{tab:vl_values}). The volume of the trough per metre of
 tunnel, $V_s$, is expressed as a percentage $V_L$ of the excavated area, with
 $D$ the excavated diameter, which for a shielded machine is the bored
@@ -71,12 +78,12 @@ settlement,
 S_{\max} = \frac{V_s}{i \sqrt{2\pi}} .
 \]
 
-\noindent\textbf{A note on units.}\enspace The factor of 100 belongs in the
-expression for $V_s$ and nowhere else. A volume loss quoted as 0.5\,per cent
+\noindent\textbf{A note on units.}\enspace The factor of 100 appears only in the
+expression for $V_s$. A volume loss quoted as 0.5\,per cent
 enters that expression as 0.005; $S_{\max}$ then emerges in metres and is
 converted to millimetres at the end. Applying the percentage twice, or not at
 all, is the commonest arithmetic error in this calculation and puts the answer
-out by two orders of magnitude, which at least makes it easy to detect.
+out by two orders of magnitude, which makes it easy to detect.
 
 \begin{table}[htbp]
 \caption{Typical volume loss by excavation method.}
@@ -94,23 +101,16 @@ Sprayed concrete lining in soft ground & 1.0--3.0 \\
 \end{tabular}
 \end{table}
 
-Volume loss is not a single mechanism, and treating it as one obscures where
-control is available. In shielded tunnelling it accumulates from five
+Volume loss has several sources, and treating it as a single quantity obscures
+where control is available. In shielded tunnelling it accumulates from five
 sources~\citep{mair1996settlement} (Figure~\ref{fig:volume-loss-sources}): stress relief at the face, over-cutting as
 the shield passes, closure of the tail void before grout takes effect,
 deflection of the lining under ground load, and consolidation driven by the
 change in pore pressure. The first three are controlled by the machine and by
 the operator, the fourth by the lining design, and the fifth by the
-hydrogeology. A volume loss target written into a specification is therefore a
-statement about all five, and is only meaningful if the contract makes clear
-which party controls which.
-
-\begin{figure}[htbp]
-\centering
-\datafigure[\textwidth]{ch17/gaussian-trough}
-\caption{Settlement trough and horizontal strain above a 6~m tunnel at 20~m depth, $K = 0.5$ and $V_L = 1$ per cent. Dotted lines mark the points of inflection at $\pm i$; the strain is compressive between them and tensile outside.}
-\label{fig:gaussian-trough}
-\end{figure}
+hydrogeology. A volume loss target written into a specification therefore
+covers all five, and is meaningful only if the contract makes clear
+which party controls each.
 
 \begin{figure}[htbp]
 \centering
@@ -123,11 +123,11 @@ which party controls which.
 \label{sec:model-inputs-and-geological-idealisation}
 
 A numerical model of a shallow tunnel is built from a deliberately simplified
-ground profile. The simplification is not a defect to be apologised for: a
+ground profile. The simplification is justified, because a
 model carrying every unit identified in the investigation is slow, hard to
-interpret and no more reliable than the parameters it is given. What matters is
-that the units retained are those that govern the answer, and that the
-simplification is recorded.
+interpret and no more reliable than the parameters it is given. The units
+retained should be those that govern the answer, and the
+simplification should be recorded.
 
 For settlement analysis the governing distinction is usually between a
 compressible surface unit and the stiffer material in which the tunnel sits.
@@ -160,7 +160,8 @@ rock), the plane-strain model must be given both, since the out-of-plane
 stress affects yielding through the intermediate principal stress even though
 no displacement occurs in that direction. Adopting a single isotropic $K_0$
 where the field is anisotropic is a defensible simplification, but it should be
-a stated one, and its effect on the computed settlement is worth a run.
+stated, and its effect on the computed settlement is worth checking with a
+separate run.
 
 The second is provenance. Parameters published in an approved environmental
 statement or a geotechnical baseline report carry contractual weight, and
@@ -171,13 +172,13 @@ simplification and its justification belong in the same place.
 The support is idealised in the same spirit. Table~\ref{tab:lining} gives
 properties for a continuous concrete ring used to represent a bolted segmental
 lining in two dimensions. The substitution is legitimate because a
-plane-strain analysis sees only axial and bending stiffness and a strength
-limit; it cannot see the joints, the bolts or the ring-build sequence, so the
-label attached to the material matters less than the stiffness and capacity
-entered. What the substitution cannot represent (articulation at the joints,
-and the reduction in effective bending stiffness that follows from it) is
-the subject of Chapter~\ref{ch:linings}, and is the reason a two-dimensional
-lining analysis tends to overestimate moment.
+plane-strain analysis represents only axial and bending stiffness and a
+strength limit. It does not represent the joints, the bolts or the ring-build
+sequence, so the label attached to the material matters less than the
+stiffness and capacity entered. The articulation at the joints, and the
+reduction in effective bending stiffness that follows from it, are omitted.
+They are the subject of Chapter~\ref{ch:linings} and are the reason a
+two-dimensional lining analysis tends to overestimate moment.
 
 \begin{table}[htbp]
 \caption{Lining properties for a two-dimensional analysis, representing a
@@ -197,13 +198,13 @@ Concrete ring & Beam, elastic--plastic & $E = 40$~GPa, $\nu = 0.25$, $\gamma = 2
 \end{table}
 
 Where the tunnel straddles a contact between two units, the position of that
-contact becomes a design assumption in its own right. A crown sitting in the
-weaker unit and an invert in the stronger produces a different failure
+contact becomes a design assumption. A crown sitting in the
+weaker unit and an invert in the stronger produce a different failure
 mechanism, and a different trough, from a tunnel wholly within either. The
 assumed contact depth should be stated, its basis given, and its influence
-tested by moving it within the range the boreholes allow. This is a case where
-a sensitivity run costs an hour and settles an argument that would otherwise
-run through the whole design.
+tested by moving it within the range the boreholes allow. Here
+a sensitivity run costs an hour and resolves a question that would otherwise
+remain open throughout the design.
 
 \subsection{Worked examples}
 \label{sec:worked-examples}
@@ -272,13 +273,13 @@ than clay doubles it because $i$ halves.}
 \label{fig:trough-cases}
 \end{figure}
 
-Two conclusions follow, and they are the reason the calculation is worth doing
-before any model is built. The trough width parameter, not the volume loss,
+Two conclusions follow, and they justify making the calculation
+before any model is built. First, the trough width parameter, not the volume loss,
 dominates the shape: halving $K$ at constant $V_L$ doubles the peak settlement
 and narrows the trough, which moves the damage assessment of
 Chapter~\ref{ch:settlement-damage} from a wide zone of small differential
-movement to a narrow zone of large. And the ground assumption is doing as much
-work as the tunnelling assumption, so where the ground is genuinely
+movement to a narrow zone of large. Second, the ground assumption has as much
+influence as the tunnelling assumption, so where the ground is
 intermediate (weathered rock, a soil--rock interface near crown level),
 both bounds should be carried forward rather than a single central value.
 The combinations multiply quickly once both ground bounds and a range of
@@ -291,8 +292,8 @@ tunnels with cover of at least one diameter. Where $z_0 < 1.5D$, so that the cov
 above the crown is less than one diameter, the mechanism approaches that of a
 shallow trapdoor rather than a deep cavity: the trough becomes narrower and
 more angular than the curve predicts, and the peak is underestimated. Results
-in that range are indicative, and the limitation belongs in the reporting
-rather than in a footnote.
+in that range are indicative only, and the limitation should be stated with
+the results.
 
 \section{Finite element practice}
 \label{sec:finite-element-practice}
@@ -303,10 +304,10 @@ rather than in a footnote.
 The finite element method divides the ground into elements connected at nodes,
 assembles the element stiffnesses into a global system, and solves for nodal
 displacement under the applied loading. For two-dimensional tunnel analysis the
-elements are usually six-noded triangles under plane strain. Nothing in what
-follows depends on which program performs that assembly; the decisions that
-determine whether the answer is worth anything are made before the solver is
-invoked and after it returns.
+elements are usually six-noded triangles under plane strain. The discussion here
+does not depend on which program performs that assembly. The decisions that
+determine the value of the answer are made before the solver is
+run and after it returns.
 
 The sequence is common to every package. The domain is drawn, with the ground
 surface, the significant unit boundaries and the excavation profile. Materials
@@ -317,7 +318,7 @@ horizontally and free vertically, the base restrained in both directions, the
 ground surface free. An initial stress field is established under gravity with
 the appropriate stress ratios, and equilibrium checked before anything is
 excavated. The excavation is then performed in stages, with support activated
-at the stage that represents its real installation point. Finally the results
+at the stage that represents its actual installation point. Finally the results
 are extracted: surface displacement along the ground surface, displacement
 contours, structural forces in the lining, and the extent of yielded material.
 
@@ -370,7 +371,7 @@ establish.
 
 \begin{table}[htbp]
 \caption{What a comparison between the empirical and numerical settlement
-estimates can establish. Horizontal and total displacements have no empirical
+estimates can establish. Horizontal displacement has no empirical
 counterpart.}
 \label{tab:comparison}
 \centering
@@ -389,14 +390,14 @@ Principal limitation & Empirical, no stress & Mesh and boundary sensitivity & Bo
 \end{tabularx}
 \end{table}
 
-The two will not agree exactly, and forcing them to agree is not the object.
+The two will not agree exactly and need not be made to.
 The empirical curve assumes a volume loss and imposes a shape derived from
 soft-ground case histories; the model computes a shape from the stress--strain
 response it has been given. Disagreement is informative where its cause can be
 named: a layered profile rather than a uniform one, an anisotropic stress
 field, a contact near crown level, or cover of less than one diameter. A
-difference that cannot be explained is a reason to distrust the model, not to
-average the two.
+difference that cannot be explained is a reason to distrust the model, and
+averaging the two does not resolve it.
 
 \subsection{Model extent, mesh and shallow cover}
 \label{sec:model-extent-mesh}
@@ -408,7 +409,8 @@ and all three are made before any result exists to judge them by.
 Lateral boundaries should stand at least five diameters from the tunnel
 centreline, and the base at least five diameters below the invert. Restrained
 boundaries placed closer than this stiffen the response and suppress
-displacement, which flatters the answer (Figure~\ref{fig:extent-mesh}). A shallow tunnel needs a wider domain
+displacement, which makes the result appear more favourable than it is
+(Figure~\ref{fig:extent-mesh}). A shallow tunnel needs a wider domain
 than the rule suggests, because the settlement trough is wide relative to the
 depth and a boundary within the trough truncates it. The test is empirical:
 the boundary is moved outward and the analysis repeated, and a result that
@@ -416,14 +418,13 @@ changes materially shows that the boundary was too close.
 
 \paragraph{Mesh.}
 A coarse mesh gives inaccurate displacements and structural forces; a uniformly
-fine one costs computation without improving either. Graded meshing is the
-answer: elements of roughly 0.3 to 0.5~m within two diameters of the
+fine one costs computation without improving either. A graded mesh resolves
+this, with elements of roughly 0.3 to 0.5~m within two diameters of the
 excavation, one to two metres in the intermediate zone, and three to five
-metres in the far field. Mesh adequacy is demonstrated rather than assumed: run
-the model at two densities and confirm that the quantity of interest changes by
+metres in the far field. Mesh adequacy has to be demonstrated: the model is run
+at two densities to confirm that the quantity of interest changes by
 less than about five per cent. Without that demonstration, mesh dependence
-cannot be distinguished from ground behaviour, and the model has established
-nothing.
+cannot be distinguished from ground behaviour.
 
 \begin{figure}[htbp]
 \centering
@@ -436,40 +437,40 @@ nothing.
 The hardest case in this class is a tunnel whose cover is less than its own
 diameter. With, say, 1.4~m of ground above the crown of a 7.2~m tunnel, the
 plastic zone may reach the surface, displacements become large, and the
-solution may fail to converge at all. The mesh must be fine in a region that is
+solution may fail to converge. The mesh must be fine in a region that is
 physically thin, and the answer is sensitive to both the constitutive model and
 the stress ratio in a way that it is not at depth.
 
 The numerical remedies are worth trying first: relax the excavation in
 increments rather than in a single stage, refine the crown region only rather
 than the whole domain, and allow more iterations before declaring
-non-convergence. If those fail, the useful response is not further adjustment
-of the solver. A model that will not converge is reporting something: the
-ground as idealised cannot support the excavation unsupported. The engineering
-answer is to model what would actually be done (ground treatment above the
+non-convergence. If those fail, further adjustment of the solver is not the useful
+response. Non-convergence then indicates that the
+ground as idealised cannot stand unsupported. The engineering
+response is to model what would be done in construction (ground treatment above the
 crown represented as a zone of enhanced strength and stiffness, systematic
 radial reinforcement, forepoling or a pipe umbrella represented as a stiffened
 crown region, or a stiffer lining) and to record the measure as a design
-decision rather than a numerical expedient. Reporting the failure, then
-demonstrating the improvement, is a stronger result than a converged run
-obtained by quietly loosening a tolerance.
+decision rather than a numerical expedient. Reporting the failure and then
+demonstrating the improvement is a stronger result than a converged run
+obtained by loosening a tolerance.
 
 \subsection{Scope and limits of numerical analysis}
 \label{sec:scope-limits-numerical}
 
 \paragraph{The limits of two-dimensional continuum analysis.}
 Plane strain assumes the ground cannot displace along the tunnel axis, which
-is true remote from the face and false at it. Since most convergence occurs
+holds remote from the face and not at it. Since most convergence occurs
 within about a diameter of the face, and support is installed there, the
-assumption fails precisely where the design question lies.
+assumption fails where the design decision is made.
 
 Two-dimensional analysis handles this through a stress relaxation factor:
 only part of the in-situ stress is released before the support is activated,
-the remainder afterwards. The device works, and the answer depends directly on
-a factor that the analysis itself cannot determine. It is normally taken from
-a longitudinal deformation profile, which is to say from an axisymmetric or
+the remainder afterwards. The device works, but the answer depends directly on
+a factor that the analysis itself cannot determine. The factor is normally
+taken from a longitudinal deformation profile, that is, from an axisymmetric or
 three-dimensional solution, so the two-dimensional model is calibrated by
-the analysis it was intended to replace.
+the kind of analysis it was intended to replace.
 
 Problem classes where the device fails altogether are those without
 longitudinal uniformity: junctions and cross-passages, portals, staged cavern
@@ -478,14 +479,14 @@ to the diameter.
 
 \paragraph{Constitutive models beyond Mohr--Coulomb.}
 Mohr--Coulomb is the default because it needs two strength parameters and
-behaves predictably. Its limitations are specific rather than general.
+behaves predictably. Its limitations depend on the problem.
 
 For urban settlement work the deficiency is stiffness, not strength. Soil
 stiffness falls sharply with strain, and the small-strain stiffness governing
 ground movement outside the yield zone is several times the value measured in
 a conventional triaxial test. A Mohr--Coulomb model with a single modulus
 gives a settlement trough that is too wide and too shallow, and the trough
-shape is exactly what a damage assessment consumes. Hardening soil models with
+shape is the input to a damage assessment. Hardening soil models with
 small-strain stiffness address this and are the appropriate choice where
 settlement governs.
 
@@ -506,9 +507,9 @@ creep model requires time-dependent testing; a strain-softening model requires
 post-peak behaviour that standard testing does not provide.
 
 Adopting an advanced model and populating it from correlations produces an
-analysis that is sophisticated in form and arbitrary in content. Where the
-parameters have not been measured, a simple model with an honest sensitivity
-study is the better engineering.
+analysis whose form is sophisticated but whose content is arbitrary. Where the
+parameters have not been measured, a simple model with a sensitivity
+study is the better choice.
 
 \section{Methods beyond continuum analysis}
 \label{sec:beyond-continuum}
@@ -547,7 +548,7 @@ suit yielding, staged construction or layered profiles.
 \paragraph{Linked and hybrid schemes.}
 Coupling a boundary element far field to a finite or distinct element near
 field gives an exact far-field condition with nonlinearity where it occurs.
-The approach is elegant and less common than it deserves to be, largely
+The approach is less common than its merits suggest, largely
 because integrated software support is limited.
 
 \subsection{Discontinuum and hybrid methods}
@@ -560,11 +561,11 @@ with contact behaviour governed by joint stiffness and strength. Where block
 movement is the failure mechanism, this represents the physics directly rather
 than approximating it through an equivalent continuum.
 
-The question is whether explicit joints change the answer or merely refine it.
+The test is whether explicit joints change the answer or only refine it.
 Where the excavation intersects a modest number of blocks and their geometry
 governs, they change it. Where the excavation intersects hundreds of blocks
 and the mass behaves as a weak continuum, they refine it at considerable cost,
-and the equivalent continuum was the right model.
+and the equivalent continuum is the appropriate model.
 
 Input requirements are demanding: joint geometry, spacing, persistence and
 stiffness in normal and shear. Joint stiffness in particular is rarely
@@ -572,7 +573,7 @@ measured and strongly influences the result.
 
 \paragraph{Block theory as a screen.}
 Before building a discontinuum model, the removability analysis of
-Chapter~\ref{ch:structural-analysis} identifies which blocks can move at all.
+Chapter~\ref{ch:structural-analysis} identifies which blocks can move.
 It is quick, deterministic and depends only on orientation, and it frequently
 shows that the structural problem is confined to a few block types, which
 is either a complete answer or a well-posed brief for the model.
@@ -592,9 +593,9 @@ dependent on fracture-energy parameters that few projects measure.
 Three dimensions are required where geometry or sequence has no longitudinal
 uniformity: junctions and cross-passages, portals with sloping cover, cavern
 excavation in stages, twin tunnels at close spacing, and fault crossings.
-Three dimensions are also expensive, and the discipline is to model in three
-dimensions only the part of the problem that needs it, with two-dimensional
-analysis elsewhere.
+Three-dimensional analysis is also expensive, and only the part of the
+problem that needs it should be modelled in three dimensions, with
+two-dimensional analysis elsewhere.
 
 Mesh management is the practical constraint. Element size must resolve the
 excavation and the yield zone while the domain extends far enough that
@@ -603,18 +604,18 @@ diameters. That relaxes the five-diameter minimum of
 Section~\ref{sec:model-extent-mesh}, and the reason is cost: the number of
 elements grows roughly with the cube of the domain dimension rather than with
 its square. The tighter domain makes the test of moving the boundary outward
-and repeating the analysis obligatory here rather than optional. Graded meshes reconcile these, and the grading itself must be
-checked by refinement.
+and repeating the analysis obligatory. Graded meshes reconcile resolution with extent, and the grading
+itself must be checked by refinement.
 
 \paragraph{Simulating construction sequence.}
 Staged analysis reproduces the construction: excavate, relax, install support,
 advance. Results are sensitive to the sequence assumed, and particularly to
 when support is activated and with what stiffness.
 
-Two effects are commonly mishandled. Shotcrete stiffness rises with curing, so
+Two effects are commonly mishandled. First, shotcrete stiffness rises with curing, so
 a lining modelled at mature stiffness from the moment of installation attracts
 more load than the real one; young shotcrete also creeps substantially, which
-relaxes load. And a segmental ring is installed at a defined convergence set
+relaxes load. Second, a segmental ring is installed at a defined convergence set
 by the tail gap and grouting, so its starting point on the convergence axis is
 a construction parameter rather than a modelling choice.
 
@@ -628,10 +629,10 @@ and therefore deformation; deformation alters permeability. Consolidation
 analysis handles the time-dependent version, steady-state seepage the
 long-term one.
 
-The design consequences are practical. Time-dependent settlement from drawdown
+Time-dependent settlement from drawdown
 (Chapter~\ref{ch:hydrogeology}) requires coupled analysis to predict, as does
 long-term load transfer to a lining in low-permeability ground. Drainage
-boundary conditions on the lining are the input that decides the answer, and
+boundary conditions on the lining are the governing input, and
 they follow from the drained-or-tanked decision rather than from the analysis.
 
 \paragraph{Thermal, dynamic and other couplings.}
@@ -656,69 +657,67 @@ combination does not establish that it is correct. Back-analysis is reliable
 when it refines parameters already bracketed by measurement, and unreliable
 when asked to determine several unknowns from a single observed quantity. The
 defence is to calibrate against more than one measured quantity
-(convergence and extensometer profile and support load), since a parameter
+(convergence, extensometer profile and support load), since a parameter
 set reproducing all three is far more constrained.
 
 \paragraph{Verification, validation and quality assurance.}
-Verification asks whether the model solves the equations correctly; validation
-asks whether the equations describe the problem. Both are required, and they
-are different questions.
+Verification establishes whether the model solves the equations correctly,
+and validation whether the equations describe the problem. Both are
+required.
 
 Verification is largely mechanical: mesh convergence studies, comparison
 against closed-form solutions for simplified cases, and equilibrium checks.
 The closed-form comparison is the most valuable and the most neglected. A
 model whose circular-tunnel case does not reproduce the Kirsch solution~\citep{kirsch1898} has an
-error that will not announce itself in the complex geometry it was built for,
+error that will not be apparent in the complex geometry for which it was built,
 and running the check costs an hour (Section~\ref{sec:kirsch-appendix}).
 
 Validation requires evidence external to the model: comparison against
 monitoring, against case histories, or against an independent analysis by a
-different method. Absent any of these, a numerical result is a hypothesis.
+different method. Without any of these, a numerical result remains a hypothesis.
 
-Presenting output as design without stating this distinction is a professional
-failure rather than a technical one. Results should be reported with the
+Presenting output as design without stating this distinction is a failure of
+professional practice. Results should be reported with the
 constitutive model, its parameters and their provenance, the boundary
 conditions, the construction sequence assumed, and the verification performed,
-so that a reviewer can judge the analysis rather than admire the contour
-plot.
+so that a reviewer can judge the analysis.
 
 \section{Surrogate models}
 \label{sec:surrogate-models}
 
-A numerical model answers one question per run. That is adequate for a design
-check and inadequate for everything that requires the answer many times over:
+A numerical model gives one result per run. That is adequate for a design
+check but not for tasks that require the result many times over:
 reliability analysis, sensitivity study, optimisation, and any twin that must
 respond while the excavation is still advancing. A staged three-dimensional
 analysis taking hours cannot be placed inside a loop that needs thousands of
 evaluations, and the usual response (abandoning the uncertainty analysis
-and reporting a single deterministic run) trades a tractable problem for a
+and reporting a single deterministic run) gives a
 misleading answer.
 
 The alternative is to run the expensive model a designed number of times, fit
 a cheap function to what it produced, and evaluate that function instead. The
-cheap function is the surrogate. It is not a simplification of the physics; it
-is an interpolation of one particular model's output over one particular range
-of inputs, and its standing depends entirely on respecting that description.
+cheap function is the surrogate. It does not simplify the physics. It
+interpolates the output of one model over one range
+of inputs, and it is valid only within those limits.
 
 \subsection{Constructing a surrogate}
 \label{sec:constructing-surrogate}
 
-Three choices determine whether the surrogate is any good, and none of them is
-about the fitting method.
+Three choices determine the quality of the surrogate.
 
 The first is which inputs to vary. A surrogate over twenty parameters requires
 an impractical number of runs; a surrogate over the three or four that the
 sensitivity analysis of Section~\ref{sec:sensitivity-and-project-risk}
 identifies as governing is affordable and usually sufficient. The screening
-step is not preparation for the real work; it is most of it.
+step is therefore a large part of the work.
 
 The second is where to sample. Runs should span the input ranges rather than
-cluster near the central estimate, because the surrogate will be interrogated
-at the tails: that is what a reliability calculation does. Space-filling
+cluster near the central estimate, because a reliability calculation evaluates the surrogate
+at the tails. Space-filling
 designs, of which Latin hypercube sampling is the common
 example~\citep{sacks1989design}, distribute a fixed budget of runs across the
 input space far more efficiently than varying one parameter at a time, which
-samples a cross rather than a volume and cannot see interactions at all
+samples a cross rather than a volume and cannot detect interactions
 (Figure~\ref{fig:surrogate}).
 
 The third is the form of the fit. A quadratic response surface suffices where
@@ -726,13 +725,13 @@ the response is smooth and monotonic, which covers a good deal of tunnel
 behaviour within the elastic range. A Gaussian process fit is preferable where
 the response is curved or where a statement of its own uncertainty is wanted,
 since it returns a variance alongside each prediction and that variance grows
-away from the sampled points, a property no polynomial fit provides and one
-that matters greatly for the misuse described below.
+away from the sampled points, a property that no polynomial fit provides and that
+bears on the misuse described in Section~\ref{sec:surrogate-failure}.
 
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch17/surrogate}
-\caption{Left: nine runs over two inputs, one at a time (squares) and by Latin hypercube (circles). Right: a quadratic and a Gaussian process fitted to five runs of the closed-form convergence of the deep tunnel at GSI 30 over a narrow range of cohesion (shaded). Outside it both drift; the process band widens, a warning, but on the weak side misses the parent.}
+\caption{Left: nine runs over two inputs, one at a time (squares) and by Latin hypercube (circles). Right: a quadratic and a Gaussian process fitted to five runs of the closed-form convergence of the deep tunnel at GSI 30 over a narrow range of cohesion (shaded). Outside it both fits depart from the parent model; the process band widens, but on the weak side it does not contain the parent.}
 \label{fig:surrogate}
 \end{figure}
 
@@ -757,42 +756,41 @@ trade-offs cannot be explored at an hour per evaluation. The same applies to
 the carbon comparisons of Chapter~\ref{ch:sustainability}, where the design
 space must be swept rather than sampled at two points.
 
-The third is the digital twin. A twin that predicts is running a model; a twin
-that predicts fast enough to inform the next round is running a surrogate,
-periodically refreshed from the parent model as the ground model is updated.
-This is the technical mechanism behind the update loop described in
-Chapter~\ref{ch:digital-twin}, and it is the reason that loop is achievable at
-all.
+The third is the digital twin. A twin that predicts runs a model, and one
+that predicts fast enough to inform the next round runs a surrogate,
+refreshed periodically from the parent model as the ground model is updated.
+This is the mechanism that makes the update loop described in
+Chapter~\ref{ch:digital-twin} achievable.
 
 \subsection{The failure mode}
 \label{sec:surrogate-failure}
 
-A surrogate carries two error terms, and confusing them causes most of the
-trouble. The first is the parent model's error against reality, which the
-surrogate inherits whole: a surrogate of a model with the wrong constitutive
+A surrogate carries two error terms, and confusing them is the main source of
+error. The first is the parent model's error against reality, which the
+surrogate carries in full: a surrogate of a model with the wrong constitutive
 law reproduces the wrong answer efficiently. The second is the surrogate's own
 error against the parent, which is what held-out validation measures. Only the
 second is improved by more runs or a better fit, and a report quoting a
 held-out error of two per cent is describing agreement with the model, not
 with the ground.
 
-The dangerous property is confident extrapolation. A polynomial surrogate
+The principal hazard is extrapolation. A polynomial surrogate
 evaluated outside its sampled range returns a smooth, plausible and unbounded
 number with nothing to indicate that it is unsupported
 (Figure~\ref{fig:surrogate}), and reliability
-calculations push precisely into the tails where that occurs. Three defences
+calculations reach into the tails where that occurs. Three defences
 apply. Sample wider than the range expected to be needed, since the cost is
 linear and the failure is silent. Prefer a fit that reports its own predictive
 variance, since that variance usually grows away from the sampled points and
-so gives some warning of extrapolation, although not a guarantee. And refit rather than
-extrapolate when the ground model is updated and the input ranges move, which
-they will.
+so gives some warning of extrapolation, although not a guarantee. Refit rather than
+extrapolate when the ground model is updated and the input ranges move.
 
-The final check is the one that cannot be automated. A surrogate should be
+The final check cannot be automated. A surrogate should be
 interrogated at a few points where the answer is known independently (an
 analytical solution from Appendix~\ref{app:closed-form}, a hand calculation
 from Appendix~\ref{app:calculations}, or a measured convergence), and its
 predictions compared. Agreement there is worth more than any goodness-of-fit
-statistic, because it tests the whole chain rather than the last link in it.
+statistic, because it tests the parent model and the fit together, where the statistic
+tests only the fit.
 
 \chapterreferences

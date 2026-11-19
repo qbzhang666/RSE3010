@@ -11,18 +11,18 @@
 Structurally controlled failure is one of the three principal underground
 failure modes, alongside stress-induced failure of the rock material and
 large deformation of weak ground (Chapter~\ref{ch:empirical-design}), and it
-is the one that most often surprises. A rock mass rated
-good by any classification system will drop a wedge from the crown if three
-discontinuity sets happen to intersect above the opening in the wrong
-geometry, and no amount of intact strength prevents it. The mechanism is
+is the one least often anticipated. A rock mass rated
+good by any classification system can release a wedge from the crown if three
+discontinuity sets intersect above the opening in an adverse
+geometry, whatever the intact strength. The mechanism is
 geometric before it is mechanical: gravity acts on a block that the
 discontinuities have already defined, and the design question is whether that
 block can move.
 
-Stereographic projection is the tool for answering it. Because the technique
-is usually introduced through slope stability, it is often assumed to belong
-there. It does not. Every roof wedge, sidewall block, portal failure and
-intersection collapse is identified by the same construction, and the
+Stereographic projection is the tool for answering that question. The technique
+is usually introduced through slope stability, but it applies equally
+underground: roof wedges, sidewall blocks, portal failures and
+intersection collapses are all identified by the same construction. The
 underground problem is in some ways the harder one, because a tunnel presents
 several differently oriented free surfaces simultaneously and a set that is
 harmless in the crown may be critical in a sidewall.
@@ -42,20 +42,20 @@ Stereographic projection represents three-dimensional orientations on a plane.
 A plane through the centre of a reference sphere intersects the lower
 hemisphere in a great circle; a line intersects it at a point. Projecting
 those from the zenith onto the equatorial plane gives the equal-angle net, on
-which a plane appears as a great circle and, equivalently, as a single point:
-its pole, the projection of the normal. The equal-area net is not a
+which a plane appears as a great circle and, equivalently, as a single point,
+its pole, which is the projection of the normal. The equal-area net is not a
 projection from a point: its radius is rescaled so that equal solid angles on
 the sphere occupy equal areas on the plot.
 
 Two projections are therefore in use. The equal-angle, or Wulff, net preserves
-angular relationships and is the correct choice for geometric construction:
-intersections, true angles, rotations. The equal-area, or Schmidt, net
+angular relationships and is the correct choice for geometric construction
+of intersections, true angles and rotations. The equal-area, or Schmidt, net
 preserves area and is the correct choice for statistical work. Because the
 equal-angle construction stretches area towards the perimeter, a uniform
 scatter of poles plots at a higher apparent density near the centre
 (Figure~\ref{fig:net-density-bias}), so
 contouring pole density on an equal-angle net biases the result towards the
-centre. Using the wrong net for the purpose in hand is a common and quiet error.
+centre. Using the wrong net for the purpose in hand is a common error that the plot does not reveal.
 
 \begin{figure}[htbp]
 \centering
@@ -83,8 +83,8 @@ concentration~\citep{fisher1953dispersion}, large for a tightly defined set
 and approaching zero for a scatter indistinguishable from random)
 describes how tightly it is defined. Judgement is required.
 Over-interpretation invents sets from noise; under-interpretation merges two
-genuine sets into one mean orientation that describes neither, which is worse
-because the merged mean may correspond to no plane that actually exists.
+distinct sets into one mean orientation that describes neither, which is worse
+because the merged mean may correspond to no plane that exists.
 
 \begin{figure}[htbp]
 \centering
@@ -93,11 +93,11 @@ because the merged mean may correspond to no plane that actually exists.
 \label{fig:pole-contouring}
 \end{figure}
 
-Random discontinuities that belong to no set still matter. A single persistent
-feature can release a block by itself when combined with two systematic sets,
+Random discontinuities that belong to no set must still be considered. A single persistent
+feature can release a block when combined with two systematic sets,
 and the largest wedges are frequently formed this way.
 
-The intersection of two planes is the single most important construction for
+The intersection of two planes is the most important construction for
 underground work (Section~\ref{sec:construct-intersection}). It plots as a point, its plunge and trend are read directly,
 and it is the direction along which a wedge formed by those two planes will
 slide. Most wedge analysis reduces to locating a small number of intersection
@@ -108,8 +108,8 @@ project conceals the variation that governs design. The data should be divided
 into structural domains (reaches within which the sets are consistent)
 with boundaries drawn at faults, lithological changes or changes in
 deformation history. A domain boundary is a geological judgement, and where a
-domain contains too few measurements to define its sets, that is a finding
-about the investigation rather than a licence to merge it with its neighbour.
+domain contains too few measurements to define its sets, the shortfall is a
+gap in the investigation and does not justify merging it with its neighbour.
 
 \subsection{Sampling bias and data quality}
 \label{sec:sampling-bias}
@@ -117,19 +117,19 @@ about the investigation rather than a licence to merge it with its neighbour.
 Discontinuity sampling is systematically biased. A borehole or scanline
 intersects planes perpendicular to it in proportion to their frequency, and
 planes parallel to it hardly at all. A vertical borehole therefore
-under-samples steeply dipping joints, which, in a tunnel, are often the
-ones that matter.
+under-samples steeply dipping joints, which in a tunnel are often the
+critical ones.
 
 The Terzaghi correction~\citep{terzaghi1965sources} weights each observation by the reciprocal of the
 sine of the acute angle $\delta$ between the discontinuity and the sampling
 line, $w = 1/\sin\delta$, restoring the expected frequency
-(Section~\ref{sec:statistical-treatment-of-orientation-data}). It works, with one important caveat: as that angle approaches zero
+(Section~\ref{sec:statistical-treatment-of-orientation-data}). The correction has one limitation: as that angle approaches zero
 the weight diverges, so a single measurement of a near-parallel set can be
 multiplied into an apparent cluster. A cut-off angle, conventionally
 $15^\circ$ to $20^\circ$, is applied to prevent this
 (Figure~\ref{fig:terzaghi-weight}), and the
 consequence is that sets close to parallel with the borehole remain
-under-represented no matter what correction is applied. The only real remedy
+under-represented whatever correction is applied. The only remedy
 is to sample in more than one direction.
 
 \begin{figure}[htbp]
@@ -139,12 +139,12 @@ is to sample in more than one direction.
 \label{fig:terzaghi-weight}
 \end{figure}
 
-Other errors recur often enough to list. Magnetic declination uncorrected, or
-corrected twice. Data sets from different campaigns merged without checking
-that they used the same convention. Contour plots drawn from too few poles to
-support the contour interval. And, most consequentially, a mean set
-orientation carried forward into analysis as though it had no scatter, when
-the scatter is what determines whether an adverse wedge is possible at all.
+Four other errors recur. Magnetic declination is left uncorrected, or is
+corrected twice. Data sets from different campaigns are merged without checking
+that they used the same convention. Contour plots are drawn from too few poles to
+support the contour interval. Most consequentially, a mean set
+orientation is carried forward into analysis as though it had no scatter, when
+the scatter determines whether an adverse wedge is possible.
 
 \section{Block formation and orientation}
 \label{sec:block-formation}
@@ -152,12 +152,12 @@ the scatter is what determines whether an adverse wedge is possible at all.
 \subsection{Removability}
 \label{sec:removability-projection}
 
-Before asking whether a block is stable, ask whether it can move at all. A
-block is of engineering interest only if it is finite (bounded on all sides)
+Whether a block can move at all is established before its stability is
+analysed. A block is of engineering interest only if it is finite (bounded on all sides)
 and removable, meaning it can be displaced into the excavation without
 interpenetrating the surrounding rock.
 
-Block theory~\citep{goodman1985block} answers this geometrically. The discontinuity sets bounding a
+Block theory~\citep{goodman1985block} establishes this geometrically. The discontinuity sets bounding a
 block define a joint pyramid, the set of directions in which the block is free
 to move as determined by its faces; the excavation surface defines an
 excavation pyramid, the directions occupied by rock. If the joint pyramid is
@@ -174,7 +174,7 @@ constrained by the surrounding rock and cannot move regardless of its weight.
 \label{fig:block-removability}
 \end{figure}
 
-The result is powerful because it depends only on orientation, not on
+The result depends only on orientation, not on
 strength, size or stress. It is decided by the discontinuity sets and the
 orientation of the free surface, and it is therefore available as soon as
 structural data exist, before any parameters have been assigned. The test
@@ -214,7 +214,7 @@ dominant variable in cavern support design
 The same three sets form different wedges on each free surface. The crown, the
 two sidewalls and the face each present a differently oriented plane, and a set
 combination that is harmless in one may be critical in another. An analysis
-that considers only the crown has examined a quarter of the problem. Sidewall
+that considers only the crown has examined one of four free surfaces. Sidewall
 wedges are additionally penalised by the low clamping stress on a relaxed
 wall, which reduces the frictional resistance available on their sliding
 planes.
@@ -244,8 +244,8 @@ kinematic assessment of a portal (Figure~\ref{fig:portal-kinematics}).
 \label{fig:portal-kinematics}
 \end{figure}
 
-Excavation orientation is the design variable this chapter offers, and it is
-unusual in that it can remove a hazard rather than support it. Rotating the
+Excavation orientation is the design variable that structural analysis
+provides, and it can remove a hazard rather than support it. Rotating the
 excavation on the stereonet changes the relationship between the free surfaces
 and the discontinuity sets, and can convert a large critical wedge into a
 small stable one (Figure~\ref{fig:crown-wedge-orientation};
@@ -260,7 +260,7 @@ support class over a substantial length.
 \label{fig:crown-wedge-orientation}
 \end{figure}
 
-The complication is that stress prefers a different orientation. The alignment
+The complication is that the alignment
 that minimises structural hazard is rarely the one that minimises boundary
 stress concentration (Chapter~\ref{ch:in-situ-stress}), and the two must be
 traded against each other explicitly, with the governing mechanism identified
@@ -280,26 +280,26 @@ Appendix~\ref{app:calculations}, and the design of the reinforcement itself in
 Chapter~\ref{ch:support}.
 
 Orientation data are scattered, and treating a mean set orientation as exact
-produces one wedge where the reality is a distribution. Sampling orientations
+produces one wedge where a distribution of wedges exists. Sampling orientations
 from their observed distributions and repeating the construction yields a
-distribution of wedge sizes and factors of safety, which is a considerably
-more informative design input, particularly because the critical case is
-usually not the mean case but a tail of it. This is the natural point at which
-structural analysis becomes probabilistic, and the methods are those of
+distribution of wedge sizes and factors of safety, which is a
+more informative design input because the critical case usually lies
+in the tail of the distribution rather than at the mean. Structural
+analysis becomes probabilistic at this point, and the methods are those of
 Chapter~\ref{ch:integrated-design}.
 
 \section{Software and digital workflows}
 \label{sec:structural-software}
 
-Block analysis software performs these constructions reliably and quickly,
-and the productivity gain is real: identifying the critical wedge among all
+Block analysis software performs these constructions reliably and quickly:
+identifying the critical wedge among all
 combinations of several sets on several free surfaces is tedious by hand and
-instantaneous by machine. The risk is equally real. The software will return a
-factor of safety for a wedge that could not physically form, from
-discontinuity sets that were mis-assigned, at an orientation that reflects a
-convention error, and it will return it with three decimal places. Every
-result should be checkable against a hand construction, which is why
-Appendix~\ref{app:stereonet} exists. Pole and great-circle plotting and the
+immediate by machine. The risk is that the software will return a
+factor of safety, to three decimal places, for a wedge that could not
+physically form, from discontinuity sets that were mis-assigned, or at an
+orientation that reflects a convention error. Every
+result should be checkable against a hand construction, and the constructions of
+Appendix~\ref{app:stereonet} are provided for that purpose. Pole and great-circle plotting and the
 intersection of two planes are implemented in \companionname\
 (Section~\ref{sec:structural-scripts}), whose output can be checked in the
 same way; it analyses wedges on a slope or portal face but not blocks in the
@@ -313,12 +313,12 @@ automatically, in numbers no manual survey could match and from surfaces that
 would be unsafe to approach. The output feeds directly into projection and
 domain analysis.
 
-Two limitations should be stated. Remote methods measure only the surfaces
-that are exposed and visible, so they inherit the orientation bias of the
-exposure itself: a face perpendicular to a joint set will show it well and a
-face parallel to it will not, exactly as a borehole does. And they measure
+Two limitations apply. Remote methods measure only the surfaces
+that are exposed and visible, so they carry the orientation bias of the
+exposure: a face perpendicular to a joint set will show it well and a
+face parallel to it will not, as with a borehole. They also measure
 orientation and trace length well, but roughness, aperture, infilling and wall
-strength poorly or not at all. The parameters that determine shear strength
-still require someone to reach the rock.
+strength poorly or not at all, so the parameters that determine shear strength
+still require direct access to the rock.
 
 \chapterreferences

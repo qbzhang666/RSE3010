@@ -8,10 +8,10 @@
 \chapter{Closed-Form Solutions and Design Charts}
 \label{app:closed-form}
 
-A consolidated reference for the elastic and elasto-plastic solutions used
-across Chapters~\ref{ch:ccm}, \ref{ch:ground-behaviour}, \ref{ch:openings}
+This appendix collects the elastic and elasto-plastic solutions used
+in Chapters~\ref{ch:ccm}, \ref{ch:ground-behaviour}, \ref{ch:openings}
 and~\ref{ch:linings},
-with their assumptions stated once so the main text need not repeat them.
+with their assumptions stated once so that the main text need not repeat them.
 Compression is positive throughout.
 
 \section{Assumptions common to all solutions}
@@ -26,8 +26,8 @@ Each assumption fails in a characteristic way. \emph{Homogeneity} fails where
 the opening crosses a boundary, and the solution then applies only to the
 weaker unit. \emph{Isotropy} fails in bedded and foliated rock, where the
 error is largest in the displacement field rather than the stresses.
-\emph{Elasticity} fails wherever the strength is exceeded, which is precisely
-where the answer matters, hence the elasto-plastic solutions of
+\emph{Elasticity} fails wherever the strength is exceeded, which is
+where the result is most needed, hence the elasto-plastic solutions of
 Section~\ref{sec:elasto-plastic-and-support-solutions}. \emph{Plane strain}
 fails within about one diameter of the face
 (Chapter~\ref{ch:rock-mechanics}). \emph{Infinite extent} fails at shallow
@@ -67,7 +67,7 @@ giving, at the sidewall ($\theta = 0$) and the crown
 \]
 
 Two results follow directly. In a hydrostatic field ($k=1$) the boundary
-stress is $2\pzero$ everywhere. And the crown goes into tension whenever
+stress is $2\pzero$ everywhere. The crown goes into tension whenever
 $k < 1/3$, which is the origin of the destressed crown discussed in
 Chapter~\ref{ch:ground-behaviour} (Figure~\ref{fig:kirsch-stress}).
 
@@ -179,8 +179,8 @@ sequence in Appendix~\ref{app:calculations} delivers a rock mass strength, $c$
 and $\phi$ are fitted first and $\sigma_{cm,MC}$ formed from them.
 
 \noindent\textbf{Use.}\enspace The critical pressure is the more useful of the
-two results, because it answers immediately whether the ground will yield at
-all. Where $p_{cr} \leq 0$ the opening is self-supporting in the
+two results, because it shows at once whether the ground will yield.
+Where $p_{cr} \leq 0$ the opening is self-supporting in the
 elastic sense, and the design problem is structural rather than one of ground
 pressure.
 
@@ -224,7 +224,7 @@ here by the same expressions, with $t_c$ the segment thickness and $E_c$,
 $\nu_c$ and $\sigma_{cc}$ those of the segment concrete. Under axisymmetric
 load the radial joints carry hoop thrust in compression without rotating, so
 the stiffness is close to that of a continuous ring; the joints matter under
-non-uniform load, which is the province of the lining solutions of
+non-uniform load, which is treated by the lining solutions of
 Section~\ref{sec:charts-and-lining-solutions} and of
 Chapter~\ref{ch:linings}. Two quantities differ from those of a cast ring.
 The capacity is governed at the radial joints, where the hoop thrust $\pin a$
@@ -233,9 +233,9 @@ passes through a contact band of height $h_j$, less than $t_c$
 \[
 p_{sm} = \frac{\sigma_{cc}\,h_j}{a} ,
 \]
-the thin-ring form with $h_j$ in place of $t_c$. And the convergence $u_{s0}$
+the thin-ring form with $h_j$ in place of $t_c$. The convergence $u_{s0}$
 at which the ring begins to carry load is fixed by the tail void and the
-effectiveness of the annulus grout, not read from the longitudinal
+effectiveness of the annulus grout, and is not read from the longitudinal
 deformation profile.
 
 \emph{Steel sets} of cross-sectional area $A_s$, modulus $E_s$ and yield
@@ -262,11 +262,11 @@ k_s = \frac{1}{s_c s_l}\left[\frac{4L_b}{\pi d_b^2 E_b} + Q\right]^{-1},
 \qquad
 p_{sm} = \frac{T_{bf}}{s_c s_l},
 \]
-where $T_{bf}$ is the bolt capacity. The expression treats the bar as an elastic tie between anchor and plate; a fully grouted bar is not a tie but reinforcement of the rock mass, and for it the expression is only an approximation. The constant $Q$, in metres per
+where $T_{bf}$ is the bolt capacity. The expression treats the bar as an elastic tie between anchor and plate; a fully grouted bar reinforces the rock mass along its length instead of acting as a tie, and for it the expression is only an approximation. The constant $Q$, in metres per
 meganewton, is read from the load--extension curve of a pull-out test on the
 anchor and plate assembly. It depends on the anchor type, the hole and the
-rock, no representative range is tabulated in Appendix~\ref{app:constants},
-and it is measured on site before the expression is used; representative
+rock. No representative range is tabulated in Appendix~\ref{app:constants},
+and it is measured on site before the expression is used. Representative
 values of $E_b$ and of the steel-set properties are given there.
 
 For systems installed together, stiffnesses add:
@@ -327,7 +327,7 @@ towards the major principal stress (Figure~\ref{fig:influence-contours}). The
 convention should therefore be stated with the result.
 
 Two openings whose zones of influence do not overlap may be analysed
-independently. Closer, they interact, and the treatment is
+independently. Closer openings interact, and they are treated in
 Chapter~\ref{ch:openings}.
 
 \begin{figure}[htbp]
@@ -381,7 +381,7 @@ Chapter~\ref{ch:linings}.
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{appF/einstein-schwartz}
-\caption{Thrust and moment coefficients of a full-slip lining from the expressions above, against flexibility ratio, for $\nu = 0.3$ and a solid lining with $t/a = 0.1$, so that $C = F/1200$. The moment has almost vanished by $F \approx 100$; the thrust falls as the lining becomes compressible relative to the ground.}
+\caption{Thrust and moment coefficients of a full-slip lining from the expressions above, against flexibility ratio, for $\nu = 0.3$ and a solid lining with $t/a = 0.1$, so that $C = F/1200$. The moment falls to about an eighth of its value at $F = 1$ by $F \approx 100$ and has almost vanished by $F \approx 1000$; the thrust falls as the lining becomes compressible relative to the ground.}
 \label{fig:einstein-schwartz}
 \end{figure}
 
@@ -391,11 +391,11 @@ no-slip case gives higher thrust and lower moment, and both should be checked.
 \section{Limits of use}
 \label{sec:closed-form-limits}
 
-These solutions remain the right tool for preliminary sizing, for
-understanding which variables govern, and, most valuably, as a check on
+These solutions remain suited to preliminary sizing, to
+understanding which variables govern and, above all, to checking
 numerical output. A numerical model of a circular opening in uniform ground
 that does not reproduce the Kirsch stresses to within a few per cent contains
-an error that will not announce itself in the complex geometry the model was
+an error that will go undetected in the complex geometry the model was
 built for.
 
 They serve only as a check where the geometry is non-circular and the ground
@@ -403,8 +403,8 @@ non-uniform, where construction is staged, or where openings interact. They
 should not be used at all at shallow cover below about two diameters, in
 strongly anisotropic rock, where the excavation is not remote from the face
 (the longitudinal deformation profile of Section~\ref{sec:ldp-appendix}
-excepted, being an empirical fit to three-dimensional results for precisely
+excepted, being an empirical fit to three-dimensional results for
 that region) or where the ground is time-dependent. In each of those cases the assumption
-violated is not a refinement but the basis of the derivation.
+violated is the basis of the derivation.
 
 \chapterreferences

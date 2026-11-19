@@ -9,8 +9,8 @@ Design of an underground opening proceeds through methods of increasing
 resolution and increasing cost. Empirical methods come first. They convert a
 rock mass classification directly into a support recommendation, need only the
 data already gathered during characterisation, and can be applied to a whole
-alignment in an afternoon. That makes them the natural tool for concept and
-preliminary design, for sizing the problem, and for a sanity check on anything
+alignment in a day. They are therefore the natural tool for concept and
+preliminary design, and for checking what
 the later methods produce.
 
 They are also the least transferable. An empirical chart encodes the case
@@ -29,30 +29,29 @@ Chapter~\ref{ch:numerical-modelling} exist to resolve what the charts cannot.
 The three method families map onto design stage, and the mapping is driven by
 what data exist and what decision is being taken.
 
-Empirical methods suit concept and preliminary design. They need only the
-classification data already produced by characterisation, they can be applied
-to an entire alignment in a day, and they return the quantity a preliminary
-design actually needs: an indication of support type and quantity, chainage
-by chainage. They are also the right tool for screening: identifying which
+Empirical methods suit concept and preliminary design. As noted above, they
+need only classification data and are quick to apply. They return the quantity a preliminary
+design needs, an indication of support type and quantity, chainage
+by chainage. They are also the right tool for screening, that is for identifying which
 reaches are routine and which require attention, so that later effort can be
 directed at the second group.
 
 Analytical methods suit reference design. They require parameters rather than
 ratings, they address one mechanism at a time, and they establish whether the
 support proposed will reach equilibrium with the ground and at what
-convergence. Their value is diagnostic: they say why a support system works,
+convergence. Their value is diagnostic: they show why a support system works,
 which an empirical chart cannot.
 
-Numerical methods suit detailed design and verification. They accommodate real
+Numerical methods suit detailed design and verification. They accommodate the actual
 geometry, staged sequences, interaction between openings, non-uniform ground
 and coupled processes. They cost the most, in analyst time and in the data
 needed to justify their inputs, and they are the only route to problems the
-other two cannot represent at all.
+other two cannot represent.
 
-The progression is one of increasing resolution and increasing cost, and it
-should be traversed only as far as the decision requires. A support class for
+The progression
+should be followed only as far as the decision requires. A support class for
 a routine reach in fair ground does not need a finite element model, and
-producing one does not make the answer better.
+producing one does not improve the answer.
 
 \subsection{What each method can and cannot establish}
 \label{sec:method-limits}
@@ -65,7 +64,7 @@ safety, a convergence, or a load in the support. A $Q$-chart support
 recommendation carries no statement about how close to failure the excavation
 is. What it carries is the accumulated outcome of the case histories behind
 it: excavations of this quality and this dimension, supported in this way,
-performed acceptably. That is genuine evidence, and it is silent about ground
+performed acceptably. That is evidence, but it does not extend to ground
 outside the case base.
 
 Analytical methods return a mechanism and an equilibrium. Given a stress
@@ -77,10 +76,10 @@ circular opening in a hydrostatic field is an idealisation whose departure
 from reality must be judged separately.
 
 Numerical methods return a complete field solution (stresses,
-displacements, yield zones everywhere), and the completeness is what makes
-them dangerous. The solution is exact for the model, and its correspondence
-with the ground is set entirely by the parameters and constitutive assumptions
-supplied. A model reports the same three decimal places whether its modulus
+displacements and yield zones everywhere), and that completeness can
+mislead. The solution is exact for the model, but its correspondence
+with the ground is set by the parameters and constitutive assumptions
+supplied. The output has the same apparent precision whether the modulus
 was measured on fifty specimens or assumed from a table.
 
 \subsection{Using the methods together}
@@ -91,7 +90,7 @@ in different ways and their agreement is therefore informative.
 
 Where independent methods converge, the result rests on more than one set of
 assumptions and can be relied on with correspondingly more confidence. Where
-they diverge, the divergence is information rather than an inconvenience: it
+they diverge, it
 usually means that the methods are representing different mechanisms, and
 identifying the mechanism each has captured establishes which of them governs.
 
@@ -99,9 +98,10 @@ A common pattern illustrates this. Empirical charts recommend light support;
 analytical calculation shows an ample margin; and a numerical model predicts a
 large yield zone. The reconciliation is often that the numerical model has
 been given a strength-reducing parameter set appropriate to the rock mass but
-applied at a scale where structure, not continuum yielding, actually governs,
+applied at a scale where structure, not continuum yielding, governs,
 or, conversely, that the empirical chart's case base contains nothing at
-this stress level. Neither answer is dismissed; the mechanism is identified.
+this stress level. Neither result is discarded until the mechanism behind
+it has been identified.
 The procedure for doing so systematically is set out in
 Chapter~\ref{ch:integrated-design}.
 
@@ -111,8 +111,8 @@ Chapter~\ref{ch:integrated-design}.
 Underground excavations fail in three principal modes, and the governing one
 has to be identified before support is selected.
 Chapter~\ref{ch:ground-behaviour} classified ground by mechanism and
-Chapter~\ref{ch:high-stress} treated the high-stress cases in detail. What
-follows reduces that treatment to the screening quantities available at
+Chapter~\ref{ch:high-stress} treated the high-stress cases in detail. This
+section reduces that treatment to the screening quantities available at
 preliminary stage.
 
 The first screen is the decision tree of \citet{martin2003stress}. It splits the rock mass on GSI into weak, brittle
@@ -190,7 +190,7 @@ expected; between 1.5 and 2 moderate overbreak; and above 2 serious
 overbreak. Table~\ref{tab:spalling-example} works both measures through for a
 strong rock under a major stress of 60~MPa
 (Figure~\ref{fig:spalling-depth}). The two bounds on CI place the
-same opening in adjacent severity classes, which is a fair statement of the
+same opening in adjacent severity classes, which indicates the
 resolution of the method.
 
 \begin{table}[htbp]
@@ -344,7 +344,7 @@ Table~\ref{tab:rmr-span-standup} summarises the readings by class.
 61--80 (Class II) & 10--15 & Months to years \\
 41--60 (Class III) & 5--10 & Weeks to months \\
 21--40 (Class IV) & 2.5--5 & Hours to days \\
-$<20$ (Class V) & $<2.5$ & Minutes (immediate collapse) \\
+$<21$ (Class V) & $<2.5$ & Minutes (immediate collapse) \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -410,7 +410,7 @@ experience.
 61--80 & Full face, 1--1.5~m advance & Bolts 3~m @ 2.5~m in crown; 50~mm shotcrete in crown \\
 41--60 & Top heading and bench & Systematic bolts 4~m @ 1.5--2~m; 50--100~mm shotcrete \\
 21--40 & Top heading and bench & Systematic bolts 4--5~m @ 1--1.5~m; 100--150~mm shotcrete; light ribs \\
-$<20$ & Multiple drifts & Systematic bolts 5--6~m @ 1--1.5~m; 150--200~mm shotcrete; heavy ribs \\
+$<21$ & Multiple drifts & Systematic bolts 5--6~m @ 1--1.5~m; 150--200~mm shotcrete; heavy ribs \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -538,8 +538,8 @@ gives category 3, systematic bolting with 5--6~cm of shotcrete.
 
 The maximum unsupported span for $Q = 5$ and ESR = 0.8 is
 $2(0.8)(5^{0.4}) = 3.0$~m, against a designed span of 16~m, and the RMR route
-gives 2.5--5~m for the adjusted Class~IV. The two systems agree,
-independently, that nothing in this cavern stands unsupported.
+gives 2.5--5~m for the adjusted Class~IV. The two systems agree
+independently that the cavern cannot stand unsupported at this span.
 
 \paragraph{The divergence between the two.}
 The RMR design (4.8~m bolts, 100--150~mm of shotcrete and light ribs) is more
@@ -547,13 +547,12 @@ conservative than the Q-system design (4~m bolts and 9--12~cm of shotcrete;
 Figure~\ref{fig:station-cavern-support}).
 Part of the divergence is structural. The RMR route carries an explicit
 penalty of 12 points for the steeply dipping set striking parallel to the
-axis, whereas $Q$ has no orientation term, so the same adverse geometry is
-invisible to it. The Q recommendation is the lighter of the two by
+axis, whereas $Q$ has no orientation term and so takes no account of the
+same adverse geometry. The Q recommendation is the lighter of the two by
 construction, and the effect of orientation has to be imposed on it
 separately. The remaining choice is a matter of engineering judgement, which
 weighs the uncertainty of the ratings, the possibility of mixed failure
 modes, the importance of the cavern (ESR = 0.8) and local experience.
-Empirical systems are guides and not prescriptions.
 
 \begin{figure}[htbp]
 \centering
@@ -570,7 +569,7 @@ A large-span car park cavern at shallow depth in horizontally bedded sandstone,
 described by \citet{pells2002developments}, shows both systems at their
 limits. RMR discriminated poorly,
 identifying only three classes. $Q$ ranged from 43 to 0.009 and so captured
-the variability better, yet it predicted lighter support than was actually
+the variability better, yet it predicted lighter support than was
 installed. Empirical systems have to be calibrated to local conditions.
 Neither RMR nor Q is universally applicable, and the reliability of each
 depends on how closely the case histories behind it match the project in
@@ -589,7 +588,7 @@ recommendation is uncertain also.
 The effect depends on where the rating lies
 (Figure~\ref{fig:rating-uncertainty}). If RMR = $55 \pm 5$, both
 bounds remain in Class~III (41--60) and the recommended support class does
-not change; the uncertainty surfaces instead in the quantity selected within
+not change; the uncertainty then affects only the quantity selected within
 the class. A rating near a class boundary behaves differently: at RMR =
 $42 \pm 5$ the lower bound crosses into Class~IV and the recommendation
 changes discontinuously. Likewise, if $Q = 5 \pm 2$, the lower bound

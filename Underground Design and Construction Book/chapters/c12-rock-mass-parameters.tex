@@ -8,11 +8,11 @@ gap is the subject of this chapter. The generalised Hoek--Brown
 criterion~\citep{hoek2019hb} provides the standard route, taking the intact
 strength, a material constant, the Geological Strength Index and a disturbance
 factor, and returning strength and deformability at rock mass scale. The
-derivation is short; the behaviour it conceals is not. Small changes in the
-index terms produce large changes in the derived strength, so the chapter
-attends
-to the choices that carry that sensitivity, the disturbance factor, the
-fitting range and the modulus relation, as well as to the algebra itself.
+derivation is short, but small changes in the
+index terms produce large changes in the derived strength. The chapter
+therefore attends
+to the choices that carry that sensitivity (the disturbance factor, the
+fitting range and the modulus relation) as well as to the algebra.
 
 \section{Deriving rock mass parameters}
 \label{sec:deriving-rock-mass-parameters}
@@ -97,7 +97,7 @@ Increasing \(D\) lowers \(m_b\) and \(s\) together, and with them the rock mass
 strength and modulus (Figure~\ref{fig:hb-constants-gsi}). Poor blasting can therefore raise the support demand
 substantially in ground whose geology is unchanged. The factor describes a
 damaged zone of limited thickness, however, and applying it to the whole rock
-mass rather than to that zone understates strength everywhere beyond it; the
+mass rather than to that zone understates strength everywhere beyond it. The
 extent of the zone is discussed with the excavation methods in
 Chapter~\ref{ch:construction}.
 
@@ -153,10 +153,10 @@ parameters are derived.
 \noindent\textbf{Organising the calculation.}\enspace Whatever the medium, the
 derivation should carry one line for each rock type and a separate block for
 each disturbance case, typically \(D=0\) and \(D=0.8\), so that the effect of
-blast damage is visible rather than buried. Every quantity should be computed
+blast damage is visible. Every quantity should be computed
 from the recorded inputs rather than transcribed, so that changing
 \(\GSI\) or \(\sci\) propagates through the whole derivation. This is the
-single most effective guard against the error described in
+most effective guard against the error described in
 Chapter~\ref{ch:ground-modelling}, in which a parameter is revised in one
 place and not in another.
 
@@ -213,8 +213,8 @@ strength of the rock mass,
 \sigma_{ci}\,s^{a_{HB}} .
 \]
 It is usually a small fraction of \(\sigma_{ci}\), and smaller still at low
-GSI or high \(D\), which is the weakening effect of discontinuities and of
-excavation damage expressed as a number.
+GSI or high \(D\), which quantifies the weakening effect of discontinuities
+and of excavation damage.
 
 \paragraph{Triaxial strength at in-situ confinement}
 With the vertical and horizontal stresses
@@ -256,15 +256,15 @@ rock mass strength \(\sigma_{cm}\) while retaining the intact constant
 =
 -\frac{\sigma_{cm}}{8.62+0.7m_i} .
 \]
-This is a scaled analogue rather than the published relation, and it is an
-alternative estimate, not a truncation of the envelope: it would cut the
-envelope off only where it is less tensile than \(\sigma_{tm}\). For the
+This is a scaled analogue of the published relation, and it is an
+alternative estimate. It would truncate the
+envelope only where it is less tensile than \(\sigma_{tm}\). For the
 sandstone of Section~\ref{sec:sandstone-worked-example} it is more tensile
 (\(-0.68\) against \(-0.40\)\,MPa), so it lies outside the envelope and is
 non-binding there (Figure~\ref{fig:hb-disturbance-sandstone}).
-The two generally differ, and the difference is informative: where brittle
+The two generally differ. Where brittle
 tensile cracking is the mechanism of concern, the comparison shows whether the
-tensile strength implied by the criterion is credible or merely a consequence
+tensile strength implied by the criterion is credible or a consequence
 of extrapolating a compressive envelope.
 
 \paragraph{Deformation modulus of the rock mass}
@@ -371,7 +371,7 @@ generalised Hoek--Diederichs expression is the primary estimate wherever
 \(E_i\), GSI and \(D\) are all available; the simplified expression is the
 first comparison; and the remaining expressions are sensitivity checks. The
 worked example of Section~\ref{sec:sandstone-worked-example} shows how far
-they diverge in practice.
+they diverge.
 
 \section{Application and verification}
 \label{sec:application-and-verification}
@@ -534,13 +534,13 @@ rating-based moduli take no account of $D$.}
 \end{tabular}
 \end{table}
 
-The modulus estimates carry the lesson
-(Figure~\ref{fig:modulus-estimates-sandstone}). For the undisturbed rock mass the five
+The modulus estimates are compared in
+Figure~\ref{fig:modulus-estimates-sandstone}. For the undisturbed rock mass the five
 expressions span 17.6 to 25.1\,GPa, a spread of about 40\,per cent that a
 design can absorb. For the damaged rock mass the three expressions that admit
 a disturbance factor span 3.1 to 12.7\,GPa, a factor of four, and the
 simplified expression that was the highest of the three at \(D = 0\) is now
-the lowest. The estimates do not merely scatter; they change order with the
+the lowest. The estimates scatter and also change order with the
 conditions, which is why the expression adopted is the one that uses the
 measured intact modulus and why the others are reported beside it.
 
@@ -607,11 +607,11 @@ The two agree to within a degree and half a megapascal, as they should.
 \label{fig:hb-envelope-sandstone}
 \end{figure}
 
-Two features of the result deserve attention. The intercept of the fitted
-line in Method 2, 25.1\,MPa, is nearly twice the true unconfined strength of
-13.95\,MPa in the first row of the table: a straight line forced through a
-curved envelope overstates strength at low confinement, which is exactly
-where an excavation boundary sits. And the fitted pair belongs to the range.
+Two features of the result should be noted. First, the intercept of the fitted
+line in Method 2, 25.1\,MPa, is nearly twice the unconfined strength of
+13.95\,MPa in the first row of Table~\ref{tab:example}: a straight line fitted to a
+curved envelope overstates strength at low confinement, which is the
+condition at an excavation boundary. Second, the fitted pair depends on the range.
 Refitting over the narrower range from zero to \(\sigma_3^{IS} = 12.15\)\,MPa
 gives \(\phi = 46.0^\circ\) and \(c = 4.3\)\,MPa, four degrees higher in
 friction and a quarter lower in cohesion for the same rock mass

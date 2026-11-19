@@ -37,17 +37,16 @@ shallow, at portals, at junctions between structures of differing stiffness, in
 liquefiable ground, and above all where a fault ruptures through the
 alignment. Older tunnels with unreinforced masonry or brittle linings are more
 vulnerable than modern reinforced ones, and tunnels already deteriorated by
-water ingress and corrosion are more vulnerable again: the interaction
+water ingress and corrosion are more vulnerable again, an interaction
 between seismic vulnerability and asset condition that
 Chapter~\ref{ch:sustainability} identifies as a resilience issue.
 
-The essential distinction is between ground shaking and ground failure.
+The main distinction is between ground shaking and ground failure.
 Shaking imposes transient deformation as waves pass; the structure deforms,
 develops strain, and returns. Ground failure (fault rupture, liquefaction,
 landsliding) imposes permanent displacement that the structure must
-accommodate or fail. These require entirely different treatments, and
-combining them into a single seismic check confuses two problems that have to
-be checked separately. They are coupled in one direction only: ground failure
+accommodate or fail. These require different treatments and have to be checked
+separately, not combined into a single seismic check. They are coupled in one direction only: ground failure
 can remove the confinement on which the shaking argument depends, so a site
 exposed to both requires the shaking check to be repeated for the degraded
 condition.
@@ -62,7 +61,7 @@ and a maximum design earthquake, rare, after which life safety is assured and
 repairable damage is accepted. Intraplate regions of low to moderate
 seismicity present a particular framing problem, since the hazard is dominated
 by rare large events rather than by frequent moderate ones. The operating
-earthquake then becomes so small that it imposes no real check, the two-level
+earthquake then becomes so small that it imposes no effective check, the two-level
 framework reduces in practice to a single rare-event case, and because the
 design motion grows steeply with return period the result is unusually
 sensitive to the return period selected.
@@ -86,8 +85,8 @@ Free-field deformation methods take the strain that would occur in the ground
 without the tunnel and impose it on the structure. The wave-passage approach of
 \citet{newmark1968problems} gives axial and curvature strain from the peak particle velocity
 (the measure of ground vibration also used for blasting,
-Section~\ref{sec:vibration-environment}) and peak particle
-acceleration and an assumed wave speed and angle of incidence. For a shear
+Section~\ref{sec:vibration-environment}), the peak particle
+acceleration, and an assumed wave speed and angle of incidence. For a shear
 wave of peak particle velocity $v_{\max}$ and propagation velocity $C_s$
 incident at an angle $\theta$ to the tunnel axis, the free-field axial
 strain is
@@ -97,7 +96,7 @@ strain is
 which is greatest at $45^\circ$, where it equals $v_{\max}/(2C_s)$. The angle
 is unknown, so the design case takes that worst orientation, which is
 conservative and costs little in analysis, since the envelope follows from a
-single closed-form evaluation over the range of incidence angles: a particle
+single closed-form evaluation over the range of incidence angles. A particle
 velocity of 0.3~m/s in ground with
 $C_s = 1000$~m/s gives a strain of at most $1.5 \times 10^{-4}$
 (Figure~\ref{fig:free-field-strain}). Imposing the
@@ -111,7 +110,7 @@ the critical elements of Section~\ref{sec:seismic-structures-criteria}.
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch20/free-field-strain}
-\caption{Free-field axial strain from a shear wave after \citet{newmark1968problems}: against the angle of incidence for $v_{\max} = 0.3$~m/s, and at the worst angle, $v_{\max}/(2C_s)$, against particle velocity. The dot is the example of the text. The free-field shear strain that drives ovaling, $v_{\max}/C_s$, is twice this peak.}
+\caption{Free-field axial strain from a shear wave after \citet{newmark1968problems}: against the angle of incidence for $v_{\max} = 0.3$~m/s, and at the worst angle, $v_{\max}/(2C_s)$, against particle velocity, each for three values of $C_s$. The dot is the example of the text. The free-field shear strain that drives ovaling, $v_{\max}/C_s$, is twice this peak.}
 \label{fig:free-field-strain}
 \end{figure}
 
@@ -119,16 +118,16 @@ the critical elements of Section~\ref{sec:seismic-structures-criteria}.
 \label{sec:simplified-seismic}
 
 Ovaling and racking are handled by closed-form
-solutions~\citep{wang1993seismic,penzien2000seismically} whose central
-insight is a ratio (Figure~\ref{fig:ovaling-flexibility}). The \emph{flexibility ratio} compares the shear stiffness
+solutions~\citep{wang1993seismic,penzien2000seismically} that are governed
+by a single ratio (Figure~\ref{fig:ovaling-flexibility}). The \emph{flexibility ratio} compares the shear stiffness
 of the ground to the bending stiffness of the lining, and it determines
 whether the lining follows the ground or resists it. At high flexibility ratio
 the lining conforms: its distortion exceeds the free-field distortion and
 approaches that of an unlined opening, $4(1-\nu)$ times the free field, while
 the induced forces are small. The lining distorts as the free field only near
 a flexibility ratio of about 7 to 9. At low flexibility ratio the lining
-resists, distorts less, and attracts large moments. The \emph{compressibility ratio} plays the
-same role for the axial mode (Section~\ref{sec:charts-and-lining-solutions}).
+resists, distorts less, and attracts large moments. The \emph{compressibility ratio} has the
+same function for the axial mode (Section~\ref{sec:charts-and-lining-solutions}).
 
 \begin{figure}[htbp]
 \centering
@@ -144,8 +143,7 @@ forces it must carry, and the more effective response is usually to allow the
 distortion and detail for it.
 
 Interface assumptions bracket the answer. Full-slip between lining and ground
-gives lower thrust and higher moment; no-slip gives the reverse. Real
-behaviour lies between, and both should be checked, since the governing
+gives lower thrust and higher moment; no-slip gives the reverse. Actual behaviour lies between, and both should be checked, since the governing
 condition differs between reinforcement design and section capacity.
 
 \section{Seismic design and permanent displacement}
@@ -156,8 +154,7 @@ condition differs between reinforcement design and section capacity.
 
 Where the simplified methods do not apply (irregular geometry, strongly
 layered ground, soil-structure interaction at a portal or a station box),
-dynamic numerical analysis is required. Three inputs dominate the result and
-each deserves scrutiny.
+dynamic numerical analysis is required. Three inputs dominate the result.
 
 Input motion must be defined at the model base, which requires deconvolving a
 surface motion downward through the soil profile; errors here propagate
@@ -249,7 +246,7 @@ that people can evacuate and that collapse does not occur, accepting damage
 and closure. Matching performance level to hazard level and to asset
 criticality (operational for the operating earthquake, life safety
 for the maximum design earthquake) is the standard framing, and it connects
-directly to the functionality-over-time treatment in
+to the functionality-over-time treatment in
 Chapter~\ref{ch:sustainability}.
 
 \chapterreferences

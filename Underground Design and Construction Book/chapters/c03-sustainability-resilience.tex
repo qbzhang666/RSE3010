@@ -41,7 +41,7 @@ site. In the case of Figure~\ref{fig:sus-carbon-elements}, machine
 electricity from the grid exceeds the reinforcement, and spoil
 haulage exceeds the grout. For a
 sprayed concrete lined cavern the ranking shifts: shotcrete quantities are
-harder to control, rebound losses are real material, and the reinforcement
+harder to control, rebound losses count as material used, and the reinforcement
 fraction is usually lower.
 
 Two consequences follow. The first is that lining geometry (diameter and
@@ -80,8 +80,8 @@ almost always boundary rather than method. A figure covering A1--A3 only will
 be materially lower than one covering A1--A5 for the same design
 (Figure~\ref{fig:sus-carbon-boundary}), by a margin
 that widens with haulage distance and drive length, and a
-whole-life figure including B and C may be higher again. Quoting a value
-without its modules is quoting a number without units.
+whole-life figure including B and C may be higher again. A value quoted
+without its modules is as incomplete as a number quoted without units.
 
 \begin{figure}[htbp]
 \centering
@@ -105,7 +105,7 @@ defended.
 Quantities should come from the digital asset model of
 Chapter~\ref{ch:digital-twin} (lining concrete, reinforcement, grout,
 backfill, fit-out, spoil) rather than from a spreadsheet rebuilt at each
-design stage. The reason is not efficiency but consistency: when the quantity
+design stage. The benefit is consistency more than efficiency: when the quantity
 model and the design model are the same object, a design change updates the
 carbon estimate automatically, and the estimate stays current long enough to
 influence the design.
@@ -154,7 +154,7 @@ equivalent per kilowatt-hour, and $E_{\mathrm{TBM}}$ is the total energy
 drawn by the excavation in kilowatt-hours.
 
 \noindent\textbf{This is accounting logic, not a design equation.}\enspace
-Neither expression predicts anything. Their value is that they force every
+Neither expression predicts anything. They require every
 reported figure to be traceable to a quantity, a boundary, a factor and a
 stated modelling assumption. The excavation energy $E_{\mathrm{TBM}}$ in
 particular should be estimated from ground--machine interaction (torque,
@@ -182,11 +182,12 @@ approximate order of leverage:
  \item restoration strategy and its timing during operation.
 \end{enumerate}
 
-The ordering carries the chapter's main design message. Early geometric
+The ordering is the main design message of the chapter. Early geometric
 decisions and construction control dominate the achievable reduction
 (Figure~\ref{fig:sus-lining-carbon}); material
 substitution is a late lever with a bounded ceiling. A project that defers
-carbon to the specification stage has already spent most of its opportunity.
+carbon to the specification stage has already lost most of the achievable
+reduction.
 
 \begin{figure}[htbp]
 \centering
@@ -199,13 +200,13 @@ the tunnel of Figure~\ref{fig:sus-carbon-elements}.}
 \label{fig:sus-lining-carbon}
 \end{figure}
 
-The third item deserves particular attention because it is the point where
-carbon meets rock mechanics. Permitting more ground convergence before support
+The third item is where
+carbon depends directly on rock mechanics. Permitting more ground convergence before support
 is mobilised reduces the support pressure the lining must carry, and therefore
 its thickness and reinforcement. That is a carbon reduction obtained through
 the ground reaction curve of Chapter~\ref{ch:ccm} rather than through a
 material substitution. It is available only within serviceability, construction
-and risk limits, but real. The reduction holds only on the falling branch of
+and risk limits, and it holds only on the falling branch of
 the ground reaction curve (Figure~\ref{fig:sus-support-timing}). In squeezing or strain-softening ground, loosening
 beyond a critical convergence raises the pressure required, so that delaying
 support increases the demand on it, and the lever has to be checked against
@@ -235,9 +236,9 @@ numerical or surrogate models according to the project stage.
 There is rarely a single minimum-carbon design. Multi-objective optimisation
 yields a Pareto set within which no objective can be improved without
 worsening another, and the preferred option is selected from that set on
-stated grounds. Reporting the set rather than the optimum is the honest
-outcome, because it exposes the trade the client is actually being asked to
-accept. The integrated treatment is Chapter~\ref{ch:integrated-design}.
+stated grounds. Reporting the set rather than a single optimum shows
+the client the trade-off that is being
+accepted. The integrated treatment is Chapter~\ref{ch:integrated-design}.
 
 \section{Materials, energy and environment}
 \label{sec:materials-energy-environment}
@@ -246,8 +247,8 @@ accept. The integrated treatment is Chapter~\ref{ch:integrated-design}.
 \label{sec:materials-spoil}
 
 Supplementary cementitious materials, alkali-activated binders and geopolymer
-systems all reduce the product term, and all interact with tunnelling's
-operational constraint: early strength. A sprayed lining that must carry load
+systems all reduce the product term, and all interact with the early-strength
+requirement of tunnelling. A sprayed lining that must carry load
 within hours, or a segment that must be demoulded on a production cycle,
 cannot accept an arbitrary reduction in early strength development. The
 achievable substitution is therefore bounded by the construction cycle, and it
@@ -256,11 +257,12 @@ specification alone.
 
 Excavated material is the other large flow. Treated as waste it is a disposal
 cost and an A5 carbon term; treated as a resource it can substitute for
-quarried aggregate, fill and construction material. What limits reuse is
-rarely the rock: it is contamination, conditioning residues from closed-face
+quarried aggregate, fill and construction material. Reuse is
+rarely limited by the rock itself; the usual limits are contamination, conditioning
+residues from closed-face
 excavation, and the regulatory classification of the material. Planning reuse
 early (while the alignment, the excavation method and the disposal
-strategy are still open) is what makes it achievable.
+strategy are still open) makes it achievable.
 
 \subsection{Operational energy and thermal use}
 \label{sec:operational-thermal}
@@ -308,21 +310,21 @@ least as much as outcome.
 \label{sec:functionality-measure}
 
 A design that satisfies every capacity check can still leave an asset out of
-service for months. Capacity answers whether the structure stands; it does not
-answer whether the service continues, which is what the owner and the public
+service for months. A capacity check establishes whether the structure stands. It does not
+establish whether the service continues, which is what the owner and the public
 experience.
 
 Resilience expresses performance as functionality over time. The asset begins
 its life delivering a required level of service. Ageing, creep, corrosion and
 leakage erode that level gradually; earthquakes, blasting, pressure transients
 and construction events reduce it abruptly. Inspection, repair, strengthening,
-grouting and relining restore it. Resilience is the shape of that curve, and
+grouting and relining restore it. Resilience is described by the shape of that curve, and
 the useful metrics are drawn from it: the functionality lost immediately after
 an event, the residual functionality, the delay before restoration begins, the
 recovery trajectory, and the area under the curve over the recovery window.
 
 Defining the service function is the first and most neglected step. It must be
-expressed in terms the asset actually delivers (traffic capacity, flow
+expressed in terms of what the asset delivers (traffic capacity, flow
 rate, safe occupancy, generating availability), with a stated threshold
 below which the asset counts as out of service. Without that definition the
 remaining metrics have no scale.
@@ -363,7 +365,7 @@ the same axis instead of being designed against independently.
 Deterioration and discrete events also interact. A deteriorated lining is more
 vulnerable to an earthquake, and an earthquake accelerates subsequent
 deterioration. Treating the two as independent understates lifetime risk, and
-the interaction is strongest exactly where the consequence is highest, in
+the interaction is strongest where the consequence is highest, in
 old assets carrying critical service.
 
 \subsection{Restoration and recoverability}
@@ -390,7 +392,7 @@ methods for handling it are those of
 Chapter~\ref{ch:integrated-design}. Finally, condition data and post-repair
 performance should feed back into the model of
 Chapter~\ref{ch:digital-twin}, updating the baseline for the next assessment
-cycle. Without that return path the assessment is a one-off study rather than
-a lifecycle instrument.
+cycle. Without that return path the assessment remains a single study and is
+not updated over the life of the asset.
 
 \chapterreferences

@@ -31,7 +31,7 @@ anisotropy and large geological structures are neglected. Joints and blocks
 are not represented explicitly, and structurally controlled failure therefore
 requires the separate methods of Chapter~\ref{ch:structural-analysis}.
 
-Within those limits the methods give first-order estimates and real insight
+Within those limits the methods give first-order estimates and insight
 into the design. They are to be validated against site observations and,
 where the assumptions are strained, supplemented by numerical modelling
 (Chapter~\ref{ch:numerical-modelling}).
@@ -190,9 +190,10 @@ The curve developed here is the Mohr--Coulomb one without dilation. It has
 two branches, divided by the critical pressure $p_{cr}$. On the elastic
 branch ($p_i \geq p_{cr}$),
 \[
-u_r = \frac{(1+\nu)(p_0 - p_i)\,a}{E_m} .
+u_r = \frac{(1+\nu)(p_0 - p_i)\,a}{E_m} ,
 \]
-On the plastic branch ($p_i < p_{cr}$) the plastic radius $R_p(p_i)$ is
+where $E_m$ and $\nu$ are the deformation modulus and Poisson's ratio of the
+rock mass. On the plastic branch ($p_i < p_{cr}$) the plastic radius $R_p(p_i)$ is
 computed first, and the wall displacement is then approximately
 \[
 u_r \approx u_r(p_{cr}) \left(\frac{R_p(p_i)}{a}\right)^2 ,
@@ -270,7 +271,7 @@ u^*(X^*) =
 \]
 in which $\alpha$ is the fraction of the total convergence that occurs behind
 the face, and $\alpha = 0.75$ gives $u^* = 0.25$ at the face on both
-branches. The two forms are not identical: they differ by up to 0.1 in $u^*$
+branches. The two forms differ by up to 0.1 in $u^*$
 within one radius of the face, and the form used has to be stated. The
 elastic--plastic
 profile of \citet{vlachopoulos2009ldp} takes account of the extent of
@@ -299,34 +300,34 @@ it short of its unsupported extent (Figure~\ref{fig:r3d-plastic-zone}).
 
 \begin{figure}[htbp]
 \centering
+\datafigure[\textwidth]{ch16/ldp-profiles}
+\caption{Longitudinal deformation profiles for the deep tunnel at 650~m with GSI 30. The marker is the installation 3~m behind the face, where 49 per cent of the final displacement has occurred ($u_{s0} = 62.0$~mm of 126.9~mm).}
+\label{fig:ldp-profiles}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
 \renderfigure{plastic_zone}{%
   \rlab[east]{0.36,0.77}{0.18,0.86}{Plastic zone}
   \rlab[east]{0.40,0.62}{0.18,0.72}{Lining}
 }
-\caption{Quarter cut-away of the deep tunnel at 650~m with GSI 30 ($a = 4.75$~m). The plastic zone (carmine) thickens behind the face in step with the displacement released along the deformation profile, to $R_p = 7.96$~m ($1.68a$) once the 0.5~m lining (malachite), installed 3~m behind the face, is in equilibrium; unsupported it would reach 11.17~m. Illustrative of the 2D solution, not a 3D analysis.}
+\caption{Quarter cut-away of the deep tunnel at 650~m with GSI 30 ($a = 4.75$~m). The plastic zone (carmine) thickens behind the face as displacement is released, to $R_p = 7.96$~m ($1.68a$) at equilibrium with the 0.5~m lining (malachite) installed 3~m behind the face; unsupported it would reach 11.17~m. Illustrative of the 2D solution, not a 3D analysis.}
 \label{fig:r3d-plastic-zone}
 \end{figure}
 
 \paragraph{Influence of installation timing.}
 Timing trades support load against total convergence, and the two move in
 opposite directions. Earlier installation engages the support before the
-ground has shed much of its load, so the support attracts a higher pressure;
-the compensating benefit is less convergence and less loosening, which
+ground has shed much of its load, so the support attracts a higher pressure.
+The compensating benefit is less convergence and less loosening, which
 preserves the strength of the rock mass in weak ground. Later installation
 lets a larger share of the convergence occur before the support acts and so
-reduces the load transferred to it, but excessive convergence before
-installation may compromise the function of the tunnel or lead to instability
+reduces the load transferred to it. Excessive convergence before
+installation may, however, compromise the function of the tunnel or lead to instability
 before the support is in place. The installation distance is therefore
 chosen by repeating the analysis until the factor of safety is acceptable and
 the convergence remains within serviceability limits
 (Figure~\ref{fig:install-distance}).
-
-\begin{figure}[htbp]
-\centering
-\datafigure[\textwidth]{ch16/ldp-profiles}
-\caption{Longitudinal deformation profiles for the deep tunnel at 650~m with GSI 30. The marker is the installation 3~m behind the face, where 49 per cent of the final displacement has occurred ($u_{s0} = 62.0$~mm of 126.9~mm).}
-\label{fig:ldp-profiles}
-\end{figure}
 
 \begin{figure}[htbp]
 \centering
@@ -364,8 +365,8 @@ adequate for a design check.
 No dedicated software is required. The whole calculation, including
 $p_{eq}$, can be carried out by hand or in a few lines of code; the sequence
 is set out step by step in Appendix~\ref{app:calculations} and implemented
-in \companionname\ (Appendix~\ref{app:software}). Dedicated software earns
-its place with non-circular openings, several support layers acting together,
+in \companionname\ (Appendix~\ref{app:software}). Dedicated software is
+warranted for non-circular openings, several support layers acting together,
 combined systems of steel sets, sprayed concrete and bolts, residual-strength
 formulations and parametric studies over many cases. For the axisymmetric
 problem with a single lining treated here, a hand calculation gives the same
@@ -418,8 +419,8 @@ support line, as below.
 \toprule
 \textbf{Parameter} & $\mathrm{GRC}^{\mathrm{GHB}}_{2004}$ & $\mathrm{GRC}^{\mathrm{MC}}_{2014}$ \\
 \midrule
-Plastic zone radius (unsupported) & 22.4 m & 13.5 m \\
-Wall displacement as a percentage of radius (unsupported) & 4.99\% & 1.97\% \\
+Plastic zone radius, unsupported (m) & 22.4 & 13.5 \\
+Wall displacement, unsupported (\% of radius) & 4.99 & 1.97 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -584,7 +585,7 @@ $\mathrm{FoS} = p_{sm}/p_{eq}$ & 4.3 & 2.8 \\
 \end{figure}
 
 
-The choice of $m_i$ matters. A lower value, siltstone in place of sandstone,
+The result is sensitive to the choice of $m_i$. A lower value, siltstone in place of sandstone,
 reduces $m_b$ and with it the rock mass strength, and so enlarges the plastic
 zone and the convergence. Hoek--Brown parameters are sensitive to the
 lithology assumed, and in mixed ground the representative value has to be
@@ -621,12 +622,12 @@ installation at GSI~=~30, $u_{s0} \approx 62$~mm, is a radial strain
 $u_{s0}/a$ of about 1.3 per cent, and the face may lose stability before that
 displacement can develop, which calls for face bolts, forepoling or probe
 drilling. Time-dependent effects such as creep and squeezing are not
-represented and can add substantially to the long-term convergence. And
-local failures, whether block detachment, ravelling or structurally
+represented and can add substantially to the long-term convergence.
+Local failures, whether block detachment, ravelling or structurally
 controlled wedges, lie outside the scope of the method at $R_p/a > 2$.
 
-In practice, therefore, a factor of safety of 2.8 in the simplified analysis
-would not be taken at face value in poor rock. Contingency would be provided
+A factor of safety of 2.8 in the simplified analysis would therefore
+not be taken at face value in poor rock. Contingency would be provided
 by yielding support elements, such as compressible blocks or sliding steel
 sets, against unexpected squeezing; by pre-reinforcement with rock bolts,
 forepoling and face dowels to control the displacement ahead of the lining;
@@ -661,7 +662,7 @@ FoS ($p_{sm}/p_{eq}$) & Capacity-to-demand ratio & Target values are project-spe
 \label{sec:support-as-stiffness-capacity-and-timing}
 
 \paragraph{Support, reinforcement and retention.}
-Three functions are routinely conflated. \emph{Support} applies pressure to
+Three functions are often conflated. \emph{Support} applies pressure to
 the excavation boundary and resists convergence: shotcrete shells, steel sets,
 concrete linings, segmental rings. \emph{Reinforcement} acts within the rock
 mass and improves its own capacity: grouted bolts, cables, dowels.
@@ -676,26 +677,25 @@ An installed support system is characterised by three quantities. Its
 \emph{stiffness} determines how much pressure it develops per unit of further
 convergence. Its \emph{capacity} is the maximum pressure it can sustain before
 yielding or failing. Its \emph{installation timing} determines how much
-convergence has already occurred before it begins to act at all.
+convergence has already occurred before it begins to act.
 
-Chart-based design selects a support class and is silent on all three. That is
-why an empirically selected support can be inadequate in a way the chart
-cannot reveal: the class may be right for the ground quality and wrong for the
-convergence that will have occurred by the time it is installed.
+Chart-based design selects a support class and specifies none of the three.
+An empirically selected support can therefore be inadequate in a way the chart
+cannot reveal, because the class may suit the ground quality and yet be wrong
+for the convergence that will have occurred by the time it is installed.
 
 \paragraph{The ground reaction curve as a design tool.}
-Read as a design tool rather than as a derivation, the ground reaction curve
-makes one statement: the ground sheds load as it converges. At zero
-convergence the required support pressure equals the in-situ stress; as the
+Read as a design tool, the ground reaction curve states that the ground
+sheds load as it converges. At zero
+convergence the required support pressure equals the in-situ stress. As the
 opening converges the required pressure falls, steeply at first and then more
-gradually, and in competent ground it reaches zero at a finite convergence:
-the excavation is self-supporting.
+gradually, and in competent ground it reaches zero at a finite convergence,
+at which the excavation is self-supporting.
 
-The support does not determine the load it carries. The intersection of the
-two curves does. This is the single most useful idea in support design,
-because it explains why a support system cannot be designed against a
-predetermined load: the load is an outcome of the interaction, not an input to
-it.
+The load carried by the support is set by the intersection of the two
+curves and not by the support alone. A support system therefore cannot be
+designed against a predetermined load, because the load is an outcome of the
+interaction.
 
 \paragraph{Support characteristic curves for real systems.}
 The support characteristic curve is the pressure a system develops as a
@@ -705,9 +705,9 @@ than assumed linear to an arbitrary capacity.
 A shotcrete or concrete shell behaves as a thick cylinder: its stiffness
 follows from the elastic modulus, thickness and radius, and its capacity from
 the compressive strength of the annulus. Both change with time as the concrete
-cures. Steel sets are far softer than they appear, because their stiffness is
-governed by blocking and by the seating of the invert rather than by the
-section: a well-blocked set at close spacing behaves quite differently from
+cures. Steel sets are much softer than their section suggests, because their
+stiffness is governed by blocking and by the seating of the invert.
+A well-blocked set at close spacing behaves quite differently from
 a poorly blocked one. Grouted bolts contribute stiffness through the composite
 action of bar, grout and rock, and their equivalent pressure depends on
 spacing. Segmental rings are stiff and installed at a defined convergence set
@@ -722,12 +722,12 @@ representative properties in Appendix~\ref{app:constants}.
 \paragraph{Combined and sequential support.}
 Where elements are installed together and deform together, their stiffnesses
 add in parallel and the combined capacity is reached when the first element
-reaches its own limit. That last point is routinely mishandled: summing the
-capacities of a shotcrete shell and a set of steel arches gives a number that
+reaches its own limit. The second point is often mishandled. The sum of the
+capacities of a shotcrete shell and a set of steel arches
 is never available, because the stiffer element reaches its capacity while the
 softer one is still lightly loaded.
 
-Sequentially installed elements are worse. Each begins to act at the
+The shortfall is greater for elements installed in sequence. Each begins to act at the
 convergence prevailing when it is installed, so it carries load only from that
 point onward. Its contribution at equilibrium is therefore smaller than its
 nominal capacity suggests, and an element installed late may carry almost
@@ -738,7 +738,7 @@ along the convergence axis by the convergence already released
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch16/combined-support}
-\caption{Shotcrete 0.2~m thick, steel sets at 1~m and grouted bolts on a 1~m grid at 4.75~m radius (illustrative values from Appendix~\ref{app:constants}). Installed together they reach 1.67~MPa when the shotcrete reaches its limit, not the 1.86~MPa sum of capacities; with the bolts and sets installed 2 and 4~mm later, only 1.42~MPa.}
+\caption{Support characteristic curves of shotcrete 0.2~m thick, steel sets at 1~m and grouted bolts on a 1~m grid at 4.75~m radius (illustrative values from Appendix~\ref{app:constants}). Installed together they reach 1.67~MPa when the shotcrete reaches its limit, not the 1.86~MPa sum of capacities; with the bolts and sets installed 2 and 4~mm later, only 1.42~MPa.}
 \label{fig:combined-support}
 \end{figure}
 
@@ -746,16 +746,16 @@ along the convergence axis by the convergence already released
 The longitudinal deformation profile converts distance behind the face into
 convergence already released. A significant fraction, often a quarter to a
 third, occurs ahead of the face, and a further large fraction within one
-diameter behind it. Support installed two diameters behind the face may find
-that the ground has already shed most of the load it was going to shed.
+diameter behind it. Where support is installed two diameters behind the face, the
+ground may already have shed most of the load it will shed.
 
 The design consequence runs in both directions. Installing too late allows
 excessive convergence and, in weak ground, loosening that permanently reduces
 the rock mass strength. Installing too early attracts high load into a
 support that must then carry it. The distance behind the face at which support
-is installed is therefore a design variable in its own right, and it is one of
-the few that the contractor controls directly, which makes it a matter for
-the specification, not an assumption.
+is installed is therefore a design variable. It is one of
+the few that the contractor controls directly, and it should be fixed in
+the specification rather than assumed.
 
 \subsection{Stiffness and yielding}
 \label{sec:stiffness-and-yielding}
@@ -770,20 +770,19 @@ reaction curve is steep, the difference is large
 The design objective is equilibrium at an acceptable convergence, not minimum
 convergence. Stiffening a support that is already adequate increases the load
 it must carry without improving safety, and in squeezing ground it converts a
-serviceable design into an unserviceable one. The instinct that more support is
-safer is wrong in a way that this framework makes visible.
+serviceable design into an unserviceable one.
 
 \paragraph{Yielding support and controlled deformation.}
 Where the ground reaction curve does not fall to a pressure the support can
-carry within an acceptable convergence, the answer is to let the support
+carry within an acceptable convergence, the support is designed to
 deform. Sliding steel sets with friction joints, deformation slots fitted with
 compressible elements, and yielding bolts all maintain a roughly constant
 support pressure over a large convergence, so equilibrium is reached at a
 pressure below capacity.
 
-This is deliberate and controlled deformation, not a failure to control it,
-and it requires the excavated profile to be oversized so the finished profile
-survives. Detail in Chapter~\ref{ch:high-stress}.
+The deformation is deliberate and controlled,
+and it requires the excavated profile to be oversized so that the finished
+profile is preserved. Details are given in Chapter~\ref{ch:high-stress}.
 
 \begin{figure}[htbp]
 \centering
@@ -798,52 +797,52 @@ survives. Detail in Chapter~\ref{ch:high-stress}.
 \paragraph{Pre-reinforcement and pre-support.}
 Reinforcement installed before the ground is disturbed retains the rock mass
 in its undisturbed state; reinforcement installed afterwards can only hold
-what remains. The distinction is not rhetorical: rock mass strength falls
+what remains. Rock mass strength falls
 markedly once discontinuities have opened and blocks have loosened, and no
 subsequent reinforcement restores it.
 
 This is the argument for cable bolting ahead of a cavern excavation, for
 umbrella arches and forepoling ahead of a weak-ground heading, and for face
-dowels in the advance core. Each costs programme, since it must be installed
-before the excavation reaches it, and each buys ground conditions that would
-otherwise be unavailable.
+dowels in the advance core. Each takes time in the programme, since it must be installed
+before the excavation reaches it, and each preserves ground conditions that
+would otherwise be lost.
 
 \paragraph{Support of blocks and wedges.}
 Block support is a separate calculation from stress-driven support and must
-not be folded into it. The blocks identified in
+not be combined with it. The blocks identified in
 Chapter~\ref{ch:ground-behaviour} are discrete bodies whose stability is
 assessed by limit equilibrium, and the required bolt force follows from their
 weight, sliding mode and available friction. A support system adequate against
-the ground reaction curve may be entirely inadequate against a large crown
+the ground reaction curve may be inadequate against a large crown
 wedge, because the two mechanisms load it in different ways.
 
-Both checks are required, and the governing one is whichever demands more.
+Both checks are required, and the one that demands more support governs.
 
 \section{Support classes and reconciliation}
 \label{sec:support-classes-and-reconciliation}
 
 \paragraph{Support classes.}
-Projects do not design support chainage by chainage. They define a small set
+Support is not designed chainage by chainage. A project defines a small set
 of standard classes (typically four to six), each specifying bolt
 pattern, shotcrete thickness, steel sets if any, and the excavation sequence
-that accompanies it, and map each class to a range of ground conditions.
+that accompanies it, and maps each class to a range of ground conditions.
 
 Keeping the number small is a construction and contractual requirement rather
 than a technical one. Each class needs materials on site, a trained crew and a
 defined rate, and a proliferation of classes fragments production and invites
 misapplication at the face. The classes should span the expected range with
-sensible margin, and the rule for assigning them at the face must be simple
+a sensible margin, and the rule for assigning them at the face must be simple
 enough to apply in a few minutes on limited information.
 
 \paragraph{Reconciling the three routes.}
-Empirical, analytical and numerical designs will differ. The reconciliation is
-not to average them but to identify which mechanism each represents and which
+Empirical, analytical and numerical designs will differ. They are reconciled
+not by averaging but by identifying which mechanism each represents and which
 mechanism governs the case in hand. Where the empirical chart is inside its
-case base and the mechanism is the one it encodes, it carries real evidential
+case base and the mechanism is the one it encodes, it carries evidential
 weight. Where the ground is outside that base (high stress, squeezing,
 unusual span), the analytical or numerical result governs and the chart
-should be treated as a sanity check rather than as a design. The systematic
-procedure is Chapter~\ref{ch:integrated-design}.
+should be treated as a check rather than as a design. The systematic
+procedure is given in Chapter~\ref{ch:integrated-design}.
 
 \section{Quality and verification}
 \label{sec:quality-and-verification}
@@ -858,7 +857,7 @@ the face than the design assumed.
 
 Each of these invalidates a specific design assumption, and each is detectable.
 The verification regime should be constructed by asking, for each assumption
-the design relies on, what evidence will confirm it, and the assumption
+the design relies on, what evidence will confirm it. The assumption
 about installation distance deserves as much attention as the assumption about
 thickness, because it is equally influential and almost never recorded.
 
@@ -878,9 +877,7 @@ third-party movement limits.
 
 If the margin is inadequate, the available responses are to stiffen the
 support, to increase its capacity, to install it earlier, or to let it yield,
-and the framework shows which of these will actually help. That is the
-practical value of treating support as stiffness, capacity and timing rather
-than as a class number. The calculation sequence is set out step by step in
+and the framework shows which of these will be effective. The calculation sequence is set out step by step in
 Appendix~\ref{app:calculations}.
 
 \chapterreferences

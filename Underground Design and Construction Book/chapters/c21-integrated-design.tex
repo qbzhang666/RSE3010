@@ -9,8 +9,8 @@ uncertainty directly: how it is described, how it propagates through a
 calculation, how design codes accommodate it, and how a design is justified
 when independent methods disagree and several objectives compete. The argument
 has two parts. A design founded on a single set of parameter values has not
-been tested against the range the ground actually presents, and the means of
-testing it are neither elaborate nor costly. Integration, moreover, is a
+been tested against the range the ground presents, and the means of
+testing it are neither elaborate nor costly. Integration is a
 process of decision rather than of averaging: where empirical, analytical and
 numerical results diverge, the task is to establish which mechanism governs.
 The chapter closes with the revision of a design as observations arrive
@@ -24,8 +24,8 @@ during construction.
 
 \paragraph{Three philosophies.}
 Deterministic design adopts a single parameter set and demonstrates an
-adequate factor of safety. It is simple, familiar and silent about how much of
-the safety margin is absorbed by uncertainty rather than by genuine reserve.
+adequate factor of safety. It is simple and familiar, but it does not show how
+much of the safety margin is absorbed by uncertainty and how much is reserve.
 
 The observational method adopts a most probable parameter set, establishes in
 advance the range of behaviour that would be acceptable, prepares contingency
@@ -33,7 +33,7 @@ measures, and monitors to confirm which case is occurring. It is the natural
 approach to underground works because the ground is progressively revealed,
 and Eurocode~7 sets out the conditions it must satisfy: acceptable limits
 defined beforehand, monitoring capable of detecting departure in time, and
-contingency measures that can actually be implemented at that point.
+contingency measures that can be implemented at that point.
 
 Probabilistic design treats parameters as distributions and computes a
 probability of unsatisfactory performance. It is the most informative and the
@@ -41,19 +41,19 @@ most demanding of data, and its value often lies less in the computed
 probability than in what the calculation reveals about which parameters
 matter.
 
-The three are complementary rather than competing. Most underground projects
+The three are complementary. Most underground projects
 are designed deterministically, constructed observationally, and would benefit
 from a probabilistic sensitivity study at the point where the deterministic
 design is fixed.
 
 \paragraph{Sources of uncertainty.}
 Four sources are worth separating because they respond differently to effort.
-\emph{Inherent spatial variability} is real variation in the ground and cannot
-be reduced, only characterised. \emph{Measurement error} arises in testing
+\emph{Inherent spatial variability} is variation within the ground itself and
+cannot be reduced, only characterised. \emph{Measurement error} arises in testing
 and can be reduced by better technique. \emph{Transformation uncertainty}
 arises when a measured quantity is converted to a design parameter through a
 correlation, and it is frequently the largest contributor: the scatter in a
-$\GSI$-to-modulus relation dwarfs the scatter in the underlying measurements.
+$\GSI$-to-modulus relation far exceeds the scatter in the underlying measurements.
 \emph{Statistical estimation error} arises from estimating a distribution from
 few samples, and it reduces with more testing.
 
@@ -61,7 +61,7 @@ The aleatory--epistemic distinction organises these. Aleatory uncertainty is
 intrinsic randomness; epistemic uncertainty reflects lack of knowledge and is
 reducible by investigation. Confusing them leads to investigation programmes
 that cannot deliver what is asked of them, because no number of boreholes
-removes the variability that is genuinely there.
+removes the inherent variability.
 
 \subsection{Parameter characterisation}
 \label{sec:parameter-characterisation}
@@ -71,7 +71,7 @@ A parameter is described by its distribution, its mean and its coefficient of
 variation. Typical coefficients of variation are well documented: intact rock
 strength commonly 20 to 40 per cent, rock mass modulus higher, friction angle
 considerably lower at 5 to 15 per cent, and unit weight lower still. These
-figures are useful for sanity-checking a project data set, and a reported
+figures are useful for checking a project data set, and a reported
 coefficient of variation far below the published range usually means the data
 have been filtered rather than that the ground is uniform.
 
@@ -91,16 +91,16 @@ a local mechanism, which samples only one zone, is unconservative.
 Eurocode~7 defines the characteristic value as a cautious estimate of the
 value affecting the occurrence of the limit state; the second-generation code
 calls the same quantity the representative value of a ground
-property~\citep{en1997part1}. Every word of that
-definition is doing work. \emph{Cautious} means on the safe side of the mean,
+property~\citep{en1997part1}. Two terms of that
+definition need interpretation. \emph{Cautious} means on the safe side of the mean,
 not the worst measurement. \emph{Affecting the occurrence of the limit state}
 means the value relevant to the mechanism, which may be a local minimum for
 a small mechanism and a spatial average for a large one.
 
 It follows that there is no universal percentile. A five per cent fractile is
-a convention, not a definition, and applying it mechanically to a parameter
-governing a large averaging mechanism is over-conservative, while applying it
-to one governing a local mechanism may not be conservative at all.
+a convention and not part of the definition. Applied mechanically to a parameter
+governing a large averaging mechanism it is over-conservative, and applied
+to one governing a local mechanism it may not be conservative at all.
 
 \begin{figure}[htbp]
 \centering
@@ -120,15 +120,15 @@ third-party limit, cracking beyond watertightness requirements, leakage. In
 urban tunnelling the serviceability states usually govern, and by a wide
 margin.
 
-Applying partial factors to underground works is awkward for a structural
-reason. In a building, load and resistance are independent: the wind does
-not know the strength of the concrete. Underground, both derive from the same
+Applying partial factors to underground works is difficult because load and
+resistance are not independent. In a building they are: the wind load does
+not depend on the strength of the concrete. Underground, both derive from the same
 ground: factoring the strength down also reduces the load the ground can shed,
 and factoring the load up may change the mechanism. Eurocode~7 handles this by
 allowing the factors to be applied at different points (to the ground
 strength, to the resistance, or to the effects of the actions), and the
-choice between them changes the answer. This is a genuine unresolved difficulty
-rather than a matter of preference, and it is one reason tunnelling has
+choice between them changes the answer. The difficulty is unresolved,
+and it is one reason tunnelling has
 retained global factors of safety longer than other geotechnical disciplines.
 
 \paragraph{Codes and guidance.}
@@ -159,7 +159,7 @@ ground, its sensitivity to water and the degree of ground--structure
 interaction. A tunnel beneath a city, in variable ground below the water table,
 sits at the top of both scales. Third, the design proceeds from a ground model
 to a geotechnical design model, which the code requires to rest on a validated
-ground model; this is the distinction drawn in
+ground model. This is the distinction drawn in
 Chapter~\ref{ch:ground-modelling} between what the ground is believed to be and
 the idealisation that is analysed.
 
@@ -179,7 +179,7 @@ choice.
 \begin{figure}[htbp]
 \centering
 \datafigure[\textwidth]{ch21/ec7-category-routes}
-\caption{The second-generation geotechnical framework (schematic). The Geotechnical Category rises with the consequence class and the geotechnical complexity class and grades the reliability measures; the off-diagonal cells (hatched) follow the code's table. A tunnel beneath a city sits in the top cell (carmine). Verification is by any of the four routes.}
+\caption{The second-generation geotechnical framework (schematic). The Geotechnical Category rises with the consequence class and the geotechnical complexity class and grades the reliability measures; the off-diagonal cells (hatched) follow the code's table. A tunnel beneath a city sits in the top cell (outlined in carmine). Verification is by any of the four routes.}
 \label{fig:ec7-category-routes}
 \end{figure}
 
@@ -237,7 +237,7 @@ construction, with people present but exposure short and monitoring active,
 are designed to lower targets than a permanent lining that must perform for a
 century with limited inspection. The computed probability should be read as a
 notional and comparative quantity rather than as a prediction of frequency,
-because it inherits every assumption in the input distributions.
+because it depends on every assumption in the input distributions.
 
 \paragraph{Methods in practice.}
 Four methods span the range of effort. First-order second-moment analysis
@@ -245,7 +245,7 @@ propagates means and variances through a linearised performance function and
 is a spreadsheet calculation. The first-order reliability method (FORM)
 locates the
 most probable failure point and handles nonlinearity and non-normal
-distributions properly. Point estimate methods evaluate the performance
+distributions. Point estimate methods evaluate the performance
 function at a small number of chosen parameter combinations and require no
 derivatives, which makes them well suited to problems whose evaluation is a
 numerical model. The number of evaluations grows as $2^n$ in the number of
@@ -253,7 +253,7 @@ variables, however, so they are practical only while $n$ is small, and they
 return moments without locating the failure point. Monte Carlo simulation samples the distributions directly and
 is exact in the limit, at the cost of many evaluations.
 
-Proportionality is the guide. A support design whose performance function is
+The method should be proportionate to the problem. A support design whose performance function is
 an explicit expression justifies FORM or Monte Carlo. A design whose
 evaluation is a finite element run justifies a point estimate method or a
 surrogate model. Either route is better than no uncertainty analysis, which
@@ -271,29 +271,29 @@ because rock mass strength depends on it exponentially and a ten-point change
 can alter strength by 40 per cent, as the sensitivity study in
 Chapter~\ref{ch:site-investigation} shows.
 
-The consequence is a direct instruction to the investigation. If $\GSI$
+The result directs the investigation. If $\GSI$
 governs and is poorly constrained, additional core logging and face mapping
-buys more than additional strength testing. This is the same
+are worth more than additional strength testing. This is the same
 value-of-information argument applied to investigation targeting in
-Chapter~\ref{ch:ground-modelling}, and it is the mechanism by which
-uncertainty analysis pays for itself.
+Chapter~\ref{ch:ground-modelling}, and it is how
+uncertainty analysis repays its cost.
 
 \paragraph{From calculation to risk register.}
 A computed probability becomes useful when it enters the project risk
-framework, which speaks in likelihood and consequence rather than in $\beta$.
+framework, which is expressed in likelihood and consequence rather than in $\beta$.
 The translation requires the consequence to be assessed (to life, to cost,
 to programme, to third parties) and the combination judged against
-acceptance criteria, conventionally through an ALARP framing in which risk is
-reduced until further reduction is grossly disproportionate to the benefit.
+acceptance criteria, conventionally through the ALARP (as low as reasonably
+practicable) framing, in which risk is reduced until further reduction is grossly disproportionate to the benefit.
 
 The insurance-driven codes of practice for tunnelling risk management make
-this a contractual requirement rather than merely good practice, and the
+this a contractual requirement as well as good practice, and the
 full treatment is given in Chapter~\ref{ch:delivery}.
 
 \subsection{Worked example: uncertainty in a squeezing assessment}
 \label{sec:reliability-support-uncertainty}
 
-The poor domain of the deep tunnel of Chapter~\ref{ch:ccm} serves as the
+The poor domain of the deep tunnel of Chapter~\ref{ch:ccm} is taken as the
 example, with $\sci = 72$~MPa, $\mi = 7$, $\GSI = 30$ and an in-situ stress
 $p_0 = 16.9$~MPa. The quantity of interest is the closure strain of the
 unsupported tunnel, which the relation of
@@ -342,22 +342,22 @@ ratio is taken as normally distributed. Monte Carlo sampling of the same
 three distributions gives 0.31, and a probability of about 0.04 that the
 strain exceeds 10 per cent.
 
-The instructive outcome is the comparison. The deterministic calculation at
+The first outcome is the comparison of the two results. The deterministic calculation at
 mean parameters places the ground in the severe class and implies a radial
 closure of $0.037 \times 4.75$~m, or 176~mm. The same calculation with the
 distributions propagated shows three chances in ten that the squeezing is
 very severe, and an 84th-percentile strain of 6.5 per cent, a closure of
-about 310~mm. The deterministic answer is not wrong. It is incomplete,
-because it says nothing about how much of the margin is consumed by not
-knowing the ground, and here that is the difference between one support
+about 310~mm. The deterministic answer is correct but incomplete:
+it does not show how much of the margin is consumed by uncertainty
+about the ground, and here that is the difference between one support
 strategy and another (Section~\ref{sec:squeezing-strategy}).
 
 The second outcome is the sensitivity ranking. Moving each variable alone by
 one standard deviation changes the strength ratio by 0.047 for $\GSI$, 0.035
 for $\sci$ and 0.018 for $\mi$, which are 59, 32 and 9 per cent of the
-variance. $\GSI$ comes first, as it almost always does. That result,
-obtained in an afternoon, justifies redirecting investigation effort in a
-way no amount of additional analysis at fixed parameters could.
+variance. $\GSI$ ranks first, as it almost always does. The result takes
+an afternoon to obtain, and it justifies redirecting investigation effort,
+which further analysis at fixed parameters cannot do.
 
 \begin{figure}[htbp]
 \centering
@@ -581,7 +581,7 @@ the opening and what support will hold it. The deciding tools are the
 failure-mode decision tree, RMR and Q support and the convergence--confinement
 method, and the second and third stages dominate. The project still begins
 from site investigation data, and the convergence--confinement analysis
-serves as its verification stage.
+is its verification stage.
 
 The four stages apply to any underground project, whatever its depth, rock
 type or excavation method. A stage may be discharged analytically where its
@@ -593,7 +593,7 @@ field.
 \label{sec:complementarity-and-uncertainty}
 
 \paragraph{How the methods complement each other.}
-Each method answers a different question
+Each method has a different purpose
 (Table~\ref{tab:method-selection}). Empirical classification sets a
 preliminary support class from case-history precedent. Closed-form analysis
 quantifies the ground--support interaction behind it. Continuum analysis
@@ -646,7 +646,7 @@ stress to strength, because the case histories behind the Q-system contain
 little squeezing ground of this severity. Three responses follow. A stronger
 support class is adopted, such as yielding steel sets or thicker shotcrete
 with lattice girders. Convergence is allowed for through a flexible or
-yielding support philosophy. And the poor domain is designated a high-risk
+yielding support philosophy. Finally, the poor domain is designated a high-risk
 zone that requires face mapping and probe drilling during construction. None
 of the three methods supplies that conclusion alone; it comes from
 identifying which mechanism each has represented.
@@ -672,8 +672,8 @@ boreholes and not measured at the tunnel. The host rock parameters
 mass is more variable than a single pair implies. The shallow case, with
 $z_0=5$~m and a tunnel diameter of 7.2~m, has an axis depth less than one
 diameter and lies at the limit of validity of the empirical trough. The groundwater
-conditions are simplified to a dry or a piezometric state, whereas the real
-conditions may involve transient pore pressures. And the in-situ stress
+conditions are simplified to a dry or a piezometric state, whereas the actual
+conditions may involve transient pore pressures. Finally, the in-situ stress
 ratio is assumed and not measured, although it strongly affects the
 horizontal stresses and the lining forces.
 
@@ -681,9 +681,7 @@ An integrated design is incomplete unless it identifies the uncertainties
 that govern its conclusion, and these normally arise at several stages of the
 workflow and not at one. For each, the design record states how the
 recommendation would change if the assumption proved wrong, what additional
-data would reduce the uncertainty, and at what cost. Stated in that form,
-uncertainty ceases to be a qualification attached to the conclusion and
-becomes part of it.
+data would reduce the uncertainty, and at what cost.
 
 \subsection{Carbon as a design objective}
 \label{sec:integrated-carbon}
@@ -692,10 +690,10 @@ becomes part of it.
 \label{sec:objective-set}
 Factor of safety, displacement, settlement, cost and constructability are the
 conventional objectives, and a design is normally justified by demonstrating
-that each is satisfied. Adding carbon (Chapter~\ref{ch:sustainability}) does
-not introduce a foreign criterion: the design already determines carbon
-through geometry, support timing and excavation method, and the only question
-is whether that influence is exercised deliberately or by default.
+that each is satisfied. Carbon (Chapter~\ref{ch:sustainability}) can be
+added to this set without changing the process, because the design already
+determines carbon through geometry, support timing and excavation method,
+whether that influence is exercised deliberately or by default.
 
 Making it explicit changes the calculation in one respect. The conventional
 objectives are mostly constraints (satisfied or not), whereas carbon and
@@ -707,14 +705,13 @@ constraints alone, and it does not have a unique answer.
 \label{sec:integrated-pareto}
 Where objectives compete, the set of interest is the Pareto set: those designs
 for which no objective can be improved without worsening another. Designs
-outside it are simply inferior and can be discarded; designs within it
-represent genuine trades that require a judgement rather than a calculation.
+outside it are inferior and can be discarded. A choice among designs within it
+trades one objective against another and requires judgement.
 
-Reporting the set rather than a single optimum is the honest outcome, because
-it exposes what the client is actually being asked to accept: so much
-carbon for so much reserve, so much cost for so much convergence. A single
-recommended design conceals the trade and, in practice, conceals the weighting
-the designer applied without saying so.
+Reporting the set rather than a single optimum shows the client what is
+being traded: carbon against reserve, and cost against convergence. A single
+recommended design conceals the trade and the weighting
+the designer applied.
 
 For problems where each evaluation is a numerical model, generating the set
 directly is impractical, and surrogate models fitted to a modest number of
@@ -724,12 +721,12 @@ handful of candidate designs is often enough and should be tried first.
 
 \paragraph{Controlled deformation as a design lever.}
 \label{sec:controlled-deformation-lever}
-The clearest illustration that carbon and geotechnical performance are coupled
-rather than independent is the support timing decision. Permitting more ground
+The support timing decision shows most clearly that carbon and geotechnical
+performance are coupled. Permitting more ground
 convergence before support is mobilised moves the equilibrium point down the
-ground reaction curve, reducing the support pressure the lining must carry and
-therefore its thickness and reinforcement, a material and carbon reduction
-obtained through mechanics rather than through substitution
+ground reaction curve. The support pressure the lining must carry falls, and
+with it the thickness and reinforcement, so that material and carbon are
+saved through mechanics rather than through substitution
 (Figure~\ref{fig:controlled-deformation}).
 
 \begin{figure}[htbp]
@@ -739,30 +736,29 @@ obtained through mechanics rather than through substitution
 \label{fig:controlled-deformation}
 \end{figure}
 
-The limits are real and must be stated with the saving. Convergence consumes
+The limits must be stated with the saving. Convergence consumes
 the clearance envelope, so the excavated profile must accommodate it.
 Excessive convergence loosens the rock mass and permanently reduces its
 strength, which moves the ground reaction curve itself. In shallow ground,
 convergence appears at the surface as settlement and runs into the third-party
-limits of Chapter~\ref{ch:settlement-damage}. And a design that relies on a
+limits of Chapter~\ref{ch:settlement-damage}. Finally, a design that relies on a
 particular installation distance has made an assumption about construction
 that must appear in the specification.
 
-Within those limits the lever is genuine, and it is the example worth carrying
-from this chapter: the carbon reduction available from understanding the
+Within those limits, the carbon reduction available from understanding the
 mechanics exceeds what is available from specifying a different concrete.
 
 \section{Updating the design with observation}
 \label{sec:bayesian-updating}
 
 The preceding sections treat uncertainty as a fixed property of the design:
-distributions are assigned, propagated, and a reliability index results. That
-is the right picture before construction and the wrong one after it begins.
+distributions are assigned and propagated, and a reliability index results. That
+description holds before construction but not after it begins.
 From the first round of excavation the project generates evidence about the
-same parameters it assumed, and a design method that cannot absorb that
-evidence discards the most relevant data it will ever have.
+parameters it assumed, and a design method that cannot use that
+evidence discards the most relevant data available to it.
 
-This section supplies the machinery. It is what the observational method of
+This section sets out the formal method. It is what the observational method of
 Chapter~\ref{ch:movement-monitoring} performs informally, what the ground
 model of Chapter~\ref{ch:ground-modelling} requires in order to be kept
 current, what the backward updating of the digital model in
@@ -783,13 +779,13 @@ $z$ is
 p(\theta \mid z) \;=\; \frac{p(z \mid \theta)\, p(\theta)}{p(z)} ,
 \]
 in which the denominator is a normalising constant and carries no information
-about $\theta$. The three terms have names worth keeping straight: the prior
+about $\theta$. The three terms are the prior
 $p(\theta)$, the likelihood $p(z \mid \theta)$ (read as a function of
-$\theta$ for the $z$ actually observed, not as a distribution over $z$) and
+$\theta$ for the observed $z$, not as a distribution over $z$) and
 the posterior $p(\theta \mid z)$.
 
 For the common case in which prior and measurement error are both normal, the
-result is closed-form and instructive. With a prior of mean $\mu_0$ and
+result is closed-form. With a prior of mean $\mu_0$ and
 standard deviation $\sigma_0$, and a single observation $z$ of standard
 deviation $\sigma_z$, the posterior is normal with
 \[
@@ -797,15 +793,15 @@ deviation $\sigma_z$, the posterior is normal with
 \qquad
 \frac{1}{\sigma_1^2} = \frac{1}{\sigma_0^2} + \frac{1}{\sigma_z^2} .
 \]
-Three properties follow directly and are worth more than the algebra
+Three properties follow
 (Figure~\ref{fig:bayesian-update}). The
 posterior mean is a weighted average of prediction and measurement, each
 weighted by the other's variance, so a precise measurement dominates a vague
 prior and a vague measurement barely moves a confident prior. Precisions add,
 so the posterior is always at least as sharp as either input: an observation
 cannot increase uncertainty about a parameter, though it can move the mean a
-long way. And the update is sequential (yesterday's posterior is today's
-prior), so a drive can be updated round by round without reprocessing its
+long way. Finally, the update is sequential (the posterior of one step is the
+prior of the next), so a drive can be updated round by round without reprocessing its
 history.
 
 \begin{figure}[htbp]
@@ -815,8 +811,8 @@ history.
 \label{fig:bayesian-update}
 \end{figure}
 
-The practical difficulty is rarely the arithmetic. It is that $\sigma_z$ must
-include the error of the model connecting $\theta$ to $z$, not merely the
+The practical difficulty lies less in the arithmetic than in $\sigma_z$, which
+must include the error of the model connecting $\theta$ to $z$ as well as the
 precision of the instrument. A convergence array reading to a tenth of a
 millimetre does not deliver a modulus to comparable precision, because the
 relation between the two carries the assumptions of the analysis that
@@ -827,7 +823,7 @@ than the evidence supports.
 \subsection{Updating in construction}
 \label{sec:updating-in-construction}
 
-What is worth updating is the small set of parameters that both govern the
+The parameters worth updating are the few that both govern the
 design and are observable during construction. Deformation modulus qualifies:
 it controls convergence and lining load, and convergence is measured on every
 project. Volume loss qualifies in soft ground, being both the governing
@@ -845,27 +841,27 @@ to bring in a second independent observation (plastic zone extent from
 extensometers, or spalling depth) so that the joint likelihood
 discriminates.
 
-The second is the prior that will not move. A prior stated with unrealistically
+The second is a prior too narrow to respond. A prior stated with unrealistically
 small variance, usually because the design team is defending its
 characterisation rather than describing it, produces posteriors that ignore the
-evidence. The test is honest and simple: state before construction what
+evidence. The test is to state before construction what
 observation would change the design, and how far the parameter would have to
-move. A prior for which no realistic observation changes anything is not a
-prior but a decision already taken.
+move. A prior for which no realistic observation changes anything records a
+decision already taken.
 
-Used properly the loop is unremarkable in operation. A prediction is made and
+In operation the loop is straightforward. A prediction is made and
 recorded with its uncertainty; the excavation is monitored; the posterior is
 computed; the support class ahead of the face is set from the posterior rather
-than the original assumption. The discipline lies entirely in recording the
+than the original assumption. The essential discipline is to record the
 prediction before the observation, which is what distinguishes updating from
 hindsight.
 
 \subsection{The value of an observation}
 \label{sec:value-of-observation}
 
-The same machinery answers a question posed but not resolved in
-Section~\ref{sec:value-of-information}: what is a measurement worth before it
-is taken.
+The same method gives the worth of a measurement before it is taken, a
+question posed but not resolved in
+Section~\ref{sec:value-of-information}.
 
 An observation has value only through the decision it might change. If the
 support class is the same for every outcome the measurement could produce,
@@ -878,20 +874,20 @@ measurement; the difference from the expected cost of the best decision under
 the prior alone is the expected value of the information. A measurement is
 worth taking when that difference exceeds its cost.
 
-Two consequences are worth stating because they are frequently resisted. The
+Two consequences follow. First, the
 value depends on the decision, so the same borehole is worth different amounts
 to different designs, and an investigation cannot be optimised without knowing
-what will be done with it. And information about a parameter the design is
-insensitive to has no value whatever its geological interest, which is the
+what will be done with it. Second, information about a parameter to which the
+design is insensitive has no value, whatever its geological interest. This is the
 formal version of the argument made qualitatively in
 Chapter~\ref{ch:ground-modelling}, and the reason investigation targeting
-belongs to the designer rather than to the driller.
+is the responsibility of the designer rather than of the driller.
 
-The calculation is rarely performed in full, and it need not be. Its value in
-practice is that it forces the three questions that determine the answer:
-what decision is at stake, what outcomes could the measurement produce, and
-would any of them change what is done. A programme that cannot answer those
-three is not yet an investigation programme
+The calculation is rarely performed in full, and it need not be. Its use
+is that it requires three questions to be answered:
+what decision is at stake, what outcomes the measurement could produce, and
+whether any of them would change what is done. An investigation programme
+should be able to answer all three
 (\citealt{baecher2003reliability} sets out the formal treatment).
 
 \chapterreferences
